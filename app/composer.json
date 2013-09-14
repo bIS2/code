@@ -3,6 +3,10 @@
         "slim/slim": "2.*",
         "gabordemooij/redbean": "*",
         "opauth/opauth": "*",
+        "opauth/facebook": "*",
+        "opauth/google": "*",
+        "opauth/twitter": "*",
+        "opauth/openid": "*",
         "ruckusing/ruckusing-migrations": "*"
     }
 }

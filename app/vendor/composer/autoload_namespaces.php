@@ -10,4 +10,5 @@ return array(
     'Slim' => array($vendorDir . '/slim/slim'),
     'Ruckusing' => array($vendorDir . '/ruckusing/ruckusing-migrations/lib'),
     'RedBean_' => array($vendorDir . '/gabordemooij/redbean'),
+    '' => array($vendorDir . '/opauth/openid', $vendorDir . '/opauth/facebook', $vendorDir . '/opauth/google', $vendorDir . '/opauth/twitter'),
 );

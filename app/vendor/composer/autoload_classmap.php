@@ -6,12 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'FacebookStrategy' => $vendorDir . '/opauth/opauth/lib/Opauth/Strategy/Facebook/FacebookStrategy.php',
-    'GitHubStrategy' => $vendorDir . '/opauth/opauth/lib/Opauth/Strategy/GitHub/GitHubStrategy.php',
-    'LightOpenID' => $vendorDir . '/opauth/opauth/lib/Opauth/Strategy/OpenID/Vendor/lightopenid/openid.php',
     'Opauth' => $vendorDir . '/opauth/opauth/lib/Opauth/Opauth.php',
     'OpauthStrategy' => $vendorDir . '/opauth/opauth/lib/Opauth/OpauthStrategy.php',
-    'OpenIDStrategy' => $vendorDir . '/opauth/opauth/lib/Opauth/Strategy/OpenID/OpenIDStrategy.php',
-    'TwitterStrategy' => $vendorDir . '/opauth/opauth/lib/Opauth/Strategy/Twitter/TwitterStrategy.php',
-    'tmhOAuth' => $vendorDir . '/opauth/opauth/lib/Opauth/Strategy/Twitter/Vendor/tmhOAuth/tmhOAuth.php',
 );

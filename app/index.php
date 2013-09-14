@@ -31,7 +31,7 @@ $app->group('/auth',function() use ($app) {
         $response = $_SESSION['opauth'];
         //$response = unserialize(base64_decode( $_POST['opauth'] ));
         //$response = unserialize(base64_decode( $_GET['opauth'] ));
-        echo var_dump($response);
+        echo json_encode($response);
     });
 
 });

@@ -55,7 +55,7 @@ $config['opauth'] = array(
 /**
  * Directory where Opauth strategies reside
  */
-	//'strategy_dir' => '{lib_dir}Strategy/',
+	'strategy_dir' => 'vendor/opauth',
 		
 /**
  * Strategy
