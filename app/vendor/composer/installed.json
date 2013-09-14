@@ -146,63 +146,6 @@
         ]
     },
     {
-        "name": "ruckusing/ruckusing-migrations",
-        "version": "0.1.2",
-        "version_normalized": "0.1.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/ruckus/ruckusing-migrations.git",
-            "reference": "bfbf25b4e33194df04926b791e9e801194e3a6b4"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/ruckus/ruckusing-migrations/zipball/bfbf25b4e33194df04926b791e9e801194e3a6b4",
-            "reference": "bfbf25b4e33194df04926b791e9e801194e3a6b4",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.2.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "3.7.*"
-        },
-        "time": "2013-06-17 20:45:15",
-        "bin": [
-            "ruckus.php"
-        ],
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Ruckusing": "lib/",
-                "Task": "lib/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Cody Caughlan",
-                "email": "codycaughlan@gmail.com",
-                "homepage": "https://github.com/ruckus/ruckusing-migrations/wiki",
-                "role": "Project lead / Developer"
-            }
-        ],
-        "description": "Framework for generating and managing database migrations",
-        "homepage": "https://github.com/ruckus/ruckusing-migrations",
-        "keywords": [
-            "database",
-            "migrations",
-            "mysql",
-            "postgres",
-            "rake",
-            "ruckusing",
-            "task"
-        ]
-    },
-    {
         "name": "opauth/openid",
         "version": "0.1.0",
         "version_normalized": "0.1.0.0",
@@ -384,6 +327,63 @@
             "Authentication",
             "auth",
             "twitter"
+        ]
+    },
+    {
+        "name": "ruckusing/ruckusing-migrations",
+        "version": "0.1.2",
+        "version_normalized": "0.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ruckus/ruckusing-migrations.git",
+            "reference": "bfbf25b4e33194df04926b791e9e801194e3a6b4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/ruckus/ruckusing-migrations/zipball/bfbf25b4e33194df04926b791e9e801194e3a6b4",
+            "reference": "bfbf25b4e33194df04926b791e9e801194e3a6b4",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "3.7.*"
+        },
+        "time": "2013-06-17 20:45:15",
+        "bin": [
+            "ruckus.php"
+        ],
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Ruckusing": "lib/",
+                "Task": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Cody Caughlan",
+                "email": "codycaughlan@gmail.com",
+                "homepage": "https://github.com/ruckus/ruckusing-migrations/wiki",
+                "role": "Project lead / Developer"
+            }
+        ],
+        "description": "Framework for generating and managing database migrations",
+        "homepage": "https://github.com/ruckus/ruckusing-migrations",
+        "keywords": [
+            "database",
+            "migrations",
+            "mysql",
+            "postgres",
+            "rake",
+            "ruckusing",
+            "task"
         ]
     }
 ]
