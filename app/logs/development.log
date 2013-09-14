@@ -1,0 +1,12 @@
+Sep 14 05:23:15 [info] CREATE TABLE `schema_migrations` (
+`version` varchar(255)) ;
+Sep 14 05:23:15 [info] CREATE UNIQUE INDEX idx_schema_migrations_version ON `schema_migrations`(`version`)
+Sep 14 05:45:18 [info] SELECT version FROM schema_migrations
+Sep 14 05:45:18 [info] SELECT version FROM schema_migrations
+Sep 14 05:45:18 [info] SELECT version FROM schema_migrations
+Sep 14 05:45:18 [info] CREATE TABLE `users` (
+`id` int(11) UNSIGNED auto_increment NOT NULL,
+`first_name` varchar(255),
+`last_name` varchar(255),
+ PRIMARY KEY (`id`)) ;
+Sep 14 05:45:18 [info] INSERT INTO schema_migrations (version) VALUES ('20130914051453')

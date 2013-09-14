@@ -1,0 +1,9 @@
+logs/*.log
+tests/logs/*.log
+tests/dummy/db/ruckusing_migrations_test/schema.txt
+.DS*
+.idea
+tmp/
+ruckusing.conf.php
+tests/dummy/db/schema.txt
+tests/dummy/db/db
