@@ -1,6 +1,10 @@
 <?php
 require 'vendor/autoload.php';
 
+use RedBean_Facade as R;
+R::setup('pgsql:host=localhost;dbname=bis','postgres','admin'); //postgresql
+define( 'REDBEAN_MODEL_PREFIX', '\\models\\' ); 
+
 $app = new \Slim\Slim();
 $app->response->headers->set('Content-Type', 'application/json');
 
@@ -35,6 +39,31 @@ $app->group('/auth',function() use ($app) {
     });
 
 });
+
+$app->group('/groups',function() use ($app) {
+    $limit = 10;
+
+    $app->get('/(page/:page)', function($page=0) use ($limit){
+        $count = R::count('holgroups');
+        $offset = $page * $limit;
+        $groups = R::findAll('holgroups',"limit 10 offset $offset");
+        echo json_encode( R::exportAll($groups) );
+    });
+
+    $app->get('/:id', function($id){
+        $condition = (strlen($id) > 10) ? 'sys1=?' : 'id=?';
+        $group = R::findOne('holgroups',$condition, [$id]);
+        echo $group;
+    });
+
+});
+
+$app->get('/hol/:group_id', function($id){
+    $hols = R::find('holbis','holgroups_id=?', [$id]);
+    echo json_encode( R::exportAll($hols) );
+});
+
+
 
 $app->notFound(function () use ($app) {
     echo json_encode(['error'=>'404']);

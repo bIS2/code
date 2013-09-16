@@ -360,7 +360,7 @@ SQL;
         $query_type = $this->determine_query_type($query);
         $data = array();
         if ($query_type == SQL_SELECT || $query_type == SQL_SHOW) {
-            $res = pg_query($this->conn, $query);
+              $res = pg_query($this->conn, $query);
             if ($this->isError($res)) {
                 throw new Ruckusing_Exception(
                         sprintf("Error executing 'query' with:\n%s\n\nReason: %s\n\n", $query, pg_last_error($this->conn)),

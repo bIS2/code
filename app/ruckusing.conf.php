@@ -15,12 +15,12 @@ Valid types (adapters) are Postgres & MySQL:
 return array(
         'db' => array(
                 'development' => array(
-                        'type'      => 'mysql',
+                        'type'      => 'pgsql',
                         'host'      => 'localhost',
-                        'port'      => 3306,
+                        'port'      => 5432,
                         'database'  => 'bis',
-                        'user'      => 'root',
-                        'password'  => '',
+                        'user'      => 'postgres',
+                        'password'  => 'admin',
                         //'directory' => 'migrations',
                         //'socket' => '/var/run/mysqld/mysqld.sock'
                 ),
