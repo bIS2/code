@@ -6,7 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Twig_Extensions_' => array($vendorDir . '/slim/extras/Views/Extension'),
     'Task' => array($vendorDir . '/ruckusing/ruckusing-migrations/lib'),
+    'Slim\\Extras' => array($vendorDir . '/slim/extras'),
     'Slim' => array($vendorDir . '/slim/slim'),
     'Ruckusing' => array($vendorDir . '/ruckusing/ruckusing-migrations/lib'),
     'RedBean_' => array($vendorDir . '/gabordemooij/redbean'),
