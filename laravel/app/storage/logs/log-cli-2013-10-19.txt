@@ -64,3 +64,21 @@ Stack trace:
 #13 D:\project\bis2\laravel\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
 #14 D:\project\bis2\laravel\artisan(59): Symfony\Component\Console\Application->run()
 #15 {main} [] []
+[2013-10-19 23:35:33] log.ERROR: exception 'PDOException' with message 'SQLSTATE[08006] [7] FATAL:  la autentificación password falló para el usuario «postgres»' in D:\project\bis2\laravel\vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:47
+Stack trace:
+#0 D:\project\bis2\laravel\vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php(47): PDO->__construct('pgsql:host=loca...', 'postgres', 'postgres', Array)
+#1 D:\project\bis2\laravel\vendor\laravel\framework\src\Illuminate\Database\Connectors\PostgresConnector.php(35): Illuminate\Database\Connectors\Connector->createConnection('pgsql:host=loca...', Array, Array)
+#2 D:\project\bis2\laravel\vendor\laravel\framework\src\Illuminate\Database\Connectors\ConnectionFactory.php(41): Illuminate\Database\Connectors\PostgresConnector->connect(Array)
+#3 D:\project\bis2\laravel\vendor\laravel\framework\src\Illuminate\Database\DatabaseManager.php(128): Illuminate\Database\Connectors\ConnectionFactory->make(Array, 'pgsql')
+#4 D:\project\bis2\laravel\vendor\laravel\framework\src\Illuminate\Database\DatabaseManager.php(64): Illuminate\Database\DatabaseManager->makeConnection('pgsql')
+#5 D:\project\bis2\laravel\vendor\laravel\framework\src\Illuminate\Database\Migrations\DatabaseMigrationRepository.php(169): Illuminate\Database\DatabaseManager->connection(NULL)
+#6 D:\project\bis2\laravel\vendor\laravel\framework\src\Illuminate\Database\Migrations\DatabaseMigrationRepository.php(117): Illuminate\Database\Migrations\DatabaseMigrationRepository->getConnection()
+#7 D:\project\bis2\laravel\vendor\laravel\framework\src\Illuminate\Database\Console\Migrations\InstallCommand.php(52): Illuminate\Database\Migrations\DatabaseMigrationRepository->createRepository()
+#8 D:\project\bis2\laravel\vendor\laravel\framework\src\Illuminate\Console\Command.php(108): Illuminate\Database\Console\Migrations\InstallCommand->fire()
+#9 D:\project\bis2\laravel\vendor\symfony\console\Symfony\Component\Console\Command\Command.php(244): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#10 D:\project\bis2\laravel\vendor\laravel\framework\src\Illuminate\Console\Command.php(96): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 D:\project\bis2\laravel\vendor\symfony\console\Symfony\Component\Console\Application.php(897): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#12 D:\project\bis2\laravel\vendor\symfony\console\Symfony\Component\Console\Application.php(191): Symfony\Component\Console\Application->doRunCommand(Object(Illuminate\Database\Console\Migrations\InstallCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#13 D:\project\bis2\laravel\vendor\symfony\console\Symfony\Component\Console\Application.php(121): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#14 D:\project\bis2\laravel\artisan(59): Symfony\Component\Console\Application->run()
+#15 {main} [] []
