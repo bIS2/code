@@ -68,7 +68,7 @@ return array(
 			'host'     => 'localhost',
 			'database' => 'bis',
 			'username' => 'postgres',
-			'password' => 'postgres',
+			'password' => 'admin',
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',

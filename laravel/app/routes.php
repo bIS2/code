@@ -14,4 +14,14 @@
 Route::get('/', function()
 {
 	return View::make('hello');
+
+
 });
+
+Route::get('/', ['as' => 'home', function(){}] );
+
+Route::get('login', [ 'as' => 'login', 'uses' => 'AuthController@login' ]);
+
+Route::get('logout', [ 'as' => 'login', 'uses' => 'AuthController@login' ]);
+
+Route::resource('photo', 'PhotoController');

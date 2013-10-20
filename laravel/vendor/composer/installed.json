@@ -1751,18 +1751,164 @@
         ]
     },
     {
+        "name": "way/laravel-test-helpers",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/JeffreyWay/Laravel-Test-Helpers.git",
+            "reference": "7fcec7999d02c457cfc82c8d6dfa894470129c11"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/JeffreyWay/Laravel-Test-Helpers/zipball/7fcec7999d02c457cfc82c8d6dfa894470129c11",
+            "reference": "7fcec7999d02c457cfc82c8d6dfa894470129c11",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "illuminate/support": "4.0.x",
+            "mockery/mockery": "*"
+        },
+        "time": "2013-09-13 16:53:25",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Way\\Tests": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "authors": [
+            {
+                "name": "Jeffrey Way",
+                "email": "jeffrey@jeffrey-way.com",
+                "homepage": "http://jeffrye-way.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "Easier testing in Laravel."
+    },
+    {
+        "name": "mustache/mustache",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/bobthecow/mustache.php.git",
+            "reference": "14bc3b4f6a4770b535fc433bfd0435471ed386c6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/bobthecow/mustache.php/zipball/14bc3b4f6a4770b535fc433bfd0435471ed386c6",
+            "reference": "14bc3b4f6a4770b535fc433bfd0435471ed386c6",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.4"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "*"
+        },
+        "time": "2013-08-13 04:49:23",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Mustache": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Justin Hileman",
+                "email": "justin@justinhileman.info",
+                "homepage": "http://justinhileman.com"
+            }
+        ],
+        "description": "A Mustache implementation in PHP.",
+        "homepage": "https://github.com/bobthecow/mustache.php",
+        "keywords": [
+            "mustache",
+            "templating"
+        ]
+    },
+    {
+        "name": "way/generators",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/JeffreyWay/Laravel-4-Generators.git",
+            "reference": "bdcc57b1219bed3ad17d69fa20f55d98484f15f6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/JeffreyWay/Laravel-4-Generators/zipball/bdcc57b1219bed3ad17d69fa20f55d98484f15f6",
+            "reference": "bdcc57b1219bed3ad17d69fa20f55d98484f15f6",
+            "shasum": ""
+        },
+        "require": {
+            "mustache/mustache": "dev-master",
+            "php": ">=5.3.0",
+            "way/laravel-test-helpers": "dev-master"
+        },
+        "require-dev": {
+            "illuminate/console": "~4",
+            "illuminate/filesystem": "~4",
+            "illuminate/support": "~4",
+            "mockery/mockery": "dev-master"
+        },
+        "time": "2013-09-18 23:38:54",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Way\\Generators": "src/"
+            },
+            "classmap": [
+                "src/Way/Generators/Generators"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "authors": [
+            {
+                "name": "Jeffrey Way",
+                "email": "jeffrey@jeffrey-way.com",
+                "homepage": "http://jeffrye-way.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "Laravel 4 Generators",
+        "keywords": [
+            "artisan",
+            "generators",
+            "laravel"
+        ]
+    },
+    {
         "name": "laravel/framework",
         "version": "4.0.x-dev",
         "version_normalized": "4.0.9999999.9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/laravel/framework.git",
-            "reference": "03563aad714d5cc7c4309ae16ab2e21565435638"
+            "reference": "e124101f2d3f0908ee354cacbecb0ed13a10e2fa"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/laravel/framework/zipball/03563aad714d5cc7c4309ae16ab2e21565435638",
-            "reference": "03563aad714d5cc7c4309ae16ab2e21565435638",
+            "url": "https://api.github.com/repos/laravel/framework/zipball/e124101f2d3f0908ee354cacbecb0ed13a10e2fa",
+            "reference": "e124101f2d3f0908ee354cacbecb0ed13a10e2fa",
             "shasum": ""
         },
         "require": {
@@ -1820,13 +1966,13 @@
             "illuminate/workbench": "self.version"
         },
         "require-dev": {
-            "aws/aws-sdk-php": "2.2.*",
-            "iron-io/iron_mq": "1.4.4",
+            "aws/aws-sdk-php": "2.4.*",
+            "iron-io/iron_mq": "1.4.*",
             "mockery/mockery": "0.8.0",
-            "pda/pheanstalk": "2.0.*",
+            "pda/pheanstalk": "2.1.*",
             "phpunit/phpunit": "3.7.*"
         },
-        "time": "2013-10-16 13:26:55",
+        "time": "2013-10-19 19:16:41",
         "type": "library",
         "extra": {
             "branch-alias": {
