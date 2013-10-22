@@ -11,17 +11,95 @@
 |
 */
 
-Route::get('/', function()
+/** ------------------------------------------
+ *  Route model binding
+ *  ------------------------------------------
+ */
+Route::model('user', 'User');
+Route::model('comment', 'Comment');
+Route::model('post', 'Post');
+Route::model('role', 'Role');
+
+/** ------------------------------------------
+ *  Admin Routes
+ *  ------------------------------------------
+ */
+Route::get('holgroups', 'HolgroupsController@getIndex');
+Route::get('hols', 'HolbisController@getIndex');
+
+
+Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 {
-	return View::make('hello');
 
+    # User Management
+    Route::get('users/{user}/show', 'AdminUsersController@getShow')
+        ->where('user', '[0-9]+');
+    Route::get('users/{user}/edit', 'AdminUsersController@getEdit')
+        ->where('user', '[0-9]+');
+    Route::post('users/{user}/edit', 'AdminUsersController@postEdit')
+        ->where('user', '[0-9]+');
+    Route::get('users/{user}/delete', 'AdminUsersController@getDelete')
+        ->where('user', '[0-9]+');
+    Route::post('users/{user}/delete', 'AdminUsersController@postDelete')
+        ->where('user', '[0-9]+');
+    Route::controller('users', 'AdminUsersController');
 
+    # User Role Management
+    Route::get('roles/{role}/show', 'AdminRolesController@getShow')
+        ->where('role', '[0-9]+');
+    Route::get('roles/{role}/edit', 'AdminRolesController@getEdit')
+        ->where('role', '[0-9]+');
+    Route::post('roles/{role}/edit', 'AdminRolesController@postEdit')
+        ->where('role', '[0-9]+');
+    Route::get('roles/{role}/delete', 'AdminRolesController@getDelete')
+        ->where('role', '[0-9]+');
+    Route::post('roles/{role}/delete', 'AdminRolesController@postDelete')
+        ->where('role', '[0-9]+');
+    Route::controller('roles', 'AdminRolesController');
+
+    # Admin Dashboard
+    Route::controller('/', 'AdminDashboardController');
 });
 
-Route::get('/', ['as' => 'home', function(){}] );
 
-Route::get('login', [ 'as' => 'login', 'uses' => 'AuthController@login' ]);
+/** ------------------------------------------
+ *  Frontend Routes
+ *  ------------------------------------------
+ */
 
-Route::get('logout', [ 'as' => 'login', 'uses' => 'AuthController@login' ]);
+// User reset routes
+Route::get('user/reset/{token}', 'UserController@getReset')
+    ->where('token', '[0-9a-z]+');
+// User password reset
+Route::post('user/reset/{token}', 'UserController@postReset')
+    ->where('token', '[0-9a-z]+');
+//:: User Account Routes ::
+Route::post('user/{user}/edit', 'UserController@postEdit')
+    ->where('user', '[0-9]+');
 
-Route::resource('photo', 'PhotoController');
+//:: User Account Routes ::
+Route::post('user/login', 'UserController@postLogin');
+
+# User RESTful Routes (Login, Logout, Register, etc)
+Route::controller('user', 'UserController');
+
+//:: Application Routes ::
+
+# Filter for detect language
+Route::when('contact-us','detectLang');
+
+# Contact Us Static Page
+Route::get('contact-us', function()
+{
+    // Return about us page
+    return View::make('site/contact-us');
+});
+
+# Posts - Second to last set, match slug
+Route::get('{postSlug}', 'BlogController@getView');
+Route::post('{postSlug}', 'BlogController@postView');
+
+# Index Page - Last route, no matches
+Route::get('/', array('before' => 'detectLang','uses' => 'HolbisController@getIndex'));
+
+

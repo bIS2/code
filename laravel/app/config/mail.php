@@ -11,11 +11,11 @@ return array(
 	| sending of e-mail. You may specify which one you're using throughout
 	| your application here. By default, Laravel is setup for SMTP mail.
 	|
-	| Supported: "smtp", "mail", "sendmail"
+	| Supported: "smtp", "mail"
 	|
 	*/
 
-	'driver' => 'smtp',
+	'driver' => 'mail',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return array(
 	|
 	*/
 
-	'host' => 'smtp.mailgun.org',
+	'host' => 'localhost',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return array(
 	|
 	*/
 
-	'port' => 587,
+	'port' => 25,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => null, 'name' => null),
+	'from' => array('address' => 'support@bis.com', 'name' => 'Admin'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -94,31 +94,5 @@ return array(
 	*/
 
 	'password' => null,
-
-	/*
-	|--------------------------------------------------------------------------
-	| Sendmail System Path
-	|--------------------------------------------------------------------------
-	|
-	| When using the "sendmail" driver to send e-mails, we will need to know
-	| the path to where Sendmail lives on this server. A default path has
-	| been provided here, which will work well on most of your systems.
-	|
-	*/
-
-	'sendmail' => '/usr/sbin/sendmail -bs',
-
-	/*
-	|--------------------------------------------------------------------------
-	| Mail "Pretend"
-	|--------------------------------------------------------------------------
-	|
-	| When this option is enabled, e-mail will not actually be sent over the
-	| web and will instead be written to your application's logs files so
-	| you may inspect the message. This is great for local development.
-	|
-	*/
-
-	'pretend' => false,
 
 );

@@ -35,9 +35,11 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::guest('login');
+	if (Auth::guest()) {
+        Session::put('loginRedirect', Request::url());
+        return Redirect::to('user/login/');
+    }
 });
-
 
 Route::filter('auth.basic', function()
 {
@@ -57,9 +59,24 @@ Route::filter('auth.basic', function()
 
 Route::filter('guest', function()
 {
-	if (Auth::check()) 
-		return Redirect::to('/')->with('flash_notice', 'You are already logged in!');;
+	if (Auth::check()) return Redirect::to('user/login/');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Role Permissions
+|--------------------------------------------------------------------------
+|
+| Access filters based on roles.
+|
+*/
+
+// Check for role on all admin routes
+Entrust::routeNeedsRole( 'speiuser*', array('admin'), Redirect::to('/') );
+
+// Check for permissions on admin actions
+Entrust::routeNeedsPermission( 'admin/users*', 'admin', Redirect::to('/admin') );
+Entrust::routeNeedsPermission( 'admin/roles*', 'admin', Redirect::to('/admin') );
 
 /*
 |--------------------------------------------------------------------------
@@ -74,8 +91,32 @@ Route::filter('guest', function()
 
 Route::filter('csrf', function()
 {
-	if (Session::token() != Input::get('_token'))
+	if (Session::getToken() != Input::get('csrf_token') &&  Session::getToken() != Input::get('_token'))
 	{
 		throw new Illuminate\Session\TokenMismatchException;
 	}
+});
+
+/*
+|--------------------------------------------------------------------------
+| Language
+|--------------------------------------------------------------------------
+|
+| Detect the browser language.
+|
+*/
+
+Route::filter('detectLang',  function($route, $request, $lang = 'auto')
+{
+
+    if($lang != "auto" && in_array($lang , Config::get('app.available_language')))
+    {
+        Config::set('app.locale', $lang);
+    }else{
+        $browser_lang = !empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? strtok(strip_tags($_SERVER['HTTP_ACCEPT_LANGUAGE']), ',') : '';
+        $browser_lang = substr($browser_lang, 0,2);
+        $userLang = (in_array($browser_lang, Config::get('app.available_language'))) ? $browser_lang : Config::get('app.locale');
+        Config::set('app.locale', $userLang);
+        App::setLocale($userLang);
+    }
 });

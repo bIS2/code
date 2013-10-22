@@ -6,6 +6,11 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'phpDocumentor' => array($vendorDir . '/phpdocumentor/reflection-docblock/src'),
+    'dflydev\\markdown' => array($vendorDir . '/dflydev/markdown/src'),
+    'Zizaco\\Entrust' => array($vendorDir . '/zizaco/entrust/src'),
+    'Zizaco\\Confide' => array($vendorDir . '/zizaco/confide/src'),
+    'Woodling' => array($vendorDir . '/summerstreet/woodling/src'),
     'Whoops' => array($vendorDir . '/filp/whoops/src'),
     'Way\\Tests' => array($vendorDir . '/way/laravel-test-helpers/src'),
     'Way\\Generators' => array($vendorDir . '/way/generators/src'),
@@ -21,7 +26,9 @@ return array(
     'Symfony\\Component\\Debug\\' => array($vendorDir . '/symfony/debug'),
     'Symfony\\Component\\CssSelector\\' => array($vendorDir . '/symfony/css-selector'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
+    'Symfony\\Component\\ClassLoader\\' => array($vendorDir . '/symfony/class-loader'),
     'Symfony\\Component\\BrowserKit\\' => array($vendorDir . '/symfony/browser-kit'),
+    'Robbo\\Presenter' => array($vendorDir . '/robclancy/presenter/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Predis' => array($vendorDir . '/predis/predis/lib'),
     'Patchwork' => array($vendorDir . '/patchwork/utf8/class'),
@@ -29,7 +36,10 @@ return array(
     'Normalizer' => array($vendorDir . '/patchwork/utf8/class'),
     'Mustache' => array($vendorDir . '/mustache/mustache/src'),
     'Monolog' => array($vendorDir . '/monolog/monolog/src'),
+    'Mockery' => array($vendorDir . '/mockery/mockery/library'),
+    'LaravelBook\\Ardent' => array($vendorDir . '/laravelbook/ardent/src'),
     'Jeremeamia\\SuperClosure' => array($vendorDir . '/jeremeamia/SuperClosure/src'),
+    'J20\\Uuid' => array($vendorDir . '/j20/php-uuid/src'),
     'Illuminate' => array($vendorDir . '/laravel/framework/src'),
     'Doctrine\\DBAL\\' => array($vendorDir . '/doctrine/dbal/lib'),
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),
@@ -40,4 +50,8 @@ return array(
     'Doctrine\\Common\\' => array($vendorDir . '/doctrine/common/lib'),
     'ClassPreloader' => array($vendorDir . '/classpreloader/classpreloader/src'),
     'Carbon' => array($vendorDir . '/nesbot/carbon/src'),
+    'Bllim\\Datatables' => array($vendorDir . '/bllim/datatables/src'),
+    'Basset' => array($vendorDir . '/jasonlewis/basset/src'),
+    'Barryvdh\\LaravelIdeHelper' => array($vendorDir . '/barryvdh/laravel-ide-helper/src'),
+    'Assetic' => array($vendorDir . '/kriswallsmith/assetic/src'),
 );

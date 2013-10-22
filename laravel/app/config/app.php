@@ -60,12 +60,12 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| This key is used by the Illuminate encrypter service and should be set
-	| to a random, 32 character string, otherwise these encrypted strings
-	| will not be safe. Please do this before deploying an application!
+	| to a random, long string, otherwise these encrypted values will not
+	| be safe. Make sure to change it before deploying any application!
 	|
 	*/
 
-	'key' => 'nuojVfmuwlANGwR0mNOOQmtt4Wclpqww',
+	'key' => 'RdjFmKY7Z8Fd9Zf79DDu3thwtLtCZCFW',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -78,8 +78,8 @@ return array(
 	|
 	*/
 
-	'providers' => array(
-
+    'providers' => array(
+        /* Laravel Base Providers */
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
 		'Illuminate\Auth\AuthServiceProvider',
 		'Illuminate\Cache\CacheServiceProvider',
@@ -114,36 +114,46 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
-		'Way\Generators\GeneratorsServiceProvider',
+        /* Additional Providers */
+        'Zizaco\Confide\ConfideServiceProvider', // Confide Provider
+        'Zizaco\Entrust\EntrustServiceProvider', // Entrust Provider for roles
+        'Basset\BassetServiceProvider', // Better Asset Management
+        'Robbo\Presenter\PresenterServiceProvider', // Presenter
+        'Bllim\Datatables\DatatablesServiceProvider', // Datatables
+        'Way\Generators\GeneratorsServiceProvider', // Generators
 
-	),
+        /* Uncomment for use in development */
+//        'Way\Generators\GeneratorsServiceProvider', // Generators
+//        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // IDE Helpers
 
-	/*
-	|--------------------------------------------------------------------------
-	| Service Provider Manifest
-	|--------------------------------------------------------------------------
-	|
-	| The service provider manifest is used by Laravel to lazy load service
-	| providers which are not needed for each request, as well to keep a
-	| list of all of the services. Here, you may set its storage spot.
-	|
-	*/
+    ),
 
-	'manifest' => storage_path().'/meta',
+    /*
+    |--------------------------------------------------------------------------
+    | Service Provider Manifest
+    |--------------------------------------------------------------------------
+    |
+    | The service provider manifest is used by Laravel to lazy load service
+    | providers which are not needed for each request, as well to keep a
+    | list of all of the services. Here, you may set its storage spot.
+    |
+    */
 
-	/*
-	|--------------------------------------------------------------------------
-	| Class Aliases
-	|--------------------------------------------------------------------------
-	|
-	| This array of class aliases will be registered when this application
-	| is started. However, feel free to register as many as you wish as
-	| the aliases are "lazy" loaded so they don't hinder performance.
-	|
-	*/
+    'manifest' => storage_path() . '/meta',
 
-	'aliases' => array(
+    /*
+    |--------------------------------------------------------------------------
+    | Class Aliases
+    |--------------------------------------------------------------------------
+    |
+    | This array of class aliases will be registered when this application
+    | is started. However, feel free to register as many as you wish as
+    | the aliases are "lazy" loaded so they don't hinder performance.
+    |
+    */
 
+    'aliases' => array(
+        /* Laravel Base Aliases */
 		'App'             => 'Illuminate\Support\Facades\App',
 		'Artisan'         => 'Illuminate\Support\Facades\Artisan',
 		'Auth'            => 'Illuminate\Support\Facades\Auth',
@@ -181,6 +191,18 @@ return array(
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
 
-	),
+        /* Additional Aliases */
+        'Confide'         => 'Zizaco\Confide\ConfideFacade', // Confide Alias
+        'Entrust'         => 'Zizaco\Entrust\EntrustFacade', // Entrust Alias
+        'Presenter'       => 'Robbo\Presenter\Presenter', // Presenter
+        'Presentable'     => 'Robbo\Presenter\PresentableInterface', // Presenter
+        'Basset'          => 'Basset\Facade', // Better Asset Management
+        'String'          => 'Andrew13\Helpers\String', // String
+        'Carbon'          => 'Carbon\Carbon', // Carbon
+        'Datatables'      => 'Bllim\Datatables\Datatables', // DataTables
+
+    ),
+
+    'available_language' => array('en', 'pt', 'es'),
 
 );

@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'database',
-			'username'  => 'root',
-			'password'  => '',
+			'database'  => 'laravelbootstrapstarter',
+			'username'  => 'user',
+			'password'  => 'password',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
@@ -65,13 +65,13 @@ return array(
 
 		'pgsql' => array(
 			'driver'   => 'pgsql',
-			'host'     => 'localhost',
+			'host'     => '127.0.0.1',
 			'database' => 'bis',
 			'username' => 'postgres',
 			'password' => 'admin',
 			'charset'  => 'utf8',
 			'prefix'   => '',
-			'schema'   => 'public',
+            'schema'   => 'public',
 		),
 
 		'sqlsrv' => array(
