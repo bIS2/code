@@ -89,6 +89,15 @@
 				</div>
 				<!-- ./ activation status -->
 
+				<!-- libraries -->
+				<div class="form-group {{{ $errors->has('libraries') ? 'error' : '' }}}">
+	                <label class="col-md-2 control-label" for="roles">Libraries</label>
+	                <div class="col-md-6">
+	                	{{  Form::select('library_id', Library::all(['select'=>'title'])->toArray()) }}
+	            	</div>
+				</div>
+				<!-- ./ libraries -->
+
 				<!-- Groups -->
 				<div class="form-group {{{ $errors->has('roles') ? 'error' : '' }}}">
 	                <label class="col-md-2 control-label" for="roles">Role</label>
@@ -114,7 +123,7 @@
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">
 				<button type="submit" class="btn btn-success">OK</button>
-				<element class="btn-cancel close_popup">Cancel</element>
+				<button class="btn-cancel close_popup">Cancel</button>
 				<button type="reset" class="btn btn-default">Reset</button>
 			</div>
 		</div>

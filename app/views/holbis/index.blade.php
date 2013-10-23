@@ -1,4 +1,5 @@
-@extends('admin.layouts.default')
+@extends('site.layouts.default')
+
 
 {{-- Content --}}
 @section('content')

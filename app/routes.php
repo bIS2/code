@@ -24,9 +24,6 @@ Route::model('role', 'Role');
  *  Admin Routes
  *  ------------------------------------------
  */
-Route::get('holgroups', 'HolgroupsController@getIndex');
-Route::get('hols', 'HolbisController@getIndex');
-
 
 Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 {
@@ -59,8 +56,11 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 
     # Admin Dashboard
     Route::controller('/', 'AdminDashboardController');
+
+
 });
 
+	Route::get('hols', [ 'before'=>'auth', 'HolbisController@getIndex']);   
 
 /** ------------------------------------------
  *  Frontend Routes
@@ -95,11 +95,7 @@ Route::get('contact-us', function()
     return View::make('site/contact-us');
 });
 
-# Posts - Second to last set, match slug
-Route::get('{postSlug}', 'BlogController@getView');
-Route::post('{postSlug}', 'BlogController@postView');
-
 # Index Page - Last route, no matches
-Route::get('/', array('before' => 'detectLang','uses' => 'HolbisController@getIndex'));
+Route::get('/', array('before' => ['detectLang','auth'],'uses' => 'HolbisController@getIndex'));
 
 
