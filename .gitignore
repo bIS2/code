@@ -12,8 +12,8 @@
 /public/assets/compiled/admin
 
 # Composer
-composer.phar
-composer.lock
+#composer.phar
+#composer.lock
 
 # OS
 .DS_Store

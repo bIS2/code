@@ -8,8 +8,7 @@
 
 {{-- Content --}}
 @section('content')
-<div class="row">
-	<div class="span6 offset3">
+	<div class="col-md-6">
 		<div class="page-header">
 			<h1>Login into your account</h1>
 		</div>
@@ -60,5 +59,4 @@
 		</form>
 
 	</div>
-</div>
 @stop
