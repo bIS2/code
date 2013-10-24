@@ -17,6 +17,10 @@ class User extends ConfideUser implements PresentableInterface {
 	 */
 	protected $table = 'users';
 
+    public function library() {
+        return $this->belongsTo('Library');
+    }	
+
     public function getPresenter()
     {
         return new UserPresenter($this);

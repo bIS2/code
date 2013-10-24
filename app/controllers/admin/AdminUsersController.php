@@ -53,6 +53,7 @@ class AdminUsersController extends AdminController {
                     ->get();
 
         // Show the page
+        $users = User::paginate()
         return View::make('admin/users/index', [ 'users'=>$users, 'title'=>$title ] );
     }
 

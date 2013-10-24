@@ -19,7 +19,7 @@
 
 		<!-- CSS
 		================================================== -->
-        {{ Basset::show('public.css') }}
+        {{ Basset::show('login.css') }}
 
 		<style>
 		@section('styles')
@@ -70,8 +70,5 @@
 	      </div>
 	    </div>
 
-		<!-- Javascripts
-		================================================== -->
-        {{ Basset::show('public.js') }}
 	</body>
 </html>

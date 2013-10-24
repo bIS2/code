@@ -28,6 +28,9 @@
 				<th class="col-md-2">{{{ Lang::get('table.actions') }}}</th>
 			</tr>
 		</thead>
+			<?php foreach ($users as $user) {
+				# code...
+			} ?>
 		<tbody>
 		</tbody>
 	</table>
