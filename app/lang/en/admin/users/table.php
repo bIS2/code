@@ -11,5 +11,6 @@ return array(
 	'roles'     => 'Roles',
 	'activated'  => 'Activated',
 	'created_at' => 'Created at',
+	'library' => 'Library',
 
 );

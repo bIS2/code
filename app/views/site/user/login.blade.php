@@ -12,7 +12,7 @@
 		<div class="page-header">
 		</div>
 		<form class="form-signin" method="POST" action="{{ URL::to('user/login') }}" accept-charset="UTF-8">
-			<h2>Login</h2>
+			<h2><span class="glyphicon glyphicon-user"></span>Login</h2>
 		    <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input class="form-control" tabindex="1" placeholder="{{ Lang::get('confide::confide.username_e_mail') }}" type="text" name="email" id="email" value="{{ Input::old('email') }}">
             <input class="form-control" tabindex="2" placeholder="{{ Lang::get('confide::confide.password') }}" type="password" name="password" id="password">

@@ -45,15 +45,20 @@ class AdminUsersController extends AdminController {
         // Title
         $title = Lang::get('admin/users/title.user_management');
 
-        // Grab all the users
-        //$users = $this->user;
-        $users = User::leftjoin('assigned_roles', 'assigned_roles.user_id', '=', 'users.id')
-                    ->leftjoin('roles', 'roles.id', '=', 'assigned_roles.role_id')
-                    ->select(array('users.id', 'users.username','users.email', 'roles.name as rolename', 'users.confirmed', 'users.created_at'))
-                    ->get();
-
         // Show the page
-        $users = User::paginate()
+        if (Input::has('buscar')) {;
+
+        	$q = Input::get('buscar');
+        	$users = User::with('library')
+        		->where('name','like',"%$q%")
+        		->orWhere('email','like',$q)
+        		->orWhere('username','like',"%$q%")
+        		->orWhere('lastname','like',$q)
+        		->paginate(25);
+        } else {
+		    $users = User::with('library')->paginate(25);
+        }
+
         return View::make('admin/users/index', [ 'users'=>$users, 'title'=>$title ] );
     }
 
@@ -64,6 +69,7 @@ class AdminUsersController extends AdminController {
      */
     public function getCreate()
     {
+    	$user = new User;
         // All roles
         $roles = $this->role->all();
 
@@ -83,7 +89,7 @@ class AdminUsersController extends AdminController {
 		$mode = 'create';
 
 		// Show the page
-		return View::make('admin/users/create_edit', compact('roles', 'permissions', 'selectedRoles', 'selectedPermissions', 'title', 'mode'));
+		return View::make('admin/users/create_edit', compact( 'user', 'roles', 'permissions', 'selectedRoles', 'selectedPermissions', 'title', 'mode'));
     }
 
     /**
@@ -115,7 +121,7 @@ class AdminUsersController extends AdminController {
             $this->user->saveRoles(Input::get( 'roles' ));
 
             // Redirect to the new user page
-            return Redirect::to('admin/users/' . $this->user->id . '/edit')->with('success', Lang::get('admin/users/messages.create.success'));
+            return Redirect::to('admin/users')->with('success', Lang::get('admin/users/messages.create.success'));
         }
         else
         {
@@ -145,8 +151,9 @@ class AdminUsersController extends AdminController {
      * @param $user
      * @return Response
      */
-    public function getEdit($user)
-    {
+    public function getEdit($id)  {
+
+    	$user = User::find($id);
         if ( $user->id )
         {
             $roles = $this->role->all();
@@ -183,6 +190,9 @@ class AdminUsersController extends AdminController {
             $user->username = Input::get( 'username' );
             $user->email = Input::get( 'email' );
             $user->confirmed = Input::get( 'confirm' );
+            $user->name = Input::get( 'name' );
+            $user->lastname = Input::get( 'lastname' );
+            $user->library_id = Input::get( 'library_id' );
 
             $password = Input::get( 'password' );
             $passwordConfirmation = Input::get( 'password_confirmation' );
@@ -221,7 +231,7 @@ class AdminUsersController extends AdminController {
 
         if(empty($error)) {
             // Redirect to the new user page
-            return Redirect::to('admin/users/' . $user->id . '/edit')->with('success', Lang::get('admin/users/messages.edit.success'));
+            return Redirect::to('admin/users/create')->with('success', Lang::get('admin/users/messages.edit.success'));
         } else {
             return Redirect::to('admin/users/' . $user->id . '/edit')->with('error', Lang::get('admin/users/messages.edit.failure'));
         }
