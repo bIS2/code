@@ -43,15 +43,16 @@ return array(
             {
                 $collection->add('less/master.less')->apply('Less');
 	            $collection->add('bootstrap.min.css');
-	            $collection->add('bootstrap-responsive.min.css');                
+	            $collection->add('bootstrap-responsive.min.css');  
+                $collection->add('flexigrid.pack.css');              
             })->apply('UriRewriteFilter')->apply('CssMin');
 
             $collection->directory('assets/js', function($collection)
             {
                 //$collection->javascript('//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js');
                 //$collection->javascript('//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js');
-                $collection->add('bootstrap/bootstrap.js');
                 $collection->add('jquery-1.10.2.min.js');
+                $collection->add('bootstrap/bootstrap.js');
                 // $collection->requireDirectory('../../../vendor/twbs/bootstrap/js');
                 $collection->add('wysihtml5/wysihtml5-0.3.0.js');
                 $collection->add('wysihtml5/bootstrap-wysihtml5.js');
@@ -61,6 +62,7 @@ return array(
                 $collection->add('datatables.fnReloadAjax.js');
                 $collection->add('jquery.colorbox.js');
                 $collection->add('prettify.js');
+                $collection->add('flexigrid.js');
                 // $collection->requireDirectory('../../../vendor/twbs/bootstrap/js');
             })->apply('JsMin');
         },
@@ -76,6 +78,7 @@ return array(
                 $collection->add('wysihtml5/bootstrap-wysihtml5.css');
                 $collection->add('datatables-bootstrap.css');
                 $collection->add('colorbox.css');
+                $collection->add('flexigrid.pack.css');
             })->apply('UriRewriteFilter')->apply('CssMin');
 
             $collection->directory('assets/js', function($collection)
@@ -93,6 +96,7 @@ return array(
                 $collection->add('datatables.fnReloadAjax.js');
                 $collection->add('jquery.colorbox.js');
                 $collection->add('prettify.js');
+                $collection->add('flexigrid.js');
             })->apply('JsMin');
         }
 

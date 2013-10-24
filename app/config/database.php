@@ -66,9 +66,9 @@ return array(
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => '127.0.0.1',
-			'database' => 'bis',
-			'username' => 'postgres',
-			'password' => 'admin',
+			'database' => 'BIS',
+			'username' => 'bismusic',
+			'password' => '!34*54%*/-',
 			'charset'  => 'utf8',
 			'prefix'   => '',
             'schema'   => 'public',
