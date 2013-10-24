@@ -463,6 +463,12 @@
 [2013-10-24 18:10:27] basset.ERROR: Asset "bootstrap-responsive.min.css" could not be found in "C:\W\Web\Pb\code\laravel\public/assets/css" [] []
 [2013-10-24 18:10:27] basset.ERROR: Asset "bootstrap-responsive.min.css" could not be found in "C:\W\Web\Pb\code\laravel\public/assets/css" [] []
 [2013-10-24 18:10:27] basset.ERROR: Asset "bootstrap-responsive.min.css" could not be found in "C:\W\Web\Pb\code\laravel\public/assets/css" [] []
+<<<<<<< HEAD
 [2013-10-24 19:54:16] basset.ERROR: Asset "bootstrap-responsive.min.css" could not be found in "D:\github\bis\public/assets/css" [] []
 [2013-10-24 19:54:16] basset.ERROR: Asset "bootstrap-responsive.min.css" could not be found in "D:\github\bis\public/assets/css" [] []
 [2013-10-24 19:54:16] basset.ERROR: Asset "bootstrap-responsive.min.css" could not be found in "D:\github\bis\public/assets/css" [] []
+=======
+>>>>>>> c5877e378b21774dd829acefee941da0a5cf5dbb
+[2013-10-24 20:09:14] basset.ERROR: Asset "bootstrap-responsive.min.css" could not be found in "D:\github\bis\public/assets/css" [] []
+[2013-10-24 20:09:14] basset.ERROR: Asset "bootstrap-responsive.min.css" could not be found in "D:\github\bis\public/assets/css" [] []
+[2013-10-24 20:09:14] basset.ERROR: Asset "bootstrap-responsive.min.css" could not be found in "D:\github\bis\public/assets/css" [] []
