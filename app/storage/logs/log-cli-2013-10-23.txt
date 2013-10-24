@@ -1,0 +1,20 @@
+[2013-10-23 20:45:12] log.ERROR: 500 - Class 'Illuminate\Auth\Console\ClearRemindersCommand' not found @ /
+exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Illuminate\Auth\Console\ClearRemindersCommand' not found' in J:\bis\vendor\laravel\framework\src\Illuminate\Auth\Reminders\ReminderServiceProvider.php:102
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2013-10-23 20:47:47] log.ERROR: 500 - Class 'Illuminate\Auth\Console\ClearRemindersCommand' not found @ /
+exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Illuminate\Auth\Console\ClearRemindersCommand' not found' in J:\bis\vendor\laravel\framework\src\Illuminate\Auth\Reminders\ReminderServiceProvider.php:102
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2013-10-23 20:51:35] log.ERROR: 500 - Class 'Illuminate\Auth\Console\ClearRemindersCommand' not found @ /
+exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Illuminate\Auth\Console\ClearRemindersCommand' not found' in J:\bis\vendor\laravel\framework\src\Illuminate\Auth\Reminders\ReminderServiceProvider.php:102
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2013-10-23 20:56:45] log.ERROR: 500 - Class 'Illuminate\Auth\Console\ClearRemindersCommand' not found @ /
+exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Illuminate\Auth\Console\ClearRemindersCommand' not found' in J:\bis\vendor\laravel\framework\src\Illuminate\Auth\Reminders\ReminderServiceProvider.php:102
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []

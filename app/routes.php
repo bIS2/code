@@ -60,7 +60,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 
 });
 
-	Route::get('hols', [ 'before'=>'auth', 'HolbisController@getIndex']);   
+	Route::get('hols', [ 'before'=>'auth', 'HolsController@getIndex']);   
 
 /** ------------------------------------------
  *  Frontend Routes
@@ -96,6 +96,6 @@ Route::get('contact-us', function()
 });
 
 # Index Page - Last route, no matches
-Route::get('/', array('before' => ['detectLang','auth'],'uses' => 'HolbisController@getIndex'));
+Route::get('/', array('before' => ['detectLang','auth'],'uses' => 'HolsController@getIndex'));
 
 

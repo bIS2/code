@@ -112,11 +112,11 @@
 		      }
 		    );
 			
-			// $('.flexme').dataTable({"bPaginate": false,"bFilter": false});
+				$('.flexme').dataTable({"bPaginate": false,"bFilter": false});
 
-			// $('.flexme').flexigrid();
+				$('.flexme').flexigrid();
 
-			// $('.hosg').flexigrid();
+				/*$('.hosg').flexigrid();*/
 		});
 	</script>
         
