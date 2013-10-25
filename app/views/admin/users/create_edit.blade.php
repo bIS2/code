@@ -6,7 +6,7 @@
 		<h3>{{{ $title }}} </h3>
 	</div>
 	{{-- Create User Form --}}
-	<form class="form-horizontal col-md-8" method="post" action="@if (isset($user)){{ URL::to('admin/users/' . $user->id . '/edit') }}@endif" autocomplete="off">
+	<form class="form-horizontal col-md-8" method="post" action="@if ($user->exists){{ URL::to('admin/users/' . $user->id . '/edit') }}@endif" autocomplete="off">
 		<!-- CSRF Token -->
 		<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 		<!-- ./ csrf token -->
@@ -130,7 +130,7 @@
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-6">
 				<button type="submit" class="btn btn-success">OK</button>
-				<a class="btn-cancel close_popup" href=="">Cancel</a>
+				<a class="btn-cancel" href="{{{ URL::to('admin/users') }}}">Cancel</a>
 				<button type="reset" class="btn btn-default">Reset</button>
 			</div>
 		</div>

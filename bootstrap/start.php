@@ -26,9 +26,15 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
+<<<<<<< HEAD
     'local' => array('localhost'), // Change this to your local machine hostname.
     'staging' => array('lpt-redes'),
     'production' => array('your-production-machine-name'),
+=======
+    'local' 		=> array('localhost'), // Change this to your local machine hostname.
+    'staging' 		=> array('lpt-redes'),
+    'production' 	=> array('your-production-machine-name'),
+>>>>>>> 1b6231beedc4ccd4d36ad844b7e436f936debab7
 
 ));
 
