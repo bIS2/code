@@ -97,5 +97,3 @@ Route::get('contact-us', function()
 
 # Index Page - Last route, no matches
 Route::get('/', array('before' => ['detectLang','auth'],'uses' => 'HolsController@getIndex'));
-
-
