@@ -1,6 +1,6 @@
 <?php
 
-class HossController extends BaseController {
+class HoldingssetsController extends BaseController {
  	protected $layout = 'layouts.default';
 	/**
 	 * Display a listing of the resource.
@@ -9,8 +9,8 @@ class HossController extends BaseController {
 	 */
 	public function getIndex()
 	{
-		$hos = Hoss::paginate(20);
-		return View::make('hos.index', ['hos'=>$hos]);
+		$holdingssets = Holdingsset::paginate(20);
+		return View::make('holdingssets.index', ['holdingssets'=>$holdingssets]);
 		
 	}
 
@@ -21,7 +21,7 @@ class HossController extends BaseController {
 	 */
 	public function create()
 	{
-        return View::make('hos.create');
+        return View::make('holdingssets.create');
 	}
 
 	/**
@@ -42,7 +42,7 @@ class HossController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('hos.show');
+        return View::make('holdingssets.show');
 	}
 
 	/**
@@ -53,7 +53,7 @@ class HossController extends BaseController {
 	 */
 	public function edit($id)
 	{
-        return View::make('hos.edit');
+        return View::make('holdingssets.edit');
 	}
 
 	/**

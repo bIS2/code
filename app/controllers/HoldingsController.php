@@ -1,6 +1,6 @@
 <?php
 
-class HolsController extends BaseController {
+class HoldingsController extends BaseController {
 
 
    /**

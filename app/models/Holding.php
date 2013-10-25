@@ -1,6 +1,6 @@
 <?php
 
-class Hols extends Eloquent {
+class Holding extends Eloquent {
 	protected $guarded = array();
 	protected $table = 'hols';
 	
