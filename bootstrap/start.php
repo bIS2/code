@@ -26,7 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-    'local' => array('VirtualMint'), // Change this to your local machine hostname.
+    'local' => array('localhost'), // Change this to your local machine hostname.
     'staging' => array('lpt-redes'),
     'production' => array('your-production-machine-name'),
 
