@@ -19,7 +19,7 @@
 
 		<!-- CSS
 		================================================== -->
-        {{ Basset::show('login.css') }}
+        {{ Basset::show('public.css') }}
 
 		<style>
 		@section('styles')
@@ -37,38 +37,42 @@
 		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{{ asset('assets/ico/apple-touch-icon-114-precomposed.png') }}}">
 		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{{ asset('assets/ico/apple-touch-icon-72-precomposed.png') }}}">
 		<link rel="apple-touch-icon-precomposed" href="{{{ asset('assets/ico/apple-touch-icon-57-precomposed.png') }}}">
-		<link rel="shortcut icon" href="{{{ asset('assets/ico/favicon.png') }}}">
+		<link rel="shortcut icon" href="{{{ asset('assets/ico/favicon.ico') }}}">
 	</head>
 
 	<body>
-		<!-- To make sticky footer need to wrap in a div -->
-		<div id="wrap">
+		
+		<div class="jumbotron">
+      		<div class="container">
+        		<h1>bIS</h1>
+        		<big>Begleitendes Informationssystem</big>
+        		<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+     		</div>
+    	</div>
 
-		<!-- Container -->
 		<div class="container">
-			<!-- Notifications -->
-			@include('notifications')
-			<!-- ./ notifications -->
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4">
+					
+					<!-- Notifications -->
+					@include('notifications')
+					<!-- ./ notifications -->
 
-			<!-- Content -->
-			@yield('content')
-			<!-- ./ content -->
+					<!-- Content -->
+					@yield('content')
+					<!-- ./ content -->
+				
+				</div>
+			</div>
 		</div>
-		<!-- ./ container -->
 
-		<!-- the following div is needed to make a sticky footer -->
-		<div id="push"></div>
-		</div>
-		<!-- ./wrap -->
-
-
-	    <div id="footer">
+	    <footer id="footer">
 	      <div class="container">
 	        <p class="muted credit text-center">
-	        	Bis 2013
+	        	eto e la bIS mamita, lo mejol del 2013
 	        </p>
 	      </div>
-	    </div>
+	    </footer>
 <!-- Javascripts
 		================================================== -->
         {{ Basset::show('login.js') }}
