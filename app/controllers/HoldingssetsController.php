@@ -2,15 +2,23 @@
 
 class HoldingssetsController extends BaseController {
  	protected $layout = 'layouts.default';
+
+
+    public function __construct() {
+    	$this->data['groups'] = Auth::user()->groups;
+    }
+
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
-	public function getIndex()
+	public function Index()
 	{
-		$holdingssets = Holdingsset::paginate(20);
-		return View::make('holdingssets.index', ['holdingssets'=>$holdingssets]);
+		$holdingssets = (Input::has('group_id')) ? Group::find(Input::get('group_id'))->holdingssets()->paginate(100) :	Holdingsset::paginate(100);
+
+		$this->data['holdingssets'] = $holdingssets;
+		return View::make('holdingssets.index', $this->data);
 		
 	}
 
@@ -29,9 +37,9 @@ class HoldingssetsController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store()
-	{
-		//
+	public function store()	{
+
+
 	}
 
 	/**
@@ -42,7 +50,8 @@ class HoldingssetsController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('holdingssets.show');
+		$this->data['holdingsset'] = Holdingsset::find($id);
+  	return View::make('holdingssets.show');
 	}
 
 	/**

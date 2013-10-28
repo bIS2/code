@@ -5,3 +5,7 @@ definir lista de bibliotecas. crear migration y seed
 
 package formularios.
 ayuda basset
+
+
+-nested resources
+-agregar metodos y colecciones a los recursos

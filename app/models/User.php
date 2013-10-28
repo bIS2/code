@@ -10,6 +10,15 @@ use Carbon\Carbon;
 class User extends ConfideUser implements PresentableInterface {
     use HasRole;
 
+	public function cabinets(){
+		return $this->hasMany('Cabinet');
+	}
+
+	public function groups(){
+		return $this->hasMany('Group');
+	}
+
+
 	/**
 	 * The database table used by the model.
 	 *

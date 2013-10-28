@@ -43,13 +43,13 @@ class GroupsController extends BaseController {
 	 */
 	public function store()
 	{
-		$input = Input::all();
-		$validation = Validator::make($input, Group::$rules);
 
-		if ($validation->passes())
-		{
-			$this->group->create($input);
+		$group = new Group([ 'name' => Input::get('name'), 'user_id' => Auth::user()->id ]);
+		$validation = Validator::make($group->toArray(), Group::$rules);
 
+		if ($validation->passes()) {
+			$group->save();
+			$group->holdingssets()->attach(Input::get('holdingsset_id'));
 			return Redirect::route('groups.index');
 		}
 

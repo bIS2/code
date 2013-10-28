@@ -1,33 +1,30 @@
-@extends('layouts.admin')
+<div class="modal fade" id="form-create-group">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"><?= trans('holdingssets.title_create_group')  ?></h4>
+      </div>
+      <form action="<?= route('groups.store') ?>" method="post" data-remote="true" class="bulk_action">
+	      <div class="modal-body">
 
-@section('content')
+				    <div class="form-group">
+		          {{ Form::label('name', 'Name:') }}
+		          {{ Form::text('name','',['placeholder'=>'Type a brief description', 'class'=>"form-control"]) }}
+				    </div>				
 
-<h1>Create Group</h1>
+					@if ($errors->any())
+						<ul>
+							{{ implode('', $errors->all('<li class="error">:message</li>')) }}
+						</ul>
+					@endif
 
-{{ Form::open(array('route' => 'groups.store')) }}
-	<ul>
-        <li>
-            {{ Form::label('name', 'Name:') }}
-            {{ Form::text('name') }}
-        </li>
-
-        <li>
-            {{ Form::label('user_id', 'User_id:') }}
-            {{ Form::input('number', 'user_id') }}
-        </li>
-
-		<li>
-			{{ Form::submit('Submit', array('class' => 'btn btn-info')) }}
-		</li>
-	</ul>
-{{ Form::close() }}
-
-@if ($errors->any())
-	<ul>
-		{{ implode('', $errors->all('<li class="error">:message</li>')) }}
-	</ul>
-@endif
-
-@stop
-
-
+	      </div>
+	      <div class="modal-footer">
+	        <a href="#" class="btn btn-danger" data-dismiss="modal"><?= trans('general.close') ?></a>
+	        <button class="btn btn-primary" type="submit" data-disable-with="<?= trans('general.disable_with')  ?>"><?= trans('general.save') ?></button>
+	      </div>
+			</form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

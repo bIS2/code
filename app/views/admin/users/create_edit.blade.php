@@ -75,14 +75,13 @@
 				<div class="form-group {{{ $errors->has('activated') || $errors->has('confirm') ? 'error' : '' }}}">
 					<label class="col-md-2 control-label" for="confirm">Activate User?</label>
 					<div class="col-md-6">
-						<label class="">
+						<label class="radio-inline">
 							<input class="form-control" type="radio" name="confirm" id="confirm" value="1"  />
 							{{{ Lang::get('general.yes') }}}
 						</label>
-						<label class="">
-							{{{ Lang::get('general.no') }}}	
+						<label class="radio-inline">
 							<input class="form-control" type="radio" name="confirm" id="confirm" value="0"  checked />
-												
+							{{{ Lang::get('general.no') }}}	
 						</label>
 					</div>
 				</div>

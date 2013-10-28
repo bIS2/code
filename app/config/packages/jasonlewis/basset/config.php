@@ -42,8 +42,8 @@ return array(
             $collection->directory('assets/css', function($collection)
             {
                 $collection->add('less/master.less')->apply('Less');
-	            $collection->add('bootstrap.min.css');
-	            $collection->add('bootstrap-responsive.min.css');  
+	            // $collection->add('bootstrap.min.css');
+	            // $collection->add('bootstrap-responsive.min.css');  
                 $collection->add('flexigrid.pack.css');              
             })->apply('UriRewriteFilter')->apply('CssMin');
 
@@ -63,6 +63,8 @@ return array(
                 $collection->add('jquery.colorbox.js');
                 $collection->add('prettify.js');
                 $collection->add('flexigrid.js');
+                $collection->add('laravel-ujs.js');
+                $collection->add('tools.js');
                 // $collection->requireDirectory('../../../vendor/twbs/bootstrap/js');
             })->apply('JsMin');
         },

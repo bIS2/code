@@ -7,17 +7,10 @@ class HoldingsController extends BaseController {
      * Post Model
      * @var hos
      */
-    protected $hos;
+    public $data;
 
-    /**
-     * Inject the models.
-     * @param Post $post
-     * @param User $user
-     */
-    public function __construct(Hoss $hos)
-    {
-        parent::__construct();
-        $this->hos = $hos;
+    public function __construct() {
+    	$this->data['cabinets'] = Auth::user()->cabinets;
     }
 
 	/**
@@ -25,12 +18,19 @@ class HoldingsController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function getIndex()
+	public function Index()
 	{
-		$hos = $this->hos->orderBy('id', 'ASC')->get();
-		$hols = Hols::orderBy('id', 'ASC')->get()->take(100);
-		$status = '';
-		return View::make('hols/index', array('hos' => $hos, 'posts' => $hols, 'status' => $status));
+		if (Input::has('cabinet_id'))
+			$holdings = Cabinet::find(Input::get('cabinet_id'))->holdings()->paginate(100);
+		else
+			$holdings = Holding::paginate(100);
+
+		$this->data['holdings'] = $holdings;
+
+		// CONDITIONS
+		// filter by holdingsset ok
+		//  and holdings in their library
+		return View::make('holdings/index', $this->data);
 	}
 
 	/**
@@ -40,7 +40,7 @@ class HoldingsController extends BaseController {
 	 */
 	public function create()
 	{
-		return View::make('hols/index', array('posts' => $hols));
+		return View::make('holdings/index', array('posts' => $holdings));
 	}
 
 	/**
@@ -50,7 +50,7 @@ class HoldingsController extends BaseController {
 	 */
 	public function store()
 	{
-		return View::make('hols/index', array('posts' => $hols));
+		return View::make('holdings/index', array('posts' => $holdings));
 	}
 
 	/**
@@ -61,7 +61,8 @@ class HoldingsController extends BaseController {
 	 */
 	public function show($id)
 	{
-		return View::make('hols/index', array('posts' => $hols));
+		$this->data['holding'] = Holding::find($id);
+		return View::make('holdings/show', $this->data);
 	}
 
 	/**
@@ -93,6 +94,11 @@ class HoldingsController extends BaseController {
 	 * @return Response
 	 */
 	public function destroy($id)
+	{
+		//
+	}
+
+	public function postMove($id)
 	{
 		//
 	}

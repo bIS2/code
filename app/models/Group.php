@@ -7,4 +7,13 @@ class Group extends Eloquent {
 		'name' => 'required',
 		'user_id' => 'required'
 	);
+
+	public function holdingssets(){
+		return $this->belongsToMany('Holdingsset')->withTimestamps();;
+	}
+  
+  public function user() {
+  	return $this->belongsTo('User');
+  }
+
 }
