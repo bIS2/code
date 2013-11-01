@@ -6,7 +6,7 @@
 		<meta charset="utf-8" />
 		<title>
 			@section('title')
-			Laravel 4 Sample Site
+			 	bIS Project
 			@show
 		</title>
 		<meta name="keywords" content="your, awesome, keywords, here" />

@@ -10,7 +10,7 @@
 		<h3><?= trans('holdings.title') ?></h3>
 	</div>
 
-		<table class="table table-striped table-hover table-condensed">
+		<table id="holdings-items" class="table table-striped table-hover table-condensed">
 		<thead>
 			<tr> 
 				<th><input id="select-all" name="select-all" type="checkbox" value="1" /> </th>
