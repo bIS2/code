@@ -20,7 +20,8 @@ class HoldingssetsController extends BaseController {
 		// $this->data['holdingssets'] = $holdingssets;
 		// return View::make('holdingssets.index', $this->data);
 
-		$holdingssets = (Input::has('group_id')) ? Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC')->paginate(20) :	Holdingsset::orderBy('id', 'ASC')->paginate(20);
+		// $holdingssets = (Input::has('group_id')) ? Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC')->paginate(20) :	Holdingsset::orderBy('id', 'ASC')->paginate(20);
+			$holdingssets = DB::table('holdingssets')->take(10)->get();
 		$this->data['holdingssets'] = $holdingssets;
 		if (isset($_GET['page']))  {
 				$this->data['page'] = $_GET['page'];

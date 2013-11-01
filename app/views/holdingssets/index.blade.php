@@ -52,22 +52,7 @@
 							</thead>
 							<tbody>
 						<? $k = 0; $k++; ?>
-							@foreach ($holdingsset -> holdings as $post)		
-								<tr>
-									<td><?php echo $post->f245b; ?></td>
-									<td><?php echo $post->f245c; ?></td>
-									<td><?php echo $post->ocrr_ptrn; ?></td>
-									<td><?php echo $post->f022a; ?></td>
-									<td><?php echo $post->f260a; ?></td>
-									<td><?php echo $post->f260b; ?></td>
-									<td><?php echo $post->f710a; ?></td>
-									<td><?php echo $post->f780t; ?></td>
-									<td><?php echo $post->f362a; ?></td>
-									<td><?php echo $post->f866a; ?></td>
-									<td><?php echo $post->f866z; ?></td>
-									<td><?php echo $post->f310a; ?></td>
-								</tr>
-							@endforeach
+						
 							</tbody>
 						</table>
 					</div>
