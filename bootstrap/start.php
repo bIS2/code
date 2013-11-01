@@ -28,7 +28,7 @@ $env = $app->detectEnvironment(array(
 
     'local' => array('localhost'), // Change this to your local machine hostname.
     'staging' => array('lpt-redes'),
-    'production' => array('bis.trialog.cu'),
+    'production' => array('bis.trialog.ch'),
 
 ));
 
