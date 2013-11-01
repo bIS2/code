@@ -36,6 +36,7 @@
 						<table class="table table-striped table-hover flexme flexme<?php if ($i == 1) echo $i;  ?>">
 							<thead>
 								<tr>
+									<th><?php echo 'f245a'; ?></th>
 									<th><?php echo 'f245b'; ?></th>
 									<th><?php echo 'f245c'; ?></th>
 									<th><?php echo 'ocrr_ptrn'; ?></th>
@@ -54,6 +55,7 @@
 						<? $k = 0; $k++; ?>
 							@foreach ($holdingsset -> holdings as $post)		
 								<tr>
+									<td><?php echo $post->f245a; ?></td>
 									<td><?php echo $post->f245b; ?></td>
 									<td><?php echo $post->f245c; ?></td>
 									<td><?php echo $post->ocrr_ptrn; ?></td>
