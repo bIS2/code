@@ -5,7 +5,7 @@ class HoldingssetsController extends BaseController {
 
 
     public function __construct() {
-    	$this->datos['groups'] = Auth::user()->groups;
+    	$this->data['groups'] = Auth::user()->groups;
     }
 
 	/**
@@ -21,17 +21,6 @@ class HoldingssetsController extends BaseController {
 		// return View::make('holdingssets.index', $this->data);
 
 		$holdingssets = (Input::has('group_id')) ? Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC')->paginate(20) :	Holdingsset::orderBy('id', 'ASC')->paginate(20);
-<<<<<<< HEAD
-		$this->datos['holdingssets'] = $holdingssets;
-		// var_dump($this->datos);
-		if (isset($_GET['page']))  {
-				$this->datos['page'] = $_GET['page'];
-				return View::make('holdingssets.pages', ['holdingssets' => $holdingssets, 'page' => $page, 'groups' => Auth::user()->groups ]/*$this->datos*/);
-			}
-			 else  { 
-			 	$this->datos['page'] = 1;
-			 	return View::make('holdingssets.index',['holdingssets' => $holdingssets, 'page' => 1, 'groups' => Auth::user()->groups ] /*$this->datos*/);
-=======
 		$this->data['holdingssets'] = $holdingssets;
 		if (isset($_GET['page']))  {
 				$this->data['page'] = $_GET['page'];
@@ -40,7 +29,6 @@ class HoldingssetsController extends BaseController {
 			 else  { 
 			 	$this->data['page'] = 1;
 			 	return View::make('holdingssets/index', $this->data);
->>>>>>> 005377d461c50c72e5121a21a9987880fb29351c
 			 }
 	}
 
