@@ -1,5 +1,18 @@
 $(function(){
 
+$('#hosg').dataTable({
+		         "bFilter": true,
+		         "bPaginate": false,
+		         "bDestroy": true
+		     });
+
+$('#holdings-items').dataTable({
+		         "bFilter": true,
+		         "bPaginate": false,
+		         "bDestroy": true
+		     });
+
+
 	$(':checkbox#select-all').click(function(){
 
 		$checkboxes = $(this).parents('table').find('tbody :checkbox')
@@ -33,4 +46,33 @@ $(function(){
 	  // $(this).load($(this).options.remote)
 	})
 
+	$('.flexme').dataTable({
+      "bFilter": false,
+      "bPaginate": false
+    });
+	$('.flexme').flexigrid();
+
+
+var pagina
+
+pagina = 1;
+
+$(window).scroll(function(){
+if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+	pagina++;
+ 	$.get("/?page="+pagina,
+  function(data){
+  if (data != "") {
+    $("#hosg > tbody > tr:last").after(data);
+		$('#hosg').dataTable({
+      "bFilter": true,
+      "bPaginate": false,
+      "bDestroy": true
+    });
+	}
+});
+ }	
+});
+
 })
+
