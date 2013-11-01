@@ -72,7 +72,7 @@ return array(
 			'username' => 'postgres',
 			'password' => 'postgres+bis',
 			'charset'  => 'utf8',
-			'port'		 => '5433',
+			'port'		 => '5432',
 			'prefix'   => '',
       'schema'   => 'public',
 		),

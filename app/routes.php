@@ -62,6 +62,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 
 	Route::get('hols', [ 'before'=>'auth', 'HolsController@getIndex']);   
 
+    Route::get('external', 'ExternalController@getIndex');
 /** ------------------------------------------
  *  Frontend Routes
  *  ------------------------------------------

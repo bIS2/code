@@ -19,7 +19,6 @@
 			  <h3 style="display: inline-block;">f245a</h3> -->
 			  <input id="select-all" name="select-all" type="checkbox" value="1" /> Select all Holdingsets
 			</th>
-
 		</tr>
 	</thead>
 	<tbody>
@@ -27,15 +26,18 @@
 		<tr class="panel" id="<?= $holdingsset -> id; ?>">
 			<td>
 			  <div class="panel-heading">
-			  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>" />
-			      <h4 href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" data-toggle="collapse" class="accordion-toggle collapsed" style="width: 240px; display: inline-block;"><?= $holdingsset -> sys1; ?>
-			      <h4 href="#<?= $holdingsset -> f245a; ?>" data-parent="#group-xx" data-toggle="collapse" class="accordion-toggle collapsed" style="display: inline-block;"><?= $holdingsset -> f245a; ?></h4>
+		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>" />
+		      <h4 href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" data-toggle="collapse" class="accordion-toggle collapsed" style="display: inline-block;"><?= $holdingsset -> f245a; ?></h4>
+		      <div class="pull-right">
+		      	<button id="holdingsset<?= $holdingsset -> sys1; ?>" action="ok" class="btn btn-success">OK</button>
+		      </div>
 			  </div>
 	  		<div class="panel-collapse collapse container" id="<?= $holdingsset -> sys1; ?>" style="height: 0px;">
 			     <div class="panel-body">
 						<table class="table table-striped table-hover flexme flexme<?php if ($i == 1) echo $i;  ?>">
 							<thead>
 								<tr>
+									<th>Actions</th>
 									<th><?php echo 'f245a'; ?></th>
 									<th><?php echo 'f245b'; ?></th>
 									<th><?php echo 'f245c'; ?></th>
@@ -55,6 +57,14 @@
 						<? $k = 0; $k++; ?>
 							@foreach ($holdingsset -> holdings as $post)		
 								<tr>
+									<td>
+										<a href="<?= route('holdings.show', $post->id) ?>" data-target="#modal-show" data-toggle="modal">
+											<span class="glyphicon glyphicon-eye-open"></span>
+										</a>
+										<a href="" data-target="#modal-show-external" data-toggle="modal" data-remote="<?= route('holdings.show', $post->id) ?>">
+											<span class="glyphicon glyphicon-list-alt"></span>
+										</a>
+									</td>
 									<td><?php echo $post->f245a; ?></td>
 									<td><?php echo $post->f245b; ?></td>
 									<td><?php echo $post->f245c; ?></td>
@@ -81,5 +91,6 @@
 </table>	
 
 @include('groups.create')
-
+<div id="modal-show" class="modal face"><div class="modal-body"></div></div>
+<div id="modal-show-external" class="modal face"><div class="modal-body"></div></div>
 @stop

@@ -7,6 +7,10 @@
       <div class="modal-body">
 				<table class="table table-striped table-condensed">
 					<tr>
+					  <td>f245a</td>
+						<td><?= $holding->f245a; ?></td>
+					</tr>					
+					<tr>
 					  <td>f245b</td>
 						<td><?= $holding->f245b; ?></td>
 					</tr>
@@ -55,8 +59,6 @@
 						<td><?= $holding->f310a; ?></td>
 					</tr>
 				</table>
-
-        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><?= trans('general.prev') ?></button>

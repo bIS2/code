@@ -14,7 +14,7 @@ $('#holdings-items').dataTable({
 
 
 	$(':checkbox#select-all').click(function(){
-
+		
 		$checkboxes = $(this).parents('table').find('tbody :checkbox')
 
 		if (this.checked)
@@ -44,12 +44,13 @@ $('#holdings-items').dataTable({
 	
 	$('#modal-show').on('show.bs.modal', function () {
 	  // $(this).load($(this).options.remote)
-	})
+	})	
 
 	$('.flexme').dataTable({
-      "bFilter": false,
-      "bPaginate": false
-    });
+    "bFilter": false,
+    "bPaginate": false
+   });
+
 	$('.flexme').flexigrid();
 
 

@@ -33,8 +33,8 @@
 				<td><input id="holding_id" name="holding_id[]" type="checkbox" value="<?= $holding->id ?>" /></td>
 				<td><a href="<?= route('holdings.show', $holding->id) ?>" data-target="#modal-show" data-toggle="modal" data-remote="<?= route('holdings.show', $holding->id) ?>">
 					<span class="glyphicon glyphicon-eye-open"></span>
-				</a>
-				<td><?= $holding->holdingsset->f245a; ?></td>
+				</a></td>
+				<td><?= $holding->f245a; ?></td>
 				<td><?= $holding->f245b; ?></td>
 				<td><?= $holding->f245c; ?></td>
 				<td><?= $holding->ocrr_ptrn; ?></td>
