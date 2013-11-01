@@ -72,8 +72,9 @@ return array(
 			'username' => 'postgres',
 			'password' => 'postgres+bis',
 			'charset'  => 'utf8',
+			'post'		 => '5433',
 			'prefix'   => '',
-        'schema'   => 'public',
+       'schema'   => 'public',
 		),
 
 		'sqlsrv' => array(
