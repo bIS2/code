@@ -96,7 +96,7 @@ Route::get('contact-us', function()
 });
 
 # Index Page - Last route, no matches
-Route::get('/', array('before' => ['detectLang','auth'],'uses' => 'HoldingssetsController@getIndex'));
+Route::get('/', array('before' => ['detectLang','auth'],'uses' => 'HoldingssetsController@Index'));
 
 Route::resource('holdingssets', 'HoldingssetsController');
 
