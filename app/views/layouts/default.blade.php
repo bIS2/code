@@ -8,15 +8,13 @@
 
 <!-- Container -->
 	<div class="container">
-	
-	<!-- Notifications -->
-		@include('notifications')
-	<!-- ./ notifications -->
+		<!-- Notifications -->
+			@include('notifications')
+		<!-- ./ notifications -->
 
-	<!-- Content -->
-		@yield('content')
-	<!-- ./ content -->
-	
+		<!-- Content -->
+			@yield('content')
+		<!-- ./ content -->
 	</div>
 <!-- ./ container -->
 
