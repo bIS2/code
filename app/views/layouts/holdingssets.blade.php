@@ -38,7 +38,7 @@
 		<!-- To make sticky footer need to wrap in a div -->
 		<div id="wrap">
 		<!-- Navbar -->
-			@include('navbar-holdingsset')
+			@include('navbar-default')
 		<!-- ./ navbar -->
 
 		<!-- Container -->

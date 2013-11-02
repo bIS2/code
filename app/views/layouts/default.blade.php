@@ -41,8 +41,6 @@
 	</head>
 
 	<body>
-		<!-- To make sticky footer need to wrap in a div -->
-		<div id="wrap">
 		<!-- Navbar -->
 		<div class="navbar navbar-default navbar-inverse navbar-fixed-top">
 			 <div class="container">
@@ -89,19 +87,10 @@
 		</div>
 		<!-- ./ container -->
 
-		<!-- the following div is needed to make a sticky footer -->
-		<div id="push"></div>
-		</div>
-		<!-- ./wrap -->
 
-
-	    <div id="footer">
-	      <div class="container">
-	        <p class="muted credit text-center">
-	        	Bis 2013
-	        </p>
-	      </div>
-	    </div>
+		<!-- Footer -->
+			@include('footer')
+		<!-- ./Footer -->
 
 		<!-- Javascripts
 		================================================== -->

@@ -66,14 +66,11 @@
 			</div>
 		</div>
 
-	    <footer id="footer">
-	      <div class="container">
-	        <p class="muted credit text-center">
-	        	eto e la bIS mamita, lo mejol del 2013
-	        </p>
-	      </div>
-	    </footer>
-<!-- Javascripts
+		<!-- Footer -->
+			@include('footer')
+		<!-- ./Footer -->
+		
+		<!-- Javascripts
 		================================================== -->
         {{ Basset::show('login.js') }}
 	</body>
