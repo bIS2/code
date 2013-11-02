@@ -32,14 +32,6 @@
 		  	<?= link_to( route('comments.create'), trans('holdingssets.ok'));  ?>
 		  </li>
 		</ul>
-		<form method="" target="" class="navbar-form pull-right">
-			<div class="input-group">
-		      <input type="search" name="q" id="q" class="form-control" placeholder="<?= trans('general.type_criteria') ?>" >
-		      <span class="input-group-btn">
-		        <button class="btn btn-default btn-primary" type="submit" ?><?= trans('general.search') ?></button>
-		      </span>
-		    </div>
-		 </form>		
 
 		<ul class="nav navbar-nav pull-right">
 			@if (Auth::check())
@@ -49,10 +41,10 @@
 	        @else
 	        	<li {{ (Request::is('user/login') ? ' class="active"' : '') }}><a href="{{{ URL::to('user/login') }}}">Login</a></li>
           	@endif
-          	<li><a class="dropdown-toggle"  data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span></a>
+          	<li><a href="#" class="dropdown-toggle" data-toggle="dropdown" ><span class="glyphicon glyphicon-cog"></span></a>
           		<ul class="dropdown-menu" role="menu">
-    				<li><a href="#">Action</a></li>
-    				<li><a href="#">Another action</a></li>
+    				<li><a href="#">my Groups</a></li>
+    				<li><a href="#">my Languaje</a></li>
     				<li><a href="#">Something else here</a></li>
     				<li class="divider"></li>
     				<li><a href="{{{ URL::to('user/logout') }}}">{{{ trans('general.logout') }}}</a></li>
