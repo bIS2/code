@@ -8,6 +8,7 @@
 /app/config/staging
 /app/config/production
 /app/storage/logs
+/app/config/database.php
 
 # Basset development collections
 /public/assets/compiled/*

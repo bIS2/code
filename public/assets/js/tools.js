@@ -14,7 +14,7 @@ $('#holdings-items').dataTable({
 
 
 	$(':checkbox#select-all').click(function(){
-
+		
 		$checkboxes = $(this).parents('table').find('tbody :checkbox')
 
 		if (this.checked)
@@ -38,20 +38,26 @@ $('#holdings-items').dataTable({
         	$.each(result.remove, function(index,id){
         		$('#'+id).hide('slow', function(){ $(this).remove() });	
         	})
+
+        if ( result.ok ){
+        	ok = result.ok
+        	$('#'+ok.id+' btn-info').addClass('btn-danger').removeClass('btn-info');	
+        }
           
       }
     })
 	
+
 	$('#modal-show').on('show.bs.modal', function () {
 	  // $(this).load($(this).options.remote)
-	})
+	})	
 
-	$('.flexme').dataTable({
-      "bFilter": false,
-      "bPaginate": false
-    });
-	$('.flexme').flexigrid();
+	// $('.flexme').dataTable({
+ //    "bFilter": false,
+ //    "bPaginate": false
+ //   });
 
+	// $('.flexme').flexigrid();
 
 var pagina
 

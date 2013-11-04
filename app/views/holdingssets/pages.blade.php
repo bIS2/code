@@ -2,15 +2,19 @@
 		<tr class="panel" id="<?= $holdingsset -> id; ?>">
 			<td>
 			  <div class="panel-heading">
-			  <input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>" />
-			      <h4 href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" data-toggle="collapse" class="accordion-toggle collapsed" style="width: 240px; display: inline-block;"><?= $holdingsset -> sys1; ?>
-			      <h4 href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" data-toggle="collapse" class="accordion-toggle collapsed" style="display: inline-block;"><?= $holdingsset -> f245a; ?></h4>
+			  	<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>" />
+			     <h4 href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" data-toggle="collapse" class="accordion-toggle collapsed" style="display: inline-block;"><?= $holdingsset -> f245a; ?></h4>
+			  		<div class="pull-right">
+			      	<button id="holdingsset<?= $holdingsset -> sys1; ?>" action="ok" class="btn btn-success">OK</button>
+			      </div>
 			  </div>
 	  		<div class="panel-collapse collapse container" id="<?= $holdingsset -> sys1; ?>" style="height: 0px;">
 			     <div class="panel-body">
 						<table class="table table-striped table-hover flexme">
 							<thead>
 								<tr>
+									<th>Actions</th>
+									<th><?php echo 'f245a'; ?></th>
 									<th><?php echo 'f245b'; ?></th>
 									<th><?php echo 'f245c'; ?></th>
 									<th><?php echo 'ocrr_ptrn'; ?></th>
@@ -29,6 +33,15 @@
 						<? $k = 0; $k++; ?>
 							@foreach ($holdingsset -> holdings as $post)		
 								<tr>
+									<td>
+										<a href="<?= route('holdings.show', $post->id) ?>" data-target="#modal-show" data-toggle="modal">
+											<span class="glyphicon glyphicon-eye-open"></span>
+										</a>
+										<a href="http://ilu.zhbluzern.ch/F/?/&func=find-b&find_code=SYS&request=000277165" data-target="#modal-show-external" data-toggle="modal" data-remote="http://ilu.zhbluzern.ch/F/?/&func=find-b&find_code=SYS&request=000277165">
+											<span class="glyphicon glyphicon-list-alt"></span>
+										</a>
+									</td>
+									<td><?php echo $post->f245a; ?></td>
 									<td><?php echo $post->f245b; ?></td>
 									<td><?php echo $post->f245c; ?></td>
 									<td><?php echo $post->ocrr_ptrn; ?></td>

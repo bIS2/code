@@ -7,6 +7,7 @@
 		<title>
 			@section('title')
 			bIS Project
+
 			@show
 		</title>
 		<meta name="keywords" content="your, awesome, keywords, here" />

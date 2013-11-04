@@ -65,6 +65,8 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 
 });
 
+
+    Route::get('external', 'ExternalController@getIndex');
 /** ------------------------------------------
  *  Frontend Routes
  *  ------------------------------------------
@@ -101,11 +103,13 @@ Route::get('contact-us', function()
 # Index Page - Last route, no matches
 Route::get('/', array('before' => ['detectLang','auth'],'uses' => 'HoldingssetsController@Index'));
 
+Route::controller('holdingssets', 'HoldingssetsController');
 Route::resource('holdingssets', 'HoldingssetsController');
 
 
 Route::resource('reserves', 'ReservesController');
 
+Route::controller('groups', 'GroupsController');
 Route::resource('groups', 'GroupsController');
 
 Route::resource('comments', 'CommentsController');

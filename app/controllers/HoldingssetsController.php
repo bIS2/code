@@ -20,8 +20,13 @@ class HoldingssetsController extends BaseController {
 		// $this->data['holdingssets'] = $holdingssets;
 		// return View::make('holdingssets.index', $this->data);
 
-		$holdingssets = (Input::has('group_id')) ? Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC')->paginate(20) :	Holdingsset::orderBy('id', 'ASC')->paginate(20);
+		$holdingssets = (Input::has('group_id')) ? 
+				Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC')->paginate(20) :	
+				Holdingsset::orderBy('id', 'ASC')->paginate(20);
+
+		//$holdingssets = DB::table('holdingssets')->take(10)->get();
 		$this->data['holdingssets'] = $holdingssets;
+
 		if (isset($_GET['page']))  {
 				$this->data['page'] = $_GET['page'];
 				return View::make('holdingssets/pages', $this->data);
@@ -83,6 +88,9 @@ class HoldingssetsController extends BaseController {
 	 */
 	public function update($id)
 	{
+		$inputs = Input::all();
+		Holdingsset::find($id)->update($inputs);
+		return Response::json( ['ok' => ['id'=>$id,'class'=>'btn-danger']] );
 		//
 	}
 
@@ -96,5 +104,11 @@ class HoldingssetsController extends BaseController {
 	{
 		//
 	}
+	public function putOK($id) {
+
+		if (Holdingsset::find($id)->update(['ok'=>true]))
+			return Response::json( ['remove' => [$id]] );
+		//
+	}	
 
 }

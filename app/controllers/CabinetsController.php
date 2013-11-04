@@ -150,7 +150,7 @@ class CabinetsController extends BaseController {
 
 	public function postDetach($id){
 		$cabinet->holdings()->detach($holdings_ids);		
-		return Response::json( ['remove' => $holdings_ids] );
+		return Response::json( ['remove' => [$holdings_ids]] );
 	}
 
 

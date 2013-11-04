@@ -1,7 +1,7 @@
 
 <div class="navbar navbar-default navbar-fixed-top">
 	 <div class="container">
-	 	<a class="navbar-brand" href="#">BIS</a>
+	 	<a class="navbar-brand" href="#">bIS</a>
 	  <ul class="nav navbar-nav">
 		  <li>
 			  	<a href="#form-create-group" data-toggle="modal" class='link_bulk_action'><?= trans('holdingssets.create_group')  ?></a>
@@ -23,13 +23,10 @@
         <ul class="dropdown-menu">
         	<?php foreach ($groups as $group) { ?>
         		<li>
-        			<a href="<?= action('CabinetsController@postAttach',[$group->id]) ?>" data-remote="true" data-method="put" class="link_bulk_action"><?= $group->name  ?></a>
+        			<a href="<?= action('GroupsController@postAttach',[$group->id]) ?>" data-remote="true" data-method="put" class="link_bulk_action"><?= $group->name  ?></a>
         		</li>
         	<?php } ?>
         </ul>		  	
-		  </li>
-		  <li>
-		  	<?= link_to( route('comments.create'), trans('holdingssets.ok'));  ?>
 		  </li>
 		</ul>
 		<form method="" target="" class="navbar-form pull-right">
