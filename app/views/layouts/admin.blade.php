@@ -85,7 +85,7 @@
 									<span class="glyphicon glyphicon-user"></span>{{{ trans('titles.users') }}}</a>
 								</li>
 	    				@endif
-	    				@if (Auth::user()->hasRole('admin')) 
+	    				@if (Auth::user()->hasRole('speiuser')) 
 								<li{{ (Request::is('admin/roles*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/roles') }}}">
 									<span class="glyphicon glyphicon-lock"></span> {{{ trans('titles.roles') }}}</a>
 								</li>

@@ -4,26 +4,26 @@
 	 	<a class="navbar-brand" href="#">BIS</a>
 	  <ul class="nav navbar-nav">
 		  <li>
-			  	<a href="#form-create-cabinet" data-toggle="modal" class='link_bulk_action'><?= trans('holdings.create_cabinet')  ?></a>
+			  	<a href="#form-create-list" data-toggle="modal" class='link_bulk_action'><?= trans('holdings.create_list')  ?></a>
 		  </li>
 			<li class="dropdown">
-        <a data-toggle="dropdown" class="dropdown-toggle" href="#"><?= trans('holdings.cabinets')  ?> <b class="caret"></b></a>
+        <a data-toggle="dropdown" class="dropdown-toggle" href="#"><?= trans('holdings.lists')  ?> <b class="caret"></b></a>
         <ul class="dropdown-menu">
         	<li><a href="<?= route('holdings.index')  ?>"><?= trans('general.all')  ?></a></li>
         	<li class="divider"></li>
-        	<?php foreach ($cabinets as $cabinet) { ?>
+        	<?php foreach ($lists as $list) { ?>
         		<li>
-        			<a href="<?= route('holdings.index',['cabinet_id' => $cabinet->id ])  ?>"><?= $cabinet->name  ?></a>
+        			<a href="<?= route('holdings.index',['list_id' => $list->id ])  ?>"><?= $list->name  ?></a>
         		</li>
         	<?php } ?>
         </ul>
 		  </li>
 		  <li>
-        <a data-toggle="dropdown" class="dropdown-toggle" href="#"><?= trans('holdings.move_to_cabinet')  ?> <b class="caret"></b></a>
+        <a data-toggle="dropdown" class="dropdown-toggle" href="#"><?= trans('holdings.move_to_list')  ?> <b class="caret"></b></a>
         <ul class="dropdown-menu">
-        	<?php foreach ($cabinets as $cabinet) { ?>
+        	<?php foreach ($lists as $list) { ?>
         		<li>
-        			<a href="<?= action('CabinetsController@postAttach',[$cabinet->id]) ?>" data-remote="true" data-method="put" class="link_bulk_action"><?= $cabinet->name  ?></a>
+        			<a href="<?= action('listsController@postAttach',[$list->id]) ?>" data-remote="true" data-method="put" class="link_bulk_action"><?= $list->name  ?></a>
         		</li>
         	<?php } ?>
         </ul>		  	

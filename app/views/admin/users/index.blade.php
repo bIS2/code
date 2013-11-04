@@ -35,7 +35,7 @@
 					<td><?= $user->username ?> </td>
 					<td><?= $user->email ?> </td>
 					<td><?= $user->roles[0]->name ?> </td>
-					<td><?= @$user->library->title ?> </td>
+					<td><?= @$user->library->name ?> </td>
 					<td><?= $user->activated() ?> </td>
 					<td><?= $user->joined() ?> </td>
 					<td>

@@ -56,6 +56,6 @@
 	</div>
 </div>
 
-	@include('cabinets.create')
+	@include('lists.create')
 	<div id="modal-show" class="modal face"></div>
 @stop

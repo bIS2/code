@@ -27,6 +27,7 @@ Route::model('role', 'Role');
 
 Route::resource('admin/libraries', 'LibrariesController' );
 Route::resource('admin/tags', 'TagsController');
+Route::resource('holdings', 'HoldingsController');
 
 Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 {
@@ -102,7 +103,6 @@ Route::get('/', array('before' => ['detectLang','auth'],'uses' => 'HoldingssetsC
 
 Route::resource('holdingssets', 'HoldingssetsController');
 
-Route::resource('holdings', 'HoldingsController');
 
 Route::resource('reserves', 'ReservesController');
 

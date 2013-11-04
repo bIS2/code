@@ -73,6 +73,7 @@ Route::filter('guest', function()
 
 // Check for role admin o librarian in admin routes
 Entrust::routeNeedsRole( 'admin*', ['speiuser','bibuser'], Redirect::to('/'), false );
+// Entrust::routeNeedsRole( 'holdings*', ['magvuser'], false, false );
 
 // Check for permissions on admin actions
 /*Entrust::routeNeedsPermission( 'admin/users*', ['admin','bibuser'], Redirect::to('/admin'), false );

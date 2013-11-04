@@ -11,7 +11,7 @@ class HoldingsController extends BaseController {
 
     public function __construct() {
     	$this->beforeFilter( 'auth' );
-    	$this->data['cabinets'] = Auth::user()->cabinets;
+    	$this->data['lists'] = Auth::user();
     }
 
 	/**
@@ -21,8 +21,8 @@ class HoldingsController extends BaseController {
 	 */
 	public function Index()
 	{
-		if (Input::has('cabinet_id'))
-			$holdings = Cabinet::find(Input::get('cabinet_id'))->holdings()->paginate(100);
+		if (Input::has('list_id'))
+			$holdings = Cabinet::find(Input::get('list_id'))->holdings()->paginate(100);
 		else
 			$holdings = Holding::paginate(100);
 
