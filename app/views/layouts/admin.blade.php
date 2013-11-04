@@ -77,11 +77,28 @@
                 </div>
     			<div class="collapse navbar-collapse navbar-ex1-collapse">
     				<ul class="nav navbar-nav">
-    					<li{{ (Request::is('admin') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin') }}}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-						<li{{ (Request::is('admin/users*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/users') }}}"><span class="glyphicon glyphicon-user"></span> Users</a></li>
-						<li{{ (Request::is('admin/roles*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/roles') }}}"><span class="glyphicon glyphicon-lock"></span> Roles</a></li>
+	    				<li{{ (Request::is('admin') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin') }}}">
+	    					<span class="glyphicon glyphicon-home"></span> {{{ trans('titles.home') }}}</a>
+	    				</li>
+	    				@if ( Auth::user()->hasRole('speiuser') || Auth::user()->hasRole('bibuser') ) 
+								<li {{ (Request::is('admin/users*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/users') }}}">
+									<span class="glyphicon glyphicon-user"></span>{{{ trans('titles.users') }}}</a>
+								</li>
+	    				@endif
+	    				@if (Auth::user()->hasRole('admin')) 
+								<li{{ (Request::is('admin/roles*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/roles') }}}">
+									<span class="glyphicon glyphicon-lock"></span> {{{ trans('titles.roles') }}}</a>
+								</li>
+								<li{{ (Request::is('tags*') ? ' class="active"' : '') }}><a href="{{{ URL::to('tags') }}}">
+									<span class="glyphicon glyphicon-tags"></span> {{{ trans('titles.tags') }}} </a>
+								</li>
+								<li{{ (Request::is('admin/libraries*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/libraries') }}}">
+									<span class="glyphicon glyphicon-book"></span> {{{ trans('titles.libraries') }}} </a>
+								</li>
+	    				@endif
     				</ul>
     				<ul class="nav navbar-nav pull-right">
+    					<li><a href="{{{ URL::to('/') }}}">View Homepage</a></li>
     					<li><a href="{{{ URL::to('/') }}}">View Homepage</a></li>
     					<li class="divider-vertical"></li>
     					<li class="dropdown">

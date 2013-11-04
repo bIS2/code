@@ -5,5 +5,5 @@ class Library extends Eloquent {
 
 	public static $rules = array();
 
-    public function users() {  return $this->hasMany('User');  }	
+  public function users() {  return $this->hasMany('User');  }	
 }

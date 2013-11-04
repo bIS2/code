@@ -1,0 +1,18 @@
+<?php
+
+class ListsTableSeeder extends Seeder {
+
+	public function run()
+	{
+		// Uncomment the below to wipe the table clean before populating
+		// DB::table('lists')->truncate();
+
+		$lists = array(
+
+		);
+
+		// Uncomment the below to run the seeder
+		// DB::table('lists')->insert($lists);
+	}
+
+}

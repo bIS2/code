@@ -25,6 +25,9 @@ Route::model('role', 'Role');
  *  ------------------------------------------
  */
 
+Route::resource('admin/libraries', 'LibrariesController' );
+Route::resource('admin/tags', 'TagsController');
+
 Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 {
 
@@ -52,6 +55,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
         ->where('role', '[0-9]+');
     Route::post('roles/{role}/delete', 'AdminRolesController@postDelete')
         ->where('role', '[0-9]+');
+
     Route::controller('roles', 'AdminRolesController');
 
     # Admin Dashboard
@@ -59,8 +63,6 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 
 
 });
-
-	Route::get('hols', [ 'before'=>'auth', 'HolsController@getIndex']);   
 
 /** ------------------------------------------
  *  Frontend Routes
@@ -106,9 +108,9 @@ Route::resource('reserves', 'ReservesController');
 
 Route::resource('groups', 'GroupsController');
 
-Route::resource('cabinets', 'CabinetsController');
-Route::controller('cabinets', 'CabinetsController');
-
 Route::resource('comments', 'CommentsController');
 
 Route::resource('comments_categories', 'Comments_categoriesController');
+
+Route::resource('lists', 'ListsController');
+

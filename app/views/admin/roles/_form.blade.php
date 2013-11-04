@@ -1,7 +1,5 @@
-@extends('admin.layouts.modal')
 
 {{-- Content --}}
-@section('content')
 
 	{{-- Create Role Form --}}
 	<form class="form-horizontal" method="post" action="" autocomplete="off">
@@ -9,15 +7,15 @@
 		<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 		<!-- ./ csrf token -->
 
-				<!-- Name -->
+				<!-- description -->
 		<div class="form-group {{{ $errors->has('name') ? 'error' : '' }}}">
-			<label class="col-md-2 control-label" for="name">Name</label>
+			<label class="col-md-2 control-label" for="name">{{ trans('table.description') }} </label>
 			<div class="col-md-10">
-				<input class="form-control" type="text" name="name" id="name" value="{{{ Input::old('name', $role->name) }}}" />
+				<input class="form-control" type="text" name="description" id="description" value="{{{ Input::old('description', $role->description) }}}" />
 				{{{ $errors->first('name', '<span class="help-inline">:message</span>') }}}
 			</div>
 		</div>
-		<!-- ./ name -->
+		<!-- ./ description -->
 
 		<div class="form-group">
 			<label class="col-md-2 control-label" for="name">Privilegies</label>
@@ -40,11 +38,11 @@
 		<!-- Form Actions -->
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">
+				<button type="submit" class="btn btn-success">Update Role</button>
 				<element class="btn-cancel close_popup">Cancel</element>
 				<button type="reset" class="btn btn-default">Reset</button>
-				<button type="submit" class="btn btn-success">Update Role</button>
 			</div>
 		</div>
 		<!-- ./ form actions -->
 	</form>
-@stop
+

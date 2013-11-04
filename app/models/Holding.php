@@ -8,6 +8,10 @@ class Holding extends Eloquent {
       return $this->belongsTo('Holdingsset');
   }
   
+  public function tag() {
+      return $this->belongsTo('Tags');
+  }
+
 	public function cabinets(){
 		return $this->belongsToMany('Cabinet');
 	}

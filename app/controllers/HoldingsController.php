@@ -10,6 +10,7 @@ class HoldingsController extends BaseController {
     public $data;
 
     public function __construct() {
+    	$this->beforeFilter( 'auth' );
     	$this->data['cabinets'] = Auth::user()->cabinets;
     }
 

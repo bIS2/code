@@ -15,11 +15,19 @@ class Role extends EntrustRole implements PresentableInterface
         return new UserPresenter($this);
     }
 
+    public function getFullName() {
+    	return ($this->description) ? $this->name.'-'.$this->description : $this->name;
+
+
+    }
+
     /**
      * Provide an array of strings that map to valid roles.
      * @param array $roles
      * @return stdClass
      */
+
+
     public function validateRoles( array $roles )
     {
         $user = Confide::user();

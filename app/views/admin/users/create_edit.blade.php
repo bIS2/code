@@ -2,6 +2,7 @@
 
 {{-- Content --}}
 @section('content')
+
 	<div class="page-header">
 		<h3>{{{ $title }}} </h3>
 	</div>
@@ -87,22 +88,21 @@
 				</div>
 				<!-- ./ activation status -->
 
-				<!-- library_id -->
-				<div class="form-group {{{ $errors->has('library_id') ? 'error' : '' }}}">
-	                <label class="col-md-2 control-label" for="library_id">Library</label>
-	                <div class="col-md-3">
-		                <select class="form-control" name="library_id" id="library_id" >
-		                        @foreach (Library::all() as $library)
-									@if ($mode == 'create')
-		                        		<option value="{{{ $library->id }}}"{{{ ( in_array($library->id, $selectedRoles) ? ' selected="selected"' : '') }}}>{{{ $library->title }}}</option>
-		                        	@else
-										<option value="{{{ $library->id }}}"{{{ ( $library->id == $user->library_id ? ' selected="selected"' : '') }}}>{{{ $library->title }}}</option>
-									@endif
-		                        @endforeach
-						</select>
-	            	</div>
-				</div>
-				<!-- ./ library_id -->
+				@if (Auth::user()->hasRole('speiuser')) 
+					<!-- library_id -->
+					<div class="form-group {{{ $errors->has('library_id') ? 'error' : '' }}}">
+	          <label class="col-md-2 control-label" for="library_id">Library</label>
+	          <div class="col-md-6">
+	            <select class="form-control" name="library_id" id="library_id" >
+	              @foreach (Library::all() as $library)
+	              	<?php $selected = ($library->id = $user->library_id) ? 'selected="selected"' : '' ?>
+	            		<option value="{{{ $library->id }}}" <?= $selected  ?>>{{ $library->name }}</option>
+	              @endforeach
+							</select>
+	      		</div>
+					</div>
+					<!-- ./ library_id -->
+				@endif
 
 				<!-- Groups -->
 				<div class="form-group {{{ $errors->has('roles') ? 'error' : '' }}}">

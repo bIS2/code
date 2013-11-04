@@ -20,12 +20,8 @@ class PermissionsTableSeeder extends Seeder {
                 'name'      	=> 'edit_hol',
                 'display_name'  => 'Edit Hol'
             ),
-            array(
-                'name'      	=> 'admin',
-                'display_name'  => 'Manage User and Roles'
-            ),
-        );
-
+            ['name' => 'admin', 'display_name'  => 'Manage User and Roles'],
+        	)
         DB::table('permissions')->insert( $permissions );
 
         $adminRole = Role::where('name','=','speiuser')->first();

@@ -46,7 +46,7 @@ class AdminRolesController extends AdminController {
         $title = Lang::get('admin/roles/title.role_management');
 
         // Grab all the groups
-        $roles = $this->role;
+        $roles = Role::paginate(25);
 
         // Show the page
         return View::make('admin/roles/index', compact('roles', 'title'));
@@ -138,6 +138,8 @@ class AdminRolesController extends AdminController {
      */
     public function getEdit($role)
     {
+    	$role = Role::find($role);
+
         if(! empty($role))
         {
             $permissions = $this->permission->preparePermissionsForDisplay($role->perms()->get());
@@ -161,11 +163,12 @@ class AdminRolesController extends AdminController {
      * @param $role
      * @return Response
      */
-    public function postEdit($role)
-    {
+    public function postEdit($role) {
+    	
+    	$role = Role::find($role);
         // Declare the rules for the form validation
         $rules = array(
-            'name' => 'required'
+            // 'desc/**/' => 'required'
         );
 
         // Validate the inputs
@@ -175,7 +178,7 @@ class AdminRolesController extends AdminController {
         if ($validator->passes())
         {
             // Update the role data
-            $role->name        = Input::get('name');
+            $role->description        = Input::get('description');
             $role->perms()->sync($this->permission->preparePermissionsForSave(Input::get('permissions')));
 
             // Was the role updated?

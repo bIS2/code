@@ -71,13 +71,13 @@ Route::filter('guest', function()
 |
 */
 
-// Check for role on all admin routes
-Entrust::routeNeedsRole( 'speiuser*', array('admin'), Redirect::to('/') );
+// Check for role admin o librarian in admin routes
+Entrust::routeNeedsRole( 'admin*', ['speiuser','bibuser'], Redirect::to('/'), false );
 
 // Check for permissions on admin actions
-Entrust::routeNeedsPermission( 'admin/users*', 'admin', Redirect::to('/admin') );
-Entrust::routeNeedsPermission( 'admin/roles*', 'admin', Redirect::to('/admin') );
-
+/*Entrust::routeNeedsPermission( 'admin/users*', ['admin','bibuser'], Redirect::to('/admin'), false );
+Entrust::routeNeedsPermission( 'admin/roles*', 'admin', Redirect::to('/admin'), false );
+*/
 /*
 |--------------------------------------------------------------------------
 | CSRF Protection Filter

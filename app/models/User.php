@@ -10,14 +10,17 @@ use Carbon\Carbon;
 class User extends ConfideUser implements PresentableInterface {
     use HasRole;
 
-	public function cabinets(){
-		return $this->hasMany('Cabinet');
+	public function lists(){
+		return $this->hasMany('List');
 	}
 
 	public function groups(){
 		return $this->hasMany('Group');
 	}
 
+  public function library() {
+      return $this->belongsTo('Library');
+  }	
 
 	/**
 	 * The database table used by the model.
@@ -26,9 +29,6 @@ class User extends ConfideUser implements PresentableInterface {
 	 */
 	protected $table = 'users';
 
-    public function library() {
-        return $this->belongsTo('Library');
-    }	
 
     public function getPresenter()
     {
