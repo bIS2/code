@@ -2,7 +2,6 @@
 
 class HoldingsController extends BaseController {
 
-
    /**
      * Post Model
      * @var hos

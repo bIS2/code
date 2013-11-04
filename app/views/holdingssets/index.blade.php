@@ -63,7 +63,9 @@
 		      			$count = 0;
 			      		foreach ($currentgroups as $currentgroup) {			
 			      		$count++;      			
-			      			if (($currentgroup['id']) != $group_id) echo strtoupper($currentgroup['name']).';';
+			      			if (($currentgroup['id']) == $group_id) echo strtoupper($currentgroup['name']).';';
+			      			else
+			      				echo strtolower($currentgroup['name']).';';
 			      		} 
 		      		?>"
 		      		><?= trans('general.included_in') ?> {{ $count }} <?= trans('holdingssets.groups') ?></span>

@@ -19,10 +19,9 @@ class GroupsController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function Index()
 	{
 		$groups = $this->group->all();
-
 		return View::make('groups.index', compact('groups'));
 	}
 
@@ -43,7 +42,6 @@ class GroupsController extends BaseController {
 	 */
 	public function store()
 	{
-
 		$group = new Group([ 'name' => Input::get('name'), 'user_id' => Auth::user()->id ]);
 		$validation = Validator::make($group->toArray(), Group::$rules);
 
@@ -67,9 +65,8 @@ class GroupsController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$group = $this->group->findOrFail($id);
-
-		return View::make('groups.show', compact('group'));
+		// $group = $this->group->findOrFail($id);
+		// return View::make('groups.show', compact('group'));
 	}
 
 	/**
@@ -124,14 +121,10 @@ class GroupsController extends BaseController {
 	public function destroy($id)
 	{
 		$this->group->find($id)->delete();
-
 		return Redirect::route('groups.index');
 	}
 
 	public function postAttach($id)
 	{
 	}
-
-
-
 }

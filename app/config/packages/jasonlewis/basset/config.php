@@ -44,9 +44,9 @@ return array(
             {
                 // $collection->add('bootstrap.min.css');
                 // $collection->add('bootstrap-responsive.min.css');  
-                $collection->add('less/master.less')->apply('Less');
-                $collection->add('datatables-bootstrap.css');
                 $collection->add('flexigrid.pack.css');              
+                $collection->add('datatables-bootstrap.css');
+                $collection->add('less/master.less')->apply('Less');
             })->apply('UriRewriteFilter')->apply('CssMin');
 
             $collection->directory('assets/js', function($collection)
@@ -87,9 +87,9 @@ return array(
 	            $collection->add('bootstrap-responsive.min.css');                
                 $collection->add('wysihtml5/prettify.css');
                 $collection->add('wysihtml5/bootstrap-wysihtml5.css');
-                $collection->add('datatables-bootstrap.css');
                 $collection->add('colorbox.css');
                 $collection->add('flexigrid.pack.css');
+                $collection->add('datatables-bootstrap.css');
                 $collection->add('less/master.less')->apply('Less');
             })->apply('UriRewriteFilter')->apply('CssMin');
 

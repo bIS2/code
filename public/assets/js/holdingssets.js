@@ -1,10 +1,10 @@
 $(function(){
 
 $('#hosg').dataTable({
-		         "bFilter": true,
-		         "bPaginate": false,
-		         "bDestroy": true
-		     });
+  "bFilter": true,
+  "bPaginate": false,
+  "bDestroy": true
+});
 
 var page
 page = 1;
@@ -23,7 +23,8 @@ page = 1;
 			    $('#hosg .accordion-toggle').each(function() {
 			    	$(this).on('click', function() {
 			    		if ($(this).attr('opened') == 0) {
-			    			$($(this).attr('href') + ' table').flexigrid();
+			    			$($(this).attr('href') + ' .flexme').flexigrid();
+			    			$($(this).attr('href') + ' table').addClass('table');
 			    			$(this).attr('opened', 1);
 			    		}
 			    	})
@@ -37,14 +38,10 @@ page = 1;
   	$(this).on('click', function() {
   		console.log('click');
   		if ($(this).attr('opened') == 0) {
-  			$($(this).attr('href') + ' table').flexigrid();
+  			$($(this).attr('href') + ' .flexme').flexigrid();
+  			$($(this).attr('href') + ' table').addClass('table');
   			$(this).attr('opened', 1);
   		}
   	})
   })
 })
-
-function setflexigrid() {
-
-
-}

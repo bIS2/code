@@ -31,9 +31,11 @@ Route::resource('admin/traces', 'TracesController');
 
 Route::resource('holdings', 'HoldingsController');
 
+Route::resource('groups', 'GroupsController');
+Route::controller('groups', 'GroupsController');
+
 Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 {
-
     # User Management
     Route::get('users/{user}/show', 'AdminUsersController@getShow')
         ->where('user', '[0-9]+');
@@ -63,12 +65,10 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 
     # Admin Dashboard
     Route::controller('/', 'AdminDashboardController');
-
-
 });
 
+Route::get('external', 'ExternalController@getIndex');
 
-    Route::get('external', 'ExternalController@getIndex');
 /** ------------------------------------------
  *  Frontend Routes
  *  ------------------------------------------
@@ -77,9 +77,11 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 // User reset routes
 Route::get('user/reset/{token}', 'UserController@getReset')
     ->where('token', '[0-9a-z]+');
+
 // User password reset
 Route::post('user/reset/{token}', 'UserController@postReset')
     ->where('token', '[0-9a-z]+');
+
 //:: User Account Routes ::
 Route::post('user/{user}/edit', 'UserController@postEdit')
     ->where('user', '[0-9]+');
@@ -108,17 +110,11 @@ Route::get('/', array('before' => ['detectLang','auth'],'uses' => 'HoldingssetsC
 Route::controller('holdingssets', 'HoldingssetsController');
 Route::resource('holdingssets', 'HoldingssetsController');
 
-
 Route::resource('reserves', 'ReservesController');
-
-Route::controller('groups', 'GroupsController');
-Route::resource('groups', 'GroupsController');
-
 Route::resource('comments', 'CommentsController');
-
 Route::resource('comments_categories', 'Comments_categoriesController');
-
 Route::resource('lists', 'ListsController');
+
 
 
 
