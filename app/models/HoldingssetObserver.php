@@ -3,7 +3,7 @@
 class HoldingssetObserver {
 
     public function created($model) {
-    	// $model->group()->holdingssets_counter =+ 1
+    	Trace::create([ 'user_id'=>Auth::user(),'action'=>trans('logs.create-Holdings Set') ]);
     }
 
     public function saved($model)

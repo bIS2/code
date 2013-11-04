@@ -40,8 +40,10 @@ $('#holdings-items').dataTable({
         	})
 
         if ( result.ok ){
-        	ok = result.ok
-        	$('#'+ok.id+' btn-info').addClass('btn-danger').removeClass('btn-info');	
+        	$('#'+result.ok).find('.btn-default').addClass('btn-success').removeClass('btn-default');	
+        }
+        if ( result.ko ){
+        	$('#'+result.ko).find('.btn-success').addClass('btn-default').removeClass('btn-success');	
         }
           
       }

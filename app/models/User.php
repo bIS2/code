@@ -18,6 +18,11 @@ class User extends ConfideUser implements PresentableInterface {
 		return $this->hasMany('Group');
 	}
 
+	public function traces(){
+		return $this->hasMany('Trace');
+	}
+
+
   public function library() {
       return $this->belongsTo('Library');
   }	

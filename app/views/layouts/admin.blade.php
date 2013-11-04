@@ -84,6 +84,9 @@
 								<li {{ (Request::is('admin/users*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/users') }}}">
 									<span class="glyphicon glyphicon-user"></span>{{{ trans('titles.users') }}}</a>
 								</li>
+								<li {{ (Request::is('admin/trace*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/trace') }}}">
+									<span class="glyphicon glyphicon-list"></span>{{{ trans('titles.traces') }}}</a>
+								</li>
 	    				@endif
 	    				@if (Auth::user()->hasRole('speiuser')) 
 								<li{{ (Request::is('admin/roles*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/roles') }}}">

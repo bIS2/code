@@ -10,4 +10,9 @@ class Holdingsset extends Eloquent {
         return $this->hasMany('Holding');
     }
 
+    public function groups() {
+        return $this->belongsToMany('Group');
+    }
+
+
 }

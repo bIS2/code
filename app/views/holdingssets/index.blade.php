@@ -18,25 +18,33 @@
 			  <!-- <h3 style="width: 240px; display: inline-block;">Sys1</h3>
 			  <h3 style="display: inline-block;">f245a</h3> -->
 			  <input id="select-all" name="select-all" type="checkbox" value="1" /> Select all Holdingsets
+			  <ul>
+			  	<li>{{ trans('general.select') }}</li>
+			  	<li><a href="">{{ trans('general.all') }} </a></li>
+			  	<li><a href="">{{ trans('general.') }} </a></li>
+			  </ul>
 			</th>
 		</tr>
 	</thead>
 	<tbody class="list-group">
 	@foreach ($holdingssets as $holdingsset)
 		<?php $ok 	= ($holdingsset->ok) ? 'ok' : ''  ?>
-		<?php $btn 	= ($holdingsset->ok) ? 'btn-danger' : 'btn-success'  ?>
-		<?php $icon = ($holdingsset->ok) ? 'glyphicon-remove' : 'glyphicon-ok'  ?>
+		<?php $btn 	= ($holdingsset->ok) ? 'btn-success' : 'btn-default'  ?>
 		<?php $link = ($holdingsset->ok) ? 'HoldingssetsController@putOK' : 'HoldingssetsController@putKO'  ?>
 		<tr class="panel {{ $ok }}" id="<?= $holdingsset -> id; ?>">
 			<td class="list-group-item">
 			  <div class="panel-heading row">
-		      <div href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" data-toggle="collapse" class="accordion-toggle collapsed col-lg-11">
-		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>" />
-		      	<?= $holdingsset -> sys1.' :: '.$holdingsset -> f245a; ?>
+		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>" class="col-lg-1" />
+		      <div href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" data-toggle="collapse" class="accordion-toggle collapsed col-lg-10">
+		      	<?= $holdingsset->sys1.' :: '.$holdingsset->f245a; ?>
+		      	@if ($holdingsset->has('groups') && $count=$holdingsset->groups->count()>0) 
+		      		<span class="badge">{{ $count }} </span>
+		      	@endif
+		      	
 		      </div>
 		      <div class="col-lg-1 text-right">
-		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ route('holdingssets.update',[$holdingsset->id]) }}" class="btn  btn-sm {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put">
-		      			<span class="glyphicon {{ $icon }}"></span>
+		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn  btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="...">
+		      			<span class="glyphicon glyphicon-ok"></span>
 		      	</a>
 		      </div>
 			  </div>

@@ -27,6 +27,8 @@ Route::model('role', 'Role');
 
 Route::resource('admin/libraries', 'LibrariesController' );
 Route::resource('admin/tags', 'TagsController');
+Route::resource('admin/traces', 'TracesController');
+
 Route::resource('holdings', 'HoldingsController');
 
 Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
@@ -118,3 +120,10 @@ Route::resource('comments_categories', 'Comments_categoriesController');
 
 Route::resource('lists', 'ListsController');
 
+
+
+
+
+Route::resource('traces', 'TracesController');
+
+Route::resource('traces', 'TracesController');

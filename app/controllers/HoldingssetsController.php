@@ -5,7 +5,7 @@ class HoldingssetsController extends BaseController {
 
 
     public function __construct() {
-    	$this->data['groups'] = Auth::user()->groups;
+    	    	$this->beforeFilter( 'auth' );
     }
 
 	/**
@@ -19,6 +19,7 @@ class HoldingssetsController extends BaseController {
 
 		// $this->data['holdingssets'] = $holdingssets;
 		// return View::make('holdingssets.index', $this->data);
+			$this->data['groups'] = Auth::user()->groups;
 
 		$holdingssets = (Input::has('group_id')) ? 
 				Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC')->paginate(20) :	
@@ -90,7 +91,8 @@ class HoldingssetsController extends BaseController {
 	{
 		$inputs = Input::all();
 		Holdingsset::find($id)->update($inputs);
-		return Response::json( ['ok' => ['id'=>$id,'class'=>'btn-danger']] );
+		if (Input::has('ok') )
+			return Response::json([ 'ok'=>$id ]);
 		//
 	}
 
@@ -104,11 +106,16 @@ class HoldingssetsController extends BaseController {
 	{
 		//
 	}
-	public function putOK($id) {
+	public function putOk($id) {
+		$holdingsset = Holdingsset::find($id);
+		$value = ( $holdingsset->ok ) ? false : true;
 
-		if (Holdingsset::find($id)->update(['ok'=>true]))
-			return Response::json( ['remove' => [$id]] );
+		if ($holdingsset->update(['ok'=>$value]))
+			return ($value) ? Response::json( ['ok' => [$id]] ) : Response::json( ['ko' => [$id]] );
+			
 		//
 	}	
+
+	
 
 }
