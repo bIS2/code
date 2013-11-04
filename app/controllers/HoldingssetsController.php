@@ -19,14 +19,17 @@ class HoldingssetsController extends BaseController {
 
 		// $this->data['holdingssets'] = $holdingssets;
 		// return View::make('holdingssets.index', $this->data);
-			$this->data['groups'] = Auth::user()->groups;
+		$this->data['groups'] = Auth::user()->groups;
 
 		$holdingssets = (Input::has('group_id')) ? 
 				Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC')->paginate(20) :	
 				Holdingsset::orderBy('id', 'ASC')->paginate(20);
+				
+		$group_id = Input::get('group_id');
 
 		//$holdingssets = DB::table('holdingssets')->take(10)->get();
 		$this->data['holdingssets'] = $holdingssets;
+		$this->data['group_id'] = $group_id;
 
 		if (isset($_GET['page']))  {
 				$this->data['page'] = $_GET['page'];

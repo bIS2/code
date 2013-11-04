@@ -27,10 +27,10 @@
 @import "../../../../vendor/twbs/bootstrap/less/scaffolding.less";
 @import "../../../../vendor/twbs/bootstrap/less/type.less";
 @import "../../../../vendor/twbs/bootstrap/less/code.less";
-@import "../../../../vendor/twbs/bootstrap/less/grid.less";
 @import "../../../../vendor/twbs/bootstrap/less/tables.less";
 @import "../../../../vendor/twbs/bootstrap/less/forms.less";
 @import "../../../../vendor/twbs/bootstrap/less/buttons.less";
+@import "../../../../vendor/twbs/bootstrap/less/grid.less";
 
 // Components
 @import "../../../../vendor/twbs/bootstrap/less/component-animations.less";
@@ -81,6 +81,12 @@
  *
  */
 
+.page-header {
+    border-bottom: 1px solid #EEEEEE;
+    margin: 60px 0 20px;
+    padding-bottom: 9px;
+} 
+
 .btn-cancel {
 	.btn;
 	.btn-warning;
@@ -93,8 +99,6 @@
 .pagination {
     margin: 0;
 }
-
-
 
 /* UPDATED */
 
@@ -118,7 +122,10 @@ table {
 .dataTable h3 {
     margin: 0;
 }
-
+.action-ok {
+    display: inline-block;
+    width: 14%;
+}
 //--------------------------------- pb -----------------------------
 
 //pb's custom bars
@@ -192,5 +199,54 @@ footer {
     .form-control {
         margin-bottom: @font-size-base;
     }
+}
 
+
+.col-lg-1 {
+    width: 8.33333%;
+    display: inline-block;
+}
+.col-lg-2 {
+    width: 16.6667%;
+    display: inline-block;
+}
+.col-lg-3 {
+    width: 25%;
+    display: inline-block;
+}
+.col-lg-4 {
+    width: 33.3333%;
+    display: inline-block;
+}
+.col-lg-5 {
+    width: 41.6667%;
+    display: inline-block;
+}
+.col-lg-6 {
+    width: 50%;
+    display: inline-block;
+}
+.col-lg-7 {
+    width: 58.3333%;
+    display: inline-block;
+}
+.col-lg-8 {
+    width: 66.6667%;
+    display: inline-block;
+}
+.col-lg-9 {
+    width: 75%;
+    display: inline-block;
+}
+.col-lg-10 {
+    width: 83.3333%;
+    display: inline-block;
+}
+.col-lg-11 {
+    width: 91.6667%;
+    display: inline-block;
+}
+.col-lg-12 {
+    width: 100%;
+    display: inline-block;
 }

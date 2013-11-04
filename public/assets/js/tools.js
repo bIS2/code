@@ -1,11 +1,5 @@
 $(function(){
 
-$('#hosg').dataTable({
-		         "bFilter": true,
-		         "bPaginate": false,
-		         "bDestroy": true
-		     });
-
 $('#holdings-items').dataTable({
 		         "bFilter": true,
 		         "bPaginate": false,
@@ -15,7 +9,7 @@ $('#holdings-items').dataTable({
 
 	$(':checkbox#select-all').click(function(){
 		
-		$checkboxes = $(this).parents('table').find('tbody :checkbox')
+		$checkboxes = $('table').find('tbody :checkbox')
 
 		if (this.checked)
 			$checkboxes.trigger('click')
@@ -60,27 +54,6 @@ $('#holdings-items').dataTable({
  //   });
 
 	// $('.flexme').flexigrid();
-
-var pagina
-
-pagina = 1;
-
-$(window).scroll(function(){
-if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-	pagina++;
- 	$.get("/?page="+pagina,
-  function(data){
-  if (data != "") {
-    $("#hosg > tbody > tr:last").after(data);
-		$('#hosg').dataTable({
-      "bFilter": true,
-      "bPaginate": false,
-      "bDestroy": true
-    });
-	}
-});
- }	
-});
 
 })
 

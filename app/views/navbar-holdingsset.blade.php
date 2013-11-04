@@ -23,7 +23,7 @@
         <ul class="dropdown-menu">
         	<?php foreach ($groups as $group) { ?>
         		<li>
-        			<a href="<?= action('GroupsController@postAttach',[$group->id]) ?>" data-remote="true" data-method="put" class="link_bulk_action"><?= $group->name  ?></a>
+        			<a href="<?= action('GroupsController@postAttach',[$group->id]) ?>" data-remote="true" data-method="put" class="link_bulk_action">zzz<?= $group->name  ?></a>
         		</li>
         	<?php } ?>
         </ul>		  	

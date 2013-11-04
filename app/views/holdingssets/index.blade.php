@@ -2,27 +2,23 @@
 
 {{-- Content --}}
 @section('content')
-<?php 
-	$i = 0;
-	$currentgroup = -1;
-?>
 
 <div class="page-header">
 	<h3><?= trans('holdingssets.title') ?></h3>
 </div>
-
-<table id="hosg" class="">
+<input id="select-all" name="select-all" type="checkbox" value="1" /> {{ trans('holdingssets.select_all_hos') }}
+<!-- <ul>
+	<li>{{ trans('general.select') }}</li>
+	<li><a href="">{{ trans('general.all') }} </a></li>
+	<li><a href="">{{ trans('general.') }} </a></li>
+</ul> -->
+<table id="hosg" class="" group_id = "<?php echo $group_id;  ?>">
 	<thead>
 		<tr>
 			<th>
+				&nbsp;<br>&nbsp;
 			  <!-- <h3 style="width: 240px; display: inline-block;">Sys1</h3>
 			  <h3 style="display: inline-block;">f245a</h3> -->
-			  <input id="select-all" name="select-all" type="checkbox" value="1" /> Select all Holdingsets
-			  <ul>
-			  	<li>{{ trans('general.select') }}</li>
-			  	<li><a href="">{{ trans('general.all') }} </a></li>
-			  	<li><a href="">{{ trans('general.') }} </a></li>
-			  </ul>
 			</th>
 		</tr>
 	</thead>
@@ -34,15 +30,14 @@
 		<tr class="panel {{ $ok }}" id="<?= $holdingsset -> id; ?>">
 			<td class="list-group-item">
 			  <div class="panel-heading row">
-		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>" class="col-lg-1" />
+		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>">
 		      <div href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" data-toggle="collapse" class="accordion-toggle collapsed col-lg-10">
 		      	<?= $holdingsset->sys1.' :: '.$holdingsset->f245a; ?>
 		      	@if ($holdingsset->has('groups') && $count=$holdingsset->groups->count()>0) 
 		      		<span class="badge">{{ $count }} </span>
 		      	@endif
-		      	
 		      </div>
-		      <div class="col-lg-1 text-right">
+		      <div class="text-right action-ok">
 		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn  btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="...">
 		      			<span class="glyphicon glyphicon-ok"></span>
 		      	</a>
@@ -50,7 +45,7 @@
 			  </div>
 	  		<div class="panel-collapse collapse container" id="<?= $holdingsset -> sys1; ?>" style="height: 0px;">
 			     <div class="panel-body">
-						<table class="table table-striped table-hover flexme flexme<?php if ($i == 1) echo $i;  ?>">
+						<table class="table table-striped table-hover flexme">
 							<thead>
 								<tr>
 									<th>Actions</th>

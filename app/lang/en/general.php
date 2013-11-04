@@ -16,8 +16,7 @@ return array(
 	'logout'								=> 'logout',
 	'profile'								=> 'Profile',
 	'config'								=> 'Configuration',
-	'type_criteria' 		=> 'Type to search',
-	'placeholder_search'=> 'Type to search',
-  'must_login' => 'Must be logged in.'
-
+	'type_criteria' 			=> 'Type to search',
+	'placeholder_search'	=> 'Type to search',
+  'must_login' 					=> 'Must be logged in.',	
 );

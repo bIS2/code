@@ -29,7 +29,9 @@
         </ul>		  	
 		  </li>
 		  <li>
+<!-- 
 		  	<?= link_to( route('comments.create'), trans('holdingssets.ok'));  ?>
+         -->
 		  </li>
 		</ul>
 
