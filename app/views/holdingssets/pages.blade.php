@@ -32,7 +32,7 @@
 		      	@if ($holdingsset->has('holdings') && $count1 = $holdingsset -> holdings -> count()) 
 		      		<span class="badge">{{ $count1.' Holdings' }} </span>
 		      	@endif
-		      	@if ($holdingsset->has('groups') && ($count=$holdingsset->groups->count()>1)) 
+		      	@if ($holdingsset->has('groups') && ($count=$holdingsset->groups->count()>0)) 
 		      		<span class="badge" title = "<?php 
 		      			$currentgroups = $holdingsset->groups;
 		      			$count = 0;
