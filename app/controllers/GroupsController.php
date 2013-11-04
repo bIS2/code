@@ -19,7 +19,7 @@ class GroupsController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function Index()
+	public function index()
 	{
 		$groups = $this->group->all();
 		return View::make('groups.index', compact('groups'));
@@ -124,7 +124,14 @@ class GroupsController extends BaseController {
 		return Redirect::route('groups.index');
 	}
 
-	public function postAttach($id)
-	{
+	public function postAttach($id){
+		$group->holdings()->attach($holdings_ids);		
+		return Response::json( ['remove' => $holdings_ids] );
 	}
+
+	public function postDetach($id){
+		$group->holdings()->detach($holdings_ids);		
+		return Response::json( ['remove' => [$holdings_ids]] );
+	}
+
 }
