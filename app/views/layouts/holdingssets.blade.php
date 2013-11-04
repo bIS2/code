@@ -6,7 +6,7 @@
 		<meta charset="utf-8" />
 		<title>
 			@section('title')
-			 	bIS Project
+			 	bIS Project - Holdingssets Editing
 			@show
 		</title>
 		<meta name="keywords" content="your, awesome, keywords, here" />
@@ -14,7 +14,6 @@
 		<meta name="description" content="Lorem ipsum dolor sit amet, nihil fabulas et sea, nam posse menandri scripserit no, mei." />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
         {{ Basset::show('public.css') }}
-
 		<style>
 			@section('styles')
 			@show

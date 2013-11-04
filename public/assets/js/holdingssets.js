@@ -6,26 +6,45 @@ $('#hosg').dataTable({
 		         "bDestroy": true
 		     });
 
-var pagina
+var page
+page = 1;
+	$(window).scroll(function() {
+	if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+		page++;
+	 	$.get("/holdingssets/?page="+page + "&group_id=" + $('#hosg').attr('group_id'),
+		  function(data){
+			  if (data != "") {
+			    $("#hosg > tbody > tr:last").after(data);
+					$('#hosg').dataTable({
+			      "bFilter": true,
+			      "bPaginate": false,
+			      "bDestroy": true
+			    });
+			    $('#hosg .accordion-toggle').each(function() {
+			    	$(this).on('click', function() {
+			    		if ($(this).attr('opened') == 0) {
+			    			$($(this).attr('href') + ' table').flexigrid();
+			    			$(this).attr('opened', 1);
+			    		}
+			    	})
+			    })
+				}
+			});
+	 	}	
+	});
 
-pagina = 1;
-
-$(window).scroll(function() {
-if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-	pagina++;
- 	$.get("/holdingssets/?page="+pagina + "&group_id=" + $('#hosg').attr('group_id'),
-  function(data){
-  if (data != "") {
-    $("#hosg > tbody > tr:last").after(data);
-		$('#hosg').dataTable({
-      "bFilter": true,
-      "bPaginate": false,
-      "bDestroy": true
-    });
-	}
-});
- }	
-});
-
+	$('#hosg .accordion-toggle').each(function() {
+  	$(this).on('click', function() {
+  		console.log('click');
+  		if ($(this).attr('opened') == 0) {
+  			$($(this).attr('href') + ' table').flexigrid();
+  			$(this).attr('opened', 1);
+  		}
+  	})
+  })
 })
 
+function setflexigrid() {
+
+
+}

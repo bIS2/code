@@ -42,11 +42,11 @@ return array(
         {
             $collection->directory('assets/css', function($collection)
             {
-                $collection->add('bootstrap.min.css');
-                $collection->add('bootstrap-responsive.min.css');  
+                // $collection->add('bootstrap.min.css');
+                // $collection->add('bootstrap-responsive.min.css');  
+                $collection->add('less/master.less')->apply('Less');
                 $collection->add('datatables-bootstrap.css');
                 $collection->add('flexigrid.pack.css');              
-                $collection->add('less/master.less')->apply('Less');
             })->apply('UriRewriteFilter')->apply('CssMin');
 
             $collection->directory('assets/js', function($collection)

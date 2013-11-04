@@ -1,3 +1,24 @@
+	<?php 
+
+	function truncate($str, $length, $trailing = '...') {
+	    // take off chars for the trailing
+	    $length-=strlen($trailing);
+	    if (strlen($str) > $length) {
+	        // string exceeded length, truncate and add trailing dots
+	        $res = substr($str, 0, $length);
+	        $res .= $trailing;
+	    } else {
+	        // string was already short enough, return the string
+	        $res = $str;
+	    }
+	    return $res;
+	}
+
+	function the_truncate($str, $length, $trailing) {
+	    echo truncate($str, $length, $trailing);
+	}
+
+?>
 	@foreach ($holdingssets as $holdingsset)
 		<?php $ok 	= ($holdingsset->ok) ? 'ok' : ''  ?>
 		<?php $btn 	= ($holdingsset->ok) ? 'btn-success' : 'btn-default'  ?>
@@ -6,10 +27,21 @@
 			<td class="list-group-item">
 			  <div class="panel-heading row">
 		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>">
-		      <div href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" data-toggle="collapse" class="accordion-toggle collapsed col-lg-10">
-		      	<?= $holdingsset->sys1.' :: '.$holdingsset->f245a; ?>
-		      	@if ($holdingsset->has('groups') && $count=$holdingsset->groups->count()>0) 
-		      		<span class="badge">{{ $count }} </span>
+		      <div href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" title="<?= $holdingsset->f245a; ?>" data-toggle="collapse" class="accordion-toggle collapsed col-lg-10" opened="0">
+		      	<?= $holdingsset->sys1.' :: '.htmlspecialchars(truncate($holdingsset->f245a, 50),ENT_QUOTES); ?>
+		      	@if ($holdingsset->has('holdings') && $count1 = $holdingsset -> holdings -> count()) 
+		      		<span class="badge">{{ $count1.' Holdings' }} </span>
+		      	@endif
+		      	@if ($holdingsset->has('groups') && ($count=$holdingsset->groups->count()>1)) 
+		      		<span class="badge" title = "<?php 
+		      			$currentgroups = $holdingsset->groups;
+		      			$count = 0;
+			      		foreach ($currentgroups as $currentgroup) {			
+			      		$count++;      			
+			      			if (($currentgroup['id']) != $group_id) echo strtoupper($currentgroup['name']).';';
+			      		} 
+		      		?>"
+		      		><?= trans('general.included_in') ?> {{ $count }} <?= trans('holdingssets.groups') ?></span>
 		      	@endif
 		      </div>
 		      <div class="text-right action-ok">
@@ -18,7 +50,7 @@
 		      	</a>
 		      </div>
 			  </div>
-	  		<div class="panel-collapse collapse container" id="<?= $holdingsset -> sys1; ?>" style="height: 0px;">
+	  		<div class="panel-collapse collapse container" id="<?= $holdingsset -> sys1; ?>">
 			     <div class="panel-body">
 						<table class="table table-striped table-hover flexme">
 							<thead>

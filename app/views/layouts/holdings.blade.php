@@ -6,8 +6,7 @@
 		<meta charset="utf-8" />
 		<title>
 			@section('title')
-			bIS Project
-
+				bIS Project - Holdings Editing
 			@show
 		</title>
 		<meta name="keywords" content="your, awesome, keywords, here" />
@@ -15,12 +14,11 @@
 		<meta name="description" content="Lorem ipsum dolor sit amet, nihil fabulas et sea, nam posse menandri scripserit no, mei." />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
         {{ Basset::show('public.css') }}
-
 		<style>
 			@section('styles')
 			@show
 		</style>
-
+		
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>

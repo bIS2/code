@@ -6,6 +6,10 @@ $('#holdings-items').dataTable({
 		         "bDestroy": true
 		     });
 
+	$('.flexme').dataTable({
+    "bFilter": false,
+    "bPaginate": false
+   });
 
 	$(':checkbox#select-all').click(function(){
 		
@@ -43,17 +47,8 @@ $('#holdings-items').dataTable({
       }
     })
 	
-
 	$('#modal-show').on('show.bs.modal', function () {
 	  // $(this).load($(this).options.remote)
-	})	
-
-	// $('.flexme').dataTable({
- //    "bFilter": false,
- //    "bPaginate": false
- //   });
-
-	// $('.flexme').flexigrid();
-
+	})
 })
 
