@@ -12,14 +12,14 @@ class CreateCommentsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('comments', function(Blueprint $table) {
-			$table->increments('id');
-			$table->integer('holding_id');
-			$table->integer('category_id');
-			$table->integer('user_id');
-			$table->text('comments');
-			$table->timestamps();
-		});
+		// Schema::create('comments', function(Blueprint $table) {
+		// 	$table->increments('id');
+		// 	$table->integer('holding_id');
+		// 	$table->integer('category_id');
+		// 	$table->integer('user_id');
+		// 	$table->text('comments');
+		// 	$table->timestamps();
+		// });
 	}
 
 
