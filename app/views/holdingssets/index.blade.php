@@ -102,12 +102,15 @@
 						<? $k = 0; $k++; ?>
 							@foreach ($holdingsset -> holdings as $post)		
 								<tr>
-									<td>
+									<td style="vertical-align: middle;">
 										<a href="<?= route('holdings.show', $post->id) ?>" data-target="#modal-show" data-toggle="modal">
 											<span class="glyphicon glyphicon-eye-open"></span>
-										</a>
+										</a>&nbsp;&nbsp;&nbsp;
 										<a href="" data-target="#modal-show-external" data-toggle="modal" data-remote="<?= route('holdings.show', $post->id) ?>">
 											<span class="glyphicon glyphicon-list-alt"></span>
+										</a>&nbsp;&nbsp;&nbsp;
+										<a href="">
+											<span class="glyphicon glyphicon-lock"></span>
 										</a>
 									</td>
 									<td><?php echo $post->f245a; ?></td>

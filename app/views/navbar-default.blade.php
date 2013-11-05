@@ -3,14 +3,15 @@
 	<div class="container">
 		<a class="navbar-brand" href="/" title="Begleitendes Informationssystem">bIS</a>
 		<ul class="nav navbar-nav">
-		  <li>
-		  	<a href="#form-create-group" data-toggle="modal" class='link_bulk_action'><?= trans('holdingssets.create_group')  ?></a>
+      <li>
+        <a href="#form-create-group" data-toggle="modal" class='link_bulk_action'><?= trans('holdingssets.create_group')  ?></a>
+      </li>		  
+      <li>
+      <a href="<?= route('holdingssets.index')  ?>"><?= trans('general.all')  ?> Holdings Sets</a>
 		  </li>
 			<li class="dropdown">
         <a data-toggle="dropdown" class="dropdown-toggle" href="#"><?= trans('holdingssets.groups')  ?> <b class="caret"></b></a>
         <ul class="dropdown-menu">
-        	<li><a href="<?= route('holdingssets.index')  ?>"><?= trans('general.all')  ?></a></li>
-        	<li class="divider"></li>
         	<?php foreach ($groups as $group) { ?>
         		<li>
         			<a href="<?= route('holdingssets.index',['group_id' => $group->id ])  ?>"><?= $group->name  ?></a>

@@ -12,12 +12,12 @@ class CreateGroupHoldingssetTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('group_holdingsset', function(Blueprint $table) {
-			$table->increments('id');
-			$table->integer('group_id');
-			$table->integer('holdingsset_id');
-			$table->timestamps();
-		});
+		// Schema::create('group_holdingsset', function(Blueprint $table) {
+		// 	$table->increments('id');
+		// 	$table->integer('group_id');
+		// 	$table->integer('holdingsset_id');
+		// 	$table->timestamps();
+		// });
 	}
 
 

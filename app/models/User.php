@@ -10,8 +10,8 @@ use Carbon\Carbon;
 class User extends ConfideUser implements PresentableInterface {
     use HasRole;
 
-	public function lists(){
-		return $this->hasMany('List');
+	public function hlists(){
+		return $this->hasMany('Hlist');
 	}
 
 	public function groups(){

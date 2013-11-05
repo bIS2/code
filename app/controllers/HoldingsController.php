@@ -10,7 +10,7 @@ class HoldingsController extends BaseController {
 
     public function __construct() {
     	$this->beforeFilter( 'auth' );
-    	$this->data['lists'] = Auth::user();
+    	$this->data['lists'] = Auth::user()->hlists;
     }
 
 	/**
@@ -20,17 +20,26 @@ class HoldingsController extends BaseController {
 	 */
 	public function Index()
 	{
-		if (Input::has('list_id'))
-			$holdings = Cabinet::find(Input::get('list_id'))->holdings()->paginate(100);
-		else
-			$holdings = Holding::paginate(100);
 
-		$this->data['holdings'] = $holdings;
+
+
+		if (Input::has('list_id'))
+			$holdings = Hlist::find(Input::get('list_id'))->holdings()->paginate(100);
+		else
+		{
+			$hs = DB::table('holdingssets')->where('ok',true)->lists('id');
+			//$holdings = Holding::paginate(100);
+			$holdings = Holding::whereRaw('holdingsset_id in ('.implode(',',$hs).')')->paginate(20);
+			$this->data['holdings'] = $holdings;
+		}
+
+
 
 		// CONDITIONS
 		// filter by holdingsset ok
 		//  and holdings in their library
 		return View::make('holdings/index', $this->data);
+
 	}
 
 	/**

@@ -12,9 +12,9 @@ class AddOkToHoldingssets extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('holdingssets', function(Blueprint $table) {
-			$table->boolean('ok')->default(false);
-		});
+		// Schema::table('holdingssets', function(Blueprint $table) {
+		// 	$table->boolean('ok')->default(false);
+		// });
 	}
 
 	/**

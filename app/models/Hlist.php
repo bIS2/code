@@ -1,11 +1,12 @@
 <?php
 
-class List extends Eloquent {
+class Hlist extends Eloquent {
 	protected $guarded = array();
+	protected $table = 'lists';
 
   public static function boot() {
     parent::boot();
-		List::observe(new ListObserver);
+	//	List::observe(new ListObserver);
   }
 
 
@@ -14,8 +15,8 @@ class List extends Eloquent {
 		'user_id' => 'required'
 	);
 
-	public function holdingssets(){
-		return $this->belongsToMany('Holdings')->withTimestamps();;
+	public function holdings(){
+		return $this->belongsToMany('Holding')->withTimestamps();;
 	}
   
   public function user() {

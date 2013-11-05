@@ -78,6 +78,13 @@ return array(
                 $collection->add('holdingssets.js');
             })->apply('JsMin');
         },
+        'holdings' => function($collection)
+        {
+            $collection->directory('assets/js', function($collection)
+            {
+                $collection->add('holdings.js');
+            })->apply('JsMin');
+        },
 
         'admin' => function($collection)
         {

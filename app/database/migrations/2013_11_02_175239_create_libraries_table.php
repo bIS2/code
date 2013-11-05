@@ -12,12 +12,12 @@ class CreateLibrariesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('libraries', function(Blueprint $table) {
-			$table->increments('id');
-			$table->string('name');
-			$table->string('code');
-			$table->timestamps();
-		});
+		// Schema::create('libraries', function(Blueprint $table) {
+		// 	$table->increments('id');
+		// 	$table->string('name');
+		// 	$table->string('code');
+		// 	$table->timestamps();
+		// });
 	}
 
 

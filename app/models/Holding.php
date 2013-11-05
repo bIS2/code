@@ -12,8 +12,8 @@ class Holding extends Eloquent {
       return $this->belongsTo('Tags');
   }
 
-	public function cabinets(){
-		return $this->belongsToMany('Cabinet');
+	public function hlist(){
+		return $this->belongsToMany('Hlist');
 	}
 
   public function scopeInLibrary(){

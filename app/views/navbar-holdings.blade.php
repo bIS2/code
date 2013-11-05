@@ -5,11 +5,14 @@
 	  <ul class="nav navbar-nav">
 		  <li>
 			  	<a href="#form-create-list" data-toggle="modal" class='link_bulk_action'><?= trans('holdings.create_list')  ?></a>
+		  </li>		  
+		  <li>
+		 		<a href="<?= route('holdings.index')  ?>"><?= trans('general.all')  ?> Holdings</a>
 		  </li>
+
 			<li class="dropdown">
         <a data-toggle="dropdown" class="dropdown-toggle" href="#"><?= trans('holdings.lists')  ?> <b class="caret"></b></a>
         <ul class="dropdown-menu">
-        	<li><a href="<?= route('holdings.index')  ?>"><?= trans('general.all')  ?></a></li>
         	<li class="divider"></li>
         	<?php foreach ($lists as $list) { ?>
         		<li>
@@ -23,13 +26,10 @@
         <ul class="dropdown-menu">
         	<?php foreach ($lists as $list) { ?>
         		<li>
-        			<a href="<?= action('listsController@postAttach',[$list->id]) ?>" data-remote="true" data-method="put" class="link_bulk_action"><?= $list->name  ?></a>
+        			<a href="<?= action('HlistsController@postAttach',[$list->id]) ?>" data-remote="true" data-method="put" class="link_bulk_action"><?= $list->name  ?></a>
         		</li>
         	<?php } ?>
         </ul>		  	
-		  </li>
-		  <li>
-		  	<?= link_to( route('comments.create'), trans('holdings.ok2'));  ?>
 		  </li>
 		  <li>
 		  	<?= link_to( route('comments.create'), trans('holdings.comment'));  ?>

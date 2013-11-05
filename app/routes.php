@@ -34,6 +34,9 @@ Route::resource('holdings', 'HoldingsController');
 Route::resource('groups', 'GroupsController');
 Route::controller('groups', 'GroupsController');
 
+Route::resource('hlists', 'HlistsController');
+Route::controller('hlists', 'HlistsController');
+
 Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 {
     # User Management
@@ -113,7 +116,6 @@ Route::resource('holdingssets', 'HoldingssetsController');
 Route::resource('reserves', 'ReservesController');
 Route::resource('comments', 'CommentsController');
 Route::resource('comments_categories', 'Comments_categoriesController');
-Route::resource('lists', 'ListsController');
 
 
 

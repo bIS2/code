@@ -9,4 +9,7 @@ return array(
 	'move_to_cabinet'		=> 'Move to',
 	'ok2' 							=> 'Confirm',
 	'comment' 					=> 'Comment',
+	'create_list'				=> 'Create List',
+	'lists'							=> 'Lists',
+	'move_to_list'			=> 'Move to',
 );

@@ -1,16 +1,5 @@
 $(function(){
 
-$('#holdings-items').dataTable({
-		         "bFilter": true,
-		         "bPaginate": false,
-		         "bDestroy": true
-		     });
-
-	$('.flexme').dataTable({
-    "bFilter": false,
-    "bPaginate": false
-   });
-
 	$(':checkbox#select-all').click(function(){
 		
 		$checkboxes = $('table').find('tbody :checkbox')
