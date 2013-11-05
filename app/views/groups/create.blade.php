@@ -1,4 +1,4 @@
-<div class="modal fade" id="form-create-list">
+<div class="modal fade" id="form-create-group">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
