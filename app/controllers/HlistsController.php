@@ -42,13 +42,15 @@ class HlistsController extends BaseController {
 	 */
 	public function store()
 	{
+		$holding_ids = Input::get('holding_id');
+		echo var_dump($holding_ids);
 		$hlist = new Hlist([ 'name' => Input::get('name'), 'user_id' => Auth::user()->id ]);
-		$validation = Validator::make($hlist->toArray(), Hlist::$rules);
+		$validation = Validator::make( $hlist->toArray(), Hlist::$rules );
 
 		if ($validation->passes()) {
 			$hlist->save();
-			$hlist->holdings()->attach(Input::get('holdings_id'));
-			return Redirect::route('holdings.index', ['list_id'=>$hlist->id]);
+			$hlist->holdings()->attach( $holding_ids );
+			return Redirect::route('holdings.index', ['hlist_id'=>$hlist->id]);
 		}
 
 		return Redirect::route('hlists.create')

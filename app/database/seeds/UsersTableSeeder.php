@@ -5,7 +5,7 @@ class UsersTableSeeder extends Seeder {
     public function run()
     {
  		DB::table('permission_role')->delete();        
- 		DB::table('assigned_roles')->delete();
+ 		// DB::table('assigned_roles')->delete();
         DB::table('users')->delete();
 
         $users = array(

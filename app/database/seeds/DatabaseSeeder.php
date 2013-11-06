@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder {
 		$this->call('LibrariesTableSeeder');
 		$this->call('ReservesTableSeeder');
 		$this->call('GroupsTableSeeder');
-		$this->call('CabinetsTableSeeder');
 		$this->call('CommentsTableSeeder');
 		$this->call('Comments_categoriesTableSeeder');
 		$this->call('ListsTableSeeder');

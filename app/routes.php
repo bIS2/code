@@ -19,6 +19,7 @@ Route::model('user', 'User');
 Route::model('comment', 'Comment');
 Route::model('post', 'Post');
 Route::model('role', 'Role');
+Route::controller('pages','Pages');
 
 /** ------------------------------------------
  *  Admin Routes
@@ -108,7 +109,7 @@ Route::get('contact-us', function()
 });
 
 # Index Page - Last route, no matches
-Route::get('/', array('before' => ['detectLang','auth'],'uses' => 'HoldingssetsController@Index'));
+Route::get('/', array('before' => ['detectLang','auth'],'uses' => 'Pages@getIndex'));
 
 Route::controller('holdingssets', 'HoldingssetsController');
 Route::resource('holdingssets', 'HoldingssetsController');
@@ -124,4 +125,3 @@ Route::resource('comments_categories', 'Comments_categoriesController');
 
 Route::resource('traces', 'TracesController');
 
-Route::resource('traces', 'TracesController');

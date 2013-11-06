@@ -24,7 +24,7 @@ class PermissionsTableSeeder extends Seeder {
         	)
         DB::table('permissions')->insert( $permissions );
 
-        $adminRole = Role::where('name','=','speiuser')->first();
+        $adminRole = Role::where('name','=','sysadmin')->first();
         $adminPermission = Permission::where('name','=','admin')->first();
 
         DB::table('permission_role')->insert( [ 'permission_id' => $adminPermission->id, 'role_id'=> $adminRole->id] );

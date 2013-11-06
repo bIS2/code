@@ -3,6 +3,16 @@
 	<div class="container">
 		<a class="navbar-brand" href="/" title="Begleitendes Informationssystem">bIS</a>
 		<ul class="nav navbar-nav">
+			@if (Auth::user()->hasRole('sysadmin')) 
+				<li{{ (Request::is('admin/roles*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/roles') }}}">
+					<span class="glyphicon glyphicon-lock"></span> {{{ trans('titles.roles') }}}</a>
+				</li>
+				<li {{ (Request::is('admin/users*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/users') }}}">
+					<span class="glyphicon glyphicon-user"></span>{{{ trans('titles.users') }}}</a>
+				</li>
+			@endif
+			@if (Auth::user()->hasRole('maguser')) 
+			
       <li>
         <a href="#form-create-group" data-toggle="modal" class='link_bulk_action'><?= trans('holdingssets.create_group')  ?></a>
       </li>		  
@@ -34,6 +44,7 @@
 		  	<?= link_to( route('comments.create'), trans('holdingssets.ok'));  ?>
          -->
 		  </li>
+			@endif
 		</ul>
 
 		<ul class="nav navbar-nav pull-right">
