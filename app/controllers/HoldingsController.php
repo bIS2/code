@@ -23,7 +23,8 @@ class HoldingsController extends BaseController {
 
 
     $this->data['hlists'] = Auth::user()->hlists;
-    $this->data['hlist'] = false;
+    $hlist = false;
+    
 		if (Input::has('hlist_id')) {
 
 			$hlist = Hlist::find(Input::get('hlist_id'));
@@ -35,6 +36,7 @@ class HoldingsController extends BaseController {
 			//$holdings = Holding::paginate(100);
 			$holdings = Holding::whereRaw('holdingsset_id in ('.implode(',',$hs).')')->paginate(20);
 		}
+		$this->data['tags'] = Tag::all();
 		$this->data['hlist'] = $hlist;
 		$this->data['holdings'] = $holdings;
 

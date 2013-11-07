@@ -4,20 +4,31 @@
 {{-- Content --}}
 @section('content')
 
-<br><br>
 <div class="row">
 	<div class="col-lg-12">
-		<h2 class="brand">
-			<?= trans('holdings.title') ?>
-			<small>
-				<!-- <span class="glyphicon glyphicon-arrow-right"></span> -->
-				@if ( $hlist )
-					&raquo;
-					{{ $hlist->name }}
-					<span class="label"></span>
-				@endif
-			</small>
-		</h2>
+
+			<nav role="navigation" class="navbar navbar-default navbar-static-top">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button data-target="#bs-example-navbar-collapse-8" data-toggle="collapse" class="navbar-toggle" type="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="#" class="navbar-brand">Brand</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="bs-example-navbar-collapse-8" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#form-create-list" class='link_bulk_action'>{{ trans('holdings.create_list')}}</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#myModal">{{ trans('title.list')}}</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
 	</div>
 </div>	
 
@@ -25,26 +36,7 @@
 
 
 <div class="row">
-	<div class="col-lg-2">
-		<a href="#" data-toggle="modal" data-target="#form-create-list" class='link_bulk_action btn btn-default btn-block'>
-		  	<span class="glyphicon glyphicon-list"></span> {{ trans('holdings.create_list') }} 
-		</a><br>	
-		<input type="text" class="form-control" placeholder="Search List">
-		<ul class="nav nav-pills nav-stacked">
-    	@foreach ($hlists as $hlist)
-    		<li class="<?= !(Input::get('hlist_id')== $hlist->id ) ?: 'active'  ?>">
-      	<a  href="<?= route('holdings.index',['hlist_id'=>$hlist->id])  ?>">
-      		{{ $hlist->name }} 
-      		<span class="badge pull-right">{{ $hlist->holdings->count() }} </span>
-      	</a>   
-    		</li>
-    	@endforeach
-		</ul>
-
-
-	</div>
-
-	<div class="col-lg-10">
+	<div class="col-lg-12">
 
 		<table id="holdings-items" class="table table-hover table-condensed ">
 		<thead>
@@ -77,7 +69,9 @@
 				</td>
 
  -->		
- 				<td><?= $holding->holdingsset->f245a; ?></td>
+ 				<td>
+ 					{{ link_to_route('holdings.show', $holding->holdingsset->f245a,[ $holding->id ]) }}
+ 				</td>
 				<td><?= $holding->f245b; ?></td>
 				<td><?= $holding->f245c; ?></td>
 				<td><?= $holding->ocrr_ptrn; ?></td>
@@ -87,7 +81,10 @@
 				<td><?= $holding->f710a; ?></td>
 				<td><?= $holding->f780t; ?></td>
 				<td>
-					<a href="#" class="btn btn-primary btn-xs"><span class="caret"></span></a>
+					  <a href="#" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-tag"></span></a>
+
+
+					
 				</td>
 
 			</tr>
@@ -103,5 +100,6 @@
 </div>
 
 	@include('hlists.create')
+	@include('hlists.index')
 	<div id="modal-show" class="modal face"></div>
 @stop

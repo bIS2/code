@@ -1,7 +1,7 @@
   <div class="modal fade" id="myModal">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">c
+        <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">{{{ trans('libraries.title-create') }}}</h4>
         </div>

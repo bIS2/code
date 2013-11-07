@@ -19,10 +19,17 @@ class RolesTableSeeder extends Seeder {
 
         DB::table('roles')->insert( $roles );
 
-        $adminRole = Role::where('name','=','speiuser')->first();
-        $user = User::where('username','=','admin')->first();
+        $adminRole = Role::where('name','=','sysadmin')->first();
+        $librarianRole = Role::where('name','=','bibuser')->first();
+        $storemanRole = Role::where('name','=','maguser')->first();
 
-		$user->attachRole( $adminRole );
+        $admin = User::where('username','=','admin')->first();
+        $librarian = User::where('username','=','librarian')->first();
+        $storeman = User::where('username','=','storeman')->first();
+
+				$admin->attachRole( $adminRole );
+				$librarian->attachRole( $librarianRole );
+				$storeman->attachRole( $storemanRole );
 
     }
 
