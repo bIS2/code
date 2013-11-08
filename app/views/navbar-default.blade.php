@@ -20,7 +20,8 @@
 				</a>
 			</li>
 			<li><a href="#" data-toggle="modal" data-target="#myModal">{{ trans('title.list')}}</a></li>
-			@else			
+			@endif	
+			@if (Auth::user()->hasRole('bibuser')) 		
       <li>
         <a href="#form-create-group" data-toggle="modal" class='link_bulk_action'><?= trans('holdingssets.create_group')  ?></a>
       </li>		  
@@ -29,13 +30,13 @@
 		  </li>
 			<li class="dropdown">
         <a data-toggle="dropdown" class="dropdown-toggle" href="#"><?= trans('holdingssets.groups')  ?> <b class="caret"></b></a>
-        <ul class="dropdown-menu">
+<!--         <ul class="dropdown-menu">
         	<?php foreach ($groups as $group) { ?>
         		<li>
         			<a href="<?= route('holdingssets.index',['group_id' => $group->id ])  ?>"><?= $group->name  ?></a>
         		</li>
         	<?php } ?>
-        </ul>
+        </ul> -->
 		  </li>
 		  <li>
         <a data-toggle="dropdown" class="dropdown-toggle" href="#"><?= trans('holdingssets.move_to_group')  ?> <b class="caret"></b></a>
