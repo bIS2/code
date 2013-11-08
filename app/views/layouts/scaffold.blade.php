@@ -52,5 +52,6 @@
 		<!-- Javascripts
 		================================================== -->
         {{ Basset::show('public.js') }}
+        {{ Basset::show('holdingssets.js') }}
 	</body>
 </html>

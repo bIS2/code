@@ -1,4 +1,4 @@
-@extends('layouts.holdingssets')
+@extends('layouts.default')
 
 {{-- Content --}}
 @section('content')
@@ -121,12 +121,13 @@
 									</div>" data-placement="bottom" data-toggle="hover" type="button" data-original-title="" title="Row Sumary"></span>
 								</td>
 								<td>
-								<?php var_dump($valuesCounter)?>
 									<span class="btn glyphicon glyphicon-info-sign" data-html='true' data-content="<div>
 										<?php 
-											// foreach ($valuesCounter['f245b'] as $counter) {
-											//  	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
-											// } 
+										if (isset($valuesCounter['f245b'])) {
+											foreach ($valuesCounter['f245b'] as $counter) {
+											 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
+											} 
+										}
 										?>
 									</div>" data-placement="bottom" data-toggle="hover" type="button" data-original-title="" title="Row Sumary"></span>
 								</td>
