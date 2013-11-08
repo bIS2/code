@@ -17,6 +17,11 @@
 composer.phar
 composer.lock
 
+#Database
+/app/database/*.sqlite
+/app/database/*.sqlite3
+/app/database/*.db
+
 # OS
 .DS_Store
 .idea/
