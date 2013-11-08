@@ -33,7 +33,8 @@ class TagsController extends BaseController {
 	 */
 	public function create()
 	{
-		return View::make('tags.create');
+		$data['holding'] = Holding::find( Input::get('holding_id') );
+		return View::make('tags.create',$data);
 	}
 
 	/**
@@ -43,20 +44,16 @@ class TagsController extends BaseController {
 	 */
 	public function store()
 	{
-		$input = Input::all();
-		$validation = Validator::make($input, Tag::$rules);
 
-		if ($validation->passes())
-		{
-			$this->tag->create($input);
+		$tags = Input::get('tags');
+		$holding = Holding::find(Input::get('holding_id'));
 
-			return Redirect::route('tags.index');
+		foreach ($tags as $tag) {
+			if (isset( $tag['tag_id']) )
+				$holding->tags()->attach( $tag['tag_id'],[ 'content'=>$tag['content'] ] );
 		}
+		return Response::json( ['tag' => $holding->id] );
 
-		return Redirect::route('tags.create')
-			->withInput()
-			->withErrors($validation)
-			->with('message', 'There were validation errors.');
 	}
 
 	/**

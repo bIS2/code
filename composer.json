@@ -19,6 +19,7 @@
         "j20/php-uuid": "dev-master",
         "bllim/datatables": "*",
         "mcamara/laravel-localization": "dev-master"
+
 	},
 	"require-dev": {
         "way/generators": "dev-master",
