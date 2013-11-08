@@ -3,7 +3,7 @@
 	<div class="container">
 		<a class="navbar-brand" href="/" title="Begleitendes Informationssystem">bIS</a>
 		<ul class="nav navbar-nav">
-			<!-- admin menu -->
+			<!-- admin menu ROLE::SYSADMIN-->
 			@if (Auth::user()->hasRole('sysadmin'))
 				@include( 'layouts.items-menu-admin' );
 			@endif

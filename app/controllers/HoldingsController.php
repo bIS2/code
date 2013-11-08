@@ -121,8 +121,13 @@ class HoldingsController extends BaseController {
 	}
 
 	public function postTagged($id){
-		$holding = Holding::find($id);
 		
+		$tags = Input::all('tags');
+		$holding = Holding::find($id);
+
+		foreach ($tags as $tag) {
+			$holding->tags->attach($tag->id,[ 'content'=>$tag->content ]);
+		}
 	}
 
 }

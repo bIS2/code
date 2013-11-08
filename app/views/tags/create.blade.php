@@ -7,24 +7,25 @@
         </div>
         <div class="modal-body">
 
-					{{ Form::open(array( 'action' => ['HoldingsController@postTagged',$holding->id]),['data-remote'=>'true']) }}
+			{{ Form::open(array( 'action' => ['HoldingsController@postTagged',$holding->id]),['data-remote'=>'true']) }}
 
-							@foreach (Tag::all() as $tag)
+				@foreach (Tag::all() as $tag)
 
-						    <div class="input-group" data-toggle="buttons">
-						      <label class="input-group-addon btn btn-primary">
-						        <input type="checkbox" name="tag_id[]" value="{{ $tag->id }} ">{{ $tag->name }}
-						      </label>
-						      <input type="text" class="form-control" name="content[]" >
-						    </div><!-- /input-group -->
+			    <div class="input-group" data-toggle="buttons">
+			      <label class="input-group-addon btn btn-primary">
+			      	<span class="glyphicon glyphicon-ok-sign"></span>
+			        <input type="checkbox" name="tags[]['tag_id']" value="{{ $tag->id }} ">{{ $tag->name }}
+			      </label>
+			      <input type="text" class="form-control" name="tags[]['content']" >
+			    </div><!-- /input-group -->
 
-							@endforeach
+				@endforeach
 
-					@if ($errors->any())
-						<ul>
-							{{ implode('', $errors->all('<li class="error">:message</li>')) }}
-						</ul>
-					@endif
+			@if ($errors->any())
+				<ul>
+					{{ implode('', $errors->all('<li class="error">:message</li>')) }}
+				</ul>
+			@endif
 
         </div>
         <div class="modal-footer">

@@ -2,7 +2,7 @@
   {{ link_to( '/', trans('titles.home') ) }}
 </li>
 <li class="{{ (!Request::is('holdings*')) ?: 'active'}}" > 
-	{{ link_to( route('holdings.index') ) }}
+	{{ link_to( route('holdings.index'), trans('holdings.title') ) }}
 </li>
 <li>
 	<a href="#" data-toggle="modal" data-target="#form-create-list" class='link_bulk_action'>
