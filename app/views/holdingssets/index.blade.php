@@ -114,9 +114,11 @@
 								<td>
 									<span class="btn glyphicon glyphicon-info-sign" data-html='true' data-content="<div>
 										<?php 
+										if (isset($valuesCounter['f245a'])) {
 											foreach ($valuesCounter['f245a'] as $counter) {
 											 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
 											} 
+										}
 										?>
 									</div>" data-placement="bottom" data-toggle="hover" type="button" data-original-title="" title="Row Sumary"></span>
 								</td>
@@ -136,10 +138,12 @@
 								<td></td>
 								<td>
 									<span class="btn glyphicon glyphicon-info-sign" data-html='true' data-content="<div>
-										<?php 
+										<?php
+										if (isset($valuesCounter['f260a'])) {
 											foreach ($valuesCounter['f260a'] as $counter) {
 											 	echo $counter['title'].' -> '.$counter['count'].'<br>';
 											} 
+										}
 										?>
 									</div>" data-placement="bottom" data-toggle="popover" type="button" data-original-title="" title=""></span>
 								</td>
