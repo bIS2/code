@@ -10,7 +10,7 @@ class HoldingsController extends BaseController {
 
     public function __construct() {
     	$this->beforeFilter( 'auth' );
-    	$this->data['lists'] = Auth::user()->hlists;
+
     }
 
 	/**
@@ -22,16 +22,24 @@ class HoldingsController extends BaseController {
 	{
 
 
+    $this->data['hlists'] = Auth::user()->hlists;
+    $hlist = false;
+    
+		if (Input::has('hlist_id')) {
 
-		if (Input::has('list_id'))
-			$holdings = Hlist::find(Input::get('list_id'))->holdings()->paginate(100);
-		else
-		{
+			$hlist = Hlist::find(Input::get('hlist_id'));
+			// Select holdings no tag to ok
+			$holdings = $hlist->holdings()->where('ok2','<>','true' )->paginate(100);
+
+		} else {
+
 			$hs = DB::table('holdingssets')->where('ok',true)->lists('id');
 			//$holdings = Holding::paginate(100);
-			$holdings = Holding::whereRaw('holdingsset_id in ('.implode(',',$hs).')')->paginate(20);
-			$this->data['holdings'] = $holdings;
+			$holdings = Holding::whereRaw('holdingsset_id in ('.implode(',',$hs).') and ok2<>"true"')->paginate(20);
 		}
+		$this->data['tags'] 		= Tag::all(	);
+		$this->data['hlist'] 		= $hlist;
+		$this->data['holdings'] = $holdings;
 
 
 
@@ -107,9 +115,14 @@ class HoldingsController extends BaseController {
 		//
 	}
 
-	public function postMove($id)
-	{
-		//
+	public function putOK($id){
+		$holding = Holding::find($id);
+		return ($holding->update(['ok2'=>true])) ? Response::json( [ 'remove' => [$id]] ) : Response::json( ['error' => [$id]] );
+	}
+
+	public function postTagged($id){
+		$holding = Holding::find($id);
+		
 	}
 
 }

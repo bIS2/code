@@ -19,6 +19,7 @@ Route::model('user', 'User');
 Route::model('comment', 'Comment');
 Route::model('post', 'Post');
 Route::model('role', 'Role');
+Route::controller('pages','Pages');
 
 /** ------------------------------------------
  *  Admin Routes
@@ -30,12 +31,15 @@ Route::resource('admin/tags', 'TagsController');
 Route::resource('admin/traces', 'TracesController');
 
 Route::resource('holdings', 'HoldingsController');
+Route::controller('holdings', 'HoldingsController');
 
 Route::resource('groups', 'GroupsController');
 Route::controller('groups', 'GroupsController');
 
 Route::resource('hlists', 'HlistsController');
 Route::controller('hlists', 'HlistsController');
+
+Route::resource('tags', 'TagsController');
 
 Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 {
@@ -108,7 +112,7 @@ Route::get('contact-us', function()
 });
 
 # Index Page - Last route, no matches
-Route::get('/', array('before' => ['detectLang','auth'],'uses' => 'HoldingssetsController@Index'));
+Route::get('/', array('before' => ['detectLang','auth'],'uses' => 'Pages@getIndex'));
 
 Route::controller('holdingssets', 'HoldingssetsController');
 Route::resource('holdingssets', 'HoldingssetsController');
@@ -124,4 +128,3 @@ Route::resource('comments_categories', 'Comments_categoriesController');
 
 Route::resource('traces', 'TracesController');
 
-Route::resource('traces', 'TracesController');

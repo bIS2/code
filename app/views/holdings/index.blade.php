@@ -1,37 +1,38 @@
-@extends('layouts.holdings')
+@extends('layouts.default')
 
 
 {{-- Content --}}
 @section('content')
+
+<div class="page-header">
+	<h2> 
+		{{ trans('holdings.title') }} 
+		@if ($hlist)
+			<small>&raquo; {{ $hlist->name }}</small>
+		@endif
+
+	</h2>
+</div>
 <div class="row">
-	<div class="col-sm-12 container ">
+	<div class="col-lg-12">
 
-	<div class="page-header">
-		<h3><?= trans('holdings.title') ?></h3>
-	</div>
-
-		<table id="holdings-items" class="table table-striped table-hover table-condensed span12">
+		<table id="holdings-items" class="table table-hover table-condensed ">
 		<thead>
 			<tr> 
-				<th><input id="select-all" name="select-all" type="checkbox" value="1" /> </th>
-				<th></th>
 				<th><?= '245a'; ?></th>
 				<th><?= '245b'; ?></th>
 				<th><?= '245c'; ?></th>
-				<th><?= 'ocrr_ptrn'; ?></th>
-				<th><?= '022a'; ?></th>
-				<th><?= '260a'; ?></th>
 				<th><?= '260b'; ?></th>
-				<th><?= '710a'; ?></th>
-				<th><?= '780t'; ?></th>
 				<th><?= '362a'; ?></th>
+				<th><?= '866a'; ?></th>
+				<th><?= '852h'; ?></th>
+				<td></td>
 			</tr>
 		</thead>
 		<tbody>
 		@foreach ($holdings as $holding)
 			<tr id="<?= $holding->id ?>">
-				<td><input id="holding_id" name="holding_id[]" type="checkbox" value="<?= $holding->id ?>" /></td>
-				<td>
+<!-- 				<td>
 					<a href="<?= route('holdings.show', $holding->id) ?>" data-target="#modal-show" data-toggle="modal" data-remote="<?= route('holdings.show', $holding->id) ?>">
 						<span class="glyphicon glyphicon-eye-open"></span>
 					</a>
@@ -39,16 +40,28 @@
 											<span class="glyphicon glyphicon-ok"></span>
 					</a>
 				</td>
-				<td><?= $holding->f245a; ?></td>
+
+ -->		
+ 				<td>
+ 					{{ link_to_route('holdings.show', $holding->holdingsset->f245a,[ $holding->id ]) }}
+ 				</td>
 				<td><?= $holding->f245b; ?></td>
 				<td><?= $holding->f245c; ?></td>
-				<td><?= $holding->ocrr_ptrn; ?></td>
-				<td><?= $holding->f022a; ?></td>
-				<td><?= $holding->f260a; ?></td>
 				<td><?= $holding->f260b; ?></td>
-				<td><?= $holding->f710a; ?></td>
-				<td><?= $holding->f780t; ?></td>
 				<td><?= $holding->f362a; ?></td>
+				<td><?= $holding->f866a; ?></td>
+				<td><?= $holding->f852h; ?></td>
+				<td id="{{ $holding->id }}" class="col-lg-1">
+					<div class="btn-group">
+					  <a href="{{ action('HoldingsController@putOK',[$holding->id]) }}" class="btn btn-default btn-xs btn-ok" data-method="put" data-remote="true" >
+					  	<span class="glyphicon glyphicon-thumbs-up"></span>
+					  </a>
+					  <a href="#" data-toggle="modal" data-target="#form-create-tags"  class="btn btn-default btn-xs">
+					  	<span class="glyphicon glyphicon-tags"></span>
+					  </a>
+					</div>
+				</td>
+
 			</tr>
 		@endforeach
 
@@ -61,6 +74,9 @@
 	</div>
 </div>
 
+
+	@include('tags.create')
+
 	@include('hlists.create')
-	<div id="modal-show" class="modal face"></div>
+	@include('hlists.index')
 @stop

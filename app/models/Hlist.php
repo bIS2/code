@@ -2,11 +2,10 @@
 
 class Hlist extends Eloquent {
 	protected $guarded = array();
-	protected $table = 'lists';
 
   public static function boot() {
     parent::boot();
-	//	List::observe(new ListObserver);
+		Hlist::observe(new TraceObserver);
   }
 
 
@@ -16,7 +15,7 @@ class Hlist extends Eloquent {
 	);
 
 	public function holdings(){
-		return $this->belongsToMany('Holding')->withTimestamps();;
+		return $this->belongsToMany('Holding');
 	}
   
   public function user() {

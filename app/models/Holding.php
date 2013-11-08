@@ -3,13 +3,14 @@
 class Holding extends Eloquent {
 	protected $guarded = array();
 	public static $rules = array();
+	public $timestamps = false;
 
   public function holdingsset() {
       return $this->belongsTo('Holdingsset');
   }
   
   public function tag() {
-      return $this->belongsTo('Tags');
+      return $this->belongsToMany('Tag')->withPivot('content');
   }
 
 	public function hlist(){

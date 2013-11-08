@@ -47,6 +47,7 @@ return array(
                 $collection->add('flexigrid.pack.css');              
                 $collection->add('datatables-bootstrap.css');
                 $collection->add('less/master.less')->apply('Less');
+                $collection->add('less/asley.less')->apply('Less');
             })->apply('UriRewriteFilter')->apply('CssMin');
 
             $collection->directory('assets/js', function($collection)

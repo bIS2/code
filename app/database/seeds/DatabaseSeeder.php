@@ -10,16 +10,9 @@ class DatabaseSeeder extends Seeder {
         $this->call('UsersTableSeeder');
         $this->call('RolesTableSeeder');
         $this->call('PermissionsTableSeeder');
-		$this->call('HolgroupsTableSeeder');
 		$this->call('LibrariesTableSeeder');
-		$this->call('ReservesTableSeeder');
 		$this->call('GroupsTableSeeder');
-		$this->call('CabinetsTableSeeder');
-		$this->call('CommentsTableSeeder');
-		$this->call('Comments_categoriesTableSeeder');
-		$this->call('ListsTableSeeder');
 		$this->call('TagsTableSeeder');
-		$this->call('LogsTableSeeder');
 		$this->call('TracesTableSeeder');
 	}
 

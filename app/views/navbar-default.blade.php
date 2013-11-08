@@ -1,8 +1,27 @@
 <!-- navbar by default: includes the brand and commun functions -->
-<div class="navbar navbar-default navbar-fixed-top">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<div class="container">
 		<a class="navbar-brand" href="/" title="Begleitendes Informationssystem">bIS</a>
 		<ul class="nav navbar-nav">
+			@if (Auth::user()->hasRole('sysadmin')) 
+				<li{{ (Request::is('admin/roles*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/roles') }}}">
+					<span class="glyphicon glyphicon-lock"></span> {{{ trans('titles.roles') }}}</a>
+				</li>
+				<li {{ (Request::is('admin/users*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/users') }}}">
+					<span class="glyphicon glyphicon-user"></span>{{{ trans('titles.users') }}}</a>
+				</li>
+				<li></li>
+			@endif
+			
+			@if (Auth::user()->hasRole('maguser')) 
+			<li>
+				<a href="#" data-toggle="modal" data-target="#form-create-list" class='link_bulk_action'>
+					{{ trans('holdings.create_list') }} 
+				</a>
+			</li>
+			<li><a href="#" data-toggle="modal" data-target="#myModal">{{ trans('title.list')}}</a></li>
+			@endif	
+			@if (Auth::user()->hasRole('bibuser')) 		
       <li>
         <a href="#form-create-group" data-toggle="modal" class='link_bulk_action'><?= trans('holdingssets.create_group')  ?></a>
       </li>		  
@@ -11,13 +30,13 @@
 		  </li>
 			<li class="dropdown">
         <a data-toggle="dropdown" class="dropdown-toggle" href="#"><?= trans('holdingssets.groups')  ?> <b class="caret"></b></a>
-        <ul class="dropdown-menu">
+<!--         <ul class="dropdown-menu">
         	<?php foreach ($groups as $group) { ?>
         		<li>
         			<a href="<?= route('holdingssets.index',['group_id' => $group->id ])  ?>"><?= $group->name  ?></a>
         		</li>
         	<?php } ?>
-        </ul>
+        </ul> -->
 		  </li>
 		  <li>
         <a data-toggle="dropdown" class="dropdown-toggle" href="#"><?= trans('holdingssets.move_to_group')  ?> <b class="caret"></b></a>
@@ -34,6 +53,7 @@
 		  	<?= link_to( route('comments.create'), trans('holdingssets.ok'));  ?>
          -->
 		  </li>
+		  @endif
 		</ul>
 
 		<ul class="nav navbar-nav pull-right">
