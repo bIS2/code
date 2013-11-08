@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateLibrariesTable extends Migration {
+class AddCodeToLibraries extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,13 +12,10 @@ class CreateLibrariesTable extends Migration {
 	 */
 	public function up()
 	{
-		 Schema::create('libraries', function(Blueprint $table) {
-		 	$table->increments('id');
-		 	$table->string('name');
-		 	$table->timestamps();
+		Schema::table('libraries', function(Blueprint $table) {
+			$table->string('code')->nullable();
 		});
 	}
-
 
 	/**
 	 * Reverse the migrations.
@@ -27,7 +24,9 @@ class CreateLibrariesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('libraries');
+		Schema::table('libraries', function(Blueprint $table) {
+			$table->dropColumn('code');
+		});
 	}
 
 }
