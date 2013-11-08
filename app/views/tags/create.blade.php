@@ -6,7 +6,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">{{{ trans('tags.title-create') }}}</h4>
         </div>
-		{{ Form::open(array( 'route' => ['tags.store']),[],['data-remote'=>'true', 'id'=>'create-tag']) }}
+		{{ Form::open(array( 'route' => ['tags.store'],'data-remote'=>'true', 'id'=>'create-tag' )) }}
 
 	        <div class="modal-body">
 
