@@ -1,15 +1,15 @@
-$(function() {
+$(function(){
 
-	$('#holdings-items').dataTable({
-		         "bFilter": true,
-		         "bPaginate": false,
-		         "bDestroy": true
-		     });
+	$('form#create-tag input[type="text"]').on('focus', function(){ 
+		$(this).parent('div').find(':checkbox').attr('checked',true) 
+	})
 
-	$('.flexme').dataTable({
-    "bFilter": false,
-    "bPaginate": false
-   });
+	$('#form-create-tags').on('hidden.bs.modal', function () {
+	    $(this).removeData('bs.modal');
+	});
 
-	// $('#holdings-items').flexigrid();
+$('#form-create-tags').on('hidden', '.modal', function () {
+  $(this).removeData('modal');
+});	
+
 })

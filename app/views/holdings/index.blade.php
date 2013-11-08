@@ -56,8 +56,9 @@
 					  <a href="{{ action('HoldingsController@putOK',[$holding->id]) }}" class="btn btn-default btn-xs btn-ok" data-method="put" data-remote="true" >
 					  	<span class="glyphicon glyphicon-thumbs-up"></span>
 					  </a>
-					  <a href="#" data-toggle="modal" data-target="#form-create-tags"  class="btn btn-default btn-xs btn-tag">
-					  	<span class="glyphicon glyphicon-tags"></span> {{ ($holding->tags->count()>0) ? $holding->tags->count() : ''  }}
+					  <?php $is_tagged = ( ($count=$holding->tags->count())>0)  ?>
+					  <a href="{{ route('tags.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-tags" class="btn {{ ($is_tagged) ? 'btn-danger' : 'btn-default' }} btn-xs btn-tag">
+					  	<span class="glyphicon glyphicon-tags"></span> {{ ($is_tagged) ? $count : ''  }}
 					  </a>
 					</div>
 				</td>
@@ -75,8 +76,12 @@
 </div>
 
 
-	@include('tags.create')
+ <div class="modal" id="form-create-tags">
+
+  </div><!-- /.modal -->
 
 	@include('hlists.create')
 	@include('hlists.index')
 @stop
+
+{{ Basset::show('holdings.js') }}

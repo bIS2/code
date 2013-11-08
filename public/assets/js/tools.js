@@ -33,7 +33,10 @@ $(function(){
         }
 
         if ( result.tag ){
-        	$('#'+result.tag).find('.btn-tag').addClass('btn-default').removeClass('btn-warning');	
+        	$('#'+result.tag).find('.btn-tag').addClass('btn-default').removeClass('btn-danger');	
+        }
+        if ( result.untag ){
+        	$('#'+result.untag).find('.btn-tag').addClass('btn-danger').removeClass('btn-default');	
         }
           
       }
