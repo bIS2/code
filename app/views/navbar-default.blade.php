@@ -1,5 +1,5 @@
 <!-- navbar by default: includes the brand and commun functions -->
-<div class="navbar navbar-default navbar-static-top" role="navigation">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<div class="container">
 		<a class="navbar-brand" href="/" title="Begleitendes Informationssystem">bIS</a>
 		<ul class="nav navbar-nav">
@@ -10,6 +10,7 @@
 				<li {{ (Request::is('admin/users*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/users') }}}">
 					<span class="glyphicon glyphicon-user"></span>{{{ trans('titles.users') }}}</a>
 				</li>
+				<li></li>
 			@endif
 			
 			@if (Auth::user()->hasRole('maguser')) 
@@ -18,6 +19,7 @@
 					{{ trans('holdings.create_list') }} 
 				</a>
 			</li>
+			<li><a href="#" data-toggle="modal" data-target="#myModal">{{ trans('title.list')}}</a></li>
 			@else			
       <li>
         <a href="#form-create-group" data-toggle="modal" class='link_bulk_action'><?= trans('holdingssets.create_group')  ?></a>

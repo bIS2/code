@@ -27,10 +27,10 @@ $(function(){
         	})
 
         if ( result.ok ){
-        	$('#'+result.ok).find('.btn-default').addClass('btn-success').removeClass('btn-default');	
+        	$('#'+result.ok).find('.btn-ok').addClass('btn-success').removeClass('btn-default');	
         }
         if ( result.ko ){
-        	$('#'+result.ko).find('.btn-success').addClass('btn-default').removeClass('btn-success');	
+        	$('#'+result.ko).find('.btn-ok').addClass('btn-default').removeClass('btn-success');	
         }
           
       }

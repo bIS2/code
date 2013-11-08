@@ -31,12 +31,15 @@ Route::resource('admin/tags', 'TagsController');
 Route::resource('admin/traces', 'TracesController');
 
 Route::resource('holdings', 'HoldingsController');
+Route::controller('holdings', 'HoldingsController');
 
 Route::resource('groups', 'GroupsController');
 Route::controller('groups', 'GroupsController');
 
 Route::resource('hlists', 'HlistsController');
 Route::controller('hlists', 'HlistsController');
+
+Route::resource('tags', 'TagsController');
 
 Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 {
