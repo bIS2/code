@@ -14,9 +14,9 @@
 			    <div class="input-group" data-toggle="buttons">
 			      <label class="input-group-addon btn btn-primary">
 			      	<span class="glyphicon glyphicon-ok-sign"></span>
-			        <input type="checkbox" name="tags[]['tag_id']" value="{{ $tag->id }} ">{{ $tag->name }}
+			        <input type="checkbox" name="tags[{{ $tag->id }}][tag_id]" value="{{ $tag->id }} ">{{ $tag->name }}
 			      </label>
-			      <input type="text" class="form-control" name="tags[]['content']" >
+			      <input type="text" class="form-control" name="tags[{{ $tag->id }}][content]" >
 			    </div><!-- /input-group -->
 
 				@endforeach

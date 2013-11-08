@@ -56,8 +56,8 @@
 					  <a href="{{ action('HoldingsController@putOK',[$holding->id]) }}" class="btn btn-default btn-xs btn-ok" data-method="put" data-remote="true" >
 					  	<span class="glyphicon glyphicon-thumbs-up"></span>
 					  </a>
-					  <a href="#" data-toggle="modal" data-target="#form-create-tags"  class="btn btn-default btn-xs">
-					  	<span class="glyphicon glyphicon-tags"></span>
+					  <a href="#" data-toggle="modal" data-target="#form-create-tags"  class="btn btn-default btn-xs btn-tag">
+					  	<span class="glyphicon glyphicon-tags"></span> {{ ($holding->tags->count()>0) ? $holding->tags->count() : ''  }}
 					  </a>
 					</div>
 				</td>

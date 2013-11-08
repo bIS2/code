@@ -31,6 +31,10 @@ $(function(){
         if ( result.ko ){
         	$('#'+result.ko).find('.btn-ok').addClass('btn-default').removeClass('btn-success');	
         }
+
+        if ( result.tag ){
+        	$('#'+result.tag).find('.btn-tag').addClass('btn-default').removeClass('btn-warning');	
+        }
           
       }
     })

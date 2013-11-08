@@ -9,7 +9,7 @@ class Holding extends Eloquent {
       return $this->belongsTo('Holdingsset');
   }
   
-  public function tag() {
+  public function tags() {
       return $this->belongsToMany('Tag')->withPivot('content');
   }
 
