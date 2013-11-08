@@ -28,10 +28,10 @@
 .flexigrid div.nDiv table {
 	margin:2px
 }
-.flexigrid div.hDivBox {
+/*.flexigrid div.hDivBox {
 	float:left;
 	padding-right:40px
-}
+}*/
 .flexigrid div.bDiv table {
 	margin-bottom:10px;
 	border-bottom:1px solid #ccc
@@ -64,10 +64,10 @@
 }
 .flexigrid div.nBtn {
 	position:absolute;
-	height:24px;
-	width:14px;
+	height:28px;
+	width:20px;
 	z-index:900;
-	background:#fafafa url(images/fhbg.gif) repeat-x bottom;
+	background:#fafafa url(images/fhbg.gif) repeat-x bottom center;
 	border:0 solid #ccc;
 	border-left:1px solid #ccc;
 	top:0;
@@ -281,12 +281,12 @@
 	border-right:1px solid #ddd;
 	border-left:1px solid #fff;
 	overflow:hidden;
-	vertical-align:top!important;
+	vertical-align: middle!important;
 	padding: 0 !important;
 }
 .flexigrid div.hDiv th div,.flexigrid div.bDiv td div,div.colCopy div/* common inner cell properties*/ {
 	border-left:0 solid #fff;
-	padding:5px
+	padding:6px 4px
 }
 .flexigrid div.hDiv th,div.colCopy {
 	font-weight:400;

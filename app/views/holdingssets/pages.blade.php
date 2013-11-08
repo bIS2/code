@@ -23,14 +23,13 @@
 		<?php $ok 	= ($holdingsset->ok) ? 'ok' : ''  ?>
 		<?php $btn 	= ($holdingsset->ok) ? 'btn-success' : 'btn-default'  ?>
 		<?php $link = ($holdingsset->ok) ? 'HoldingssetsController@putOK' : 'HoldingssetsController@putKO'  ?>
-		<tr class="panel {{ $ok }}" id="<?= $holdingsset -> id; ?>">
-			<td class="list-group-item">
+		<li class="panel list-group-item{{ $ok }}" id="<?= $holdingsset -> id; ?>">
 			  <div class="panel-heading row">
 		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>">
 		      <div href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" title="<?= $holdingsset->f245a; ?>" data-toggle="collapse" class="accordion-toggle collapsed col-lg-10" opened="0">
-		      	<?= $holdingsset->sys1.' :: '.htmlspecialchars(truncate($holdingsset->f245a, 50),ENT_QUOTES); ?>
+		      	<?= $holdingsset->sys1.' :: '.htmlspecialchars(truncate($holdingsset->f245a, 100),ENT_QUOTES); ?>
 		      	@if ($holdingsset->has('holdings') && $count1 = $holdingsset -> holdings -> count()) 
-		      		<span class="badge">{{ $count1.' Holdings' }} </span>
+		      		<span class="badge pull-right">{{ $count1 }} </span>
 		      	@endif
 		      	@if ($holdingsset->has('groups') && ($count=$holdingsset->groups->count()>0)) 
 		      		<span class="badge" title = "<?php 
@@ -53,7 +52,7 @@
 		      </div>
 			  </div>
 	  		<div class="panel-collapse collapse container" id="<?= $holdingsset -> sys1; ?>">
-			     <div class="panel-body">
+			    <div class="panel-body">
 						<table class="table table-striped table-hover flexme">
 							<thead>
 								<tr>
@@ -77,12 +76,15 @@
 						<? $k = 0; $k++; ?>
 							@foreach ($holdingsset -> holdings as $post)		
 								<tr>
-									<td>
+									<td style="vertical-align: middle;">
 										<a href="<?= route('holdings.show', $post->id) ?>" data-target="#modal-show" data-toggle="modal">
 											<span class="glyphicon glyphicon-eye-open"></span>
-										</a>
+										</a>&nbsp;&nbsp;&nbsp;
 										<a href="" data-target="#modal-show-external" data-toggle="modal" data-remote="<?= route('holdings.show', $post->id) ?>">
 											<span class="glyphicon glyphicon-list-alt"></span>
+										</a>&nbsp;&nbsp;&nbsp;
+										<a href="">
+											<span class="glyphicon glyphicon-lock"></span>
 										</a>
 									</td>
 									<td><?php echo $post->f245a; ?></td>
@@ -104,6 +106,5 @@
 						</table>
 					</div>
 				</div>
-			</td>
-		</tr>
+		</li>
 	@endforeach

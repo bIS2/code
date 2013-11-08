@@ -73,13 +73,14 @@
 	$.addFlex = function (t, p) {
 		if (t.grid) return false; //return if already exist
 		p = $.extend({ //apply default properties
-			height: 200, //default height
+			height: 'auto', //default height
+			maxheighttable: '900', //default max-height
 			width: 'auto', //auto width
-			striped: true, //apply odd even stripes
+			striped: false, //apply odd even stripes
 			novstripe: false,
 			minwidth: 30, //min width of columns
 			minheight: 80, //min height of columns
-			resizable: true, //allow table resizing
+			resizable: false, //allow table resizing
 			url: false, //URL if using data from AJAX
 			method: 'POST', //data sending method
 			dataType: 'xml', //type of data for AJAX, either xml or json
@@ -1101,7 +1102,7 @@
 			// if there isn't a default width, then the column headers don't match
 			// i'm sure there is a better way, but this at least stops it failing
 			if (this.width == '') {
-				this.width = 100;
+				this.width = 150;
 			}
 			
 			$(thdiv).css({
@@ -1178,6 +1179,8 @@
 		$(t).before(g.bDiv);
 		$(g.bDiv).css({
 			height: (p.height == 'auto') ? 'auto' : p.height + "px"
+		}).css({
+			'max-height': (p.maxheighttable == 'auto') ? 'auto' : p.maxheighttable + "px"
 		}).scroll(function (e) {
 			g.scroll()
 		}).append(t);
@@ -1432,7 +1435,7 @@
 				}
 			);
 			if (p.showToggleBtn) {
-				$(g.gDiv).prepend(g.nBtn);
+				// $(g.gDiv).prepend(g.nBtn);
 			}
 		}
 		// add date edit layer

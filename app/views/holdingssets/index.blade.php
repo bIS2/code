@@ -3,27 +3,7 @@
 {{-- Content --}}
 @section('content')
 
-<?php 
 
-	function truncate($str, $length, $trailing = '...') {
-	    // take off chars for the trailing
-	    $length-=strlen($trailing);
-	    if (strlen($str) > $length) {
-	        // string exceeded length, truncate and add trailing dots
-	        $res = substr($str, 0, $length);
-	        $res .= $trailing;
-	    } else {
-	        // string was already short enough, return the string
-	        $res = $str;
-	    }
-	    return $res;
-	}
-
-	function the_truncate($str, $length, $trailing) {
-	    echo truncate($str, $length, $trailing);
-	}
-
-?>
 <div class="page-header">
 	<h3><?= trans('holdingssets.title') ?></h3>
 </div>
@@ -33,29 +13,19 @@
 	<li><a href="">{{ trans('general.all') }} </a></li>
 	<li><a href="">{{ trans('general.') }} </a></li>
 </ul> -->
-<table id="hosg" class="" group_id = "<?php echo $group_id;  ?>">
-	<thead>
-		<tr>
-			<th>
-				&nbsp;<br>&nbsp;
-			  <!-- <h3 style="width: 240px; display: inline-block;">Sys1</h3>
-			  <h3 style="display: inline-block;">f245a</h3> -->
-			</th>
-		</tr>
-	</thead>
-	<tbody class="list-group">
+<section id="hosg" group_id = "<?php echo $group_id;  ?>">
+	<ul class="list-group table">
 	@foreach ($holdingssets as $holdingsset)
 		<?php $ok 	= ($holdingsset->ok) ? 'ok' : ''  ?>
 		<?php $btn 	= ($holdingsset->ok) ? 'btn-success' : 'btn-default'  ?>
 		<?php $link = ($holdingsset->ok) ? 'HoldingssetsController@putOK' : 'HoldingssetsController@putKO'  ?>
-		<tr class="panel {{ $ok }}" id="<?= $holdingsset -> id; ?>">
-			<td class="list-group-item">
+		<li class="panel list-group-item{{ $ok }}" id="<?= $holdingsset -> id; ?>">
 			  <div class="panel-heading row">
-		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>">
-		      <div href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" title="<?= $holdingsset->f245a; ?>" data-toggle="collapse" class="accordion-toggle collapsed col-lg-10" opened="0">
-		      	<?= $holdingsset->sys1.' :: '.htmlspecialchars(truncate($holdingsset->f245a, 50),ENT_QUOTES); ?>
+		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>" class="pull-left">
+		      <div href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" title="<?= $holdingsset->f245a; ?>" data-toggle="collapse" class="accordion-toggle collapsed col-xs-10" opened="0">
+		      	<?= $holdingsset->sys1.' :: '.htmlspecialchars(truncate($holdingsset->f245a, 100),ENT_QUOTES); ?>
 		      	@if ($holdingsset->has('holdings') && $count1 = $holdingsset -> holdings -> count()) 
-		      		<span class="badge">{{ $count1.' Holdings' }} </span>
+		      		<span class="badge pull-right">{{ $count1 }} </span>
 		      	@endif
 		      	@if ($holdingsset->has('groups') && ($count=$holdingsset->groups->count()>0)) 
 		      		<span class="badge" title = "<?php 
@@ -68,17 +38,25 @@
 			      				echo strtolower($currentgroup['name']).';';
 			      		} 
 		      		?>"
-		      		><?= trans('general.included_in') ?> {{ $count }} <?= trans('holdingssets.groups') ?></span>
+		      		>{{ $count }}</span>
 		      	@endif
 		      </div>
-		      <div class="text-right action-ok">
+		      <div class="text-right action-ok col-xs-1">
 		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn  btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="...">
-		      			<span class="glyphicon glyphicon-ok"></span>
+		      			<span class="glyphicon glyphicon-thumbs-up"></span>
 		      	</a>
 		      </div>
 			  </div>
 	  		<div class="panel-collapse collapse container" id="<?= $holdingsset -> sys1; ?>">
-			     <div class="panel-body">
+			    <div class="panel-body">
+						<?php $k = 0; $k++; unset($valuesCounter); $valuesCounter = null; ?>
+							@foreach ($holdingsset -> holdings as $post)
+								<?php 
+									$valuesCounter = getValue('f245a', $post, $valuesCounter);
+									$valuesCounter = getValue('f245b', $post, $valuesCounter);
+									$valuesCounter = getValue('f260a', $post, $valuesCounter);
+								?>
+							@endforeach	
 						<table class="table table-striped table-hover flexme">
 							<thead>
 								<tr>
@@ -99,7 +77,6 @@
 								</tr>
 							</thead>
 							<tbody>
-						<? $k = 0; $k++; ?>
 							@foreach ($holdingsset -> holdings as $post)		
 								<tr>
 									<td style="vertical-align: middle;">
@@ -113,13 +90,17 @@
 											<span class="glyphicon glyphicon-lock"></span>
 										</a>
 									</td>
-									<td><?php echo $post->f245a; ?></td>
-									<td><?php echo $post->f245b; ?></td>
+									<td>
+										<?php
+											echo htmlspecialchars($post->f245a); 
+										?>
+									</td>
+									<td><?php echo htmlspecialchars($post->f245b); ?></td>
 									<td><?php echo $post->f245c; ?></td>
 									<td><?php echo $post->ocrr_ptrn; ?></td>
 									<td><?php echo $post->f022a; ?></td>
-									<td><?php echo $post->f260a; ?></td>
-									<td><?php echo $post->f260b; ?></td>
+									<td><?php echo htmlspecialchars($post->f260a); ?></td>
+									<td><?php echo htmlspecialchars($post->f260b); ?></td>
 									<td><?php echo $post->f710a; ?></td>
 									<td><?php echo $post->f780t; ?></td>
 									<td><?php echo $post->f362a; ?></td>
@@ -128,17 +109,87 @@
 									<td><?php echo $post->f310a; ?></td>
 								</tr>
 							@endforeach
+							<tr class="fields-sumary">
+								<td></td>
+								<td>
+									<span class="btn glyphicon glyphicon-info-sign" data-html='true' data-content="<div>
+										<?php 
+											foreach ($valuesCounter['f245a'] as $counter) {
+											 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
+											} 
+										?>
+									</div>" data-placement="bottom" data-toggle="hover" type="button" data-original-title="" title="Row Sumary"></span>
+								</td>
+								<td>
+									<span class="btn glyphicon glyphicon-info-sign" data-html='true' data-content="<div>
+										<?php 
+										die($valuesCounter['f245b']);
+											foreach ($valuesCounter['f245b'] as $counter) {
+											 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
+											} 
+										?>
+									</div>" data-placement="bottom" data-toggle="hover" type="button" data-original-title="" title="Row Sumary"></span>
+								</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td>
+									<span class="btn glyphicon glyphicon-info-sign" data-html='true' data-content="<div>
+										<?php 
+											foreach ($valuesCounter['f260a'] as $counter) {
+											 	echo $counter['title'].' -> '.$counter['count'].'<br>';
+											} 
+										?>
+									</div>" data-placement="bottom" data-toggle="popover" type="button" data-original-title="" title=""></span>
+								</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>	
 							</tbody>
 						</table>
 					</div>
 				</div>
-			</td>
-		</tr>
+		</li>
 	@endforeach
-	</tbody>
-</table>	
+	</ul>
+</section>	
 
 @include('groups.create')
 <div id="modal-show" class="modal face"><div class="modal-body"></div></div>
 <div id="modal-show-external" class="modal face"><div class="modal-body"></div></div>
 @stop
+
+<?php 
+
+	$valuesCounter = null;
+
+	function truncate($str, $length, $trailing = '...') {
+    $length-=strlen($trailing);
+    if (strlen($str) > $length) {
+      $res = substr($str, 0, $length);
+      $res .= $trailing;
+    } else {
+      $res = $str;
+    }
+    return $res;
+	}
+
+	function getValue($field, $post, $valuesCounter) {
+
+		if (!isset($valuesCounter[$field][htmlspecialchars($post->$field)]) && (($post->$field) != '')) { 
+			$valuesCounter[$field][htmlspecialchars($post->$field)]['title'] = htmlspecialchars($post->$field); 
+			$valuesCounter[$field][htmlspecialchars($post->$field)]['count'] = 0; 
+		} 
+		if (($post->$field) != '') {
+			$temp = $valuesCounter[$field][htmlspecialchars($post->$field)]['count']; 
+			$temp++; 
+			$valuesCounter[$field][htmlspecialchars($post->$field)]['count'] = $temp; 
+		}
+		return $valuesCounter;
+	}
+?>

@@ -16,7 +16,7 @@
         	<li class="divider"></li>
         	<?php foreach ($lists as $list) { ?>
         		<li>
-        			<a href="<?= route('holdings.index',['list_id' => $list->id ])  ?>"><?= $list->name  ?></a>
+        			<a href="<?= route('holdings.index',['hlist_id' => $list->id ])  ?>"><?= $list->name  ?></a>
         		</li>
         	<?php } ?>
         </ul>

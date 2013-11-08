@@ -2,22 +2,21 @@ $(function(){
 
 	$(':checkbox#select-all').click(function(){
 		
-		$checkboxes = $('table').find('tbody :checkbox')
-
+		$checkboxes = $('.table').find(':checkbox')
 		if (this.checked)
 			$checkboxes.trigger('click')
 		else
 			$checkboxes.removeAttr('checked')
-
 	})
 
 	$('a.link_bulk_action').on('click', function(){
-		$('tbody :checkbox:checked').clone().attr('type','hidden').appendTo('form.bulk_action')
+		$('.table :checkbox:checked').clone().attr('type','hidden').appendTo('form.bulk_action')
 	})
 
 	$('a.link_bulk_action[data-remote]').on('click',function(){
-		$(this).attr( 'data-params', $('tbody :checkbox:checked').serialize() )
+		$(this).attr( 'data-params', $('.table :checkbox:checked').serialize() )
 	})
+
 
   $('a').on({
     'ajax:success': function(data, result, status){
@@ -35,6 +34,7 @@ $(function(){
           
       }
     })
+	
 	
 	$('#modal-show').on('show.bs.modal', function () {
 	  // $(this).load($(this).options.remote)
