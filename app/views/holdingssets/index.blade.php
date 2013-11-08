@@ -19,9 +19,9 @@
 		<?php $ok 	= ($holdingsset->ok) ? 'ok' : ''  ?>
 		<?php $btn 	= ($holdingsset->ok) ? 'btn-success' : 'btn-default'  ?>
 		<?php $link = ($holdingsset->ok) ? 'HoldingssetsController@putOK' : 'HoldingssetsController@putKO'  ?>
-		<li class="panel list-group-item{{ $ok }}" id="<?= $holdingsset -> id; ?>">
+		<li class="panel list-group-item {{ $ok }}" id="<?= $holdingsset -> id; ?>">
 			  <div class="panel-heading row">
-		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>" class="pull-left">
+		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>" class="pull-left hl">
 		      <div href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" title="<?= $holdingsset->f245a; ?>" data-toggle="collapse" class="accordion-toggle collapsed col-xs-10" opened="0">
 		      	<?= $holdingsset->sys1.' :: '.htmlspecialchars(truncate($holdingsset->f245a, 100),ENT_QUOTES); ?>
 		      	@if ($holdingsset->has('holdings') && $count1 = $holdingsset -> holdings -> count()) 
@@ -42,7 +42,7 @@
 		      	@endif
 		      </div>
 		      <div class="text-right action-ok col-xs-1">
-		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn  btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="...">
+		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn btn-ok btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="...">
 		      			<span class="glyphicon glyphicon-thumbs-up"></span>
 		      	</a>
 		      </div>

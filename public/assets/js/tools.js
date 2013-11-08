@@ -2,7 +2,7 @@ $(function(){
 
 	$(':checkbox#select-all').click(function(){
 		
-		$checkboxes = $('.table').find(':checkbox')
+		$checkboxes = $('.table').find('input.hl:checkbox')
 		if (this.checked)
 			$checkboxes.trigger('click')
 		else
@@ -10,11 +10,11 @@ $(function(){
 	})
 
 	$('a.link_bulk_action').on('click', function(){
-		$('.table :checkbox:checked').clone().attr('type','hidden').appendTo('form.bulk_action')
+		$('.table input.hl:checkbox:checked').clone().attr('type','hidden').appendTo('form.bulk_action')
 	})
 
 	$('a.link_bulk_action[data-remote]').on('click',function(){
-		$(this).attr( 'data-params', $('.table :checkbox:checked').serialize() )
+		$(this).attr( 'data-params', $('.table input.hl:checkbox:checked').serialize() )
 	})
 
 

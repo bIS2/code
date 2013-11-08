@@ -38,11 +38,11 @@ page = 1;
 		  function(data){
 			  if (data != "") {
 			    $("#hosg ul li:last").after(data);
-					$('#hosg').dataTable({
-			      "bFilter": true,
-			      "bPaginate": false,
-			      "bDestroy": true
-			    });
+					// $('#hosg').dataTable({
+			  //     "bFilter": true,
+			  //     "bPaginate": false,
+			  //     "bDestroy": true
+			  //   });
 			    $('#hosg .accordion-toggle').each(function() {
 			    	$(this).on('click', function() {
 			    		if ($(this).attr('opened') == 0) {
