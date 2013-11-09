@@ -17,34 +17,48 @@ $(function(){
 		$(this).attr( 'data-params', $('.table input.hl:checkbox:checked').serialize() )
 	})
 
-
-  $('a').on({
-    'ajax:success': function(data, result, status){
-        if ( result.remove )
-        	$.each(result.remove, function(index,id){
-        		$('#'+id).hide('slow', function(){ $(this).remove() });	
-        	})
-
-        if ( result.ok ){
-        	$('#'+result.ok).find('.btn-ok').addClass('btn-success').removeClass('btn-default');	
-        }
-        if ( result.ko ){
-        	$('#'+result.ko).find('.btn-ok').addClass('btn-default').removeClass('btn-success');	
-        }
-
-        if ( result.tag ){
-        	$('#'+result.tag).find('.btn-tag').addClass('btn-default').removeClass('btn-danger');	
-        }
-        if ( result.untag ){
-        	$('#'+result.untag).find('.btn-tag').addClass('btn-danger').removeClass('btn-default');	
-        }
-          
-      }
-    })
-	
-	
 	$('#modal-show').on('show.bs.modal', function () {
 	  // $(this).load($(this).options.remote)
 	})
+    getAsuccess();
 })
 
+function getAsuccess() {
+  $('a').on({
+    'ajax:success': function(data, result, status){
+        if ( result.remove )
+            $.each(result.remove, function(index,id){
+                $('#'+id).hide('slow', function(){ $(this).remove() }); 
+            })
+        console.log(result);
+        /* HOS ok to next step */
+        if ( result.ok ){
+            $('#'+result.ok).find('.btn-ok').addClass('btn-success').removeClass('btn-default');    
+        }
+        if ( result.ko ){
+            $('#'+result.ko).find('.btn-ok').addClass('btn-default').removeClass('btn-success');    
+        }
+
+        /* Holdings locks */
+        if ( result.lock ){
+            $('#holding'+result.lock).addClass('locked').find('.btn-lock').addClass('btn-warning');    
+        }
+        if ( result.unlock ){
+            $('#holding'+result.unlock).removeClass('locked').find('.btn-lock').removeClass('btn-warning');    
+        }
+
+        /* Holdings Tags */
+        if ( result.tag ){
+            $('#'+result.tag).find('.btn-tag').addClass('btn-default').removeClass('btn-danger');   
+        }
+        if ( result.untag ){
+            $('#'+result.untag).find('.btn-tag').addClass('btn-danger').removeClass('btn-default'); 
+        } 
+        /* Deleted Group */
+        if ( result.groupDelete ){
+            console.log('aquiii');
+            $('li#group'+result.groupDelete).remove(); 
+        } 
+      }
+    })
+}

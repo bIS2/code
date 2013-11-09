@@ -35,7 +35,7 @@ class HoldingsController extends BaseController {
 
 			$hs = DB::table('holdingssets')->where('ok',true)->lists('id');
 			//$holdings = Holding::paginate(100);
-			$holdings = Holding::whereRaw('holdingsset_id in ('.implode(',',$hs).') and ok2<>"true"')->paginate(20);
+			$holdings = Holding::whereRaw('holdingsset_id in ('.implode(',',$hs).') and ok2<>true')->paginate(20);
 		}
 		$this->data['tags'] 		= Tag::all(	);
 		$this->data['hlist'] 		= $hlist;

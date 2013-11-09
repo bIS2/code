@@ -1,3 +1,9 @@
+@sumary-bckg-color : #abcabd;
+
+table.flexme tr:first-child td > div, 
+table.flexme tr.fields-sumary + tr td > div {
+    padding-top: 15px;
+}
 tr.fields-sumary {
     position: absolute;
     top: 0;
@@ -5,11 +11,15 @@ tr.fields-sumary {
     height: 0;
 }
 tr.fields-sumary td, tr.fields-sumary td > div {
-    background: none !important;
     border: none !important;
     padding: 0 !important;
-    text-align: left;
+    text-align: center;
     vertical-align: top;
+    cursor: pointer;
+    background-color: @sumary-bckg-color !important;
+}
+tr.fields-sumary td, tr.fields-sumary td {
+    background-color: @sumary-bckg-color !important;
 }
 tr.fields-sumary .popover {
     width: 100%;
@@ -18,5 +28,9 @@ tr.fields-sumary .popover.bottom .arrow {
     border: none !important;
 }
 tr.fields-sumary span.btn {
-    padding: 0 10px;
+    padding: 2px 0;
+}
+
+tr.locked td, tr.locked div {
+    background-color: #abf6a7 !important;
 }

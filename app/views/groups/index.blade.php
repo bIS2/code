@@ -2,9 +2,9 @@
 
 @section('content')
 
-<h1>All Groups</h1>
+<h1>Groups</h1>
 
-<p>{{ link_to_route('groups.create', 'Add new group') }}</p>
+<!-- <p>{{ link_to_route('groups.create', 'Add new group') }}</p> -->
 
 @if ($groups->count())
 	<table class="table table-striped table-bordered">

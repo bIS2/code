@@ -5,20 +5,42 @@
 
 
 <div class="page-header">
-	<h3><?= trans('holdingssets.title') ?></h3>
+	
+	<div class="row"></div>
 </div>
-<input id="select-all" name="select-all" type="checkbox" value="1" /> {{ trans('holdingssets.select_all_hos') }}
-<!-- <ul>
-	<li>{{ trans('general.select') }}</li>
-	<li><a href="">{{ trans('general.all') }} </a></li>
-	<li><a href="">{{ trans('general.') }} </a></li>
-</ul> -->
+
+<ul class="nav nav-tabs">
+  <li <?php if (!isset($group_id)) { echo 'class="active"'; } ?>>
+  	<a href="<?= route('holdingssets.index')  ?>">
+  		All <?= trans('holdingssets.title') ?>
+  	</a>
+  </li>
+  <li>
+  <a href="#form-create-group" data-toggle="modal" class='link_bulk_action'>
+  	<span class="glyphicon glyphicon-plus"></span>
+  </a>
+  </li>
+	<?php foreach ($groups as $group) { ?>
+		<li id="group{{ $group->id }}" <?php if ($group_id == $group -> id) { echo 'class="active"'; } ?>>
+			<a href="<?= route('holdingssets.index',['group_id' => $group->id ])  ?>" class="pull-left"><?= $group->name  ?>
+			</a>
+			<?php if ($group_id != $group -> id) { ?>
+			<a href="{{ action('HoldingssetsController@putDelGroup',[$group->id]) }}" class="btn btn-ok btn-xs" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><button aria-hidden="true" data-dismiss="modal" class="close pull-left" type="button">×</button></a>
+			<?php } ?>
+		</li>
+	<?php } ?>
+</ul>
+<div class="checkbox">
+  <label>
+    <input id="select-all" name="select-all" type="checkbox" value="1">
+    {{ trans('holdingssets.select_all_hos') }}
+  </label>
+</div>
 <section id="hosg" group_id = "<?php echo $group_id;  ?>">
 	<ul class="list-group table">
 	@foreach ($holdingssets as $holdingsset)
 		<?php $ok 	= ($holdingsset->ok) ? 'ok' : ''  ?>
 		<?php $btn 	= ($holdingsset->ok) ? 'btn-success' : 'btn-default'  ?>
-		<?php $link = ($holdingsset->ok) ? 'HoldingssetsController@putOK' : 'HoldingssetsController@putKO'  ?>
 		<li class="panel list-group-item {{ $ok }}" id="<?= $holdingsset -> id; ?>">
 			  <div class="panel-heading row">
 		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>" class="pull-left hl">
@@ -42,19 +64,22 @@
 		      	@endif
 		      </div>
 		      <div class="text-right action-ok col-xs-1">
+		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>add" class="btn btn-ok btn-xs {{ $btn }}" title="{{ trans('holdingssets.add_holdings') }}">
+		      			<span class="glyphicon glyphicon-download-alt"></span>
+		      	</a>
 		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn btn-ok btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="...">
 		      			<span class="glyphicon glyphicon-thumbs-up"></span>
-		      	</a>
+		      	</a>		      	
 		      </div>
 			  </div>
 	  		<div class="panel-collapse collapse container" id="<?= $holdingsset -> sys1; ?>">
 			    <div class="panel-body">
 						<?php $k = 0; $k++; unset($valuesCounter); $valuesCounter = null; ?>
-							@foreach ($holdingsset -> holdings as $post)
+							@foreach ($holdingsset -> holdings as $holding)
 								<?php 
-									$valuesCounter = getValue('f245b', $post, $valuesCounter);
-									$valuesCounter = getValue('f245a', $post, $valuesCounter);
-									$valuesCounter = getValue('f260a', $post, $valuesCounter);
+									$valuesCounter = getValue('f245b', $holding, $valuesCounter);
+									$valuesCounter = getValue('f245a', $holding, $valuesCounter);
+									$valuesCounter = getValue('f260a', $holding, $valuesCounter);
 								?>
 							@endforeach	
 						<table class="table table-striped table-hover flexme">
@@ -77,42 +102,44 @@
 								</tr>
 							</thead>
 							<tbody>
-							@foreach ($holdingsset -> holdings as $post)		
-								<tr>
-									<td style="vertical-align: middle;">
-										<a href="<?= route('holdings.show', $post->id) ?>" data-target="#modal-show" data-toggle="modal">
+							@foreach ($holdingsset -> holdings as $holding)
+							<?php $btnlock 	= ($holding->locked) ? 'btn-warning' : 'btn-default'; ?>	
+							<?php $trclass 	= ($holding->locked) ? 'locked' : ''  ?>	
+								<tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}">
+									<td>
+						      	<a id="holding<?= $holding -> id; ?>lock" href="{{ action('HoldingssetsController@putLock',[$holding->id]) }}" class="btn btn-lock btn-xs {{ $btnlock }}" data-params="locked=true" data-remote="true" data-method="put" data-disable-with="...">
+		      						<span class="glyphicon glyphicon-lock"></span>
+		      					</a>
+										<a href="<?= route('holdings.show', $holding->id) ?>" data-target="#modal-show" data-toggle="modal">
 											<span class="glyphicon glyphicon-eye-open"></span>
-										</a>&nbsp;&nbsp;&nbsp;
-										<a href="" data-target="#modal-show-external" data-toggle="modal" data-remote="<?= route('holdings.show', $post->id) ?>">
+										</a>
+										<a href="" data-target="#modal-show-external" data-toggle="modal" data-remote="<?= route('holdings.show', $holding->id) ?>">
 											<span class="glyphicon glyphicon-list-alt"></span>
-										</a>&nbsp;&nbsp;&nbsp;
-										<a href="">
-											<span class="glyphicon glyphicon-lock"></span>
 										</a>
 									</td>
 									<td>
 										<?php
-											echo htmlspecialchars($post->f245a); 
+											echo htmlspecialchars($holding->f245a); 
 										?>
 									</td>
-									<td><?php echo htmlspecialchars($post->f245b); ?></td>
-									<td><?php echo $post->f245c; ?></td>
-									<td><?php echo $post->ocrr_ptrn; ?></td>
-									<td><?php echo $post->f022a; ?></td>
-									<td><?php echo htmlspecialchars($post->f260a); ?></td>
-									<td><?php echo htmlspecialchars($post->f260b); ?></td>
-									<td><?php echo $post->f710a; ?></td>
-									<td><?php echo $post->f780t; ?></td>
-									<td><?php echo $post->f362a; ?></td>
-									<td><?php echo $post->f866a; ?></td>
-									<td><?php echo $post->f866z; ?></td>
-									<td><?php echo $post->f310a; ?></td>
+									<td><?php echo htmlspecialchars($holding->f245b); ?></td>
+									<td><?php echo $holding->f245c; ?></td>
+									<td><?php echo $holding->ocrr_ptrn; ?></td>
+									<td><?php echo $holding->f022a; ?></td>
+									<td><?php echo htmlspecialchars($holding->f260a); ?></td>
+									<td><?php echo htmlspecialchars($holding->f260b); ?></td>
+									<td><?php echo $holding->f710a; ?></td>
+									<td><?php echo $holding->f780t; ?></td>
+									<td><?php echo $holding->f362a; ?></td>
+									<td><?php echo $holding->f866a; ?></td>
+									<td><?php echo $holding->f866z; ?></td>
+									<td><?php echo $holding->f310a; ?></td>
 								</tr>
 							@endforeach
 							<tr class="fields-sumary">
 								<td></td>
 								<td>
-									<span class="btn glyphicon glyphicon-info-sign" data-html='true' data-content="<div>
+									<span class="glyphicon glyphicon-info-sign" data-html='true' data-content="<div>
 										<?php 
 										if (isset($valuesCounter['f245a'])) {
 											foreach ($valuesCounter['f245a'] as $counter) {
@@ -120,10 +147,10 @@
 											} 
 										}
 										?>
-									</div>" data-placement="bottom" data-toggle="hover" type="button" data-original-title="" title="Row Sumary"></span>
+									</div>" data-placement="bottom" data-toggle="hover" type="button" data-original-title="" title="Column Sumary"></span>
 								</td>
 								<td>
-									<span class="btn glyphicon glyphicon-info-sign" data-html='true' data-content="<div>
+									<span class="glyphicon glyphicon-info-sign" data-html='true' data-content="<div>
 										<?php 
 										if (isset($valuesCounter['f245b'])) {
 											foreach ($valuesCounter['f245b'] as $counter) {
@@ -131,13 +158,13 @@
 											} 
 										}
 										?>
-									</div>" data-placement="bottom" data-toggle="hover" type="button" data-original-title="" title="Row Sumary"></span>
+									</div>" data-placement="bottom" data-toggle="hover" type="button" data-original-title="" title="Column Sumary"></span>
 								</td>
 								<td></td>
 								<td></td>
 								<td></td>
 								<td>
-									<span class="btn glyphicon glyphicon-info-sign" data-html='true' data-content="<div>
+									<span class="glyphicon glyphicon-info-sign" data-html='true' data-content="<div>
 										<?php
 										if (isset($valuesCounter['f260a'])) {
 											foreach ($valuesCounter['f260a'] as $counter) {
@@ -184,16 +211,16 @@
     return $res;
 	}
 
-	function getValue($field, $post, $valuesCounter) {
+	function getValue($field, $holding, $valuesCounter) {
 
-		if (!isset($valuesCounter[$field][htmlspecialchars($post->$field)]) && (($post->$field) != '')) { 
-			$valuesCounter[$field][htmlspecialchars($post->$field)]['title'] = htmlspecialchars($post->$field); 
-			$valuesCounter[$field][htmlspecialchars($post->$field)]['count'] = 0; 
+		if (!isset($valuesCounter[$field][htmlspecialchars($holding->$field)]) && (($holding->$field) != '')) { 
+			$valuesCounter[$field][htmlspecialchars($holding->$field)]['title'] = htmlspecialchars($holding->$field); 
+			$valuesCounter[$field][htmlspecialchars($holding->$field)]['count'] = 0; 
 		} 
-		if (($post->$field) != '') {
-			$temp = $valuesCounter[$field][htmlspecialchars($post->$field)]['count']; 
+		if (($holding->$field) != '') {
+			$temp = $valuesCounter[$field][htmlspecialchars($holding->$field)]['count']; 
 			$temp++; 
-			$valuesCounter[$field][htmlspecialchars($post->$field)]['count'] = $temp; 
+			$valuesCounter[$field][htmlspecialchars($holding->$field)]['count'] = $temp; 
 		}
 		return $valuesCounter;
 	}

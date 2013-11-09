@@ -9,4 +9,5 @@ return array(
 	'move_to_group'				=> 'Move to',
 	'ok' 									=> 'Confirm',
 	'select_all_hos'			=> 'Select All Holdings Sets',
+	'add_holdings'				=> 'Add Holdings to HOS',
 );

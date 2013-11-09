@@ -30,6 +30,9 @@ Route::resource('admin/libraries', 'LibrariesController' );
 Route::resource('admin/tags', 'TagsController');
 Route::resource('admin/traces', 'TracesController');
 
+Route::resource('holdingssets', 'HoldingssetsController');
+Route::controller('holdingssets', 'HoldingssetsController');
+
 Route::resource('holdings', 'HoldingsController');
 Route::controller('holdings', 'HoldingsController');
 
@@ -114,8 +117,6 @@ Route::get('contact-us', function()
 # Index Page - Last route, no matches
 Route::get('/', array('before' => ['detectLang','auth'],'uses' => 'Pages@getIndex'));
 
-Route::controller('holdingssets', 'HoldingssetsController');
-Route::resource('holdingssets', 'HoldingssetsController');
 
 Route::resource('reserves', 'ReservesController');
 Route::resource('comments', 'CommentsController');
