@@ -4,9 +4,99 @@
 @section('content')
 
 
-<div class="page-header">
-	
-	<div class="row"></div>
+<div class="page-header row">
+	<div class="accordion" id="filterContainer">
+	  <div class="text-right accordion-group">
+	    <div class="accordion-heading">
+	      <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+	        <span class="glyphicon glyphicon-filter" title="{{ trans('holdingssets.search_hos') }}"></span>
+	      </a>
+	    </div>
+	    <div id="collapseOne" class="accordion-body collapse text-left">
+	    <form class="bulk_action" method="get" action="http://bis.trialog.ch/holdingssets">
+
+	    	<h3>Search HOS</h3>
+	    	<div class="row clearfix">
+		     	<div class="input-group col-xs-2">
+		     		<label for="statusFilter" class="input-group-addon">HOS Status</label>
+			     	<div class="radio">
+		          <label>
+		            <input type="radio" checked="" value="ALL" id="statusFilter" name="statusFilter">
+		            All
+		          </label>
+		        </div>
+		        <div class="radio">
+		          <label>
+		            <input type="radio" checked="" value="Pending" id="statusFilter" name="statusFilter">
+		            Pending
+		          </label>
+		        </div>
+				    <div class="radio">
+		          <label>
+		            <input type="radio" checked="" value="Aproved" id="statusFilter" name="statusFilter">
+		            Aproved
+		          </label>
+		        </div>
+	      	</div>	     	
+	      	<div class="input-group col-xs-3">
+			     	<label for="f245aFilterValue" class="input-group-addon">245a</label>
+			     	<select id="f245aFilter" class="form-control" name="f245aFilter">
+			     		<option value="LIKE %$f245a% " selected>LIKE</option>
+			     		<option value="NOT LIKE %$f245a% ">NOT LIKE</option>
+			     		<option value="LIKE $f245a% ">BEGIN WITH</option>
+			     		<option value="LIKE %$f245a ">END WITH</option>
+			     	</select>
+		        <input id="f245aFilterValue" type="text" class="form-control" name="f245aFilterValue">
+	      	</div>
+<!-- 	      	<div class="input-group col-xs-1">
+			     	<div class="radio">
+		          <label>
+		            <input type="radio" checked="checked" value="ALL" id="statusFilter" name="statusFilter">
+		            AND
+		          </label>
+		        </div>
+		        <div class="radio">
+		          <label>
+		            <input type="radio" checked="" value="Pending" id="statusFilter" name="statusFilter">
+		            OR
+		          </label>
+		        </div>
+	      	</div>	   -->
+		     	<div class="input-group col-xs-3">
+			     	<label for="f245bFilterValue" class="input-group-addon">245b</label>
+			     	<select id="f245bFilter" class="form-control" name="f245bFilter">
+			     		<option value="LIKE" selected>LIKE</option>
+			     		<option value="NOT LIKE">NOT LIKE</option>
+			     		<option value="BEGIN WITH">BEGIN WITH</option>
+			     	</select>
+		        <input id="f245bFilterValue" type="text" class="form-control" name="f245bFilterValue">
+	      	</div>
+		     	<div class="input-group col-xs-3">
+			     	<label for="f245cFilterValue" class="input-group-addon">245c</label>
+			     	<select id="f245cFilter" class="form-control" name="f245cFilter">
+			     		<option value="LIKE" selected>LIKE</option>
+			     		<option value="NOT LIKE">NOT LIKE</option>
+			     		<option value="BEGIN WITH">BEGIN WITH</option>
+			     	</select>
+		        <input id="f245cFilterValue" type="text" class="form-control" name="f245cFilterValue">
+	      	</div>
+		     	<div class="input-group col-xs-3">
+			     	<label for="f022aFilterValue" class="input-group-addon">022a</label>
+			     	<select id="f022aFilter" class="form-control" name="f022aFilter">
+			     		<option value="LIKE" selected>LIKE</option>
+			     		<option value="NOT LIKE">NOT LIKE</option>
+			     		<option value="BEGIN WITH">BEGIN WITH</option>
+			     	</select>
+		        <input id="f022aFilterValue" type="text" class="form-control" name="f022aFilterValue">
+	      	</div>
+      	</div>
+      	<div class="col-xs-12 text-right">
+	        <button type="submit" class="btn btn-primary">Search</button>
+	      </div>
+			</form>
+	    </div>
+	  </div>
+	</div>
 </div>
 
 <ul class="nav nav-tabs">
