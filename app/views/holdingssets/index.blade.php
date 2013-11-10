@@ -39,14 +39,14 @@
 		        </div>
 	      	</div>	     	
 	      	<div class="input-group col-xs-3">
-			     	<label for="f245aFilterValue" class="input-group-addon">245a</label>
-			     	<select id="f245aFilter" class="form-control" name="f245aFilter">
+			     	<label for="f245aFilterValue" class="input-group-addon col-xs-2">245a</label>
+			     	<select id="f245aFilter" class="col-xs-5" name="f245aFilter">
 			     		<option value="LIKE %$f245a% " selected>LIKE</option>
 			     		<option value="NOT LIKE %$f245a% ">NOT LIKE</option>
 			     		<option value="LIKE $f245a% ">BEGIN WITH</option>
 			     		<option value="LIKE %$f245a ">END WITH</option>
 			     	</select>
-		        <input id="f245aFilterValue" type="text" class="form-control" name="f245aFilterValue">
+		        <input id="f245aFilterValue" type="text" class="col-xs-5" name="f245aFilterValue">
 	      	</div>
 <!-- 	      	<div class="input-group col-xs-1">
 			     	<div class="radio">
