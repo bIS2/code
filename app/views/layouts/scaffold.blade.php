@@ -53,5 +53,6 @@
 		================================================== -->
         {{ Basset::show('public.js') }}
         {{ Basset::show('holdingssets.js') }}
+        {{ Basset::show('holdings.js') }}
 	</body>
 </html>

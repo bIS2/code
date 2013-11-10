@@ -34,6 +34,7 @@ class TagsController extends BaseController {
 	public function create()
 	{
 		$data['holding'] = Holding::find( Input::get('holding_id') );
+		// echo var_dump($data['holding']->tags->find(1) );
 		return View::make('tags.create',$data);
 	}
 

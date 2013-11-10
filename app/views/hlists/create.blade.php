@@ -5,7 +5,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title"><?= trans('holdings.title_create_group')  ?></h4>
       </div>
-      <form action="<?= route('hlists.store') ?>" method="post" class="bulk_action">
+      <form action="<?= route('lists.store') ?>" method="post" class="bulk_action">
 	      <div class="modal-body">
 
 				    <div class="form-group">

@@ -55,6 +55,10 @@ return array(
                 //$collection->javascript('//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js');
                 //$collection->javascript('//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js');
                 $collection->add('jquery-1.10.2.min.js');
+                $collection->add('ui/jquery.ui.core.js');
+                $collection->add('ui/jquery.ui.widget.js');
+                $collection->add('ui/jquery.ui.mouse.js');
+                $collection->add('ui/jquery.ui.selectable.js');
                 $collection->add('bootstrap/bootstrap.js');
                 // $collection->requireDirectory('../../../vendor/twbs/bootstrap/js');
                 $collection->add('wysihtml5/wysihtml5-0.3.0.js');
@@ -68,7 +72,8 @@ return array(
                 $collection->add('flexigrid.js');
                 $collection->add('laravel-ujs.js');
                 $collection->add('tools.js');
-                // $collection->requireDirectory('../../../vendor/twbs/bootstrap/js');
+
+               // $collection->requireDirectory('../../../vendor/twbs/bootstrap/js');
             })->apply('JsMin');
         },
 

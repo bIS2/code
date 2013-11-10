@@ -9,7 +9,6 @@ class HoldingsController extends BaseController {
     public $data;
 
     public function __construct() {
-    	$this->beforeFilter( 'auth' );
 
     }
 
@@ -24,24 +23,23 @@ class HoldingsController extends BaseController {
 
     $this->data['hlists'] = Auth::user()->hlists;
     $hlist = false;
-    
-		if (Input::has('hlist_id')) {
+    $state =  (Input::has('state')) ? Input::get('state') : 'pendings'; 
 
-			$hlist = Hlist::find(Input::get('hlist_id'));
-			// Select holdings no tag to ok
-			$holdings = $hlist->holdings()->where('ok2','<>','true' )->paginate(100);
-
+		if ( Input::has('hlist_id') ) {
+			$holdings = Hlist::find(Input::get('hlist_id') )->holdings();
 		} else {
-
-			$hs = DB::table('holdingssets')->where('ok',true)->lists('id');
-			//$holdings = Holding::paginate(100);
-			$holdings = Holding::whereRaw('holdingsset_id in ('.implode(',',$hs).') and ok2<>"true"')->paginate(20);
+			$holdingssets_ids = Holdingsset::whereOk(true)->lists('id');
+			$holdings = Holding::whereIn('holdingsset_id',$holdingssets_ids);
 		}
-		$this->data['tags'] 		= Tag::all(	);
+
+		if ( $state=='ok2' ) $holdings = $holdings->ok2();
+		if ( $state=='tagged' )	$holdings = $holdings->pendings();
+		if ( $state=='pendings' )	$holdings = $holdings->whereOk2(0);
+		if ( $state=='orphan' )	$holdings = $holdings;
+
+		// $this->data['tags'] 		= Tag::all(	);
 		$this->data['hlist'] 		= $hlist;
-		$this->data['holdings'] = $holdings;
-
-
+		$this->data['holdings'] = $holdings->paginate(10);
 
 		// CONDITIONS
 		// filter by holdingsset ok
@@ -129,6 +127,10 @@ class HoldingsController extends BaseController {
 			if (isset( $tag['tag_id']) )
 				$holding->tags()->attach( $tag['tag_id'],[ 'content'=>$tag['content'] ] );
 		}
+	}
+
+	public function getConfirmed(){
+
 	}
 
 }

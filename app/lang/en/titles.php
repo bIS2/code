@@ -8,5 +8,6 @@ return array(
 	'libraries' => 'Libraries',
 	'tags' 			=> 'Tags',
 	'traces' 			=> 'Traces',
+	'lists' 			=> 'Lists',
 
 );

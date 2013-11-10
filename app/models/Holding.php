@@ -21,8 +21,17 @@ class Holding extends Eloquent {
   	$id_user = Auth::user()->id;
   }
 
-  public function scopeOutCabinet(){
-  	
+  public function scopeOk2($query){
+  	return $query->whereOk2(true);
   }
+
+  public function scopePendings($query){
+  	return $query->whereOk2(false);
+  }
+
+  public function scopeTagged($query){
+  	return $query->has('tags');
+  }
+
 
 }

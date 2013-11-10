@@ -4,9 +4,29 @@ $(function(){
 		
 		$checkboxes = $('.table').find(':checkbox')
 		if (this.checked)
-			$checkboxes.trigger('click')
+			$checkboxes.attr('checked',true)
 		else
 			$checkboxes.removeAttr('checked')
+	})
+
+	$('#filter-btn').click(function(){
+
+				$('#filter-well').toggle('slow')
+				$(this).toggleClass('btn-primary','btn-default') 
+
+	})
+
+	$(':checkbox:checked.sel').parents('tr').addClass("warning")
+
+	$(':checkbox.sel').click( function(){
+		if (this.checked) {
+			$('a.link_bulk_action').removeClass('disabled')
+			$(this).parents('tr').addClass("warning")
+		}	else {
+			$(this).parents('tr').removeClass("warning")
+			if ( $(':checkbox:checked.sel').length==0)
+				$('a.link_bulk_action').addClass('disabled')
+		}
 	})
 
 	$('a.link_bulk_action').on('click', function(){
@@ -16,7 +36,6 @@ $(function(){
 	$('a.link_bulk_action[data-remote]').on('click',function(){
 		$(this).attr( 'data-params', $('.table :checkbox:checked').serialize() )
 	})
-
 
   $('a').on({
     'ajax:success': function(data, result, status){

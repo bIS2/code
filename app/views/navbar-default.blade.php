@@ -3,6 +3,7 @@
 	<div class="container">
 		<a class="navbar-brand" href="/" title="Begleitendes Informationssystem">bIS</a>
 		<ul class="nav navbar-nav">
+
 			<!-- admin menu ROLE::SYSADMIN-->
 			@if (Auth::user()->hasRole('sysadmin'))
 				@include( 'layouts.items-menu-admin' );
@@ -16,7 +17,8 @@
 			<!-- admin librarian -->
 			@if (Auth::user()->hasRole('bibuser')) 		
 				@include( 'layouts.items-menu-librarian' );
-		  	@endif
+		  @endif
+		  
 		</ul>
 
 		<ul class="nav navbar-nav pull-right">

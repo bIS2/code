@@ -21,7 +21,7 @@ class HlistsController extends BaseController {
 	 */
 	public function index()
 	{
-		$hlists = $this->hlist->all();
+		$hlists = Auth::user()->hlists()->paginate(20);
 		return View::make('hlists.index', compact('hlists'));
 	}
 
@@ -123,7 +123,7 @@ class HlistsController extends BaseController {
 	public function destroy($id)
 	{
 		$this->hlist->find($id)->delete();
-		return Redirect::route('hlists.index');
+		return Response::json( ['remove' => [$id]] );
 	}
 
 	public function postAttach($id){

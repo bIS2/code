@@ -5,11 +5,12 @@ $(function(){
 	})
 
 	$('#form-create-tags').on('hidden.bs.modal', function () {
-	    $(this).removeData('bs.modal');
+			$(this).html().remove()
+	    // $(this).removeData('bs.modal');
 	});
 
-$('#form-create-tags').on('hidden', '.modal', function () {
+/*$('#form-create-tags').on('hidden', '.modal', function () {
   $(this).removeData('modal');
-});	
+});*/	
 
 })

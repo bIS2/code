@@ -1,35 +1,57 @@
-@extends('layouts.modal')
+@extends('layouts.default')
 
-@section('modal')
+@section('content')
 
-<h1>All Lists</h1>
+<div class="page-header">
+	<div class="row">
+		<div class="col-xs-12">
+			<h2> 
+				{{ trans('lists.title') }} 
+			</h2>
+		</div> <!-- /.col-xs-12 -->
+	</div> <!-- /.row -->
+</div> <!-- /.page-header -->
 
-<p>{{ link_to_route('hlists.create', 'Add new list') }}</p>
+	<div class="row">
+		<div class="col-xs-12">
 
-@if ($hlists->count())
-	<table class="table table-striped table-bordered">
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>User_id</th>
-			</tr>
-		</thead>
+			@if ($hlists->count())
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>{{ trans('tables.name') }}</th>
+							<th>{{ trans('tables.amount-lists') }}</th>
+							<th><span class="glyphicon glyphicon-thumbs-up"></span></th>
+							<th><span class="glyphicon glyphicon-tags"></span></th>
+						</tr>
+					</thead>
 
-		<tbody>
-			@foreach ($hlists as $list)
-				<tr>
-					<td>{{{ $list->name }}}</td>
-					<td>{{{ $list->user_id }}}</td>
-                    <td>{{ link_to_route('hlists.edit', 'Edit', array($list->id), array('class' => 'btn btn-info')) }}</td>
-                    <td>
-                        {{ Form::open(array('method' => 'DELETE', 'route' => array('hlists.destroy', $list->id))) }}
-                            {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
-                        {{ Form::close() }}
-                    </td>
-				</tr>
-			@endforeach
-		</tbody>
-	</table>
+					<tbody>
+						@foreach ($hlists as $list)
+							<tr id="{{ $list->id }}">
+								<td>{{ link_to( route('holdings.index',['hlist'=>$list->id]), $list->name) }}</td>
+								<td>{{{ $list->holdings->count() }}}</td>
+								<td>
+									@if ( ( $count = $list->holdings()->ok2()->count() )>0  )
+										<a href="{{ route('holdings.index',['hlist'=>$list->id, 'ok2'=>true]) }}" >{{$count }}</a>
+									@else
+										{{{ $list->holdings()->ok2()->count() }}}
+									@endif
+								</td>
+								<td></td>
+			          <td>
+			          	{{ link_to_route('lists.edit', trans('general.edit'), [$list->id], ['class' => 'btn btn-info btn-xs'] ) }}
+			          	{{ link_to_route('lists.destroy', trans('general.delete'), [$list->id], ['class' => 'btn btn-danger btn-xs', 'data-remote'=>'true', 'data-method'=>'delete'] ) }}
+				        </td>
+							</tr>
+						@endforeach
+					</tbody>
+				</table>
+
+		</div> <!-- /.col-xs-12 -->
+	</div> <!-- /.row -->
+
+
 @else
 	There are no hlists
 @endif
@@ -49,8 +71,8 @@
 						@foreach ($hlists as $list)
 							<li>
 								{{ link_to_route('holdings.index', $list->name,['hlist_id'=>$list->id] ) }}
-			          {{ link_to_route('hlists.edit', trans('general.edit'), [$list->id]) }}
-			          {{ link_to_route('hlists.destroy', trans('general.delete'), [$list->id], ['data-method' => 'DELETE', 'data-remote'=>true ]) }}
+			          {{ link_to_route('lists.edit', trans('general.edit'), [$list->id]) }}
+			          {{ link_to_route('lists.destroy', trans('general.delete'), [$list->id], ['data-method' => 'DELETE', 'data-remote'=>true ]) }}
 							</li>
 						@endforeach
         	</ul>
