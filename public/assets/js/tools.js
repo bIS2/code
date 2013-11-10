@@ -10,10 +10,8 @@ $(function(){
 	})
 
 	$('#filter-btn').click(function(){
-
-				$('#filter-well').toggle('slow')
-				$(this).toggleClass('btn-primary','btn-default') 
-
+		$('#filter-well').toggle('slow')
+		$(this).toggleClass('btn-primary','btn-default') 
 	})
 
 	$(':checkbox:checked.sel').parents('tr').addClass("warning")
@@ -41,7 +39,8 @@ $(function(){
 	$('#modal-show').on('show.bs.modal', function () {
 	  // $(this).load($(this).options.remote)
 	})
-    getAsuccess();
+
+  getAsuccess();
 })
 
 function getAsuccess() {

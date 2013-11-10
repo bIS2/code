@@ -144,7 +144,7 @@
 					</a>
 				</td>
 
- -->		<td><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel"/></td>
+ -->		<td><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
  					
  				<td>
  					{{ link_to_route('holdings.show', $holding->holdingsset->f245a,[ $holding->id ]) }}
