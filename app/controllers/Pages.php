@@ -8,7 +8,7 @@ class Pages extends BaseController {
 	 * @return Response
 	 */
 	public function getIndex(){
-		$data['traces'] = Trace::all();
+		$data['traces'] = Trace::lastest()->get();
 		return View::make('pages.index', $data);
 	}
 

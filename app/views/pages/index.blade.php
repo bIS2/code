@@ -15,7 +15,7 @@
 	<ul>
 		@foreach ($traces as $trace) 
 			<li>
-				{{ $trace->created_at->toDateString() }}
+				{{ $trace->created_at->toDayDateTimeString() }}
 				{{ $trace->user->username }}
 				{{ $trace->action }}
 			</li>

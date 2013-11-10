@@ -15,7 +15,7 @@ return array(
 
 	'create_hlist' 							=> 'create a List :name',
 	'create_group' 							=> 'create a Group :name',
-	'holdingset_change_to_ok' 	=> 'change state to ok the HOLDINGSET: <strong>:name</strong>',
-	'holdingset_change_to_ko' 	=> 'change state to  the HOLDINGSET: <strong>:name</strong>',
+	'holdingset_change_to_ok' 	=> 'change state to OK the HOLDINGSET: <strong>:name</strong>',
+	'holdingset_change_to_ko' 	=> 'change state PENDING the HOLDINGSET: <strong>:name</strong>',
 
 );
