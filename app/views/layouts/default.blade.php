@@ -8,6 +8,7 @@
 
 <!-- Container -->
 	<div class="container">
+		{{Session::get('info')}}
 		<!-- Notifications -->
 			@include('notifications')
 		<!-- ./ notifications -->
