@@ -7,9 +7,13 @@ class Pages extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function getIndex()
-	{
-        return View::make('pages.index');
+	public function getIndex(){
+		$data['traces'] = Trace::all();
+		return View::make('pages.index', $data);
+	}
+
+	public function getHelp(){
+		return View::make('pages.help');
 	}
 
 
