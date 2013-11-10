@@ -29,11 +29,11 @@
 	        @else
 	        	<li {{ (Request::is('user/login') ? ' class="active"' : '') }}><a href="{{{ URL::to('user/login') }}}">Login</a></li>
           	@endif
-          	<li><a href="#" class="dropdown-toggle" data-toggle="dropdown" ><span class="glyphicon glyphicon-cog"></span></a>
+          	<li><a href="#" class="dropdown-toggle" data-toggle="dropdown" ><i class="fa fa-cog fa-lg"></i></a>
           		<ul class="dropdown-menu" role="menu">
-    				<li><a href="#">my Groups</a></li>
-    				<li><a href="#">my Languaje</a></li>
-    				<li><a href="#">Something else here</a></li>
+    				<li><a href="#"><i class="fa fa-camera-retro"></i> my Groups</a></li>
+    				<li><a href="#"><i class="fa fa-camera-retro"></i> my Languaje</a></li>
+    				<li><a href="#"><i class="fa fa-camera-retro"></i> Something else here</a></li>
     				<li class="divider"></li>
     				<li><a href="{{{ URL::to('user/logout') }}}">{{{ trans('general.logout') }}}</a></li>
   				</ul>
