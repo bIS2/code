@@ -13,8 +13,9 @@ return array(
 	|
 	*/
 
-	'create-hlist' 				=> 'create a List :name',
-	'create-group' 				=> 'create a Group :name',
-	'holding-set-ok' 				=> 'set ok holding :name',
+	'create_hlist' 							=> 'create a List :name',
+	'create_group' 							=> 'create a Group :name',
+	'holdingset_change_to_ok' 	=> 'change state to ok the HOLDINGSET: <strong>:name</strong>',
+	'holdingset_change_to_ko' 	=> 'change state to  the HOLDINGSET: <strong>:name</strong>',
 
 );
