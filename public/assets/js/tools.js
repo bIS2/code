@@ -2,7 +2,7 @@ $(function(){
 
 	$(':checkbox#select-all').click(function(){
 		
-		$checkboxes = $('.table').find(':checkbox')
+		$checkboxes = $('.table').find('input.hl:checkbox')
 		if (this.checked)
 			$checkboxes.attr('checked',true)
 		else
@@ -30,40 +30,56 @@ $(function(){
 	})
 
 	$('a.link_bulk_action').on('click', function(){
-		$('.table :checkbox:checked').clone().attr('type','hidden').appendTo('form.bulk_action')
+		$('.table input.hl:checkbox:checked').clone().attr('type','hidden').appendTo('form.bulk_action')
 	})
 
 	$('a.link_bulk_action[data-remote]').on('click',function(){
-		$(this).attr( 'data-params', $('.table :checkbox:checked').serialize() )
+		$(this).attr( 'data-params', $('.table input.hl:checkbox:checked').serialize() )
 	})
 
-  $('a').on({
-    'ajax:success': function(data, result, status){
-        if ( result.remove )
-        	$.each(result.remove, function(index,id){
-        		$('#'+id).hide('slow', function(){ $(this).remove() });	
-        	})
 
-        if ( result.ok ){
-        	$('#'+result.ok).find('.btn-ok').addClass('btn-success').removeClass('btn-default');	
-        }
-        if ( result.ko ){
-        	$('#'+result.ko).find('.btn-ok').addClass('btn-default').removeClass('btn-success');	
-        }
-
-        if ( result.tag ){
-        	$('#'+result.tag).find('.btn-tag').addClass('btn-default').removeClass('btn-danger');	
-        }
-        if ( result.untag ){
-        	$('#'+result.untag).find('.btn-tag').addClass('btn-danger').removeClass('btn-default');	
-        }
-          
-      }
-    })
-	
-	
 	$('#modal-show').on('show.bs.modal', function () {
 	  // $(this).load($(this).options.remote)
 	})
+    getAsuccess();
 })
 
+function getAsuccess() {
+  $('a').on({
+    'ajax:success': function(data, result, status){
+        if ( result.remove )
+            $.each(result.remove, function(index,id){
+                $('#'+id).hide('slow', function(){ $(this).remove() }); 
+            })
+        console.log(result);
+        /* HOS ok to next step */
+        if ( result.ok ){
+            $('#'+result.ok).find('.btn-ok').addClass('btn-success').removeClass('btn-default');    
+        }
+        if ( result.ko ){
+            $('#'+result.ko).find('.btn-ok').addClass('btn-default').removeClass('btn-success');    
+        }
+
+        /* Holdings locks */
+        if ( result.lock ){
+            $('#holding'+result.lock).addClass('locked').find('.btn-lock').addClass('btn-warning');    
+        }
+        if ( result.unlock ){
+            $('#holding'+result.unlock).removeClass('locked').find('.btn-lock').removeClass('btn-warning');    
+        }
+
+        /* Holdings Tags */
+        if ( result.tag ){
+            $('#'+result.tag).find('.btn-tag').addClass('btn-default').removeClass('btn-danger');   
+        }
+        if ( result.untag ){
+            $('#'+result.untag).find('.btn-tag').addClass('btn-danger').removeClass('btn-default'); 
+        } 
+        /* Deleted Group */
+        if ( result.groupDelete ){
+            console.log('aquiii');
+            $('li#group'+result.groupDelete).remove(); 
+        } 
+      }
+    })
+}

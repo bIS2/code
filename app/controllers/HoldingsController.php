@@ -28,8 +28,10 @@ class HoldingsController extends BaseController {
 		if ( Input::has('hlist_id') ) {
 			$holdings = Hlist::find(Input::get('hlist_id') )->holdings();
 		} else {
+
 			$holdingssets_ids = Holdingsset::whereOk(true)->lists('id');
 			$holdings = Holding::whereIn('holdingsset_id',$holdingssets_ids);
+
 		}
 
 		if ( $state=='ok2' ) $holdings = $holdings->ok2();

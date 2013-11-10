@@ -19,9 +19,10 @@ Route::model('user', 'User');
 Route::model('comment', 'Comment');
 Route::model('post', 'Post');
 Route::model('role', 'Role');
-Route::controller('pages','Pages');
 
 Route::group(array( 'before' => 'auth'), function(){
+	
+	Route::controller('pages','Pages');
 	
 	Route::resource('admin/libraries', 'LibrariesController' );
 	Route::resource('admin/tags', 'TagsController');
@@ -30,13 +31,21 @@ Route::group(array( 'before' => 'auth'), function(){
 	Route::resource('groups', 'GroupsController');
 	Route::controller('groups', 'GroupsController');
 
+
 	Route::controller('holdings', 'HoldingsController');
 	Route::resource('holdings', 'HoldingsController');
+
+	Route::resource('holdingssets', 'HoldingssetsController');
+	Route::controller('holdingssets', 'HoldingssetsController');
 
 	Route::controller('lists', 'HlistsController');
 	Route::resource('lists', 'HlistsController');
 
 	Route::resource('tags', 'TagsController');
+	Route::resource('reserves', 'ReservesController');
+
+	Route::resource('traces', 'TracesController');
+
 });
 
 /** ------------------------------------------
@@ -116,9 +125,4 @@ Route::get('contact-us', function()
 # Index Page - Last route, no matches
 Route::get('/', array('before' => ['detectLang','auth'],'uses' => 'Pages@getIndex'));
 
-Route::controller('holdingssets', 'HoldingssetsController');
-Route::resource('holdingssets', 'HoldingssetsController');
-
-Route::resource('reserves', 'ReservesController');
-Route::resource('traces', 'TracesController');
 

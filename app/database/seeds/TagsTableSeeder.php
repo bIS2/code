@@ -5,7 +5,7 @@ class TagsTableSeeder extends Seeder {
 	public function run()
 	{
 		// Uncomment the below to wipe the table clean before populating
-		DB::table('tags')->truncate();
+		DB::table('tags')->delete();
 
 		$tags = [
 			[ 'name' => 'Missing' ],

@@ -109,6 +109,8 @@ class HoldingssetsController extends BaseController {
 	{
 		//
 	}
+
+	// Set/Unset Ok to HOS
 	public function putOk($id) {
 		$holdingsset = Holdingsset::find($id);
 		$value = ( $holdingsset->ok ) ? false : true;
@@ -119,6 +121,20 @@ class HoldingssetsController extends BaseController {
 		//
 	}	
 
-	
+	// Lock/Unlock Holding
+	public function putLock($id) {
+		$holding = Holding::find($id);
+		$value = ( $holding->locked ) ? false : true;
+
+		if ($holding->update(['locked'=>$value]))
+			return ($value) ? Response::json( ['lock' => [$id]] ) : Response::json( ['unlock' => [$id]] );
+	}	
+
+
+	public function putDelGroup($id) {
+		$group = Group::find($id)->delete();
+		return Response::json( ['groupDelete' => [$id]] );
+	}	
+
 
 }

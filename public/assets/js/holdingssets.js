@@ -16,6 +16,7 @@ $(function(){
   	$(this).on('click', function() {
   		if ($(this).attr('opened') == 0) {
   			$($(this).attr('href') + ' .flexme').flexigrid();
+  			getAsuccess();
   			$($(this).attr('href') + ' table').addClass('table');
 	  			$($(this).attr('href') + ' .flexme span').each(function() {
 						$(this).on('click', function() {
@@ -38,11 +39,11 @@ page = 1;
 		  function(data){
 			  if (data != "") {
 			    $("#hosg ul li:last").after(data);
-					$('#hosg').dataTable({
-			      "bFilter": true,
-			      "bPaginate": false,
-			      "bDestroy": true
-			    });
+					// $('#hosg').dataTable({
+			  //     "bFilter": true,
+			  //     "bPaginate": false,
+			  //     "bDestroy": true
+			  //   });
 			    $('#hosg .accordion-toggle').each(function() {
 			    	$(this).on('click', function() {
 			    		if ($(this).attr('opened') == 0) {
@@ -53,7 +54,7 @@ page = 1;
 			    				$('.popover').each().css('display', 'none')
 									$(this).popover()
 									$(this).on('click', function() {
-										return false;
+										// return false;
 									})
 			    			})
 			    		}
