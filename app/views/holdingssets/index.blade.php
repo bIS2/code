@@ -17,7 +17,7 @@
 
 	    	<h3>Search HOS</h3>
 	    	<div class="row clearfix">
-		     	<div class="input-group col-xs-2">
+		     	<div class="input-group col-xs-2 form-control">
 		     		<label for="statusFilter" class="input-group-addon">HOS Status</label>
 			     	<div class="radio">
 		          <label>
@@ -39,7 +39,7 @@
 		        </div>
 	      	</div>	     	
 	      	<div class="input-group col-xs-3">
-			     	<label for="f245aFilterValue" class="input-group-addon col-xs-2">245a</label>
+			     	<label for="f245aFilterValue" class="input-group-addon col-xs-2  form-control">245a</label>
 			     	<select id="f245aFilter" class="col-xs-5" name="f245aFilter">
 			     		<option value="LIKE %$f245a% " selected>LIKE</option>
 			     		<option value="NOT LIKE %$f245a% ">NOT LIKE</option>
