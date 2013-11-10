@@ -5,6 +5,11 @@ class Holding extends Eloquent {
 	public static $rules = array();
 	public $timestamps = false;
 
+  public static function boot() {
+    parent::boot();
+		Holding::observe(new TraceObserver);
+  }
+
   public function holdingsset() {
       return $this->belongsTo('Holdingsset');
   }
