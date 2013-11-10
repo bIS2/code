@@ -22,6 +22,7 @@ Route::model('role', 'Role');
 
 Route::group(array( 'before' => ['auth','detectLang']), function(){
 
+
 	# Index Page - Last route, no matches
 	Route::get('/', ['uses' => 'Pages@getIndex']);
 	
@@ -48,6 +49,11 @@ Route::group(array( 'before' => ['auth','detectLang']), function(){
 	Route::resource('reserves', 'ReservesController');
 
 	Route::resource('traces', 'TracesController');
+
+	Route::when('sets*', 'auth_like_librarian');
+	Route::when('holdings*', 'auth_like_storeman');
+	Route::when('admin*', 'auth_like_admin');
+
 
 });
 

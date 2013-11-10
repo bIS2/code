@@ -55,5 +55,5 @@
     @else
     {{ $message }}
     @endif
-</div>
+ </div>
 @endif

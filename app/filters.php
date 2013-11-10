@@ -72,9 +72,30 @@ Route::filter('guest', function()
 */
 
 // Check for role admin o librarian in admin routes
-Entrust::routeNeedsRole( 'admin*', ['speiuser'], Redirect::to('/')->with('info',trans('messages.to_be_admin')), false );
-Entrust::routeNeedsRole( 'holdings*', ['magvuser','maguser'], Redirect::to('/')->with('info',trans('messages.manage_holdings')), false );
-Entrust::routeNeedsRole( 'sets*', ['bibuser','superuser'], Redirect::to('/')->with('info',trans('messages.manage_sets')), false );
+// Entrust::routeNeedsRole( 'admin*', ['speiuser'], Redirect::to('/')->with('info',trans('messages.to_be_admin')), false );
+// Entrust::routeNeedsRole( 'holdings*', ['magvuser','maguser'], Redirect::to('/')->with('flash',trans('messages.manage_holdings')), false );
+// Entrust::routeNeedsRole( 'sets*', ['bibuser','superuser'], Redirect::to('/')->with('flash',trans('messages.manage_sets')), false );
+
+
+Route::filter('auth_like_librarian', function(){
+
+    if (!Entrust::hasRole('bibuser') && !Entrust::hasRole('superuser') ) 
+        return Redirect::to('/')->with('info',trans('messages.auth_like_librarian'));
+
+});
+Route::filter('auth_like_storeman', function(){
+
+    if ( !Entrust::hasRole('maguser') && !Entrust::hasRole('magvuser')) 
+        return Redirect::to('/')->with('info',trans('messages.auth_like_storeman'));
+
+});
+Route::filter('auth_like_admin', function(){
+
+    if (! Entrust::hasRole('speiuser') ) 
+        return Redirect::to('/')->with('info',trans('messages.auth_like_admin'));
+
+});
+
 
 // Check for permissions on admin actions
 /*Entrust::routeNeedsPermission( 'admin/users*', ['admin','bibuser'], Redirect::to('/admin'), false );
