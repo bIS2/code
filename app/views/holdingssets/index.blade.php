@@ -128,7 +128,7 @@
 </div>
 <section id="hosg" group_id = "<?php echo $group_id;  ?>">
 	<ul class="list-group table">
-	@foreach ($holdingssets as $holdingsset)z
+	@foreach ($holdingssets as $holdingsset)
 		<?php $ok 	= ($holdingsset->ok) ? 'ok' : ''  ?>
 		<?php $btn 	= ($holdingsset->ok) ? 'btn-success' : 'btn-default'  ?>
 		<li class="panel list-group-item {{ $ok }}" id="<?= $holdingsset -> id; ?>">
