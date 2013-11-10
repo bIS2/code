@@ -23,7 +23,7 @@ Route::model('role', 'Role');
 Route::group(array( 'before' => 'auth'), function(){
 	
 	Route::controller('pages','Pages');
-	
+
 	Route::resource('admin/libraries', 'LibrariesController' );
 	Route::resource('admin/tags', 'TagsController');
 	Route::resource('admin/traces', 'TracesController');
@@ -45,6 +45,7 @@ Route::group(array( 'before' => 'auth'), function(){
 	Route::resource('reserves', 'ReservesController');
 
 	Route::resource('traces', 'TracesController');
+	// Route::when('holdingssets*', 'manage_holdingssets');
 
 });
 

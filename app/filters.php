@@ -73,8 +73,18 @@ Route::filter('guest', function()
 
 // Check for role admin o librarian in admin routes
 Entrust::routeNeedsRole( 'admin*', ['speiuser'], Redirect::to('/'), false );
-Entrust::routeNeedsRole( 'holdings*', ['magvuser','maguser'], Redirect::to('/'), false );
 Entrust::routeNeedsRole( 'holdingssets*', ['bibuser','superuser'], Redirect::to('/'), false );
+// Entrust::routeNeedsRole( 'holdings*', ['magvuser','maguser'], Redirect::to('/'), false );
+
+
+/*Route::filter('manage_holdingssets', function(){
+
+    if (!Entrust::hasRole('bibuser') ) {
+    	Session::flash('info', trans('info.manage_holdingssets'));
+      Redirect::to('/');
+    }
+
+});*/
 
 // Check for permissions on admin actions
 /*Entrust::routeNeedsPermission( 'admin/users*', ['admin','bibuser'], Redirect::to('/admin'), false );

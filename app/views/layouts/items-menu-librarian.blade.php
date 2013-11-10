@@ -19,9 +19,7 @@
     <a data-toggle="modal" data-target="#myModal" href="#"><?= trans('holdingssets.groups')  ?></a>
   </li>
   <li>
-  <!-- 
-  	<?= link_to( route('comments.create'), trans('holdingssets.ok'));  ?>
-     -->
+
   </li>
 
 @endif
