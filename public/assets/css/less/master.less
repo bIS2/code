@@ -65,6 +65,9 @@
 @import "../../../../vendor/twbs/bootstrap/less/utilities.less";
 @import "../../../../vendor/twbs/bootstrap/less/responsive-utilities.less";
 
+// Font-awesome-4.0.3
+@import "font-awesome/font-awesome.less";
+
 // Components w/ JavaScript
 
 // -------------------------------------------------------------
@@ -170,6 +173,10 @@ table.table {
 
 .navbar {
     .box-shadow (@bis-box-shadow);
+}
+
+.navbar-nav {
+    a:hover,
     .active {
         text-shadow: 1px 1px 2px rgba(0,0,0,.45);
     }
@@ -179,6 +186,12 @@ table.table {
     font-weight: bold;
     font-size: @font-size-xlarge;
     .bis-brand-text
+}
+
+.dropdown-menu {
+    a {
+        text-shadow: none !important;
+    }
 }
 
 .jumbotron {
@@ -234,7 +247,6 @@ footer {
 tr.locked td, tr.locked div {
     .bis-locked;
 }
-
 
 
 
