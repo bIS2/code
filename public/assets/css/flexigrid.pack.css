@@ -282,11 +282,11 @@
 	border-left:1px solid #fff;
 	overflow:hidden;
 	vertical-align: middle!important;
-	padding: 0 !important;
+/*	padding: 0 !important;*/
 }
 .flexigrid div.hDiv th div,.flexigrid div.bDiv td div,div.colCopy div/* common inner cell properties*/ {
 	border-left:0 solid #fff;
-	padding:6px 4px
+	padding:6px 0
 }
 .flexigrid div.hDiv th,div.colCopy {
 	font-weight:400;

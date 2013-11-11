@@ -214,7 +214,22 @@
 									</td>
 									<td><?php echo htmlspecialchars($holding->f245b); ?></td>
 									<td><?php echo $holding->f245c; ?></td>
-									<td><?php echo $holding->ocrr_ptrn; ?></td>
+									<td>
+										<?php											
+											$ocrr_ptrn = str_split($holding->ocrr_ptrn);
+											foreach ($ocrr_ptrn as $ocrr) {
+											 	switch ($ocrr) {
+											 		case '0':
+											 			echo '<i class="fa fa-square"></i>';
+											 			break;
+											 		
+											 		case '1':
+											 			echo '<i class="fa fa-square-o"></i>';
+											 			break;
+											 	}
+											 } 
+										?>
+									</td>
 									<td><?php echo $holding->f022a; ?></td>
 									<td><?php echo htmlspecialchars($holding->f260a); ?></td>
 									<td><?php echo htmlspecialchars($holding->f260b); ?></td>
