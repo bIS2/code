@@ -9,7 +9,7 @@ class HoldingsController extends BaseController {
     public $data;
 
     public function __construct() {
- 		$this->beforeFilter('auth_like_storeman', ['except' => 'show']);
+ 		$this->beforeFilter('auth_like_storeman', ['except' => ['show','index']]);
     }
 
 	/**
@@ -23,9 +23,9 @@ class HoldingsController extends BaseController {
 		$holdingssets_ids = Holdingsset::whereOk(true)->lists('id');
 		$holdings = Holding::whereIn('holdingsset_id',$holdingssets_ids);
 
-    $this->data['hlists'] = Auth::user()->hlists;
-    $hlist = false;
-    $state =  (Input::has('state')) ? Input::get('state') : 'pendings'; 
+	    $this->data['hlists'] = Auth::user()->hlists;
+	    $hlist = false;
+	    $state =  (Input::has('state')) ? Input::get('state') : 'pendings'; 
 
 		if ( Input::has('hlist_id') ) 	$holdings =  Hlist::find(Input::get('hlist_id'))->holdings();
 		if ( $state=='ok2' ) 			$holdings = $holdings->ok2();
