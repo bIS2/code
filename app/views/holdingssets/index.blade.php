@@ -193,9 +193,11 @@
 							</thead>
 							<tbody>
 							@foreach ($holdingsset -> holdings as $holding)
-							<?php $btnlock 	= ($holding->locked) ? 'btn-warning' : 'btn-default'; ?>	
+							<?php $btnlock 	= ($holding->locked) ? 'btn-warning ' : 'btn-default '; ?>	
 							<?php $trclass 	= ($holding->locked) ? 'locked' : ''  ?>	
-								<tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}">
+							<?php $ownertrclass 	= ($holding->is_owner == 't') ? ' is_owner' : '';  ?>	
+							<?php $auxtrclass 	= ($holding->is_aux == 't') ? ' is_aux' : '';  ?>	
+								<tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}">
 									<td>
 						      	<a id="holding<?= $holding -> id; ?>lock" href="{{ action('HoldingssetsController@putLock',[$holding->id]) }}" class="btn btn-lock btn-xs {{ $btnlock }}" data-params="locked=true" data-remote="true" data-method="put" data-disable-with="...">
 		      						<span class="glyphicon glyphicon-lock"></span>
@@ -214,20 +216,26 @@
 									</td>
 									<td><?php echo htmlspecialchars($holding->f245b); ?></td>
 									<td><?php echo $holding->f245c; ?></td>
-									<td>
+									<td class="ocrr_ptrn">
 										<?php											
 											$ocrr_ptrn = str_split($holding->ocrr_ptrn);
-											foreach ($ocrr_ptrn as $ocrr) {
+											$j_ptrn = str_split($holding->j_ptrn);
+											$aux_ptrn = str_split($holding->aux_ptrn);
+											$i = 0;
+											foreach ($ocrr_ptrn as $ocrr) { 
 											 	switch ($ocrr) {
 											 		case '0':
-											 			echo '<i class="fa fa-square"></i>';
-											 			break;
-											 		
+											 			echo '<i class="fa fa-square-o fa-lg"></i>';
+											 			break;											 		
 											 		case '1':
-											 			echo '<i class="fa fa-square-o"></i>';
+											 			$classj = '';
+											 			$classaux = '';
+											 		 	if (isset($j_ptrn[$i])) $classj = ($j_ptrn[$i] == '1') ? ' j' : ''; 
+											 			if (isset($aux_ptrn[$i]))  $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
+											 			echo '<i class="fa fa-square fa-lg'.$classj.$classaux.'"></i>';
 											 			break;
 											 	}
-											 } 
+											 $i++; } 
 										?>
 									</td>
 									<td><?php echo $holding->f022a; ?></td>
