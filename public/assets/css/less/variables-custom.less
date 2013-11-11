@@ -35,7 +35,8 @@
 // Iconography
 // -------------------------
 
-@icon-font-path:          "../../fonts/";
+@icon-font-path:			"../../fonts/";
+@fa-font-path:				"../../fonts/";
 
 // Navbar
 // -------------------------
@@ -52,9 +53,9 @@
 
 // Navbar links
 @navbar-default-link-color:                #fff;
-@navbar-default-link-hover-color:          #333;
+@navbar-default-link-hover-color:          lighten(@swiss-yellow, 25%);
 @navbar-default-link-hover-bg:             transparent;
-@navbar-default-link-active-color:         lighten(@swiss-yellow, 25%);
+@navbar-default-link-active-color:         @navbar-default-link-hover-color;
 @navbar-default-link-active-bg:            darken(@navbar-default-bg, 5%);
 @navbar-default-link-disabled-color:       #ccc;
 @navbar-default-link-disabled-bg:          transparent;
@@ -71,11 +72,21 @@
 
 // Jumbotron
 // -------------------------
-
 @jumbotron-padding:              30px;
 @jumbotron-color:                #fff;
 @jumbotron-bg:                   @swiss-red;
 
-// Popover
-@popover-bg:            #fffff5;
-@popover-title-bg:      darken(@popover-bg, 3%);
+// Popovers
+// -------------------------
+@popover-bg:                          #fffff5;
+@popover-border-color:                rgba(0,0,0,.2);
+@popover-fallback-border-color:       #ccc;
+
+@popover-title-bg:                    darken(@popover-bg, 3%);
+
+@popover-arrow-width:                 10px;
+@popover-arrow-color:                 @popover-bg;
+
+@popover-arrow-outer-width:           (@popover-arrow-width + 1);
+@popover-arrow-outer-color:           transparent;
+@popover-arrow-outer-fallback-color:  transparent;
