@@ -6,17 +6,17 @@
 
 			<!-- admin menu ROLE::SYSADMIN-->
 			@if (Auth::user()->hasRole('sysadmin'))
-				@include( 'layouts.items-menu-admin' );
+				@include( 'layouts.items-menu-admin' )
 			@endif
 			
 			<!-- admin storeman -->
 			@if (Auth::user()->hasRole('maguser')) 
-				@include( 'layouts.items-menu-storeman' );
+				@include( 'layouts.items-menu-storeman' )
 			@endif	
 
 			<!-- admin librarian -->
 			@if (Auth::user()->hasRole('bibuser')) 		
-				@include( 'layouts.items-menu-librarian' );
+				@include( 'layouts.items-menu-librarian' )
 		  @endif
 		  
 		</ul>
