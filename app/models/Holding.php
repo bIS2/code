@@ -31,7 +31,7 @@ class Holding extends Eloquent {
   }
 
   public function scopePendings($query){
-  	return $query->whereOk2(0)->whereNotIn('id', function($query){ 
+  	return $query->whereOk2(false)->whereNotIn('id', function($query){ 
       $query->select('holding_id')->from('holding_tag'); 
     });
   }
@@ -47,6 +47,5 @@ class Holding extends Eloquent {
       $query->select('holding_id')->from('hlist_holding'); 
     });
   }
-
 
 }
