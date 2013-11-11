@@ -38,7 +38,7 @@
 										{{{ $list->holdings()->ok2()->count() }}}
 									@endif
 								</td>
-								<td></td>
+								<td>{{$list->holdings()->has('tags')->count()}}</td>
 			          <td>
 			          	{{ link_to_route('lists.edit', trans('general.edit'), [$list->id], ['class' => 'btn btn-info btn-xs'] ) }}
 			          	{{ link_to_route('lists.destroy', trans('general.delete'), [$list->id], ['class' => 'btn btn-danger btn-xs', 'data-remote'=>'true', 'data-method'=>'delete'] ) }}
