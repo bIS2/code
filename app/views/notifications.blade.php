@@ -1,5 +1,5 @@
 @if (count($errors->all()) > 0)
-<div class="alert alert-danger alert-block">
+<div class="alert alert-danger alert-block page-header">
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
 	<h4>Error</h4>
 	Please check the form below for errors
@@ -7,7 +7,7 @@
 @endif
 
 @if ($message = Session::get('success'))
-<div class="alert alert-success alert-block">
+<div class="alert alert-success alert-block page-header">
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
     @if(is_array($message))
         @foreach ($message as $m)
@@ -20,7 +20,7 @@
 @endif
 
 @if ($message = Session::get('error'))
-<div class="alert alert-danger alert-block">
+<div class="alert alert-danger alert-block page-header">
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
     @if(is_array($message))
     @foreach ($message as $m)
@@ -33,7 +33,7 @@
 @endif
 
 @if ($message = Session::get('warning'))
-<div class="alert alert-warning alert-block">
+<div class="alert alert-warning alert-block page-header">
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
     @if(is_array($message))
     @foreach ($message as $m)
@@ -44,9 +44,9 @@
     @endif
 </div>
 @endif
-sasas
+
 @if ($message = Session::get('info'))
-<div class="alert alert-info alert-block">
+<div class="alert alert-info alert-block page-header">
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
     @if(is_array($message))
     @foreach ($message as $m)
@@ -55,5 +55,5 @@ sasas
     @else
     {{ $message }}
     @endif
-</div>
+ </div>
 @endif

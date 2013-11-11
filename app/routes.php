@@ -20,7 +20,11 @@ Route::model('comment', 'Comment');
 Route::model('post', 'Post');
 Route::model('role', 'Role');
 
-Route::group(array( 'before' => 'auth'), function(){
+Route::group(array( 'before' => ['auth','detectLang']), function(){
+
+
+	# Index Page - Last route, no matches
+	Route::get('/', ['uses' => 'Pages@getIndex']);
 	
 	Route::controller('pages','Pages');
 
@@ -35,8 +39,8 @@ Route::group(array( 'before' => 'auth'), function(){
 	Route::controller('holdings', 'HoldingsController');
 	Route::resource('holdings', 'HoldingsController');
 
-	Route::resource('holdingssets', 'HoldingssetsController');
-	Route::controller('holdingssets', 'HoldingssetsController');
+	Route::resource('sets', 'HoldingssetsController');
+	Route::controller('sets', 'HoldingssetsController');
 
 	Route::controller('lists', 'HlistsController');
 	Route::resource('lists', 'HlistsController');
@@ -45,7 +49,11 @@ Route::group(array( 'before' => 'auth'), function(){
 	Route::resource('reserves', 'ReservesController');
 
 	Route::resource('traces', 'TracesController');
-	// Route::when('holdingssets*', 'manage_holdingssets');
+
+	Route::when('sets*', 'auth_like_librarian');
+	Route::when('holdings*', 'auth_like_storeman');
+	Route::when('admin*', 'auth_like_admin');
+
 
 });
 
@@ -84,6 +92,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 
     # Admin Dashboard
     Route::controller('/', 'AdminDashboardController');
+
 });
 
 Route::get('external', 'ExternalController@getIndex');
@@ -123,7 +132,6 @@ Route::get('contact-us', function()
     return View::make('site/contact-us');
 });
 
-# Index Page - Last route, no matches
-Route::get('/', array('before' => ['detectLang','auth'],'uses' => 'Pages@getIndex'));
+
 
 

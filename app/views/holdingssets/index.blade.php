@@ -11,7 +11,7 @@
 
 <ul class="nav nav-tabs">
   <li <?php if (!isset($group_id)) { echo 'class="active"'; } ?>>
-  	<a href="<?= route('holdingssets.index')  ?>">
+  	<a href="<?= route('sets.index')  ?>">
   		All <?= trans('holdingssets.title') ?>
   	</a>
   </li>
@@ -22,7 +22,7 @@
   </li>
 	<?php foreach ($groups as $group) { ?>
 		<li id="group{{ $group->id }}" <?php if ($group_id == $group -> id) { echo 'class="active"'; } ?>>
-			<a href="<?= route('holdingssets.index',['group_id' => $group->id ])  ?>" class="pull-left"><?= $group->name  ?>
+			<a href="<?= route('sets.index',['group_id' => $group->id ])  ?>" class="pull-left"><?= $group->name  ?>
 			</a>
 			<?php if ($group_id != $group -> id) { ?>
 			<a href="{{ action('HoldingssetsController@putDelGroup',[$group->id]) }}" class="btn btn-ok btn-xs" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><button aria-hidden="true" data-dismiss="modal" class="close pull-left" type="button">×</button></a>
