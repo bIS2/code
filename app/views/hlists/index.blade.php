@@ -16,7 +16,7 @@
 		<div class="col-xs-12">
 
 			@if ($hlists->count())
-				<table class="table table-striped table-bordered">
+				<table class="table table-bordered table-condensed ">
 					<thead>
 						<tr>
 							<th>{{ trans('tables.name') }}</th>
@@ -40,8 +40,8 @@
 								</td>
 								<td>{{$list->holdings()->has('tags')->count()}}</td>
 			          <td>
-			          	{{ link_to_route('lists.edit', trans('general.edit'), [$list->id], ['class' => 'btn btn-info btn-xs'] ) }}
-			          	{{ link_to_route('lists.destroy', trans('general.delete'), [$list->id], ['class' => 'btn btn-danger btn-xs', 'data-remote'=>'true', 'data-method'=>'delete'] ) }}
+			          	{{ HTML::decode( link_to_route( 'lists.edit', '<i class="fa fa-edit"></i> ' . trans('general.edit'), [$list->id], ['class' => 'btn btn-default btn-xs'] )) }}
+			          	{{ HTML::decode( link_to_route('lists.destroy', '<i class="fa fa-times-circle"></i> ' .trans('general.delete'), [$list->id], ['class' => 'btn btn-default btn-xs', 'data-remote'=>'true', 'data-method'=>'delete'] ) ) }}
 				        </td>
 							</tr>
 						@endforeach

@@ -9,7 +9,7 @@ class HoldingsController extends BaseController {
     public $data;
 
     public function __construct() {
-
+ 		$this->beforeFilter('auth_like_storeman', ['except' => 'show']);
     }
 
 	/**
@@ -20,24 +20,18 @@ class HoldingsController extends BaseController {
 	public function Index()
 	{
 
+		$holdingssets_ids = Holdingsset::whereOk(true)->lists('id');
+		$holdings = Holding::whereIn('holdingsset_id',$holdingssets_ids);
 
     $this->data['hlists'] = Auth::user()->hlists;
     $hlist = false;
     $state =  (Input::has('state')) ? Input::get('state') : 'pendings'; 
 
-		if ( Input::has('hlist_id') ) {
-			$holdings = Hlist::find(Input::get('hlist_id') )->holdings();
-		} else {
-
-			$holdingssets_ids = Holdingsset::whereOk(true)->lists('id');
-			$holdings = Holding::whereIn('holdingsset_id',$holdingssets_ids);
-
-		}
-
-		if ( $state=='ok2' ) $holdings = $holdings->ok2();
-		if ( $state=='tagged' )	$holdings = $holdings->pendings();
-		if ( $state=='pendings' )	$holdings = $holdings->whereOk2(0);
-		if ( $state=='orphan' )	$holdings = $holdings;
+		if ( Input::has('hlist_id') ) 	$holdings =  Hlist::find(Input::get('hlist_id'))->holdings();
+		if ( $state=='ok2' ) 						$holdings = $holdings->ok2();
+		if ( $state=='tagged' )					$holdings = $holdings->tagged();
+		if ( $state=='pendings' )				$holdings = $holdings->pendings();
+		if ( $state=='orphan' )					$holdings = $holdings;
 
 		// $this->data['tags'] 		= Tag::all(	);
 		$this->data['hlist'] 		= $hlist;

@@ -19,7 +19,7 @@
 				  <div class="btn-group">
 				  	<div class="btn-group">
 					  	<a href="#" class="btn btn-sm dropdown-toggle {{ (Input::has('hlist_id')) ? 'btn-primary' : 'btn-default'}}" data-toggle="dropdown">
-					  		<span class="glyphicon glyphicon-th-list"> </span> 
+					  		<i class="fa fa-list-ul"> </i> 
 					  		@if (Input::has('hlist_id'))
 					  			{{ Hlist::find(Input::get('hlist_id'))->name }}
 					  		@else
@@ -40,7 +40,7 @@
 							@endif
 					  </div>
 			  		<a href="#" class="btn btn-default btn-sm disabled link_bulk_action" data-toggle="modal" data-target="#form-create-list" >
-			  			<span class="glyphicon glyphicon-plus-sign"></span>
+			  			<span class="fa fa-plus-circle"></span>
 			  		</a>
 				  </div>
 			  <li>
@@ -57,8 +57,19 @@
 				  	<a href="{{ route('holdings.index',['state'=>'orphan']) }}" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 				  		<span class="glyphicon glyphicon-question-sign"></span> {{{ trans('holdings.orphan') }}}
 				  	</a>
-				  	<a href="#" id="filter-btn" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
-				  		<span class="glyphicon glyphicon-filter"></span> {{{ trans('holdings.filter') }}}
+				  	<div class="btn-group">
+					  	<a href="#" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm dropdown-toggle" data-toggle="dropdown">
+					  		<span class="fa fa-filter"></span> {{{ trans('holdings.filter') }}} <span class="caret"></span>
+					  	</a>
+					  	<ul class="dropdown-menu" role="menu">
+					  		<li> <a href="{{ Request::url() }}">{{ trans('filter.icomplete') }}</a> </li>
+					  		<li> <a href="">{{ trans('filter.complete') }}</a> </li>
+					  		<li> <a href="">{{ trans('filter.insane') }}</a> </li>
+					  		<li> <a href="">{{ trans('filter.sane') }}</a> </li>
+					  	</ul>
+				  	</div>
+				  	<a href="#" id="filter-btn" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm dropdown-toggle" data-toggle="dropdown">
+				  		<span class="fa fa-question-circle"></span> {{{ trans('holdings.advanced_filter') }}} <span class="caret"></span>
 				  	</a>
 				  	<a href="{{ route('holdings.index') }}" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="glyphicon glyphicon-print"></span> {{{ trans('holdings.printer') }}}
@@ -156,15 +167,13 @@
 				<td><?= $holding->f866a; ?></td>
 				<td><?= $holding->f852h; ?></td>
 				<td id="{{ $holding->id }}" class="col-lg-1">
-					<div class="btn-group">
-					  <a href="{{ action('HoldingsController@putOK',[$holding->id]) }}" class="btn {{ ($holding->ok2) ? 'btn-success' : 'btn-default' }} btn-xs btn-ok" data-method="put" data-remote="true" >
-					  	<span class="glyphicon glyphicon-thumbs-up"></span>
-					  </a>
-					  <?php $is_tagged = ( ($count=$holding->tags->count())>0)  ?>
-					  <a href="{{ route('tags.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-tags" class="btn {{ ($is_tagged) ? 'btn-danger' : 'btn-default' }} btn-xs btn-tag {{ ($holding->ok2) ? 'disabled' : '' }}">
-					  	<span class="glyphicon glyphicon-tags"></span> 
-					  </a>
-					</div>
+				  <a href="{{ action('HoldingsController@putOK',[$holding->id]) }}" class="btn {{ ($holding->ok2) ? 'btn-success' : 'btn-default' }} btn-xs btn-ok" data-method="put" data-remote="true" >
+				  	<span class="fa fa-thumbs-up"></span>
+				  </a>
+				  <?php $is_tagged = ( ($count=$holding->tags->count())>0)  ?>
+				  <a href="{{ route('tags.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-tags" class="btn {{ ($is_tagged) ? 'btn-danger' : 'btn-default' }} btn-xs btn-tag {{ ($holding->ok2) ? 'disabled' : '' }}">
+				  	<span class="fa fa-tags"></span> 
+				  </a>
 				</td>
 
 			</tr>
@@ -173,7 +182,7 @@
 		</tbody>
 	</table>
 
-	<?= $holdings->links()  ?>
+	<?= $holdings->appends(Input::except('page'))->links()  ?>
 
 
 	</div>

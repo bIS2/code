@@ -51,7 +51,7 @@ Route::group(array( 'before' => ['auth','detectLang']), function(){
 	Route::resource('traces', 'TracesController');
 
 	Route::when('sets*', 'auth_like_librarian');
-	Route::when('holdings*', 'auth_like_storeman');
+	// Route::when('holdings*', 'auth_like_storeman');
 	Route::when('admin*', 'auth_like_admin');
 
 

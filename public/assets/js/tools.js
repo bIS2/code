@@ -11,7 +11,7 @@ $(function(){
 
 	$('#filter-btn').click(function(){
 		$('#filter-well').toggle('slow')
-		$(this).toggleClass('btn-primary','btn-default') 
+		$(this).toggleClass('btn-primary','btn-default') 	
 	})
 
 	$(':checkbox:checked.sel').parents('tr').addClass("warning")
@@ -33,11 +33,6 @@ $(function(){
 
 	$('a.link_bulk_action[data-remote]').on('click',function(){
 		$(this).attr( 'data-params', $('.table input.hl:checkbox:checked').serialize() )
-	})
-
-
-	$('#modal-show').on('show.bs.modal', function () {
-	  // $(this).load($(this).options.remote)
 	})
 
   getAsuccess();
@@ -69,10 +64,10 @@ function getAsuccess() {
 
         /* Holdings Tags */
         if ( result.tag ){
-            $('#'+result.tag).find('.btn-tag').addClass('btn-default').removeClass('btn-danger');   
+            $('#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger');   
         }
         if ( result.untag ){
-            $('#'+result.untag).find('.btn-tag').addClass('btn-danger').removeClass('btn-default'); 
+            $('#'+result.untag).find('.btn-tag').removeClass('btn-danger').addClass('btn-default'); 
         } 
         /* Deleted Group */
         if ( result.groupDelete ){

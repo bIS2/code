@@ -11,6 +11,8 @@ return array(
 	'tagged'					=> 'Tagged',
 	'pending'					=> 'Pending',
 	'filter'					=> 'Filter',
+	'advanced_filter'			=> 'Advanced Filter',
 	'orphan'					=> 'Orphans',
+	'printer'					=> 'Print',
 
 );

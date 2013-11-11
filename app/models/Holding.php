@@ -31,11 +31,11 @@ class Holding extends Eloquent {
   }
 
   public function scopePendings($query){
-  	return $query->whereOk2(false);
+  	return $query->whereOk2(0)->whereNotIn('id', function($query){ $query->select('holding_id')->from('holding_tag'); });
   }
 
   public function scopeTagged($query){
-  	return $query->has('tags');
+  	return $query->whereIn('id', function($query){ $query->select('holding_id')->from('holding_tag'); });
   }
 
 
