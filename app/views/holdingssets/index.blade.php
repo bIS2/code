@@ -45,6 +45,9 @@
 				  </div>
 			  <li>
 				  <div class="btn-group">
+				  	<a href="{{ route('sets.index') }}" class="btn <?= (Input::has('state')) ? 'btn-default' : 'btn-primary' ?> btn-sm" >
+				  		<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}
+				  	</a>
 				  	<a href="{{ route('sets.index',['state'=>'ok']) }}" class="btn <?= (Input::get('state')=='ok') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="glyphicon glyphicon-thumbs-up"></span> {{{ trans('holdingssets.oked') }}}
 				  	</a>

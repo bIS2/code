@@ -14,5 +14,6 @@ return array(
 	'pending'							=> 'Pending',
 	'advanced_filter'			=> 'Advanced Filter',
 	'orphan'							=> 'Orphan HOS',
-	'printer'							=> 'Print'
+	'printer'							=> 'Print',
+	'all'									=> 'All'
 );
