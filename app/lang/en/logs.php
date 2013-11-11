@@ -15,5 +15,6 @@ return array(
 
 	'create-hlist' 				=> 'create a List :name',
 	'create-group' 				=> 'create a Group :name',
+	'holding-set-ok' 				=> 'set ok holding :name',
 
 );
