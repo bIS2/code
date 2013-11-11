@@ -26,16 +26,26 @@ class Holding extends Eloquent {
   	$id_user = Auth::user()->id;
   }
 
-  public function scopeOk2($query){
+  public function scopeCorrects($query){
   	return $query->whereOk2(true);
   }
 
   public function scopePendings($query){
-  	return $query->whereOk2(0)->whereNotIn('id', function($query){ $query->select('holding_id')->from('holding_tag'); });
+  	return $query->whereOk2(0)->whereNotIn('id', function($query){ 
+      $query->select('holding_id')->from('holding_tag'); 
+    });
   }
 
   public function scopeTagged($query){
-  	return $query->whereIn('id', function($query){ $query->select('holding_id')->from('holding_tag'); });
+  	return $query->whereIn('id', function($query){ 
+      $query->select('holding_id')->from('holding_tag'); 
+    });
+  }
+
+  public function scopeOrphans($query){
+    return $query->whereNotIn('id', function($query){ 
+      $query->select('holding_id')->from('hlist_holding'); 
+    });
   }
 
 
