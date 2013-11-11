@@ -5,7 +5,7 @@ class Group extends Eloquent {
 
   public static function boot() {
     parent::boot();
-		Group::observe(new GroupObserver);
+		Group::observe(new TraceObserver);
   }
 
 
