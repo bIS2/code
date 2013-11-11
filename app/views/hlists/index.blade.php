@@ -32,16 +32,16 @@
 								<td>{{ link_to( route('holdings.index',['hlist'=>$list->id]), $list->name) }}</td>
 								<td>{{{ $list->holdings->count() }}}</td>
 								<td>
-									@if ( ( $count = $list->holdings()->ok2()->count() )>0  )
+									@if ( ( $count = $list->holdings()->corrects()->count() )>0  )
 										<a href="{{ route('holdings.index',['hlist'=>$list->id, 'ok2'=>true]) }}" >{{$count }}</a>
 									@else
-										{{{ $list->holdings()->ok2()->count() }}}
+										{{{ $list->holdings()->corrects()->count() }}}
 									@endif
 								</td>
 								<td>{{$list->holdings()->has('tags')->count()}}</td>
 			          <td>
-			          	{{ HTML::decode( link_to_route( 'lists.edit', '<i class="fa fa-edit"></i> ' . trans('general.edit'), [$list->id], ['class' => 'btn btn-default btn-xs'] )) }}
-			          	{{ HTML::decode( link_to_route('lists.destroy', '<i class="fa fa-times-circle"></i> ' .trans('general.delete'), [$list->id], ['class' => 'btn btn-default btn-xs', 'data-remote'=>'true', 'data-method'=>'delete'] ) ) }}
+			          	{{ link_to_route('lists.edit', '<span class="fa fa-edit"></span>' . trans('general.edit'), [$list->id], ['class' => 'btn btn-info btn-xs'] ) }}
+			          	{{ link_to_route('lists.destroy', trans('general.delete'), [$list->id], ['class' => 'btn btn-danger btn-xs', 'data-remote'=>'true', 'data-method'=>'delete'] ) }}
 				        </td>
 							</tr>
 						@endforeach

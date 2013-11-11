@@ -69,12 +69,16 @@
 					  	</ul>
 				  	</div>
 				  	<a href="#" id="filter-btn" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm dropdown-toggle" data-toggle="dropdown">
-				  		<span class="fa fa-question-circle"></span> {{{ trans('holdings.advanced_filter') }}} <span class="caret"></span>
+				  		<span class="fa fa-question-circle"></span> {{{ trans('holdings.advanced_filter') }}} 
 				  	</a>
+				  	<a href="{{ route('holdings.index') }}" class="btn btn-default btn-sm" >
+				  		<span class="fa fa-times"></span> 
+				  	</a>
+				  </div>
+				  <div class="btn-group">
 				  	<a href="{{ route('holdings.index') }}" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="glyphicon glyphicon-print"></span> {{{ trans('holdings.printer') }}}
 				  	</a>
-
 				  </div>
 			  </li>
 			</ul>
