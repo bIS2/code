@@ -45,16 +45,16 @@
 				  </div>
 			  <li>
 				  <div class="btn-group">
-				  	<a href="{{ route('holdings.index',['state'=>'ok2']) }}" class="btn <?= (Input::has('state')=='ok2') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index',['state'=>'corrects']) }}" class="btn <?= (Input::get('state')=='corrects') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="glyphicon glyphicon-thumbs-up"></span> {{{ trans('holdings.ok2') }}}
 				  	</a>
-				  	<a href="{{ route('holdings.index',['state'=>'tagged']) }}" class="btn <?= (Input::has('ok2')) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index',['state'=>'tagged']) }}" class="btn <?= ( Input::get('state')=='tagged' ) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="glyphicon glyphicon-tags"></span> {{{ trans('holdings.tagged') }}}
 				  	</a>
-				  	<a href="{{ route('holdings.index') }}" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+				  	<a href="{{ route('holdings.index',['state'=>'pendings']) }}" class="btn <?= ( Input::get('state')=='pendings') ? 'btn-primary' : 'btn-default' ?> btn-sm">
 				  		<span class="glyphicon glyphicon-warning-sign"></span> {{{ trans('holdings.pending') }}}
 				  	</a>
-				  	<a href="{{ route('holdings.index',['state'=>'orphan']) }}" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+				  	<a href="{{ route('holdings.index',['state'=>'orphans']) }}" class="btn <?= ( Input::get('state')=='orphans') ? 'btn-primary' : 'btn-default' ?> btn-sm">
 				  		<span class="glyphicon glyphicon-question-sign"></span> {{{ trans('holdings.orphan') }}}
 				  	</a>
 				  	<div class="btn-group">
@@ -160,8 +160,8 @@
  				<td>
  					{{ link_to_route('holdings.show', $holding->holdingsset->f245a,[ $holding->id ]) }}
  				</td>
-				<td><?= $holding->f245b; ?></td>
-				<td><?= $holding->f245c; ?></td>
+				<td><?= link_to(route('holdings.index',['f245b'=>e($holding->f245b)]),$holding->f245b); ?></td>
+				<td><?= link_to(route('holdings.index',['f245b'=>$holding->f245c]),$holding->f245c); ?></td>
 				<td><?= $holding->f260b; ?></td>
 				<td><?= $holding->f362a; ?></td>
 				<td><?= $holding->f866a; ?></td>
@@ -181,9 +181,9 @@
 
 		</tbody>
 	</table>
-
-	<?= $holdings->appends(Input::except('page'))->links()  ?>
-
+	<p>
+		<?= $holdings->appends(Input::except('page'))->links()  ?>
+	</p>
 
 	</div>
 </div>

@@ -3,7 +3,7 @@
 return array(
 
 	'title'   				=> 'Holdings',
-	'ok2' 						=> 'Confirmed',
+	'ok2' 						=> 'Corrects',
 	'comment' 				=> 'Comment',
 	'create_list'			=> 'Create List',
 	'lists'						=> 'Lists',

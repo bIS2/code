@@ -140,17 +140,19 @@
   </label>
 </div>
 <section id="hosg" group_id = "<?php echo $group_id;  ?>">
-	<ul class="list-group table">
+	<!-- <ul class="list-group table"> -->
+	<ul class="hol-sets">
 	@foreach ($holdingssets as $holdingsset)
 		<?php $ok 	= ($holdingsset->ok) ? 'ok' : ''  ?>
 		<?php $btn 	= ($holdingsset->ok) ? 'btn-success' : 'btn-default'  ?>
-		<li class="panel list-group-item {{ $ok }}" id="<?= $holdingsset -> id; ?>">
+		<!-- <li class="panel list-group-item {{ $ok }}" id="<?= $holdingsset -> id; ?>"> -->
+		<li id="<?= $holdingsset -> id; ?>">
 			  <div class="panel-heading row">
 		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>" class="pull-left hl">
 		      <div href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" title="<?= $holdingsset->f245a; ?>" data-toggle="collapse" class="accordion-toggle collapsed col-xs-10" opened="0">
 		      	<?= $holdingsset->sys1.' :: '.htmlspecialchars(truncate($holdingsset->f245a, 100),ENT_QUOTES); ?>
 		      	@if ($holdingsset->has('holdings') && $count1 = $holdingsset -> holdings -> count()) 
-		      		<span class="badge pull-right">{{ $count1 }} </span>
+		      		<span class="badge"><i class="fa fa-files-o"></i> {{ $count1 }} </span>
 		      	@endif
 		      	@if ($holdingsset->has('groups') && ($count=$holdingsset->groups->count()>0)) 
 		      		<span class="badge" title = "<?php 
@@ -163,7 +165,7 @@
 			      				echo strtolower($currentgroup['name']).';';
 			      		} 
 		      		?>"
-		      		>{{ $count }}</span>
+		      		><i class="fa fa-folder-o"></i> {{ $count }}</span>
 		      	@endif
 		      </div>
 		      <div class="text-right action-ok col-xs-1">

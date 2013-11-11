@@ -1,16 +1,13 @@
 $(function(){
 
-	$('form#create-tag input[type="text"]').on('focus', function(){ 
-		$(this).parent('div').find(':checkbox').attr('checked',true) 
+	$('body').on('keypress','form#create-tag input[type="text"]',function(){ 
+		$(this).parent('div')
+			.find(':checkbox').attr('checked','true').end()
+			.find('label').addClass('active')
 	})
 
-	$('#form-create-tags').on('hidden.bs.modal', function () {
-			$(this).html().remove()
-	    // $(this).removeData('bs.modal');
-	});
-
-/*$('#form-create-tags').on('hidden', '.modal', function () {
-  $(this).removeData('modal');
-});*/	
+	$('body').on('hidden.bs.modal', '.modal', function () {
+		$(this).removeData('modal');
+	});	
 
 })
