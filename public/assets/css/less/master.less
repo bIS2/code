@@ -145,22 +145,30 @@ table.table {
 }
 //--------------------------------- pb -----------------------------
 
-//pb's custom bars
+//pb's custom vars
 
 @bis-box-shadow:        inset 0 1px 3px rgba(0,0,0,.1), 0 0 8px rgba(0,0,0,.6);
 @bis-box-shadow-lite:   0 0 5px rgba(0,0,0,.1);
 @footer-height:         50px;
 @jumbotron-padding:     20px;
 @images-url:            "../../img/";
+@bis-monkey-shit-color: #fffff5;
+
+//pb's custom mixins
 
 .bis-brand-text {
     letter-spacing: .05em;
     text-shadow: 1px 1px 2px rgba(0,0,0,.45);
 }
 
-// Brand
+.bis-locked {
+    background: lighten(@swiss-red, 55%) !important;
+    color: @gray-light;
+}
 
-.navbar-brand {
+// navbar
+
+.Brand-brand {
     font-weight: bold;
     font-size: @font-size-xlarge;
     .bis-brand-text
@@ -213,10 +221,13 @@ footer {
         padding: @font-size-base;
         border: 1px solid @gray-lighter;
         .box-shadow (@bis-box-shadow-lite);
-        background: #fffff5;
+        background: @bis-monkey-shit-color;
     }
     .form-control {
         margin-bottom: @font-size-base;
     }
 }
 
+tr.locked td, tr.locked div {
+    .bis-locked;
+}
