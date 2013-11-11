@@ -130,9 +130,9 @@
 			<?php } ?>
 		</li>
 	<?php } ?>
-	 <li>
+  <li>
 	  <a href="#form-create-group" data-toggle="modal" class='link_bulk_action'>
-	  	<span class="glyphicon glyphicon-plus"></span>
+	  	<i class="fa fa-folder-o fa-lg"></i>
 	  </a>
   </li>
 </ul>
