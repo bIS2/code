@@ -176,13 +176,43 @@
 							<thead>
 								<tr>
 									<th>Actions</th>
-									<th><?php echo '245a'; ?></th>
-									<th><?php echo '245b'; ?></th>
+									<th><?php echo '245a'; ?>
+										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
+											<?php 
+											if (isset($valuesCounter['f245a'])) {
+												foreach ($valuesCounter['f245a'] as $counter) {
+												 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
+												} 
+											}
+											?>
+										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title="Column Sumary"></span>
+									</th>
+									<th><?php echo '245b'; ?>
+										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
+											<?php 
+											if (isset($valuesCounter['f245b'])) {
+												foreach ($valuesCounter['f245b'] as $counter) {
+												 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
+												} 
+											}
+											?>
+										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title="Column Sumary"></span>
+									</th>
 									<th><?php echo '245c'; ?></th>
-									<th><?php echo 'ocrr_ptrn'; ?></th>
+									<th class="hocrr_ptrn"><?php echo 'ocrr_ptrn'; ?></th>
 									<th><?php echo '022a'; ?></th>
 									<th><?php echo '260a'; ?></th>
-									<th><?php echo '260b'; ?></th>
+									<th><?php echo '260b'; ?>
+										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
+											<?php
+											if (isset($valuesCounter['f260a'])) {
+												foreach ($valuesCounter['f260a'] as $counter) {
+												 	echo $counter['title'].' -> '.$counter['count'].'<br>';
+												} 
+											}
+											?>
+										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title=""></span>
+									</th>
 									<th><?php echo '710a'; ?></th>
 									<th><?php echo '780t'; ?></th>
 									<th><?php echo '362a'; ?></th>
@@ -249,52 +279,6 @@
 									<td><?php echo $holding->f310a; ?></td>
 								</tr>
 							@endforeach
-							<tr class="fields-sumary">
-								<td></td>
-								<td>
-									<span class="glyphicon glyphicon-info-sign" data-html='true' data-content="<div>
-										<?php 
-										if (isset($valuesCounter['f245a'])) {
-											foreach ($valuesCounter['f245a'] as $counter) {
-											 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
-											} 
-										}
-										?>
-									</div>" data-placement="bottom" data-toggle="hover" type="button" data-original-title="" title="Column Sumary"></span>
-								</td>
-								<td>
-									<span class="glyphicon glyphicon-info-sign" data-html='true' data-content="<div>
-										<?php 
-										if (isset($valuesCounter['f245b'])) {
-											foreach ($valuesCounter['f245b'] as $counter) {
-											 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
-											} 
-										}
-										?>
-									</div>" data-placement="bottom" data-toggle="hover" type="button" data-original-title="" title="Column Sumary"></span>
-								</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td>
-									<span class="glyphicon glyphicon-info-sign" data-html='true' data-content="<div>
-										<?php
-										if (isset($valuesCounter['f260a'])) {
-											foreach ($valuesCounter['f260a'] as $counter) {
-											 	echo $counter['title'].' -> '.$counter['count'].'<br>';
-											} 
-										}
-										?>
-									</div>" data-placement="bottom" data-toggle="popover" type="button" data-original-title="" title=""></span>
-								</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>	
 							</tbody>
 						</table>
 					</div>

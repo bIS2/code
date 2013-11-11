@@ -76,7 +76,6 @@ function getAsuccess() {
         } 
         /* Deleted Group */
         if ( result.groupDelete ){
-            console.log('aquiii');
             $('li#group'+result.groupDelete).remove(); 
         } 
       }
