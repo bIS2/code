@@ -247,3 +247,22 @@ footer {
 tr.locked td, tr.locked div {
     .bis-locked;
 }
+
+//ocrr_ptrn
+.ocrr_ptrn .fa {
+    color: transparent;
+    &.fa-square {
+        @color: @swiss-blue;
+        color: darken(@color, 10%);
+        &.aux {
+            @color: @swiss-yellow;
+            color: darken(@color, 10%);
+        }
+        &.j {
+            color: lighten(@color, 10%);
+        }
+    }
+}
+.is_owner .fa-square {
+    color: darken(@swiss-red, 10%) !important;
+}

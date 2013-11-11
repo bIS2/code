@@ -28,10 +28,10 @@ class HoldingsController extends BaseController {
     $state =  (Input::has('state')) ? Input::get('state') : 'pendings'; 
 
 		if ( Input::has('hlist_id') ) 	$holdings =  Hlist::find(Input::get('hlist_id'))->holdings();
-		if ( $state=='ok2' ) 						$holdings = $holdings->ok2();
-		if ( $state=='tagged' )					$holdings = $holdings->tagged();
-		if ( $state=='pendings' )				$holdings = $holdings->pendings();
-		if ( $state=='orphan' )					$holdings = $holdings;
+		if ( $state=='ok2' ) 			$holdings = $holdings->ok2();
+		if ( $state=='tagged' )			$holdings = $holdings->tagged();
+		if ( $state=='pendings' )		$holdings = $holdings->pendings();
+		if ( $state=='orphan' )			$holdings = $holdings;
 
 		// $this->data['tags'] 		= Tag::all(	);
 		$this->data['hlist'] 		= $hlist;

@@ -1,28 +1,23 @@
 @sumary-bckg-color : #abcabd;
-
+/*
 table.flexme td, .hDiv th {
     padding: 0 5px !important;
 }
-table.flexme tr + tr td > div {
+table.flexme tr td > div {
     overflow: hidden;
-    height: 25px;
     white-space: nowrap;
+    padding: 0 !important
 }
 
-table.flexme tr:first-child td > div, 
-table.flexme tr.fields-sumary + tr td > div {
-    padding-top: 12px;
-    height: 32px;
-}
+
 table.flexme tr:first-child td, 
 table.flexme tr.fields-sumary + tr td {
     height: 33px;
-    padding-top: 7px ! important;
+    padding-top: 16px ! important;
 }
 
 table.flexme tr:first-child td:first-child > div, 
 table.flexme tr.fields-sumary + tr td:first-child > div {
-    padding-top: 9px !important;
 }
 
 table.flexme tr.fields-sumary td {
@@ -30,12 +25,10 @@ table.flexme tr.fields-sumary td {
     height: auto !important;
 }
 table.flexme tr.fields-sumary td > div {
-    padding-top: 15px;
     height: auto !important;
 }
 
 table.flexme td:first-child > div {
-    padding-top: 2px !important;
 } 
 
 tr.fields-sumary {
@@ -43,9 +36,9 @@ tr.fields-sumary {
     top: 0;
     border: none;
     height: 0;
+    left: 0;
 }
 tr.fields-sumary td, tr.fields-sumary td > div {
-    padding: 0 5px !important;
     border: none !important;
     text-align: center;
     vertical-align: top;
@@ -63,4 +56,16 @@ tr.fields-sumary .popover.bottom .arrow {
 }
 tr.fields-sumary span.btn {
     padding: 2px 0;
+}*/
+
+.flexme {
+    font-size: 10px;
 }
+.flexme td {
+   white-space: nowrap;
+}
+
+.panel-body {
+    overflow-x: scroll;
+    max-height: 900px;
+} 
