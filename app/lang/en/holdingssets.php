@@ -10,4 +10,9 @@ return array(
 	'ok' 									=> 'Confirm',
 	'select_all_hos'			=> 'Select All Holdings Sets',
 	'add_holdings'				=> 'Add Holdings to HOS',
+	'oked'								=> 'Confirmed',
+	'pending'							=> 'Pending',
+	'advanced_filter'			=> 'Advanced Filter',
+	'orphan'							=> 'Orphan HOS',
+	'printer'							=> 'Print'
 );

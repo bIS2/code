@@ -3,91 +3,102 @@
 {{-- Content --}}
 @section('content')
 
+<div class="page-header">
+	<div class="row">
+		<div class="col-xs-12">
+			<ul class="list-inline">
+				<li>
+					<strong>
+						{{ trans('holdingssets.title') }} 
+						@if (isset($group))
+							<small>&raquo; {{ $group->name }}</small>
+						@endif				
+					</strong>
+				</li>
+			  <li>
+				  <div class="btn-group">
+				  	<div class="btn-group">
+					  	<a href="#" class="btn btn-sm dropdown-toggle {{ (Input::has('group_id')) ? 'btn-primary' : 'btn-default'}}" data-toggle="dropdown">
+					  		<i class="fa fa-list-ul"> </i> 
+					  		@if (Input::has('group_id'))
+					  			{{ Group::find(Input::get('group_id'))->name }}
+					  		@else
+					  			{{{ trans('holdingssets.groups') }}} 
+					  		@endif
+					  		<span class="caret"></span>
+					  	</a>
+					  	<!-- Show list if exists -->
+							@if (Auth::user()->has('groups')) 
+								<?php $groups1 = Auth::user()->groups() ?>
+								<ul class="dropdown-menu" role="menu">
+									@foreach (Auth::user()->groups as $group) 
+									<li>
+										<a href="{{ route('sets.index',['group_id'=>$group->id]) }}"> {{ $group->name }} <span class="badge">{{ $group->holdingssets -> count() }} </span></a>
+									</li>
+									@endforeach
+								</ul>
+							@endif
+					  </div>
+			  		<a href="#" class="btn btn-default btn-sm disabled link_bulk_action" data-toggle="modal" data-target="#form-create-list" >
+			  			<span class="fa fa-plus-circle"></span>
+			  		</a>
+				  </div>
+			  <li>
+				  <div class="btn-group">
+				  	<a href="{{ route('sets.index',['state'=>'ok']) }}" class="btn <?= (Input::get('state')=='ok') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+				  		<span class="glyphicon glyphicon-thumbs-up"></span> {{{ trans('holdingssets.oked') }}}
+				  	</a>
+				  	<a href="{{ route('sets.index', ['state'=>'pending']) }}" class="btn <?= (Input::get('state') == 'pending') ? 'btn-primary' : 'btn-default' ?> btn-sm">
+				  		<span class="glyphicon glyphicon-warning-sign"></span> {{{ trans('holdingssets.pending') }}}
+				  	</a>
+				  	<a href="{{ route('sets.index',['state'=>'orphan']) }}" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+				  		<span class="glyphicon glyphicon-question-sign"></span> {{{ trans('holdingssets.orphan') }}}
+				  	</a>
+				  	<a  href="#collapseOne" id="filter-btn" class="accordion-toggle collapsed btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm dropdown-toggle" data-toggle="collapse" data-parent="#accordion2">
+			        <span class="fa fa-question-circle"></span> {{{ trans('holdingssets.advanced_filter') }}} <span class="caret"></span>
+			      </a>
+				  	<a href="{{ route('sets.index') }}" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+				  		<span class="glyphicon glyphicon-print"></span> {{{ trans('holdingssets.printer') }}}
+				  	</a>
 
-<div class="page-header row">
+				  </div>
+			  </li>
+			</ul>
+		</div>
+	</div> <!-- /.row -->
+	<div class="row">
+		<div class="col-xs-12">
 	<div class="accordion" id="filterContainer">
 	  <div class="text-right accordion-group">
-	    <div class="accordion-heading">
-	      <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-	        <span class="glyphicon glyphicon-filter" title="{{ trans('holdingssets.search_hos') }}"></span>
-	      </a>
-	    </div>
 	    <div id="collapseOne" class="accordion-body collapse text-left">
-	    <form class="bulk_action" method="get" action="http://bis.trialog.ch/holdingssets">
-
+	    <form class="bulk_action form-inline search-holdings" method="get" action="http://bis.trialog.ch/holdingssets">
 	    	<h3>Search HOS</h3>
 	    	<div class="row clearfix">
-		     	<div class="input-group col-xs-2 form-control">
-		     		<label for="statusFilter" class="input-group-addon">HOS Status</label>
-			     	<div class="radio">
-		          <label>
-		            <input type="radio" checked="" value="ALL" id="statusFilter" name="statusFilter">
-		            All
-		          </label>
-		        </div>
-		        <div class="radio">
-		          <label>
-		            <input type="radio" checked="" value="Pending" id="statusFilter" name="statusFilter">
-		            Pending
-		          </label>
-		        </div>
-				    <div class="radio">
-		          <label>
-		            <input type="radio" checked="" value="Aproved" id="statusFilter" name="statusFilter">
-		            Aproved
-		          </label>
-		        </div>
-	      	</div>	     	
+		     	<div class="input-group col-xs-2">
+		     		<div class="col-xs-4">
+		     			<label for="statusFilter" class="input-group-addon form-control">Status</label>
+		     		</div>
+		     		<div class="col-xs-8">	
+			     		<select id="statusFilter" name="f245bFilter" class="form-control">
+				     		<option value="Pending" selected>Pending</option>
+				     		<option value="Aproved">Aproved</option>
+				     	</select>
+			     	</div>
+	      	</div>		     	
 	      	<div class="input-group col-xs-3">
-			     	<label for="f245aFilterValue" class="input-group-addon col-xs-2  form-control">245a</label>
-			     	<select id="f245aFilter" class="col-xs-5" name="f245aFilter">
-			     		<option value="LIKE %$f245a% " selected>LIKE</option>
-			     		<option value="NOT LIKE %$f245a% ">NOT LIKE</option>
-			     		<option value="LIKE $f245a% ">BEGIN WITH</option>
-			     		<option value="LIKE %$f245a ">END WITH</option>
-			     	</select>
-		        <input id="f245aFilterValue" type="text" class="col-xs-5" name="f245aFilterValue">
-	      	</div>
-<!-- 	      	<div class="input-group col-xs-1">
-			     	<div class="radio">
-		          <label>
-		            <input type="radio" checked="checked" value="ALL" id="statusFilter" name="statusFilter">
-		            AND
-		          </label>
-		        </div>
-		        <div class="radio">
-		          <label>
-		            <input type="radio" checked="" value="Pending" id="statusFilter" name="statusFilter">
-		            OR
-		          </label>
-		        </div>
-	      	</div>	   -->
-		     	<div class="input-group col-xs-3">
-			     	<label for="f245bFilterValue" class="input-group-addon">245b</label>
-			     	<select id="f245bFilter" class="form-control" name="f245bFilter">
-			     		<option value="LIKE" selected>LIKE</option>
-			     		<option value="NOT LIKE">NOT LIKE</option>
-			     		<option value="BEGIN WITH">BEGIN WITH</option>
-			     	</select>
-		        <input id="f245bFilterValue" type="text" class="form-control" name="f245bFilterValue">
-	      	</div>
-		     	<div class="input-group col-xs-3">
-			     	<label for="f245cFilterValue" class="input-group-addon">245c</label>
-			     	<select id="f245cFilter" class="form-control" name="f245cFilter">
-			     		<option value="LIKE" selected>LIKE</option>
-			     		<option value="NOT LIKE">NOT LIKE</option>
-			     		<option value="BEGIN WITH">BEGIN WITH</option>
-			     	</select>
-		        <input id="f245cFilterValue" type="text" class="form-control" name="f245cFilterValue">
-	      	</div>
-		     	<div class="input-group col-xs-3">
-			     	<label for="f022aFilterValue" class="input-group-addon">022a</label>
-			     	<select id="f022aFilter" class="form-control" name="f022aFilter">
-			     		<option value="LIKE" selected>LIKE</option>
-			     		<option value="NOT LIKE">NOT LIKE</option>
-			     		<option value="BEGIN WITH">BEGIN WITH</option>
-			     	</select>
-		        <input id="f022aFilterValue" type="text" class="form-control" name="f022aFilterValue">
+		     		<div class="col-xs-2">
+		     			<label for="f245bFilterValue" class="input-group-addon form-control">245b</label>
+		     		</div>
+		     		<div class="col-xs-4">	
+			     		<select id="f245bFilter" name="f245bFilter" class="form-control">
+				     		<option value="LIKE" selected>LIKE</option>
+				     		<option value="NOT LIKE">NOT LIKE</option>
+				     		<option value="BEGIN WITH">BEGIN WITH</option>
+				     	</select>
+			     	</div>
+		     		<div class="col-xs-6">
+		        	<input id="f245bFilterValue" type="text" name="f245bFilterValue" class="form-control">
+		     		</div>
 	      	</div>
       	</div>
       	<div class="col-xs-12 text-right">
@@ -97,18 +108,15 @@
 	    </div>
 	  </div>
 	</div>
-</div>
+		</div>
+	</div>
+</div> <!-- /.page-header -->	
 
 <ul class="nav nav-tabs">
   <li <?php if (!isset($group_id)) { echo 'class="active"'; } ?>>
   	<a href="<?= route('sets.index')  ?>">
   		All <?= trans('holdingssets.title') ?>
   	</a>
-  </li>
-  <li>
-  <a href="#form-create-group" data-toggle="modal" class='link_bulk_action'>
-  	<span class="glyphicon glyphicon-plus"></span>
-  </a>
   </li>
 	<?php foreach ($groups as $group) { ?>
 		<li id="group{{ $group->id }}" <?php if ($group_id == $group -> id) { echo 'class="active"'; } ?>>
@@ -119,6 +127,11 @@
 			<?php } ?>
 		</li>
 	<?php } ?>
+	 <li>
+	  <a href="#form-create-group" data-toggle="modal" class='link_bulk_action'>
+	  	<span class="glyphicon glyphicon-plus"></span>
+	  </a>
+  </li>
 </ul>
 <div class="checkbox">
   <label>
@@ -154,9 +167,9 @@
 		      	@endif
 		      </div>
 		      <div class="text-right action-ok col-xs-1">
-		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>add" class="btn btn-ok btn-xs {{ $btn }}" title="{{ trans('holdingssets.add_holdings') }}">
+		      <!-- 	<a id="holdingsset<?= $holdingsset -> sys1; ?>add" class="btn btn-ok btn-xs {{ $btn }}" title="{{ trans('holdingssets.add_holdings') }}">
 		      			<span class="glyphicon glyphicon-download-alt"></span>
-		      	</a>
+		      	</a> -->
 		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn btn-ok btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="...">
 		      			<span class="glyphicon glyphicon-thumbs-up"></span>
 		      	</a>		      	
@@ -233,10 +246,10 @@
 						      	<a id="holding<?= $holding -> id; ?>lock" href="{{ action('HoldingssetsController@putLock',[$holding->id]) }}" class="btn btn-lock btn-xs {{ $btnlock }}" data-params="locked=true" data-remote="true" data-method="put" data-disable-with="...">
 		      						<span class="glyphicon glyphicon-lock"></span>
 		      					</a>
-										<a href="<?= route('holdings.show', $holding->id) ?>" data-target="#modal-show" data-toggle="modal">
+										<a href="<?= route('sets.show', $holding->id) ?>" data-target="#modal-show" data-toggle="modal">
 											<span class="glyphicon glyphicon-eye-open"></span>
 										</a>
-										<a href="" data-target="#modal-show-external" data-toggle="modal" data-remote="<?= route('holdings.show', $holding->id) ?>">
+										<a href="" data-target="#modal-show-external" data-toggle="modal" data-remote="<?= route('sets.show', $holding->id) ?>">
 											<span class="glyphicon glyphicon-list-alt"></span>
 										</a>
 									</td>

@@ -19,5 +19,12 @@ class Holdingsset extends Eloquent {
         return $this->belongsToMany('Group');
     }
 
+  public function scopeOk($query){
+    return $query->whereOk(true);
+  }
+
+  public function scopePendings($query){
+    return $query->whereOk(false);
+  }
 
 }
