@@ -7,6 +7,10 @@ class Trace extends Eloquent {
 
   public function user() {
       return $this->belongsTo('User');
-  }	
+  }
+
+  public function	scopeLastest($query){
+  	return $query->orderBy('created_at','desc')->take(10);
+  }
 
 }
