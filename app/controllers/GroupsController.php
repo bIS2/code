@@ -121,7 +121,7 @@ class GroupsController extends BaseController {
 	public function destroy($id)
 	{
 		$this->group->find($id)->delete();
-		return Redirect::route('holdingssets.index');
+		return Redirect::route('sets.index');
 	}
 
 	public function postAttach($id){

@@ -15,21 +15,41 @@ class HoldingssetsController extends BaseController {
 	 */
 	public function Index()
 	{
-		// $holdingssets = (Input::has('group_id')) ? Group::find(Input::get('group_id'))->holdingssets()->paginate(100) :	Holdingsset::paginate(100);
-
-		// $this->data['holdingssets'] = $holdingssets;
-		// return View::make('holdingssets.index', $this->data);
+		// Groups
 		$this->data['groups'] = Auth::user()->groups;
+		$group_id = Input::get('group_id');
+		$this->data['group_id'] = $group_id;
 
 		$holdingssets = (Input::has('group_id')) ? 
-				Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC')->paginate(20) :	
-				Holdingsset::orderBy('id', 'ASC')->paginate(20);
+		Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC')->paginate(20) :	
+		Holdingsset::orderBy('id', 'ASC')->paginate(20);
 				
-		$group_id = Input::get('group_id');
 
-		//$holdingssets = DB::table('holdingssets')->take(10)->get();
+		$state = Input::get('state');
+
+		if (Input::has('group_id')) {
+			if (isset($state)) {
+				$holdingssets = ($state == 'ok') ? 
+				$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->ok()->orderBy('id', 'ASC')->paginate(20) :
+				$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->pendings()->orderBy('id', 'ASC')->paginate(20);
+			}
+			else {				
+				$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC')->paginate(20);
+			}
+		}
+		else {	
+			if (isset($state)) {
+				$holdingssets = ($state == 'ok') ? 
+				$holdingssets =	Holdingsset::orderBy('id', 'ASC')->ok()->paginate(20) :
+				$holdingssets =	Holdingsset::orderBy('id', 'ASC')->pendings()->paginate(20);
+			}
+			else {				
+				$holdingssets =	Holdingsset::orderBy('id', 'ASC')->paginate(20);	
+			}
+		}
+
+
 		$this->data['holdingssets'] = $holdingssets;
-		$this->data['group_id'] = $group_id;
 
 		if (isset($_GET['page']))  {
 				$this->data['page'] = $_GET['page'];
