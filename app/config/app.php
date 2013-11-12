@@ -122,6 +122,8 @@ return array(
         'Bllim\Datatables\DatatablesServiceProvider', // Datatables
         'Way\Generators\GeneratorsServiceProvider', // Generators
 
+     		'Efficiently\AuthorityController\AuthorityControllerServiceProvider',
+
         /* Uncomment for use in development */
 //        'Way\Generators\GeneratorsServiceProvider', // Generators
 //        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // IDE Helpers
@@ -200,6 +202,9 @@ return array(
         'String'          => 'Andrew13\Helpers\String', // String
         'Carbon'          => 'Carbon\Carbon', // Carbon
         'Datatables'      => 'Bllim\Datatables\Datatables', // DataTables
+
+				'Params'    			=> 'Efficiently\AuthorityController\Facades\Params',
+				'Authority' 			=> 'Efficiently\AuthorityController\Facades\Authority',        
 
     ),
 

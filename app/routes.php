@@ -45,7 +45,7 @@ Route::group(array( 'before' => ['auth','detectLang']), function(){
 	Route::controller('lists', 'HlistsController');
 	Route::resource('lists', 'HlistsController');
 
-	Route::resource('tags', 'TagsController');
+	Route::resource('notes', 'NotesController');
 	Route::resource('reserves', 'ReservesController');
 
 	Route::resource('traces', 'TracesController');

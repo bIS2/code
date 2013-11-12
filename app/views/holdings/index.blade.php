@@ -49,9 +49,20 @@
 				  	<a href="{{ route('holdings.index',['state'=>'corrects']) }}" class="btn <?= (Input::get('state')=='corrects') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="glyphicon glyphicon-thumbs-up"></span> {{{ trans('holdings.ok2') }}}
 				  	</a>
-				  	<a href="{{ route('holdings.index',['state'=>'tagged']) }}" class="btn <?= ( Input::get('state')=='tagged' ) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
-				  		<span class="glyphicon glyphicon-tags"></span> {{{ trans('holdings.tagged') }}}
-				  	</a>
+				  	<div class="btn-group">
+					  	<a href="{{ route('holdings.index',['state'=>'tagged']) }}" class="btn <?= ( Input::get('state')=='tagged' ) ? 'btn-primary' : 'btn-default' ?> btn-sm" data-toggle="dropdown">
+					  		<span class="glyphicon glyphicon-tags"></span> {{{ trans('holdings.tagged') }}} 
+					  	</a>
+						  <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown">
+						    <span class="caret"></span>
+						    <span class="sr-only">Toggle Dropdown</span>
+						  </button>					  	
+					  	<ul class="dropdown-menu" role="menu">
+					  		@foreach (Tag::all() as $tag)
+					  			<li> <a href="">{{ $tag->name }}</a> </li>
+					  		@endforeach
+					  	</ul>
+				  	</div>
 				  	<a href="{{ route('holdings.index',['state'=>'pendings']) }}" class="btn <?= ( Input::get('state')=='pendings') ? 'btn-primary' : 'btn-default' ?> btn-sm">
 				  		<span class="glyphicon glyphicon-warning-sign"></span> {{{ trans('holdings.pending') }}}
 				  	</a>
@@ -175,10 +186,17 @@
 				  <a href="{{ action('HoldingsController@putOK',[$holding->id]) }}" class="btn {{ ($holding->ok2) ? 'btn-success' : 'btn-default' }} btn-xs btn-ok" data-method="put" data-remote="true" >
 				  	<span class="fa fa-thumbs-up"></span>
 				  </a>
-				  <?php $is_tagged = ( ($count=$holding->tags->count())>0)  ?>
-				  <a href="{{ route('tags.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-tags" class="btn {{ ($is_tagged) ? 'btn-danger' : 'btn-default' }} btn-xs btn-tag {{ ($holding->ok2) ? 'disabled' : '' }}">
+				  <?php $is_tagged = ( ($count=$holding->notes->count())>0)  ?>
+				  <a href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-notes" class="btn {{ ($is_tagged) ? 'btn-danger' : 'btn-default' }} btn-xs btn-tag {{ ($holding->ok2) ? 'disabled' : '' }}">
 				  	<span class="fa fa-tags"></span> 
 				  </a>
+				  @if (Authority::can('delivery',$holding))
+
+					  <a href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-notes" class="btn btn-default btn-xs">
+					  	<span class="fa fa-arrow-right"></span> 
+					  </a>
+
+					@endif
 				</td>
 
 			</tr>
@@ -194,9 +212,7 @@
 </div>
 
 
- <div class="modal" id="form-create-tags">
-
-  </div><!-- /.modal -->
+ <div class="modal" id="form-create-notes"></div><!-- /.modal -->
 
 	@include('hlists.create')
 @stop

@@ -10,18 +10,23 @@ class Holding extends Eloquent {
 		Holding::observe(new TraceObserver);
   }
 
+
+  // Relations
   public function holdingsset() {
       return $this->belongsTo('Holdingsset');
   }
   
-  public function tags() {
-      return $this->belongsToMany('Tag')->withPivot('content');
+  public function notes() {
+      return $this->hasMany('Note');
   }
 
 	public function hlist(){
 		return $this->belongsToMany('Hlist');
 	}
 
+
+
+  // Scopes
   public function scopeInLibrary(){
   	$id_user = Auth::user()->id;
   }

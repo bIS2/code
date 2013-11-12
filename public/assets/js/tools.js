@@ -35,11 +35,29 @@ $(function(){
 		$(this).attr( 'data-params', $('.table input.hl:checkbox:checked').serialize() )
 	})
 
+    $('body').on('hidden.bs.modal', '.modal', function()    {
+        $(this).removeData('bs.modal').empty();
+
+    }); 
+
+  $('body').on( 'ajax:success', 'form', function(data, result, status){
+        /* Holdings Tags */
+        if ( result.tag ){
+            $('tr#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger');
+            $('#form-create-tags').modal('hide')
+        }
+        if ( result.untag ){
+            $('#'+result.untag).find('.btn-tag').removeClass('btn-danger').addClass('btn-default'); 
+        } 
+     
+    })
+
+
   getAsuccess();
 })
 
 function getAsuccess() {
-  $('a,form,button').on({
+  $('a').on({
     'ajax:success': function(data, result, status){
         if ( result.remove )
             $.each(result.remove, function(index,id){
@@ -76,4 +94,5 @@ function getAsuccess() {
         } 
       }
     })
+	
 }

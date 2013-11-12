@@ -2,6 +2,8 @@
 
 class BaseController extends Controller {
 
+	 use Efficiently\AuthorityController\ControllerAdditions;
+	 
     /**
      * Initializer.
      *

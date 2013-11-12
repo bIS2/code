@@ -8,8 +8,8 @@ class Tag extends Eloquent {
 		'name' => 'required'
 	);
 
-  public function holdings() {
-      return $this->belongsToMany('Holding')->withPivot('content');
+  public function notes() {
+      return $this->hasMany('Note');
   }
 
 }
