@@ -144,7 +144,7 @@
 </div>
 <section id="hosg" group_id = "<?php echo $group_id;  ?>">
 	<!-- <ul class="list-group table"> -->
-	<ul class="hol-sets">
+	<ul class="hol-sets table">
 	@foreach ($holdingssets as $holdingsset)
 		<?php $ok 	= ($holdingsset->ok) ? 'ok' : ''  ?>
 		<?php $btn 	= ($holdingsset->ok) ? 'btn-success' : 'btn-default'  ?>
@@ -190,7 +190,7 @@
 									$valuesCounter = getValue('f260a', $holding, $valuesCounter);
 								?>
 							@endforeach	
-						<table class="table table-striped table-hover flexme">
+						<table class="table table-striped table-hover flexme table-bordered">
 							<thead>
 								<tr>
 									<th>Actions</th>
