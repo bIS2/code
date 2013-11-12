@@ -21,7 +21,8 @@
 					  	<a href="#" class="btn btn-sm dropdown-toggle {{ (Input::has('hlist_id')) ? 'btn-primary' : 'btn-default'}}" data-toggle="dropdown">
 					  		<i class="fa fa-list-ul"> </i> 
 					  		@if (Input::has('hlist_id'))
-					  			{{ Hlist::find(Input::get('hlist_id'))->name }}
+					  			<?php $list = Hlist::find(Input::get('hlist_id')) ?>
+					  			{{ $list->name}} 
 					  		@else
 					  			{{{ trans('holdings.lists') }}} 
 					  		@endif

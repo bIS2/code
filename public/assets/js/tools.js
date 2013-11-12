@@ -39,7 +39,7 @@ $(function(){
 })
 
 function getAsuccess() {
-  $('a').on({
+  $('a,form,button').on({
     'ajax:success': function(data, result, status){
         if ( result.remove )
             $.each(result.remove, function(index,id){
@@ -64,7 +64,8 @@ function getAsuccess() {
 
         /* Holdings Tags */
         if ( result.tag ){
-            $('#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger');   
+            $('tr#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger');
+            $('#form-create-tags').modal('hide')
         }
         if ( result.untag ){
             $('#'+result.untag).find('.btn-tag').removeClass('btn-danger').addClass('btn-default'); 

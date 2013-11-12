@@ -48,6 +48,9 @@ class TagsController extends BaseController {
 
 		$tags = Input::get('tags');
 		$holding = Holding::find(Input::get('holding_id'));
+		
+		// delete all tags to insert de new
+		$holding->tags()->detach();
 
 		foreach ($tags as $tag) {
 			if (isset( $tag['tag_id']) )
