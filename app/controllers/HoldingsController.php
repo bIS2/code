@@ -33,7 +33,9 @@ class HoldingsController extends BaseController {
 		if ( $state=='pendings' )		$holdings = $holdings->pendings();
 		if ( $state=='orphans' )		$holdings = $holdings->orphans();
 
-		if ( Input::has('f245b') )		$holdings = $holdings->wheref245b(Input::get('f245b'));
+		if ( Input::has('f245a') ) $holdings = $holdings->wheref245b(Input::get('f245a'));
+		if ( Input::has('f245b') ) $holdings = $holdings->wheref245b(Input::get('f245b'));
+		if ( Input::has('f245c') ) $holdings = $holdings->wheref245b(Input::get('f245c'));
 
 
 		// $this->data['tags'] 		= Tag::all(	);

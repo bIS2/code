@@ -21,7 +21,8 @@
 					  	<a href="#" class="btn btn-sm dropdown-toggle {{ (Input::has('hlist_id')) ? 'btn-primary' : 'btn-default'}}" data-toggle="dropdown">
 					  		<i class="fa fa-list-ul"> </i> 
 					  		@if (Input::has('hlist_id'))
-					  			{{ Hlist::find(Input::get('hlist_id'))->name }}
+					  			<?php $list = Hlist::find(Input::get('hlist_id')) ?>
+					  			{{ $list->name}} 
 					  		@else
 					  			{{{ trans('holdings.lists') }}} 
 					  		@endif
@@ -69,12 +70,16 @@
 					  	</ul>
 				  	</div>
 				  	<a href="#" id="filter-btn" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm dropdown-toggle" data-toggle="dropdown">
-				  		<span class="fa fa-question-circle"></span> {{{ trans('holdings.advanced_filter') }}} <span class="caret"></span>
+				  		<span class="fa fa-question-circle"></span> {{{ trans('holdings.advanced_filter') }}} 
 				  	</a>
+				  	<a href="{{ route('holdings.index') }}" class="btn btn-default btn-sm" >
+				  		<span class="fa fa-times"></span> 
+				  	</a>
+				  </div>
+				  <div class="btn-group">
 				  	<a href="{{ route('holdings.index') }}" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="glyphicon glyphicon-print"></span> {{{ trans('holdings.printer') }}}
 				  	</a>
-
 				  </div>
 			  </li>
 			</ul>
