@@ -65,8 +65,7 @@ class GroupsController extends BaseController {
 	 */
 	public function show($id)
 	{
-		// $group = $this->group->findOrFail($id);
-		// return View::make('groups.show', compact('group'));
+		return Redirect::route('sets.index', ['group_id'=>$id]);
 	}
 
 	/**
@@ -121,7 +120,7 @@ class GroupsController extends BaseController {
 	public function destroy($id)
 	{
 		$this->group->find($id)->delete();
-		return Redirect::route('sets.index');
+		return Redirect::route('groups.index');
 	}
 
 	public function postAttach($id){

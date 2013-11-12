@@ -1,6 +1,6 @@
-@extends('layouts.scaffold')
+@extends('layouts.default')
 
-@section('main')
+@section('content')
 
 <h1>Show Group</h1>
 

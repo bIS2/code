@@ -1,31 +1,27 @@
-@extends('layouts.scaffold')
+@extends('layouts.default')
 
-@section('main')
+@section('content')
 
-<h1>Edit Group</h1>
-{{ Form::model($group, array('method' => 'PATCH', 'route' => array('groups.update', $group->id))) }}
-	<ul>
-        <li>
+<div class="page-header">
+	<h1>Edit Group</h1>
+</div>
+{{ Form::model($group, array('method' => 'PATCH', 'route' => array('groups.update', $group->id), 'role' => 'form')) }}
+	<div class="input-group text-center">
+        <div class="form-group">
             {{ Form::label('name', 'Name:') }}
-            {{ Form::text('name') }}
-        </li>
-
-        <li>
-            {{ Form::label('user_id', 'User_id:') }}
-            {{ Form::input('number', 'user_id') }}
-        </li>
-
-		<li>
-			{{ Form::submit('Update', array('class' => 'btn btn-info')) }}
+            {{ Form::text('name')}}
+        </div>
+		<div class="form-group">
+			{{ Form::submit('Update', array('class' => 'btn btn-info form-group')) }}
 			{{ link_to_route('groups.show', 'Cancel', $group->id, array('class' => 'btn')) }}
-		</li>
-	</ul>
+		</div>
+	</div>
 {{ Form::close() }}
 
 @if ($errors->any())
-	<ul>
+	<div>
 		{{ implode('', $errors->all('<li class="error">:message</li>')) }}
-	</ul>
+	</div>
 @endif
 
 @stop

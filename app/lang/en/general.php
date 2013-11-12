@@ -19,5 +19,6 @@ return array(
 	'type_criteria' 		=> 'Type to search',
 	'placeholder_search'=> 'Type to search',
   'must_login' 				=> 'Must be logged in.',	
-  'included_in' 			=> 'Included in'
+  'included_in' 			=> 'Included in',
+  'groups'						=> 'Groups'
 );
