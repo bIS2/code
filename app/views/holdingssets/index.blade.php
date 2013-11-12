@@ -252,7 +252,7 @@
 						      	<a id="holding<?= $holding -> id; ?>lock" href="{{ action('HoldingssetsController@putLock',[$holding->id]) }}" class="btn btn-lock btn-xs {{ $btnlock }}" data-params="locked=true" data-remote="true" data-method="put" data-disable-with="...">
 		      						<span class="glyphicon glyphicon-lock"></span>
 		      					</a>
-										<a href="<?= route('sets.show', $holding->id) ?>" data-target="#modal-show" data-toggle="modal">
+										<a href="<?= route('holdings.show', $holding->id) ?>" data-target="#modal-show" data-toggle="modal">
 											<span class="glyphicon glyphicon-eye-open"></span>
 										</a>
 										<a href="" data-target="#modal-show-external" data-toggle="modal" data-remote="<?= route('sets.show', $holding->id) ?>">
