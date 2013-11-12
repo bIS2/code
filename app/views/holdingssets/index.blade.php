@@ -132,7 +132,7 @@
 	<?php } ?>
   <li>
 	  <a href="#form-create-group" data-toggle="modal" class='link_bulk_action'>
-	  	<i class="fa fa-folder-o fa-lg"></i>
+	  	<i class="fa fa-folder-o"></i>
 	  </a>
   </li>
 </ul>
