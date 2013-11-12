@@ -126,13 +126,14 @@
 			<a href="<?= route('sets.index',['group_id' => $group->id ])  ?>" class="pull-left"><?= $group->name  ?>
 			</a>
 			<?php if ($group_id != $group -> id) { ?>
-			<a href="{{ action('HoldingssetsController@putDelGroup',[$group->id]) }}" class="btn btn-ok btn-xs" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><button aria-hidden="true" data-dismiss="modal" class="close pull-left" type="button">×</button></a>
+			<!-- <a href="{{ action('HoldingssetsController@putDelGroup',[$group->id]) }}" class="btn btn-ok btn-xs" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><button aria-hidden="true" data-dismiss="modal" class="close pull-left" type="button">×</button></a> -->
+			<a href="{{ action('HoldingssetsController@putDelGroup',[$group->id]) }}" class="close" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><i class="fa fa-times"></i></a>
 			<?php } ?>
 		</li>
 	<?php } ?>
   <li>
 	  <a href="#form-create-group" data-toggle="modal" class='link_bulk_action'>
-	  	<i class="fa fa-folder-o fa-lg"></i>
+	  	<i class="fa fa-folder-o"></i>
 	  </a>
   </li>
 </ul>
