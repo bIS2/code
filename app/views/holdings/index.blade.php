@@ -160,8 +160,8 @@
  				<td>
  					{{ link_to_route('holdings.show', $holding->holdingsset->f245a,[ $holding->id ]) }}
  				</td>
-				<td><?= $holding->f245b; ?></td>
-				<td><?= $holding->f245c; ?></td>
+				<td><?= link_to(route('holdings.index',['f245b'=>e($holding->f245b)]),$holding->f245b); ?></td>
+				<td><?= link_to(route('holdings.index',['f245b'=>$holding->f245c]),$holding->f245c); ?></td>
 				<td><?= $holding->f260b; ?></td>
 				<td><?= $holding->f362a; ?></td>
 				<td><?= $holding->f866a; ?></td>
@@ -181,9 +181,9 @@
 
 		</tbody>
 	</table>
-
-	<?= $holdings->appends(Input::except('page'))->links()  ?>
-
+	<p>
+		<?= $holdings->appends(Input::except('page'))->links()  ?>
+	</p>
 
 	</div>
 </div>
