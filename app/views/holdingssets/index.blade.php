@@ -48,22 +48,30 @@
 				  	<a href="{{ route('sets.index') }}" class="btn <?= (Input::has('state')) ? 'btn-default' : 'btn-primary' ?> btn-sm" >
 				  		<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}
 				  	</a>
-				  	<a href="{{ route('sets.index',['state'=>'ok']) }}" class="btn <?= (Input::get('state')=='ok') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
-				  		<span class="glyphicon glyphicon-thumbs-up"></span> {{{ trans('holdingssets.oked') }}}
-				  	</a>
-				  	<a href="{{ route('sets.index', ['state'=>'pending']) }}" class="btn <?= (Input::get('state') == 'pending') ? 'btn-primary' : 'btn-default' ?> btn-sm">
-				  		<span class="glyphicon glyphicon-warning-sign"></span> {{{ trans('holdingssets.pending') }}}
-				  	</a>
+				  	@if (isset($group_id))
+					  	<a href="{{ route('sets.index',['state'=>'ok', 'group_id' => $group_id]) }}" class="btn <?= (Input::get('state')=='ok') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+					  		<span class="glyphicon glyphicon-thumbs-up"></span> {{{ trans('holdingssets.oked') }}}
+					  	</a>
+					  	<a href="{{ route('sets.index', ['state'=>'pending', 'group_id' => $group_id]) }}" class="btn <?= (Input::get('state') == 'pending') ? 'btn-primary' : 'btn-default' ?> btn-sm">
+					  		<span class="glyphicon glyphicon-warning-sign"></span> {{{ trans('holdingssets.pending') }}}
+					  	</a>
+				  	else
+					  	<a href="{{ route('sets.index',['state'=>'ok']) }}" class="btn <?= (Input::get('state')=='ok') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+					  		<span class="glyphicon glyphicon-thumbs-up"></span> {{{ trans('holdingssets.oked') }}}
+					  	</a>
+					  	<a href="{{ route('sets.index', ['state'=>'pending']) }}" class="btn <?= (Input::get('state') == 'pending') ? 'btn-primary' : 'btn-default' ?> btn-sm">
+					  		<span class="glyphicon glyphicon-warning-sign"></span> {{{ trans('holdingssets.pending') }}}
+					  	</a>
+				  	@endif
 				  	<a href="{{ route('sets.index',['state'=>'orphan']) }}" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 				  		<span class="glyphicon glyphicon-question-sign"></span> {{{ trans('holdingssets.orphan') }}}
 				  	</a>
-				  	<a  href="#collapseOne" id="filter-btn" class="accordion-toggle collapsed btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm dropdown-toggle" data-toggle="collapse" data-parent="#accordion2">
+				  	<a href="#collapseOne" id="filter-btn" class="accordion-toggle collapsed btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm dropdown-toggle" data-toggle="collapse" data-parent="#accordion2">
 			        <span class="fa fa-question-circle"></span> {{{ trans('holdingssets.advanced_filter') }}} <span class="caret"></span>
 			      </a>
 				  	<a href="{{ route('sets.index') }}" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="glyphicon glyphicon-print"></span> {{{ trans('holdingssets.printer') }}}
 				  	</a>
-
 				  </div>
 			  </li>
 			</ul>
@@ -252,7 +260,7 @@
 						      	<a id="holding<?= $holding -> id; ?>lock" href="{{ action('HoldingssetsController@putLock',[$holding->id]) }}" class="btn btn-lock btn-xs {{ $btnlock }}" data-params="locked=true" data-remote="true" data-method="put" data-disable-with="...">
 		      						<span class="glyphicon glyphicon-lock"></span>
 		      					</a>
-										<a href="<?= route('sets.show', $holding->id) ?>" data-target="#modal-show" data-toggle="modal">
+										<a href="<?= route('holdings.show', $holding->id) ?>" data-target="#modal-show" data-toggle="modal">
 											<span class="glyphicon glyphicon-eye-open"></span>
 										</a>
 										<a href="" data-target="#modal-show-external" data-toggle="modal" data-remote="<?= route('sets.show', $holding->id) ?>">
