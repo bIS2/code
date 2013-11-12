@@ -39,7 +39,7 @@ $(function(){
 })
 
 function getAsuccess() {
-  $('a,form,button').on({
+  $('a').on({
     'ajax:success': function(data, result, status){
         if ( result.remove )
             $.each(result.remove, function(index,id){
