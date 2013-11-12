@@ -36,8 +36,8 @@ Route::group(array( 'before' => ['auth','detectLang']), function(){
 	Route::controller('groups', 'GroupsController');
 
 
+    Route::resource('holdings', 'HoldingsController');
 	Route::controller('holdings', 'HoldingsController');
-	Route::resource('holdings', 'HoldingsController');
 
 	Route::resource('sets', 'HoldingssetsController');
 	Route::controller('sets', 'HoldingssetsController');
