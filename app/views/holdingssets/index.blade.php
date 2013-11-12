@@ -196,8 +196,9 @@
 							<?php $btnlock 	= ($holding->locked) ? 'btn-warning ' : 'btn-default '; ?>	
 							<?php $trclass 	= ($holding->locked) ? 'locked' : ''  ?>	
 							<?php $ownertrclass 	= ($holding->is_owner == 't') ? ' is_owner' : '';  ?>	
-							<?php $auxtrclass 	= ($holding->is_aux == 't') ? ' is_aux' : '';  ?>	
-								<tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}">
+							<?php $auxtrclass 	= ($holding->is_aux == 't') ? ' is_aux' : '';  ?>
+							<?php $preftrclass 	= ($holding->is_pref == 't') ? ' is_pref' : '';  ?>	
+								<tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}">
 									<td>
 						      	<a id="holding<?= $holding -> id; ?>lock" href="{{ action('HoldingssetsController@putLock',[$holding->id]) }}" class="btn btn-lock btn-xs {{ $btnlock }}" data-params="locked=true" data-remote="true" data-method="put" data-disable-with="...">
 		      						<span class="glyphicon glyphicon-lock"></span>
