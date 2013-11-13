@@ -40,7 +40,7 @@ class HoldingsController extends BaseController {
 
 		// $this->data['tags'] 		= Tag::all(	);
 		$this->data['hlist'] 		= $hlist;
-		$this->data['holdings'] = $holdings->paginate(10);
+		$this->data['holdings'] = $holdings->paginate(15);
 
 		// CONDITIONS
 		// filter by holdingsset ok

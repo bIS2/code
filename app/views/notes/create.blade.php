@@ -12,31 +12,46 @@
 
         				<div class="well well-sm warning">{{trans('notes.help')}}</div>
 
-								{{ Form::hidden('holding_id',$holding->id) }}
+        				<div class="row">
+        					<div class="col-xs-5">
+        						<dl>
+										  <dt>260b</dt>
+										  <dd>{{$holding->f260b}}</dd>
+										  <dt>362a</dt>
+										  <dd>{{$holding->f362a}}</dd>
+										  <dt>866a</dt>
+										  <dd>{{$holding->f866a}}</dd>
+										</dl>
 
-								
-								<?php $notes_ids=[]; ?>
+        					</div>
+        					<div class="col-xs-7">
 
-								@foreach ( Tag::all() as $tag)
-									<?php $note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note ?>
+										@foreach ( Tag::all() as $tag)
 
-									<div class="form-group">
-								    <div class="input-group" data-toggle="buttons">
-								      <label class="input-group-addon btn btn-primary btn-sm {{ ($note->tag_id) ? 'active' : '' }}">
-								      	<span class="glyphicon glyphicon-ok-sign"></span>
-								        <input type="checkbox" name="notes[{{ $tag->id }}][tag_id]" value="{{ $tag->id }}">{{ $tag->name }}
-								      </label>
-								      <input type="text"  name="notes[{{ $tag->id }}][content]" value="{{ $note->content }}" class="form-control input-sm" placeholder="{{ trans('placeholders.notes_'.$tag->name) }}">
-								    </div><!-- /input-group -->
-								  </div><!-- /input-group -->
+											<?php $note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note ?>
 
-								@endforeach
+											{{ Form::hidden('holding_id',$holding->id) }}
+											<div class="form-group">
+										    <div class="input-group" data-toggle="buttons">
+										      <label class="input-group-addon btn btn-primary btn-sm {{ ($note->tag_id) ? 'active' : '' }}">
+										      	<span class="glyphicon glyphicon-ok-sign"></span>
+										        <input type="checkbox" name="notes[{{ $tag->id }}][tag_id]" value="{{ $tag->id }}">{{ $tag->name }}
+										      </label>
+										      <input type="text"  name="notes[{{ $tag->id }}][content]" value="{{ $note->content }}" class="form-control input-sm" placeholder="{{ trans('placeholders.notes_'.$tag->name) }}">
+										    </div><!-- /input-group -->
+										  </div><!-- /input-group -->
 
-								@if ($errors->any())
-									<ul>
-										{{ implode('', $errors->all('<li class="error">:message</li>')) }}
-									</ul>
-								@endif
+										@endforeach
+
+										@if ($errors->any())
+											<ul>
+												{{ implode('', $errors->all('<li class="error">:message</li>')) }}
+											</ul>
+										@endif
+        						
+        					</div>
+
+        				</div>
 
 	        </div>
 

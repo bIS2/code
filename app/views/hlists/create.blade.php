@@ -12,6 +12,10 @@
 		          {{ Form::label('name', 'Name:') }}
 		          {{ Form::text('name','',['placeholder'=>'Type a brief description', 'class'=>"form-control"]) }}
 				    </div>				
+				    <div class="form-group">
+		          {{ Form::label('worker_id', 'Worker:') }}
+		          {{ Form::text('worker_id','',['placeholder'=>'Type a brief description', 'class'=>"form-control"]) }}
+				    </div>				
 
 					@if ($errors->any())
 						<ul>
