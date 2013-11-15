@@ -14,7 +14,7 @@
 				    </div>				
 				    <div class="form-group">
 		          {{ Form::label('worker_id', 'Worker:') }}
-		          {{ Form::select('size', User::all()->lists('username','id')  ) }}
+		          {{ Form::select('size', Role::whereName('maguser')->first()->users()->orderby('username')->lists('username','user_id'),'',['class'=>"form-control"]  ) }}
 				    </div>				
 
 					@if ($errors->any())

@@ -15,47 +15,53 @@
  *  Route model binding
  *  ------------------------------------------
  */
-Route::model('user', 'User');
-Route::model('comment', 'Comment');
-Route::model('post', 'Post');
-Route::model('role', 'Role');
 
-Route::group(array( 'before' => ['auth','detectLang']), function(){
+// Route::group(['prefix' => LaravelLocalization::setLanguage(),'before' => 'LaravelLocalizationRedirectFilter'], function() {
 
 
-	# Index Page - Last route, no matches
-	Route::get('/', ['uses' => 'Pages@getIndex']);
-	
-	Route::controller('pages','Pages');
+	Route::model('user', 'User');
+	Route::model('comment', 'Comment');
+	Route::model('post', 'Post');
+	Route::model('role', 'Role');
 
-	Route::resource('admin/libraries', 'LibrariesController' );
-	Route::resource('admin/tags', 'TagsController');
-	Route::resource('admin/traces', 'TracesController');
-
-	Route::resource('groups', 'GroupsController');
-	Route::controller('groups', 'GroupsController');
+	Route::group(array( 'before' => ['auth','detectLang']), function(){
 
 
-    Route::resource('holdings', 'HoldingsController');
-	Route::controller('holdings', 'HoldingsController');
+		# Index Page - Last route, no matches
+		Route::get('/', ['uses' => 'Pages@getIndex']);
+		
+		Route::controller('pages','Pages');
 
-	Route::resource('sets', 'HoldingssetsController');
-	Route::controller('sets', 'HoldingssetsController');
+		Route::resource('admin/libraries', 'LibrariesController' );
+		Route::resource('admin/tags', 'TagsController');
+		Route::resource('admin/traces', 'TracesController');
 
-	Route::controller('lists', 'HlistsController');
-	Route::resource('lists', 'HlistsController');
-
-	Route::resource('notes', 'NotesController');
-	Route::resource('reserves', 'ReservesController');
-
-	Route::resource('traces', 'TracesController');
-
-	Route::when('sets*', 'auth_like_librarian');
-	// Route::when('holdings*', 'auth_like_storeman');
-	Route::when('admin*', 'auth_like_admin');
+		Route::resource('groups', 'GroupsController');
+		Route::controller('groups', 'GroupsController');
 
 
-});
+	  Route::resource('holdings', 'HoldingsController');
+		Route::controller('holdings', 'HoldingsController');
+
+		Route::resource('sets', 'HoldingssetsController');
+		Route::controller('sets', 'HoldingssetsController');
+
+		Route::controller('lists', 'HlistsController');
+		Route::resource('lists', 'HlistsController');
+
+		Route::resource('notes', 'NotesController');
+		Route::resource('reserves', 'ReservesController');
+
+		Route::resource('traces', 'TracesController');
+
+		Route::when('sets*', 'auth_like_librarian');
+		// Route::when('holdings*', 'auth_like_storeman');
+		Route::when('admin*', 'auth_like_admin');
+
+
+	});
+// }); // localization
+
 
 /** ------------------------------------------
  *  Admin Routes
@@ -120,17 +126,6 @@ Route::post('user/login', 'UserController@postLogin');
 # User RESTful Routes (Login, Logout, Register, etc)
 Route::controller('user', 'UserController');
 
-//:: Application Routes ::
-
-# Filter for detect language
-Route::when('contact-us','detectLang');
-
-# Contact Us Static Page
-Route::get('contact-us', function()
-{
-    // Return about us page
-    return View::make('site/contact-us');
-});
 
 
 

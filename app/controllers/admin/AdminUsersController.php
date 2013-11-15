@@ -49,23 +49,21 @@ class AdminUsersController extends AdminController {
         $title = Lang::get('admin/users/title.user_management');
 
         // Show all users for de admin or only the user by library for de librarian
-        if ( $this->current_user->hasRole('speiuser') )
-			    $users = User::with('library')->paginate(25);
+        if ( $this->current_user->hasRole('sysadmin') )
+			    $users = User::with('library');
 			  elseif ( $this->current_user->hasRole('bibuser') )
-			    $users = User::with('library')->where( 'library_id','=', $this->current_user->library_id )->paginate(25);
+			    $users = User::with('library')->where( 'library_id','=', $this->current_user->library_id );
 
         // Show the page
-        if (Input::has('buscar')) {;
+        if ($q = Input::has('buscar')) {
 
-        	$q = Input::get('buscar');
-        	$users = User::with('library')
+        	$users = $users
         		->where('name','like',"%$q%")
         		->orWhere('email','like',$q)
         		->orWhere('username','like',"%$q%")
-        		->orWhere('lastname','like',$q)
-        		->paginate(25);
+        		->orWhere('lastname','like',$q);
         } 
-        
+        $users = $users->paginate(25);
         return View::make('admin/users/index', [ 'users'=>$users, 'title'=>$title ] );
     }
 

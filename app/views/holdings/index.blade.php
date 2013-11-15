@@ -1,11 +1,12 @@
 @extends('layouts.default')
 
-{{-- Content --}}
-@section('content')
+@section('toolbar')
 
-<div class="page-header">
+<div class="container page-header">
+
 	<div class="row">
 		<div class="col-xs-12">
+
 			<ul class="list-inline">
 				<li>
 					<strong>
@@ -94,12 +95,17 @@
 				  </div>
 			  </li>
 			</ul>
+
 		</div>
 	</div> <!-- /.row -->
+
 	<div class="row">
+
 		<div class="col-xs-12">
 			<div class="well well-sm" id="filter-well" style="display:none">
+
 				<form class="form-inline" role="form" method="get">
+
 					<div class="form-group">
 						<div class="input-group inline input-group-sm">
 						  <label class="input-group-addon">245a</label>
@@ -139,23 +145,31 @@
 
 				  <button type="submit" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span>{{ trans('general.search') }}</button>
 				</form>
-			</div>
-		</div>
-	</div>
+
+			</div> <!-- /.well -->	
+		</div> <!-- /.col -->	
+	</div> <!-- /.row -->	
+
 </div> <!-- /.page-header -->	
+
+
+@stop
+
+{{-- Content --}}
+@section('content')
+
+
 <div class="row">
 	<div class="col-lg-12">
 		<table id="holdings-items" class="table table-bordered table-condensed ">
 		<thead>
 			<tr> 
 				<th></th>
-				<th><?= '245a'; ?></th>
-				<th><?= '245b'; ?></th>
-				<th><?= '245c'; ?></th>
-				<th><?= '260b'; ?></th>
-				<th><?= '362a'; ?></th>
-				<th><?= '866a'; ?></th>
-				<th><?= '852h'; ?></th>
+				<th>852b</th>
+				<th>852h</th>
+				<th>245a</th>
+				<th>362a</th>
+				<th>866a</th>
 				<td></td>
 			</tr>
 		</thead>
@@ -173,15 +187,13 @@
 
  -->		<td><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
  					
+				<td><?= $holding->f852b; ?></td>
+				<td><?= $holding->f852h; ?></td>
  				<td>
  					{{ link_to_route('holdings.show', $holding->holdingsset->f245a,[ $holding->id ]) }}
  				</td>
-				<td><?= link_to(route('holdings.index',['f245b'=>e($holding->f245b)]),$holding->f245b); ?></td>
-				<td><?= link_to(route('holdings.index',['f245b'=>$holding->f245c]),$holding->f245c); ?></td>
-				<td><?= $holding->f260b; ?></td>
 				<td><?= $holding->f362a; ?></td>
 				<td><?= $holding->f866a; ?></td>
-				<td><?= $holding->f852h; ?></td>
 				<td id="{{ $holding->id }}" class="col-lg-1">
 				  <a href="{{ action('HoldingsController@putOK',[$holding->id]) }}" class="btn {{ ($holding->ok2) ? 'btn-success' : 'btn-default' }} btn-xs btn-ok" data-method="put" data-remote="true" >
 				  	<span class="fa fa-thumbs-up"></span>
@@ -197,6 +209,7 @@
 					  </a>
 
 					@endif
+
 				</td>
 
 			</tr>
@@ -211,8 +224,9 @@
 	</div>
 </div>
 
-
+<div class="remote">
  <div class="modal" id="form-create-notes"></div><!-- /.modal -->
+</div>
 
 	@include('hlists.create')
 @stop

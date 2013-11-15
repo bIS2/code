@@ -3,6 +3,9 @@
 	<div class="container">
 		<a class="navbar-brand" href="/" title="Begleitendes Informationssystem">bIS</a>
 		<ul class="nav navbar-nav">
+			<li> 
+				<a href="/" ><span class="fa fa-home"></span> {{ trans('titles.home')}}</a>
+			</li>
 
 			<!-- admin menu ROLE::SYSADMIN-->
 			@if (Auth::user()->hasRole('sysadmin'))
@@ -24,8 +27,10 @@
 		<ul class="nav navbar-nav pull-right">
 			@if (Auth::check())
 				<li>
-					<a data-toggle="dropdown" href="{{{ URL::to('user') }}}"><span class="glyphicon glyphicon-user"></span> {{{ Auth::user()->username }}}</a>
-	          	</li>
+					<a data-toggle="dropdown" href="{{{ URL::to('user') }}}"><span class="fa fa-user"></span> {{{ Auth::user()->username }}}</a>
+	       </li>
+
+	      <li><a href="{{{ URL::to('user/logout') }}}"><span class="fa fa-sign-out"></span>{{{ trans('general.logout') }}}</a></li>
 	        @else
 	        	<li {{ (Request::is('user/login') ? ' class="active"' : '') }}><a href="{{{ URL::to('user/login') }}}">Login</a></li>
           	@endif
@@ -38,6 +43,7 @@
     				<li><a href="{{{ URL::to('user/logout') }}}">{{{ trans('general.logout') }}}</a></li>
   				</ul>
   			</li>
+<!--   			<li>{{ LaravelLocalization::getLanguageBar() }}</li> -->
       </ul>
 			<!-- ./ nav-collapse -->
 	</div>

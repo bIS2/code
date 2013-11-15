@@ -35,7 +35,7 @@ $(function(){
 		$(this).attr( 'data-params', $('.table input.hl:checkbox:checked').serialize() )
 	})
 
-    $('body').on('hidden.bs.modal', '.modal', function()    {
+    $('.remote').on('hidden.bs.modal', '.modal', function()    {
         $(this).removeData('bs.modal').empty();
 
     }); 

@@ -53,4 +53,11 @@ class Holding extends Eloquent {
     });
   }
 
+  public function scopeWorkers($query){
+    return $query->whereNotIn('id', function($query){ 
+      $query->select('holding_id')->from('hlist_holding'); 
+    });
+  }
+
+
 }

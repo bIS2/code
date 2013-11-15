@@ -123,6 +123,7 @@ return array(
         'Way\Generators\GeneratorsServiceProvider', // Generators
 
      		'Efficiently\AuthorityController\AuthorityControllerServiceProvider',
+     		'Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider',
 
         /* Uncomment for use in development */
 //        'Way\Generators\GeneratorsServiceProvider', // Generators
@@ -204,7 +205,8 @@ return array(
         'Datatables'      => 'Bllim\Datatables\Datatables', // DataTables
 
 				'Params'    			=> 'Efficiently\AuthorityController\Facades\Params',
-				'Authority' 			=> 'Efficiently\AuthorityController\Facades\Authority',        
+				'Authority' 			=> 'Efficiently\AuthorityController\Facades\Authority', 
+				'LaravelLocalization'	=> 'Mcamara\LaravelLocalization\Facades\LaravelLocalization',       
 
     ),
 

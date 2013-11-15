@@ -91,7 +91,7 @@ Route::filter('auth_like_storeman', function(){
 });
 Route::filter('auth_like_admin', function(){
 
-    if (! Entrust::hasRole('speiuser') ) 
+    if (! Entrust::hasRole('sysadmin') ) 
         return Redirect::to('/')->with('info',trans('messages.auth_like_admin'));
 
 });

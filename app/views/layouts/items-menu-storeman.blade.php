@@ -1,9 +1,6 @@
-<li> 
-  {{ link_to( '/', trans('titles.home') ) }}
-</li>
 <li class="{{ (!Request::is('holdings*')) ?: 'active'}}" > 
-	{{ link_to( route('holdings.index'), trans('holdings.title') ) }}
+	<a href="{{ route('holdings.index') }}" ><span class="fa fa-file-text"></span> {{ trans('holdings.title')}}</a>
 </li>
 <li class="{{ (Request::is('lists*')) ? 'active' : '' }}">
-	<a href="{{ route('lists.index') }}" >{{ trans('titles.lists')}}</a>
+	<a href="{{ route('lists.index') }}" ><span class="fa fa-list"></span> {{ trans('titles.lists')}}</a>
 </li>

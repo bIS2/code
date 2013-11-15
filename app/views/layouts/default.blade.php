@@ -1,11 +1,17 @@
 @extends('layouts.scaffold')
+
+
+
 {{-- main --}}
 @section('main')
 
+@include('navbar-default')
+<div id="toolbar">
+	@section('toolbar')
+	@show
+</div>
 <!-- Navbar -->
-	@include('navbar-default')
 <!-- ./ navbar -->
-
 <!-- Container -->
 	<div class="container">
 		{{Session::get('info')}}

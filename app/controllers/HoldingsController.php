@@ -9,7 +9,7 @@ class HoldingsController extends BaseController {
     public $data;
 
     public function __construct() {
- 		$this->beforeFilter('auth_like_storeman', ['except' => ['show','index']]);
+ 		$this->beforeFilter('auth_like_storeman', ['except' => ['show']]);
     }
 
 	/**
