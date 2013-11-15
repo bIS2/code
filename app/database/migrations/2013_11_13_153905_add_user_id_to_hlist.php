@@ -12,8 +12,8 @@ class AddUserIdToHlist extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('hlist', function(Blueprint $table) {
-			$table->integer('worker_id');
+		Schema::table('hlists', function(Blueprint $table) {
+			$table->integer('worker_id')->nullable();
 		});
 	}
 

@@ -170,6 +170,7 @@
 				<th>245a</th>
 				<th>362a</th>
 				<th>866a</th>
+				<th>866z</th>
 				<td></td>
 			</tr>
 		</thead>
@@ -194,8 +195,9 @@
  				</td>
 				<td><?= $holding->f362a; ?></td>
 				<td><?= $holding->f866a; ?></td>
+				<td><?= $holding->f866z; ?></td>
 				<td id="{{ $holding->id }}" class="col-lg-1">
-				  <a href="{{ action('HoldingsController@putOK',[$holding->id]) }}" class="btn {{ ($holding->ok2) ? 'btn-success' : 'btn-default' }} btn-xs btn-ok" data-method="put" data-remote="true" >
+				  <a href="{{ action('HoldingsController@postOK',[$holding->id]) }}" class="btn {{ ($holding->ok2) ? 'btn-success' : 'btn-default' }} btn-xs btn-ok" data-method="post" data-remote="true" >
 				  	<span class="fa fa-thumbs-up"></span>
 				  </a>
 				  <?php $is_tagged = ( ($count=$holding->notes->count())>0)  ?>

@@ -114,9 +114,21 @@ class HoldingsController extends BaseController {
 		//
 	}
 
-	public function putOK($id){
+	public function postOK($id){
 		$holding = Holding::find($id);
-		return ($holding->update(['ok2'=>true])) ? Response::json( [ 'remove' => [$id]] ) : Response::json( ['error' => [$id]] );
+		$ok = Ok::whereHoldingId($id);
+
+		if ( $ok->count()>0 ){
+			$ok->delete();
+			$return = [ 'ko'=>$id  ];
+		}
+		else {
+			$ok = new Ok( ['user_id' =>Auth::user()->id ] );
+			$holding->ok()->save($ok);
+			$return = [ 'ok'=>$id ];
+		}
+
+		return  Response::json( $return ) ;
 	}
 
 	public function postTagged($id){

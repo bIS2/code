@@ -18,16 +18,16 @@
 			<?= Form::close() ?>
 		</div>
 	</div>
-	<table id="users" class="table table-striped table-hover">
+	<table id="users" class="table table-condensed table-hover">
 		<thead>
 			<tr>
-				<th class="col-md-2">{{{ Lang::get('admin/users/table.username') }}}</th>
-				<th class="col-md-2">{{{ Lang::get('admin/users/table.email') }}}</th>
-				<th class="col-md-2">{{{ Lang::get('admin/users/table.roles') }}}</th>
-				<th class="col-md-2">{{{ Lang::get('admin/users/table.library') }}}</th>
-				<th class="col-md-2">{{{ Lang::get('admin/users/table.activated') }}}</th>
-				<th class="col-md-2">{{{ Lang::get('admin/users/table.created_at') }}}</th>
-				<th class="col-md-2">{{{ Lang::get('table.actions') }}}</th>
+				<th >{{{ Lang::get('admin/users/table.username') }}}</th>
+				<th >{{{ Lang::get('admin/users/table.email') }}}</th>
+				<th >{{{ Lang::get('admin/users/table.roles') }}}</th>
+				<th >{{{ Lang::get('admin/users/table.library') }}}</th>
+				<th >{{{ Lang::get('admin/users/table.activated') }}}</th>
+				<th >{{{ Lang::get('admin/users/table.created_at') }}}</th>
+				<th >{{{ Lang::get('table.actions') }}}</th>
 			</tr>
 		</thead>
 			<?php foreach ($users as $user) { ?>
@@ -39,10 +39,8 @@
 					<td><?= $user->activated() ?> </td>
 					<td><?= $user->joined() ?> </td>
 					<td>
-						<?= link_to(URL::to('admin/users/edit/'.$user->id), trans('general.edit'))  ?> 
-						<?php if (!$user->can('admin')) { ?>
-							<?= link_to(URL::to('admin/users/delete/'.$user->id), trans('general.delete'))  ?> 
-						<?php } ?>
+          	<a href="{{ URL::to('admin/users/edit/'.$user->id) }}" class=""><span class="fa fa-edit" ></span> {{trans('general.edit')}}</a>
+          	<a href="{{ URL::to('admin/users/delete/'.$user->id) }}" data-remote="true" data-method="delete" class=""><span class="fa fa-times"></span> {{trans('general.delete')}}</a>
 					</td>
 				</tr>
 			<?php } ?>

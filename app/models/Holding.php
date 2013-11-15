@@ -20,8 +20,12 @@ class Holding extends Eloquent {
       return $this->hasMany('Note');
   }
 
-	public function hlist(){
-		return $this->belongsToMany('Hlist');
+  public function hlist(){
+    return $this->belongsToMany('Hlist');
+  }
+
+	public function ok(){
+		return $this->hasOne('Ok');
 	}
 
 
@@ -41,9 +45,9 @@ class Holding extends Eloquent {
     });
   }
 
-  public function scopeTagged($query){
-  	return $query->whereIn('id', function($query){ 
-      $query->select('holding_id')->from('holding_tag'); 
+  public function scopeAnnotated($query){
+  	return $query->whereIn('holdings.id', function($query){ 
+      $query->select('holding_id')->from('Notes'); 
     });
   }
 

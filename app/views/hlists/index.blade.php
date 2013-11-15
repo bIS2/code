@@ -20,9 +20,10 @@
 					<thead>
 						<tr>
 							<th>{{ trans('tables.name') }}</th>
-							<th>{{ trans('tables.amount-lists') }}</th>
-							<th><span class="glyphicon glyphicon-thumbs-up"></span></th>
-							<th><span class="glyphicon glyphicon-tags"></span></th>
+							<th><span class="fa fa-file-text"></span></th>
+							<th><span class="fa fa-thumbs-up"></span></th>
+							<th><span class="fa fa-tags"></span></th>
+							<th> </th>
 						</tr>
 					</thead>
 
@@ -38,10 +39,10 @@
 										{{{ $list->holdings()->corrects()->count() }}}
 									@endif
 								</td>
-								<td>{{$list->holdings()->has('tags')->count()}}</td>
+								<td>{{ $list->holdings()->annotated()->count() }}</td>
 			          <td>
-			          	{{ link_to_route('lists.edit', '<span class="fa fa-edit"></span>' . trans('general.edit'), [$list->id], ['class' => 'btn btn-info btn-xs'] ) }}
-			          	{{ link_to_route('lists.destroy', trans('general.delete'), [$list->id], ['class' => 'btn btn-danger btn-xs', 'data-remote'=>'true', 'data-method'=>'delete'] ) }}
+			          	<a href="{{ route('lists.edit',$list->id) }}" class=""><span class="fa fa-edit" ></span> {{trans('general.edit')}}</a>
+			          	<a href="{{ route('lists.destroy',$list->id) }}" data-remote="true" data-method="delete" class=""><span class="fa fa-times"></span> {{trans('general.delete')}}</a>
 				        </td>
 							</tr>
 						@endforeach
