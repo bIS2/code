@@ -89,13 +89,19 @@ Route::filter('auth_like_storeman', function(){
         return Redirect::to('/')->with('info',trans('messages.auth_like_storeman'));
 
 });
-Route::filter('auth_like_admin', function(){
+Route::filter('admin_roles', function(){
 
     if (! Entrust::hasRole('sysadmin') ) 
         return Redirect::to('/')->with('info',trans('messages.auth_like_admin'));
 
 });
 
+Route::filter('admin_users', function(){
+
+    if ( !Entrust::hasRole('sysadmin') and !Entrust::hasRole('bibuser') ) 
+        return Redirect::to('/')->with('info',trans('messages.auth_like_admin'));
+
+});
 
 // Check for permissions on admin actions
 /*Entrust::routeNeedsPermission( 'admin/users*', ['admin','bibuser'], Redirect::to('/admin'), false );

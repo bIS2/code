@@ -40,7 +40,7 @@
 		Route::controller('groups', 'GroupsController');
 
 
-	  Route::resource('holdings', 'HoldingsController');
+	   Route::resource('holdings', 'HoldingsController');
 		Route::controller('holdings', 'HoldingsController');
 
 		Route::resource('sets', 'HoldingssetsController');
@@ -56,7 +56,9 @@
 
 		Route::when('sets*', 'auth_like_librarian');
 		// Route::when('holdings*', 'auth_like_storeman');
-		Route::when('admin*', 'auth_like_admin');
+
+        Route::when('admin/roles*', 'admin_roles');
+		Route::when('admin/users*', 'admin_users');
 
 
 	});
