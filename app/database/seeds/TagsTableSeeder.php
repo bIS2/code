@@ -11,7 +11,7 @@ class TagsTableSeeder extends Seeder {
 			[ 'name' => 'Missing' ],
 			[ 'name' => 'Additional' ],
 			[ 'name' => 'Deliverable' ],
-			[ 'name' => 'In bad condition' ],
+			[ 'name' => 'Bad condition' ],
 			[ 'name' => 'Remarks' ],
 		];
 

@@ -23,5 +23,7 @@ return array(
 	'placeholder_search'=> 'Type to search',
   'must_login' 				=> 'Must be logged in.',	
   'included_in' 			=> 'Included in',
-  'groups'						=> 'Groups'
+  'groups'						=> 'Groups',
+  'correct'						=> 'Correct',
+  'notes'						=> 'Notes',
 );

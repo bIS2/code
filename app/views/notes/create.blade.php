@@ -15,14 +15,17 @@
         				<div class="row">
         					<div class="col-xs-5">
         						<dl>
-										  <dt>260b</dt>
-										  <dd>{{$holding->f260b}}</dd>
+										  <dt>852b</dt>
+										  <dd>{{$holding->f852b}}</dd>
+										  <dt>852h</dt>
+										  <dd>{{$holding->f852h}}</dd>
+										  <dt>245a</dt>
+										  <dd>{{$holding->holdingsset->f245a}}</dd>
 										  <dt>362a</dt>
 										  <dd>{{$holding->f362a}}</dd>
 										  <dt>866a</dt>
 										  <dd>{{$holding->f866a}}</dd>
 										</dl>
-
         					</div>
         					<div class="col-xs-7">
 

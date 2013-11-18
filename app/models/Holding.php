@@ -31,24 +31,33 @@ class Holding extends Eloquent {
 
 
   // Scopes
+  public function scopeVerified ($query){
+		return $query->whereIn('holdingsset_id',function($query){ $query->select('id')->from('holdingssets')->whereOk(true); });
+  }
+
   public function scopeInLibrary(){
   	$id_user = Auth::user()->id;
   }
 
   public function scopeCorrects($query){
-  	return $query->whereOk2(true);
+  	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); } );
   }
 
   public function scopePendings($query){
-  	return $query->whereOk2(null)->whereNotIn('id', function($query){ 
-      $query->select('holding_id')->from('holding_tag'); 
-    });
+  	return $query
+  		->whereNotIn( 'id', function($query){ $query->select('holding_id')->from('oks'); } )
+  		->whereNotIn( 'id', function($query){ $query->select('holding_id')->distinct()->from('notes'); } );
   }
 
-  public function scopeAnnotated($query){
-  	return $query->whereIn('holdings.id', function($query){ 
-      $query->select('holding_id')->from('Notes'); 
-    });
+  public function scopeAnnotated($query,$tag=''){
+  	if ($tag)
+	  	return $query->whereIn('holdings.id', function($query){ 
+	      $query->select('holding_id')->from('Notes'); 
+	    });
+	  else
+	  	return $query->whereIn('holdings.id', function($query){ 
+	      $query->select('holding_id')->from('Notes')->whereTagId($tag); 
+	    });
   }
 
   public function scopeOrphans($query){
@@ -61,6 +70,14 @@ class Holding extends Eloquent {
     return $query->whereNotIn('id', function($query){ 
       $query->select('holding_id')->from('hlist_holding'); 
     });
+  }
+
+  public function getIsCorrectAttribute(){
+    return $this->ok()->exists();
+  }
+
+  public function getIsAnnotatedAttribute(){
+    return $this->notes()->exists();
   }
 
 
