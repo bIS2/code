@@ -29,12 +29,12 @@ class HoldingsController extends BaseController {
 		if ( Input::has('pendings') )		$holdings = $holdings->pendings();
 		if ( Input::has('unlist') )			$holdings = $holdings->orphans();
 
-		if ( Input::has('f852b')  ) $holdings = $holdings->where( 'f852b','like','%'.Input::get('f852b').'%');
-		if ( Input::has('f852h')) $holdings = $holdings->where( 'f852h','like','%'.Input::get('f852h').'%');
-		if ( Input::has('f245a')  ) $holdings = $holdings->where( 'f245a','like','%'.Input::get('f245a').'%');
-		if ( Input::has('f362a') ) $holdings = $holdings->where( 'f362a','like','%'.Input::get('f362a').'%');
-		if ( Input::has('f866a') ) $holdings = $holdings->where( 'f866a','like','%'.Input::get('f866a').'%');
-		if ( Input::has('f866z') ) $holdings = $holdings->where( 'f866z','like','%'.Input::get('f866z').'%');
+		if ( Input::has('f852b')  ) $holdings = $holdings->where( 'f852b','like',sprintf( Input::get('f852bformat'), Input::get('f852b') ) );
+		if ( Input::has('f852h')) $holdings = $holdings->where( 'f852h','like', sprintf( Input::get('f852hformat'), Input::get('f852h') ) );
+		if ( Input::has('f245a')  ) $holdings = $holdings->where( 'f245a','like', sprintf( Input::get('f245aformat'), Input::get('f245a') ) );
+		if ( Input::has('f362a') ) $holdings = $holdings->where( 'f362a','like', sprintf( Input::get('f362aformat'), Input::get('f362a') ) );
+		if ( Input::has('f866a') ) $holdings = $holdings->where( 'f866a','like', sprintf( Input::get('f866aformat'), Input::get('f866a') ) );
+		if ( Input::has('f866z') ) $holdings = $holdings->where( 'f866z','like', sprintf( Input::get('f866zformat'), Input::get('f866z') ) );
 
 		$this->data['is_filter'] = Input::has('f852b') || Input::has('f852h') || Input::has('f245a') || Input::has('f362a') || Input::has('f866a') || Input::has('f866z');
 		$this->data['holdings'] = $holdings->paginate(15);
