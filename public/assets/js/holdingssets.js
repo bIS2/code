@@ -47,6 +47,7 @@ page = 1;
 			  //     "bDestroy": true
 			  //   });
 	 				$('.pop-over').popover()
+	 				getAsuccess()
 			    $('#hosg .accordion-toggle').each(function() {
 			    	$(this).on('click', function() {
 			    		if ($(this).attr('opened') == 0) {

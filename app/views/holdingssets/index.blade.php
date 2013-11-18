@@ -256,7 +256,7 @@
 												} 
 											}
 											?>
-										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title=""></span>
+										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title="Column Sumary"></span>
 									</th>
 									<th><?php echo 'sys2'; ?>
 										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
