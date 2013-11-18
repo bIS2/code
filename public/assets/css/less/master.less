@@ -29,7 +29,7 @@
 @import "../../../../vendor/twbs/bootstrap/less/type.less";
 @import "../../../../vendor/twbs/bootstrap/less/code.less";
 @import "../../../../vendor/twbs/bootstrap/less/tables.less";
-@import "../../../../vendor/twbs/bootstrap/less/forms.less";
+@import "../../../../vendor/twbs/bootstrap/less/forms.less"; 
 @import "../../../../vendor/twbs/bootstrap/less/buttons.less";  
 @import "../../../../vendor/twbs/bootstrap/less/grid.less";
 
@@ -164,8 +164,8 @@ table.table {
 }
 
 .bis-locked {
-    background: lighten(@swiss-red, 55%) !important;
-    color: @gray-light;
+    background: lighten(@swiss-blue, 40%) !important;
+    //color: @gray-light;
 }
 
 // navbar
@@ -247,21 +247,6 @@ tr.locked td, tr.locked div {
     .bis-locked;
 }
 
-//ocrr_ptrn
-.ocrr_ptrn .fa {
-    color: transparent;
-    &.fa-square {
-        @color: @swiss-blue;
-        color: darken(@color, 10%);
-        &.aux {
-            @color: @swiss-yellow;
-            color: darken(@color, 10%);
-        }
-        &.j {
-            color: lighten(@color, 10%);
-        }
-    }
-}
 .is_owner .fa-square {
     color: darken(@swiss-red, 10%) !important;
 }
@@ -274,8 +259,11 @@ ul.hol-sets {
     list-style-type: none;
     padding-left: 0;
     li {
-        padding: (@font-size-base / 2) 0;
+        padding: (@font-size-base / 2) 5px 4px;
         border-top: 1px dotted @gray-lighter;
+        &:hover {
+            background-color: darken(@table-bg-hover, 10%);
+        }
     }
     border-bottom: 1px dotted @gray-lighter;
 }
@@ -294,7 +282,39 @@ ul.hol-sets {
     z-index: 50000;
 }
 
-
+.AGKB * {
+    color: green;
+}
+.BSUB * {
+    color: purple;
+}
+.LUZB * {
+    color: red;
+}
+.SGHG * {
+    color: teal;
+}
+.ZHUZ * {
+    color: green;
+}
+.ZHZB * {
+    color: blue;
+}
+//ocrr_ptrn
+.ocrr_ptrn .fa {
+    color: transparent;
+    &.fa-square {
+        @color: @swiss-blue;
+        color: darken(@color, 10%);
+        &.aux {
+            @color: @swiss-yellow;
+            color: darken(@color, 10%);
+        }
+        &.j {
+            color: lighten(@color, 10%);
+        }
+    }
+}
 
 // Soto css
 .well-success{

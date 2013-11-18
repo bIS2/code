@@ -8,10 +8,9 @@ class ExternalController extends BaseController {
 	 * @return Response
 	 */
 
-	public function getIndex()
+	public function index()
 	{
-		$url = $_GET['url'];
-		return View::make('external.index', ['url' => $url]);
+		return View::make('external.index');
 	}
 
 	/**
@@ -42,6 +41,8 @@ class ExternalController extends BaseController {
 	 */
 	public function show($id)
 	{
+		$id = $_GET['id'];
+		return View::make('external/index', ['url' => $id]);
 	}
 
 	/**

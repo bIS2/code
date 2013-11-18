@@ -69,7 +69,7 @@ $(function(){
   	mouseout: function(){ $(this).find('.actions').hide() }
   })
 
-
+getAsuccess()
  
 })
 
@@ -80,7 +80,7 @@ function getAsuccess() {
             $.each(result.remove, function(index,id){
                 $('#'+id).hide('slow', function(){ $(this).remove() }); 
             })
-        console.log(result);
+        // console.log(result);
         /* HOS ok to next step */
         if ( result.ok ){
             $('#'+result.ok).find('.btn-ok').addClass('btn-success').removeClass('btn-default');    
