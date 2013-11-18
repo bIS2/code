@@ -80,5 +80,30 @@ class Holding extends Eloquent {
     return $this->notes()->exists();
   }
 
+  public function getPatrnAttribute(){
+    $ocrr_ptrn = str_split($this->ocrr_ptrn);
+    $j_ptrn = str_split($this->j_ptrn);
+    $aux_ptrn = str_split($this->aux_ptrn);
+    $i = 0;
+    $ret = '';
+
+    foreach ($ocrr_ptrn as $ocrr) { 
+      switch ($ocrr) {
+        case '0':
+          $ret .= '<i class="fa fa-square-o fa-lg"></i>';
+          break;                          
+        case '1':
+          $classj = '';
+          $classaux = '';
+          if (isset($j_ptrn[$i]))     $classj   = ($j_ptrn[$i] == '1') ? ' j' : ''; 
+          if (isset($aux_ptrn[$i]))   $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
+          $ret .= '<i class="fa fa-square fa-lg'.$classj.$classaux.'"></i>';
+          break;
+      }
+     $i++; 
+    } 
+    return $ret;
+  }
+
 
 }
