@@ -37,6 +37,10 @@
 						  <abbr class="text-muted">852h <i class="fa  fa-caret-right"></i></abbr >
 						  {{ $holding->f852h }}
 						</div>
+						<div >
+						  <abbr class="text-muted">Patrn <i class="fa  fa-caret-right"></i></abbr >
+						  <span class="ocrr_ptrn">{{ $holding->patrn }}</span>
+						</div>
 						<div>
 						  <abbr class="text-muted">245a <i class="fa  fa-caret-right"></i></abbr >
 						  {{ $holding->f245a }}

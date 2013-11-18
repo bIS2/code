@@ -8,7 +8,7 @@ return [
 
         // Allow delivery holding from storage revision
         $authority->allow('delivery', 'Holding', function($self, $holding) {
-          return ($holding->ok2 || ($holding->notes()->count()>0) );
+          return ($holding->is_correct || $holding->is_annotated );
         });
 
         // Action aliases. For example:

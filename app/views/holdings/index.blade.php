@@ -44,7 +44,7 @@
 				  </a>
 				  @if (Authority::can('delivery',$holding))
 
-					  <a href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-notes" class="btn btn-default btn-xs">
+					  <a href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-notes" class="btn btn-primary btn-xs">
 					  	<span class="fa fa-arrow-right"></span> 
 					  </a>
 

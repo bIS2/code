@@ -13,12 +13,14 @@
         				<div class="well well-sm warning">{{trans('notes.help')}}</div>
 
         				<div class="row">
-        					<div class="col-xs-5">
+        					<div class="col-xs-5 ">
         						<dl>
 										  <dt>852b</dt>
 										  <dd>{{$holding->f852b}}</dd>
 										  <dt>852h</dt>
 										  <dd>{{$holding->f852h}}</dd>
+										  <dt>Patr</dt>
+										  <dd class="ocrr_ptrn">{{$holding->patrn}}</dd>
 										  <dt>245a</dt>
 										  <dd>{{$holding->holdingsset->f245a}}</dd>
 										  <dt>362a</dt>
@@ -62,7 +64,6 @@
 	          <a href="#" class="btn btn-default" data-dismiss="modal" ><?= trans('general.cancel') ?></a>
 	          <button type="submit" class="btn btn-default" ><?= trans('general.reset') ?></button>
 	          <button type="submit" class="btn btn-success" ><?= trans('general.save') ?></button>
-	          <button type="submit" class="btn btn-success" ><?= trans('general.save_and_delivery') ?></button>
 	        </div>
 
 				</form>
