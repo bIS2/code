@@ -12,7 +12,7 @@ return array(
 	'pending'					=> 'Pending',
 	'filter'					=> 'Filter',
 	'advanced_filter'			=> 'Advanced Filter',
-	'orphan'					=> 'Orphans',
+	'ungroup'					=> 'Unlist',
 	'printer'					=> 'Print',
 
 );

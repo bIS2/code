@@ -49,14 +49,16 @@ class NotesController extends BaseController {
 		$notes = Input::get('notes');
 		$holding = Holding::find(Input::get('holding_id'));
 		
-		// delete all notes to insert de new
-		//$holding->notes()->detach();
+		// delete all notes to insert new
+		if ($holding->is_annotated) $holding->notes()->delete();
 
 		foreach ($notes as $note) {
-			if (isset( $note['tag_id']) )
-				$holding->notes()->attach( $note['note_id'],[ 'content'=>$note['content'] ] );
+			if (isset( $note['tag_id']) ){
+				$new_note = new Note([ 'tag_id' => $note['tag_id'], 'content'=> $note['content'], 'user_id'=> Auth::user()->id ]);
+				$holding->notes()->save( $new_note );
+			}
 		}
-		return Response::json( ['note' => $holding->id] );
+		return Response::json( ['annotated' => $holding->id] );
 
 	}
 

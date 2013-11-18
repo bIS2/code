@@ -40,20 +40,37 @@ $(function(){
 
     }); 
 
-  $('body').on( 'ajax:success', 'form', function(data, result, status){
-        /* Holdings Tags */
-        if ( result.tag ){
-            $('tr#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger');
-            $('#form-create-tags').modal('hide')
-        }
-        if ( result.untag ){
-            $('#'+result.untag).find('.btn-tag').removeClass('btn-danger').addClass('btn-default'); 
-        } 
-     
+
+
+  $('body').on( 'ajax:success', 'form,a', function(data, result, status){
+    /* Holdings Tags */
+    if ( result.tag ){
+        $('tr#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger');
+        $('#form-create-tags').modal('hide')
+    }
+    if ( result.untag ){
+        $('#'+result.untag).find('.btn-tag').removeClass('btn-danger').addClass('btn-default'); 
+    } 
+    if ( result.annotated ){
+        $('#'+result.annotated).find('.well').addClass('well-danger').removeClass('well-success'); 
+        $('tr#'+result.annotated).addClass('danger').removeClass('success'); 
+        $('#form-create-notes').modal('hide')
+    } 
+
+    if ( result.correct ){
+        $('#'+result.correct).find('.well').removeClass('well-danger').addClass('well-success'); 
+        $('tr#'+result.correct).removeClass('danger').addClass('success'); 
+    } 
+    
     })
 
+  $('.h').on({
+  	mouseover: function(){ $(this).find('.actions').show() },
+  	mouseout: function(){ $(this).find('.actions').hide() }
+  })
 
-  getAsuccess();
+
+ 
 })
 
 function getAsuccess() {

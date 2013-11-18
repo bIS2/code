@@ -9,7 +9,7 @@ class HoldingsController extends BaseController {
     public $data;
 
     public function __construct() {
- 		$this->beforeFilter('auth_like_storeman', ['except' => ['show']]);
+ 			$this->beforeFilter('auth_like_storeman', ['except' => ['show']]);
     }
 
 	/**
@@ -19,33 +19,30 @@ class HoldingsController extends BaseController {
 	 */
 	public function Index()
 	{
+		$holdings = ( Input::has('hlist_id') ) ?	Hlist::find( Input::get('hlist_id') )->holdings() : Holding::verified(); ;
 
-		$holdingssets_ids = Holdingsset::whereOk(true)->lists('id');
-		$holdings = Holding::whereIn('holdingsset_id',$holdingssets_ids);
+    $this->data['hlists'] = Auth::user()->hlists;
+    $this->data['hlist'] = (Input::has('hlist_id')) ? Hlist::find(Input::get('hlist_id')) : false;
 
-	    $this->data['hlists'] = Auth::user()->hlists;
-	    $hlist = false;
-	    $state =  (Input::has('state')) ? Input::get('state') : ''; 
+		if ( Input::has('corrects') ) 	$holdings = $holdings->corrects();
+		if ( Input::has('tagged') )			$holdings = $holdings->annotated(Input::get('tagged'));
+		if ( Input::has('pendings') )		$holdings = $holdings->pendings();
+		if ( Input::has('unlist') )			$holdings = $holdings->orphans();
 
-		if ( Input::has('hlist_id') ) 	$holdings = Hlist::find(Input::get('hlist_id'))->holdings();
-		if ( $state=='corrects' ) 		$holdings = $holdings->corrects();
-		if ( $state=='tagged' )			$holdings = $holdings->tagged();
-		if ( $state=='pendings' )		$holdings = $holdings->pendings();
-		if ( $state=='orphans' )		$holdings = $holdings->orphans();
+		if ( Input::has('f852b') && Input::get('f852b')!='' ) $holdings = $holdings->where( 'f852b','like',Input::get('f852b'));
+		if ( Input::has('f852h') && Input::get('f852h')!='' ) $holdings = $holdings->where( 'f852h','like',Input::get('f852h'));
+		if ( Input::has('f245a') && Input::get('f245a')!='' ) $holdings = $holdings->where( 'f245a','like',Input::get('f245a'));
+		if ( Input::has('f362a') && Input::get('f362a')!='' ) $holdings = $holdings->where( 'f362a','like',Input::get('f362a'));
+		if ( Input::has('f866a') && Input::get('f866a')!='' ) $holdings = $holdings->where( 'f866a','like',Input::get('f866a'));
+		if ( Input::has('f866z') && Input::get('f866z')!='' ) $holdings = $holdings->where( 'f866z','like',Input::get('f866z'));
 
-		if ( Input::has('f245a') ) $holdings = $holdings->wheref245b(Input::get('f245a'));
-		if ( Input::has('f245b') ) $holdings = $holdings->wheref245b(Input::get('f245b'));
-		if ( Input::has('f245c') ) $holdings = $holdings->wheref245b(Input::get('f245c'));
-
-
-		// $this->data['tags'] 		= Tag::all(	);
-		$this->data['hlist'] 		= $hlist;
 		$this->data['holdings'] = $holdings->paginate(15);
 
 		// CONDITIONS
 		// filter by holdingsset ok
 		//  and holdings in their library
-		return View::make('holdings/index', $this->data);
+		$view = (Input::has('view')) ? Input::get('view') : 'index';
+		return View::make('holdings/'.$view, $this->data);
 
 	}
 
@@ -109,10 +106,10 @@ class HoldingsController extends BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
-		//
-	}
+
+
+
+	// Custom method
 
 	public function postOK($id){
 		$holding = Holding::find($id);
@@ -129,21 +126,6 @@ class HoldingsController extends BaseController {
 		}
 
 		return  Response::json( $return ) ;
-	}
-
-	public function postTagged($id){
-
-		$tags = Input::get('tags');
-		$holding = Holding::find($id);
-
-		foreach ($tags as $tag) {
-			if (isset( $tag['tag_id']) )
-				$holding->tags()->attach( $tag['tag_id'],[ 'content'=>$tag['content'] ] );
-		}
-	}
-
-	public function getConfirmed(){
-
 	}
 
 }
