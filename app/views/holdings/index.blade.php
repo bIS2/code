@@ -28,10 +28,10 @@
 		@foreach ($holdings as $holding)
 			<tr id="<?= $holding->id ?>" class="{{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}">
 				<td><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
-				<td>{{ link_to_route( 'holdings.show', $holding->f852b, [ $holding->f852b ] ) }} </td>
+				<td>{{ link_to_route( 'holdings.index',$holding->f852b, [ 'ff852b' => Str::slug($holding->f852b,'-') ] ) }} </td>
 				<td><?= $holding->f852h; ?></td>
 				<td><?= $holding->patrn ?></td>
- 				<td>{{ link_to_route('holdings.show', $holding->holdingsset->f245a,[ $holding->id ]) }}</td>
+ 				<td>{{ link_to_route('holdings.index', $holding->holdingsset->f245a ,['ff245a' => Str::slug($holding->f245a,'-') ]) }}</td>
 				<td><?= $holding->f362a; ?></td>
 				<td><?= $holding->f866a; ?></td>
 				<td><?= $holding->f866z; ?></td>
