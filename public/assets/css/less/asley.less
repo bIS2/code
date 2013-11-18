@@ -60,14 +60,38 @@ tr.fields-sumary span.btn {
 
 .flexme {
     font-size: 10px;
+    th + th {
+        min-width: 60px;
+    }
     td {
        white-space: nowrap;
+       vertical-align: middle;
+       + td.sorting_1 {
+        background-color: #CCCCCC !important;
+       }
     }
+
+}
+.hol-sets {
+    input#holdingsset_id {
+        margin-top: 3px;
+    }  
+}
+
+table.table thead th:first-child {
+    background-image: none; 
+    cursor: default;
+    &.sorting_asc,
+    &.sorting_asc {
+        background-image: none; 
+        cursor: default;
+    }    
 }
 
 .panel-body {
     overflow-x: scroll;
     max-height: 900px;
+    padding: 5px 0 0 0;
 } 
 
 .search-holdings {

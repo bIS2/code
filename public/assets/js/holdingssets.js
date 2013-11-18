@@ -32,7 +32,11 @@ page = 1;
 	$(window).scroll(function() {
 	if ($(window).scrollTop() == $(document).height() - $(window).height()) {
 		page++;
-	 	$.get("/sets/?page="+page + "&group_id=" + $('#hosg').attr('group_id'),
+		if ($('#hosg').attr('group_id') > 0) url = "/sets?page="+page + "&group_id=" + $('#hosg').attr('group_id')
+			else
+				url = "/sets?page="+page;
+
+	 	$.get(url,
 		  function(data){
 			  if (data != "") {
 			    $("#hosg ul li:last").after(data);

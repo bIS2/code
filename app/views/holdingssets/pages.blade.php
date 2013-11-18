@@ -35,7 +35,7 @@
 	}
 
 ?>
-	@foreach ($holdingssets as $holdingsset)
+@foreach ($holdingssets as $holdingsset)
 		<?php $ok 	= ($holdingsset->ok) ? 'ok' : ''  ?>
 		<?php $btn 	= ($holdingsset->ok) ? 'btn-success' : 'btn-default'  ?>
 		<!-- <li class="panel list-group-item {{ $ok }}" id="<?= $holdingsset -> id; ?>"> -->
@@ -65,9 +65,12 @@
 		      <!-- 	<a id="holdingsset<?= $holdingsset -> sys1; ?>add" class="btn btn-ok btn-xs {{ $btn }}" title="{{ trans('holdingssets.add_holdings') }}">
 		      			<span class="glyphicon glyphicon-download-alt"></span>
 		      	</a> -->
+		      	@if (Auth::user()->hasRole('resuser')) 
+		      	@else
 		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn btn-ok btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="...">
 		      			<span class="glyphicon glyphicon-thumbs-up"></span>
-		      	</a>		      	
+		      	</a>		
+		      	@endif      	
 		      </div>
 			  </div>	
 	  		<div class="panel-collapse collapse container" id="<?= $holdingsset -> sys1; ?>">
@@ -75,9 +78,13 @@
 						<?php $k = 0; $k++; unset($valuesCounter); $valuesCounter = null; ?>
 							@foreach ($holdingsset -> holdings as $holding)
 								<?php 
-									$valuesCounter = getValue('f245b', $holding, $valuesCounter);
+									$valuesCounter = getValue('sys2',  $holding, $valuesCounter);
 									$valuesCounter = getValue('f245a', $holding, $valuesCounter);
+									$valuesCounter = getValue('f245b', $holding, $valuesCounter);
 									$valuesCounter = getValue('f260a', $holding, $valuesCounter);
+									$valuesCounter = getValue('f260b', $holding, $valuesCounter);
+									$valuesCounter = getValue('f710a', $holding, $valuesCounter);
+									$valuesCounter = getValue('f310a', $holding, $valuesCounter);
 								?>
 							@endforeach	
 						<table class="table table-striped table-hover flexme table-bordered">
@@ -106,27 +113,68 @@
 											?>
 										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title="Column Sumary"></span>
 									</th>
-									<th><?php echo '245c'; ?></th>
+									<!-- <th><?php echo '245c'; ?></th> -->
 									<th class="hocrr_ptrn"><?php echo 'ocrr_ptrn'; ?></th>
-									<th><?php echo '022a'; ?></th>
-									<th><?php echo '260a'; ?></th>
+									<!-- <th><?php echo '022a'; ?></th> -->
+									<th><?php echo '260a'; ?>
+										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
+											<?php 
+											if (isset($valuesCounter['f260a'])) {
+												foreach ($valuesCounter['f260a'] as $counter) {
+												 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
+												} 
+											}
+											?>
+										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title="Column Sumary"></span>
+									</th>
 									<th><?php echo '260b'; ?>
 										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
 											<?php
-											if (isset($valuesCounter['f260a'])) {
-												foreach ($valuesCounter['f260a'] as $counter) {
+											if (isset($valuesCounter['f260b'])) {
+												foreach ($valuesCounter['f260b'] as $counter) {
 												 	echo $counter['title'].' -> '.$counter['count'].'<br>';
 												} 
 											}
 											?>
 										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title=""></span>
 									</th>
-									<th><?php echo '710a'; ?></th>
-									<th><?php echo '780t'; ?></th>
+									<th><?php echo 'sys2'; ?>
+										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
+											<?php 
+											if (isset($valuesCounter['sys2'])) {
+												foreach ($valuesCounter['sys2'] as $counter) {
+												 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
+												} 
+											}
+											?>
+										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title="Column Sumary"></span>
+									</th>
+									<th><?php echo '710a'; ?>
+										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
+											<?php 
+											if (isset($valuesCounter['f710a'])) {
+												foreach ($valuesCounter['f710a'] as $counter) {
+												 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
+												} 
+											}
+											?>
+										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title="Column Sumary"></span>
+									</th>
+<!-- 									<th><?php echo '780t'; ?></th>
 									<th><?php echo '362a'; ?></th>
 									<th><?php echo '866a'; ?></th>
-									<th><?php echo '866z'; ?></th>
-									<th><?php echo '310a'; ?></th>
+									<th><?php echo '866z'; ?></th> -->
+									<th><?php echo '310a'; ?>
+										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
+											<?php 
+											if (isset($valuesCounter['f310a'])) {
+												foreach ($valuesCounter['f310a'] as $counter) {
+												 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
+												} 
+											}
+											?>
+										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title="Column Sumary"></span>
+									</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -136,17 +184,15 @@
 							<?php $ownertrclass 	= ($holding->is_owner == 't') ? ' is_owner' : '';  ?>	
 							<?php $auxtrclass 	= ($holding->is_aux == 't') ? ' is_aux' : '';  ?>
 							<?php $preftrclass 	= ($holding->is_pref == 't') ? ' is_pref' : '';  ?>	
-								<tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}">
+							<?php $librarianclass = ' '.substr($holding->sys2, 0, 4);  ?>	
+								<tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}{{ $librarianclass }}">
 									<td>
-						      	<a id="holding<?= $holding -> id; ?>lock" href="{{ action('HoldingssetsController@putLock',[$holding->id]) }}" class="btn btn-lock btn-xs {{ $btnlock }}" data-params="locked=true" data-remote="true" data-method="put" data-disable-with="...">
-		      						<span class="glyphicon glyphicon-lock"></span>
-		      					</a>
-										<a href="<?= route('holdings.show', $holding->id) ?>" data-target="#modal-show" data-toggle="modal">
-											<span class="glyphicon glyphicon-eye-open"></span>
-										</a>
-										<a href="" data-target="#modal-show-external" data-toggle="modal" data-remote="<?= route('sets.show', $holding->id) ?>">
-											<span class="glyphicon glyphicon-list-alt"></span>
-										</a>
+						      	<a id="holding<?= $holding -> id; ?>lock" href="{{ action('HoldingssetsController@putLock',[$holding->id]) }}" class="btn-lock btn-xs {{ $btnlock }}" data-params="locked=true" data-remote="true" data-method="put" data-disable-with="..."><span class="glyphicon glyphicon-lock"></span></a>
+		      					@if (Auth::user()->hasRole('resuser')) 
+										@else
+										<a href="<?= route('holdings.show', $holding->id) ?>" class="btn-xs btn-default" data-target="#modal-show" data-toggle="modal"><span class="glyphicon glyphicon-eye-open"></span></a>
+										<!-- <a href="" data-target="#modal-show-external" data-toggle="modal" class="btn-xs btn-default" data-remote="<?= route('sets.show', $holding->id) ?>"><span class="glyphicon glyphicon-list-alt"></span></a> -->
+										@endif 
 									</td>
 									<td>
 										<?php
@@ -154,7 +200,7 @@
 										?>
 									</td>
 									<td><?php echo htmlspecialchars($holding->f245b); ?></td>
-									<td><?php echo $holding->f245c; ?></td>
+									<!-- <td><?php echo $holding->f245c; ?></td> -->
 									<td class="ocrr_ptrn">
 										<?php											
 											$ocrr_ptrn = str_split($holding->ocrr_ptrn);
@@ -177,14 +223,17 @@
 											 $i++; } 
 										?>
 									</td>
-									<td><?php echo $holding->f022a; ?></td>
+									<!-- <td><?php echo $holding->f022a; ?></td> -->
 									<td><?php echo htmlspecialchars($holding->f260a); ?></td>
 									<td><?php echo htmlspecialchars($holding->f260b); ?></td>
+									<td><?php echo $holding->sys2; ?></td>
 									<td><?php echo $holding->f710a; ?></td>
-									<td><?php echo $holding->f780t; ?></td>
+
+<!-- 									<td><?php echo $holding->f780t; ?></td>
 									<td><?php echo $holding->f362a; ?></td>
 									<td><?php echo $holding->f866a; ?></td>
-									<td><?php echo $holding->f866z; ?></td>
+									<td><?php echo $holding->f866z; ?></td> -->
+
 									<td><?php echo $holding->f310a; ?></td>
 								</tr>
 							@endforeach

@@ -59,6 +59,9 @@
 
         Route::when('admin/roles*', 'admin_roles');
 		Route::when('admin/users*', 'admin_users');
+        
+        Route::controller('external', 'ExternalController');
+        Route::resource('external', 'ExternalController');
 
 
 	});
@@ -103,7 +106,6 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 
 });
 
-Route::get('external', 'ExternalController@getIndex');
 
 /** ------------------------------------------
  *  Frontend Routes

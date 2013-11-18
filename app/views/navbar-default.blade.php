@@ -18,7 +18,7 @@
 			@endif	
 
 			<!-- admin librarian -->
-			@if (Auth::user()->hasRole('bibuser')) 		
+			@if ((Auth::user()->hasRole('bibuser')) || (Auth::user()->hasRole('resuser'))) 		
 				@include( 'layouts.items-menu-librarian' )
 		  @endif
 		  
