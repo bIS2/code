@@ -99,7 +99,7 @@
 	<div class="row">
 
 		<div class="col-xs-12">
-			<div class="well well-sm" id="filter-well" style="display:none">
+			<div class="well well-sm" id="filter-well"  {{ ($is_filter) ? '' : 'style="display:none"' }} >
 
 				<form class="form-inline" role="form" method="get">
 
