@@ -7,7 +7,6 @@ class Holding extends Eloquent {
 
   public static function boot() {
     parent::boot();
-		//Holding::observe(new TraceObserver);
   }
 
 
