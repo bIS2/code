@@ -32,6 +32,15 @@ class HoldingssetsController extends BaseController {
 				$holdingssets = ($state == 'ok') ? 
 				$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->ok()->orderBy('id', 'ASC')->paginate(20) :
 				$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->pendings()->orderBy('id', 'ASC')->paginate(20);
+		
+		if ( Input::has('f245b')  ) $holdingssets = $holdingssets->holdings()->where( 'f245b','like', sprintf( Input::get('f245bformat'), Input::get('f245b') ) );
+
+		// if ( Input::has('f852b')  ) $holdings = $holdings->where( 'f852b','like',sprintf( Input::get('f852bformat'), Input::get('f852b') ) );
+		// if ( Input::has('f852h')) $holdings = $holdings->where( 'f852h','like', sprintf( Input::get('f852hformat'), Input::get('f852h') ) );
+		// if ( Input::has('f362a') ) $holdings = $holdings->where( 'f362a','like', sprintf( Input::get('f362aformat'), Input::get('f362a') ) );
+		// if ( Input::has('f866a') ) $holdings = $holdings->where( 'f866a','like', sprintf( Input::get('f866aformat'), Input::get('f866a') ) );
+		// if ( Input::has('f866z') ) $holdings = $holdings->where( 'f866z','like', sprintf( Input::get('f866zformat'), Input::get('f866z') ) );
+			
 			}
 			else {				
 				$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC')->paginate(20);
@@ -50,6 +59,7 @@ class HoldingssetsController extends BaseController {
 
 
 		$this->data['holdingssets'] = $holdingssets;
+		$this->data['is_filter'] = Input::has('f852b') || Input::has('f852h') || Input::has('f245b') || Input::has('f362a') || Input::has('f866a') || Input::has('f866z');
 
 		if (isset($_GET['page']))  {
 				$this->data['page'] = $_GET['page'];
