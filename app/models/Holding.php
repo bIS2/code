@@ -48,16 +48,11 @@ class Holding extends Eloquent {
   		->whereNotIn( 'id', function($query){ $query->select('holding_id')->distinct()->from('notes'); } );
   }
 
-  public function scopeAnnotated($query,$tag=''){
-  	if ($tag==true)
-	  	return $query->whereIn('holdings.id', function($query){ 
-	      $query->select('holding_id')->from('Notes'); 
-	    });
-	  else
-	  	return $query->whereIn('holdings.id', function($query){ 
-	      $query->select('holding_id')->from('Notes')->whereTagId($tag); 
-	    });
-  }
+  public function scopeAnnotated($query,$tag_id){
+    //if ($tag_id===true) $tag_id = '%';
+    $tag_ids = DB::table('notes')->where('tag_id','like',$tag_id)->lists('holding_id');
+  	return $query->whereIn('holdings.id', $tag_ids);
+  } 
 
   public function scopeOrphans($query){
     return $query->whereNotIn('id', function($query){ 

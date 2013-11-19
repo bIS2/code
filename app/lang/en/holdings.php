@@ -9,6 +9,7 @@ return array(
 	'lists'						=> 'Lists',
 	'move_to_list'		=> 'Move to',
 	'tagged'					=> 'Tagged',
+	'annotated'					=> 'Annotated',
 	'pending'					=> 'Pending',
 	'filter'					=> 'Filter',
 	'advanced_filter'			=> 'Advanced Filter',
