@@ -33,7 +33,7 @@ class NotesController extends BaseController {
 	 */
 	public function create()
 	{
-		//$data['holding'] = Holding::find( Input::get('holding_id') );
+		$data['holding'] = Holding::find( Input::get('holding_id') );
 		// echo var_dump($data['holding']->notes->find(1) );
 		return View::make('notes.create',$data);
 	}
