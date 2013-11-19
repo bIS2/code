@@ -39,7 +39,7 @@
 				  @if (Authority::can('delivery',$holding))
 
 					  <a href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-notes" class="btn-link btn-xs">
-					  	<span class="fa fa-send"></span> 
+					  	<span class="fa fa-rocket"></span> 
 					  </a>
 
 					@endif
