@@ -1,11 +1,7 @@
 $(function(){
 
 	$(':checkbox#select-all').on('click',function(){
-		$checkboxes = $('.table').find('input.hl:checkbox')
-		if (this.checked)
-			$checkboxes.prop('checked',true)
-		else
-			$checkboxes.prop('checked',false)
+		$('.table').find('input.hl:checkbox').prop('checked',this.checked)
 	})
 
 	$('#filter-btn').click(function(){
