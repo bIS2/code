@@ -108,7 +108,7 @@
 						<div class="input-group inline input-group-sm">
 						  <label class="input-group-addon">852b</label>
 			     			<select id="f245bFilter" name="f852bformat" class="form-control">
-					     		<option value="%s LIKE '%%%s%%'" selected>{{ trans('general.contains') }}</option>
+					     		<option value="%s LIKE '%%%s%%'" >{{ trans('general.contains') }}</option>
 					     		<option value="%s NOT LIKE '%%%s%%'">{{ trans('general.no_contains') }}</option>
 					     		<option value="%s LIKE '%s%%'">{{ trans('general.begin_with') }}</option>
 					     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
