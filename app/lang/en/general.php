@@ -27,4 +27,5 @@ return array(
   'correct'						=> 'Correct',
   'notes'						=> 'Notes',
   'contains'						=> 'Contains',
+  'actions'						=> 'Actions',
 );

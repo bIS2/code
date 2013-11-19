@@ -14,8 +14,8 @@
 		<table id="holdings-items" class="table table-bordered table-condensed flexme">
 		<thead>
 			<tr> 
-				<th></th>
-				<th></th>
+				<th><input id="select-all" name="select-all" type="checkbox" value="1"></th>
+				<th>{{ trans('general.actions') }}</th>
 				<th>852b</th>
 				<th>852h</th>
 				<th>ocrr_ptrn</th>
@@ -30,16 +30,16 @@
 			<tr id="<?= $holding->id ?>" class="{{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}">
 				<td><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
 				<td id="{{ $holding->id }}" class="col-lg-1">
-				  <a href="{{ route('oks.store') }}" class="btn btn-default btn-xs btn-ok" data-method="post" data-remote="true" data-params="holding_id={{$holding->id}}">
+				  <a href="{{ route('oks.store') }}" class="btn-link btn-xs btn-ok" data-method="post" data-remote="true" data-params="holding_id={{$holding->id}}">
 				  	<span class="fa fa-thumbs-up"></span>
 				  </a>
-				  <a href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-notes" class="btn btn-default btn-xs btn-tag">
+				  <a href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-notes" class="btn-link btn-xs btn-tag">
 				  	<span class="fa fa-tags"></span> 
 				  </a>
 				  @if (Authority::can('delivery',$holding))
 
-					  <a href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-notes" class="btn btn-primary btn-xs">
-					  	<span class="fa fa-arrow-right"></span> 
+					  <a href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-notes" class="btn-link btn-xs">
+					  	<span class="fa fa-send"></span> 
 					  </a>
 
 					@endif
