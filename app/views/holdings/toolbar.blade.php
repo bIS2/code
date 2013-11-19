@@ -49,7 +49,7 @@
 				  	<div class="btn-group">
 					  	<a href="?tagged=true" class="btn <?= ( Input::has('tagged' )) ? 'btn-primary' : 'btn-default' ?> btn-sm" data-toggle="dropdown">
 					  		<span class="fa fa-tags"></span> 
-					  		<?= (Input::get('tagged')=='%' ) ? trans('holdings.annotated') : Tag::find( Input::get('tagged') )->name ?>
+					  		<?= (!Input::has('tagged') || Input::get('tagged')=='%' ) ? trans('holdings.annotated') : Tag::find( Input::get('tagged') )->name ?>
 					  	</a>
 						  <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown">
 						    <span class="caret"></span>
