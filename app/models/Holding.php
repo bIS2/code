@@ -7,7 +7,7 @@ class Holding extends Eloquent {
 
   public static function boot() {
     parent::boot();
-		Holding::observe(new TraceObserver);
+		//Holding::observe(new TraceObserver);
   }
 
 
@@ -50,7 +50,7 @@ class Holding extends Eloquent {
   }
 
   public function scopeAnnotated($query,$tag=''){
-  	if ($tag)
+  	if ($tag==true)
 	  	return $query->whereIn('holdings.id', function($query){ 
 	      $query->select('holding_id')->from('Notes'); 
 	    });

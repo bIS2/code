@@ -10,7 +10,7 @@
 
 <div class="row">
 	<div class="col-lg-12">
-		<table id="holdings-items" class="table table-bordered table-condensed ">
+		<table id="holdings-items" class="table table-bordered table-condensed datatable">
 		<thead>
 			<tr> 
 				<th></th>

@@ -26,4 +26,5 @@ return array(
   'groups'						=> 'Groups',
   'correct'						=> 'Correct',
   'notes'						=> 'Notes',
+  'contains'						=> 'Contains',
 );
