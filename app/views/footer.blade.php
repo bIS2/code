@@ -2,7 +2,7 @@
 <footer id="footer">
 	<div class="container">
 		<p class="muted credit text-center">
-			eto e la bIS mamita, lo mejol del 2013
+			bIS Project 2013
 	    </p>
 	</div>
 </footer>

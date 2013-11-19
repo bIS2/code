@@ -1,7 +1,6 @@
 $(function(){
 
 	$(':checkbox#select-all').click(function(){
-		
 		$checkboxes = $('.table').find('input.hl:checkbox')
 		if (this.checked)
 			$checkboxes.attr('checked',true)
@@ -87,10 +86,15 @@ function getAsuccess() {
         // console.log(result);
         /* HOS ok to next step */
         if ( result.ok ){
-            $('#'+result.ok).find('.btn-ok').addClass('btn-success').removeClass('btn-default');    
+            $('#'+result.ok).find('.btn-ok').addClass('btn-success').removeClass('btn-default');
+            if ($('a#filter_pending').hasClass('btn-primary'))
+                $('li#'+result.ok).remove();
+             // console.log('li#'+result.ok);      
         }
         if ( result.ko ){
-            $('#'+result.ko).find('.btn-ok').addClass('btn-default').removeClass('btn-success');    
+            $('#'+result.ko).find('.btn-ok').addClass('btn-default').removeClass('btn-success');
+            if ($('a#filter_confirmed').hasClass('btn-primary'))
+                $('li#'+result.ko).remove();
         }
 
         /* Holdings locks */
@@ -108,7 +112,8 @@ function getAsuccess() {
         }
         if ( result.untag ){
             $('#'+result.untag).find('.btn-tag').removeClass('btn-danger').addClass('btn-default'); 
-        } 
+        }
+
         /* Deleted Group */
         if ( result.groupDelete ){
             $('li#group'+result.groupDelete).remove(); 
