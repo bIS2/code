@@ -9,8 +9,9 @@
 
 
 <div class="row">
-	<div class="col-lg-12">
-		<table id="holdings-items" class="table table-bordered table-condensed datatable">
+	<div class="col-lg-12 ">
+		<div class="container">
+		<table id="holdings-items" class="table table-bordered table-condensed flexme">
 		<thead>
 			<tr> 
 				<th></th>
@@ -28,13 +29,6 @@
 		@foreach ($holdings as $holding)
 			<tr id="<?= $holding->id ?>" class="{{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}">
 				<td><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
-				<td>{{ $holding->f852b }} </td>
-				<td><?= $holding->f852h; ?></td>
-				<td class="ocrr_ptrn"><?= $holding->patrn ?></td>
- 				<td>{{ $holding->holdingsset->f245a }}</td>
-				<td><?= $holding->f362a; ?></td>
-				<td><?= $holding->f866a; ?></td>
-				<td><?= $holding->f866z; ?></td>
 				<td id="{{ $holding->id }}" class="col-lg-1">
 				  <a href="{{ route('oks.store') }}" class="btn btn-default btn-xs btn-ok" data-method="post" data-remote="true" data-params="holding_id={{$holding->id}}">
 				  	<span class="fa fa-thumbs-up"></span>
@@ -51,12 +45,20 @@
 					@endif
 
 				</td>
+				<td>{{ $holding->f852b }} </td>
+				<td><?= $holding->f852h; ?></td>
+				<td class="ocrr_ptrn"><?= $holding->patrn ?></td>
+ 				<td>{{ $holding->holdingsset->f245a }}</td>
+				<td><?= $holding->f362a; ?></td>
+				<td><?= $holding->f866a; ?></td>
+				<td><?= $holding->f866z; ?></td>
 
 			</tr>
 		@endforeach
 
 		</tbody>
 	</table>
+	</div>
 	<p>
 		<?= $holdings->appends(Input::except('page'))->links()  ?>
 	</p>
