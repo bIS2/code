@@ -119,10 +119,10 @@
 						<div class="input-group inline input-group-sm">
 						  <label class="input-group-addon">852h</label>
 			     			<select id="f245bFilter" name="f852hformat" class="form-control">
-					     		<option value="%%%s%%" selected>{{ trans('general.contains') }}</option>
-					     		<option value="">{{ trans('general.no_contains') }}</option>
-					     		<option value="%s%%">{{ trans('general.begin_with') }}</option>
-					     		<option value="%%%s">{{ trans('general.end_with') }}</option>
+					     		<option value="%s LIKE '%%%s%%'" selected>{{ trans('general.contains') }}</option>
+					     		<option value="%s NOT LIKE '%%%s%%'">{{ trans('general.no_contains') }}</option>
+					     		<option value="%s LIKE '%s%%'">{{ trans('general.begin_with') }}</option>
+					     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
 					     	</select>
 						  <input type="text" class="form-control" name="f852h" value="<?= Input::get('f852h')  ?>">
 						</div>
@@ -131,10 +131,10 @@
 						<div class="input-group inline input-group-sm">
 						  <label class="input-group-addon">245a</label>
 			     			<select id="f245bFilter" name="f245aformat" class="form-control">
-					     		<option value="%%%s%%" selected>{{ trans('general.contains') }}</option>
-					     		<option value="">{{ trans('general.no_contains') }}</option>
-					     		<option value="%s%%">{{ trans('general.begin_with') }}</option>
-					     		<option value="%%%s">{{ trans('general.end_with') }}</option>
+					     		<option value="%s LIKE '%%%s%%'" selected>{{ trans('general.contains') }}</option>
+					     		<option value="%s NOT LIKE '%%%s%%'">{{ trans('general.no_contains') }}</option>
+					     		<option value="%s LIKE '%s%%'">{{ trans('general.begin_with') }}</option>
+					     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
 					     	</select>
 						  <input type="text" class="form-control" name="f245a" value="<?= Input::get('f245a')  ?>">
 						</div>
@@ -143,10 +143,10 @@
 						<div class="input-group inline input-group-sm">
 						  <label class="input-group-addon">362a</label>
 			     			<select id="f245bFilter" name="f362aformat" class="form-control">
-					     		<option value="%%%s%%" selected>{{ trans('general.contains') }}</option>
-					     		<option value="">{{ trans('general.no_contains') }}</option>
-					     		<option value="%s%%">{{ trans('general.begin_with') }}</option>
-					     		<option value="%%%s">{{ trans('general.end_with') }}</option>
+					     		<option value="%s LIKE '%%%s%%'" selected>{{ trans('general.contains') }}</option>
+					     		<option value="%s NOT LIKE '%%%s%%'">{{ trans('general.no_contains') }}</option>
+					     		<option value="%s LIKE '%s%%'">{{ trans('general.begin_with') }}</option>
+					     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
 					     	</select>
 						  <input type="text" class="form-control" name="f362a"  value="<?= Input::get('f362a')  ?>">
 						</div>
@@ -155,10 +155,10 @@
 						<div class="input-group inline input-group-sm">
 						  <label class="input-group-addon">866a</label>
 			     			<select id="f245bFilter" name="f866aformat" class="form-control">
-					     		<option value="%%%s%%" selected>{{ trans('general.contains') }}</option>
-					     		<option value="">{{ trans('general.no_contains') }}</option>
-					     		<option value="%s%%">{{ trans('general.begin_with') }}</option>
-					     		<option value="%%%s">{{ trans('general.end_with') }}</option>
+					     		<option value="%s LIKE '%%%s%%'" selected>{{ trans('general.contains') }}</option>
+					     		<option value="%s NOT LIKE '%%%s%%'">{{ trans('general.no_contains') }}</option>
+					     		<option value="%s LIKE '%s%%'">{{ trans('general.begin_with') }}</option>
+					     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
 					     	</select>
 						  <input type="text" class="form-control" name="f866a" value="<?= Input::get('f866a')  ?>">
 						</div>
@@ -167,10 +167,10 @@
 						<div class="input-group inline input-group-sm">
 						  <label class="input-group-addon">866z</label>
 			     			<select id="f245bFilter" name="f866zformat" class="form-control">
-					     		<option value="%%%s%%" selected>{{ trans('general.contains') }}</option>
-					     		<option value="">{{ trans('general.no_contains') }}</option>
-					     		<option value="%s%%">{{ trans('general.begin_with') }}</option>
-					     		<option value="%%%s">{{ trans('general.end_with') }}</option>
+					     		<option value="%s LIKE '%%%s%%'" selected>{{ trans('general.contains') }}</option>
+					     		<option value="%s NOT LIKE '%%%s%%'">{{ trans('general.no_contains') }}</option>
+					     		<option value="%s LIKE '%s%%'">{{ trans('general.begin_with') }}</option>
+					     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
 					     	</select>
 						  <input type="text" class="form-control" name="f866z" value="<?= Input::get('f866z')  ?>">
 						</div>

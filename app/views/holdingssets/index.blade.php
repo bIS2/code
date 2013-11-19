@@ -90,7 +90,7 @@
 									$valuesCounter = getValue('f310a', $holding, $valuesCounter);
 								?>
 							@endforeach	
-						<table class="table table-striped table-hover flexme table-bordered">
+						<table class="table table-hover flexme table-bordered">
 							<thead>
 								<tr>
 									<th>Actions</th>

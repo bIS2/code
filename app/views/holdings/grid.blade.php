@@ -31,13 +31,13 @@
 
 						<div>
 							<abbr class="text-muted">852b <i class="fa  fa-caret-right"></i></abbr>
-					  	{{ link_to_route( 'holdings.show', $holding->f852b, [ $holding->f852b ] ) }}
+					  	{{ $holding->f852b }}
 						</div>
 						<div>
 						  <abbr class="text-muted">852h <i class="fa  fa-caret-right"></i></abbr >
 						  {{ $holding->f852h }}
 						</div>
-						<div>
+						<div class="ocrr_ptrn">
 						  <abbr class="text-muted">Patrn <i class="fa  fa-caret-right"></i></abbr >
 						  {{ $holding->patrn }}
 						</div>
