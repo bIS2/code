@@ -15,6 +15,7 @@
 		<thead>
 			<tr> 
 				<th></th>
+				<th></th>
 				<th>852b</th>
 				<th>852h</th>
 				<th>ocrr_ptrn</th>
@@ -22,7 +23,6 @@
 				<th>362a</th>
 				<th>866a</th>
 				<th>866z</th>
-				<td></td>
 			</tr>
 		</thead>
 		<tbody class="selectable">
