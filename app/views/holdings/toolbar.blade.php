@@ -79,13 +79,14 @@
 				  	<a href="{{ route('holdings.index', Input::except('view') ) }}" class="btn <?= (!Input::has('view')) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="fa fa-table"></span> 
 				  	</a>
+<!-- 				  	
 				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'list'] ) }}" class="btn <?= (Input::get('view')=='list') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="fa fa-align-justify"></span> 
 				  	</a>
 				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'grid'] ) }}" class="btn <?= (Input::get('view')=='grid') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="fa fa-th-large"></span> 
 				  	</a>
-				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn <?= (Input::get('view')=='slide') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+	 -->			  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn <?= (Input::get('view')=='slide') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="fa fa-desktop"></span> 
 				  	</a>
 				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'print'] ) }}" class="btn <?= (Input::get('view')=='print') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
