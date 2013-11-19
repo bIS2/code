@@ -49,8 +49,11 @@ class Holding extends Eloquent {
   }
 
   public function scopeAnnotated($query,$tag_id){
-    //if ($tag_id===true) $tag_id = '%';
-    $tag_ids = DB::table('notes')->where('tag_id','like',$tag_id)->lists('holding_id');
+    if ($tag_id=='%') 
+      $tag_ids = DB::table('notes')->lists('holding_id');
+    else
+      $tag_ids = DB::table('notes')->whereTagId($tag_id)->lists('holding_id');
+
   	return $query->whereIn('holdings.id', $tag_ids);
   } 
 
