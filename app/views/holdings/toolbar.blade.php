@@ -55,6 +55,7 @@
 						    <span class="sr-only">Toggle Dropdown</span>
 						  </button>					  	
 					  	<ul class="dropdown-menu" role="menu">
+					  		<li><a href="?tagged=true">{{ trans('general.all') }}</a></li>
 					  		@foreach (Tag::all() as $tag)
 					  			<li> <a href="?tagged={{ $tag->id }}">{{ $tag->name }}</a> </li>
 					  		@endforeach

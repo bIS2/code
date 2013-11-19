@@ -6,7 +6,7 @@ $(function(){
 //   "bDestroy": true
 // });
 
-	$('.flexme').dataTable({
+	$('.flexme, .datatable').dataTable({
     "bFilter": false,
     "bPaginate": false
   });

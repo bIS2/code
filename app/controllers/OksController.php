@@ -9,8 +9,8 @@ class OksController extends BaseController {
 	 */
 	protected $note;
 
-	public function __construct(note $note) {
-		$this->note = $note;
+	public function __construct(Ok $ok) {
+		$this->ok = $ok;
 	}
 
 	/**

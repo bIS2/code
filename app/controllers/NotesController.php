@@ -9,7 +9,7 @@ class NotesController extends BaseController {
 	 */
 	protected $note;
 
-	public function __construct(note $note)
+	public function __construct(Note $note)
 	{
 		$this->note = $note;
 	}
