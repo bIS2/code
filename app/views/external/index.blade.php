@@ -6,7 +6,7 @@ error_reporting(E_ALL);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/2.0 (compatible; MSIE 3.02; Update a; AK; Windows 95)");
   curl_setopt($ch, CURLOPT_HTTPGET, true);
-  curl_setopt($ch, CURLOPT_URL, $url);
+  curl_setopt($ch, CURLOPT_URL, 'http://www.palibex.com/');
   curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 600000);
   $got_html = curl_exec($ch); 
   var_dump($got_html);

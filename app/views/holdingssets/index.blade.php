@@ -190,12 +190,12 @@
 							<?php $librarianclass = ' '.substr($holding->sys2, 0, 4);  ?>	
 								<tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}{{ $librarianclass }}">
 									<td>
-						      	<a id="holding<?= $holding -> id; ?>lock" href="{{ action('HoldingssetsController@putLock',[$holding->id]) }}" class="btn-lock btn-xs {{ $btnlock }}" data-params="locked=true" data-remote="true" data-method="put" data-disable-with="..."><span class="glyphicon glyphicon-lock"></span></a>
 		      					@if (Auth::user()->hasRole('resuser')) 
+						      	<a id="holding<?= $holding -> id; ?>lock" href="{{ action('HoldingssetsController@putLock',[$holding->id]) }}" class="btn-lock btn-xs {{ $btnlock }}" data-params="locked=true" data-remote="true" data-method="put" data-disable-with="..."><span class="glyphicon glyphicon-lock"></span></a>
 										@else
 										<a href="<?= route('holdings.show', $holding->id) ?>" class="btn-xs btn-default" data-target="#modal-show" data-toggle="modal"><span class="glyphicon glyphicon-eye-open"></span></a>
-										<!-- <a href="" data-target="#modal-show-external" data-toggle="modal" class="btn-xs btn-default" data-remote="<?= route('sets.show', $holding->id) ?>"><span class="glyphicon glyphicon-list-alt"></span></a> -->
-										@endif 
+										<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" class="btn-xs btn-default" data-target="#modal-show" data-toggle="modal"><span class="glyphicon glyphicon-list-alt"></span></a>
+						      @endif 
 									</td>
 									<td>
 										<?php
