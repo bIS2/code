@@ -2,9 +2,9 @@
 
 return array(
 
-	'yes' 					=> 'Ja',
-	'no'  					=> 'Nein',
-	'edit'  				=> 'Editieren',
+	'yes' 		    			=> 'Ja',
+	'no'  			    		=> 'Nein',
+	'edit'  		    		=> 'Editieren',
 	'delete'            => 'Löschen',
 	'search'            => 'Suchen',
 	'save_group'	      => 'Gruppe speichern',
@@ -25,6 +25,6 @@ return array(
 	'included_in' 			=> 'Enthalten in',
 	'groups'	          => 'Gruppen',
 	'prev'              => 'Vorhergehender',
-	'next'              => 'Nächster'
-
+	'next'              => 'Nächster',
+	'actions'           => 'Aktion'
 );
