@@ -2,7 +2,7 @@
 
 return array(
 
-	'groups'   					=> 'Grupen',
+	'groups'   					=> 'Gruppen',
 	'title'   					=> 'Holding Sets',
 	'create_group' 				=> 'Gruppe erstellen',
 	'title_create_group' 		=> 'Gruppe von Holding Sets erstellen',
@@ -11,8 +11,8 @@ return array(
 	'select_all_hos'			=> 'Selektiere alle Holding Sets',
 	'add_holdings'				=> 'Holdings zu HOS zufügen',
 	'oked'						=> 'Bestätigt',
-	'pending'					=> 'Hängig',
-	'advanced_filter'			=> 'Weiter Filter',
+	'pending'					=> 'Unbearbeitet',
+	'advanced_filter'			=> 'Weitere Filter',
 	'orphan'					=> 'HOS mit einsamem HOL',
 	'printer'					=> 'Drucken',
 	'all'						=> 'Alle'
