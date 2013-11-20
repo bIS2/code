@@ -44,18 +44,19 @@
 			  <li>
 				  <div class="btn-group">
 				  	<a href="?corrects=true" class="btn <?= ( Input::has('corrects') ) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
-				  		<span class="glyphicon glyphicon-thumbs-up"></span> {{{ trans('holdings.ok2') }}}
+				  		<span class="fa fa-thumbs-up"></span> {{{ trans('holdings.ok2') }}}
 				  	</a>
 				  	<div class="btn-group">
 					  	<a href="?tagged=true" class="btn <?= ( Input::has('tagged' )) ? 'btn-primary' : 'btn-default' ?> btn-sm" data-toggle="dropdown">
-					  		<span class="glyphicon glyphicon-tags"></span> {{{ trans('holdings.tagged') }}} 
+					  		<span class="fa fa-tags"></span> 
+					  		<?= (!Input::has('tagged') || Input::get('tagged')=='%' ) ? trans('holdings.annotated') : Tag::find( Input::get('tagged') )->name ?>
 					  	</a>
 						  <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown">
 						    <span class="caret"></span>
 						    <span class="sr-only">Toggle Dropdown</span>
 						  </button>					  	
 					  	<ul class="dropdown-menu" role="menu">
-					  		<li><a href="?tagged=true">{{ trans('general.all') }}</a></li>
+					  		<li><a href="?tagged=%">{{ trans('general.all') }}</a></li>
 					  		@foreach (Tag::all() as $tag)
 					  			<li> <a href="?tagged={{ $tag->id }}">{{ $tag->name }}</a> </li>
 					  		@endforeach
@@ -78,13 +79,14 @@
 				  	<a href="{{ route('holdings.index', Input::except('view') ) }}" class="btn <?= (!Input::has('view')) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="fa fa-table"></span> 
 				  	</a>
+<!-- 				  	
 				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'list'] ) }}" class="btn <?= (Input::get('view')=='list') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="fa fa-align-justify"></span> 
 				  	</a>
 				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'grid'] ) }}" class="btn <?= (Input::get('view')=='grid') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="fa fa-th-large"></span> 
 				  	</a>
-				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn <?= (Input::get('view')=='slide') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+	 -->			  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn <?= (Input::get('view')=='slide') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="fa fa-desktop"></span> 
 				  	</a>
 				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'print'] ) }}" class="btn <?= (Input::get('view')=='print') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
@@ -177,7 +179,7 @@
 						</div>
 					</div>
 
-				  <button type="submit" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span>{{ trans('general.search') }}</button>
+				  <button type="submit" class="btn btn-default btn-sm"><span class="fa fa-search"></span>{{ trans('general.search') }}</button>
 				</form>
 
 			</div> <!-- /.well -->	

@@ -1,11 +1,7 @@
 $(function(){
 
-	$(':checkbox#select-all').click(function(){
-		$checkboxes = $('.table').find('input.hl:checkbox')
-		if (this.checked)
-			$checkboxes.attr('checked',true)
-		else
-			$checkboxes.removeAttr('checked')
+	$(':checkbox#select-all').on('click',function(){
+		$('.table').find('input.hl:checkbox').prop('checked',this.checked)
 	})
 
 	$('#filter-btn').click(function(){
@@ -59,6 +55,10 @@ $(function(){
     if ( result.correct ){
         $('#'+result.correct).find('.well').removeClass('well-danger').addClass('well-success'); 
         $('tr#'+result.correct).removeClass('danger').addClass('success'); 
+    } 
+    if ( result.blank ){
+        $('#'+result.blank).find('.well').removeClass('well-danger').addClass('well-success'); 
+        $('tr#'+result.blank).removeClass('danger').removeClass('success'); 
     } 
     
     })
