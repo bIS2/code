@@ -136,7 +136,7 @@
 												} 
 											}
 											?>
-										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title=""></span>
+										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title="Column Sumary"></span>
 									</th>
 									<th><?php echo 'sys2'; ?>
 										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
@@ -191,8 +191,8 @@
 		      					@if (Auth::user()->hasRole('resuser')) 
 										@else
 										<a href="<?= route('holdings.show', $holding->id) ?>" class="btn-xs btn-default" data-target="#modal-show" data-toggle="modal"><span class="glyphicon glyphicon-eye-open"></span></a>
-										<!-- <a href="" data-target="#modal-show-external" data-toggle="modal" class="btn-xs btn-default" data-remote="<?= route('sets.show', $holding->id) ?>"><span class="glyphicon glyphicon-list-alt"></span></a> -->
-										@endif 
+										<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" class="btn-xs btn-default" data-target="#modal-show" data-toggle="modal"><span class="glyphicon glyphicon-list-alt"></span></a>
+						      @endif 
 									</td>
 									<td>
 										<?php
