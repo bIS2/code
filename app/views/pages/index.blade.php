@@ -11,7 +11,7 @@
 		</div> <!-- /.col-xs-12 -->
 	</div> <!-- /.row -->
 </div> <!-- /.page-header -->
-
+{{ App::getLocale() }}
 	<ul>
 		@foreach ($traces as $trace) 
 			<li>

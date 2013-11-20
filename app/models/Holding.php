@@ -48,7 +48,7 @@ class Holding extends Eloquent {
   		->whereNotIn( 'id', function($query){ $query->select('holding_id')->distinct()->from('notes'); } );
   }
 
-  public function scopeAnnotated($query,$tag_id){
+  public function scopeAnnotated($query,$tag_id='%'){
     if ($tag_id=='%') 
       $tag_ids = DB::table('notes')->lists('holding_id');
     else

@@ -8,7 +8,10 @@ $(function(){
 
 	$('.flexme, .datatable').dataTable({
     "bFilter": false,
-    "bPaginate": false
+    "bPaginate": false,
+		//"sScrollX": "100%",
+		//"sScrollXInner": "110%",
+		//"bScrollCollapse": true    
   });
 
 	$('.pop-over').popover()

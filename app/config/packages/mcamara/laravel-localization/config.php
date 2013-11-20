@@ -7,7 +7,7 @@
 
 		// Take the browser language if it's not defined in the route? 
 		// If false, system will take app.php locale attribute 
-		'useBrowserLanguage'	=> true,
+		'useBrowserLanguage'	=> false,
 
 		// Specify custom class for language bar unordered list
 		'languageBarClass' => 'laravel_language_chooser',

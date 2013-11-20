@@ -28,4 +28,5 @@ return array(
   'notes'						=> 'Notes',
   'contains'						=> 'Contains',
   'actions'						=> 'Actions',
+  'pagination_information'	=> 'Showing :from to :to of :total',
 );

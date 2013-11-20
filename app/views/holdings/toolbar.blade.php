@@ -57,6 +57,7 @@
 						  </button>					  	
 					  	<ul class="dropdown-menu" role="menu">
 					  		<li><a href="?tagged=%">{{ trans('general.all') }}</a></li>
+					  		<li class="divider"></li>
 					  		@foreach (Tag::all() as $tag)
 					  			<li> <a href="?tagged={{ $tag->id }}">{{ $tag->name }}</a> </li>
 					  		@endforeach

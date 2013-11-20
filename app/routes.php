@@ -17,14 +17,17 @@
  */
 
 // Route::group(['prefix' => LaravelLocalization::setLanguage(),'before' => 'LaravelLocalizationRedirectFilter'], function() {
-
+Route::get('language/{lang}', function($lang){
+    App::setLocale($lang);
+    return Redirect::to('/');
+});
 
 	Route::model('user', 'User');
 	Route::model('comment', 'Comment');
 	Route::model('post', 'Post');
 	Route::model('role', 'Role');
 
-	Route::group(array( 'before' => ['auth','detectLang']), function(){
+	Route::group(array( 'before' => ['auth']), function(){
 
 
 		# Index Page - Last route, no matches
@@ -40,7 +43,7 @@
 		Route::controller('groups', 'GroupsController');
 
 
-    Route::resource('holdings', 'HoldingsController');
+        Route::resource('holdings', 'HoldingsController');
 		Route::controller('holdings', 'HoldingsController');
 
 		Route::resource('sets', 'HoldingssetsController');
@@ -59,7 +62,7 @@
 		Route::when('sets*', 'auth_like_librarian');
 		// Route::when('holdings*', 'auth_like_storeman');
 
-    Route::when('admin/roles*', 'admin_roles');
+        Route::when('admin/roles*', 'admin_roles');
 		Route::when('admin/users*', 'admin_users');
         
         Route::controller('external', 'ExternalController');
@@ -74,7 +77,7 @@
  *  Admin Routes
  *  ------------------------------------------
  */
-Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
+Route::group(array('prefix' => 'admin'), function()
 {
     # User Management
     Route::get('users/{user}/show', 'AdminUsersController@getShow')

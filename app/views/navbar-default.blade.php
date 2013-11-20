@@ -31,6 +31,8 @@
 	       </li>
 
 	      <li><a href="{{{ URL::to('user/logout') }}}"><span class="fa fa-sign-out"></span>{{{ trans('general.logout') }}}</a></li>
+	      <li><a href="{{{ URL::to('language/en') }}}"><span class="fa fa-sign-out"></span>{{{ trans('general.lang_en') }}}</a></li>
+	      <li><a href="{{{ URL::to('language/de') }}}"><span class="fa fa-sign-out"></span>{{{ trans('general.lang_de') }}}</a></li>
 	        @else
 	        	<li {{ (Request::is('user/login') ? ' class="active"' : '') }}><a href="{{{ URL::to('user/login') }}}">Login</a></li>
           	@endif

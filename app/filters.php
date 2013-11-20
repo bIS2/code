@@ -135,7 +135,7 @@ Route::filter('csrf', function()
 |
 */
 
-Route::filter('detectLang',  function($route, $request, $lang = 'auto')
+/*Route::filter('detectLang',  function($route, $request, $lang = 'auto')
 {
 
     if($lang != "auto" && in_array($lang , Config::get('app.available_language')))
@@ -148,4 +148,4 @@ Route::filter('detectLang',  function($route, $request, $lang = 'auto')
         Config::set('app.locale', $userLang);
         App::setLocale($userLang);
     }
-});
+});*/

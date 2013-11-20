@@ -11,6 +11,8 @@
 <div class="row">
 	<div class="col-lg-12 ">
 		<div class="container">
+			{{ App::getLocale() }}
+		<div>{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} </div>
 		<table id="holdings-items" class="table table-bordered table-condensed flexme">
 		<thead>
 			<tr> 
@@ -29,7 +31,7 @@
 		@foreach ($holdings as $holding)
 			<tr id="<?= $holding->id ?>" class="{{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}">
 				<td><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
-				<td id="{{ $holding->id }}" class="col-lg-1">
+				<td id="{{ $holding->id }}" >
 				  <a href="{{ route('oks.store') }}" class="btn-link btn-xs btn-ok" data-method="post" data-remote="true" data-params="holding_id={{$holding->id}}">
 				  	<span class="fa fa-thumbs-up"></span>
 				  </a>
