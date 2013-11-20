@@ -9,8 +9,11 @@ return array(
 	'lists'					=> 'Listen',
 	'move_to_list'			=> 'Verschiebe zu',
 	'tagged'				=> 'Markiert',
+	'annotated'					=> 'Annotiert',
 	'pending'				=> 'In Warteposition',
 	'filter'				=> 'Filter',
-	'orphan'				=> 'Weisenkinder',
+	'advanced_filter'		=> 'Weitere Filter',
+	'ungroup'					=> 'Gruppe auslösen',
+	'printer'				=> 'Drucken'
 
 );
