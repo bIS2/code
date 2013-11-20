@@ -5,6 +5,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <div><a target="_blank" href="{{$url}}">{{ trans('holdingssets.click_to_view_in_other_tab') }}</a></div>
     </div>
     <div class="modal-body">
 		<?php
