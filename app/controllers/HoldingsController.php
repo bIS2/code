@@ -25,19 +25,19 @@ class HoldingsController extends BaseController {
     $this->data['hlist'] = (Input::has('hlist_id')) ? Hlist::find(Input::get('hlist_id')) : false;
 
 		if ( Input::has('corrects') ) 	$holdings = $holdings->corrects();
-		if ( Input::has('tagged') )			$holdings = $holdings->annotated(Input::get('tagged'));
+		if ( Input::has('tagged') )			$holdings = $holdings->annotated(Input::get('tagged'));	
 		if ( Input::has('pendings') )		$holdings = $holdings->pendings();
 		if ( Input::has('unlist') )			$holdings = $holdings->orphans();
 
-		if ( Input::has('f852b') )  $holdings = $holdings->whereRaw( sprintf( Input::get('f852bformat'), 'f852b', Input::get('f852b') ) );
-		if ( Input::has('f852h') ) 	$holdings = $holdings->whereRaw( sprintf( Input::get('f852hformat'), 'f852h', Input::get('f852h') ) );
-		if ( Input::has('f245a') )  $holdings = $holdings->whereRaw( sprintf( Input::get('f245aformat'), 'f245a', Input::get('f245a') ) );
-		if ( Input::has('f362a') ) 	$holdings = $holdings->whereRaw( sprintf( Input::get('f362aformat'), 'f362a', Input::get('f362a') ) );
-		if ( Input::has('f866a') ) 	$holdings = $holdings->whereRaw( sprintf( Input::get('f866aformat'), 'f866a', Input::get('f866a') ) );
-		if ( Input::has('f866z') ) 	$holdings = $holdings->whereRaw( sprintf( Input::get('f866zformat'), 'f866z', Input::get('f866z') ) );
+		if ( Input::has('f852b') )  $holdings = $holdings->whereRaw( sprintf( Input::get('f852bformat'), 'LOWER(f852b)', strtolower( Input::get('f852b') ) ) );
+		if ( Input::has('f852h') ) 	$holdings = $holdings->whereRaw( sprintf( Input::get('f852hformat'), 'LOWER(f852h)', strtolower( Input::get('f852h') ) ) );
+		if ( Input::has('f245a') )  $holdings = $holdings->whereRaw( sprintf( Input::get('f245aformat'), 'LOWER(f245a)', strtolower( Input::get('f245a') ) ) );
+		if ( Input::has('f362a') ) 	$holdings = $holdings->whereRaw( sprintf( Input::get('f362aformat'), 'LOWER(f362a)', strtolower( Input::get('f362a') ) ) );
+		if ( Input::has('f866a') ) 	$holdings = $holdings->whereRaw( sprintf( Input::get('f866aformat'), 'LOWER(f866a)', strtolower( Input::get('f866a') ) ) );
+		if ( Input::has('f866z') ) 	$holdings = $holdings->whereRaw( sprintf( Input::get('f866zformat'), 'LOWER(f866z)', strtolower( Input::get('f866z') ) ) );
 
 		$this->data['is_filter'] = Input::has('f852b') || Input::has('f852h') || Input::has('f245a') || Input::has('f362a') || Input::has('f866a') || Input::has('f866z');
-		$this->data['holdings'] = $holdings->paginate(15);
+		$this->data['holdings'] = $holdings->paginate(25);
 
 		// CONDITIONS
 		// filter by holdingsset ok

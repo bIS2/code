@@ -33,8 +33,9 @@ class Holding extends Eloquent {
   public function scopeVerified ($query){
 		return $query
       ->whereIn( 'holdingsset_id', function($query){ $query->select('id')->from('holdingssets')->whereOk(true); } )
-      ->whereIsOwner('t')
-      ->orWhere('is_aux','=','t');
+      ->where(function($query){
+        $query->whereIsOwner('t')->orWhere('is_aux','=','t');
+      });
   }
 
   public function scopeInLibrary(){
