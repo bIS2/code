@@ -21,3 +21,222 @@ el almacenero solo revisa lo holding que tengan el campo is_owner=1 is_out=1
 
 
 urABABe7a4u.
+
+
+
+	
+Importante de hacer (para prototipo, sea el jueves)
+===================================================
+(storeman):
+- HOL: Hacer un filtro más para ver solo los rojos / los amarillos y solo
+una SBIB (hasta ahora strlen(sys2,1,4))
+Al final la apartenencia del usuario define la SBIB!!
+- HOL: Hay que (re)poner la función de formar una lista.
+- HOL: Poner una función para deshacer que sea verde o roja (que después sea blanco)
+- HOL: La manita tiene que ser verde bien visible
+- HOL: Poner la función bajo el cohete. (Ahora etiqueta)
+- HOL: Ventanita de etiquetara: Quitar el símbolo "ok" (croce) que no tiene significado
+- HOL: quitar el campo "Deliverable"
+- HOL: búsqueda: hacerla case insensitive
+- HOL: Corrigir Errores:
+http://bis.trialog.ch/lists
+http://bis.trialog.ch/holdings?view=slide
+http://bis.trialog.ch/holdings?view=print
+
+
+(librarian)
+- HOLG Todavía no se puede ordenar los HOL de un HOS que llega después de los primeros 20 !!!
+- HOS Cuando de se abre el ojo, aparece la ventana para crear un grupo y se dice
+"Close", pero el grupo de forma igual!!!
+- HOSG: Poner un filtro más con lo cual se puede buscar solo los rojos / los amarillos (más tarde: de su biblioteca)
+- HOS (Re)poner la función de poder mover un HOL en otro grupo
+- HOSG: X en una pestaña de grupo no debería borrar el grupo, pero solo quitar la pestaña, nO?
+- HOS: Búsqueda de otro HOL para integrar
+buscar otro hol con la información de un campo de HOS (se puede
+editar). Se abre una ventana y se puede añadir un HOS
+- HOSG: Búsqueda avanzada: poner la funcionalidad así que funcione.
+- HOSG y HOLG: búsqueda tiene que ser caso no sensitivo
+- HOS: Poner una columna en que se puede forcar owner y aux (rojo => amarillo => azul)
+
+
+
+Importante para el prototipo (2da prioridad)
+===========================================
+
+(rlibrarian):
+- reponer el usuario
+- poner solo la funcionalidad de reservar. (Y quitar de la vista del HOSG
+- Bestand kann nur für eigene Bibliothek gesperrt werden
+
+(librarian)
+- HOS Poner la función para borrar un HOL del HOS
+
+- Column Summary:
+- hacer la ventanita más larga si hace falta. Así el contenido no
+debe aparece en dos lineas.
+- Sería bueno de hacer una tabla, así que se ven
+- Borrar el título "Column Sumary". Todos ya saben de que se trata.
+
+- el color que hay bajo del cursor, debería ser otro para no coincidir con
+el naranja que se utilza para BSUB
+
+- El candado debe solo verse como RESUSER
+
+Importante la otra semana
+=========================
+
+- HOL Repensar los colores que ya tienen otro significado
+
+
+
+
+Ordenar listas
+==============
+Ordenar los campos por defecto:
+- HOSG: sys1 245a 245c
+- HOS: sys2 245a 245c
+
+- HOLG: 852b 852h 245a
+
+
+Estadistica primera página
+==========================
+Pequeña tabla con:
+
+- qué tenemos: hbib, count(HOS), count(HOL)
+SELECT hbib, count(*) FROM ... GROUP BY hbib;
+SELECT hbib, count(*) FROM ... GROUP BY hbib;
+- qué se hizo en ese mes: hbib, count(HOSG oked), count(HOL controlled)
+
+- abajo los últimos 10 entradas en el hol
+- con hbib, pero sin usuario!!
+después siempre actualisandose
+
+Lista HOSG:
+===========
+- Cuando se cliquea una columna, esa se pone gris. Sería mejor que se
+pondría gris solo la encabezada.
+
+- Cuando se cliquea en el ojo, el fondo no debe cambiar en gris.
+
+- Se pudiera mover las columnas. Sería bueno de tener esa función.
+
+ocrr_ptrn:
+- Poner en cada campo de ocrr_ptrn que se abre una ventana con f866a, 852b, 852h
+- Poner de encabezada el nombre de "Holdings"
+
+
+
+Campos que se pone en las lista:
+================================
+- HOSG:
+visible:
+sys1 :: 245a (362a)
+- HOS:
+- visible:
+Actions
+245a
+245b
+008x
+ocrr_ptrn
+260a
+260b
+sys2
+710a
+310a
+- selectionable:
+022a, f245a, f245b, f245c, f260c,
+f300c, f310a, f362a, f500a, f710a, f710b, f730a, f770t,
+f780t, f780w, f785t, f785w, f852b, f852h, f856u,
+f008x, f008y
+
+- HOL
+- visibles:
+general.actions 852b 852h ocrr_ptrn 866a 245a 362a bib+sys
+- selectionables:
+f245a, f245b, f260a, f260b, f710a, f310a
+f022a, f245a, f245b, f245c, f260a, f260b, f260c,
+f300c, f310a, f362a, f500a, f710a, f710b, f730a, f770t,
+f780t, f780w, f785t, f785w, f852a, f852h, f856u, f866a,
+f008x, f008y
+
+
+Lista de campos en modal title
+==============================
+- Cómo cambiar "Modal title"
+- A´nadir funciones en prev y next
+- Poder editar campo.
+
+
+Enlaces hacia otro sistemas:
+============================
+- hacer enlace hacia otro sistema:
+
+AGKB: http://aleph.ag.ch/F/?/&func=find-b&find_code=SYS&request=000000200
+BSUB: http://aleph.unibas.ch/F/?local_base=DSV01&CON_LNG=GER&func=find-b&find_code=SYS&request=000000497
+LUZB: http://ilu.zhbluzern.ch/F/?/&func=find-b&find_code=SYS&request=000000200
+ZHUB y ZHZB: http://opac.nebis.ch/F/?local_base=NEBIS&CON_LNG=GER&func=find-b&find_code=SYS&request=000993497
+
+
+
+Lista de los filtros
+====================
+Básicos:
+- HOL
+- all
+- only red
+- red and yellow
+- only yellow
+- blue
+- accepted
+- reserved
+
+- HOS:
+- all
+- accepted
+- HOS that contain reserved
+
+
+The advanced search allows the user to find journals and holdings that
+comply with a broad range of criteria that can be concatenated and each one
+used as a positive or negative filter:
+
+General criteria:
+HOL with <field> <compared to> <value>
+
+example: f245a like "biology"
+
+
+Explanation:
+<field>: fields that are used. within zs
+<compared to>: equal | not equal | greater than | smaller than | like |
+not like | nn% similar to | starts with | ends with
+<value>: string | number | regex
+
+
+Special criteria:
+TA:
+- continued journal: f008y = '9999' or f866a ~ '->?$'
+- ceased journal: f008y <> '9999' or f866a !~ '->?$'
+- journal that exists online: online = 'y'
+- journal that exists also online: online = 'y' AND f866a
+- journal that has been published xy times per year: f310_e ~ ''
+
+HOL:
+- HOL that has been marked incomplete by the MAGUSER: incomplete = 'y'
+- HOL that has notion of beeing incomplete in f866a: icpl = 'y'
+- HOL that has no notion to beeing incomplete in f866a: icpl = 'y'
+- HOL that has no notion of incompleteness: icpl = 'n'
+- HOL that the MAGUSER marked degraded: sane = 'n'
+- HOL that MAGUSER has marked in good estate: sane = 'y'
+- HOL that has <more|less|equal> than nn volumes: sum(years)
+- HOL which content of field f866a has not been recognized: recognized='n'
+created using: hop_result.type !~ '^MDL '
+- HOL that has been annotated: update > xxx? AND user = 'USER|*'
+- HOL field f866a that has been changed: update > xxx? AND user='USER|*'
+- HOL that has been reserved: level = 'reserved'
+
+HOS:
+- HOS that has <less|equal|more> than nn HOL
+- HOS that has been marked correct: xxx? = 'y'
+- HOS that has been changed: been: update > xxx? AND user='USER|*'

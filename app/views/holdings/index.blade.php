@@ -40,7 +40,7 @@
 				  </a>
 
 				  <a href="#" data-toggle="modal" data-target="#form-create-notes" class="btn-link btn-xs btn-send">
-				  	<span class="fa fa-chevron-circle-right"></span> 
+				  	<span class="fa fa-mail-forward"></span> 
 				  </a>
 
 

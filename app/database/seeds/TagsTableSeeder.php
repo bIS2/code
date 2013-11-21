@@ -10,7 +10,6 @@ class TagsTableSeeder extends Seeder {
 		$tags = [
 			[ 'name' => 'Missing' ],
 			[ 'name' => 'Additional' ],
-			[ 'name' => 'Deliverable' ],
 			[ 'name' => 'Bad condition' ],
 			[ 'name' => 'Remarks' ],
 		];
