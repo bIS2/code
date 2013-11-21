@@ -29,4 +29,6 @@ return array(
   'contains'						=> 'Contains',
   'actions'						=> 'Actions',
   'pagination_information'	=> 'Showing :from to :to of :total',
+	'prev'              => 'Previous',
+	'next'              => 'Next'
 );

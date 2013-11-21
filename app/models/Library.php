@@ -5,5 +5,9 @@ class Library extends Eloquent {
 
 	public static $rules = array();
 
-  public function users() {  return $this->hasMany('User');  }	
+  public function users() {  return $this->hasMany('User');  }
+
+  public function scopeLibraryperholding($query, $code) {
+  	return $this->whereCode($code)->paginate(1);
+  }	
 }

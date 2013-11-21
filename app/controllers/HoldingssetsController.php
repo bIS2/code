@@ -35,8 +35,8 @@ class HoldingssetsController extends BaseController {
 		
 		if ( Input::has('f245b')  ) $holdingssets = $holdingssets->holdings()->where( 'f245b','like', sprintf( Input::get('f245bformat'), Input::get('f245b') ) );
 
-		// if ( Input::has('f852b')  ) $holdings = $holdings->where( 'f852b','like',sprintf( Input::get('f852bformat'), Input::get('f852b') ) );
-		// if ( Input::has('f852h')) $holdings = $holdings->where( 'f852h','like', sprintf( Input::get('f852hformat'), Input::get('f852h') ) );
+		// if ( Input::has('f852b') ) $holdings = $holdings->where( 'f852b','like',sprintf( Input::get('f852bformat'), Input::get('f852b') ) );
+		// if ( Input::has('f852h') ) $holdings = $holdings->where( 'f852h','like', sprintf( Input::get('f852hformat'), Input::get('f852h') ) );
 		// if ( Input::has('f362a') ) $holdings = $holdings->where( 'f362a','like', sprintf( Input::get('f362aformat'), Input::get('f362a') ) );
 		// if ( Input::has('f866a') ) $holdings = $holdings->where( 'f866a','like', sprintf( Input::get('f866aformat'), Input::get('f866a') ) );
 		// if ( Input::has('f866z') ) $holdings = $holdings->where( 'f866z','like', sprintf( Input::get('f866zformat'), Input::get('f866z') ) );
@@ -166,5 +166,11 @@ class HoldingssetsController extends BaseController {
 		return Response::json( ['groupDelete' => [$id]] );
 	}	
 
-
+	// Set/Unset Ok to HOS
+	public function getFromLibrary($id) {
+		$this->data['holding'] = Holding::find($id)->sys2;
+		$this->data['library'] = Library::orderBy('code', 'ASC')->libraryperholding(substr($this->data['holding'], 0, 4));
+		$this->data['holding'] = substr($this->data['holding'], 4, 9);
+		return View::make('holdingssets.externalholding', $this -> data);
+	}	
 }

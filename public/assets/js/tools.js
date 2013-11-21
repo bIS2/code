@@ -53,11 +53,9 @@ $(function(){
     } 
 
     if ( result.correct ){
-        $('#'+result.correct).find('.well').removeClass('well-danger').addClass('well-success'); 
         $('tr#'+result.correct).removeClass('danger').addClass('success'); 
     } 
     if ( result.blank ){
-        $('#'+result.blank).find('.well').removeClass('well-danger').addClass('well-success'); 
         $('tr#'+result.blank).removeClass('danger').removeClass('success'); 
     } 
     

@@ -31,7 +31,10 @@ class Holding extends Eloquent {
 
   // Scopes
   public function scopeVerified ($query){
-		return $query->whereIn('holdingsset_id',function($query){ $query->select('id')->from('holdingssets')->whereOk(true); });
+		return $query
+      ->whereIn( 'holdingsset_id', function($query){ $query->select('id')->from('holdingssets')->whereOk(true); } )
+      ->whereIsOwner('t')
+      ->orWhere('is_aux','=','t');
   }
 
   public function scopeInLibrary(){

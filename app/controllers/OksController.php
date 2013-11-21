@@ -45,10 +45,16 @@ class OksController extends BaseController {
 	public function store()	{
 
 		$holding_id = Input::get('holding_id');
-		if ( !Ok::whereHoldingId($holding_id)->exists() )
+
+		if ( Ok::whereHoldingId($holding_id)->exists() ){
+			Ok::whereHoldingId($holding_id)->delete();
+			$ret = ['blank' => $holding_id];
+		} else {
 			Ok::create([ 'holding_id' => $holding_id, 'user_id' => Auth::user()->id ]);
+			$ret = ['correct' => $holding_id];
+		}
 		
-		return Response::json( ['correct' => $holding_id] );
+			return Response::json( $ret );
 
 	}
 
