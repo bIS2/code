@@ -28,4 +28,6 @@ return array(
   'notes'						=> 'Notes',
   'contains'						=> 'Contains',
   'actions'						=> 'Actions',
+	'prev'              => 'Previous',
+	'next'              => 'Next'
 );
