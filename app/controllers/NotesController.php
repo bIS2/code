@@ -19,10 +19,9 @@ class NotesController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
-	{
-		$notes = $this->note->all();
+	public function index()	{
 
+		$notes = $this->note->all();
 		return View::make('notes.index', compact('notes'));
 	}
 

@@ -30,5 +30,8 @@ return array(
   'actions'						=> 'Actions',
   'pagination_information'	=> 'Showing :from to :to of :total',
 	'prev'              => 'Previous',
-	'next'              => 'Next'
+	'next'              => 'Next',
+	'confirm'              => 'Confirm',
+	'sending'              => 'Sending...',
+	'annotated'              => 'Annotated',
 );

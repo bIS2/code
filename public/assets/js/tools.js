@@ -47,16 +47,15 @@ $(function(){
         $('#'+result.untag).find('.btn-tag').removeClass('btn-danger').addClass('btn-default'); 
     } 
     if ( result.annotated ){
-        $('#'+result.annotated).find('.well').addClass('well-danger').removeClass('well-success'); 
-        $('tr#'+result.annotated).addClass('danger').removeClass('success'); 
+        $('#'+result.annotated).addClass('danger').removeClass('success'); 
         $('#form-create-notes').modal('hide')
     } 
 
     if ( result.correct ){
-        $('tr#'+result.correct).removeClass('danger').addClass('success'); 
+        $('#'+result.correct).removeClass('danger').addClass('success'); 
     } 
     if ( result.blank ){
-        $('tr#'+result.blank).removeClass('danger').removeClass('success'); 
+        $('#'+result.blank).removeClass('danger').removeClass('success'); 
     } 
     
     })
