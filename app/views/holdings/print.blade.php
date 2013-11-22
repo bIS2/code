@@ -1,76 +1,86 @@
-@extends('layouts.default')
-
-@section('toolbar')
-	@include('holdings.toolbar')
-@stop
+@extends('layouts.print')
 
 {{-- Content --}}
-@section('content')
+@section('main')
+
+		<div class="row">
+
+				<div class="col-xs-12 h" >
+					<div class="" >
+						<div >
+							<h1>bIS :: {{ trans('titles.holdings') }}</h1>
+							<hr>
+							@foreach ($holdings as $holding)
+							<div class="row item">
+								<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1" >
+									<div class="well">
+										<div class="row">
+											<label class="col-xs-1 text-right" >852b</label>
+											<div class="col-xs-11">
+									  		{{ link_to_route( 'holdings.show', $holding->f852b, [ $holding->f852b ] ) }}
+											</div>
+										</div>
+										<div class="row">
+										  <label class="col-xs-1 text-right">852h</label >
+										  <div class="col-xs-11">{{ $holding->f852h }}</div>
+										</div>
+										<div class="row">
+										  <label class="col-xs-1 text-right">Patrn</label >
+										  <div class="ocrr_ptrn col-xs-11">{{ $holding->patrn }}</div>
+										</div>
+										<div class="row">
+										  <label class="col-xs-1 text-right">245a</label >
+										  {{ $holding->f245a }}
+										</div>
+										<div class="row">
+										  <label class="col-xs-1 text-right">362a</label >
+										  {{ $holding->f362a }}
+										</div>
+										<div class="row">
+										  <label class="col-xs-1 text-right">866a</label >
+										  {{ $holding->f866a }}
+										</div>
+										<div class="row">
+										  <label class="col-xs-1 text-right">866z</label >
+										  {{ $holding->f866z }}
+										</div>
+									</div>
 
 
-<div class="row">
-	<div class="col-lg-12 ">
-		<div class="container">
+								</div> <!-- /.col-xs-8 -->
+								<div class="col-xs-5">
+									<div>
+										<ul class="list-inline">
+											<li><span class="fa fa-square-o"></span> {{trans('general.ok')}}</li>
+											@foreach ( $tags = Tag::all() as $tag)
+												<?php $note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note ?>
+												<li>
+													<?= ($note->tag_id) ? '<span class="fa fa-check-square-o"></span>' : '<span class="fa fa-square-o"></span>' ?> {{ $tag->name }}
+												</li>
+											@endforeach
+										</ul>
+										<ul>
+											@foreach ( $holding->notes as $note)
+												<li>{{ $note->content }}</li>
+											@endforeach
+										</ul>
 
-		<div>{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} </div>
-		<table id="holdings-items" class="table table-bordered table-condensed flexme">
-		<thead>
-			<tr> 
-				<th><input id="select-all" name="select-all" type="checkbox" value="1"></th>
-				<th>{{ trans('general.actions') }}</th>
-				<th>852b</th>
-				<th>852h</th>
-				<th>ocrr_ptrn</th>
-				<th>245a</th>
-				<th>362a</th>
-				<th>866a</th>
-				<th>866z</th>
-			</tr>
-		</thead>
-		<tbody class="selectable">
-		@foreach ($holdings as $holding)
-			<tr id="<?= $holding->id ?>" class="{{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}">
-				<td><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
-				<td id="{{ $holding->id }}" class="actions">
-				  <a href="{{ route('oks.store') }}" class="btn-link btn-xs btn-ok" data-method="post" data-remote="true" data-params="holding_id={{$holding->id}}">
-				  	<span class="fa fa-thumbs-up"></span>
-				  </a>
-				  <a href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-notes" class="btn-link btn-xs btn-tag">
-				  	<span class="fa fa-tags"></span> 
-				  </a>
+									</div>
+									<div></div>
 
-				  <a href="#" data-toggle="modal" data-target="#form-create-notes" class="btn-link btn-xs btn-send">
-				  	<span class="fa fa-mail-forward"></span> 
-				  </a>
+								</div> <!-- /.col-xs-4 -->
 
+							</div> <!-- /.row.item -->
+						@endforeach
+					</div> <!-- /.carousel-inner -->
+				  <!-- Controls -->
+				</div>
 
-				</td>
-				<td>{{ $holding->f852b }} </td>
-				<td><?= $holding->f852h; ?></td>
-				<td class="ocrr_ptrn"><?= $holding->patrn ?></td>
- 				<td>{{ $holding->holdingsset->f245a }}</td>
-				<td><?= $holding->f362a; ?></td>
-				<td><?= $holding->f866a; ?></td>
-				<td><?= $holding->f866z; ?></td>
+			</div>
 
-			</tr>
-		@endforeach
-
-		</tbody>
-	</table>
-	</div>
-	<p>
-		<?= $holdings->appends(Input::except('page'))->links()  ?>
-	</p>
-
+			
 	</div>
 </div>
 
-
-<div class="remote">
- <div class="modal" id="form-create-notes"></div><!-- /.modal -->
-</div>
-
-	@include('hlists.create')
 @stop
 
