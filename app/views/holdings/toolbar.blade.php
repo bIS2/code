@@ -90,7 +90,7 @@
 	 -->			  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn <?= (Input::get('view')=='slide') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="fa fa-desktop"></span> 
 				  	</a>
-				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'print'] ) }}" class="btn <?= (Input::get('view')=='print') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'print'] ) }}" target="_blank" class="btn <?= (Input::get('view')=='print') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="fa fa-print"></span> 
 				  	</a>
 				  </div>

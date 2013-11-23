@@ -16,9 +16,9 @@
 		@foreach ($holdings as $holding)
 
 			<div class="row">
-
 				<div id="<?= $holding->id  ?>" class="col-xs-12 h" >
-					<div class="well well-sm <?= ($holding->is_correct) ? 'well-success' : '' ?> <?= ($holding->is_annotated) ? 'well-danger' : '' ?>">
+					<div id="slider" class="carousel slide" data-ride="carousel">
+				<!-- 	<div class="well well-sm <?= ($holding->is_correct) ? 'well-success' : '' ?> <?= ($holding->is_annotated) ? 'well-danger' : '' ?>"> -->
 						<div class="pull-right actions" style="display:none">
 						  <a href="{{ route('oks.store') }}" data-params="holding_id={{$holding->id}}" data-method="post" data-remote="true" >
 						  	<span class="fa fa-thumbs-up"></span> {{ trans('general.correct') }}
