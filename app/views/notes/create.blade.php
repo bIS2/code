@@ -62,7 +62,7 @@
 
 	        <div class="modal-footer">
 	          <a href="#" class="btn btn-default" data-dismiss="modal" ><?= trans('general.cancel') ?></a>
-	          <button type="submit" class="btn btn-default" ><?= trans('general.reset') ?></button>
+	          <button type="reset" class="btn btn-default" ><?= trans('general.reset') ?></button>
 	          <button type="submit" class="btn btn-success" ><?= trans('general.save') ?></button>
 	        </div>
 
