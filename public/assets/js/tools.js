@@ -73,7 +73,7 @@ $(function(){
 
   	content = ''
   	$.each(a,function(key, value){
-  		content += value +':'+key+'</br>'
+  		content += '<span class="label label-info">'+value+'</span> '+key+'</br>'
   	})
 
   	$(this).find("span.fa").popover({
