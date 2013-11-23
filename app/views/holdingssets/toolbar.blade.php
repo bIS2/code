@@ -47,16 +47,16 @@
 			  <li>
 				  <div class="btn-group">
 				  	<a id="filter_confirmed" href="{{ route('sets.index', Input::except(['owner','aux']) + ['owner' => true]) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') != true)) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
-				  		{{{ trans('holdingssets.just_owner') }}}
+				  		<i class="fa fa-stop text-danger"></i> {{{ trans('holdingssets.just_owner') }}}
 				  	</a>
 				  	<a id="filter_pending" href="{{ route('sets.index', Input::except(['owner','aux']) + ['aux' => true]) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default' ?> btn-sm">
-				  		{{{ trans('holdingssets.just_aux') }}}
+				  		<i class="fa fa-stop text-warning"></i> {{{ trans('holdingssets.just_aux') }}}
 				  	</a>
 				  	<a id="filter_pending" href="{{ route('sets.index', Input::except(['owner','aux']) + ['owner' => true, 'aux' => true]) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default'; ?> btn-sm">
-				  		{{{ trans('holdingssets.only_owner_and_aux') }}}
+				  		<i class="fa fa-stop text-danger"></i> <i class="fa fa-stop text-warning"></i> {{{ trans('holdingssets.only_owner_and_aux') }}}
 				  	</a>
-				  	<a id="filter_confirmed" href="{{ route('sets.index', Input::except(['owner','aux'])) }}" class="btn btn-default btn-sm" title="{{ trans('holdingssets.clear_owner_filter') }}">
-				  		<span class="fa fa-eraser"></span>
+				  	<a id="filter_confirmed" href="{{ route('sets.index', Input::except(['owner','aux'])) }}" class="btn btn-default btn-sm" title="{{ trans('holdingssets.clear_owner_filter') }}">	
+				  		<i class="fa fa-eraser"></i>			  		
 				  	</a>
 				  	<span class="btn btn-sm">|</span>
 				  	<a id="filter_all" href="{{ route('sets.index', Input::except('state')) }}" class="btn <?= ((Input::get('state') != 'ok') && (Input::get('state') != 'pending')) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
