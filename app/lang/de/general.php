@@ -24,7 +24,16 @@ return array(
 	'must_login'        => 'Bitte zuerst einloggen.',	
 	'included_in' 			=> 'Enthalten in',
 	'groups'	          => 'Gruppen',
+  'correct'						=> 'Richtig',
+  'notes'	            => 'Bemerkung',
+  'contains'				  => 'Enthält',
+	'actions'           => 'Aktionen'
+  'pagination_information'	=> 'Angezeigt werden :from - :to (Total :total)',
 	'prev'              => 'Vorhergehender',
 	'next'              => 'Nächster',
-	'actions'           => 'Aktion'
+	'confirm'           => 'Bestätigen',
+	'sending'           => 'Abschicken...',
+	'annotated'         => 'Angemerkt',
+	'lang_en'           => 'Englisch'
+	'lang_de'           => 'Deutsch'
 );

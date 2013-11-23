@@ -25,13 +25,15 @@ return array(
   'included_in' 			=> 'Included in',
   'groups'						=> 'Groups',
   'correct'						=> 'Correct',
-  'notes'						=> 'Notes',
-  'contains'						=> 'Contains',
+  'notes'	            => 'Notes',
+  'contains'				  => 'Contains',
   'actions'						=> 'Actions',
   'pagination_information'	=> 'Showing :from to :to of :total',
 	'prev'              => 'Previous',
 	'next'              => 'Next',
-	'confirm'              => 'Confirm',
-	'sending'              => 'Sending...',
-	'annotated'              => 'Annotated',
+	'confirm'           => 'Confirm',
+	'sending'           => 'Sending...',
+	'annotated'         => 'Annotated',
+	'lang_en'           => 'English'
+	'lang_de'           => 'German'
 );
