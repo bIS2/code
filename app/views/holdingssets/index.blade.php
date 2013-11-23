@@ -260,6 +260,7 @@
 										?>
 									</td>
 									<td><?php echo htmlspecialchars($holding->f245b); ?></td>
+									<td><?php echo htmlspecialchars($holding->f852b); ?></td>
 									<td><?php echo htmlspecialchars($holding->f260a); ?></td>
 									<td><?php echo htmlspecialchars($holding->f260b); ?></td>
 									<td><?php echo $holding->sys2; ?></td>
