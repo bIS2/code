@@ -1,5 +1,11 @@
 $(function(){
 
+	$('.datatable').dataTable({
+    "bFilter": false,
+    "bPaginate": false,
+
+  });
+
 	$(':checkbox#select-all').on('click',function(){
 		$('.table').find('input.hl:checkbox').prop('checked',this.checked)
 	})

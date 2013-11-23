@@ -13,17 +13,17 @@
 		<div class="container">
 
 		<div>{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} </div>
-		<table id="holdings-items" class="table table-bordered table-condensed flexme">
+		<table id="holdings-items" class="table table-bordered table-condensed flexme datatable">
 		<thead>
 			<tr> 
 				<th><input id="select-all" name="select-all" type="checkbox" value="1"></th>
 				<th>{{ trans('general.actions') }}</th>
 				<th>852b <span class="fa fa-info-circle"></span></th>
 				<th>852h <span class="fa fa-info-circle"></span></th>
+				<th>866a <span class="fa fa-info-circle"></span></th>
 				<th>ocrr_ptrn</th>
 				<th>245a <span class="fa fa-info-circle"></span></th>
 				<th>362a <span class="fa fa-info-circle"></span></th>
-				<th>866a <span class="fa fa-info-circle"></span></th>
 				<th>866z <span class="fa fa-info-circle"></span></th>
 			</tr>
 		</thead>
@@ -47,10 +47,10 @@
 				</td>
 				<td>{{ $holding->f852b }} </td>
 				<td><?= $holding->f852h; ?></td>
+				<td><?= $holding->f866a; ?></td>
 				<td class="ocrr_ptrn"><?= $holding->patrn ?></td>
  				<td>{{ $holding->holdingsset->f245a }}</td>
 				<td><?= $holding->f362a; ?></td>
-				<td><?= $holding->f866a; ?></td>
 				<td><?= $holding->f866z; ?></td>
 
 			</tr>

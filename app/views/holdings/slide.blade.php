@@ -86,6 +86,7 @@
 						</form>	
 							</div> <!-- /.row.item -->
 						@endforeach
+					</div> <!-- /.carousel-inner -->
 							<div class="row">
 								<div class="col-xs-12 text-center">
 								  <a class="btn btn-default btn-lg" href="#slider" data-slide="prev">
@@ -96,7 +97,6 @@
 								  </a>					
 								</div>
 							</div>
-					</div> <!-- /.carousel-inner -->
 				  <!-- Controls -->
 				</div>
 
