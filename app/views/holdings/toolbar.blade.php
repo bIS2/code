@@ -107,7 +107,6 @@
 	</div> <!-- /.row -->
 
 	<div class="row">
-
 		<div class="col-xs-12">
 			<div class="well well-sm row" id="filter-well"  {{ ($is_filter) ? '' : 'style="display:none"' }} >
 

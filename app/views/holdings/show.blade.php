@@ -57,6 +57,14 @@
 					  <td>f310a</td>
 						<td><?= $holding->f310a; ?></td>
 					</tr>
+					<tr>
+					  <td>f852b</td>
+						<td><?= $holding->f852b; ?></td>
+					</tr>
+					<tr>
+					  <td>f852h</td>
+						<td><?= $holding->f852h; ?></td>
+					</tr>
 				</table>
       </div>
       <div class="modal-footer">

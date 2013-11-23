@@ -8,7 +8,7 @@ $(function(){
 
 
 
-	$('.pop-over').popover()
+$('.pop-over').popover()
 	setDatatable();
 })
 
@@ -20,15 +20,7 @@ page = 1;
 		if (last_result != '') {
 			if ($(window).scrollTop() == $(document).height() - $(window).height()) {
 				page++;
-				if ($('#hosg').attr('group_id') > 0) 
-					url = "/sets?page="+page + "&group_id=" + $('#hosg').attr('group_id')
-				else
-					url = "/sets?page="+page;
-
-				if ($('#main-filters a#filter_pending').hasClass('btn-primary'))
-					url = url + '&state=pending';
-				if ($('#main-filters a#filter_confirmed').hasClass('btn-primary'))
-					url = url + '&state=ok';
+				url = "/sets?"+ window.location.search.substring(1) + '&page=' + page
 				
 			 	$.get(url,
 				  function(data){

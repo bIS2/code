@@ -67,13 +67,13 @@
 		      	</a> -->
 		      	@if (Auth::user()->hasRole('resuser')) 
 		      	@else
-		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn btn-ok btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..." title="{{ trans('holginssets.add_HOL_to_this_HOS') }}">
+<!-- 		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn btn-ok btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..." title="{{ trans('holginssets.add_HOL_to_this_HOS') }}">
 		      			<span class="fa fa-plus"></span>
-		      	</a>		
+		      	</a>		 -->
 		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn btn-ok btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..." title="{{ trans('holginssets.confirm_ok_HOS') }}">
 		      			<span class="glyphicon glyphicon-thumbs-up"></span>
 		      	</a>		
-		      	@endif      	
+		      	@endif
 		      </div>
 			  </div>	
 	  		<div class="panel-collapse collapse container" id="<?= $holdingsset -> sys1; ?>">

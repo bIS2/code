@@ -7,47 +7,10 @@
 {{-- Content --}}
 @section('content')
 
-<!-- OWNERS FILTERS -->
-<div class="row">
-	<div class="col-xs-12">
-		<ul class="list-inline">
-		  <!-- <li style="padding-left: 240px;"> -->
-		  <li>
-			  <div class="btn-group">
-			  <?php 
-			  	$urlstate = Input::get('state');
-			  	global $params;
-			  	if ($urlstate != '') $params['state'] = $urlstate; 
-			  	if (isset($group_id)) $params['group_id'] = $group_id;
-			  ?>
-				  	<a id="filter_confirmed" href="{{ route('sets.index',$params) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') != true)) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
-				  		{{{ trans('holdingssets.all') }}}
-				  	</a>
-			  	<?php  $params['owner'] = true; ?>
-				  	<a id="filter_confirmed" href="{{ route('sets.index',$params) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') != true)) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
-				  		{{{ trans('holdingssets.just_owner') }}}
-				  	</a>
-				  <?php
-				   	unset($params['owner']);  
-				  	$params['aux'] = true; ?>
-				  	<a id="filter_pending" href="{{ route('sets.index', $params) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default' ?> btn-sm">
-				  		{{{ trans('holdingssets.just_aux') }}}
-				  	</a>
-			  	<?php  $params['owner'] = true; ?>
-					<?php $params['aux'] = true; ?>
-				  	<a id="filter_pending" href="{{ route('sets.index', $params) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default'; ?> btn-sm">
-				  		{{{ trans('holdingssets.only_owner_and_aux') }}}
-				  	</a>
-			  </div>
-		  </li>
-		</ul>
-	</div>
-</div> <!-- /.row -->
-
 <ul id="groups-tabs" class="nav nav-tabs">
   <li <?php if (!isset($group_id)) { echo 'class="active"'; } ?>>
   	<a href="<?= route('sets.index')  ?>">
-  		All <?= trans('holdingssets.title') ?>
+  		<?= trans('holdingssets.all') ?> <?= trans('holdingssets.title') ?>
   	</a>
   </li>
 	<?php foreach ($groups as $group) { ?>
@@ -107,9 +70,9 @@
 		      	</a> -->
 		      	@if (Auth::user()->hasRole('resuser')) 
 		      	@else
-		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn btn-ok btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..." title="{{ trans('holginssets.add_HOL_to_this_HOS') }}">
+<!-- 		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn btn-ok btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..." title="{{ trans('holginssets.add_HOL_to_this_HOS') }}">
 		      			<span class="fa fa-plus"></span>
-		      	</a>		
+		      	</a> -->		
 		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn btn-ok btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..." title="{{ trans('holginssets.confirm_ok_HOS') }}">
 		      			<span class="glyphicon glyphicon-thumbs-up"></span>
 		      	</a>		
@@ -150,6 +113,7 @@
 											<?php }	?>
 										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button"></span>
 									</th>
+									<th class="hocrr_ptrn"><?php echo 'ocrr_ptrn'; ?></th>
 									<th><?php echo '245b'; ?>
 										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
 											<?php 
@@ -167,9 +131,6 @@
 											?>
 										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button"></span>
 									</th>
-									<!-- <th><?php echo '245c'; ?></th> -->
-									<th class="hocrr_ptrn"><?php echo 'ocrr_ptrn'; ?></th>
-									<!-- <th><?php echo '022a'; ?></th> -->
 									<th><?php echo '260a'; ?>
 										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
 											<?php 
@@ -234,10 +195,6 @@
 											<?php } ?>
 										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button"></span>
 									</th>
-<!-- 							<th><?php echo '780t'; ?></th>
-									<th><?php echo '362a'; ?></th>
-									<th><?php echo '866a'; ?></th>
-									<th><?php echo '866z'; ?></th> -->
 									<th><?php echo '310a'; ?>
 										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
 											<?php 
@@ -280,8 +237,6 @@
 											echo htmlspecialchars($holding->f245a); 
 										?>
 									</td>
-									<td><?php echo htmlspecialchars($holding->f245b); ?></td>
-									<!-- <td><?php echo $holding->f245c; ?></td> -->
 									<td class="ocrr_ptrn">
 										<?php											
 											$ocrr_ptrn = str_split($holding->ocrr_ptrn);
@@ -304,17 +259,11 @@
 											 $i++; } 
 										?>
 									</td>
-									<!-- <td><?php echo $holding->f022a; ?></td> -->
+									<td><?php echo htmlspecialchars($holding->f245b); ?></td>
 									<td><?php echo htmlspecialchars($holding->f260a); ?></td>
 									<td><?php echo htmlspecialchars($holding->f260b); ?></td>
 									<td><?php echo $holding->sys2; ?></td>
 									<td><?php echo $holding->f710a; ?></td>
-
-<!-- 									<td><?php echo $holding->f780t; ?></td>
-									<td><?php echo $holding->f362a; ?></td>
-									<td><?php echo $holding->f866a; ?></td>
-									<td><?php echo $holding->f866z; ?></td> -->
-
 									<td><?php echo $holding->f310a; ?></td>
 								</tr>
 							@endforeach

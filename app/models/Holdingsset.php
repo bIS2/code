@@ -26,19 +26,4 @@ class Holdingsset extends Eloquent {
   public function scopePendings($query){
     return $query->whereOk(false);
   }
-
-  public function scopeFindByHoldings($query,$field,$format){
-
-  	$holdings= Holding::all();
-
-		if ( $field=='f852b' )  $holdings = $holdings->whereRaw( sprintf( $format, 'LOWER('.$field.')', strtolower( $field ) ) );
-		if ( $field=='f852h' ) 	$holdings = $holdings->whereRaw( sprintf( $format, 'LOWER('.$field.')', strtolower( $field ) ) );
-		if ( $field=='f245a' )  $holdings = $holdings->whereRaw( sprintf( $format, 'LOWER('.$field.')', strtolower( $field ) ) );
-		if ( $field=='f362a' ) 	$holdings = $holdings->whereRaw( sprintf( $format, 'LOWER('.$field.')', strtolower( $field ) ) );
-		if ( $field=='f866a' ) 	$holdings = $holdings->whereRaw( sprintf( $format, 'LOWER('.$field.')', strtolower( $field ) ) );
-		if ( $field=='f866z' ) 	$holdings = $holdings->whereRaw( sprintf( $format, 'LOWER('.$field.')', strtolower( $field ) ) );
-
-    return $query->whereIn('id',$holdings->lists('holdinsset_id'));
-  }
-
 }

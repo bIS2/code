@@ -34,6 +34,6 @@ return array(
 	'confirm'           => 'Confirm',
 	'sending'           => 'Sending...',
 	'annotated'         => 'Annotated',
-	'lang_en'           => 'loc',
-	'lang_de'           => 'German'
+	'lang_en'           => 'English',
+	'lang_de'           => 'German',
 );
