@@ -60,9 +60,29 @@ $(function(){
     
     })
 
-  $('.h').on({
-  	mouseover: function(){ $(this).find('.actions').show() },
-  	mouseout: function(){ $(this).find('.actions').hide() }
+  $('th').each(function(){
+
+  	var a = {}, l = 0, i = $(this).index() + 1, $this=$(this);
+
+  	tds = $(this).parents('table').find('tr td:nth-child('+i+')' );
+  	tds.each(function(){
+
+	   (!a[$(this).text()]) ? a[$(this).text()] = 1 : a[$(this).text()]++;
+
+  	})
+
+  	content = ''
+  	$.each(a,function(key, value){
+  		content += value +':'+key+'</br>'
+  	})
+
+  	$(this).find("span.fa").popover({
+  		trigger: 		'hover',
+  		placement: 	'bottom',
+  		html: 			true,
+  		content: 		content
+
+  	})
   })
 
 getAsuccess()

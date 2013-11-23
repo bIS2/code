@@ -18,13 +18,13 @@
 			<tr> 
 				<th><input id="select-all" name="select-all" type="checkbox" value="1"></th>
 				<th>{{ trans('general.actions') }}</th>
-				<th>852b</th>
-				<th>852h</th>
+				<th>852b <span class="fa fa-info-circle"></span></th>
+				<th>852h <span class="fa fa-info-circle"></span></th>
 				<th>ocrr_ptrn</th>
-				<th>245a</th>
-				<th>362a</th>
-				<th>866a</th>
-				<th>866z</th>
+				<th>245a <span class="fa fa-info-circle"></span></th>
+				<th>362a <span class="fa fa-info-circle"></span></th>
+				<th>866a <span class="fa fa-info-circle"></span></th>
+				<th>866z <span class="fa fa-info-circle"></span></th>
 			</tr>
 		</thead>
 		<tbody class="selectable">
