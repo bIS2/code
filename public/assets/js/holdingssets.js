@@ -14,7 +14,7 @@ $(function(){
 	// 	//"bScrollCollapse": true    
  //  });
 
-	$('.pop-over').popover()
+$('.pop-over').popover()
 	setDatatable();
 })
 

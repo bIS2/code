@@ -51,6 +51,20 @@ class HoldingssetsController extends BaseController {
 			}
 		}
 
+		if ($this->data['is_filter']) {
+			$holdings= DB::table('holdings');
+			if ( Input::has('f852b') )  $holdings = $holdings->whereRaw( sprintf( Input::get('f852bformat'), 'LOWER(f852b)', strtolower( Input::get('f852b') ) ) );
+			if ( Input::has('f852h') ) 	$holdings = $holdings->whereRaw( sprintf( Input::get('f852hformat'), 'LOWER(f852h)', strtolower( Input::get('f852h') ) ) );
+			if ( Input::has('f245a') )  $holdings = $holdings->whereRaw( sprintf( Input::get('f245aformat'), 'LOWER(f245a)', strtolower( Input::get('f245a') ) ) );
+			if ( Input::has('f362a') ) 	$holdings = $holdings->whereRaw( sprintf( Input::get('f362aformat'), 'LOWER(f362a)', strtolower( Input::get('f362a') ) ) );
+			if ( Input::has('f866a') ) 	$holdings = $holdings->whereRaw( sprintf( Input::get('f866aformat'), 'LOWER(f866a)', strtolower( Input::get('f866a') ) ) );
+			if ( Input::has('f866z') ) 	$holdings = $holdings->whereRaw( sprintf( Input::get('f866zformat'), 'LOWER(f866z)', strtolower( Input::get('f866z') ) ) );
+		    
+		    $ids = $holdings->count() > 0 ? $holdings->lists('holdingsset_id') : [-1];
+
+		    $holdingssets = $holdingssets->whereIn('id', $ids);
+		}
+
 		$this->data['holdingssets'] = $holdingssets->paginate(20);
 
 		if (isset($_GET['page']))  {
