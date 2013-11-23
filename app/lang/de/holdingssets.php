@@ -25,4 +25,5 @@ return array(
 	'just_owner'					=> 'OWNERS',
 	'just_aux'						=> 'AUX',
 	'only_owner_and_aux'	=> 'BOTH',
+	'clear_owner_filter'	=> 'clear_owner_filter',
 );

@@ -23,7 +23,8 @@ return array(
 	'move_to_other_group'					=> 'move_to_other_group',
 	'add_HOL_to_this_HOS'					=> 'add_HOL_to_this_HOS',
 	'confirm_ok_HOS'							=> 'confirm_ok_HOS',
-	'just_owner'					=> 'OWNERS',
-	'just_aux'						=> 'AUX',
-	'only_owner_and_aux'	=> 'BOTH',
+	'just_owner'					=> 'Owner',
+	'just_aux'						=> 'Aux',
+	'only_owner_and_aux'	=> 'Both',
+	'clear_owner_filter'	=> 'clear_owner_filter',
 );

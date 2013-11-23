@@ -46,30 +46,34 @@
 			  </li>
 			  <li>
 				  <div class="btn-group">
+				  	<a id="filter_confirmed" href="{{ route('sets.index', Input::except(['owner','aux']) + ['owner' => true]) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') != true)) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+				  		{{{ trans('holdingssets.just_owner') }}}
+				  	</a>
+				  	<a id="filter_pending" href="{{ route('sets.index', Input::except(['owner','aux']) + ['aux' => true]) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+				  		{{{ trans('holdingssets.just_aux') }}}
+				  	</a>
+				  	<a id="filter_pending" href="{{ route('sets.index', Input::except(['owner','aux']) + ['owner' => true, 'aux' => true]) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default'; ?> btn-sm">
+				  		{{{ trans('holdingssets.only_owner_and_aux') }}}
+				  	</a>
+				  	<a id="filter_confirmed" href="{{ route('sets.index', Input::except(['owner','aux'])) }}" class="btn btn-default btn-sm" title="{{ trans('holdingssets.clear_owner_filter') }}">
+				  		<span class="fa fa-eraser"></span>
+				  	</a>
+				  	<span class="btn btn-sm">|</span>
 				  	<a id="filter_all" href="{{ route('sets.index', Input::except('state')) }}" class="btn <?= ((Input::get('state') != 'ok') && (Input::get('state') != 'pending')) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}
 				  	</a>
-				  	@if ((isset($group_id)) && ($group_id > 0))
-					  	<a id="filter_confirmed" href="{{ route('sets.index', Input::except('state') + ['state'=>'ok']) }}" class="btn <?= (Input::get('state')=='ok') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
-					  		<span class="glyphicon glyphicon-thumbs-up"></span> {{{ trans('holdingssets.oked') }}}
-					  	</a>
-					  	<a id="filter_pending" href="{{ route('sets.index', Input::except('state') + ['state'=>'pending']) }}" class="btn <?= (Input::get('state') == 'pending') ? 'btn-primary' : 'btn-default' ?> btn-sm">
-					  		<span class="glyphicon glyphicon-warning-sign"></span> {{{ trans('holdingssets.pending') }}}
-					  	</a>
-				  	@else
-					  	<a id="filter_confirmed" href="{{ route('sets.index',Input::except(['group_id','state']) + ['state'=>'ok']) }}" class="btn <?= (Input::get('state')=='ok') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
-					  		<span class="glyphicon glyphicon-thumbs-up"></span> {{{ trans('holdingssets.oked') }}}
-					  	</a>
-					  	<a id="filter_pending" href="{{ route('sets.index', Input::except(['group_id','state']) + ['state'=>'pending']) }}" class="btn <?= (Input::get('state') == 'pending') ? 'btn-primary' : 'btn-default' ?> btn-sm">
-					  		<span class="glyphicon glyphicon-warning-sign"></span> {{{ trans('holdingssets.pending') }}}
-					  	</a>
-				  	@endif
+				  	<a id="filter_confirmed" href="{{ route('sets.index', Input::except('state') + ['state'=>'ok']) }}" class="btn <?= (Input::get('state')=='ok') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+				  		<span class="glyphicon glyphicon-thumbs-up"></span> {{{ trans('holdingssets.oked') }}}
+				  	</a>
+				  	<a id="filter_pending" href="{{ route('sets.index', Input::except('state') + ['state'=>'pending']) }}" class="btn <?= (Input::get('state') == 'pending') ? 'btn-primary' : 'btn-default' ?> btn-sm">
+				  		<span class="glyphicon glyphicon-warning-sign"></span> {{{ trans('holdingssets.pending') }}}
+				  	</a>
 				  	<a href="#collapseOne" id="filter-btn" class="accordion-toggle <?= ($is_filter) ? 'btn-primary' : 'collapsed' ?> btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm dropdown-toggle" data-toggle="collapse" data-parent="#accordion2">
 			        <span class="fa fa-question-circle"></span> {{{ trans('holdingssets.advanced_filter') }}} <span class="caret"></span>
 			      </a>
-				  	<a href="{{ route('sets.index') }}" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+<!-- 				  	<a href="{{ route('sets.index') }}" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="glyphicon glyphicon-print"></span> {{{ trans('holdingssets.printer') }}}
-				  	</a>
+				  	</a> -->
 				  </div>
 			  </li>
 			</ul>
@@ -80,11 +84,11 @@
 			<div class="accordion" id="filterContainer">
 			  <div class="text-right accordion-group">
 			    <div id="collapseOne" class="accordion-body <?= ($is_filter) ? '' : 'collapse' ?> text-left">
-						<div class="row">
+						<div class="row text-center">
 							<div class="col-xs-12">
 								<form class="form-inline" role="form" method="get">
-									<?= ($group_id > 0) ? '<input name="group_id" value="'.$group_id.'">': '' ?>
-									<?= (Input::has('state')) ? '<input name="state" value="'.Input::get('state').'">': '' ?>							
+									<?= ($group_id > 0) ? '<input type="hidden" name="group_id" value="'.$group_id.'">': '' ?>
+									<?= (Input::has('state')) ? '<input type="hidden" name="state" value="'.Input::get('state').'">': '' ?>							
 									<div class="form-group col-xs-2">
 										<div class="input-group inline input-group-sm">
 										  <label class="input-group-addon">852b</label>
@@ -157,7 +161,8 @@
 										  <input type="text" class="form-control" name="f866z" value="<?= Input::get('f866z')  ?>">
 										</div>
 									</div>
-								 <button type="submit" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span>{{ trans('general.search') }}</button>
+								<!-- OWNERS FILTERS -->
+									<button style="margin: 20px 0;" type="submit" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span>{{ trans('general.search') }}</button>
 								</form>
 							</div> <!-- /.col -->	
 						</div> <!-- /.row -->	

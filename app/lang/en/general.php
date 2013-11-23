@@ -35,5 +35,5 @@ return array(
 	'sending'           => 'Sending...',
 	'annotated'         => 'Annotated',
 	'lang_en'           => 'English',
-	'lang_de'           => 'German'
+	'lang_de'           => 'German',
 );
