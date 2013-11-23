@@ -16,7 +16,7 @@ return array(
 	'reset'  						=> 'Reset',
 	'disable_with'			=> 'Saving...',
 	'all'								=> 'All',
-	'logout'						=> 'logout',
+	'logout'						=> 'Logout',
 	'profile'						=> 'Profile',
 	'config'						=> 'Configuration',
 	'type_criteria' 		=> 'Type to search',
@@ -30,5 +30,7 @@ return array(
   'actions'						=> 'Actions',
   'pagination_information'	=> 'Showing :from to :to of :total',
 	'prev'              => 'Previous',
-	'next'              => 'Next'
+	'next'              => 'Next',
+	'lang_en'						=> 'EN',
+	'lang_de'						=> 'DE',
 );

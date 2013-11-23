@@ -26,5 +26,7 @@ return array(
 	'groups'	          => 'Gruppen',
 	'prev'              => 'Vorhergehender',
 	'next'              => 'Nächster',
-	'actions'           => 'Aktion'
+	'actions'           => 'Aktion',
+	'lang_en'						=> 'EN',
+	'lang_de'						=> 'DE',
 );

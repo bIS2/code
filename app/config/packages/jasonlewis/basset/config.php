@@ -47,7 +47,6 @@ return array(
                 $collection->add('flexigrid.pack.css');              
                 $collection->add('datatables-bootstrap.css');
                 $collection->add('less/master.less')->apply('Less');
-                $collection->add('less/asley.less')->apply('Less');
             })->apply('UriRewriteFilter')->apply('CssMin');
 
             $collection->directory('assets/js', function($collection)
@@ -82,6 +81,8 @@ return array(
             $collection->directory('assets/js', function($collection)
             {
                 $collection->add('holdingssets.js');
+                $collection->add('sorttable.js');
+                $collection->add('dragtable.js');
             })->apply('JsMin');
         },
         'holdings' => function($collection)

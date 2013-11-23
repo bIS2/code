@@ -7,7 +7,44 @@
 {{-- Content --}}
 @section('content')
 
-<ul class="nav nav-tabs">
+<!-- OWNERS FILTERS -->
+<div class="row">
+	<div class="col-xs-12">
+		<ul class="list-inline">
+		  <!-- <li style="padding-left: 240px;"> -->
+		  <li>
+			  <div class="btn-group">
+			  <?php 
+			  	$urlstate = Input::get('state');
+			  	global $params;
+			  	if ($urlstate != '') $params['state'] = $urlstate; 
+			  	if (isset($group_id)) $params['group_id'] = $group_id;
+			  ?>
+				  	<a id="filter_confirmed" href="{{ route('sets.index',$params) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') != true)) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+				  		{{{ trans('holdingssets.all') }}}
+				  	</a>
+			  	<?php  $params['owner'] = true; ?>
+				  	<a id="filter_confirmed" href="{{ route('sets.index',$params) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') != true)) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+				  		{{{ trans('holdingssets.just_owner') }}}
+				  	</a>
+				  <?php
+				   	unset($params['owner']);  
+				  	$params['aux'] = true; ?>
+				  	<a id="filter_pending" href="{{ route('sets.index', $params) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+				  		{{{ trans('holdingssets.just_aux') }}}
+				  	</a>
+			  	<?php  $params['owner'] = true; ?>
+					<?php $params['aux'] = true; ?>
+				  	<a id="filter_pending" href="{{ route('sets.index', $params) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default'; ?> btn-sm">
+				  		{{{ trans('holdingssets.only_owner_and_aux') }}}
+				  	</a>
+			  </div>
+		  </li>
+		</ul>
+	</div>
+</div> <!-- /.row -->
+
+<ul id="groups-tabs" class="nav nav-tabs">
   <li <?php if (!isset($group_id)) { echo 'class="active"'; } ?>>
   	<a href="<?= route('sets.index')  ?>">
   		All <?= trans('holdingssets.title') ?>
@@ -19,7 +56,7 @@
 			</a>
 			<?php if ($group_id != $group -> id) { ?>
 			<!-- <a href="{{ action('HoldingssetsController@putDelGroup',[$group->id]) }}" class="btn btn-ok btn-xs" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><button aria-hidden="true" data-dismiss="modal" class="close pull-left" type="button">×</button></a> -->
-			<a href="{{ action('HoldingssetsController@putDelGroup',[$group->id]) }}" class="close" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><i class="fa fa-times"></i></a>
+			<a href="{{ action('HoldingssetsController@putDelGroup',[$group->id]) }}" class="close" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><i class="fa fa-trash-o"></i></a>
 			<?php } ?>
 		</li>
 	<?php } ?>
@@ -70,7 +107,10 @@
 		      	</a> -->
 		      	@if (Auth::user()->hasRole('resuser')) 
 		      	@else
-		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn btn-ok btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="...">
+		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn btn-ok btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..." title="{{ trans('holginssets.add_HOL_to_this_HOS') }}">
+		      			<span class="fa fa-plus"></span>
+		      	</a>		
+		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn btn-ok btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..." title="{{ trans('holginssets.confirm_ok_HOS') }}">
 		      			<span class="glyphicon glyphicon-thumbs-up"></span>
 		      	</a>		
 		      	@endif      	
@@ -90,31 +130,42 @@
 									$valuesCounter = getValue('f310a', $holding, $valuesCounter);
 								?>
 							@endforeach	
-						<table class="table table-hover flexme table-bordered">
+						<table class="table table-hover flexme table-bordered draggable">
 							<thead>
 								<tr>
 									<th>Actions</th>
 									<th><?php echo '245a'; ?>
 										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
 											<?php 
-											if (isset($valuesCounter['f245a'])) {
-												foreach ($valuesCounter['f245a'] as $counter) {
-												 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
-												} 
-											}
-											?>
-										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title="Column Sumary"></span>
+											if (isset($valuesCounter['f245a'])) { ?>
+												<table class='table table-bordered'>
+												<?php foreach ($valuesCounter['f245a'] as $counter) { ?>
+													<tr>
+														<td>
+												 		<?php echo htmlentities($counter['title']).'</td><td>'.$counter['count']; ?>
+												 		</td>
+												 	</tr>
+												<?php } ?>
+												</table>
+											<?php }	?>
+										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button"></span>
 									</th>
 									<th><?php echo '245b'; ?>
 										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
 											<?php 
-											if (isset($valuesCounter['f245b'])) {
-												foreach ($valuesCounter['f245b'] as $counter) {
-												 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
-												} 
-											}
+											if (isset($valuesCounter['f245b'])) { ?>
+												<table class='table table-bordered'>
+												<?php foreach ($valuesCounter['f245b'] as $counter) { ?>
+													<tr>
+														<td>
+												 		<?php echo htmlentities($counter['title']).'</td><td>'.$counter['count']; ?>
+												 		</td>
+												 	</tr>
+												<?php } ?>
+												</table>
+											<?php }
 											?>
-										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title="Column Sumary"></span>
+										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button"></span>
 									</th>
 									<!-- <th><?php echo '245c'; ?></th> -->
 									<th class="hocrr_ptrn"><?php echo 'ocrr_ptrn'; ?></th>
@@ -122,61 +173,86 @@
 									<th><?php echo '260a'; ?>
 										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
 											<?php 
-											if (isset($valuesCounter['f260a'])) {
-												foreach ($valuesCounter['f260a'] as $counter) {
-												 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
-												} 
-											}
-											?>
-										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title="Column Sumary"></span>
+											if (isset($valuesCounter['f260a'])) { ?>
+												<table class='table table-bordered'>
+												<?php foreach ($valuesCounter['f260a'] as $counter) { ?>
+													<tr>
+														<td>
+												 		<?php echo htmlentities($counter['title']).'</td><td>'.$counter['count']; ?>
+												 		</td>
+												 	</tr>
+												<?php } ?>
+												</table>
+											<?php }	?>
+										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button"></span>
 									</th>
 									<th><?php echo '260b'; ?>
 										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
 											<?php
-											if (isset($valuesCounter['f260b'])) {
-												foreach ($valuesCounter['f260b'] as $counter) {
-												 	echo $counter['title'].' -> '.$counter['count'].'<br>';
-												} 
-											}
-											?>
-										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title="Column Sumary"></span>
+											if (isset($valuesCounter['f260b'])) { ?>
+												<table class='table table-bordered'>
+												<?php foreach ($valuesCounter['f260b'] as $counter) { ?>
+													<tr>
+														<td>
+												 		<?php echo htmlentities($counter['title']).'</td><td>'.$counter['count']; ?>
+												 		</td>
+												 	</tr>
+												<?php } ?>
+												</table>
+											<?php } ?>
+										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button"></span>
 									</th>
 									<th><?php echo 'sys2'; ?>
 										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
 											<?php 
-											if (isset($valuesCounter['sys2'])) {
-												foreach ($valuesCounter['sys2'] as $counter) {
-												 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
-												} 
-											}
-											?>
-										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title="Column Sumary"></span>
+											if (isset($valuesCounter['sys2'])) { ?>
+												<table class='table table-bordered'>
+												<?php foreach ($valuesCounter['sys2'] as $counter) { ?>
+													<tr>
+														<td>
+												 		<?php echo htmlentities($counter['title']).'</td><td>'.$counter['count']; ?>
+												 		</td>
+												 	</tr>
+												<?php } ?>
+												</table>
+											<?php } ?>
+										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button"></span>
 									</th>
 									<th><?php echo '710a'; ?>
 										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
 											<?php 
-											if (isset($valuesCounter['f710a'])) {
-												foreach ($valuesCounter['f710a'] as $counter) {
-												 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
-												} 
-											}
-											?>
-										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title="Column Sumary"></span>
+											if (isset($valuesCounter['f710a'])) { ?>
+												<table class='table table-bordered'>
+												<?php foreach ($valuesCounter['f710a'] as $counter) { ?>
+													<tr>
+														<td>
+												 		<?php echo htmlentities($counter['title']).'</td><td>'.$counter['count']; ?>
+												 		</td>
+												 	</tr>
+												<?php } ?>
+												</table>
+											<?php } ?>
+										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button"></span>
 									</th>
-<!-- 									<th><?php echo '780t'; ?></th>
+<!-- 							<th><?php echo '780t'; ?></th>
 									<th><?php echo '362a'; ?></th>
 									<th><?php echo '866a'; ?></th>
 									<th><?php echo '866z'; ?></th> -->
 									<th><?php echo '310a'; ?>
 										<span class="glyphicon glyphicon-info-sign pop-over" data-html='true' data-content="<div>
 											<?php 
-											if (isset($valuesCounter['f310a'])) {
-												foreach ($valuesCounter['f310a'] as $counter) {
-												 	echo htmlentities($counter['title']).' -> '.$counter['count'].'<br>';
-												} 
-											}
-											?>
-										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button" data-original-title="" title="Column Sumary"></span>
+											if (isset($valuesCounter['f310a'])) { ?>
+												<table class='table table-bordered'>
+												<?php foreach ($valuesCounter['f310a'] as $counter) { ?>
+													<tr>
+														<td>
+												 		<?php echo htmlentities($counter['title']).'</td><td>'.$counter['count']; ?>
+												 		</td>
+												 	</tr>
+												<?php } ?>
+												</table>
+											<?php } ?>
+										</div>" data-placement="bottom" data-toggle="popover" data-trigger="hover" type="button"></span>
 									</th>
 								</tr>
 							</thead>
@@ -190,11 +266,13 @@
 							<?php $librarianclass = ' '.substr($holding->sys2, 0, 4);  ?>	
 								<tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}{{ $librarianclass }}">
 									<td>
-						      	<a id="holding<?= $holding -> id; ?>lock" href="{{ action('HoldingssetsController@putLock',[$holding->id]) }}" class="btn-lock btn-xs {{ $btnlock }}" data-params="locked=true" data-remote="true" data-method="put" data-disable-with="..."><span class="glyphicon glyphicon-lock"></span></a>
 		      					@if (Auth::user()->hasRole('resuser')) 
+						      	<a id="holding<?= $holding -> id; ?>lock" href="{{ action('HoldingssetsController@putLock',[$holding->id]) }}" class="{{ $btnlock }}" data-params="locked=true" data-remote="true" data-method="put" data-disable-with="..."><span class="glyphicon glyphicon-lock"></span></a>
 										@else
-										<a href="<?= route('holdings.show', $holding->id) ?>" class="btn-xs btn-default" data-target="#modal-show" data-toggle="modal"><span class="glyphicon glyphicon-eye-open"></span></a>
-										<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" class="btn-xs btn-default" data-target="#modal-show" data-toggle="modal"><span class="glyphicon glyphicon-list-alt"></span></a>
+										<a href="<?= route('holdings.show', $holding->id) ?>" data-target="#modal-show" data-toggle="modal"><span class="glyphicon glyphicon-eye-open" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
+										<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.see_information_from_original_system') }}"><span class="glyphicon glyphicon-list-alt"></span></a>
+						      	<a id="holding<?= $holding -> id; ?>delete" href="{{ action('HoldingssetsController@putNewHOS',[$holding->id]) }}" data-params="trashed=true" data-remote="true" data-method="put" data-disable-with="..." title="{{ trans('holdingssets.remove_from_HOS') }}"><span class="glyphicon glyphicon-trash"></span></a>
+										<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.move_to_other_group') }}"><span class="glyphicon glyphicon-move"></span></a>
 						      @endif 
 									</td>
 									<td>

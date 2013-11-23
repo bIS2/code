@@ -11,13 +11,13 @@ class Holdingsset extends Eloquent {
 		Holdingsset::observe(new TraceObserver);
   }
 
-    public function holdings() {
-        return $this->hasMany('Holding');
-    }
+  public function holdings() {
+      return $this->hasMany('Holding');
+  }
 
-    public function groups() {
-        return $this->belongsToMany('Group');
-    }
+  public function groups() {
+      return $this->belongsToMany('Group');
+  }
 
   public function scopeOk($query){
     return $query->whereOk(true);

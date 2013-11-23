@@ -6,28 +6,16 @@ $(function(){
 //   "bDestroy": true
 // });
 
-	$('.flexme, .datatable').dataTable({
-    "bFilter": false,
-    "bPaginate": false,
-		//"sScrollX": "100%",
-		//"sScrollXInner": "110%",
-		//"bScrollCollapse": true    
-  });
+	// $('.flexme, .datatable').dataTable({
+ //    "bFilter": false,
+ //    "bPaginate": false,
+	// 	//"sScrollX": "100%",
+	// 	//"sScrollXInner": "110%",
+	// 	//"bScrollCollapse": true    
+ //  });
 
 	$('.pop-over').popover()
-
-	$('#hosg .accordion-toggle').each(function() {
-  	$(this).on('click', function() {
-  		if ($(this).attr('opened') == 0) {
-  			// $($(this).attr('href') + ' .flexme').flexigrid();
-  			getAsuccess();
-  			$($(this).attr('href') + ' table').addClass('table');
-	  			$($(this).attr('href') + ' .flexme span').each(function() {
-	  			})
-  			$(this).attr('opened', 1);
-  		}
-  	})
-  })
+	setDatatable();
 })
 
 var page
@@ -43,9 +31,9 @@ page = 1;
 				else
 					url = "/sets?page="+page;
 
-				if ($('a#filter_pending').hasClass('btn-primary'))
+				if ($('#main-filters a#filter_pending').hasClass('btn-primary'))
 					url = url + '&state=pending';
-				if ($('a#filter_confirmed').hasClass('btn-primary'))
+				if ($('#main-filters a#filter_confirmed').hasClass('btn-primary'))
 					url = url + '&state=ok';
 				
 			 	$.get(url,
@@ -54,25 +42,32 @@ page = 1;
 				    console.log(last_result);
 					  if (data != "") {
 					    $("#hosg ul li:last").after(data);
-							// $('#hosg').dataTable({
-					  //     "bFilter": true,
-					  //     "bPaginate": false,
-					  //     "bDestroy": true
-					  //   });
 			 				$('.pop-over').popover()
 			 				getAsuccess()
-					    $('#hosg .accordion-toggle').each(function() {
-					    	$(this).on('click', function() {
-					    		if ($(this).attr('opened') == 0) {
-					    			// $($(this).attr('href') + ' .flexme').flexigrid();
-					    			$($(this).attr('href') + ' table').addClass('table');
-					    			$(this).attr('opened', 1);
-
-					    		}
-					    	})
-					    })
+			 				setDatatable()
 						}
 				});
 		 	}
 	 	}
 	});
+
+function setDatatable() {
+	$('#hosg .accordion-toggle').each(function() {
+		$(this).on('click', function() {
+			if ($(this).attr('opened') == 0) {
+				$($(this).attr('href') + ' .flexme').dataTable({
+				    "bFilter": false,
+				    "bPaginate": false,
+						//"sScrollX": "100%",
+						//"sScrollXInner": "110%",
+						//"bScrollCollapse": true    
+				  });
+				getAsuccess();
+				$($(this).attr('href') + ' table').addClass('table');
+	  			$($(this).attr('href') + ' .flexme span').each(function() {
+	  			})
+				$(this).attr('opened', 1);
+			}
+		})
+  })
+}

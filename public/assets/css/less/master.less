@@ -173,8 +173,12 @@ table.table {
 
 .bis-hover (@border-color) {
     border-color: darken(@border-color, 10%);
-    @shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px lighten(@border-color, 20%);
+    /*@shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px lighten(@border-color, 20%);*/
+    /*.box-shadow(@shadow);*/
+}
+.bis-hover-td (@bckg-color) {
     .box-shadow(@shadow);
+    background-color: transparent !important;
 }
 // navbar
 
@@ -283,11 +287,14 @@ ul.hol-sets {
     color: #fff;
 }
 .nav-tabs .close {
-    position: absolute;
-    top: 0;
-    right: 1px;
-    padding: 0;
-    z-index: 50000;
+    position: absolute !important;
+    top: 5px;
+    right: 5px;
+    padding: 0 !important;
+}
+.nav-tabs .close:hover {
+    background-color: transparent !important;
+    border: none !important;
 }
 
 .AGKB * {
@@ -344,5 +351,115 @@ tr.success, tr.danger{ .btn-send{ display:inline; } }
 
 .table-hover > tbody > tr:hover {
     .bis-hover (@swiss-blue);
+    td {
+        .bis-hover-td (@swiss-blue);
+        .fa-square-o {
+            background-color: transparent !important;
+        }
+    }
+    &.AGKB *,
+    &.BSUB *,
+    &.LUZB *,
+    &.SGHG *,
+    &.ZHUZ *,
+    &.ZHZB * {
+        background: none !important;
+    }
 }
 
+// Asley css
+.flexme {
+    font-size: 11px;
+    thead th + th {
+        min-width: 121.5px;
+        white-space: nowrap;
+        padding-right: 20px;
+    }
+    tbody td {
+       white-space: nowrap;
+       vertical-align: middle;
+       height: 20px;
+       + td.sorting_1 {
+        background-color: #CCCCCC !important;
+        .fa.fa-square-o {
+            background-color: #CCCCCC;
+        }
+       }
+    }
+}
+.hol-sets {
+    input#holdingsset_id {
+        margin-top: 3px;
+    }  
+}
+
+table.table thead th:first-child {
+    background-image: none; 
+    background-color: #FFFFFF;
+    z-index: 99999 !important;
+    cursor: default;
+    &.sorting_asc,
+    &.sorting_asc {
+        background-image: none; 
+        cursor: default;
+    }    
+}
+
+.panel-body {
+    max-height: 900px;
+    padding: 5px 0 0 0;
+} 
+
+.search-holdings {
+    font-size: 12px !important;
+    border-radius: 0px;
+    .input-group > div {
+        padding: 0;
+        select {
+          padding: 6px 2px;
+        }
+        select,
+        input,
+        label {
+            border: 1px solid #CCCCCC;
+        }
+
+    }
+}
+.modal-dialog {
+    width: 1000px;
+    /*margin-left: -500px;    */
+}
+.popover {
+    max-width: none !important;
+    div {
+        white-space: nowrap !important;
+    }
+}
+#groups-tabs.nav > li > a {
+    display: block;
+    padding: 10px 25px 10px 15px;
+    position: relative;
+}
+#groups-tabs.nav > li > a.link_bulk_action {
+    padding: 10px 15px;
+}
+
+#hosg .hol-sets {
+    position: relative;
+    table.flexme > thead > tr > th:first-child,
+    table.flexme > tbody > tr > td:first-child {
+        position: absolute;
+        width: 100px !important;   
+        height: 22px;  
+        border-bottom: none !important; 
+        a {
+            margin: 0 3px;
+        }
+    }
+    table.flexme > thead > tr > th:first-child + th,
+    table.flexme > tbody > tr > td:first-child + td {
+        padding-left: 110px;
+        border-left: none;
+    }
+}

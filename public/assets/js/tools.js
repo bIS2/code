@@ -78,18 +78,27 @@ function getAsuccess() {
                 $('#'+id).hide('slow', function(){ $(this).remove() }); 
             })
         // console.log(result);
-        /* HOS ok to next step */
+
+        // Set HOS to CONFIRM
         if ( result.ok ){
             $('#'+result.ok).find('.btn-ok').addClass('btn-success').removeClass('btn-default');
             if ($('a#filter_pending').hasClass('btn-primary'))
                 $('li#'+result.ok).remove();
              // console.log('li#'+result.ok);      
         }
+
+        // Set HOS to UNCONFIRM
         if ( result.ko ){
             $('#'+result.ko).find('.btn-ok').addClass('btn-default').removeClass('btn-success');
             if ($('a#filter_confirmed').hasClass('btn-primary'))
                 $('li#'+result.ko).remove();
         }
+
+        //
+        if ( result.newhosok ){
+            $('tr#holding' + result.newhosok).remove(); 
+        }
+
 
         /* Holdings locks */
         if ( result.lock ){

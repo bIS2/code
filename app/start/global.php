@@ -10,6 +10,7 @@
 | your classes in the "global" namespace without Composer updating.
 |
 */
+require app_path().'/translation.php';
 
 ClassLoader::addDirectories(array(
 
