@@ -43,7 +43,10 @@
 				  </div>
 			  <li>
 				  <div class="btn-group">
-				  	<a href="?corrects=true" class="btn <?= ( Input::has('corrects') ) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index') }}" class="btn btn-default btn-sm {{ ($is_all) ? 'btn-primary' : '' }} " >
+				  		<span class="fa fa-list"></span> {{{ trans('holdings.all') }}}
+				  	</a>
+				  	<a href="{{ route('holdings.index', Input::only('view') + ['corrects'=>'true'] ) }}" class="btn <?= ( Input::has('corrects') ) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="fa fa-thumbs-up"></span> {{{ trans('holdings.ok2') }}}
 				  	</a>
 				  	<div class="btn-group">
@@ -63,6 +66,12 @@
 					  		@endforeach
 					  	</ul>
 				  	</div>
+				  	<a href="?owner=true" class="btn <?= ( Input::has('owner')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+				  		<i class="fa fa-stop text-danger"></i> {{{ trans('holdings.owner') }}}
+				  	</a>
+				  	<a href="?aux=true" class="btn <?= ( Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+				  		<i class="fa fa-stop text-warning"></i> {{{ trans('holdings.aux') }}}
+				  	</a>
 				  	<a href="?pendings=true" class="btn <?= ( Input::has('pendings')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 				  		<span class="fa fa-warning"></span> {{{ trans('holdings.pending') }}}
 				  	</a>
@@ -72,12 +81,9 @@
 				  	<a href="#" id="filter-btn" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 				  		<span class="fa fa-filter"></span> {{{ trans('holdings.advanced_filter') }}} 
 				  	</a>
-				  	<a href="{{ route('holdings.index') }}" class="btn btn-default btn-sm" >
-				  		<span class="fa fa-times"></span> 
-				  	</a>
 				  </div>
 				  <div class="btn-group" >
-				  	<a href="{{ route('holdings.index', Input::except('view') ) }}" class="btn <?= (!Input::has('view')) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index', Input::except('view') ) }}" class="btn btn-default <?= (!Input::has('view')) ? 'active' : '' ?> btn-sm" >
 				  		<span class="fa fa-table"></span> 
 				  	</a>
 <!-- 				  	
@@ -87,10 +93,10 @@
 				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'grid'] ) }}" class="btn <?= (Input::get('view')=='grid') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="fa fa-th-large"></span> 
 				  	</a>
-	 -->			  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn <?= (Input::get('view')=='slide') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+	 -->			  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn btn-default <?= (Input::get('view')=='slide') ? 'active' : '' ?> btn-sm" >
 				  		<span class="fa fa-desktop"></span> 
 				  	</a>
-				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'print'] ) }}" target="_blank" class="btn <?= (Input::get('view')=='print') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'print'] ) }}" target="_blank" class="btn btn-default <?= (Input::get('view')=='print') ? 'active' : '' ?> btn-sm" >
 				  		<span class="fa fa-print"></span> 
 				  	</a>
 				  </div>

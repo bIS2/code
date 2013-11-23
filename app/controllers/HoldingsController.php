@@ -24,10 +24,14 @@ class HoldingsController extends BaseController {
     $this->data['hlists'] = Auth::user()->hlists;
     $this->data['hlist'] = (Input::has('hlist_id')) ? Hlist::find(Input::get('hlist_id')) : false;
 
+    $this->data['is_all'] = !(Input::has('corrects') || Input::has('tagged') || Input::has('pendings') || Input::has('unlist') || Input::has('owner') || Input::has('aux') );
+
 		if ( Input::has('corrects') ) 	$holdings = $holdings->corrects();
 		if ( Input::has('tagged') )			$holdings = $holdings->annotated(Input::get('tagged'));	
 		if ( Input::has('pendings') )		$holdings = $holdings->pendings();
 		if ( Input::has('unlist') )			$holdings = $holdings->orphans();
+		if ( Input::has('owner') )			$holdings = $holdings->owner();
+		if ( Input::has('aux') )				$holdings = $holdings->aux();
 
 		if ( Input::has('f852b') )  $holdings = $holdings->whereRaw( sprintf( Input::get('f852bformat'), 'LOWER(f852b)', strtolower( Input::get('f852b') ) ) );
 		if ( Input::has('f852h') ) 	$holdings = $holdings->whereRaw( sprintf( Input::get('f852hformat'), 'LOWER(f852h)', strtolower( Input::get('f852h') ) ) );

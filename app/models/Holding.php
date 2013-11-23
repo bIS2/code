@@ -67,6 +67,14 @@ class Holding extends Eloquent {
     });
   }
 
+  public function scopeOwner($query){
+    return $query->whereIsOwner('t');
+  }
+
+  public function scopeAux($query){
+    return $query->whereIsAux('t');
+  }
+
   public function scopeWorkers($query){
     return $query->whereNotIn('id', function($query){ 
       $query->select('holding_id')->from('hlist_holding'); 
