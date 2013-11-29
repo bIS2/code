@@ -139,3 +139,6 @@ Route::controller('user', 'UserController');
 
 
 
+
+
+Route::resource('deliveries', 'DeliveriesController');

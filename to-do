@@ -240,3 +240,14 @@ HOS:
 - HOS that has <less|equal|more> than nn HOL
 - HOS that has been marked correct: xxx? = 'y'
 - HOS that has been changed: been: update > xxx? AND user='USER|*'
+
+
+
+
+
+despues de la beta
+-------------------------
+
+1.admin crear los sysuser.
+2.sysuser crea el resto de los usuarios.
+3.proponer estadisticas.

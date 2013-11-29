@@ -11,6 +11,10 @@ return [
           return ($holding->is_correct || $holding->is_annotated );
         });
 
+        $authority->allow('manage', 'User', function($self, $user) {
+          return ($holding->is_correct || $holding->is_annotated );
+        });
+
         // Action aliases. For example:
         //
         // $authority->addAlias('moderate', ['read', 'update', 'delete']);
