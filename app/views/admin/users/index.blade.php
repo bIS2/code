@@ -12,10 +12,7 @@
 	</div>
 	<div>
 		<div class="">
-			<a href="{{{ URL::to('admin/users/create') }}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
-			<?= Form::open(['method'=>'get','class'=>'inline']) ?>
-				<input class="input-sm" placeholder="{{ Lang::get('general.search') }}" type="search" name="buscar" id="buscar" >
-			<?= Form::close() ?>
+			<a href="{{{ URL::to('admin/users/create') }}}" class="btn btn-sm btn-info "><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
 		</div>
 	</div>
 	<table id="users" class="table table-condensed table-hover">
@@ -39,8 +36,8 @@
 					<td><?= $user->activated() ?> </td>
 					<td><?= $user->joined() ?> </td>
 					<td>
-          	<a href="{{ URL::to('admin/users/edit/'.$user->id) }}" class=""><span class="fa fa-edit" ></span> {{trans('general.edit')}}</a>
-          	<a href="{{ URL::to('admin/users/delete/'.$user->id) }}" data-remote="true" data-method="delete" class=""><span class="fa fa-times"></span> {{trans('general.delete')}}</a>
+          	<a href="{{ URL::to('admin/users/edit/'.$user->id) }}" class="btn btn-success btn-xs"><span class="fa fa-edit" ></span> {{trans('general.edit')}}</a>
+          	<a href="{{ URL::to('admin/users/delete/'.$user->id) }}" data-remote="true" data-method="delete" class="btn btn-danger btn-xs"><span class="fa fa-times"></span> {{trans('general.delete')}}</a>
 					</td>
 				</tr>
 			<?php } ?>

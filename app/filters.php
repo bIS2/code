@@ -85,7 +85,7 @@ Route::filter('auth_like_librarian', function(){
 });
 Route::filter('auth_like_storeman', function(){
 
-    if ( !Entrust::hasRole('maguser') && !Entrust::hasRole('magvuser')) 
+    if ( !Entrust::hasRole('maguser') && !Entrust::hasRole('magvuser') && !Entrust::hasRole('postuser')) 
         return Redirect::to('/')->with('info',trans('messages.auth_like_storeman'));
 
 });
@@ -98,7 +98,7 @@ Route::filter('admin_roles', function(){
 
 Route::filter('admin_users', function(){
 
-    if ( !Entrust::hasRole('sysadmin') and !Entrust::hasRole('bibuser') ) 
+    if ( !Entrust::hasRole('sysadmin') and !Entrust::hasRole('superuser') ) 
         return Redirect::to('/')->with('info',trans('messages.auth_like_admin'));
 
 });

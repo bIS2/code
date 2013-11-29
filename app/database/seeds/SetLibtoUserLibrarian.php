@@ -8,7 +8,7 @@ class SetLibtoUserLibrarian extends Seeder {
         $librarian = User::where('username','=','librarian')->first();
         $library = Library::where('code','=','AGKB')->first();
         $librarian->library_id = $library->id;
-        print $librarian->id;
+        
         $librarian->save(); 
     }
 }

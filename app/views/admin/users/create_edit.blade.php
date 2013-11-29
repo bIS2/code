@@ -4,7 +4,7 @@
 @section('content')
 
 	<div class="page-header">
-		<h3>{{{ $title }}} </h3>
+		<h3>{{{ trans('admin/users/title.create_a_new_user')}}} </h3>
 	</div>
 	{{-- Create User Form --}}
 	<form class="form-horizontal col-md-8" method="post" action="@if ($user->exists){{ URL::to('admin/users/' . $user->id . '/edit') }}@endif" autocomplete="off">
@@ -75,53 +75,45 @@
 				<!-- Activation Status -->
 				<div class="form-group {{{ $errors->has('activated') || $errors->has('confirm') ? 'error' : '' }}}">
 					<label class="col-md-2 control-label" for="confirm">Activate User?</label>
-					<div class="col-md-6">
-						<label class="radio-inline">
-							<input class="form-control" type="radio" name="confirm" id="confirm" value="1"  />
+					<div class="checkbox col-md-6">
+						<label >
+							<input type="radio" name="confirm" id="confirm" value="1"  {{ ($user->activated()) ? 'checked="checked"' : '' }} />
 							{{{ Lang::get('general.yes') }}}
 						</label>
-						<label class="radio-inline">
-							<input class="form-control" type="radio" name="confirm" id="confirm" value="0"  checked />
+						<label >
+							<input type="radio" name="confirm" id="confirm" value="0"  {{ (!$user->activated()) ? 'checked="checked"' : '' }} />
 							{{{ Lang::get('general.no') }}}	
 						</label>
 					</div>
 				</div>
 				<!-- ./ activation status -->
 
-				@if (Auth::user()->hasRole('speiuser')) 
 					<!-- library_id -->
 					<div class="form-group {{{ $errors->has('library_id') ? 'error' : '' }}}">
 	          <label class="col-md-2 control-label" for="library_id">Library</label>
 	          <div class="col-md-6">
 	            <select class="form-control" name="library_id" id="library_id" >
-	              @foreach (Library::all() as $library)
-	              	<?php $selected = ($library->id = $user->library_id) ? 'selected="selected"' : '' ?>
-	            		<option value="{{{ $library->id }}}" <?= $selected  ?>>{{ $library->name }}</option>
+	              @foreach ($libraries as $library)
+	            		<option value="<?= $library->id  ?>" >{{ $library->name }}</option>
 	              @endforeach
 							</select>
 	      		</div>
 					</div>
-					<!-- ./ library_id -->
-				@endif
 
 				<!-- Groups -->
 				<div class="form-group {{{ $errors->has('roles') ? 'error' : '' }}}">
-	                <label class="col-md-2 control-label" for="roles">Role</label>
-	                <div class="col-md-3">
-		                <select class="form-control" name="roles[]" id="roles[]" >
-		                        @foreach ($roles as $role)
-									@if ($mode == 'create')
-		                        		<option value="{{{ $role->id }}}"{{{ ( in_array($role->id, $selectedRoles) ? ' selected="selected"' : '') }}}>{{{ $role->name }}}</option>
-		                        	@else
-										<option value="{{{ $role->id }}}"{{{ ( array_search($role->id, $user->currentRoleIds()) !== false && array_search($role->id, $user->currentRoleIds()) >= 0 ? ' selected="selected"' : '') }}}>{{{ $role->name }}}</option>
-									@endif
-		                        @endforeach
-						</select>
+            <label class="col-md-2 control-label" for="roles">Role</label>
+            <div class="col-md-3">
+	            <select class="form-control" name="roles[]" id="roles[]" >
+	              @foreach ($roles as $role)
+									<option value="{{{ $role->id }}}">{{{ $role->name }}}</option>
+	              @endforeach
+							</select>
 
-						<span class="help-block">
-							<!-- Select a group to assign to the user, remember that a user takes on the permissions of the group they are assigned. -->
-						</span>
-	            	</div>
+							<span class="help-block">
+								<!-- Select a group to assign to the user, remember that a user takes on the permissions of the group they are assigned. -->
+							</span>
+	          </div>
 				</div>
 				<!-- ./ groups -->
 

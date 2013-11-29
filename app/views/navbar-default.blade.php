@@ -8,12 +8,12 @@
 			</li>
 
 			<!-- admin menu ROLE::SYSADMIN-->
-			@if (Auth::user()->hasRole('sysadmin'))
+			@if (Auth::user()->hasRole('sysadmin') || Auth::user()->hasRole('superuser') )
 				@include( 'layouts.items-menu-admin' )
 			@endif
 			
 			<!-- admin storeman -->
-			@if (Auth::user()->hasRole('maguser')) 
+			@if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') || Auth::user()->hasRole('postuser')) 
 				@include( 'layouts.items-menu-storeman' )
 			@endif	
 
