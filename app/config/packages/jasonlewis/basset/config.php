@@ -46,6 +46,7 @@ return array(
                 // $collection->add('bootstrap-responsive.min.css');  
                 $collection->add('flexigrid.pack.css');              
                 $collection->add('datatables-bootstrap.css');
+                $collection->add('bootstrap-editable.css');
                 $collection->add('less/master.less')->apply('Less');
             })->apply('UriRewriteFilter')->apply('CssMin');
 
@@ -70,6 +71,7 @@ return array(
                 $collection->add('prettify.js');
                 $collection->add('flexigrid.js');
                 $collection->add('laravel-ujs.js');
+                $collection->add('bootstrap-editable.min.js');
                 $collection->add('tools.js');
 
                // $collection->requireDirectory('../../../vendor/twbs/bootstrap/js');

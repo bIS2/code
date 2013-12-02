@@ -46,7 +46,7 @@
 
 
 				</td>
-				<td>{{ $holding->size }} </td>
+				<td><a href="#" class="editable" data-type="text" data-pk="{{$holding->id}}" data-url="{{ route('holdings.update',[$holding->id]) }}" >{{ $holding->size }} </a></td>
 				<td>{{ $holding->f852b }} </td>
 				<td><?= $holding->f852h; ?></td>
 				<td><?= $holding->f866a; ?></td>

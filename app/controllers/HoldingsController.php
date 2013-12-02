@@ -102,7 +102,9 @@ class HoldingsController extends BaseController {
 	 */
 	public function update($id)
 	{
-		extract($_POST[]);
+		$holding = Holding::find($id);
+		$holding->size=Input::get('value');
+		$holding->save();
 	}
 
 	/**
