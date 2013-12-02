@@ -18,6 +18,7 @@
 			<tr> 
 				<th><input id="select-all" name="select-all" type="checkbox" value="1"></th>
 				<th>{{ trans('general.actions') }}</th>
+				<th>{{ trans('general.size') }}</th>
 				<th>852b <span class="fa fa-info-circle"></span></th>
 				<th>852h <span class="fa fa-info-circle"></span></th>
 				<th>866a <span class="fa fa-info-circle"></span></th>
@@ -45,6 +46,7 @@
 
 
 				</td>
+				<td>{{ $holding->size }} </td>
 				<td>{{ $holding->f852b }} </td>
 				<td><?= $holding->f852h; ?></td>
 				<td><?= $holding->f866a; ?></td>

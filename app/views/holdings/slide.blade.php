@@ -53,6 +53,16 @@
 
 								</div> <!-- /.col-xs-8 -->
 								<div class="col-xs-5">
+
+									<div class="row">
+									  <a href="{{ route('oks.store') }}" class="btn btn-success btn-ok col-sm-12" data-method="post" data-remote="true" data-params="holding_id={{$holding->id}}" data-disable-with="{{trans('general.sending')}}">
+									  	<span class="fa fa-thumbs-up"></span> {{trans('general.confirm')}}
+									  </a>
+									</div>
+									<div class="row">
+										<div class="col-sm-12 text-center">{{ trans('general.or') }}</div>
+									</div>
+									<div class="row">
 										<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note'>
 									@foreach ( Tag::all() as $tag)
 
@@ -73,13 +83,13 @@
 
 									@endforeach
 									<div class="">
-									  <a href="{{ route('oks.store') }}" class="btn btn-success btn-ok" data-method="post" data-remote="true" data-params="holding_id={{$holding->id}}" data-disable-with="{{trans('general.sending')}}">
-									  	<span class="fa fa-thumbs-up"></span> {{trans('general.confirm')}}
-									  </a>
-									  <button href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" type="submit" class="btn btn-danger btn-tag" data-disable-with="{{trans('general.sending')}}">
+									  <button href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" type="submit" class="btn btn-danger btn-tag col-sm-12" data-disable-with="{{trans('general.sending')}}">
 									  	<span class="fa fa-tags"></span> {{trans('general.annotated')}}
 									  </button>
 									</div>
+
+									</div>
+
 
 								</div> <!-- /.col-xs-4 -->
 

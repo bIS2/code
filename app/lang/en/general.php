@@ -36,4 +36,7 @@ return array(
 	'annotated'         => 'Annotated',
 	'lang_en'           => 'English',
 	'lang_de'           => 'German',
+	'size'           => 'Size',
+	'or'           => '----------- or -----------',
+
 );
