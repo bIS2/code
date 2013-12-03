@@ -82,7 +82,7 @@
 
 						      	<a id="holding<?= $holding -> id; ?>delete" href="{{ action('HoldingssetsController@putNewHOS',[$holding->id]) }}" data-params="" data-remote="true" data-method="put" data-disable-with="..." title="{{ trans('holdingssets.remove_from_HOS') }}"><span class="glyphicon glyphicon-trash"></span></a>
 
-										<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.move_to_other_group') }}"><span class="glyphicon glyphicon-move"></span></a>
+										<a id="holding<?= $holding -> id; ?>delete" href="{{ action('HoldingssetsController@putForceOwner',[$holding->id]) }}" data-params="" data-remote="true" data-method="put" data-disable-with="..." title="{{ trans('holdingssets.force_owner') }}"><span class="fa fa-magnet"></span></a>
 						      @endif 
 									</td>
 									<?php $k = 0;

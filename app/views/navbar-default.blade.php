@@ -8,12 +8,12 @@
 			</li>
 
 			<!-- admin menu ROLE::SYSADMIN-->
-			@if (Auth::user()->hasRole('sysadmin'))
+			@if (Auth::user()->hasRole('sysadmin') || Auth::user()->hasRole('superuser') )
 				@include( 'layouts.items-menu-admin' )
 			@endif
 			
 			<!-- admin storeman -->
-			@if (Auth::user()->hasRole('maguser')) 
+			@if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') || Auth::user()->hasRole('postuser')) 
 				@include( 'layouts.items-menu-storeman' )
 			@endif	
 
@@ -30,9 +30,11 @@
 					<a data-toggle="dropdown" href="{{{ URL::to('user') }}}"><span class="fa fa-user"></span> {{{ Auth::user()->username }}}</a>
 	       </li>
 	      <?php if (Session::get('locale') == 'de') { ?>
+
 	      	<li><a href="{{{ URL::to('?lang=en') }}}"></span>{{{ trans('general.lang_en') }}}</a></li>
 	      <?php } else { ?>
 	      	<li><a href="{{{ URL::to('?lang=de') }}}"></span>{{{ trans('general.lang_de') }}}</a></li>
+
 	      <?php } ?>
 	      <li><a href="{{{ URL::to('user/logout') }}}"><span class="fa fa-sign-out"></span>{{{ trans('general.logout') }}}</a></li>
 			@else

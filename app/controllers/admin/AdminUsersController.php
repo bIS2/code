@@ -22,6 +22,12 @@ class AdminUsersController extends AdminController {
     protected $permission;
 
     /**
+     * Permission Model
+     * @var Permission
+     */
+    protected $data;
+
+    /**
      * Inject the models.
      * @param User $user
      * @param Role $role
@@ -34,6 +40,9 @@ class AdminUsersController extends AdminController {
         $this->user = $user;
         $this->role = $role;
         $this->permission = $permission;
+
+        $this->data['roles'] = (Auth::user()->hasRole('sysadmin')) ? $this->role->whereName('superuser')->get() : $this->role->where('name','<>','sysadmin')->get();
+        $this->data['libraries'] = (Auth::user()->hasRole('superuser')) ? Library::whereId( Auth::user()->library_id )->get() : Library::all();
 
 
     }
@@ -51,7 +60,7 @@ class AdminUsersController extends AdminController {
         // Show all users for de admin or only the user by library for de librarian
         if ( $this->current_user->hasRole('sysadmin') )
 			    $users = User::with('library');
-			  elseif ( $this->current_user->hasRole('bibuser') )
+			  elseif ( $this->current_user->hasRole('superuser') )
 			    $users = User::with('library')->where( 'library_id','=', $this->current_user->library_id );
 
         // Show the page
@@ -74,28 +83,14 @@ class AdminUsersController extends AdminController {
      */
     public function getCreate() {
 
-    	$user = new User();
+        $user = new User();
 
-      // All roles
-      $roles = $this->role->all();
+        $this->data['user'] = $user;
 
-      // Get all the available permissions
-      $permissions = $this->permission->all();
+        $selectedRoles = Input::old('roles', array());
 
-      // Selected groups
-      $selectedRoles = Input::old('roles', array());
-
-      // Selected permissions
-      $selectedPermissions = Input::old('permissions', array());
-
-			// Title
-			$title = Lang::get('admin/users/title.create_a_new_user');
-
-			// Mode
-			$mode = 'create';
-
-			// Show the page
-			return View::make('admin/users/create_edit', compact( 'user', 'roles', 'permissions', 'selectedRoles', 'selectedPermissions', 'title', 'mode'));
+		// Show the page
+		return View::make('admin/users/create_edit', $this->data );
     }
 
     /**
@@ -106,16 +101,15 @@ class AdminUsersController extends AdminController {
     public function postCreate()
     {
         $this->user->username 	= Input::get( 'username' );
-        $this->user->email 			= Input::get( 'email' );
+        $this->user->email 		= Input::get( 'email' );
         $this->user->password 	= Input::get( 'password' );
-    		$this->user->library_id = $this->current_user->library_id;
+        $this->user->library_id = Input::get( 'library_id' );
 
         // The password confirmation will be removed from model
         // before saving. This field will be used in Ardent's
         // auto validation.
         $this->user->password_confirmation = Input::get( 'password_confirmation' );
         $this->user->confirmed = Input::get( 'confirm' );
-        $this->user->library_id = Input::get( 'library_id' );
 
         // Permissions are currently tied to roles. Can't do this yet.
         //$user->permissions = $user->roles()->preparePermissionsForSave(Input::get( 'permissions' ));
@@ -162,6 +156,8 @@ class AdminUsersController extends AdminController {
     public function getEdit($id)  {
 
     	$user = User::find($id);
+        $this->data['user'] = $user;
+        
         if ( $user->id )
         {
             $roles = $this->role->all();
@@ -172,7 +168,7 @@ class AdminUsersController extends AdminController {
         	// mode
         	$mode = 'edit';
 
-        	return View::make('admin/users/create_edit', compact('user', 'roles', 'permissions', 'title', 'mode'));
+        	return View::make('admin/users/create_edit', $this->data );
         }
         else
         {

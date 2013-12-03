@@ -1,7 +1,6 @@
 	<?php
 
 return array(
-
 	'yes' 							=> 'Yes',
 	'no'  							=> 'No',
 	'edit'  						=> 'Edit',
@@ -38,4 +37,6 @@ return array(
 	'lang_de'           => 'German',
 	'show_hide_fields'	=> 'Select fields to show in Holdings',
 	'select_fields_to_search'	=> 'Select fields to filter to',
+	'size'           		=> 'Size',
+	'or'           			=> 'or',
 );

@@ -19,7 +19,7 @@ class HoldingsController extends BaseController {
 	 */
 	public function Index()
 	{
-		$holdings = ( Input::has('hlist_id') ) ?	Hlist::find( Input::get('hlist_id') )->holdings() : Holding::verified(); ;
+		$holdings = ( Input::has('hlist_id') ) ?	Hlist::find( Input::get('hlist_id') )->holdings() : Holding::verified();
 
     $this->data['hlists'] = Auth::user()->hlists;
     $this->data['hlist'] = (Input::has('hlist_id')) ? Hlist::find(Input::get('hlist_id')) : false;
@@ -102,7 +102,9 @@ class HoldingsController extends BaseController {
 	 */
 	public function update($id)
 	{
-		extract($_POST[]);
+		$holding = Holding::find($id);
+		$holding->size=Input::get('value');
+		$holding->save();
 	}
 
 	/**

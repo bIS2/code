@@ -1,5 +1,9 @@
 $(function(){
 
+  $.fn.editable.defaults.mode = 'popup';
+  $.fn.editable.defaults.ajaxOptions = {type: "PUT"};
+  $('.editable').editable();
+
 	$('.datatable').dataTable({
     "bFilter": false,
     "bPaginate": false,
@@ -81,14 +85,15 @@ $(function(){
   	$.each(a,function(key, value){
   		content += '<span class="label label-info">'+value+'</span> '+key+'</br>'
   	})
-
-  	$(this).find("span.fa").popover({
-  		trigger: 		'hover',
-  		placement: 	'bottom',
-  		html: 			true,
-  		content: 		content
-
-  	})
+  	// alert(a.length)
+    //if (a.length>0){
+      	$(this).find("span.fa").popover({
+      		trigger: 		'hover',
+      		placement: 	'bottom',
+      		html: 			true,
+      		content: 		content
+      	})
+    //}
   })
 
 getAsuccess()

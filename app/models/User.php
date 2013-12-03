@@ -40,7 +40,7 @@ class User extends ConfideUser implements PresentableInterface {
 
 
     public function scopeWorkers($query){
-        //return $query->orderBy('username')->whereRaw('roles.name', 'maguser');
+        return $query->orderBy('username')->roles()->where('roles.name', 'maguser');
     }
 
     public function getPresenter()

@@ -224,7 +224,6 @@ class HoldingssetsController extends BaseController {
 
 
 	public function putNewHOS($id) {
-
 		$holding 	= Holding::find($id);
 
 		$lastId = Holdingsset::orderBy('id', 'DESC')->take(1)->get();
@@ -250,6 +249,9 @@ class HoldingssetsController extends BaseController {
 		$newHos ->	save();
 		$holding = Holding::find($id)->update(['holdingsset_id'=>$newHos -> id]);
 		return Response::json( ['newhosok' => [$id]] );
+	}	
+
+	public function putForceOwner($id) {
 	}	
 
 
