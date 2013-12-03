@@ -1,31 +1,10 @@
-	<?php 
-
-	function truncate($str, $length, $trailing = '...') {
-	    // take off chars for the trailing
-	    $length-=strlen($trailing);
-	    if (strlen($str) > $length) {
-	        // string exceeded length, truncate and add trailing dots
-	        $res = substr($str, 0, $length);
-	        $res .= $trailing;
-	    } else {
-	        // string was already short enough, return the string
-	        $res = $str;
-	    }
-	    return $res;
-	}
-
-	function the_truncate($str, $length, $trailing) {
-	    echo truncate($str, $length, $trailing);
-	}
-
-?>
 @foreach ($holdingssets as $holdingsset)
 		<?php $ok 	= ($holdingsset->ok) ? 'ok' : ''  ?>
 		<?php $btn 	= ($holdingsset->ok) ? 'btn-success' : 'btn-default'  ?>
 		<!-- <li class="panel list-group-item {{ $ok }}" id="<?= $holdingsset -> id; ?>"> -->
 		<li id="<?= $holdingsset -> id; ?>">
 			  <div class="panel-heading row">
-		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>" class="pull-left hl">
+		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>" class="pull-left hl sel">
 		      <div href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" title="<?= $holdingsset->f245a; ?>" data-toggle="collapse" class="accordion-toggle collapsed col-xs-10" opened="0">
 		      	<?= $holdingsset->sys1.' :: '.htmlspecialchars(truncate($holdingsset->f245a, 100),ENT_QUOTES); ?>
 		      	@if ($holdingsset->has('holdings') && $count1 = $holdingsset -> holdings -> count()) 
@@ -100,14 +79,16 @@
 										@else
 										<a href="<?= route('holdings.show', $holding->id) ?>" data-target="#modal-show" data-toggle="modal"><span class="glyphicon glyphicon-eye-open" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
 										<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.see_information_from_original_system') }}"><span class="glyphicon glyphicon-list-alt"></span></a>
-						      	<a id="holding<?= $holding -> id; ?>delete" href="{{ action('HoldingssetsController@putNewHOS',[$holding->id]) }}" data-params="trashed=true" data-remote="true" data-method="put" data-disable-with="..." title="{{ trans('holdingssets.remove_from_HOS') }}"><span class="glyphicon glyphicon-trash"></span></a>
+
+						      	<a id="holding<?= $holding -> id; ?>delete" href="{{ action('HoldingssetsController@putNewHOS',[$holding->id]) }}" data-params="" data-remote="true" data-method="put" data-disable-with="..." title="{{ trans('holdingssets.remove_from_HOS') }}"><span class="glyphicon glyphicon-trash"></span></a>
+
 										<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.move_to_other_group') }}"><span class="glyphicon glyphicon-move"></span></a>
 						      @endif 
 									</td>
 									<?php $k = 0;
 										foreach ($fieldstoshow as $field) {
 											if ($field != 'ocrr_ptrn') { $k++;
-												$field = 'f'.$field;
+												if ($field != 'sys2') $field = 'f'.$field;
 											 ?>											
 												<td><?= htmlspecialchars($holding->$field); ?></td>
 												<?php if ($k == 1) { ?>

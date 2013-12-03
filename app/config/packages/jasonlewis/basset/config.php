@@ -58,6 +58,8 @@ return array(
                 $collection->add('ui/jquery.ui.widget.js');
                 $collection->add('ui/jquery.ui.mouse.js');
                 $collection->add('ui/jquery.ui.selectable.js');
+                $collection->add('ui/jquery.ui.sortable.js');
+                $collection->add('ui/jquery.ui.droppable.js');
                 $collection->add('bootstrap/bootstrap.js');
                 // $collection->requireDirectory('../../../vendor/twbs/bootstrap/js');
                 $collection->add('wysihtml5/wysihtml5-0.3.0.js');

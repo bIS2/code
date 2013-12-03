@@ -1,4 +1,4 @@
-<div class="page-header">
+<div class="page-header container clearfix">
 	<div id="main-filters" class="row">
 		<div class="col-xs-12">
 			<ul class="list-inline">
@@ -32,15 +32,16 @@
 									<ul class="dropdown-menu" role="menu">
 										@foreach (Auth::user()->groups as $group) 
 										<li>
-											<a href="{{ route('sets.index',['group_id'=>$group->id]) }}"> {{ $group->name }} <span class="badge">{{ $group->holdingssets -> count() }} </span></a>
+											<a href="{{ route('sets.index',['group_id'=>$group->id]) }}"> {{ $group->name }} <span class="badge"><span class="fa fa-file-text"></span> {{ $group->holdingssets -> count() }} </span></a>
 										</li>
 										@endforeach
 									</ul>
 								<?php endif; ?>
 							@endif
 					  </div>
-			  		<a href="#" class="btn btn-default btn-sm disabled link_bulk_action" data-toggle="modal" data-target="#form-create-list" >
-			  			<span class="fa fa-plus-circle"></span>
+			  		<a href="#form-create-group" data-toggle="modal" class='btn btn-sm btn-default link_bulk_action disabled' style="padding: 0 5px;">
+			  			<i class="fa fa-folder-o" style="padding: 0px; line-height: 1em; font-size: 27px;"></i>
+	  					<span class="fa fa-plus-circle" style="position: absolute; left: 11px; font-size: 13px; top: 9px;"></span>
 			  		</a>
 				  </div>
 			  </li>
@@ -68,6 +69,7 @@
 				  	<a id="filter_pending" href="{{ route('sets.index', Input::except('state') + ['state'=>'pending']) }}" class="btn <?= (Input::get('state') == 'pending') ? 'btn-primary' : 'btn-default' ?> btn-sm">
 				  		<span class="glyphicon glyphicon-warning-sign"></span> {{{ trans('holdingssets.pending') }}}
 				  	</a>
+				  	<span class="btn btn-sm">|</span>
 				  	<a href="#collapseOne" id="filter-btn" class="accordion-toggle <?= ($is_filter) ? 'btn-primary' : 'collapsed' ?> btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm dropdown-toggle" data-toggle="collapse" data-parent="#accordion2">
 			        <span class="fa fa-question-circle"></span> {{{ trans('holdingssets.advanced_filter') }}} <span class="caret"></span>
 			      </a>
@@ -83,87 +85,75 @@
 		<div class="col-xs-12">
 			<div class="accordion" id="filterContainer">
 			  <div class="text-right accordion-group">
-			    <div id="collapseOne" class="accordion-body <?= ($is_filter) ? '' : 'collapse' ?> text-left">
-						<div class="row text-center">
+			    <div id="collapseOne" class="accordion-body <?= ($is_filter) ? 'in' : 'collapse' ?> text-left">
+						<div class="row">
 							<div class="col-xs-12">
-								<form class="form-inline" role="form" method="get">
-									<?= ($group_id > 0) ? '<input type="hidden" name="group_id" value="'.$group_id.'">': '' ?>
-									<?= (Input::has('state')) ? '<input type="hidden" name="state" value="'.Input::get('state').'">': '' ?>							
-									<div class="form-group col-xs-2">
-										<div class="input-group inline input-group-sm">
-										  <label class="input-group-addon">852b</label>
-							     			<select id="f245bFilter" name="f852bformat" class="form-control">
-									     		<option value="%s LIKE '%%%s%%'" >{{ trans('general.contains') }}</option>
-									     		<option value="%s NOT LIKE '%%%s%%'">{{ trans('general.no_contains') }}</option>
-									     		<option value="%s LIKE '%s%%'">{{ trans('general.begin_with') }}</option>
-									     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
-									     	</select>
-											  <input type="text" name="f852b" value="<?= Input::get('f852b')  ?>" class="form-control">
-										</div>
+									<div class="col-xs-12 text-center">
+										<h3 class="text-primary"><span class="fa fa-check"></span> {{ trans('general.select_fields_to_search') }}	</h3>		
+										<div id="currentfiltersoption" class="btn-group" data-toggle="buttons">
+											<?php
+											$allsearchablefields = ALL_SEARCHEABLESFIELDS;
+											$allsearchablefields = explode(';', $allsearchablefields);
+											foreach ($allsearchablefields as $field) {
+												$checked 				= '';
+												$checkactive 		= '';
+												$value = Input::get('f'.$field);
+												if ($value != '') {
+													$checked 			= "checked = checked";
+													$checkactive 	= " active";
+												}
+												?>
+												<label class="btn btn-primary{{ $checkactive }}" href="#ff<?= $field; ?>" >
+													<input type="checkbox" <?= $checked; ?> value="<?= $field; ?>"><?= $field; ?>
+												</label>
+											<?php	}	?>
+										</div>		
+									</div>		
+								<form id="advanced-search-form" class="form-inline" role="form" method="get" class="text-center">
+									<div id="currentfilters" class="row clearfix text-center">
+										<?= ($group_id > 0) ? '<input type="hidden" name="group_id" value="'.$group_id.'">': '' ?>
+										<?= (Input::has('state')) ? '<input type="hidden" name="state" value="'.Input::get('state').'">': '' ?>
+										<?php foreach ($allsearchablefields as $field) { 
+											$value = Input::get('f'.$field);
+											if ($value != '') { ?>
+												<div id="ff<?= $field; ?>" class="form-group col-xs-2">
+													<div class="input-group inline input-group-sm">
+													  <label class="input-group-addon"><?= $field; ?></label>
+										     			<select id="f<?= $field; ?>Filter" name="f<?= $field; ?>format" class="form-control">
+												     		<option value="%s LIKE '%%%s%%'" <?php if (Input::get('f'.$field.'format') == "%s LIKE '%%%s%%'") echo 'selected'; ?>>{{ trans('general.contains') }}</option>
+												     		<option value="%s NOT LIKE '%%%s%%'" <?php if (Input::get('f'.$field.'format') == "%s NOT LIKE '%%%s%%'") echo 'selected'; ?>>{{ trans('general.no_contains') }}</option>
+												     		<option value="%s LIKE '%s%%'" <?php if (Input::get('f'.$field.'format') == "%s LIKE '%s%%'") echo 'selected'; ?>>{{ trans('general.begin_with') }}</option>
+												     		<option value="%s LIKE '%%%s'" <?php if (Input::get('f'.$field.'format') == "%s LIKE '%%%s'") echo 'selected'; ?>>{{ trans('general.end_with') }}</option>
+												     	</select>
+													  <input type="text" class="form-control" name="f<?= $field; ?>" value="<?= Input::get('f'.$field) ?>">
+													</div>
+												</div>
+											<?php }
+										} ?>
 									</div>
-									<div class="form-group col-xs-2">
-										<div class="input-group inline input-group-sm">
-										  <label class="input-group-addon">852h</label>
-							     			<select id="f245bFilter" name="f852hformat" class="form-control">
-									     		<option value="%s LIKE '%%%s%%'" selected>{{ trans('general.contains') }}</option>
-									     		<option value="%s NOT LIKE '%%%s%%'">{{ trans('general.no_contains') }}</option>
-									     		<option value="%s LIKE '%s%%'">{{ trans('general.begin_with') }}</option>
-									     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
-									     	</select>
-										  <input type="text" class="form-control" name="f852h" value="<?= Input::get('f852h')  ?>">
-										</div>
+									<div id="searchsubmit" class="col-xs-12 text-center clearfix">
+										<button style="margin: 20px 0;" type="submit" class="btn btn-default btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> {{ trans('general.search') }}</button>
 									</div>
-									<div class="form-group col-xs-2">
-										<div class="input-group inline input-group-sm">
-										  <label class="input-group-addon">245a</label>
-							     			<select id="f245bFilter" name="f245aformat" class="form-control">
-									     		<option value="%s LIKE '%%%s%%'" selected>{{ trans('general.contains') }}</option>
-									     		<option value="%s NOT LIKE '%%%s%%'">{{ trans('general.no_contains') }}</option>
-									     		<option value="%s LIKE '%s%%'">{{ trans('general.begin_with') }}</option>
-									     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
-									     	</select>
-										  <input type="text" class="form-control" name="f245a" value="<?= Input::get('f245a')  ?>">
-										</div>
-									</div>
-									<div class="form-group col-xs-2">
-										<div class="input-group inline input-group-sm">
-										  <label class="input-group-addon">362a</label>
-							     			<select id="f245bFilter" name="f362aformat" class="form-control">
-									     		<option value="%s LIKE '%%%s%%'" selected>{{ trans('general.contains') }}</option>
-									     		<option value="%s NOT LIKE '%%%s%%'">{{ trans('general.no_contains') }}</option>
-									     		<option value="%s LIKE '%s%%'">{{ trans('general.begin_with') }}</option>
-									     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
-									     	</select>
-										  <input type="text" class="form-control" name="f362a"  value="<?= Input::get('f362a')  ?>">
-										</div>
-									</div>
-									<div class="form-group col-xs-2">
-										<div class="input-group inline input-group-sm">
-										  <label class="input-group-addon">866a</label>
-							     			<select id="f245bFilter" name="f866aformat" class="form-control">
-									     		<option value="%s LIKE '%%%s%%'" selected>{{ trans('general.contains') }}</option>
-									     		<option value="%s NOT LIKE '%%%s%%'">{{ trans('general.no_contains') }}</option>
-									     		<option value="%s LIKE '%s%%'">{{ trans('general.begin_with') }}</option>
-									     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
-									     	</select>
-										  <input type="text" class="form-control" name="f866a" value="<?= Input::get('f866a')  ?>">
-										</div>
-									</div>
-									<div class="form-group col-xs-2">
-										<div class="input-group inline input-group-sm">
-										  <label class="input-group-addon">866z</label>
-							     			<select id="f245bFilter" name="f866zformat" class="form-control">
-									     		<option value="%s LIKE '%%%s%%'" selected>{{ trans('general.contains') }}</option>
-									     		<option value="%s NOT LIKE '%%%s%%'">{{ trans('general.no_contains') }}</option>
-									     		<option value="%s LIKE '%s%%'">{{ trans('general.begin_with') }}</option>
-									     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
-									     	</select>
-										  <input type="text" class="form-control" name="f866z" value="<?= Input::get('f866z')  ?>">
-										</div>
-									</div>
-								<!-- OWNERS FILTERS -->
-									<button style="margin: 20px 0;" type="submit" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span>{{ trans('general.search') }}</button>
 								</form>
+								<div id="fieldstosearchhidden" style="display: none;">
+									<?php foreach ($allsearchablefields as $field) { 
+										$value = Input::get('f'.$field);
+										if (($value == null) || ($value == '')) { ?>
+											<div id="ff<?= $field; ?>" class="form-group col-xs-2">
+												<div class="input-group inline input-group-sm">
+												  <label class="input-group-addon"><?= $field; ?></label>
+									     			<select id="f<?= $field; ?>Filter" name="f<?= $field; ?>format" class="form-control">
+											     		<option value="%s LIKE '%%%s%%'" selected>{{ trans('general.contains') }}</option>
+											     		<option value="%s NOT LIKE '%%%s%%'">{{ trans('general.no_contains') }}</option>
+											     		<option value="%s LIKE '%s%%'">{{ trans('general.begin_with') }}</option>
+											     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
+											     	</select>
+												  <input type="text" class="form-control" name="f<?= $field; ?>" value="<?= Input::get('f'.$field)  ?>">
+												</div>
+											</div>
+										<?php }
+									} ?>
+								</div>
 							</div> <!-- /.col -->	
 						</div> <!-- /.row -->	
 			    </div>

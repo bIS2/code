@@ -15,9 +15,42 @@ class HoldingssetsController extends BaseController {
 	 */
 	public function Index()
 	{
+		/* SEARCH ADVANCED FIELDS OPTIONS
+		----------------------------------------------------------------*/
+		define('ALL_SEARCHEABLESFIELDS', '022a;245a;245b;008x;245c;310a;362a;710a;780t;785t;852b;852h;008y');
+
 		// Is Filter
-		$this->data['is_filter'] = Input::has('owner') || Input::has('aux') ||  Input::has('f852b') || Input::has('f852h') || Input::has('f245a') || Input::has('f362a') || Input::has('f866a') || Input::has('f866z');
+		$allsearchablefields = ALL_SEARCHEABLESFIELDS;
+		$allsearchablefields = explode(';', $allsearchablefields);
+		$is_filter = false;
+		foreach ($allsearchablefields as $field) {
+			$value = Input::get('f'.$field);
+			if ($value != '') {
+				$is_filter = true;
+			}
+		}
+		$this->data['is_filter'] = $is_filter;
 		
+		/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
+		-----------------------------------------------------------*/
+		define('DEFAULTS_FIELDS', '245a;245b;008x;ocrr_ptrn;sys2;260a;260b;710a;310a');
+		define('ALL_FIELDS', '022a;245a;245b;008x;ocrr_ptrn;sys2;245c;310a;362a;710a;780t;785t;852b;852h;008y');
+
+		if (!isset($_COOKIE[Auth::user()->username.'_fields_to_show'])) {
+			if (Session::get(Auth::user()->username.'_fields_to_show') == 'ocrr_ptrn;sys2') {
+			  setcookie(Auth::user()->username.'_fields_to_show', DEFAULTS_FIELDS, time() + (86400 * 30));
+			  Session::put(Auth::user()->username.'_fields_to_show', DEFAULTS_FIELDS);
+			}
+			else {
+				setcookie(Auth::user()->username.'_fields_to_show', Session::get(Auth::user()->username.'_fields_to_show'), time() + (86400 * 30));
+			}
+		}
+
+		if ((Session::get(Auth::user()->username.'_fields_to_show') == 'ocrr_ptrn;sys2') || (Session::get(Auth::user()->username.'_fields_to_show') == '')) {
+		  setcookie(Auth::user()->username.'_fields_to_show', DEFAULTS_FIELDS, time() + (86400 * 30));
+		  Session::put(Auth::user()->username.'_fields_to_show', DEFAULTS_FIELDS);
+		}
+
 		// Groups
 		$this->data['groups'] = Auth::user()->groups;
 		$group_id = Input::get('group_id');
@@ -55,23 +88,21 @@ class HoldingssetsController extends BaseController {
 
 			$holdings= DB::table('holdings');
 			$openfilter = 0;
-			if ( Input::has('f852b') )  { $holdings = $holdings->whereRaw( sprintf( Input::get('f852bformat'), 'LOWER(f852b)', strtolower( Input::get('f852b') ) ) );  $openfilter++; }
-			if ( Input::has('f852h') ) 	{ $holdings = $holdings->whereRaw( sprintf( Input::get('f852hformat'), 'LOWER(f852h)', strtolower( Input::get('f852h') ) ) ); $openfilter++; }
-			if ( Input::has('f245a') )  { $holdings = $holdings->whereRaw( sprintf( Input::get('f245aformat'), 'LOWER(f245a)', strtolower( Input::get('f245a') ) ) ); $openfilter++; }
-			if ( Input::has('f362a') ) 	{ $holdings = $holdings->whereRaw( sprintf( Input::get('f362aformat'), 'LOWER(f362a)', strtolower( Input::get('f362a') ) ) ); $openfilter++; }
-			if ( Input::has('f866a') ) 	{ $holdings = $holdings->whereRaw( sprintf( Input::get('f866aformat'), 'LOWER(f866a)', strtolower( Input::get('f866a') ) ) ); $openfilter++; }
-			if ( Input::has('f866z') ) 	{ $holdings = $holdings->whereRaw( sprintf( Input::get('f866zformat'), 'LOWER(f866z)', strtolower( Input::get('f866z') ) ) ); $openfilter++; }
-			
+
+			foreach ($allsearchablefields as $field) {
+				$value = Input::get('f'.$field);
+				if ($value != '') {
+					if ( Input::has('f'.$field) )  { $holdings = $holdings->whereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', strtolower( Input::get('f'.$field) ) ) );  $openfilter++; }
+				}
+			}
 			if (( Input::has('owner')) && (!(Input::has('aux')))) $holdings = $holdings->whereIsOwner('t')->where('sys2','like', Auth::user()->library()->first()->code."%");
 			if (( Input::has('aux')) && (!(Input::has('owner')))) $holdings = $holdings->whereIsAux('t')->where('sys2','like', Auth::user()->library()->first()->code."%");
-			
 			if (( Input::has('owner')) && (Input::has('aux'))) $holdings = $holdings->whereIsAux('t')->orWhere('is_owner','=', 't')->where('sys2','like', Auth::user()->library()->first()->code."%");
-		    
-
 
 			if ($openfilter == 0)  $this->data['is_filter'] = false;
 
 		  $ids = $holdings->count() > 0 ? $holdings->lists('holdingsset_id') : [-1];
+
 		  $holdingssets = $holdingssets->whereIn('id', $ids);
 		}
 
@@ -81,7 +112,7 @@ class HoldingssetsController extends BaseController {
 
 		if (isset($_GET['page']))  {
 				$this->data['page'] = $_GET['page'];
-				return View::make('holdingssets/pages', $this->data);
+				return View::make('holdingssets/hos', $this->data);
 			}
 			 else  { 
 			 	$this->data['page'] = 1;
@@ -106,7 +137,21 @@ class HoldingssetsController extends BaseController {
 	 */
 	public function store()	{
 
-
+		if (Input::has('urltoredirect'))	{
+			$newfields	= Input::get('fieldstoshow');
+			$fieldlist 	= '';
+			$i 					= 0;
+			if ($newfields != '') {
+				foreach ($newfields as $field) {
+					$fieldlist .= $field;
+					$i++;
+					if (count($newfields) > $i) $fieldlist .= ';';
+				}
+			}
+			setcookie(Auth::user()->username.'_fields_to_show', $fieldlist, time() + (86400 * 30));
+			Session::put(Auth::user()->username.'_fields_to_show', $fieldlist);
+			return Redirect::to(Input::get('urltoredirect'));
+		}
 	}
 
 	/**
@@ -177,15 +222,50 @@ class HoldingssetsController extends BaseController {
 			return ($value) ? Response::json( ['lock' => [$id]] ) : Response::json( ['unlock' => [$id]] );
 	}	
 
-	// Lock/Unlock Holding
+
 	public function putNewHOS($id) {
+
+		$holding 	= Holding::find($id);
+
+		$lastId = Holdingsset::orderBy('id', 'DESC')->take(1)->get();
+		$key = '';
+		foreach ($lastId as $key) {
+			
+		}
+		$hol_ptrn = $holding -> hol_nrm;
+		$arr_ptrn = getNewPtrn($hol_ptrn);
+		$newptrn = '';
+		$p = 0;
+		foreach ($arr_ptrn as $ptrn) {
+			$p++;
+			$newptrn .= $ptrn;
+			if ($p < count($arr_ptrn)) $newptrn .= '|';
+		}
+		$newHos = new Holdingsset;
+		$newHos ->	id 	= $key -> id + 1;
+		$newHos ->	sys1 	= $holding -> sys2;
+		$newHos ->	f245a = $holding -> f245a;
+		$newHos ->	ptrn 	= $newptrn;
+		$newHos ->	ok 		= false;
+		$newHos ->	save();
+		$holding = Holding::find($id)->update(['holdingsset_id'=>$newHos -> id]);
 		return Response::json( ['newhosok' => [$id]] );
 	}	
 
 
 	public function putDelGroup($id) {
-		$group = Group::find($id)->delete();
+		$groupsids = Session::get(Auth::user()->username.'_groups_to_show');
+		$newgroupsids = str_replace($id, '', $groupsids);
+		$newgroupsids = str_replace(';;', ';', $newgroupsids);
+	 	Session::put(Auth::user()->username.'_groups_to_show', $newgroupsids);
+		// $group = Group::find($id)->delete();
 		return Response::json( ['groupDelete' => [$id]] );
+	}	
+
+	public function putUpdateField866aHolding($id) {
+		$new866a = Input::get('new866a');
+		$holding = Holding::find($id)->update(['f866a'=>$new866a]);
+		return Response::json( ['save866afield' => [$id]] );
 	}	
 
 	// Set/Unset Ok to HOS
@@ -195,4 +275,79 @@ class HoldingssetsController extends BaseController {
 		$this->data['holding'] = substr($this->data['holding'], 4, 9);
 		return View::make('holdingssets.externalholding', $this -> data);
 	}	
+}
+
+function truncate($str, $length, $trailing = '...') {
+  $length-=strlen($trailing);
+  if (strlen($str) > $length) {
+    $res = substr($str, 0, $length);
+    $res .= $trailing;
+  }
+  else {
+    $res = $str;
+  }
+  return $res;
+}
+
+function getNewPtrn($hol_ptrn) {
+		$ta_hol_arr[0]['ptrn']= array();
+		//si tiene algo se parte por el ;
+		$ta_arr[0]['ptrn_arr'] = (preg_match('/\w/',$hol_ptrn))?explode(';',$hol_ptrn):array();
+		if ($ta_arr[0]['ptrn_arr']){
+			$ptrn_amnt	= sizeOf($ta_arr[0]['ptrn_arr']);
+			for ($l=0; $l<$ptrn_amnt; $l++){
+				$ptrn_piece = $ta_arr[0]['ptrn_arr'][$l]; //preservar el valor original
+				//aqui se quita la j que no sirve pa comparar
+				$ptrn_piece = preg_replace('/[j]/', ' ', $ptrn_piece);
+				$ptrn_piece = preg_replace('/\s$/', '',$ptrn_piece);
+				$ptrn_piece = preg_replace('/[n]/', '',$ptrn_piece); //<---------- parche!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				$ptrn_piece[16] = '-'; //esto es un parche pa poner el - que faltaba en el hol_nrm
+				if (!preg_match('/\w/',$ptrn_piece)){
+					//si el pedacito viene en blanco se borra
+					unset($ta_arr[0]['ptrn_arr'][$l]);
+				}
+				//si tiene sustancia...
+				else {
+					//se parte en pedacitos
+					$ptrn_chunks = explode ('-',$ptrn_piece);
+					$chunks_amnt	= sizeOf($ptrn_chunks);
+					for ($p=0; $p<$chunks_amnt; $p++){
+						if (!preg_match('/\w/',$ptrn_chunks[$p])){
+							//se quitan los que quedan en blanco
+							unset($ptrn_chunks[$p]);
+						}
+						//y se echan pal ptrn
+						else array_push($ta_hol_arr[0]['ptrn'],$ptrn_chunks[$p]);
+					}				
+				}
+			}
+		}
+		//aqui se escribe el ptrn	
+		$ta_hol_arr[0]['ptrn']=array_unique($ta_hol_arr[0]['ptrn']);
+		//aqui se ordenan los pedacitos del patron----------------------------
+		$tmparr = $ta_hol_arr[0]['ptrn'];
+		
+		$tmparr = array_map(
+			function($n){
+				return explode('|',substr(chunk_split($n,4,'|'),0,-1));
+			}, 
+	    $tmparr); 
+		
+		$volume = array();
+		$year = array();
+		foreach($tmparr as $key => $row){
+			$volume[$key] = $row[0];
+			$year[$key] = $row[2];
+		}
+		array_multisort($year,SORT_ASC, $volume,SORT_ASC, $tmparr);
+		//$tmparr = array_map('make_onepiece',$tmparr);
+		$tmparr = array_map(
+			function($n){
+				return implode('',$n); 
+			}, 
+	    $tmparr); 
+		
+		$tmparr = array_values($tmparr);
+		
+		return $tmparr;
 }

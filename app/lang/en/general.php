@@ -36,4 +36,6 @@ return array(
 	'annotated'         => 'Annotated',
 	'lang_en'           => 'English',
 	'lang_de'           => 'German',
+	'show_hide_fields'	=> 'Select fields to show in Holdings',
+	'select_fields_to_search'	=> 'Select fields to filter to',
 );

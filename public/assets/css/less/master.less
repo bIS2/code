@@ -87,8 +87,8 @@
  */
 
 .page-header {
-    border-bottom: 1px solid #EEEEEE;
-    margin: 60px 0 20px;
+    border-bottom: 1px solid #ffffff;
+    margin: 60px 0 0;
     padding-bottom: 9px;
 } 
 
@@ -281,7 +281,10 @@ ul.hol-sets {
 }
 .badge + .badge,
 .link_bulk_action {
-    background: @swiss-blue;
+    background: @swiss-blue !important;
+}
+.link_bulk_action:hover {
+    background: #ffffff !important;
 }
 .link_bulk_action {
     color: #fff;
@@ -385,6 +388,7 @@ tr.success, tr.danger{ .btn-send{ display:inline; } }
        white-space: nowrap;
        vertical-align: middle;
        height: 20px;
+       width: 100%;
        + td.sorting_1 {
         background-color: #CCCCCC !important;
         .fa.fa-square-o {
@@ -466,5 +470,64 @@ table.table thead th:first-child {
     table.flexme > tbody > tr > td:first-child + td {
         padding-left: 110px;
         border-left: none;
+    }
+}
+#groups-tabs.nav-tabs > li {
+   border-bottom: 1px solid #cccccc; 
+}
+#groups-tabs.nav-tabs > li > a {
+    border-top: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    border-left: 1px solid #cccccc;
+    background-color: #ededed;
+    -moz-border-radius: 5px 5px 0 0;
+         border-radius: 5px 5px 0 0;
+}
+#groups-tabs.nav-tabs > li.active {
+    border-bottom: 1px solid #ffffff; 
+    -moz-border-radius: 5px;
+         border-radius: 5px;
+}
+#groups-tabs.nav-tabs > li.active > a {
+    background-color: #ffffff;
+}
+.nav-tabs .close {
+    border: none !important;
+    display: none !important;
+}
+#groups-tabs.nav-tabs > li:hover .close {
+    display: block !important;
+}
+#groups-tabs.nav-tabs > li .fa {
+   font-size: 17px;
+   font-weight: bold;
+}
+
+#main-filters ul {
+    margin-bottom: 0;
+}
+
+a#filter-btn.btn-primary {
+    border-bottom: 5px solid #B0E0E6;
+    border-radius: 5px 5px 0 0;
+}
+#collapseOne {
+    background-color: #B0E0E6;
+}
+#currentfilters {
+    padding: 20px 20px 0;
+    .form-group.col-xs-2 {
+        margin-bottom: 10px;
+    }
+}
+#FieldsShow {
+    padding-bottom: 10px;
+}
+.col-xs-3.checkbox {
+    padding-left: 25px;
+    z-index: 90;
+    margin-bottom: 0;
+    .text-primary {
+        margin-bottom: 0;
     }
 }
