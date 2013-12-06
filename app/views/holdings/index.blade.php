@@ -10,7 +10,6 @@
 
 <div class="row">
 	<div class="col-lg-12 ">
-		<div class="container">
 
 		<div>{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} </div>
 		<table id="holdings-items" class="table table-bordered table-condensed flexme datatable">
@@ -65,7 +64,7 @@
 	</p>
 
 	</div>
-</div>
+
 
 
 <div class="remote">

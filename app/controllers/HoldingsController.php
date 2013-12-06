@@ -19,6 +19,8 @@ class HoldingsController extends BaseController {
 	 */
 	public function Index()
 	{
+		$this->data['allsearchablefields'] = ['022a','245a','245b','008x','245c','310a','362a','710a','780t','785t','852b','852h','008y'];
+
 		$holdings = ( Input::has('hlist_id') ) ?	Hlist::find( Input::get('hlist_id') )->holdings() : Holding::verified();
 
     $this->data['hlists'] = Auth::user()->hlists;
