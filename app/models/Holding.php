@@ -22,11 +22,14 @@ class Holding extends Eloquent {
 		return $this->hasOne('Ok');
 	}
 
-
+	public function delivery(){
+		return $this->hasOne('Delivery');
+	}
 
   // Scopes
   public function scopeVerified ($query){
 		return $query
+			->with('ok','notes')
 			// Select Holdings Set confirmed by librarian
       ->whereIn( 'holdingsset_id', function($query){ 
       	$query->select('id')->from('holdingssets')->whereOk(true); 
@@ -67,11 +70,11 @@ class Holding extends Eloquent {
 
   public function scopeAnnotated($query,$tag_id='%'){
     if ($tag_id=='%') 
-      $tag_ids = DB::table('notes')->lists('holding_id');
+      $tag_ids = DB::table('notes')->lists('holding_id') ;
     else
       $tag_ids = DB::table('notes')->whereTagId($tag_id)->lists('holding_id');
 
-  	return $query->whereIn('holdings.id', $tag_ids);
+  	return $query->whereIn('holdings.id', empty($tag_ids) ? [-1] : $tag_ids );
   } 
 
   public function scopeOrphans($query){
@@ -103,6 +106,7 @@ class Holding extends Eloquent {
   }
 
   public function getPatrnAttribute(){
+
     $ocrr_ptrn = str_split($this->ocrr_ptrn);
     $j_ptrn = str_split($this->j_ptrn);
     $aux_ptrn = str_split($this->aux_ptrn);
@@ -125,7 +129,7 @@ class Holding extends Eloquent {
      $i++; 
     } 
     return $ret;
-  }
 
+  }
 
 }

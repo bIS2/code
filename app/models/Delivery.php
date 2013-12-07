@@ -13,5 +13,12 @@ class Delivery extends Eloquent {
 		'holding_id' => 'required'
 	);
 
+  public function holding() {
+      return $this->belongsTo('Holding');
+  }
+
+  public function user() {
+      return $this->belongsTo('user');
+  }
 
 }
