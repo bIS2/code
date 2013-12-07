@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(0);
 return array(
 
     /*
@@ -61,6 +61,7 @@ return array(
                 $collection->add('ui/jquery.ui.selectable.js');
                 $collection->add('ui/jquery.ui.sortable.js');
                 $collection->add('ui/jquery.ui.droppable.js');
+                $collection->add('ui/jquery.ui.draggable.js');
                 $collection->add('bootstrap/bootstrap.js');
                 // $collection->requireDirectory('../../../vendor/twbs/bootstrap/js');
                 $collection->add('wysihtml5/wysihtml5-0.3.0.js');

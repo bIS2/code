@@ -15,15 +15,34 @@ class Holdingsset extends Eloquent {
       return $this->hasMany('Holding');
   }
 
+  public function confirm() {
+    return $this->hasOne('Confirm');
+  }
+
   public function groups() {
-      return $this->belongsToMany('Group');
+    return $this->belongsToMany('Group');
   }
 
   public function scopeOk($query){
-    return $query->whereOk(true);
+    return $query
+    ->whereIn('id', function($query) {
+      $query -> select('holdingsset_id')->from('confirms');
+    });
   }
 
   public function scopePendings($query){
-    return $query->whereOk(false);
+    return $query
+    ->whereNotIn('id', function($query) {
+      $query -> select('holdingsset_id')->from('confirms');
+    });
+  }
+
+  public function scopeAnnotated($query){
+    return $query
+    ->whereIn('id', Holding::annotated()->select('holdingsset_id')->lists('holdingsset_id'));
+  }
+
+  public function getIsannotatedAttribute(){
+    return Holding::whereHoldingssetId($this->id)->annotated()->count() > 0;
   }
 }

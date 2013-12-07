@@ -1,17 +1,28 @@
+<?php 
+	foreach ($holdingssets_confirms as $key) {
+		var_dump($key -> id);
+	};
+?>
 @foreach ($holdingssets as $holdingsset)
 		<?php $ok 	= ($holdingsset->ok) ? 'ok' : ''  ?>
-		<?php $btn 	= ($holdingsset->ok) ? 'btn-success' : 'btn-default'  ?>
-		<!-- <li class="panel list-group-item {{ $ok }}" id="<?= $holdingsset -> id; ?>"> -->
+		<?php $btn 	= ($holdingsset->confirm()->exists()) ? 'btn-success disabled' : 'btn-default'  ?>
+		<?php $btn 	= ($holdingsset->isannotated) ? 'btn-warning' : $btn  ?>
 		<li id="<?= $holdingsset -> id; ?>">
 			  <div class="panel-heading row">
 		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>" class="pull-left hl sel">
+		  				<?php if ((isset($group_id)) && ($group_id > 0)) { ?>
+		      		<span class="btn btn-primary btn-xs move" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_move_this_HOS_to_another_HosGroup'); }}"><i class="glyphicon glyphicon-move "></i></span>
+		      		<?php }
+		      		else { ?>
+							<span class="move btn btn-primary btn-xs" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'); }}"><i class="fa fa-copy "></i></span>
+		      		<?php } ?>
 		      <div href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" title="<?= $holdingsset->f245a; ?>" data-toggle="collapse" class="accordion-toggle collapsed col-xs-10" opened="0">
 		      	<?= $holdingsset->sys1.' :: '.htmlspecialchars(truncate($holdingsset->f245a, 100),ENT_QUOTES); ?>
 		      	@if ($holdingsset->has('holdings') && $count1 = $holdingsset -> holdings -> count()) 
-		      		<span class="badge"><i class="fa fa-files-o"></i> {{ $count1 }} </span>
+		      		<span class="badge"><i class="fa fa-files-o"></i> {{ $count1 }} </span><p style="margin:0;padding:0;color:transparent;width:10px;display:inline-block;">-</p>
 		      	@endif
 		      	@if ($holdingsset->has('groups') && ($count=$holdingsset->groups->count()>0)) 
-		      		<span class="badge" title = "<?php 
+		      		<span class="badge ingroups" title = "<?php 
 		      			$currentgroups = $holdingsset->groups;
 		      			$count = 0;
 			      		foreach ($currentgroups as $currentgroup) {			
@@ -25,15 +36,10 @@
 		      	@endif
 		      </div>
 		      <div class="text-right action-ok col-xs-1">
-		      <!-- 	<a id="holdingsset<?= $holdingsset -> sys1; ?>add" class="btn btn-ok btn-xs {{ $btn }}" title="{{ trans('holdingssets.add_holdings') }}">
-		      			<span class="glyphicon glyphicon-download-alt"></span>
-		      	</a> -->
 		      	@if (Auth::user()->hasRole('resuser')) 
 		      	@else
-<!-- 		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn btn-ok btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..." title="{{ trans('holginssets.add_HOL_to_this_HOS') }}">
-		      			<span class="fa fa-plus"></span>
-		      	</a> -->		
-		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="{{ action('HoldingssetsController@putOk',[$holdingsset->id]) }}" class="btn btn-ok btn-xs {{ $btn }}" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..." title="{{ trans('holginssets.confirm_ok_HOS') }}">
+
+		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="<?php if ($btn == 'btn-default') { ?>{{ route('confirms.store',['holdingsset_id' => $holdingsset->id]) }} <?php } ?>" class="btn btn-ok btn-xs {{ $btn }}" data-remote="true" data-method="post" data-disable-with="..." title="<?php if ($btn == 'btn-default') { ?> {{ trans('holginssets.confirm_ok_HOS') }}<?php } else { ?>{{ trans('holginssets.confirmed_HOS') }}<?php } ?>">
 		      			<span class="glyphicon glyphicon-thumbs-up"></span>
 		      	</a>		
 		      	@endif      	

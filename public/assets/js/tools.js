@@ -111,7 +111,7 @@ function getAsuccess() {
 
         // Set HOS to CONFIRM
         if ( result.ok ){
-            $('#'+result.ok).find('.btn-ok').addClass('btn-success').removeClass('btn-default');
+            $('#'+result.ok).find('.btn-ok').addClass('btn-success disabled').removeClass('btn-default');
             if ($('a#filter_pending').hasClass('btn-primary'))
                 $('li#'+result.ok).remove();
              // console.log('li#'+result.ok);      

@@ -114,8 +114,6 @@ class HoldingsController extends BaseController {
 	 * @return Response
 	 */
 
-
-
 	// Custom method
 
 	public function postOK($id){
