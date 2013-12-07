@@ -50,25 +50,29 @@ $(function(){
   $('body').on( 'ajax:success', 'form,a', function(data, result, status){
     /* Holdings Tags */
     if ( result.tag ){
-        $('tr#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger');
-        $('#form-create-tags').modal('hide')
+      $('tr#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger');
+      $('#form-create-tags').modal('hide')
     }
     if ( result.untag ){
-        $('#'+result.untag).find('.btn-tag').removeClass('btn-danger').addClass('btn-default'); 
+      $('#'+result.untag).find('.btn-tag').removeClass('btn-danger').addClass('btn-default'); 
     } 
     if ( result.annotated ){
-        $('#'+result.annotated).addClass('danger').removeClass('success'); 
-        $('#form-create-notes').modal('hide')
+      $('#'+result.annotated).addClass('danger').removeClass('success'); 
+      $('#form-create-notes').modal('hide')
     } 
 
     if ( result.correct ){
-        $('#'+result.correct).removeClass('danger').addClass('success'); 
+      $('#'+result.correct).removeClass('danger').addClass('success'); 
     } 
     if ( result.blank ){
-        $('#'+result.blank).removeClass('danger').removeClass('success'); 
+      $('#'+result.blank).removeClass('danger').removeClass('success'); 
     } 
+
+    if ( result.remove )
+      $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
     
-    })
+
+  })
 
   $('th').each(function(){
 
@@ -104,10 +108,7 @@ function getAsuccess() {
   $('a').on({
     'ajax:success': function(data, result, status){
         if ( result.remove )
-            $.each(result.remove, function(index,id){
-                $('#'+id).hide('slow', function(){ $(this).remove() }); 
-            })
-        // console.log(result);
+          $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
 
         // Set HOS to CONFIRM
         if ( result.ok ){

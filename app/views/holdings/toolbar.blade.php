@@ -66,6 +66,9 @@
 					  		@endforeach
 					  	</ul>
 				  	</div>
+				  	<a href="{{ route('holdings.index', Input::only('view') + ['corrects'=>'true'] ) }}" class="btn <?= ( Input::has('deliveries') ) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+				  		<span class="fa fa-mail-forward"></span> {{{ trans('holdings.deliveries') }}}
+				  	</a>
 				  	<a href="?owner=true" class="btn <?= ( Input::has('owner')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 				  		<i class="fa fa-stop text-danger"></i> {{{ trans('holdings.owner') }}}
 				  	</a>

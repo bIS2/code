@@ -39,7 +39,7 @@
 				  	<span class="fa fa-tags"></span> 
 				  </a>
 
-				  <a href="#" data-toggle="modal" data-target="#form-create-notes" class="btn-link btn-xs btn-send">
+				  <a href="{{ route('deliveries.store') }}" class="btn-link btn-xs btn-send" data-params="holding_id={{$holding->id}}" data-method="post" data-remote="true">
 				  	<span class="fa fa-mail-forward"></span> 
 				  </a>
 

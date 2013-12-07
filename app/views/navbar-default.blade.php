@@ -27,7 +27,15 @@
 		<ul class="nav navbar-nav pull-right">
 			@if (Auth::check())
 				<li>
-					<a data-toggle="dropdown" href="{{{ URL::to('user') }}}"><span class="fa fa-user"></span> {{{ Auth::user()->username }}}</a>
+					<a data-toggle="dropdown" href="{{{ URL::to('user') }}}">
+						<span class="fa fa-user"></span> {{{ Auth::user()->username }}}
+					</a>
+	       </li>
+	       <li>
+	       		<span class="navbar-text">
+							{{{ Auth::user()->library->code }}}
+							{{{ Auth::user()->library->sublibraries }}}
+	       		</span>
 	       </li>
 	      <?php if (Session::get('locale') == 'de') { ?>
 

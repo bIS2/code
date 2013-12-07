@@ -8,7 +8,8 @@ class Pages extends BaseController {
 	 * @return Response
 	 */
 	public function getIndex(){
-		$data['traces'] = Trace::lastest()->get();
+		$data['holdings_ok'] 				= Ok::all();
+		$data['holdings_annotated'] = Note::all();
 		return View::make('pages.index', $data);
 	}
 

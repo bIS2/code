@@ -27,15 +27,32 @@ return array(
     */
 
     'collections' => array(
-    	'login' => function($collection) {
+
+        'login' => function($collection) {
+            $collection->directory('assets/css', function($collection)
+            {
+                $collection->add('bootstrap.min.css');
+                $collection->add('bootstrap-responsive.min.css');   
+                $collection->add('datatables-bootstrap.css');             
+                $collection->add('signin.css');
+            })->apply('CssMin');
+
+        },
+
+    	'pages' => function($collection) {
             $collection->directory('assets/css', function($collection)
             {
 	            $collection->add('bootstrap.min.css');
 	            $collection->add('bootstrap-responsive.min.css');   
-                $collection->add('datatables-bootstrap.css');             
-	            $collection->add('signin.css');
+                $collection->add('less/master.less')->apply('Less');
+                $collection->add('less/pages.less')->apply('Less');
             })->apply('CssMin');
 
+            $collection->directory('assets/js', function($collection){
+                $collection->add('jquery-1.10.2.min.js');
+                $collection->add('laravel-ujs.js');
+
+            })->apply('JsMin');;
     	},
 
         'public' => function($collection)
