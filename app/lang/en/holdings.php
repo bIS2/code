@@ -11,6 +11,7 @@ return array(
 	'move_to_list'		=> 'Move to',
 	'tagged'					=> 'Tagged',
 	'annotated'				=> 'Annotated',
+	'deliveries'			=> 'Deliveries',
 	'aux'							=> 'Auxiliar',
 	'owner'						=> 'Owner',
 	'pending'					=> 'Pending',

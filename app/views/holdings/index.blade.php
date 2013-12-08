@@ -10,7 +10,6 @@
 
 <div class="row">
 	<div class="col-lg-12 ">
-		<div class="container">
 
 		<div>{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} </div>
 		<table id="holdings-items" class="table table-bordered table-condensed flexme datatable">
@@ -30,7 +29,8 @@
 		</thead>
 		<tbody class="selectable">
 		@foreach ($holdings as $holding)
-			<tr id="<?= $holding->id ?>" class="{{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}">
+			<?php $ownertrclass 	= ($holding->is_owner == 't') ? ' is_owner' : '';  ?>
+			<tr id="<?= $holding->id ?>" class="{{ $ownertrclass }}{{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}">
 				<td><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
 				<td id="{{ $holding->id }}" class="actions">
 				  <a href="{{ route('oks.store') }}" class="btn-link btn-xs btn-ok" data-method="post" data-remote="true" data-params="holding_id={{$holding->id}}">
@@ -40,7 +40,7 @@
 				  	<span class="fa fa-tags"></span> 
 				  </a>
 
-				  <a href="#" data-toggle="modal" data-target="#form-create-notes" class="btn-link btn-xs btn-send">
+				  <a href="{{ route('deliveries.store') }}" class="btn-link btn-xs btn-send" data-params="holding_id={{$holding->id}}" data-method="post" data-remote="true">
 				  	<span class="fa fa-mail-forward"></span> 
 				  </a>
 
@@ -65,7 +65,7 @@
 	</p>
 
 	</div>
-</div>
+
 
 
 <div class="remote">

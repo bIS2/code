@@ -5,11 +5,6 @@ class Holding extends Eloquent {
 	public static $rules = array();
 	public $timestamps = false;
 
-  public static function boot() {
-    parent::boot();
-  }
-
-
   // Relations
   public function holdingsset() {
       return $this->belongsTo('Holdingsset');
@@ -27,21 +22,44 @@ class Holding extends Eloquent {
 		return $this->hasOne('Ok');
 	}
 
+	public function delivery(){
+		return $this->hasOne('Delivery');
+	}
+
   // Scopes
   public function scopeVerified ($query){
 		return $query
-      ->whereIn( 'holdingsset_id', function($query){ $query->select('id')->from('holdingssets')->whereOk(true); } )
+			->with('ok','notes')
+			// Select Holdings Set confirmed by librarian
+      ->whereIn( 'holdingsset_id', function($query){ 
+      	$query->select('holdingsset_id')->from('confirms')->lists('holdingsset_id'); 
+      })
+			// and belongs to library of user
+      ->where( function($query){ 
+      	$query->whereF852b( Auth::user()->library->code )
+      				->orWhereIn( 'f852b', explode(',',Auth::user()->library->sublibraries) ); 
+      })
+      // and with owner = true or auxiliar = true
       ->where(function($query){
         $query->whereIsOwner('t')->orWhere('is_aux','=','t');
       });
   }
 
-  public function scopeInLibrary(){
-  	$id_user = Auth::user()->id;
+  public function scopeInLibrary($query){
+
+  	$sublibraries = explode(',',Auth::user()->library->sublibraries);
+
+    return $query
+    	->whereF852b( Auth::user()->library->code )
+    	->orWhereIn( 'f852b', $sublibraries ); 
   }
 
   public function scopeCorrects($query){
   	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); } );
+  }
+
+  public function scopeDeliveries($query){
+  	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('deliveries'); } );
   }
 
   public function scopePendings($query){
@@ -53,13 +71,14 @@ class Holding extends Eloquent {
   public function scopeAnnotated($query,$tag_id='%'){
 
     if ($tag_id=='%') 
-      $tag_ids = DB::table('notes')->lists('holding_id');
+      $tag_ids = DB::table('notes')->lists('holding_id') ;
     else
       $tag_ids = DB::table('notes')->whereTagId($tag_id)->lists('holding_id');
+   
     if (count($tag_ids) > 0)
-    return $query->whereIn('holdings.id', $tag_ids);
-  else
-  	return $query->whereIn('holdings.id', [-1]);  
+      return $query->whereIn('holdings.id', $tag_ids);
+    else
+    	return $query->whereIn('holdings.id', [-1]);  
   } 
 
   public function scopeOrphans($query){
@@ -91,6 +110,7 @@ class Holding extends Eloquent {
   }
 
   public function getPatrnAttribute(){
+
     $ocrr_ptrn = str_split($this->ocrr_ptrn);
     $j_ptrn = str_split($this->j_ptrn);
     $aux_ptrn = str_split($this->aux_ptrn);
@@ -113,7 +133,7 @@ class Holding extends Eloquent {
      $i++; 
     } 
     return $ret;
-  }
 
+  }
 
 }

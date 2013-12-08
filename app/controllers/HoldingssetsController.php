@@ -28,8 +28,10 @@ class HoldingssetsController extends BaseController {
 			if ($value != '') {
 				$is_filter = true;
 			}
+			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) $is_filter = true;
 		}
 		$this->data['is_filter'] = $is_filter;
+
 		
 		/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 		-----------------------------------------------------------*/
@@ -65,9 +67,12 @@ class HoldingssetsController extends BaseController {
 
 		if (Input::has('group_id')) {
 			if (isset($state)) {
-				$holdingssets = ($state == 'ok') ? 
-				$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->ok()->orderBy('id', 'ASC') :
-				$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->pendings()->orderBy('id', 'ASC');
+				if ($state == 'ok') 
+					$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->ok()->orderBy('id', 'ASC');
+				if ($state == 'pending') 
+					$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC')->pendings();
+				if ($state == 'annotated') 
+					$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->pendings()->annotated()->orderBy('id', 'ASC');
 			}
 			else {				
 				$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC');
@@ -75,9 +80,12 @@ class HoldingssetsController extends BaseController {
 		}
 		else {	
 			if (isset($state)) {
-				$holdingssets = ($state == 'ok') ? 
-				$holdingssets =	Holdingsset::orderBy('id', 'ASC')->ok() :
+				if ($state == 'ok')
+				$holdingssets =	Holdingsset::orderBy('id', 'ASC')->ok();
+				if ($state == 'pending')
 				$holdingssets =	Holdingsset::orderBy('id', 'ASC')->pendings();
+				if ($state == 'annotated')
+				$holdingssets =	Holdingsset::orderBy('id', 'ASC')->pendings()->annotated();
 			}
 			else {				
 				$holdingssets =	Holdingsset::orderBy('id', 'ASC');	
@@ -85,24 +93,24 @@ class HoldingssetsController extends BaseController {
 		}
 
 		if ($this->data['is_filter']) {
-
 			$holdings= DB::table('holdings');
 			$openfilter = 0;
-
 			foreach ($allsearchablefields as $field) {
 				$value = Input::get('f'.$field);
 				if ($value != '') {
 					if ( Input::has('f'.$field) )  { $holdings = $holdings->whereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', strtolower( Input::get('f'.$field) ) ) );  $openfilter++; }
 				}
 			}
-			if (( Input::has('owner')) && (!(Input::has('aux')))) $holdings = $holdings->whereIsOwner('t')->where('sys2','like', Auth::user()->library()->first()->code."%");
-			if (( Input::has('aux')) && (!(Input::has('owner')))) $holdings = $holdings->whereIsAux('t')->where('sys2','like', Auth::user()->library()->first()->code."%");
-			if (( Input::has('owner')) && (Input::has('aux'))) $holdings = $holdings->whereIsAux('t')->orWhere('is_owner','=', 't')->where('sys2','like', Auth::user()->library()->first()->code."%");
-
+			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) {
+				$sublibraries = explode(',',Auth::user()->library->sublibraries);
+				$holdings = $holdings ->whereF852b( Auth::user()->library->code )
+    													->orWhereIn( 'f852b', $sublibraries );
+				if (( Input::has('owner')) && (!(Input::has('aux')))) $holdings = $holdings ->whereIsOwner('t');
+				if (( Input::has('aux')) && (!(Input::has('owner')))) $holdings = $holdings->whereIsAux('t');
+				if (( Input::has('owner')) && (Input::has('aux'))) $holdings = $holdings->whereIsAux('t')->orWhere('is_owner','=', 't');
+			}
 			if ($openfilter == 0)  $this->data['is_filter'] = false;
-
 		  $ids = $holdings->count() > 0 ? $holdings->lists('holdingsset_id') : [-1];
-
 		  $holdingssets = $holdingssets->whereIn('id', $ids);
 		}
 
@@ -244,6 +252,7 @@ class HoldingssetsController extends BaseController {
 		return View::make('holdingssets.externalholding', $this -> data);
 	}
 
+
 /* ---------------------------------------------------------------------------------
 	Create a new HOS from only from a Holding
 	------------------------------------------
@@ -316,6 +325,17 @@ class HoldingssetsController extends BaseController {
 			return Response::json( ['removefromgroup' => [$id]] );
 		}
 	}	
+
+/* ---------------------------------------------------------------------------------
+	Get Holding Data from Original System
+	--------------------------------------
+	Params:
+		$id: Holding id
+-----------------------------------------------------------------------------------*/
+	public function putDeleteHosFromGroup($id) {
+		DB::delete('delete from group_holdingsset where holdingsset_id = ? AND group_id = ?', array($id, Input::get('group_id')));
+		return Response::json( ['removefromgroup' => [$id]] );
+	}
 
 /* ---------------------------------------------------------------------------------
 	Update the 866a from a holding

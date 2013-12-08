@@ -51,6 +51,8 @@ class ConfirmsController extends BaseController {
 			Confirm::create([ 'holdingsset_id' => $holdingsset_id, 'user_id' => Auth::user()->id ]);
 			$ret = ['ok' => $holdingsset_id];
 		}
+		$ids = Holdingsset::find($holdingsset_id)->holdings()->select('id')->lists('id');
+		$affectedRows = Note::whereIn('holding_id', $ids)->delete();
 		return Response::json( $ret );
 	}
 

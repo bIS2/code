@@ -11,7 +11,7 @@ class Ok extends Eloquent {
   }
 
 	// Relations
-  public function holdings() {
+  public function holding() {
       return $this->belongsTo('Holding');
   }
 

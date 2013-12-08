@@ -60,18 +60,21 @@
 				  		<i class="fa fa-eraser"></i>			  		
 				  	</a>
 				  	<span class="btn btn-sm">|</span>
-				  	<a id="filter_all" href="{{ route('sets.index', Input::except('state')) }}" class="btn <?= ((Input::get('state') != 'ok') && (Input::get('state') != 'pending')) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+				  	<a id="filter_all" href="{{ route('sets.index', Input::except('state')) }}" class="btn <?= ((Input::get('state') != 'ok') && (Input::get('state') != 'pending') && (Input::get('state') != 'annotated')) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}
 				  	</a>
 				  	<a id="filter_confirmed" href="{{ route('sets.index', Input::except('state') + ['state'=>'ok']) }}" class="btn <?= (Input::get('state')=='ok') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
-				  		<span class="glyphicon glyphicon-thumbs-up"></span> {{{ trans('holdingssets.oked') }}}
+				  		<span class="fa fa-thumbs-up"></span> {{{ trans('holdingssets.oked') }}}
 				  	</a>
 				  	<a id="filter_pending" href="{{ route('sets.index', Input::except('state') + ['state'=>'pending']) }}" class="btn <?= (Input::get('state') == 'pending') ? 'btn-primary' : 'btn-default' ?> btn-sm">
-				  		<span class="glyphicon glyphicon-warning-sign"></span> {{{ trans('holdingssets.pending') }}}
+				  		<span class="fa fa-warning"></span> {{{ trans('holdingssets.pending') }}}
+				  	</a>
+				  	<a id="filter_annotated" href="{{ route('sets.index', Input::except('state') + ['state'=>'annotated']) }}" class="btn <?= (Input::get('state') == 'annotated') ? 'btn-primary' : 'btn-default' ?> btn-sm">
+				  		<span class="fa fa-tags"></span> {{{ trans('general.annotated') }}}
 				  	</a>
 				  	<span class="btn btn-sm">|</span>
 				  	<a href="#collapseOne" id="filter-btn" class="accordion-toggle <?= ($is_filter) ? 'btn-primary' : 'collapsed' ?> btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm dropdown-toggle" data-toggle="collapse" data-parent="#accordion2">
-			        <span class="fa fa-question-circle"></span> {{{ trans('holdingssets.advanced_filter') }}} <span class="caret"></span>
+			        <span class="fa fa fa-filter"></span> {{{ trans('holdingssets.advanced_filter') }}} <span class="caret"></span>
 			      </a>
 <!-- 				  	<a href="{{ route('sets.index') }}" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="glyphicon glyphicon-print"></span> {{{ trans('holdingssets.printer') }}}
@@ -91,6 +94,7 @@
 									<div class="col-xs-12 text-center">
 										<h3 class="text-primary"><span class="fa fa-check"></span> {{ trans('general.select_fields_to_search') }}	</h3>		
 										<div id="currentfiltersoption" class="btn-group" data-toggle="buttons">
+											
 											<?php
 											$allsearchablefields = ALL_SEARCHEABLESFIELDS;
 											$allsearchablefields = explode(';', $allsearchablefields);

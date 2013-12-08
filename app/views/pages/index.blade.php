@@ -1,6 +1,6 @@
-@extends('layouts.default')
+@extends('layouts.pages')
 
-@section('content')
+@section('main')
 	
 <div class="page-header">
 	<div class="row">
@@ -11,13 +11,35 @@
 		</div> <!-- /.col-xs-12 -->
 	</div> <!-- /.row -->
 </div> <!-- /.page-header -->
-{{ App::getLocale() }}
+	
+	<h2>{{ trans('stats.holding_oks') }}</h2>
 	<ul>
-		@foreach ($traces as $trace) 
+		@foreach ($holdings_ok as $ok) 
 			<li>
-				{{ $trace->created_at->toDayDateTimeString() }}
-				{{ $trace->user->username }}
-				{{ $trace->action }}
+				<span class="date text-muted" >
+					{{ $ok->created_at->toDayDateTimeString() }}
+				</span>
+				<span class="user">
+					{{ $ok->user->username }}
+				</span>
+				{{ $ok->holding->f245a }}
+			</li>
+		@endforeach
+	</ul>
+
+	<h2>{{ trans('stats.holding_annotated') }}</h2>
+	<ul>
+		@foreach ($holdings_annotated as $ok) 
+			<li>
+				<span class="date">
+					{{ $ok->created_at->toDayDateTimeString() }}
+				</span>
+				<span class="user">
+					{{ $ok->user->username }}
+				</span>
+				<span class="tag">
+					{{ $ok->tag->name }}
+				</span>
 			</li>
 		@endforeach
 	</ul>

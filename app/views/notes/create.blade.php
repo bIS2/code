@@ -20,7 +20,8 @@
 										  <dt>852h</dt>
 										  <dd>{{$holding->f852h}}</dd>
 										  <dt>Patr</dt>
-										  <dd class="ocrr_ptrn">{{$holding->patrn}}</dd>
+										  <?php $ownertrclass 	= ($holding->is_owner == 't') ? ' is_owner' : '';  ?>
+										  <dd class="ocrr_ptrn{{$ownertrclass}}">{{$holding->patrn}}</dd>
 										  <dt>245a</dt>
 										  <dd>{{$holding->holdingsset->f245a}}</dd>
 										  <dt>362a</dt>
