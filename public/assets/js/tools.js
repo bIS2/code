@@ -70,6 +70,9 @@ $(function(){
 
     if ( result.remove )
       $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
+
+    if ( result.remove_by_holdingset_id )
+      $('tr[data-holdingsset-id='+ result.remove_by_holdingset_id +']').hide('slow', function(){ $(this).remove() }); 
     
 
   })
@@ -100,7 +103,7 @@ $(function(){
     //}
   })
 
-getAsuccess()
+	getAsuccess()
  
 })
 
@@ -112,7 +115,7 @@ function getAsuccess() {
 
         // Set HOS to CONFIRM
         if ( result.ok ){
-            $('#'+result.ok).find('.btn-ok').addClass('btn-success').removeClass('btn-default');
+            $('#'+result.ok).find('.btn-ok').addClass('btn-success disabled').removeClass('btn-default');
             if ($('a#filter_pending').hasClass('btn-primary'))
                 $('li#'+result.ok).remove();
              // console.log('li#'+result.ok);      

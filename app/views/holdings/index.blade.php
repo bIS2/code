@@ -29,7 +29,7 @@
 		</thead>
 		<tbody class="selectable">
 		@foreach ($holdings as $holding)
-			<tr id="<?= $holding->id ?>" class="{{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}">
+			<tr id="<?= $holding->id ?>" data-holdingsset-id="{{ $holding->holdingsset_id }}" class="{{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}">
 				<td><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
 				<td id="{{ $holding->id }}" class="actions">
 				  <a href="{{ route('oks.store') }}" class="btn-link btn-xs btn-ok" data-method="post" data-remote="true" data-params="holding_id={{$holding->id}}">

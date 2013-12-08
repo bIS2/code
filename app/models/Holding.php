@@ -22,6 +22,7 @@ class Holding extends Eloquent {
 		return $this->hasOne('Ok');
 	}
 
+
 	public function delivery(){
 		return $this->hasOne('Delivery');
 	}
@@ -69,12 +70,16 @@ class Holding extends Eloquent {
   }
 
   public function scopeAnnotated($query,$tag_id='%'){
+
     if ($tag_id=='%') 
       $tag_ids = DB::table('notes')->lists('holding_id') ;
     else
       $tag_ids = DB::table('notes')->whereTagId($tag_id)->lists('holding_id');
 
-  	return $query->whereIn('holdings.id', empty($tag_ids) ? [-1] : $tag_ids );
+    $tag_ids = (count($tag_ids) > 0) ? $tag_ids : [-1];
+    
+  	return $query->whereIn('holdings.id', $tag_ids);  
+
   } 
 
   public function scopeOrphans($query){

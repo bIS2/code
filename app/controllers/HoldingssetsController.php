@@ -106,8 +106,6 @@ class HoldingssetsController extends BaseController {
 		  $holdingssets = $holdingssets->whereIn('id', $ids);
 		}
 
-
-
 		$this->data['holdingssets'] = $holdingssets->paginate(20);
 
 		if (isset($_GET['page']))  {
@@ -200,20 +198,30 @@ class HoldingssetsController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+
 	}
 
-	// Set/Unset Ok to HOS
-	public function putOk($id) {
-		$holdingsset = Holdingsset::find($id);
-		$value = ( $holdingsset->ok ) ? false : true;
-
-		if ($holdingsset->update(['ok'=>$value]))
-			return ($value) ? Response::json( ['ok' => [$id]] ) : Response::json( ['ko' => [$id]] );
-		//
+/* ---------------------------------------------------------------------------------
+	Del Group Tab from HOSG View
+	--------------------------------------
+	Params:
+		$id: HOS Group id 
+-----------------------------------------------------------------------------------*/
+	public function putDelTabgroup($id) {
+		$groupsids = Session::get(Auth::user()->username.'_groups_to_show');
+		$newgroupsids = str_replace($id, '', $groupsids);
+		$newgroupsids = str_replace(';;', ';', $newgroupsids);
+	 	Session::put(Auth::user()->username.'_groups_to_show', $newgroupsids);
+		// $group = Group::find($id)->delete();
+		return Response::json( ['groupDelete' => [$id]] );
 	}	
 
-	// Lock/Unlock Holding
+/* ---------------------------------------------------------------------------------
+	Lock a determinate Holding
+	--------------------------------------
+	Params:
+		$id: Holding id 
+-----------------------------------------------------------------------------------*/
 	public function putLock($id) {
 		$holding = Holding::find($id);
 		$value = ( $holding->locked ) ? false : true;
@@ -223,6 +231,25 @@ class HoldingssetsController extends BaseController {
 	}	
 
 
+/* ---------------------------------------------------------------------------------
+	Get Holding Data from Original System
+	--------------------------------------
+	Params:
+		$id: Holding id
+-----------------------------------------------------------------------------------*/
+	public function getFromLibrary($id) {
+		$this->data['holding'] = Holding::find($id)->sys2;
+		$this->data['library'] = Library::orderBy('code', 'ASC')->libraryperholding(substr($this->data['holding'], 0, 4));
+		$this->data['holding'] = substr($this->data['holding'], 4, 9);
+		return View::make('holdingssets.externalholding', $this -> data);
+	}
+
+/* ---------------------------------------------------------------------------------
+	Create a new HOS from only from a Holding
+	------------------------------------------
+	Params:
+		$id: Holding id
+-----------------------------------------------------------------------------------*/
 	public function putNewHOS($id) {
 		$holding 	= Holding::find($id);
 
@@ -254,31 +281,65 @@ class HoldingssetsController extends BaseController {
 	public function putForceOwner($id) {
 	}	
 
+/* ---------------------------------------------------------------------------------
+	Move a Hos to Other Hos Group 
+	--------------------------------------
+	Params:
+		$id: HOS id 
+-----------------------------------------------------------------------------------*/
+	public function putMoveHosToOthergroup($id) {
 
-	public function putDelGroup($id) {
-		$groupsids = Session::get(Auth::user()->username.'_groups_to_show');
-		$newgroupsids = str_replace($id, '', $groupsids);
-		$newgroupsids = str_replace(';;', ';', $newgroupsids);
-	 	Session::put(Auth::user()->username.'_groups_to_show', $newgroupsids);
-		// $group = Group::find($id)->delete();
-		return Response::json( ['groupDelete' => [$id]] );
+		$origingroup 	= str_replace('group', '', Input::get('origingroup'));
+		$newgroup 		= str_replace('group', '', Input::get('newgroup'));
+		$holdingsset 	= DB::select('select * from group_holdingsset where holdingsset_id = ? AND group_id = ?', array($id, $newgroup));
+		if ($origingroup == '') {
+			// Copying from all holdingssets to a determinate HOS Groups
+			if (count($holdingsset) >= 1) {
+				// The holdings is already on destiny group.				
+				return Response::json( ['nothingtodo' => [1]] );
+			}
+			else {
+				DB::insert('insert into group_holdingsset (group_id, holdingsset_id, created_at, updated_at) values (?, ?, NOW(), NOW())', array($newgroup, $id));
+				$count = Holdingsset::find($id)->groups->count();
+				return Response::json( ['ingroups' => $count] );
+			}
+		}
+		else {
+			// Moving from a HOS group to a other HOS Group
+			if (count($holdingsset) >= 1) {
+				// The holdings is already on destiny group.
+				$holdingsset = DB::delete('delete from group_holdingsset where holdingsset_id = ? AND group_id = ?', array($id, $origingroup));			
+			}
+			else {
+				DB::update('update group_holdingsset set group_id = '.$newgroup.' where holdingsset_id = ? AND group_id = ?', array($id, $origingroup));
+			}
+			return Response::json( ['removefromgroup' => [$id]] );
+		}
 	}	
 
+/* ---------------------------------------------------------------------------------
+	Update the 866a from a holding
+	--------------------------------------
+	Params:
+		$id: Holding id 
+-----------------------------------------------------------------------------------*/
 	public function putUpdateField866aHolding($id) {
 		$new866a = Input::get('new866a');
 		$holding = Holding::find($id)->update(['f866a'=>$new866a]);
 		return Response::json( ['save866afield' => [$id]] );
 	}	
-
-	// Set/Unset Ok to HOS
-	public function getFromLibrary($id) {
-		$this->data['holding'] = Holding::find($id)->sys2;
-		$this->data['library'] = Library::orderBy('code', 'ASC')->libraryperholding(substr($this->data['holding'], 0, 4));
-		$this->data['holding'] = substr($this->data['holding'], 4, 9);
-		return View::make('holdingssets.externalholding', $this -> data);
-	}	
 }
 
+
+
+/* ---------------------------------------------------------------------------------
+	Truncate a string
+	--------------------------------------
+	Params:
+		$str: String to truncate
+		$length: Lenght of new string
+		$trailing:  Final Trailing
+-----------------------------------------------------------------------------------*/
 function truncate($str, $length, $trailing = '...') {
   $length-=strlen($trailing);
   if (strlen($str) > $length) {
@@ -291,6 +352,9 @@ function truncate($str, $length, $trailing = '...') {
   return $res;
 }
 
+
+/* Obtain a new prtn 
+-----------------------------------------------------------------------------------*/
 function getNewPtrn($hol_ptrn) {
 		$ta_hol_arr[0]['ptrn']= array();
 		//si tiene algo se parte por el ;

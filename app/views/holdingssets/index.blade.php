@@ -35,23 +35,34 @@
 								$fields 		= explode(';', $tmpfields);
 							}
 							?>
-							<div class="btn-group" data-toggle="buttons">
+							<ul class="btn-group" data-toggle="buttons">
+							<?php
+								foreach ($fields as $field) {
+									$checked 				= '';
+									$checkactive 		= '';
+									if (($field != 'ocrr_ptrn') && ($field != 'sys2')) {
+											$checked 			= "checked = checked";
+											$checkactive 	= " active"; ?>
+											<li class="btn btn-default{{ $checkactive }}">
+												<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field; ?>
+											</li>
+									<?php }
+								}	?>
 							<?php
 								foreach ($allfields as $field) {
 									$checked 				= '';
 									$checkactive 		= '';
 									if (($field != 'ocrr_ptrn') && ($field != 'sys2')) {
-										if (in_array($field, $fields)) {
-											$checked 			= "checked = checked";
-											$checkactive 	= " active";
+										if (!(in_array($field, $fields))) { ?>
+											<li class="btn btn-default{{ $checkactive }}">
+												<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field; ?>
+											</li>
+											<?php
 										}
 										?>
-										<label class="btn btn-default{{ $checkactive }}">
-											<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field; ?>
-										</label>
 									<?php }
 								}	?>
-							</div>
+							</ul>
 							<input type="hidden" name="fieldstoshow[]" value="ocrr_ptrn">
 							<input type="hidden" name="fieldstoshow[]" value="sys2">
 							<button type="submit" value="{{ trans('general.save') }}" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> {{ trans('general.save') }} </button>

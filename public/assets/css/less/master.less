@@ -279,7 +279,7 @@ ul.hol-sets {
     }
     border-bottom: 1px dotted @gray-lighter;
 }
-.badge + .badge,
+.badge.ingroups,
 .link_bulk_action {
     background: @swiss-blue !important;
 }
@@ -471,6 +471,20 @@ table.table thead th:first-child {
         padding-left: 110px;
         border-left: none;
     }
+    > li {
+        span.move {
+            position: absolute;
+            z-index: 9;
+            left: 50%;
+            display: none;
+        }
+        &:hover {
+            span.move {
+            display: block;
+            cursor: move !important;
+        }
+        }
+    }
 }
 #groups-tabs.nav-tabs > li {
    border-bottom: 1px solid #cccccc; 
@@ -483,12 +497,14 @@ table.table thead th:first-child {
     -moz-border-radius: 5px 5px 0 0;
          border-radius: 5px 5px 0 0;
 }
-#groups-tabs.nav-tabs > li.active {
+#groups-tabs.nav-tabs > li.active,
+#groups-tabs.nav-tabs > li.activedrop {
     border-bottom: 1px solid #ffffff; 
     -moz-border-radius: 5px;
          border-radius: 5px;
 }
-#groups-tabs.nav-tabs > li.active > a {
+#groups-tabs.nav-tabs > li.active > a,
+#groups-tabs.nav-tabs > li.activedrop > a {
     background-color: #ffffff;
 }
 .nav-tabs .close {
@@ -530,4 +546,7 @@ a#filter-btn.btn-primary {
     .text-primary {
         margin-bottom: 0;
     }
+}
+li.ui-draggable-dragging {
+    width: 100%;
 }

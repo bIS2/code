@@ -43,11 +43,60 @@ $(function(){
 		}
 	})
 
-$(function() {
-		// $( "#hosg .hol-sets" ).sortable();
-		// $( "#hosg .hol-sets" ).disableSelection();
+
+	$( "#hosg .hol-sets li" ).draggable({ 	
+		handle: ".move",
+		helper: 'clone',
+		activeClass: "btn-primary",
+		cancel: "a.ui-icon", // clicking an icon won't initiate dragging
+		revert: "invalid", // when not dropped, the item will revert back to its initial position
 	});
 
+	$( "#groups-tabs .accepthos" ).droppable({
+		accept: "#hosg .hol-sets li",
+		hoverClass: "activedrop",
+		drop: function( event, ui ) {
+			recipient = $(this)
+			Url = "/sets/move-hos-to-othergroup/" + $(ui.draggable).attr('id')
+			var changegroup = $.ajax({
+			  url 	: Url,
+			  type 	: "PUT",
+			  data 	: {
+			  	origingroup : $('#groups-tabs li.active').attr('id'),
+			  	newgroup : $(recipient).attr('id'),
+				  dataType		: "json",
+				  cache			: false
+				}
+			});
+			changegroup.done(function(result) {
+				if (!($('#groups-tabs > li:first-child').hasClass('active'))) { 
+					$(ui.draggable).fadeOut('slow', function() {
+						$(ui.draggable).remove();	
+					});
+				}
+				else {
+					if (result.ingroups > 0) {
+						badge = $(ui.draggable).find('span.badge.ingroups');
+						// console.log();
+						if ($(badge).hasClass('ingroups') == true) {
+							$(badge).fadeOut('slow', function() {
+								$(badge).html('<i class="fa fa-folder-o"></i> ' + result.ingroups);
+								$(badge).fadeIn();
+							});
+						}
+						else {
+							otherbadge = $(ui.draggable).find('span.badge + p');
+							$('<span class="badge ingroups" title="Reload to update" ><i class="fa fa-folder-o"></i> ' + result.ingroups + '</span>').insertAfter(otherbadge);
+						}
+					}					
+				}
+			}); 
+		}
+}); 
+
+	$( "#collapseTwo .btn-group" ).sortable();
+	$( "#collapseTwo .btn-group" ).disableSelection();
+	// $( "#hosg .hol-sets" ).disableSelection();
 })
 
 function setDatatable() {

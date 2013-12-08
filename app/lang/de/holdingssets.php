@@ -26,4 +26,6 @@ return array(
 	'just_aux'						=> 'AUX',
 	'only_owner_and_aux'	=> 'BOTH',
 	'clear_owner_filter'	=> 'clear_owner_filter',
+	'drag_and_drop_into_a_grouptab_to_move_this_HOS_to_another_HosGroup'=> 'Drag and Drop into a Tab to move this HOS to a HOS Group',
+	'drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'				=> 'Drag and Drop into a Tab to add this HOS to a HOS Group',
 );
