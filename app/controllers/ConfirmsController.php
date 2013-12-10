@@ -45,12 +45,13 @@ class ConfirmsController extends BaseController {
 	{
 		$holdingsset_id = Input::get('holdingsset_id');
 		if ( Confirm::whereHoldingssetId($holdingsset_id)->exists() ){
-			Confirm::whereHoldingssetId($holdingsset_id)->delete();
-			$ret = ['blank' => $holdingsset_id];
+			// Confirm::whereHoldingssetId($holdingsset_id)->delete();
+			// $ret = ['blank' => $holdingsset_id];
 		} else {
 			Confirm::create([ 'holdingsset_id' => $holdingsset_id, 'user_id' => Auth::user()->id ]);
 			$ret = ['ok' => $holdingsset_id];
 		}
+		// Delete all notes from holdings HOS, if exists
 		$ids = Holdingsset::find($holdingsset_id)->holdings()->select('id')->lists('id');
 		$affectedRows = Note::whereIn('holding_id', $ids)->delete();
 		return Response::json( $ret );

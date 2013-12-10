@@ -93,27 +93,34 @@ class HoldingssetsController extends BaseController {
 		}
 
 		if ($this->data['is_filter']) {
+			// Take all holdings
 			$holdings= DB::table('holdings');
+
+			// If filter by owner or aux
+			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) {
+				
+				$holdings = Auth::user()->library->holdings();
+
+				$holdings = ((Input::has('owner')) && (!(Input::has('aux')))) ? $holdings -> whereIsOwner('t') : $holdings;
+				$holdings = (!(Input::has('owner')) && ((Input::has('aux')))) ? $holdings -> whereIsAux('t') : $holdings;
+				$holdings = ((Input::has('owner')) && ((Input::has('aux'))))  ? $holdings -> whereIsAux('t')->orWhere('is_owner','=', 't') : $holdings;		
+			}
+
 			$openfilter = 0;
+			// Verify if some value for advanced search exists.
 			foreach ($allsearchablefields as $field) {
 				$value = Input::get('f'.$field);
 				if ($value != '') {
 					if ( Input::has('f'.$field) )  { $holdings = $holdings->whereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', strtolower( Input::get('f'.$field) ) ) );  $openfilter++; }
 				}
 			}
-			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) {
-				$sublibraries = explode(',',Auth::user()->library->sublibraries);
-				$holdings = $holdings ->whereF852b( Auth::user()->library->code )
-    													->orWhereIn( 'f852b', $sublibraries );
-				if (( Input::has('owner')) && (!(Input::has('aux')))) $holdings = $holdings ->whereIsOwner('t');
-				if (( Input::has('aux')) && (!(Input::has('owner')))) $holdings = $holdings->whereIsAux('t');
-				if (( Input::has('owner')) && (Input::has('aux'))) $holdings = $holdings->whereIsAux('t')->orWhere('is_owner','=', 't');
-			}
 			if ($openfilter == 0)  $this->data['is_filter'] = false;
-		  $ids = $holdings->count() > 0 ? $holdings->lists('holdingsset_id') : [-1];
-		  $holdingssets = $holdingssets->whereIn('id', $ids);
-		}
 
+		  $ids = $holdings->count() > 0 ? $holdings->lists('holdingsset_id') : [-1];
+
+			
+		  $holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
+		}
 		$this->data['holdingssets'] = $holdingssets->paginate(20);
 
 		if (isset($_GET['page']))  {
@@ -169,7 +176,7 @@ class HoldingssetsController extends BaseController {
 	public function show($id)
 	{
 		$this->data['holdingsset'] = Holdingsset::find($id);
-  	return View::make('holdingssets.show');
+  	return View::make('holdingssets.show', $this->data);
 	}
 
 	/**
@@ -233,9 +240,11 @@ class HoldingssetsController extends BaseController {
 	public function putLock($id) {
 		$holding = Holding::find($id);
 		$value = ( $holding->locked ) ? false : true;
-
-		if ($holding->update(['locked'=>$value]))
-			return ($value) ? Response::json( ['lock' => [$id]] ) : Response::json( ['unlock' => [$id]] );
+		$holdingsset_id = Input::get('holdingsset_id');
+		holdingsset_recall($holdingsset_id);
+		$holdingssets[] = Holdingsset::find($holdingsset_id);
+		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+		return $newset;
 	}	
 
 
@@ -261,6 +270,7 @@ class HoldingssetsController extends BaseController {
 -----------------------------------------------------------------------------------*/
 	public function putNewHOS($id) {
 		$holding 	= Holding::find($id);
+		$holdingsset_id = Input::get('holdingsset_id');
 
 		$lastId = Holdingsset::orderBy('id', 'DESC')->take(1)->get();
 		$key = '';
@@ -280,14 +290,50 @@ class HoldingssetsController extends BaseController {
 		$newHos ->	id 	= $key -> id + 1;
 		$newHos ->	sys1 	= $holding -> sys2;
 		$newHos ->	f245a = $holding -> f245a;
-		$newHos ->	ptrn 	= $newptrn;
-		$newHos ->	ok 		= false;
+		$newHos ->	ptrn 	= $newptrn; 
 		$newHos ->	save();
-		$holding = Holding::find($id)->update(['holdingsset_id'=>$newHos -> id]);
-		return Response::json( ['newhosok' => [$id]] );
+		$holding = Holding::find($id)->update(['holdingsset_id'=>$newHos -> id, 'is_owner' => 't', 'is_aux' => 'f']);
+		
+		holdingsset_recall($holdingsset_id);
+		$holdingssets[] = Holdingsset::find($holdingsset_id);
+		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+		return $newset;
+		// return Response::json( ['newhosok' => [$id]] );
 	}	
 
+/* ---------------------------------------------------------------------------------
+	Force a Holdins to be HOs owner
+	--------------------------------------
+	Params:
+		$id: Holdings id 
+		$holdingsset_id: Holdingssset id 
+-----------------------------------------------------------------------------------*/
 	public function putForceOwner($id) {
+		$holdingsset_id = Input::get('holdingsset_id');
+		$holdingsset = Holdingsset::find($holdingsset_id);
+
+		$unsetcurrentowner = $holdingsset -> holdings()->update(['is_owner' => 'f', 'force_owner' => false]);
+		$holding = Holding::find($id)->update(['is_owner'=>'t', 'force_owner' => true]);
+
+		holdingsset_recall($holdingsset_id);
+		$holdingssets[] = Holdingsset::find($holdingsset_id);
+		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+		return $newset;
+	}		
+
+/* ---------------------------------------------------------------------------------
+	Force a Holdins to be HOs owner
+	--------------------------------------
+	Params:
+		$id: Holdings id 
+		$holdingsset_id: Holdingssset id 
+-----------------------------------------------------------------------------------*/
+	public function putForceAux($id) {
+		$holding = Holding::find($id)->update(['is_aux'=>'t', 'force_aux' => true]);
+		holdingsset_recall($holdingsset_id);
+		$holdingssets[] = Holdingsset::find($holdingsset_id);
+		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+		return $newset;
 	}	
 
 /* ---------------------------------------------------------------------------------
@@ -370,6 +416,19 @@ function truncate($str, $length, $trailing = '...') {
     $res = $str;
   }
   return $res;
+}
+
+/* ---------------------------------------------------------------------------------
+	Recall a holdingsset.
+	--------------------------------------
+	Params:
+		$id: HOS id
+		$params: Parameters to used in recall
+						- force_owner(int: Holding id): Fix a Holdings that has to be owner of the HOS
+						- force_aux(int: Holding id): Fix a Holdings thet has to be owner of the HOS
+-----------------------------------------------------------------------------------*/
+function holdingsset_recall($id) {
+
 }
 
 

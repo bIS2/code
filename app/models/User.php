@@ -38,9 +38,13 @@ class User extends ConfideUser implements PresentableInterface {
       return $this->hasMany('Confirm');
   }
 
-  public function library() {
-      return $this->belongsTo('Library');
-  }	
+    public function library() {
+        return $this->belongsTo('Library');
+    }
+
+    public function lockeds() {
+        return $this->hasMany('Locked');
+    }
 
 	/**
 	 * The database table used by the model.

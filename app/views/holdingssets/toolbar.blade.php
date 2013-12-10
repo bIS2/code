@@ -94,7 +94,6 @@
 									<div class="col-xs-12 text-center">
 										<h3 class="text-primary"><span class="fa fa-check"></span> {{ trans('general.select_fields_to_search') }}	</h3>		
 										<div id="currentfiltersoption" class="btn-group" data-toggle="buttons">
-											
 											<?php
 											$allsearchablefields = ALL_SEARCHEABLESFIELDS;
 											$allsearchablefields = explode(';', $allsearchablefields);

@@ -47,4 +47,19 @@ class Holdingsset extends Eloquent {
   public function getIsannotatedAttribute(){
     return Holding::whereHoldingssetId($this->id)->annotated()->count() > 0;
   }
+
+  public function getShowlistgroupAttribute($query){
+    $group_id = Input::get('group_id');
+    $count = $this->groups->count();
+    $ret = '';
+    $i = 0;
+    foreach ($this->groups as $currentgroup) {             
+      if (($currentgroup['id']) == $group_id) $ret .= strtoupper($currentgroup['name']);  
+      else
+        $ret .= strtolower($currentgroup['name']);
+      $i++;
+      if ($i < $count) $ret .= ';';
+    }
+    return $ret;
+  }
 }

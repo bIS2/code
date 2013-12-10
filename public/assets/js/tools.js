@@ -110,7 +110,25 @@ $(function(){
 
 function getAsuccess() {
   $('a').on({
-    'ajax:success': function(data, result, status){
+    'ajax:success': function(data, result, status){ 
+        if ($(this).attr('set') > 0) {
+          set = $(this).attr('set');
+          $('#hosg .hol-sets li#'+set).find('div.accordion-toggle').click();
+          $('#hosg .hol-sets li#'+set).fadeOut('slow', function() {
+            $(this).replaceWith(result);
+            setDatatable();
+            $('#hosg .hol-sets li#'+set).css('visibility', 'hidden')              
+            $('#hosg .hol-sets li#'+set).fadeOut('slow', function() {
+              $('#hosg .hol-sets li#'+set).css('visibility', 'visible')
+              $('#hosg .hol-sets li#'+set).fadeIn('slow', function() {
+                accordion = $('#hosg .hol-sets li#'+set).find('div.accordion-toggle');
+                $(accordion).click();
+                setDraggoption();
+              })
+            })
+          })
+       }
+
         if ( result.remove )
           $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
 
@@ -140,13 +158,12 @@ function getAsuccess() {
             $('tr#holding' + result.newhosok).remove(); 
         }
 
-
         /* Holdings locks */
         if ( result.lock ){
-            $('#holding'+result.lock).addClass('locked').find('.btn-lock').addClass('btn-warning');    
+            $('#holding'+result.lock+'').addClass('locked').find('a#holding' + result.lock + 'lock').addClass('btn-warning');
         }
         if ( result.unlock ){
-            $('#holding'+result.unlock).removeClass('locked').find('.btn-lock').removeClass('btn-warning');    
+            $('#holding'+result.unlock).removeClass('locked').find('a#holding' + result.unlock + 'lock').removeClass('btn-warning');    
         }
 
         /* Holdings Tags */

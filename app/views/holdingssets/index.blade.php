@@ -10,17 +10,19 @@
 @include('holdingssets.groupstabs')
 
 	<div>
-		<div class="checkbox col-xs-3">
-		  <label>
-		    <input id="select-all" name="select-all" type="checkbox" value="1">
-		    <p class="text-primary"><strong>{{ trans('holdingssets.select_all_hos') }}</strong></p>
-		  </label>
-		</div>
-		<div class="col-xs-12 clearfix">
-		  <a href="#collapseTwo" id="filter-btn" class="accordion-toggle btn btn-sm dropdown-toggle pull-right collapsed text-warning" data-toggle="collapse">
-    		<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
-  		</a>
-		</div>
+		<?php if (count($holdingssets) > 0) { ?>
+			<div class="checkbox col-xs-3">
+			  <label>
+			    <input id="select-all" name="select-all" type="checkbox" value="1">
+			    <p class="text-primary"><strong>{{ trans('holdingssets.select_all_hos') }}</strong></p>
+			  </label>
+			</div>
+			<div class="col-xs-12 clearfix">
+			  <a href="#collapseTwo" id="filter-btn" class="accordion-toggle btn btn-sm dropdown-toggle pull-right collapsed text-warning" data-toggle="collapse">
+	    		<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
+	  		</a>
+			</div>
+		<?php } ?>
 		<div class="col-xs-12">
 			<div class="accordion" id="FieldsShow">
 			   <div id="collapseTwo" class="accordion-body text-right collapse">
@@ -73,7 +75,12 @@
 	</div>
 <section id="hosg" group_id = "<?php echo $group_id;  ?>">
 	<ul class="hol-sets table">
-		@include('holdingssets.hos')
+		<?php if (count($holdingssets) > 0) { ?>
+			@include('holdingssets.hos')
+		<?php }
+		else { ?>
+			<h2 class="text-danger">{{ trans('holdingssets.no_results_to_show') }}</h2>
+			<?php } ?>
 	</ul>
 </section>	
 
@@ -83,5 +90,11 @@
 	</div>
 	<div class="remote">
 		<div id="modal-show-external" class="modal face"><div class="modal-body"></div></div>
+	</div>
+	<div class="remote">
+ 		<div id="form-create-notes" class="modal"></div>
+	</div>
+	<div class="remote">
+ 		<div id="set-show" class="modal face"></div>
 	</div>
 @stop

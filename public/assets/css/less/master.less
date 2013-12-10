@@ -230,7 +230,8 @@ footer {
     background: @gray-lighter;
     padding-top: @font-size-base;
     color: @gray-light;
-    .affix
+    .affix;
+    z-index: 10; 
 }
 
 .form-signin {
@@ -265,10 +266,12 @@ tr.locked td, tr.locked div {
 
 .is_owner .fa-square {
     color: darken(@swiss-red, 10%) !important;
+    cursor: pointer;
 }
 
 .is_pref .fa-square.aux {
     color: @swiss-orange !important;
+    cursor: pointer;
 }
 
 ul.hol-sets {
@@ -304,22 +307,22 @@ ul.hol-sets {
     border: none !important;
 }
 
-.AGKB * {
+.AGKB td {
     background: #b3e2cd;
 }
-.BSUB * {
+.BSUB td {
     background: #fdcdac;
 }
-.LUZB * {
+.LUZB td {
     background: #cbd5e8;
 }
-.SGHG * {
+.SGHG td {
     background: #facae4;
 }
-.ZHUZ * {
+.ZHUZ td {
     background: #e6f5c9;
 }
-.ZHZB * {
+.ZHZB td {
     background: #fff2ae;
 }
 .bib1 {
@@ -331,9 +334,11 @@ ul.hol-sets {
 //ocrr_ptrn
 .ocrr_ptrn .fa {
     color: transparent;
+    min-width: 13px !important;
     &.fa-square {
         @color: @swiss-blue;
         color: darken(@color, 10%);
+        cursor: pointer;
         &.aux {
             @color: @swiss-yellow;
             color: darken(@color, 10%);
@@ -370,13 +375,16 @@ tr.success, tr.danger{ .btn-send{ display:inline; } }
             background-color: transparent !important;
         }
     }
-    &.AGKB *,
-    &.BSUB *,
-    &.LUZB *,
-    &.SGHG *,
-    &.ZHUZ *,
-    &.ZHZB * {
+    &.AGKB td,
+    &.BSUB td,
+    &.LUZB td,
+    &.SGHG td,
+    &.ZHUZ td,
+    &.ZHZB td {
         background: none !important;
+    }
+    td.actions {
+        background-color: #ffffff !important;
     }
 }
 
@@ -460,11 +468,13 @@ table.table thead th:first-child {
 
 #hosg .hol-sets {
     position: relative;
-    table.flexme > thead > tr > th:first-child,
-    table.flexme > tbody > tr > td:first-child {
+    table.flexme > thead > tr > th.actions,
+    table.flexme > tbody > tr > td.actions {
         position: absolute;
-        width: 100px !important;   
+        width: 120px !important;   
         height: 22px;  
+        z-index: 9;
+        left:21px;
         border-bottom: none !important; 
         a {
             margin: 0 3px;
@@ -472,7 +482,7 @@ table.table thead th:first-child {
     }
     table.flexme > thead > tr > th:first-child + th,
     table.flexme > tbody > tr > td:first-child + td {
-        padding-left: 110px;
+        padding-left: 130px;
         border-left: none;
     }
     > li {
@@ -497,6 +507,14 @@ table.table thead th:first-child {
                 display: block;
                 cursor: pointer !important;
             }
+        }
+    }
+    table.flexme > tbody > tr {            
+        > td.actions a {
+            display: none;
+        }
+        &:hover > td.actions a {
+            display: inline-block;
         }
     }
 }
@@ -563,4 +581,24 @@ a#filter-btn.btn-primary {
 }
 li.ui-draggable-dragging {
     width: 100%;
+}
+p.separator {
+    margin:0;
+    padding:0;
+    color:transparent;
+    width:10px;
+    display:inline-block; 
+}
+.ptrn {
+/*    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);*/
+}
+.modal-body {
+    .fa {
+        min-width: 16px !important;
+    }
 }
