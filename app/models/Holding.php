@@ -9,6 +9,10 @@ class Holding extends Eloquent {
   public function holdingsset() {
       return $this->belongsTo('Holdingsset');
   }
+
+  public function library() {
+      return $this->belongsTo('Library');
+  }
   
   public function notes() {
       return $this->hasMany('Note');
@@ -22,51 +26,58 @@ class Holding extends Eloquent {
 		return $this->hasOne('Ok');
 	}
 
-
 	public function delivery(){
 		return $this->hasOne('Delivery');
 	}
 
+	public function revised(){
+		return $this->hasOne('Revised');
+	}
+
+
+
   // Scopes
-  public function scopeVerified ($query){
-		return $query
-			->with('ok','notes')
-			// Select Holdings Set confirmed by librarian
-      ->whereIn( 'holdingsset_id', function($query){ 
-      	$query->select('id')->from('holdingssets')->whereOk(true); 
-      })
-			// and belongs to library of user
-      ->where( function($query){ 
-      	$query->whereF852b( Auth::user()->library->code )
-      				->orWhereIn( 'f852b', explode(',',Auth::user()->library->sublibraries) ); 
-      })
-      // and with owner = true or auxiliar = true
-      ->where(function($query){
-        $query->whereIsOwner('t')->orWhere('is_aux','=','t');
-      });
+  public function scopeInit ($query){
+
+  	$query = $query->with('ok','notes')->inLibrary();
+
+  	return ( Auth::user()->hasRole('postuser') ) ?
+				  		$query->reviseds()->corrects() :
+							$query->confirms()->noReviseds()->ownerOrAux();
   }
 
   public function scopeInLibrary($query){
+  	return $query->whereLibraryId( Auth::user()->library_id );
+  }
 
-  	$sublibraries = explode(',',Auth::user()->library->sublibraries);
+  public function scopeOwnerOrAux($query){
+  	return $query->where( function($query){ $query->whereIsOwner('t')->orWhere('is_aux','=','t'); });
+  }
 
-    return $query
-    	->whereF852b( Auth::user()->library->code )
-    	->orWhereIn( 'f852b', $sublibraries ); 
+  public function scopeConfirms($query){
+  	return $query->whereIn( 'holdingsset_id', function($query){ $query->select('holdingsset_id')->from('confirms')->lists('holdingsset_id'); });
   }
 
   public function scopeCorrects($query){
-  	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); } );
+  	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); });
   }
 
   public function scopeDeliveries($query){
-  	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('deliveries'); } );
+  	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('deliveries'); });
+  }
+
+  public function scopeReviseds($query){
+  	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('reviseds'); });
+  }
+
+  public function scopeNoReviseds($query){
+  	return $query->whereNotIn( 'holdings.id', function($query){ $query->select('holding_id')->from('reviseds'); });
   }
 
   public function scopePendings($query){
   	return $query
   		->whereNotIn( 'id', function($query){ $query->select('holding_id')->from('oks'); } )
-  		->whereNotIn( 'id', function($query){ $query->select('holding_id')->distinct()->from('notes'); } );
+  		->whereNotIn( 'id', function($query){ $query->select('holding_id')->distinct()->from('notes'); });
   }
 
   public function scopeAnnotated($query,$tag_id='%'){
@@ -102,12 +113,40 @@ class Holding extends Eloquent {
     });
   }
 
+  // Attrubutes States
   public function getIsCorrectAttribute(){
     return $this->ok()->exists();
   }
 
   public function getIsAnnotatedAttribute(){
     return $this->notes()->exists();
+  }
+
+  public function getIsRevisedAttribute(){
+    return $this->revised()->exists();
+  }
+
+
+
+  // Attrubutes CSS Class
+  public function getClassOwnerAttribute(){
+  	return ($this->is_owner == 't') ? ' is_owner' : '';
+  }
+
+  public function getClassCorrectAttribute(){
+  	return ($this->is_correct) ? 'success' : '';
+  }
+
+  public function getClassAnnotatedAttribute(){
+  	return ($this->is_annotated) ? 'danger' : '';
+  }
+
+  public function getClassRevisedAttribute(){
+  	return ($this->is_revised) ? 'revised' : '';
+  }
+
+  public function getLibraryAttribute(){
+  	return Library::where( 'sublibrary','like',"'%".$this->f852b."%'"); 
   }
 
   public function getPatrnAttribute(){

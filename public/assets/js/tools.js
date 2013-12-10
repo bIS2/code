@@ -1,6 +1,7 @@
 $(function(){
 
-  $.fn.editable.defaults.mode = 'popup';
+  $.fn.editable.defaults.mode = 'inline';
+  // $.fn.editable.defaults.inputclass = 'input-';
   $.fn.editable.defaults.ajaxOptions = {type: "PUT"};
   $('.editable').editable();
 
@@ -71,8 +72,8 @@ $(function(){
     if ( result.remove )
       $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
 
-    if ( result.remove_by_holdingset_id )
-      $('tr[data-holdingsset-id='+ result.remove_by_holdingset_id +']').hide('slow', function(){ $(this).remove() }); 
+    if ( result.remove_by_holdingsset )
+      $('tr[data-holdingsset='+ result.remove_by_holdingsset +']').hide('slow', function(){ $(this).remove() }); 
     
 
   })
@@ -115,10 +116,10 @@ function getAsuccess() {
 
         // Set HOS to CONFIRM
         if ( result.ok ){
-            $('#'+result.ok).find('.btn-ok').addClass('btn-success disabled').removeClass('btn-default');
-            if ($('a#filter_pending').hasClass('btn-primary'))
-                $('li#'+result.ok).remove();
-             // console.log('li#'+result.ok);      
+          $('#'+result.ok).find('.btn-ok').addClass('btn-success disabled').removeClass('btn-default');
+          if (($('a#filter_pending').hasClass('btn-primary')) || ($('a#filter_annotated').hasClass('btn-primary'))) {
+            $('li#'+result.ok).remove();  
+          }  
         }
 
         // Set HOS to UNCONFIRM
@@ -126,6 +127,12 @@ function getAsuccess() {
             $('#'+result.ko).find('.btn-ok').addClass('btn-default').removeClass('btn-success');
             if ($('a#filter_confirmed').hasClass('btn-primary'))
                 $('li#'+result.ko).remove();
+        }
+        
+        if ( result.removefromgroup ){
+          $('li#'+result.removefromgroup).fadeOut('slow', function() {
+            $('li#'+result.removefromgroup).remove();
+          })
         }
 
         //

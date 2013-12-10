@@ -13,6 +13,16 @@
 	}
 	define('DEFAULTS_GROUPS', $groupsids);
 
+	$restarcookie = true;
+	$cookiesids = explode(';', $_COOKIE[Auth::user()->username.'_groups_to_show']);
+	foreach ($groups as $group) {
+		if (in_array($group -> id, $cookiesids)) {
+			$restarcookie = false;
+			break;
+		}
+	}
+	// var_dump($restarcookie);
+	if ($restarcookie) Session::put(Auth::user()->username.'_groups_to_show', ';');
 	if (!isset($_COOKIE[Auth::user()->username.'_groups_to_show']) || (Session::get(Auth::user()->username.'_groups_to_show') == ';')) {
 	  setcookie(Auth::user()->username.'_groups_to_show', DEFAULTS_GROUPS, time() + (86400 * 30));
 	  Session::put(Auth::user()->username.'_groups_to_show', DEFAULTS_GROUPS);
@@ -24,8 +34,10 @@
 	if (Session::get(Auth::user()->username.'_groups_to_show') != '') 
  		setcookie(Auth::user()->username.'_groups_to_show', Session::get(Auth::user()->username.'_groups_to_show'), time() + (86400 * 30));
 
+
 	$groupsids = '';
 	$groupsids = Session::get(Auth::user()->username.'_groups_to_show');
+
 
  	if (isset($group_id))  {
  		$tempids = [];

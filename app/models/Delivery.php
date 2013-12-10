@@ -21,4 +21,7 @@ class Delivery extends Eloquent {
       return $this->belongsTo('user');
   }
 
+  public function scopeInLibrary($query){
+  	return $query->whereIn('holding_id', function($query){ $query->select('id')->from('holdings')->whereLibraryId(Auth::user()->id); });
+  }
 }

@@ -25,21 +25,23 @@ class Holdingsset extends Eloquent {
 
   public function scopeOk($query){
     return $query
-    ->whereIn('id', function($query) {
+    ->whereIn('holdingssets.id', function($query) {
       $query -> select('holdingsset_id')->from('confirms');
     });
   }
 
   public function scopePendings($query){
     return $query
-    ->whereNotIn('id', function($query) {
+    ->whereNotIn('holdingssets.id', function($query) {
       $query -> select('holdingsset_id')->from('confirms');
     });
   }
 
   public function scopeAnnotated($query){
+    $ids = Holding::annotated()->select('holdingsset_id')->lists('holdingsset_id');
+    if (count($ids) == 0 ) $ids = [-1];
     return $query
-    ->whereIn('id', Holding::annotated()->select('holdingsset_id')->lists('holdingsset_id'));
+    ->whereIn('holdingssets.id', $ids);
   }
 
   public function getIsannotatedAttribute(){

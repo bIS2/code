@@ -5,17 +5,11 @@
 ?>
 @foreach ($holdingssets as $holdingsset)
 		<?php $ok 	= ($holdingsset->ok) ? 'ok' : ''  ?>
-		<?php $btn 	= ($holdingsset->confirm()->exists()) ? 'btn-success disabled' : 'btn-default'  ?>
-		<?php $btn 	= ($holdingsset->isannotated) ? 'btn-warning' : $btn  ?>
+		<?php $btn 	= ($holdingsset->isannotated) ? 'btn-warning' : 'btn-default'  ?>
+		<?php $btn 	= ($holdingsset->confirm()->exists()) ? 'btn-success disabled' : $btn  ?>
 		<li id="<?= $holdingsset -> id; ?>">
 			  <div class="panel-heading row">
 		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="<?= $holdingsset->id ?>" class="pull-left hl sel">
-		  				<?php if ((isset($group_id)) && ($group_id > 0)) { ?>
-		      		<span class="btn btn-primary btn-xs move" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_move_this_HOS_to_another_HosGroup'); }}"><i class="glyphicon glyphicon-move "></i></span>
-		      		<?php }
-		      		else { ?>
-							<span class="move btn btn-primary btn-xs" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'); }}"><i class="fa fa-copy "></i></span>
-		      		<?php } ?>
 		      <div href="#<?= $holdingsset -> sys1; ?>" data-parent="#group-xx" title="<?= $holdingsset->f245a; ?>" data-toggle="collapse" class="accordion-toggle collapsed col-xs-10" opened="0">
 		      	<?= $holdingsset->sys1.' :: '.htmlspecialchars(truncate($holdingsset->f245a, 100),ENT_QUOTES); ?>
 		      	@if ($holdingsset->has('holdings') && $count1 = $holdingsset -> holdings -> count()) 
@@ -38,12 +32,18 @@
 		      <div class="text-right action-ok col-xs-1">
 		      	@if (Auth::user()->hasRole('resuser')) 
 		      	@else
-
-		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="<?php if ($btn == 'btn-default') { ?>{{ route('confirms.store',['holdingsset_id' => $holdingsset->id]) }} <?php } ?>" class="btn btn-ok btn-xs {{ $btn }}" data-remote="true" data-method="post" data-disable-with="..." title="<?php if ($btn == 'btn-default') { ?> {{ trans('holginssets.confirm_ok_HOS') }}<?php } else { ?>{{ trans('holginssets.confirmed_HOS') }}<?php } ?>">
+		      	<a id="holdingsset<?= $holdingsset -> sys1; ?>" href="<?php if ($btn != 'btn-success disabled') { ?>{{ route('confirms.store',['holdingsset_id' => $holdingsset->id]) }} <?php } ?>" class="btn btn-ok btn-xs {{ $btn }}" data-remote="true" data-method="post" data-disable-with="..." title="<?php if ($btn != 'btn-success disabled') { ?> {{ trans('holginssets.confirm_ok_HOS') }}<?php } else { ?>{{ trans('holginssets.confirmed_HOS') }}<?php } ?>">
 		      			<span class="glyphicon glyphicon-thumbs-up"></span>
 		      	</a>		
 		      	@endif      	
 		      </div>
+		      <?php if ((isset($group_id)) && ($group_id > 0)) { ?>
+      			<span class="btn btn-primary btn-xs move" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_move_this_HOS_to_another_HosGroup'); }}"><i class="glyphicon glyphicon-move"></i></span>
+      			<a class="trash btn btn-error btn-xs" title="{{ trans('holdingssets.remove_hos_from_this_group'); }}" href="{{ action('HoldingssetsController@putDeleteHosFromGroup',[$holdingsset->id]) }}" data-params="group_id={{ $group_id }}" data-remote="true" data-method="put" data-disable-with="..."><i class="glyphicon glyphicon-trash"></i></a>
+      		<?php }
+      		else { ?>
+						<span class="move btn btn-primary btn-xs" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'); }}"><i class="fa fa-copy"></i></span>
+      		<?php } ?>
 			  </div>	
 	  		<div class="panel-collapse collapse container" id="<?= $holdingsset -> sys1; ?>">
 			    <div class="panel-body">

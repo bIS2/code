@@ -86,7 +86,12 @@ $(function(){
 						}
 						else {
 							otherbadge = $(ui.draggable).find('span.badge + p');
-							$('<span class="badge ingroups" title="Reload to update" ><i class="fa fa-folder-o"></i> ' + result.ingroups + '</span>').insertAfter(otherbadge);
+							$('<span style="display: none;" class="badge ingroups" title="Reload to update" ><i class="fa fa-folder-o"></i> ' + result.ingroups + '</span>').insertAfter(otherbadge);
+							newbadge = $(ui.draggable).find('span.badge.ingroups');
+							$(newbadge).fadeOut('slow', function() {
+								$(newbadge).removeAttr('style');
+								$(newbadge).fadeIn('slow');
+							});
 						}
 					}					
 				}
