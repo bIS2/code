@@ -29,7 +29,7 @@
 		</thead>
 		<tbody class="selectable">
 		@foreach ($holdings as $holding)
-			<?php $ownertrclass 	= ($holding->is_owner == 't') ? ' is_owner' : '';  ?>
+			<?php $ownertrclass 	= ($holding->is_owner == 't') ? ' is_owner ' : '';  ?>
 			<tr id="<?= $holding->id ?>" class="{{ $ownertrclass }}{{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}">
 				<td><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
 				<td id="{{ $holding->id }}" class="actions">

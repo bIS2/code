@@ -144,3 +144,5 @@ Route::controller('user', 'UserController');
 Route::resource('deliveries', 'DeliveriesController');
 
 Route::resource('confirms', 'ConfirmsController');
+
+Route::resource('lockeds', 'LockedsController');

@@ -10,10 +10,18 @@ class Holding extends Eloquent {
       return $this->belongsTo('Holdingsset');
   }
   
+  public function library() {
+      return $this->belongsTo('Library');
+  }
+  
   public function notes() {
       return $this->hasMany('Note');
   }
 
+  public function locked() {
+    return $this->hasOne('Locked');
+  }
+  
   public function hlist(){
     return $this->belongsToMany('Hlist');
   }
@@ -45,15 +53,6 @@ class Holding extends Eloquent {
       });
   }
 
-  public function scopeInLibrary($query){
-
-  	$sublibraries = explode(',',Auth::user()->library->sublibraries);
-
-    return $query
-    	->whereF852b( Auth::user()->library->code )
-    	->orWhereIn( 'f852b', $sublibraries ); 
-  }
-
   public function scopeCorrects($query){
   	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); } );
   }
@@ -75,10 +74,8 @@ class Holding extends Eloquent {
     else
       $tag_ids = DB::table('notes')->whereTagId($tag_id)->lists('holding_id');
    
-    if (count($tag_ids) > 0)
+      $tag_ids = (count($tag_ids) > 0) ? $tag_ids : [-1];
       return $query->whereIn('holdings.id', $tag_ids);
-    else
-    	return $query->whereIn('holdings.id', [-1]);  
   } 
 
   public function scopeOrphans($query){
@@ -111,6 +108,7 @@ class Holding extends Eloquent {
 
   public function getPatrnAttribute(){
 
+    $ptrn = explode('|', $this->holdingsset->ptrn);
     $ocrr_ptrn = str_split($this->ocrr_ptrn);
     $j_ptrn = str_split($this->j_ptrn);
     $aux_ptrn = str_split($this->aux_ptrn);
@@ -127,7 +125,7 @@ class Holding extends Eloquent {
           $classaux = '';
           if (isset($j_ptrn[$i]))     $classj   = ($j_ptrn[$i] == '1') ? ' j' : ''; 
           if (isset($aux_ptrn[$i]))   $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
-          $ret .= '<i class="fa fa-square fa-lg'.$classj.$classaux.'"></i>';
+          $ret .= '<i class="fa fa-square fa-lg pop-over'.$classj.$classaux.'" data-content="'.$this->f852b.' | '.$this->f852h.' | '.$ptrn[$i].'" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>';
           break;
       }
      $i++; 

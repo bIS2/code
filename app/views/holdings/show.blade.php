@@ -7,7 +7,7 @@
 				<table class="table table-striped table-condensed">
 					<tr>
 					  <td>f245a</td>
-						<td><?= $holding->f245a; ?></td>
+						<td><?= htmlspecialchars($holding->f245a,ENT_QUOTES); ?></td>
 					</tr>					
 					<tr>
 					  <td>f245b</td>
