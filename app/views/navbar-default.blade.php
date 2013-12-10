@@ -26,16 +26,15 @@
 
 		<ul class="nav navbar-nav pull-right">
 			@if (Auth::check())
-				<li>
-					<a data-toggle="dropdown" href="{{{ URL::to('user') }}}">
+	       <li>
+	       		<div class="navbar-text" data-toggle="tooltip" data-original-title="{{ 'Sublibraries: '.Auth::user()->library->sublibraries}}">
+							{{Auth::user()->library->code}} {{{ Auth::user()->library->name }}}
+	       		</div>
+	       </li>
+					<li>
+					<a href="{{{ URL::to('user') }}}" data-toggle="tooltip" data-original-title="{{ 'Sublibraries: '.Auth::user()->library->sublibraries}}">
 						<span class="fa fa-user"></span> {{{ Auth::user()->username }}}
 					</a>
-	       </li>
-	       <li>
-	       		<span class="navbar-text">
-							{{{ Auth::user()->library->code }}}
-							{{{ Auth::user()->library->sublibraries }}}
-	       		</span>
 	       </li>
 	      <?php if (Session::get('locale') == 'de') { ?>
 

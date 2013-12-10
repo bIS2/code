@@ -1,6 +1,7 @@
 $(function(){
 
-  $.fn.editable.defaults.mode = 'popup';
+  $.fn.editable.defaults.mode = 'inline';
+  // $.fn.editable.defaults.inputclass = 'input-';
   $.fn.editable.defaults.ajaxOptions = {type: "PUT"};
   $('.editable').editable();
 
@@ -70,6 +71,9 @@ $(function(){
 
     if ( result.remove )
       $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
+
+    if ( result.remove_by_holdingsset )
+      $('tr[data-holdingsset='+ result.remove_by_holdingsset +']').hide('slow', function(){ $(this).remove() }); 
     
 
   })
@@ -100,7 +104,7 @@ $(function(){
     //}
   })
 
-getAsuccess()
+	getAsuccess()
  
 })
 

@@ -18,18 +18,27 @@ class User extends ConfideUser implements PresentableInterface {
 		return $this->hasMany('Group');
 	}
 
-    public function traces(){
-        return $this->hasMany('Trace');
-    }
+  public function traces(){
+      return $this->hasMany('Trace');
+  }
 
 	public function oks(){
 		return $this->hasMany('Ok');
 	}
 
-    public function confirms() {
-        return $this->hasMany('Confirm');
-    }
+	public function deliveries(){
+		return $this->hasMany('Delivery');
+	}
 
+	public function reviseds(){
+		return $this->hasMany('Revised');
+	}
+
+  public function confirms() {
+      return $this->hasMany('Confirm');
+  }
+
+<<<<<<< HEAD
     public function library() {
         return $this->belongsTo('Library');
     }
@@ -37,6 +46,11 @@ class User extends ConfideUser implements PresentableInterface {
     public function lockeds() {
         return $this->hasMany('Locked');
     }
+=======
+  public function library() {
+      return $this->belongsTo('Library');
+  }	
+>>>>>>> 86da6699d295af34ca3376881e7d69712455ac23
 
 	/**
 	 * The database table used by the model.

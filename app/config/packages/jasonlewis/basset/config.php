@@ -51,6 +51,7 @@ return array(
             $collection->directory('assets/js', function($collection){
                 $collection->add('jquery-1.10.2.min.js');
                 $collection->add('laravel-ujs.js');
+                $collection->add('bootstrap/bootstrap.js');
 
             })->apply('JsMin');;
     	},

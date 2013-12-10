@@ -21,7 +21,7 @@ class HoldingsController extends BaseController {
 	{
 		$this->data['allsearchablefields'] = ['022a','245a','245b','008x','245c','310a','362a','710a','780t','785t','852b','852h','008y'];
 
-		$holdings = ( Input::has('hlist_id') ) ?	Hlist::find( Input::get('hlist_id') )->holdings() : Holding::verified();
+		$holdings = ( Input::has('hlist_id') ) ?	Hlist::find( Input::get('hlist_id') )->holdings() : Holding::init();
 
     $this->data['hlists'] = Auth::user()->hlists;
     $this->data['hlist'] = (Input::has('hlist_id')) ? Hlist::find(Input::get('hlist_id')) : false;

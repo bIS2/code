@@ -8,12 +8,21 @@ return [
 
         // Allow delivery holding from storage revision
         $authority->allow('delivery', 'Holding', function($self, $holding) {
-          return ($holding->is_correct || $holding->is_annotated );
+          return ( $holding->is_revised && $holding->is_correct && Auth::user()->hasRole('postuser') );
+        });
+
+        $authority->allow('revise', 'Holding', function($self, $holding) {
+          return ( (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser')) && !$holding->is_revised );
+        });
+
+        $authority->allow('set_size', 'Holding', function($self, $holding) {
+          return ( (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser')) && !$holding->is_revised );
         });
 
         $authority->allow('manage', 'User', function($self, $user) {
           return ($holding->is_correct || $holding->is_annotated );
         });
+
 
         // Action aliases. For example:
         //
