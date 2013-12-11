@@ -3,7 +3,7 @@
 class SetLibraryIdToHoldingsSeeder extends Seeder {
 
     public function run() {
-    	
+
     	print "hola";
     	$holdings = Holding::all();
 			foreach ( $holdings as $holding) {
@@ -11,7 +11,7 @@ class SetLibraryIdToHoldingsSeeder extends Seeder {
 				$library = Library::where( 'sublibraries','like','%'.$holding->f852b.'%')->first();
 
 				$holding->library_id = $library->id; 
-				print $holding->f852b;
+				//print $holding->f852b;
 				$holding->save();
 			}
     }
