@@ -1,7 +1,9 @@
 @extends('layouts.default')
 
 @section('toolbar')
+
 	@include('holdings.toolbar')
+	
 @stop
 
 {{-- Content --}}
