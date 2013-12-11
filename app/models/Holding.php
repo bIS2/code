@@ -14,10 +14,7 @@ class Holding extends Eloquent {
       return $this->belongsTo('Library');
   }
   
-  public function library() {
-      return $this->belongsTo('Library');
-  }
-  
+ 
   public function notes() {
       return $this->hasMany('Note');
   }
