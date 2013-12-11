@@ -93,6 +93,7 @@ return array(
                 $collection->add('flexigrid.js');
                 $collection->add('laravel-ujs.js');
                 $collection->add('bootstrap-editable.min.js');
+                $collection->add('jquery.ui.touch-punch.min.js');
                 $collection->add('tools.js');
 
                // $collection->requireDirectory('../../../vendor/twbs/bootstrap/js');
