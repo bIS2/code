@@ -3,7 +3,7 @@
 @section('toolbar')
 
 	@include('holdings.toolbar')
-	
+
 @stop
 
 {{-- Content --}}

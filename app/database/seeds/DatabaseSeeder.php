@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder {
 		$this->call('ConfirmsTableSeeder');
 		$this->call('RevisedsTableSeeder');
 		$this->call('LockedsTableSeeder');
+		$this->call('FeedbacksTableSeeder');
 	}
 
 }

@@ -147,10 +147,6 @@ class Holding extends Eloquent {
   	return ($this->is_revised) ? 'revised' : '';
   }
 
-  public function getLibraryAttribute(){
-  	return Library::where( 'sublibrary','like',"'%".$this->f852b."%'"); 
-  }
-
   public function getPatrnAttribute(){
 
     $ptrn = explode('|', $this->holdingsset->ptrn);

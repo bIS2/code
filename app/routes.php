@@ -148,3 +148,6 @@ Route::resource('confirms', 'ConfirmsController');
 Route::resource('reviseds', 'RevisedsController');
 
 Route::resource('lockeds', 'LockedsController');
+
+
+Route::resource('feedbacks', 'FeedbacksController');

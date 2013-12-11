@@ -108,7 +108,7 @@
 													<td class="ocrr_ptrn">
 														{{ $holding -> patrn }}
 													</td>
-													<td><?= $holding->library->code; ?></td>
+													<td><?= $holding->library; ?></td>
 												<?php	} ?>
 											<?php } }									?>
 								</tr>
