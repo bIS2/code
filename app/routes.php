@@ -146,7 +146,13 @@ Route::resource('deliveries', 'DeliveriesController');
 Route::resource('confirms', 'ConfirmsController');
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Route::resource('lockeds', 'LockedsController');
 =======
 Route::resource('reviseds', 'RevisedsController');
 >>>>>>> 86da6699d295af34ca3376881e7d69712455ac23
+=======
+Route::resource('reviseds', 'RevisedsController');
+
+Route::resource('lockeds', 'LockedsController');
+>>>>>>> 244bf5e537375d6bff2d7e12b5a44c93e8936705

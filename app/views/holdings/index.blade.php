@@ -30,11 +30,15 @@
 		<tbody class="selectable">
 		@foreach ($holdings as $holding)
 <<<<<<< HEAD
+<<<<<<< HEAD
 			<?php $ownertrclass 	= ($holding->is_owner == 't') ? ' is_owner ' : '';  ?>
 			<tr id="<?= $holding->id ?>" class="{{ $ownertrclass }}{{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}">
 =======
 			<tr id="<?= $holding->id ?>" class="{{ $holding->class_owner }} {{ $holding->class_correct }} {{ $holding->class_annotated }} {{ $holding->class_revised }}" data-holdingsset="{{$holding->holdingsset_id}}">
 >>>>>>> 86da6699d295af34ca3376881e7d69712455ac23
+=======
+			<tr id="<?= $holding->id ?>" class="{{ $holding->class_owner }} {{ $holding->class_correct }} {{ $holding->class_annotated }} {{ $holding->class_revised }}" data-holdingsset="{{$holding->holdingsset_id}}">
+>>>>>>> 244bf5e537375d6bff2d7e12b5a44c93e8936705
 				<td><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
 				<td id="{{ $holding->id }}" class="actions">
 

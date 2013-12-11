@@ -39,6 +39,9 @@ class User extends ConfideUser implements PresentableInterface {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 244bf5e537375d6bff2d7e12b5a44c93e8936705
     public function library() {
         return $this->belongsTo('Library');
     }
@@ -46,11 +49,14 @@ class User extends ConfideUser implements PresentableInterface {
     public function lockeds() {
         return $this->hasMany('Locked');
     }
+<<<<<<< HEAD
 =======
   public function library() {
       return $this->belongsTo('Library');
   }	
 >>>>>>> 86da6699d295af34ca3376881e7d69712455ac23
+=======
+>>>>>>> 244bf5e537375d6bff2d7e12b5a44c93e8936705
 
 	/**
 	 * The database table used by the model.

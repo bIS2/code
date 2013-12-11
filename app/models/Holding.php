@@ -55,7 +55,10 @@ class Holding extends Eloquent {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 244bf5e537375d6bff2d7e12b5a44c93e8936705
   public function scopeInLibrary($query){
   	return $query->whereLibraryId( Auth::user()->library_id );
   }
@@ -68,7 +71,10 @@ class Holding extends Eloquent {
   	return $query->whereIn( 'holdingsset_id', function($query){ $query->select('holdingsset_id')->from('confirms')->lists('holdingsset_id'); });
   }
 
+<<<<<<< HEAD
 >>>>>>> 86da6699d295af34ca3376881e7d69712455ac23
+=======
+>>>>>>> 244bf5e537375d6bff2d7e12b5a44c93e8936705
   public function scopeCorrects($query){
   	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); });
   }
@@ -98,6 +104,7 @@ class Holding extends Eloquent {
     else
       $tag_ids = DB::table('notes')->whereTagId($tag_id)->lists('holding_id');
 <<<<<<< HEAD
+<<<<<<< HEAD
    
       $tag_ids = (count($tag_ids) > 0) ? $tag_ids : [-1];
       return $query->whereIn('holdings.id', $tag_ids);
@@ -108,6 +115,11 @@ class Holding extends Eloquent {
   	return $query->whereIn('holdings.id', $tag_ids);  
 
 >>>>>>> 86da6699d295af34ca3376881e7d69712455ac23
+=======
+   
+      $tag_ids = (count($tag_ids) > 0) ? $tag_ids : [-1];
+      return $query->whereIn('holdings.id', $tag_ids);
+>>>>>>> 244bf5e537375d6bff2d7e12b5a44c93e8936705
   } 
 
   public function scopeOrphans($query){
