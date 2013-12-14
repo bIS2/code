@@ -53,7 +53,7 @@ class ConfirmsController extends BaseController {
 		}
 		// Delete all notes from holdings HOS, if exists
 		$ids = Holdingsset::find($holdingsset_id)->holdings()->select('id')->lists('id');
-		$affectedRows = Note::whereIn('holding_id', $ids)->delete();
+		// $affectedRows = Note::whereIn('holding_id', $ids)->delete();
 		return Response::json( $ret );
 	}
 
