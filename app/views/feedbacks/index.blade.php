@@ -1,10 +1,10 @@
-@extends('layouts.scaffold')
+@extends('layouts.default')
 
-@section('main')
+@section('content')
 
-<h1>All Feedbacks</h1>
-
-<p>{{ link_to_route('feedbacks.create', 'Add new feedback') }}</p>
+<div class="page-header">
+	<h3>{{{ trans('feedbacks.title') }}} </h3>
+</div>
 
 @if ($feedbacks->count())
 	<table class="table table-striped table-bordered">
@@ -22,12 +22,10 @@
 					<td>{{{ $feedback->user_id }}}</td>
 					<td>{{{ $feedback->client }}}</td>
 					<td>{{{ $feedback->content }}}</td>
-                    <td>{{ link_to_route('feedbacks.edit', 'Edit', array($feedback->id), array('class' => 'btn btn-info')) }}</td>
-                    <td>
-                        {{ Form::open(array('method' => 'DELETE', 'route' => array('feedbacks.destroy', $feedback->id))) }}
-                            {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
-                        {{ Form::close() }}
-                    </td>
+          <td>
+          	{{ link_to_route('admin.feedbacks.edit', 'Edit', array($feedback->id), array('class' => 'btn btn-info')) }}
+          	{{ link_to_route('admin.feedbacks.edit', 'Edit', array($feedback->id), array('class' => 'btn btn-info')) }}
+          </td>
 				</tr>
 			@endforeach
 		</tbody>

@@ -1,5 +1,14 @@
 $(function(){
 
+  $('[data-toggle=tooltip]').tooltip()
+  $('#btn_create_feedback').popover({
+  	html: true,
+  	content: function(){ return $('#wrap_create_feedback').html() },
+  	placement: 'top',
+  	container: 'body'
+
+  })
+
   $.fn.editable.defaults.mode = 'inline';
   // $.fn.editable.defaults.inputclass = 'input-';
   $.fn.editable.defaults.ajaxOptions = {type: "PUT"};
@@ -8,7 +17,6 @@ $(function(){
 	$('.datatable').dataTable({
     "bFilter": false,
     "bPaginate": false,
-
   });
 
 	$(':checkbox#select-all').on('click',function(){

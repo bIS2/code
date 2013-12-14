@@ -22,6 +22,7 @@
 		<!-- Content -->
 			@yield('content')
 		<!-- ./ content -->
+
 	</div>
 <!-- ./ container -->
 

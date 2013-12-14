@@ -131,8 +131,13 @@ class Holding extends Eloquent {
 
 
   // Attrubutes CSS Class
+
+  public function getCssAttribute(){
+  	return $this->class_owner.' '.$this->class_correct.' '.$this->class_revised.' '.$this->class_annotated;
+  }
+
   public function getClassOwnerAttribute(){
-  	return ($this->is_owner == 't') ? ' is_owner' : '';
+    return ($this->is_owner == 't') ? ' is_owner' : '';
   }
 
   public function getClassCorrectAttribute(){
@@ -159,14 +164,14 @@ class Holding extends Eloquent {
     foreach ($ocrr_ptrn as $ocrr) { 
       switch ($ocrr) {
         case '0':
-          $ret .= '<i class="fa fa-square-o fa-lg"></i>';
+          $ret .= '<i class="fa fa-square-o "></i>';
           break;                          
         case '1':
           $classj = '';
           $classaux = '';
           if (isset($j_ptrn[$i]))     $classj   = ($j_ptrn[$i] == '1') ? ' j' : ''; 
           if (isset($aux_ptrn[$i]))   $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
-          $ret .= '<i class="fa fa-square fa-lg pop-over'.$classj.$classaux.'" data-content="'.$this->f852b.' | '.$this->f852h.' | '.$ptrn[$i].'" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>';
+          $ret .= '<i class="fa fa-square pop-over'.$classj.$classaux.'" data-content="'.$this->f852b.' | '.$this->f852h.' | '.$ptrn[$i].'" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>';
           break;
       }
      $i++; 

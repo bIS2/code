@@ -23,6 +23,10 @@ return [
           return ($holding->is_correct || $holding->is_annotated );
         });
 
+        $authority->allow('manage','Feedback', function($self,$user) {
+          return Auth::user()->hasRole('superuser');
+        });
+
 
         // Action aliases. For example:
         //
