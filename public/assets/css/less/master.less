@@ -264,16 +264,6 @@ tr.locked td, tr.locked div {
     .bis-locked;
 }
 
-.is_owner .fa-square {
-    color: darken(@swiss-red, 10%) !important;
-    cursor: pointer;
-}
-
-.is_pref .fa-square.aux {
-    color: @swiss-orange !important;
-    cursor: pointer;
-}
-
 ul.hol-sets {
     list-style-type: none;
     padding-left: 0;
@@ -351,6 +341,20 @@ ul.hol-sets {
             }
         }
     }
+}
+
+.is_owner .fa-square {
+    @color: @swiss-red;
+    color: darken(@color, 10%) !important;
+    cursor: pointer;
+    &.j {
+        color: lighten(@color, 10%);
+    }
+}
+
+.is_pref .fa-square.aux {
+    color: @swiss-orange !important;
+    cursor: pointer;
 }
 
 // Soto css
