@@ -31,11 +31,15 @@
 		</thead>
 		<tbody class="selectable">
 		@foreach ($holdings as $holding)
-			<tr id="<?= $holding->id ?>" class="{{ $holding->class_owner }} {{ $holding->class_correct }} {{ $holding->class_annotated }} {{ $holding->class_revised }}" data-holdingsset="{{$holding->holdingsset_id}}">
+			<tr id="<?= $holding->id ?>" class="{{ $holding->css }}" data-holdingsset="{{$holding->holdingsset_id}}">
 				<td><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
 				<td id="{{ $holding->id }}" class="actions">
 
 					@if (Authority::can('revise', $holding))
+					
+						<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.see_information_from_original_system') }}">
+							<span class="glyphicon glyphicon-list-alt"></span>
+						</a>
 
 					  <a href="{{ route('oks.store') }}" class="btn-link btn-xs btn-ok" data-method="post" data-remote="true" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" >
 					  	<span class="fa fa-thumbs-up"></span>
@@ -48,6 +52,8 @@
 					  <a href="{{ route('reviseds.store') }}" class="btn-link btn-xs btn-send" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
 					  	<span class="fa fa-mail-forward"></span> 
 					  </a>
+
+
 
 					@endif
 
@@ -92,10 +98,9 @@
 
 	</div>
 
-
-
 <div class="remote">
  <div class="modal" id="form-create-notes"></div><!-- /.modal -->
+ <div class="modal" id="modal-show"></div><!-- /.modal -->
 </div>
 
 	@include('hlists.create')

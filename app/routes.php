@@ -105,6 +105,7 @@ Route::group(array('prefix' => 'admin'), function()
         ->where('role', '[0-9]+');
 
     Route::controller('roles', 'AdminRolesController');
+    Route::resource('feedbacks', 'FeedbacksController');
 
     # Admin Dashboard
     Route::controller('/', 'AdminDashboardController');
@@ -135,12 +136,6 @@ Route::post('user/login', 'UserController@postLogin');
 # User RESTful Routes (Login, Logout, Register, etc)
 Route::controller('user', 'UserController');
 
-
-
-
-
-
-
 Route::resource('deliveries', 'DeliveriesController');
 
 Route::resource('confirms', 'ConfirmsController');
@@ -149,4 +144,3 @@ Route::resource('lockeds', 'LockedsController');
 
 Route::resource('reviseds', 'RevisedsController');
 
-Route::resource('feedbacks', 'FeedbacksController');

@@ -17,7 +17,6 @@
         </li>
 
         <li>
-            {{ Form::label('content', 'Content:') }}
             {{ Form::textarea('content') }}
         </li>
 

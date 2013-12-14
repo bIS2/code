@@ -56,12 +56,9 @@
 				  	<div class="btn-group">
 					  	<a href="?tagged=true" class="btn <?= ( Input::has('tagged' )) ? 'btn-primary' : 'btn-default' ?> btn-sm" data-toggle="dropdown">
 					  		<span class="fa fa-tags"></span> 
-					  		<?= (!Input::has('tagged') || Input::get('tagged')=='%' ) ? trans('holdings.annotated') : Tag::find( Input::get('tagged') )->name ?>
+					  		<?= (!Input::has('tagged') || Input::get('tagged')=='%' ) ? trans('holdings.annotated') : Tag::find( Input::get('tagged') )->name ?> 
+					  		<span class="caret"></span>
 					  	</a>
-						  <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown">
-						    <span class="caret"></span>
-						    <span class="sr-only">Toggle Dropdown</span>
-						  </button>					  	
 					  	<ul class="dropdown-menu" role="menu">
 					  		<li><a href="?tagged=%">{{ trans('general.all') }}</a></li>
 					  		<li class="divider"></li>
@@ -76,11 +73,11 @@
 				  	</a>
 
 				  	<a href="?owner=true" class="btn <?= ( Input::has('owner')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
-				  		<i class="fa fa-stop text-danger"></i> {{{ trans('holdings.owner') }}}
+				  		<i class="fa fa-square text-danger"></i> {{{ trans('holdings.owner') }}}
 				  	</a>
 
 				  	<a href="?aux=true" class="btn <?= ( Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
-				  		<i class="fa fa-stop text-warning"></i> {{{ trans('holdings.aux') }}}
+				  		<i class="fa fa-square text-warning"></i> {{{ trans('holdings.aux') }}}
 				  	</a>
 
 				  	<a href="?pendings=true" class="btn <?= ( Input::has('pendings')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
@@ -88,7 +85,7 @@
 				  	</a>
 
 				  	<a href="?unlist=true" class="btn <?= ( Input::has('orphans')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
-				  		<span class="fa fa-question-circle"></span> {{{ trans('holdings.ungroup') }}}
+				  		<span class="fa fa-chain-broken"></span> {{{ trans('holdings.ungroup') }}}
 				  	</a>
 
 				  	<a href="#collapseOne" data-toggle="collapse" id="" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm accordion-toggle ">

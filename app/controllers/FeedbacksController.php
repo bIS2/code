@@ -50,7 +50,8 @@ class FeedbacksController extends BaseController {
 		{
 			$this->feedback->create($input);
 
-			return Redirect::route('feedbacks.index');
+
+			//return Redirect::route('feedbacks.index');
 		}
 
 		return Redirect::route('feedbacks.create')

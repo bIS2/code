@@ -5,7 +5,6 @@ class Feedback extends Eloquent {
 
 	public static $rules = array(
 		'user_id' => 'required',
-		'client' => 'required',
 		'content' => 'required'
 	);
 }

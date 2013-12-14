@@ -27,12 +27,12 @@
 		<ul class="nav navbar-nav pull-right">
 			@if (Auth::check())
 	       <li>
-	       		<div class="navbar-text" data-toggle="tooltip" data-original-title="{{ 'Sublibraries: '.Auth::user()->library->sublibraries}}">
+	       		<div class="navbar-text" data-toggle="tooltip" data-placement="bottom" data-original-title="{{ 'Sublibraries: '.Auth::user()->library->sublibraries}}">
 							{{Auth::user()->library->code}} {{{ Auth::user()->library->name }}}
 	       		</div>
 	       </li>
 					<li>
-					<a href="{{{ URL::to('user') }}}" data-toggle="tooltip" data-original-title="{{ 'Sublibraries: '.Auth::user()->library->sublibraries}}">
+					<a href="{{{ URL::to('user') }}}" >
 						<span class="fa fa-user"></span> {{{ Auth::user()->username }}}
 					</a>
 	       </li>
