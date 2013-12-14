@@ -324,6 +324,7 @@ ul.hol-sets {
 //ocrr_ptrn
 .ocrr_ptrn {
     white-space: nowrap;
+    text-align: center;
     .fa {
         color: #aaaaaa;
         min-width: 13px !important;
@@ -408,8 +409,7 @@ section.container {
 
     thead th {
         white-space: nowrap;
-        + th {
-            min-width: 121.5px;            
+        + th {           
             padding-right: 20px;
         }
     }
@@ -632,6 +632,26 @@ p.separator {
     color:transparent;
     width:10px;
     display:inline-block; 
+}
+#modal-show {
+    td {           
+        font-size: 12px;
+        padding: 2px 5px;
+        vertical-align: middle;
+        input, button, a, label {
+            padding: 2px 5px;
+            vertical-align: middle;
+            height: 25px;
+            font-size: 12px;
+        }
+        i.fa {
+            vertical-align: middle;     
+        }
+        &:first-child {
+            font-weight: bold;
+            text-align: right;
+        }
+    }
 }
 .modal-body {
     .fa {
