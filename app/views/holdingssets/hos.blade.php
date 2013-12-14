@@ -77,7 +77,6 @@
 										if (isset($aux_ptrn[$i]))  $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
 										$preftrclass 	= ($holding->is_pref == 't') ? ' is_pref' : '';
 										$librarianclass = ' '.substr($holding->sys2, 0, 4); 
-
 									?>	
 									<tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}{{ $librarianclass }}{{ ($holding->is_annotated) ? ' text-warning' : '' }}">
 									<td class="table_order">{{ $hol_order }}</td>
