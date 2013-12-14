@@ -14,10 +14,6 @@ class Holding extends Eloquent {
       return $this->belongsTo('Library');
   }
   
-  public function library() {
-      return $this->belongsTo('Library');
-  }
-  
   public function notes() {
       return $this->hasMany('Note');
   }
@@ -42,8 +38,6 @@ class Holding extends Eloquent {
 		return $this->hasOne('Revised');
 	}
 
-
-
   // Scopes
   public function scopeInit ($query){
 
@@ -54,11 +48,6 @@ class Holding extends Eloquent {
 							$query->confirms()->noReviseds()->ownerOrAux();
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 244bf5e537375d6bff2d7e12b5a44c93e8936705
   public function scopeInLibrary($query){
   	return $query->whereLibraryId( Auth::user()->library_id );
   }
@@ -71,10 +60,6 @@ class Holding extends Eloquent {
   	return $query->whereIn( 'holdingsset_id', function($query){ $query->select('holdingsset_id')->from('confirms')->lists('holdingsset_id'); });
   }
 
-<<<<<<< HEAD
->>>>>>> 86da6699d295af34ca3376881e7d69712455ac23
-=======
->>>>>>> 244bf5e537375d6bff2d7e12b5a44c93e8936705
   public function scopeCorrects($query){
   	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); });
   }
@@ -103,23 +88,9 @@ class Holding extends Eloquent {
       $tag_ids = DB::table('notes')->lists('holding_id') ;
     else
       $tag_ids = DB::table('notes')->whereTagId($tag_id)->lists('holding_id');
-<<<<<<< HEAD
-<<<<<<< HEAD
    
       $tag_ids = (count($tag_ids) > 0) ? $tag_ids : [-1];
       return $query->whereIn('holdings.id', $tag_ids);
-=======
-
-    $tag_ids = (count($tag_ids) > 0) ? $tag_ids : [-1];
-    
-  	return $query->whereIn('holdings.id', $tag_ids);  
-
->>>>>>> 86da6699d295af34ca3376881e7d69712455ac23
-=======
-   
-      $tag_ids = (count($tag_ids) > 0) ? $tag_ids : [-1];
-      return $query->whereIn('holdings.id', $tag_ids);
->>>>>>> 244bf5e537375d6bff2d7e12b5a44c93e8936705
   } 
 
   public function scopeOrphans($query){
@@ -141,7 +112,7 @@ class Holding extends Eloquent {
       $query->select('holding_id')->from('hlist_holding'); 
     });
   }
-
+  
   // Attrubutes States
   public function getIsCorrectAttribute(){
     return $this->ok()->exists();
@@ -172,10 +143,6 @@ class Holding extends Eloquent {
 
   public function getClassRevisedAttribute(){
   	return ($this->is_revised) ? 'revised' : '';
-  }
-
-  public function getLibraryAttribute(){
-  	return Library::where( 'sublibrary','like',"'%".$this->f852b."%'"); 
   }
 
   public function getPatrnAttribute(){

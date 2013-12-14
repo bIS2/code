@@ -54,10 +54,7 @@ class LockedsController extends BaseController {
 				else {
 					$ret = ['denied' => $holding_id];
 				}
-			} else {
-				Locked::create([ 'holding_id' => $holding_id, 'user_id' => Auth::user()->id ]);
-				$ret = ['lock' => $holding_id];
-			}	
+			}
 		}
 		else {
 			$ret = ['denied' => $holding_id];
@@ -108,21 +105,30 @@ class LockedsController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$input = array_except(Input::all(), '_method');
-		$validation = Validator::make($input, Locked::$rules);
-
-		if ($validation->passes())
-		{
-			$locked = $this->locked->find($id);
-			$locked->update($input);
-
-			return Redirect::route('lockeds.show', $id);
+	if (Auth::user()->hasRole('resuser')) {
+			$holding_id = $id;
+			// var_dump($holding_id);
+			if ( Locked::whereHoldingId($holding_id)->exists() ) {
+				if ( Locked::whereUserId(Auth::user()->id)->whereHoldingId($holding_id)->exists() ) {
+					Locked::whereHoldingId($holding_id)->delete();
+					$ret = ['unlock' => $holding_id];
+				}
+				else {
+					$ret = ['denied' => $holding_id];
+				}
+			} else {
+				$locked_hol = Locked::create([ 'holding_id' => $holding_id, 'user_id' => Auth::user()->id, 'comments' => Input::get('value') ]);
+				$ret = ['lock' => $holding_id];
+			}	
 		}
-
-		return Redirect::route('lockeds.edit', $id)
-			->withInput()
-			->withErrors($validation)
-			->with('message', 'There were validation errors.');
+		else {
+			$ret = ['denied' => $holding_id];
+		}
+		$holdingsset_id = Input::get('pk');
+		holdingsset_recall($holdingsset_id);
+		$holdingssets[] = Holdingsset::find($holdingsset_id);
+		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+		return $newset;
 	}
 
 	/**

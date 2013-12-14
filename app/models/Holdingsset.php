@@ -12,7 +12,7 @@ class Holdingsset extends Eloquent {
   }
 
   public function holdings() {
-      return $this->hasMany('Holding');
+      return $this->hasMany('Holding')->orderBy('is_owner','DESC')->orderBy('is_aux','DESC')->orderBy('weight','DESC');
   }
 
   public function confirm() {
@@ -44,8 +44,25 @@ class Holdingsset extends Eloquent {
     ->whereIn('holdingssets.id', $ids);
   }
 
-  public function getIsannotatedAttribute(){
+  public function getIsAnnotatedAttribute(){
     return Holding::whereHoldingssetId($this->id)->annotated()->count() > 0;
+  }
+  
+  public function getIsCorrectAttribute(){
+    return Holding::whereHoldingssetId($this->id)->corrects()->count() > 0;
+  }
+
+  public function getIsRevisedAttribute(){
+    return Holding::whereHoldingssetId($this->id)->reviseds()->count() > 0;
+  }
+
+  public function getIsConfirmAttribute(){
+    return $this->confirm()->exists();
+  }
+
+  public function getIsUnconfirmableAttribute(){  
+    $inhlist = DB::table('hlist_holding')->whereIn('holding_id', $this->holdings()->lists('id'))->exists();
+    return (($this->is_confirm) && (!($this->is_revised)) && (!($this->is_correct)) && (!($inhlist)));
   }
 
   public function getShowlistgroupAttribute($query){
@@ -62,4 +79,5 @@ class Holdingsset extends Eloquent {
     }
     return $ret;
   }
+
 }

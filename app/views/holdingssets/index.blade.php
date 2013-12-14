@@ -2,12 +2,13 @@
 
 @section('toolbar')
 	@include('holdingssets.toolbar')
+	@include('holdingssets.groupstabs')
 @stop
+
 
 {{-- Content --}}
 @section('content')
 
-@include('holdingssets.groupstabs')
 
 	<div>
 		<?php if (count($holdingssets) > 0) { ?>

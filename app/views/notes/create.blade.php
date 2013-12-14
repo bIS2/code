@@ -11,7 +11,6 @@
 		        <div class="modal-body">
 
         				<div class="well well-sm warning">{{trans('notes.help')}}</div>
-
         				<div class="row">
         					<div class="col-xs-5 ">
         						<dl>
@@ -36,7 +35,11 @@
 
 										@foreach ( Tag::all() as $tag)
 
-											<?php $note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note ?>
+											<?php
+												$note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note;
+												if ($username == '') $username = $note->user->name;
+												var_dump($note->user->name);
+											?>
 
 											{{ Form::hidden('holding_id',$holding->id) }}
 											<div class="form-group">
@@ -60,7 +63,16 @@
         					</div>
 
         				</div>
-
+        				@if ($consultnotes)
+	        				<div class="row">
+	        					<div class="col-xs-5 text-right">
+	        						{{ trans('holdingssets.notes_made_by') }}
+	        					</div>
+	        					<div class="col-xs-5 text-left">
+	        						{{ $username }}
+	        					</div>
+	        				</div>
+	        			@endif
 	        </div>
 
 	        <div class="modal-footer">
