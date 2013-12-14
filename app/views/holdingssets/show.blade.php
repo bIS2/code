@@ -35,7 +35,9 @@
 							<tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}{{ $librarianclass }}{{ ($holding->is_annotated) ? ' text-warning' : '' }}">
 								<td>{{ htmlspecialchars($holding->f245a,ENT_QUOTES) }}</td>				
 								<td>{{ htmlspecialchars($holding->library->code,ENT_QUOTES) }}</td>				
-								<td class="ocrr_ptrn">{{ $holding -> patrn }}</td>				
+								<td class="ocrr_ptrn">
+									{{ $holding -> patrn }}<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>866a: </strong>{{ $holding -> f866a }}" data-placement="top" data-toggle="popover" data-html="true" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>
+								</td>				
 								<td>{{ htmlspecialchars($holding->f245b,ENT_QUOTES) }}</td>				
 								<td>{{ htmlspecialchars($holding->f852b,ENT_QUOTES) }}</td>				
 								<td>{{ htmlspecialchars($holding->f852h,ENT_QUOTES) }}</td>	

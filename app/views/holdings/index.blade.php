@@ -79,13 +79,13 @@
 					@endif
 					
 				</td>
-				<td>{{ $holding->f852b }} </td>
-				<td><?= $holding->f852h; ?></td>
-				<td><?= $holding->f866a; ?></td>
-				<td class="ocrr_ptrn"><?= $holding->patrn ?></td>
+				<td>{{ $holding->f852b }}</td>
+				<td>{{ $holding->f852h; }}</td>
+				<td>{{ $holding->f866a; }}</td>
+				<td class="ocrr_ptrn">{{ $holding->patrn }}</td>
  				<td>{{ $holding->holdingsset->f245a }}</td>
-				<td><?= $holding->f362a; ?></td>
-				<td><?= $holding->f866z; ?></td>
+				<td>{{ $holding->f362a; }}</td>
+				<td>{{ $holding->f866z; }}</td>
 
 			</tr>
 		@endforeach
@@ -93,7 +93,7 @@
 	</table>
 	</div>
 	<p>
-		<?= $holdings->appends(Input::except('page'))->links()  ?>
+		{{ $holdings->appends(Input::except('page'))->links()  }}
 	</p>
 
 	</div>

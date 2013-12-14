@@ -14,9 +14,11 @@ $(function(){
   $.fn.editable.defaults.ajaxOptions = {type: "PUT"};
   $('.editable').editable();
 
-	$('.datatable').dataTable({
+  doEditable();
+	
+  $('.datatable').dataTable({
     "bFilter": false,
-    "bPaginate": false,
+    "bPaginate": false
   });
 
 	$(':checkbox#select-all').on('click',function(){
@@ -118,23 +120,9 @@ $(function(){
 
 function getAsuccess() {
   $('a').on({
-    'ajax:success': function(data, result, status){ 
+    'ajax:success': function(data, result, status) { 
         if ($(this).attr('set') > 0) {
-          set = $(this).attr('set');
-          $('#hosg .hol-sets li#'+set).find('div.accordion-toggle').click();
-          $('#hosg .hol-sets li#'+set).fadeOut('slow', function() {
-            $(this).replaceWith(result);
-            setDatatable();
-            $('#hosg .hol-sets li#'+set).css('visibility', 'hidden')              
-            $('#hosg .hol-sets li#'+set).fadeOut('slow', function() {
-              $('#hosg .hol-sets li#'+set).css('visibility', 'visible')
-              $('#hosg .hol-sets li#'+set).fadeIn('slow', function() {
-                accordion = $('#hosg .hol-sets li#'+set).find('div.accordion-toggle');
-                $(accordion).click();
-                setDraggoption();
-              })
-            })
-          })
+          reload_set($(this).attr('set'), result);
        }
 
         if ( result.remove )
@@ -142,7 +130,7 @@ function getAsuccess() {
 
         // Set HOS to CONFIRM
         if ( result.ok ){
-          $('#'+result.ok).find('.btn-ok').addClass('btn-success disabled').removeClass('btn-default');
+          $('#'+result.ok).find('.btn-ok').addClass('btn-success').removeClass('btn-default').removeClass('btn-warning');
           if (($('a#filter_pending').hasClass('btn-primary')) || ($('a#filter_annotated').hasClass('btn-primary'))) {
             $('li#'+result.ok).remove();  
           }  
@@ -190,4 +178,38 @@ function getAsuccess() {
       }
     })
 	
+}
+
+
+function reload_set(set, data) {
+  Set = $('#hosg .hol-sets li#'+set);
+  $('#hosg .hol-sets li#'+set).find('div.accordion-toggle').click();
+  $('#hosg .hol-sets li#'+set).fadeOut('slow', function() {
+    $(Set).replaceWith(data);
+    setDatatable();
+    $('#hosg .hol-sets li#'+set).css('visibility', 'hidden')              
+    $('#hosg .hol-sets li#'+set).fadeOut('slow', function() {
+      $('#hosg .hol-sets li#'+set).css('visibility', 'visible')
+      $('#hosg .hol-sets li#'+set).fadeIn('slow', function() {
+        accordion = $('#hosg .hol-sets li#'+set).find('div.accordion-toggle');
+        $(accordion).click();
+        setDraggoption();
+        $('.pop-over').popover();
+        doEditable();
+      })
+    })
+  })
+}
+
+function doEditable() {
+  $.fn.editable.defaults.mode = 'inline';
+  // $.fn.editable.defaults.inputclass = 'input-';
+  $.fn.editable.defaults.ajaxOptions = {type: "PUT"};
+  $('.editable').editable({
+  success: function(data, result, status){ 
+    if ($(this).attr('set') > 0) {
+      reload_set($(this).attr('set'), data);      
+    }
+  }
+});
 }

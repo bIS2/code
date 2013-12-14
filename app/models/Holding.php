@@ -38,8 +38,6 @@ class Holding extends Eloquent {
 		return $this->hasOne('Revised');
 	}
 
-
-
   // Scopes
   public function scopeInit ($query){
 
@@ -114,7 +112,7 @@ class Holding extends Eloquent {
       $query->select('holding_id')->from('hlist_holding'); 
     });
   }
-
+  
   // Attrubutes States
   public function getIsCorrectAttribute(){
     return $this->ok()->exists();

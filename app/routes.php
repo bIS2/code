@@ -140,8 +140,7 @@ Route::resource('deliveries', 'DeliveriesController');
 
 Route::resource('confirms', 'ConfirmsController');
 
-Route::resource('reviseds', 'RevisedsController');
-
 Route::resource('lockeds', 'LockedsController');
 
+Route::resource('reviseds', 'RevisedsController');
 

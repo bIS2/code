@@ -2,6 +2,6 @@
 
 return array(
 	'grouped' 							=> 'Grouped',
-	'ungroup'  							=> 'Ungrouped:',
+	'ungrouped'  							=> 'Ungrouped',
 	'confirmed'  						=> 'Confirmed',
 );

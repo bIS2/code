@@ -4,6 +4,7 @@
 <?php $grouped = Holdingsset::whereIn('id',function($query){ $query->select('holdingsset_id')->from('group_holdingsset'); })->count() ?>
 <?php $ungrouped = Holdingsset::whereNotIn('id',function($query){ $query->select('holdingsset_id')->from('group_holdingsset'); })->count() ?>
 <?php $confirmed = Holdingsset::whereIn('id',function($query){ $query->select('holdingsset_id')->from('confirms'); })->count() ?>
+<?php $annotated = Holdingsset::whereIn('id',function($query){ $query->select('holdingsset_id')->from('confirms'); })->count() ?>
 
 
 
@@ -28,15 +29,23 @@
 	</div>
 </div>
 
-<div class="col-xs-4">
+<div class="col-xs-1">
 	<span class="label label-info" data-toggle="tooltip" data-placement="top" data-original-title="{{ trans('stats.confirmed') }}">
 		<i class="fa  fa-thumbs-up"></i> {{$confirmed}} [{{ round(($confirmed/$total)*100,2) }}%]
 	</span>
+</div>
 
+<div class="col-xs-1">
 	<span class="label label-info" data-toggle="tooltip" data-placement="top" data-original-title="{{ trans('stats.grouped') }}">
 		<i class="fa  fa-th"></i> {{$grouped}} [{{ round(($grouped/$total)*100,2)  }}%]
 	</span>
+</div>
 
+<div class="col-xs-1" data-toggle="tooltip" data-placement="top" data-original-title="{{ trans('stats.ungrouped') }}">
+	<span class="label label-info"><i class="fa  fa-unlink"></i> {{$ungrouped}} [{{ round(($ungrouped/$total)*100,2)  }}%]</span>
+</div>
+
+<div class="col-xs-1" data-toggle="tooltip" data-placement="top" data-original-title="{{ trans('stats.annotated') }}">
 	<span class="label label-info"><i class="fa  fa-unlink"></i> {{$ungrouped}} [{{ round(($ungrouped/$total)*100,2)  }}%]</span>
 </div>
  

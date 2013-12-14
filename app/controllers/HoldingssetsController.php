@@ -94,7 +94,7 @@ class HoldingssetsController extends BaseController {
 
 		if ($this->data['is_filter']) {
 			// Take all holdings
-			$holdings= DB::table('holdings');
+			$holdings= DB::table('holdings')->orderBy('is_owner', 'DESC');
 
 			// If filter by owner or aux
 			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) {
@@ -230,23 +230,6 @@ class HoldingssetsController extends BaseController {
 		// $group = Group::find($id)->delete();
 		return Response::json( ['groupDelete' => [$id]] );
 	}	
-
-/* ---------------------------------------------------------------------------------
-	Lock a determinate Holding
-	--------------------------------------
-	Params:
-		$id: Holding id 
------------------------------------------------------------------------------------*/
-	public function putLock($id) {
-		$holding = Holding::find($id);
-		$value = ( $holding->locked ) ? false : true;
-		$holdingsset_id = Input::get('holdingsset_id');
-		holdingsset_recall($holdingsset_id);
-		$holdingssets[] = Holdingsset::find($holdingsset_id);
-		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
-		return $newset;
-	}	
-
 
 /* ---------------------------------------------------------------------------------
 	Get Holding Data from Original System

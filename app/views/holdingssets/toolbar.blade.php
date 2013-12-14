@@ -1,4 +1,5 @@
-<div class="page-header container clearfix">
+<section class="container navbar navbar-default navbar-fixed-top">
+<div class="page-header clearfix">
 	<div id="main-filters" class="row">
 		<div class="col-xs-12">
 			<ul class="list-inline">
@@ -59,7 +60,8 @@
 				  	<a href="{{ route('sets.index', Input::except(['owner','aux'])) }}" class="btn btn-default btn-sm" title="{{ trans('holdingssets.clear_owner_filter') }}">	
 				  		<i class="fa fa-eraser"></i>			  		
 				  	</a>
-				  	<span class="btn btn-sm">|</span>
+				  </div>
+				  <div class="btn-group">
 				  	<a id="filter_all" href="{{ route('sets.index', Input::except('state')) }}" class="btn <?= ((Input::get('state') != 'ok') && (Input::get('state') != 'pending') && (Input::get('state') != 'annotated')) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}
 				  	</a>
@@ -72,7 +74,8 @@
 				  	<a id="filter_annotated" href="{{ route('sets.index', Input::except('state') + ['state'=>'annotated']) }}" class="btn <?= (Input::get('state') == 'annotated') ? 'btn-primary' : 'btn-default' ?> btn-sm">
 				  		<span class="fa fa-tags"></span> {{{ trans('general.annotated') }}}
 				  	</a>
-				  	<span class="btn btn-sm">|</span>
+				  </div>
+				  <div class="btn-group">
 				  	<a href="#collapseOne" id="filter-btn" class="accordion-toggle <?= ($is_filter) ? 'btn-primary' : 'collapsed' ?> btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm dropdown-toggle" data-toggle="collapse" data-parent="#accordion2">
 			        <span class="fa fa fa-filter"></span> {{{ trans('holdingssets.advanced_filter') }}} <span class="caret"></span>
 			      </a>
