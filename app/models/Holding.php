@@ -43,9 +43,16 @@ class Holding extends Eloquent {
 
   	$query = $query->with('ok','notes')->inLibrary();
 
-  	return ( Auth::user()->hasRole('postuser') ) ?
-				  		$query->reviseds()->corrects() :
-							$query->confirms()->noReviseds()->ownerOrAux();
+    if ( Auth::user()->hasRole('postuser') ) 
+      $query->reviseds()->corrects();
+    
+    if ( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') ) 
+      $query->confirms()->noReviseds()->ownerOrAux();
+
+    if ( Auth::user()->hasRole('speichuser') ) 
+      $query->deliveries();
+
+  	return $query;
   }
 
   public function scopeInLibrary($query){
@@ -124,6 +131,10 @@ class Holding extends Eloquent {
 
   public function getIsRevisedAttribute(){
     return $this->revised()->exists();
+  }
+
+  public function getIsDeliveryAttribute(){
+    return $this->deliveries()->exists();
   }
 
 

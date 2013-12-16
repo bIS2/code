@@ -38,7 +38,7 @@
 				@if (Authority::can('create','Hlist')) 
 					<td><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
 				@endif
-				
+
 				<td id="{{ $holding->id }}" class="actions">
 
 					@if (Authority::can('revise', $holding))
@@ -70,6 +70,15 @@
 					  </a>
 
 					@endif
+
+					@if (Authority::can('receive', $holding))
+
+					  <a href="{{ route('reviseds.store') }}" class="btn-link btn-xs btn-send" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
+					  	<span class="fa fa-download"></span> 
+					  </a>
+
+					@endif
+
 
 				</td>
 				<td>

@@ -13,7 +13,7 @@
 			@endif
 			
 			<!-- admin storeman -->
-			@if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') || Auth::user()->hasRole('postuser')) 
+			@if ( Authority::can('manage','Holding') )
 				@include( 'layouts.items-menu-storeman' )
 			@endif	
 
