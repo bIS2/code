@@ -39,4 +39,7 @@ return array(
 	'select_fields_to_search'	=> 'Select fields to filter to',
 	'size'           		=> 'Size',
 	'or'           			=> 'or',
+	'AND'								=> 'AND',
+	'OR'           			=> 'OR',
+	'incorrects'        => 'Incorrects',
 );

@@ -13,6 +13,7 @@ return array(
 	'oked'               => 'Kontrollierte',
 	'pending'            => 'Unbearbeitete',
 	'advanced_filter'    => 'Zusätzliche Filter',
+	'orphan'							=> 'Orphan HOS',
 	'printer'            => 'Druckansicht',
 	'all'                => 'Alle',
 	'click_to_view_in_other_tab' 	=> 'In separatem Browser-Tab öffnen.',
@@ -30,4 +31,10 @@ return array(
 	'drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'				=> 'Drag and Drop into a Tab to add this HOS to a HOS Group',
 	'no_results_to_show'	=> 'There is no result to show',
 	'no_notes'	=> 'No notes for this Holding',
+	'ocurrence_patron'	=> 'Ocurrence patron',
+	'reserved_by'	=> 'Reserved by: ',
+	'on_behalf_of'	=> 'On behalf of: ',
+	'showing'	=> 'Showing ',
+	'of'	=> 'of ',
+	'order_hos_by' => 'Order HOS By',
 );

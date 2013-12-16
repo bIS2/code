@@ -38,6 +38,10 @@ class User extends ConfideUser implements PresentableInterface {
       return $this->hasMany('Confirm');
   }
 
+  public function incorrects() {
+      return $this->hasMany('Incorrects');
+  }
+
   public function library() {
       return $this->belongsTo('Library');
   }

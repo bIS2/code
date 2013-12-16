@@ -19,6 +19,10 @@ class Holdingsset extends Eloquent {
     return $this->hasOne('Confirm');
   }
 
+  public function incorrect() {
+    return $this->hasOne('Incorrect');
+  }
+
   public function groups() {
     return $this->belongsToMany('Group');
   }
@@ -34,6 +38,20 @@ class Holdingsset extends Eloquent {
     return $query
     ->whereNotIn('holdingssets.id', function($query) {
       $query -> select('holdingsset_id')->from('confirms');
+    });
+  }  
+
+  public function scopeIncorrects($query){
+    return $query
+    ->whereIn('holdingssets.id', function($query) {
+      $query -> select('holdingsset_id')->from('incorrects');
+    });
+  }
+
+  public function scopeCorrects($query){
+    return $query
+    ->whereNotIn('holdingssets.id', function($query) {
+      $query -> select('holdingsset_id')->from('incorrects');
     });
   }
 
@@ -60,8 +78,13 @@ class Holdingsset extends Eloquent {
     return $this->confirm()->exists();
   }
 
+  public function getIsIncorrectAttribute(){
+    return $this->incorrect()->exists();
+  }
+
   public function getIsUnconfirmableAttribute(){  
-    $inhlist = DB::table('hlist_holding')->whereIn('holding_id', $this->holdings()->lists('id'))->exists();
+    $ids = (count($this->holdings()->lists('id')) > 0) ? $this->holdings()->lists('id') : [-1];
+    $inhlist = DB::table('hlist_holding')->whereIn('holding_id', $ids)->exists();
     return (($this->is_confirm) && (!($this->is_revised)) && (!($this->is_correct)) && (!($inhlist)));
   }
 
@@ -79,5 +102,4 @@ class Holdingsset extends Eloquent {
     }
     return $ret;
   }
-
 }

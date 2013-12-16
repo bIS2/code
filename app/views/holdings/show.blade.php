@@ -97,9 +97,7 @@
 						<td><?= $holding->f852h; ?></td>
 					</tr>
 				</table>
-
-
-					</div>
+			</div>
 					@if ($consultnotes)
 						<div class="row">
 							<div class="col-xs-5 text-right">
@@ -110,8 +108,6 @@
 							</div>
 						</div>
 					@endif
-	      </div>
-      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>

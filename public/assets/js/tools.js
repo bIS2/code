@@ -27,7 +27,7 @@ $(function(){
 
 	$('#filter-btn').click(function(){
 		$('#filter-well').toggle('slow')
-		$(this).toggleClass('btn-primary','btn-default') 	
+		$(this).toggleClass('active btn-primary','') 	
 	})
 
 	$(':checkbox:checked.sel').parents('tr').addClass("warning")
@@ -130,22 +130,58 @@ function getAsuccess() {
 
         // Set HOS to CONFIRM
         if ( result.ok ){
-          $('#'+result.ok).find('.btn-ok').addClass('btn-success').removeClass('btn-default').removeClass('btn-warning');
-          if (($('a#filter_pending').hasClass('btn-primary')) || ($('a#filter_annotated').hasClass('btn-primary'))) {
-            $('li#'+result.ok).remove();  
-          }  
+          value = result.ok;
+          $('#'+value).find('.btn-ok').addClass('btn-success').removeClass('btn-default').removeClass('btn-warning');
+          if (($('a#filter_pending').hasClass('active')) || ($('a#filter_annotated').hasClass('active'))) {
+            $('li#'+value).remove();  
+          }
+          else {
+            $('#'+value).find('#holdingsset'+value+'incorrect').fadeOut();
+          }
         }
 
         // Set HOS to UNCONFIRM
         if ( result.ko ){
-            $('#'+result.ko).find('.btn-ok').addClass('btn-default').removeClass('btn-success');
-            if ($('a#filter_confirmed').hasClass('btn-primary'))
-                $('li#'+result.ko).remove();
+          value = result.ko;
+          $('#'+value).find('.btn-ok').addClass('btn-default').removeClass('btn-success');
+          if (!($('a#filter_all').hasClass('active'))) {
+            $('li#'+value).remove();
+          }
+          else {
+           $('#'+value).find('#holdingsset'+value+'incorrect').fadeIn();
+          }
+        }
+        // Set HOS to CONFIRM
+        if ( result.correct ){
+          value = result.correct;
+          $('#holdingsset'+value+'incorrect').removeClass('btn-danger').addClass('btn-default').find('span.fa').removeClass('text-warning').addClass('text-danger');
+          if (!($('a#filter_all').hasClass('active'))) {            
+            $('li#'+value).remove();   
+          }          
+          else {
+           $('#'+value).find('#holdingsset'+value+'confirm').removeClass('btn-danger').addClass('btn-default');
+           $('#'+value).find('#holdingsset'+value+'confirm').fadeIn();
+          }
+        }
+        // Set HOS to UNCONFIRM
+        if ( result.incorrect ){
+          value = result.incorrect;
+          $('#holdingsset'+value+'incorrect').addClass('btn-danger').removeClass('btn-default')
+          $('#holdingsset'+value+'incorrect span.fa').each(function() {
+            $(this).removeClass('text-warning').removeClass('text-danger')
+          })
+          if (!$('a#filter_all').hasClass('active')) { 
+            $('li#'+value).remove();
+          }          
+          else {
+            $('#'+value).find('#holdingsset'+value+'confirm').fadeOut();
+          }
         }
         
         if ( result.removefromgroup ){
-          $('li#'+result.removefromgroup).fadeOut('slow', function() {
-            $('li#'+result.removefromgroup).remove();
+          value = result.removefromgroup;
+          $('li#'+value).fadeOut('slow', function() {
+            $('li#'+value).remove();
           })
         }
 
@@ -180,7 +216,6 @@ function getAsuccess() {
 	
 }
 
-
 function reload_set(set, data) {
   Set = $('#hosg .hol-sets li#'+set);
   $('#hosg .hol-sets li#'+set).find('div.accordion-toggle').click();
@@ -212,4 +247,8 @@ function doEditable() {
     }
   }
 });
+}
+
+function removedangerclass(value) {
+  $('#incorrect' + value + 'text').removeClass('text-danger').addClass('text-warning');
 }

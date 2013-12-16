@@ -1,5 +1,4 @@
 <?php
-
 class HoldingssetsController extends BaseController {
  	protected $layout = 'layouts.default';
 
@@ -17,7 +16,7 @@ class HoldingssetsController extends BaseController {
 	{
 		/* SEARCH ADVANCED FIELDS OPTIONS
 		----------------------------------------------------------------*/
-		define('ALL_SEARCHEABLESFIELDS', '022a;245a;245b;008x;245c;310a;362a;710a;780t;785t;852b;852h;008y');
+		define('ALL_SEARCHEABLESFIELDS', '022a;245a;245b;245c;246a;260a;260b;300a;300b;300c;310a;362a;500a;505a;710a;770t;772t;780t;785t;852b;852c;852h;852j;866a;866z');
 
 		// Is Filter
 		$allsearchablefields = ALL_SEARCHEABLESFIELDS;
@@ -35,61 +34,49 @@ class HoldingssetsController extends BaseController {
 		
 		/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 		-----------------------------------------------------------*/
-		define('DEFAULTS_FIELDS', '245a;245b;008x;ocrr_ptrn;sys2;260a;260b;710a;310a');
-		define('ALL_FIELDS', '022a;245a;245b;008x;ocrr_ptrn;sys2;245c;310a;362a;710a;780t;785t;852b;852h;008y');
+		define('DEFAULTS_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j');
+		define('ALL_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j');
 
-		if (!isset($_COOKIE[Auth::user()->username.'_fields_to_show'])) {
-			if (Session::get(Auth::user()->username.'_fields_to_show') == 'ocrr_ptrn;sys2') {
-			  setcookie(Auth::user()->username.'_fields_to_show', DEFAULTS_FIELDS, time() + (86400 * 30));
-			  Session::put(Auth::user()->username.'_fields_to_show', DEFAULTS_FIELDS);
+		if (!isset($_COOKIE[Auth::user()->username.'_fields_to_show_ok'])) {
+			if (Session::get(Auth::user()->username.'_fields_to_show_ok') == 'ocrr_ptrn') {
+			  setcookie(Auth::user()->username.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
+			  Session::put(Auth::user()->username.'_fields_to_show_ok', DEFAULTS_FIELDS);
 			}
 			else {
-				setcookie(Auth::user()->username.'_fields_to_show', Session::get(Auth::user()->username.'_fields_to_show'), time() + (86400 * 30));
+				setcookie(Auth::user()->username.'_fields_to_show_ok', Session::get(Auth::user()->username.'_fields_to_show_ok'), time() + (86400 * 30));
 			}
 		}
 
-		if ((Session::get(Auth::user()->username.'_fields_to_show') == 'ocrr_ptrn;sys2') || (Session::get(Auth::user()->username.'_fields_to_show') == '')) {
-		  setcookie(Auth::user()->username.'_fields_to_show', DEFAULTS_FIELDS, time() + (86400 * 30));
-		  Session::put(Auth::user()->username.'_fields_to_show', DEFAULTS_FIELDS);
+		if ((Session::get(Auth::user()->username.'_fields_to_show_ok') == 'ocrr_ptrn') || (Session::get(Auth::user()->username.'_fields_to_show_ok') == '')) {
+		  setcookie(Auth::user()->username.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
+		  Session::put(Auth::user()->username.'_fields_to_show_ok', DEFAULTS_FIELDS);
 		}
+		if (Input::get('clearorderfilter') == 1) {
+			Session::put(Auth::user()->username.'_sortinghos_by', null);
+			Session::put(Auth::user()->username.'_sortinghos', null);
+		}
+		$orderby = (Session::get(Auth::user()->username.'_sortinghos_by') != null) ? Session::get(Auth::user()->username.'_sortinghos_by') : 'f245a';
+		$order 	= (Session::get(Auth::user()->username.'_sortinghos') != null) ? Session::get(Auth::user()->username.'_sortinghos') : 'ASC';
 
 		// Groups
 		$this->data['groups'] = Auth::user()->groups;
-		$group_id = Input::get('group_id');
-		$this->data['group_id'] = $group_id;
 
-		$holdingssets = (Input::has('group_id')) ? 
-		Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC') :	
-		Holdingsset::orderBy('id', 'ASC');
+		$this->data['group_id'] = (in_array(Input::get('group_id'), $this->data['groups']->lists('id'))) ? Input::get('group_id') : '';
+		// var_dump($this->data['groups']);
+		// var_dump($this->data['group_id']);die();
+		$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets() : Holdingsset::orderBy($orderby, $order);
 				
-
 		$state = Input::get('state');
 
-		if (Input::has('group_id')) {
-			if (isset($state)) {
-				if ($state == 'ok') 
-					$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->ok()->orderBy('id', 'ASC');
-				if ($state == 'pending') 
-					$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC')->pendings();
-				if ($state == 'annotated') 
-					$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->pendings()->annotated()->orderBy('id', 'ASC');
-			}
-			else {				
-				$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC');
-			}
-		}
-		else {	
-			if (isset($state)) {
-				if ($state == 'ok')
-				$holdingssets =	Holdingsset::orderBy('id', 'ASC')->ok();
-				if ($state == 'pending')
-				$holdingssets =	Holdingsset::orderBy('id', 'ASC')->pendings();
-				if ($state == 'annotated')
-				$holdingssets =	Holdingsset::orderBy('id', 'ASC')->pendings()->annotated();
-			}
-			else {				
-				$holdingssets =	Holdingsset::orderBy('id', 'ASC');	
-			}
+		if (isset($state)) {
+			if ($state == 'ok') 
+				$holdingssets = $holdingssets->corrects()->ok();
+			if ($state == 'pending') 
+				$holdingssets = $holdingssets->corrects()->pendings();
+			if ($state == 'annotated') 
+				$holdingssets = $holdingssets->corrects()->pendings()->annotated();	
+			if ($state == 'incorrects') 
+				$holdingssets = $holdingssets->incorrects();
 		}
 
 		if ($this->data['is_filter']) {
@@ -98,31 +85,40 @@ class HoldingssetsController extends BaseController {
 
 			// If filter by owner or aux
 			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) {
-				
 				$holdings = Auth::user()->library->holdings();
-
 				$holdings = ((Input::has('owner')) && (!(Input::has('aux')))) ? $holdings -> whereIsOwner('t') : $holdings;
 				$holdings = (!(Input::has('owner')) && ((Input::has('aux')))) ? $holdings -> whereIsAux('t') : $holdings;
-				$holdings = ((Input::has('owner')) && ((Input::has('aux'))))  ? $holdings -> whereIsAux('t')->orWhere('is_owner','=', 't') : $holdings;		
+				if ((Input::has('owner')) && ((Input::has('aux'))))  {
+					$holdings = Auth::user()->library->holdings();
+					$owners = $holdings -> whereIsOwner('t')->lists('id');
+					$holdings = Auth::user()->library->holdings();
+					$auxs = $holdings -> whereIsAux('t')->lists('id');
+					$tmp = array_merge($owners, $auxs);
+					$idsok = array_unique($tmp);
+					$holdings = Auth::user()->library->holdings();
+					$holdings = $holdings->whereIn('id', $idsok);
+				}		
 			}
-
 			$openfilter = 0;
 			// Verify if some value for advanced search exists.
 			foreach ($allsearchablefields as $field) {
 				$value = Input::get('f'.$field);
 				if ($value != '') {
-					if ( Input::has('f'.$field) )  { $holdings = $holdings->whereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', strtolower( Input::get('f'.$field) ) ) );  $openfilter++; }
+					$orand = Input::get('OrAndFilter')[$openfilter-1];
+					$holdings = ($orand == 'OR') ? $holdings->OrWhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', strtolower( Input::get('f'.$field) ) ) ) :  $holdings->WhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', strtolower( Input::get('f'.$field) ) ) );  
+					$openfilter++; 
 				}
 			}
 			if ($openfilter == 0)  $this->data['is_filter'] = false;
-
-		  $ids = $holdings->count() > 0 ? $holdings->lists('holdingsset_id') : [-1];
-
-			
+		  $ids = (count($holdings->lists('holdings.holdingsset_id')) > 0) ? $holdings->lists('holdings.holdingsset_id') : [-1];
 		  $holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
 		}
-		$this->data['holdingssets'] = $holdingssets->paginate(20);
+		define(HOS_PAGINATE, 20);
+		$this->data['total'] = $holdingssets -> get() -> count();
+		$this->data['init'] = (HOS_PAGINATE >= $this->data['total']) ? $this->data['total'] : HOS_PAGINATE;
+		$this->data['holdingssets'] = $holdingssets-> paginate(HOS_PAGINATE);
 
+		// $this->data['holdingssets'] = $holdingssets->paginate(20);
 		if (isset($_GET['page']))  {
 				$this->data['page'] = $_GET['page'];
 				return View::make('holdingssets/hos', $this->data);
@@ -161,8 +157,12 @@ class HoldingssetsController extends BaseController {
 					if (count($newfields) > $i) $fieldlist .= ';';
 				}
 			}
-			setcookie(Auth::user()->username.'_fields_to_show', $fieldlist, time() + (86400 * 30));
-			Session::put(Auth::user()->username.'_fields_to_show', $fieldlist);
+			// var_dump(Input::get('sortinghos_by'));
+			// var_dump(Input::get('sortinghos'));die();
+			setcookie(Auth::user()->username.'_fields_to_show_ok', $fieldlist, time() + (86400 * 30));
+			Session::put(Auth::user()->username.'_fields_to_show_ok', $fieldlist);
+			Session::put(Auth::user()->username.'_sortinghos_by', Input::get('sortinghos_by'));
+			Session::put(Auth::user()->username.'_sortinghos', Input::get('sortinghos'));
 			return Redirect::to(Input::get('urltoredirect'));
 		}
 	}
@@ -312,6 +312,7 @@ class HoldingssetsController extends BaseController {
 		$holdingsset_id: Holdingssset id 
 -----------------------------------------------------------------------------------*/
 	public function putForceAux($id) {
+		$holdingsset_id = Input::get('holdingsset_id');
 		$holding = Holding::find($id)->update(['is_aux'=>'t', 'force_aux' => true]);
 		holdingsset_recall($holdingsset_id);
 		$holdingssets[] = Holdingsset::find($holdingsset_id);
@@ -326,7 +327,6 @@ class HoldingssetsController extends BaseController {
 		$id: HOS id 
 -----------------------------------------------------------------------------------*/
 	public function putMoveHosToOthergroup($id) {
-
 		$origingroup 	= str_replace('group', '', Input::get('origingroup'));
 		$newgroup 		= str_replace('group', '', Input::get('newgroup'));
 		$holdingsset 	= DB::select('select * from group_holdingsset where holdingsset_id = ? AND group_id = ?', array($id, $newgroup));
@@ -339,6 +339,7 @@ class HoldingssetsController extends BaseController {
 			else {
 				DB::insert('insert into group_holdingsset (group_id, holdingsset_id, created_at, updated_at) values (?, ?, NOW(), NOW())', array($newgroup, $id));
 				$count = Holdingsset::find($id)->groups->count();
+				Holdingsset::find($id)->update(['groups_number'=>$count]);
 				return Response::json( ['ingroups' => $count] );
 			}
 		}
@@ -346,7 +347,7 @@ class HoldingssetsController extends BaseController {
 			// Moving from a HOS group to a other HOS Group
 			if (count($holdingsset) >= 1) {
 				// The holdings is already on destiny group.
-				$holdingsset = DB::delete('delete from group_holdingsset where holdingsset_id = ? AND group_id = ?', array($id, $origingroup));			
+				$holdingsset = DB::delete('delete from group_holdingsset where holdingsset_id = ? AND group_id = ?', array($id, $origingroup));		
 			}
 			else {
 				DB::update('update group_holdingsset set group_id = '.$newgroup.' where holdingsset_id = ? AND group_id = ?', array($id, $origingroup));
