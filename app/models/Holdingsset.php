@@ -23,11 +23,18 @@ class Holdingsset extends Eloquent {
     return $this->belongsToMany('Group');
   }
 
+
+  // SCOPE
+  // *********************************************************
   public function scopeOk($query){
     return $query
     ->whereIn('holdingssets.id', function($query) {
       $query -> select('holdingsset_id')->from('confirms');
     });
+  }
+
+  public function scopeConfirmed($query){
+    return $query->whereIn('holdingssets.id', function($query) { $query->select('holdingsset_id')->from('confirms'); });
   }
 
   public function scopePendings($query){
@@ -44,6 +51,17 @@ class Holdingsset extends Eloquent {
     ->whereIn('holdingssets.id', $ids);
   }
 
+  public function scopeOwners($query){
+    return $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsOwner('t')->whereLibraryId( Auth::user()->library_id ); });
+  }
+
+  public function scopeAuxiliars($query){
+    return $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsAux('t')->whereLibraryId( Auth::user()->library_id ); });
+  }
+
+
+  // ATTRIBUTES
+  //*************************************************************************
   public function getIsAnnotatedAttribute(){
     return Holding::whereHoldingssetId($this->id)->annotated()->count() > 0;
   }

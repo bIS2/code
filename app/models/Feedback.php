@@ -7,4 +7,8 @@ class Feedback extends Eloquent {
 		'user_id' => 'required',
 		'content' => 'required'
 	);
+
+  public function user() {
+      return $this->belongsTo('User');
+  }
 }

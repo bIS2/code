@@ -13,6 +13,8 @@ return array(
 	'close'  						=> 'Close',
 	'cancel'  					=> 'Cancel',
 	'reset'  						=> 'Reset',
+	'send'  						=> 'Send',
+	'sending'  					=> 'Sending...',
 	'disable_with'			=> 'Saving...',
 	'all'								=> 'All',
 	'logout'						=> 'Logout',

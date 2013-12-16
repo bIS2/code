@@ -16,8 +16,10 @@
 		<div>{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} </div>
 		<table id="holdings-items" class="table table-bordered table-condensed flexme datatable">
 		<thead>
-			<tr> 
-				<th><input id="select-all" name="select-all" type="checkbox" value="1"></th>
+			<tr>
+				@if (Authority::can('create','Hlist')) 
+					<th><input id="select-all" name="select-all" type="checkbox" value="1"></th>
+				@endif
 				<th>{{ trans('general.actions') }}</th>
 				<th>{{ trans('general.size') }}</th>
 				<th>852b <span class="fa fa-info-circle"></span></th>
@@ -32,7 +34,11 @@
 		<tbody class="selectable">
 		@foreach ($holdings as $holding)
 			<tr id="<?= $holding->id ?>" class="{{ $holding->css }}" data-holdingsset="{{$holding->holdingsset_id}}">
-				<td><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
+
+				@if (Authority::can('create','Hlist')) 
+					<td><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
+				@endif
+				
 				<td id="{{ $holding->id }}" class="actions">
 
 					@if (Authority::can('revise', $holding))

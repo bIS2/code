@@ -8,8 +8,10 @@ class Pages extends BaseController {
 	 * @return Response
 	 */
 	public function getIndex(){
-		$data['holdings_ok'] 				= Ok::all();
-		$data['holdings_annotated'] = Note::all();
+		$data['holdingsset_confirm'] 	= Confirm::take(10)->get();
+		$data['holdings_ok'] 					= Ok::take(10)->get();
+		$data['holdings_annotated'] 	= Note::take(10)->get();
+		$data['holdings_revised'] 		= Revised::take(10)->get();
 
 		$data['total'] 						= Holding::inLibrary()->count();
 		$data['total_ok'] 				= Holding::inLibrary()->corrects()->count();

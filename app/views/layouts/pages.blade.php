@@ -40,14 +40,7 @@
 			@include('navbar-default')
 		
 		<div class="container">
-			<div class="row">
-				<div class="col-xs-3">
-					@include('layouts.sidebar-stats')
-				</div>
-				<div class="col-xs-9">
-					@yield('main')  <!-- ./ Main -->
-				</div>
-			</div>
+			@yield('main')  <!-- ./ Main -->
 		</div> <!-- ./ container -->
 
 		

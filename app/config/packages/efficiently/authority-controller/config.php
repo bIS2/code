@@ -27,6 +27,13 @@ return [
           return Auth::user()->hasRole('superuser');
         });
 
+        $authority->allow('stats_store','Feedback', function($self, $user) {
+          return !Auth::guest() && Auth::user()->hasRole('magvuser') && Auth::user()->hasRole('maguser');
+        });
+
+        if ($user->hasRole('magvuser')) {
+            return $authority->allow('create','Hlist');
+        }
 
         // Action aliases. For example:
         //

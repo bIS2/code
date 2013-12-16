@@ -1,12 +1,29 @@
 $(function(){
 
   $('[data-toggle=tooltip]').tooltip()
+
+  $('.stats .label-default').hover(
+    function(){
+      $(this).removeClass('label-default')
+      $(this).addClass('label-primary')
+    },
+    function(){
+      $(this).removeClass('label-primary')
+      $(this).addClass('label-default')
+    }
+  )
+
   $('#btn_create_feedback').popover({
   	html: true,
   	content: function(){ return $('#wrap_create_feedback').html() },
   	placement: 'top',
   	container: 'body'
 
+  })
+
+	$('body').on( 'click', '.close-popover', function(e){
+		e.preventDefault()
+  	$('#btn_create_feedback').popover('hide')
   })
 
   $.fn.editable.defaults.mode = 'inline';
