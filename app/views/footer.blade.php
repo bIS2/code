@@ -9,14 +9,14 @@
 			  	{{trans('general.feedback')}}
 			  </button>
 			</div>
-		<div class="credit text-center row">
+		<div class="credit text-center row stats">
 			@if (!Auth::guest())
 
 				@if (Auth::user()->hasRole('bibuser'))
 					@include('stats.bibuser')
 				@endif
 
-				@if (Auth::user()->hasRole('magvuser'))
+				@if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser'))
 					@include('stats.magvuser')
 				@endif
 

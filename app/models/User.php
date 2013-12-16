@@ -48,6 +48,10 @@ class User extends ConfideUser implements PresentableInterface {
 
   public function lockeds() {
       return $this->hasMany('Locked');
+  }  
+
+  public function feedbacks() {
+      return $this->hasMany('Feedback');
   }
 
 	/**

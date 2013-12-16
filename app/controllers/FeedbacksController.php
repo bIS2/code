@@ -54,10 +54,10 @@ class FeedbacksController extends BaseController {
 			//return Redirect::route('feedbacks.index');
 		}
 
-		return Redirect::route('feedbacks.create')
-			->withInput()
-			->withErrors($validation)
-			->with('message', 'There were validation errors.');
+		// return Redirect::route('feedbacks.create')
+		// 	->withInput()
+		// 	->withErrors($validation)
+		// 	->with('message', 'There were validation errors.');
 	}
 
 	/**
@@ -125,8 +125,7 @@ class FeedbacksController extends BaseController {
 	public function destroy($id)
 	{
 		$this->feedback->find($id)->delete();
-
-		return Redirect::route('feedbacks.index');
+		return  Response::json( [ 'remove'=>$id  ] ) ;
 	}
 
 }

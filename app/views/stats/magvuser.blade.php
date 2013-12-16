@@ -1,23 +1,24 @@
 <?php $total= Holding::confirms()->inLibrary()->count() ?>
 
-<div class="col-xs-2">
-	<div class="progress ">
+<?php $annotated = Holding::inLibrary()->confirms()->annotated()->count() ?>
+<?php $corrects = Holding::inLibrary()->confirms()->corrects()->count() ?>
+<?php $to_post = Holding::inLibrary()->reviseds()->corrects()->count() ?>
 
-	  <div class="progress-bar progress-bar-success" style="width: {{ (string) $percent=round((Ok::whereUserId( Auth::user()->id )->count()/$total)*100,2)}}%;">
-	    <span class="fa fa-thumbs-up"></span> <span class=""> <?= (string) $percent ?>% </span>
-	  </div>
-
-	  <div class="progress-bar progress-bar-danger"style="width: 10%;">
-	    <span class="fa fa-tags"></span> <span class=""> <?= (string) $percent ?>% </span>
-	  </div>
-
-	</div>
+<div class="col-xs-1">
+	<span class="label label-default" data-toggle="tooltip" data-placement="top" data-original-title="{{ trans('stats.annotated') }}">
+		<i class="fa  fa-tags"></i> {{$annotated}} [{{ round(($annotated/$total)*100,2) }}%]
+	</span>
 </div>
 
-<div class="col-xs-2">
-	<div class="progress ">
-	  <div class="progress-bar " role="progressbar" aria-valuenow="{{ $value=Revised::whereUserId( Auth::user()->id )->count() }}" aria-valuemin="0" aria-valuemax="{{$total}}" style="width: {{ (string) $percent=round(($value/$total)*100,2)}}%;">
-	    <span class="fa fa-mail-forward"></span> <span class=""> <?= (string) $percent ?>% </span>
-	  </div>
-	</div>
+<div class="col-xs-1">
+	<span class="label label-default" data-toggle="tooltip" data-placement="top" data-original-title="{{ trans('stats.corrects') }}">
+		<i class="fa  fa-thumbs-up"></i> {{$corrects}} [{{ round(($corrects/$total)*100,2) }}%]
+	</span>
 </div>
+
+<div class="col-xs-1">
+	<span class="label label-default" data-toggle="tooltip" data-placement="top" data-original-title="{{ trans('stats.to_post') }}">
+		<i class="fa  fa-mail-forward"></i> {{$to_post}} [{{ round(($to_post/$total)*100,2) }}%]
+	</span>
+</div>
+

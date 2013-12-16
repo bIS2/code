@@ -7,13 +7,24 @@ return [
         $user = Auth::guest() ? new User : $authority->getCurrentUser();
 
         // Allow delivery holding from storage revision
-        $authority->allow('delivery', 'Holding', function($self, $holding) {
-          return ( $holding->is_revised && $holding->is_correct && Auth::user()->hasRole('postuser') );
-        });
 
-        $authority->allow('revise', 'Holding', function($self, $holding) {
-          return ( (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser')) && !$holding->is_revised );
-        });
+        if ( Auth::user()->hasRole('postuser') ) {
+            $authority->allow('delivery', 'Holding', function($self, $holding) {
+              return ( $holding->is_revised && $holding->is_correct  );
+            });
+        }
+
+        if ( Auth::user()->hasRole('speichuser') ) {
+            $authority->allow('receive', 'Holding', function($self, $holding) {
+              return $holding->is_delivery;
+            });
+        }
+
+        if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser')){
+            $authority->allow('revise', 'Holding', function($self, $holding) {
+              return ( !$holding->is_revised );
+            });
+        }
 
         $authority->allow('set_size', 'Holding', function($self, $holding) {
           return ( (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser')) && !$holding->is_revised );
@@ -27,6 +38,17 @@ return [
           return Auth::user()->hasRole('superuser');
         });
 
+        $authority->allow('stats_store','Feedback', function($self, $user) {
+          return !Auth::guest() && Auth::user()->hasRole('magvuser') && Auth::user()->hasRole('maguser');
+        });
+
+        if ($user->hasRole('magvuser')) {
+            return $authority->allow('create','Hlist');
+        }
+
+        if ( $user->hasRole('magvuser') || $user->hasRole('maguser') || $user->hasRole('speichuser') || Auth::user()->hasRole('postuser')) {
+            return $authority->allow('manage','Holding');
+        }
 
         // Action aliases. For example:
         //
