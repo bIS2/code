@@ -46,7 +46,7 @@ return [
           return !Auth::guest() && Auth::user()->hasRole('magvuser') && Auth::user()->hasRole('maguser');
         });
 
-        if ($user->hasRole('magvuser')) {
+        if ($user->hasRole('magvuser') || $user->hasRole('postuser') ) {
             return $authority->allow('create','Hlist');
         }
 
