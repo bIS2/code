@@ -10,7 +10,6 @@
 
 		        <div class="modal-body">
 
-        				<div class="well well-sm warning">{{trans('notes.help')}}</div>
         				<div class="row">
         					<div class="col-xs-5 ">
         						<dl>
@@ -38,7 +37,7 @@
 											<?php
 												$note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note;
 												if ($username == '') $username = $note->user->name;
-												var_dump($note->user->name);
+												// var_dump($note->user->name);
 											?>
 
 											{{ Form::hidden('holding_id',$holding->id) }}

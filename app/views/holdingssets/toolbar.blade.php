@@ -48,35 +48,38 @@
 			  </li>
 			  <li>
 				  <div class="btn-group">
+				  	<a href="{{ route('sets.index', Input::except(['owner','aux'])) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') != true)) ? 'btn-primary' : 'btn-default' ?> btn-sm" title="{{ trans('holdingssets.clear_owner_filter') }}">	
+				  		<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}			  		
+				  	</a>
 				  	<a href="{{ route('sets.index', Input::except(['owner','aux']) + ['owner' => true]) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') != true)) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<i class="fa fa-stop text-danger"></i> {{{ trans('holdingssets.just_owner') }}}
 				  	</a>
-				  	<a id="filter_pending" href="{{ route('sets.index', Input::except(['owner','aux']) + ['aux' => true]) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+				  	<a id="filter_owner" href="{{ route('sets.index', Input::except(['owner','aux']) + ['aux' => true]) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 				  		<i class="fa fa-stop text-warning"></i> {{{ trans('holdingssets.just_aux') }}}
 				  	</a>
-				  	<a id="filter_pending" href="{{ route('sets.index', Input::except(['owner','aux']) + ['owner' => true, 'aux' => true]) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default'; ?> btn-sm">
+				  	<a id="filter_aux" href="{{ route('sets.index', Input::except(['owner','aux']) + ['owner' => true, 'aux' => true]) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default'; ?> btn-sm">
 				  		<i class="fa fa-stop text-danger"></i> <i class="fa fa-stop text-warning"></i> {{{ trans('holdingssets.only_owner_and_aux') }}}
 				  	</a>
-				  	<a href="{{ route('sets.index', Input::except(['owner','aux'])) }}" class="btn btn-default btn-sm" title="{{ trans('holdingssets.clear_owner_filter') }}">	
-				  		<i class="fa fa-eraser"></i>			  		
-				  	</a>
 				  </div>
 				  <div class="btn-group">
-				  	<a id="filter_all" href="{{ route('sets.index', Input::except('state')) }}" class="btn <?= ((Input::get('state') != 'ok') && (Input::get('state') != 'pending') && (Input::get('state') != 'annotated')) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+				  	<a id="filter_all" href="{{ route('sets.index', Input::except('state')) }}" class="btn btn-primary <?= ((Input::get('state') != 'ok') && (Input::get('state') != 'pending') && (Input::get('state') == '')) ? 'active' : '' ?> btn-sm" >
 				  		<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}
 				  	</a>
-				  	<a id="filter_confirmed" href="{{ route('sets.index', Input::except('state') + ['state'=>'ok']) }}" class="btn <?= (Input::get('state')=='ok') ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+				  	<a id="filter_confirmed" href="{{ route('sets.index', Input::except('state') + ['state'=>'ok']) }}" class="btn btn-success <?= (Input::get('state')=='ok') ? 'active' : '' ?> btn-sm" >
 				  		<span class="fa fa-thumbs-up"></span> {{{ trans('holdingssets.oked') }}}
 				  	</a>
-				  	<a id="filter_pending" href="{{ route('sets.index', Input::except('state') + ['state'=>'pending']) }}" class="btn <?= (Input::get('state') == 'pending') ? 'btn-primary' : 'btn-default' ?> btn-sm">
-				  		<span class="fa fa-warning"></span> {{{ trans('holdingssets.pending') }}}
+				  	<a id="filter_pending" href="{{ route('sets.index', Input::except('state') + ['state'=>'pending']) }}" class="btn btn-default <?= (Input::get('state') == 'pending') ? 'active' : '' ?> btn-sm">
+				  		<span class="fa fa-thumbs-up"></span> {{{ trans('holdingssets.pending') }}}
 				  	</a>
-				  	<a id="filter_annotated" href="{{ route('sets.index', Input::except('state') + ['state'=>'annotated']) }}" class="btn <?= (Input::get('state') == 'annotated') ? 'btn-primary' : 'btn-default' ?> btn-sm">
-				  		<span class="fa fa-tags"></span> {{{ trans('general.annotated') }}}
+				  	<a id="filter_annotated" href="{{ route('sets.index', Input::except('state') + ['state'=>'annotated']) }}" class="btn btn-warning <?= (Input::get('state') == 'annotated') ? 'active' : '' ?> btn-sm">
+				  		<span class="fa fa-thumbs-up"></span> {{{ trans('general.annotated') }}}
+				  	</a>
+				  	<a id="filter_incorrect" href="{{ route('sets.index', Input::except('state') + ['state'=>'incorrects']) }}" class="btn btn-danger <?= (Input::get('state') == 'incorrects') ? 'active' : '' ?> btn-sm">
+				  		<span class="fa fa-thumbs-down"></span> {{{ trans('general.incorrects') }}}
 				  	</a>
 				  </div>
 				  <div class="btn-group">
-				  	<a href="#collapseOne" id="filter-btn" class="accordion-toggle <?= ($is_filter) ? 'btn-primary' : 'collapsed' ?> btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm dropdown-toggle" data-toggle="collapse" data-parent="#accordion2">
+				  	<a href="#collapseOne" id="filter-btn" class="accordion-toggle <?= ($is_filter) ? 'btn-primary' : 'btn-default' ?> btn btn-sm dropdown-toggle" data-toggle="collapse" data-parent="#accordion2">
 			        <span class="fa fa fa-filter"></span> {{{ trans('holdingssets.advanced_filter') }}} <span class="caret"></span>
 			      </a>
 <!-- 				  	<a href="{{ route('sets.index') }}" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
@@ -91,11 +94,11 @@
 		<div class="col-xs-12">
 			<div class="accordion" id="filterContainer">
 			  <div class="text-right accordion-group">
-			    <div id="collapseOne" class="accordion-body <?= ($is_filter) ? 'in' : 'collapse' ?> text-left">
+			    <div id="collapseOne" class="accordion-body collapse text-left">
 						<div class="row">
 							<div class="col-xs-12">
 									<div class="col-xs-12 text-center">
-										<h3 class="text-primary"><span class="fa fa-check"></span> {{ trans('general.select_fields_to_search') }}	</h3>		
+										<h4 class="text-primary"><span class="fa fa-check"></span> {{ trans('general.select_fields_to_search') }}	</h4>		
 										<div id="currentfiltersoption" class="btn-group" data-toggle="buttons">
 											<?php
 											$allsearchablefields = ALL_SEARCHEABLESFIELDS;
@@ -109,17 +112,20 @@
 													$checkactive 	= " active";
 												}
 												?>
-												<label class="btn btn-primary{{ $checkactive }}" href="#ff<?= $field; ?>" >
+												<label class="btn btn-primary btn-xs{{ $checkactive }}" href="#ff<?= $field; ?>" >
 													<input type="checkbox" <?= $checked; ?> value="<?= $field; ?>"><?= $field; ?>
 												</label>
 											<?php	}	?>
 										</div>		
 									</div>		
-								<form id="advanced-search-form" class="form-inline" role="form" method="get" class="text-center">
+								<form id="advanced-search-form" class="form-inline text-center" role="form" method="get">
 									<div id="currentfilters" class="row clearfix text-center">
 										<?= ($group_id > 0) ? '<input type="hidden" name="group_id" value="'.$group_id.'">': '' ?>
 										<?= (Input::has('state')) ? '<input type="hidden" name="state" value="'.Input::get('state').'">': '' ?>
-										<?php foreach ($allsearchablefields as $field) { 
+										<?= (Input::has('owner')) ? '<input type="hidden" name="owner" value="'.Input::get('owner').'">': '' ?>
+										<?= (Input::has('aux')) ? '<input type="hidden" name="aux" value="'.Input::get('aux').'">': '' ?>
+										<?php $ff = 0; $AndOrs = Input::get('OrAndFilter');
+										foreach ($allsearchablefields as $field) { 
 											$value = Input::get('f'.$field);
 											if ($value != '') { ?>
 												<div id="ff<?= $field; ?>" class="form-group col-xs-2">
@@ -132,13 +138,17 @@
 												     		<option value="%s LIKE '%%%s'" <?php if (Input::get('f'.$field.'format') == "%s LIKE '%%%s'") echo 'selected'; ?>>{{ trans('general.end_with') }}</option>
 												     	</select>
 													  <input type="text" class="form-control" name="f<?= $field; ?>" value="<?= Input::get('f'.$field) ?>">
+													  <select id="OrAndFilter" class="form-control" name="OrAndFilter[]">
+											     		<option value="AND"{{ ($AndOrs[$ff] == 'AND')? ' selected':''  }}>{{ trans('general.AND') }}</option>
+											     		<option value="OR"{{ ($AndOrs[$ff] == 'OR')? ' selected':''  }}>{{ trans('general.OR') }}</option>
+											     	</select>
 													</div>
 												</div>
-											<?php }
+											<?php $ff++; }
 										} ?>
 									</div>
 									<div id="searchsubmit" class="col-xs-12 text-center clearfix">
-										<button style="margin: 20px 0;" type="submit" class="btn btn-default btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> {{ trans('general.search') }}</button>
+										<button style="margin: 0 0 5px 0;" type="submit" class="btn btn-default btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> {{ trans('general.search') }}</button>
 									</div>
 								</form>
 								<div id="fieldstosearchhidden" style="display: none;">
@@ -155,6 +165,10 @@
 											     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
 											     	</select>
 												  <input type="text" class="form-control" name="f<?= $field; ?>" value="<?= Input::get('f'.$field)  ?>">
+												  <select id="OrAndFilter" class="form-control" name="OrAndFilter[]">
+										     		<option value="AND" selected>{{ trans('general.AND') }}</option>
+										     		<option value="OR">{{ trans('general.OR') }}</option>
+										     	</select>
 												</div>
 											</div>
 										<?php }

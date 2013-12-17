@@ -144,3 +144,6 @@ Route::resource('lockeds', 'LockedsController');
 
 Route::resource('reviseds', 'RevisedsController');
 
+
+
+Route::resource('incorrects', 'IncorrectsController');

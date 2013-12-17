@@ -1,7 +1,5 @@
 @extends('layouts.scaffold')
 
-
-
 {{-- main --}}
 @section('main')
 

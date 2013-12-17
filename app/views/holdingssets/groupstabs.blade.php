@@ -52,8 +52,8 @@
  	// var_dump($groupsids);
 ?>
 <ul id="groups-tabs" class="nav nav-tabs">
-  <li <?php if (!isset($group_id)) { echo 'class="active"'; } ?>>
-  	<a href="<?= route('sets.index')  ?>">
+  <li <?php if (!($group_id > 0)) { echo 'class="active"'; } ?>>
+  	<a href="<?= route('sets.index', Input::except(['group_id']));  ?>">
   		<?= trans('holdingssets.all') ?> <?= trans('holdingssets.title') ?>
   	</a>
   </li>
@@ -61,7 +61,7 @@
 		if (in_array($group -> id, $groupsids)) { 
 	 ?>
 		<li id="group{{ $group->id }}" <?php if ($group_id == $group -> id) { echo 'class="active"'; } else { echo 'class="accepthos"'; } ?>>
-			<a href="<?= route('sets.index',['group_id' => $group->id ])  ?>" class="pull-left"><?= $group->name  ?>
+			<a href="<?= route('sets.index',Input::except(['group_id']) + ['group_id' => $group->id ])  ?>" class="pull-left"><?= $group->name  ?>
 			</a>
 			<?php if ($group_id != $group -> id) { ?>
 			<!-- <a href="{{ action('HoldingssetsController@putDelTabgroup',[$group->id]) }}" class="btn btn-ok btn-xs" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><button aria-hidden="true" data-dismiss="modal" class="close pull-left" type="button">×</button></a> -->
@@ -77,4 +77,105 @@
 	  </a>
   </li>
 </ul>
+<?php if (count($holdingssets) > 0) { ?>
+<form method="post" action="{{ route('sets.index', Input::except(['noexists'])) }}">
+<div class="clearfix">
+	<div class="select-all col-xs-2">
+	  <label>
+	    <input id="select-all" name="select-all" type="checkbox" value="1">
+	    <p class="btn btn-xs btn-primary">{{ trans('holdingssets.select_all_hos') }}</p>
+	  </label>
+	</div>
+	<div id="hos-sorting" class="col-xs-5 text-center text-success">
+		<div class="btn-group" data-toggle="buttons">
+		  <label class="btn btn-success btn-xs pull-left disabled">
+				{{ trans('holdingssets.order_hos_by') }} 
+		  </label>
+		  <label class="btn btn-default btn-xs{{ ((Session::get(Auth::user()->username.'_sortinghos_by') == null) || (Session::get(Auth::user()->username.'_sortinghos_by') == f245a)) ? ' active' : '' }}">
+		    <input type="radio"{{ ((Session::get(Auth::user()->username.'_sortinghos_by') == null) || (Session::get(Auth::user()->username.'_sortinghos_by') == f245a)) ? ' checked = checked' : '' }} name="sortinghos_by" value="f245a" id="option1"> 245a
+		  </label>
+		  <label class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'holdings_number') ? ' active' : '' }}" name="sortinghos_by">
+		    <input type="radio"{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'holdings_number') ? ' checked = checked' : '' }} name="sortinghos_by" value="holdings_number" id="option2"> hols#
+		  </label>
+		  <label class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'groups_number') ? ' active' : '' }}" name="sortinghos_by">
+		    <input type="radio"{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'groups_number') ? ' checked = checked' : '' }} name="sortinghos_by" value="groups_number" id="option3"> HosG#
+		  </label>
+		  <label class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'f008x') ? ' active' : '' }} disabled" name="sortinghos_by">
+		    <input type="radio"{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'f008x') ? ' checked = checked' : '' }} name="sortinghos_by" value="f008x" id="option4"> 008x
+		  </label>
+		</div>
+		<div class="btn-group" data-toggle="buttons">
+		  <label class="btn btn-default btn-xs{{ ((Session::get(Auth::user()->username.'_sortinghos') == null) || (Session::get(Auth::user()->username.'_sortinghos') == 'ASC')) ? ' active' : '' }}">
+		    <input type="radio" {{ ((Session::get(Auth::user()->username.'_sortinghos') == null) || (Session::get(Auth::user()->username.'_sortinghos') == 'ASC')) ? ' checked = checked' : '' }} name="sortinghos" value="ASC" id="option1"> ASC
+		  </label>
+		  <label class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos') == 'DESC') ? ' active' : '' }}">
+		    <input type="radio" {{ (Session::get(Auth::user()->username.'_sortinghos') == 'DESC') ? ' checked = checked' : '' }} name="sortinghos" value="DESC" id="option2"> DESC
+		  </label>
+		</div>
+		<div class="btn-group">
+				<button type="submit" value="{{ trans('general.save') }}" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-save"></span> {{ trans('general.save') }} </button>
+		</div>
+	</div>
+	<div id="hos-pagination" class="col-xs-3 text-center text-success">
+		<p>{{ trans('holdingssets.showing') }} </p>
+		<div id="current_quantity" class="progress progress-striped active">
+      <div style="width: 100%">{{ $init }}</div>
+    </div> 
+		<p>{{ trans('holdingssets.of') }}</p>
+		<div id="total_quantity">{{ $total }}</div>
+	</div>
+	<div class="col-xs-2">
+	  <a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-xs btn-default dropdown-toggle pull-right collapsed text-warning" data-toggle="collapse">
+  		<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
+		</a>
+	</div>
+</div>
+	<div class="col-xs-12">
+		<div class="accordion" id="FieldsShow">
+		   <div id="table_fields" class="accordion-body text-right collapse">
+					<input type="hidden" name="urltoredirect" value="<?= route('sets.index', Input::except(['noexists'])); ?>">
+					<?php									
+						$allfields 	= explode(';', ALL_FIELDS);
+						$tmpfields 	= Session::get(Auth::user()->username.'_fields_to_show_ok');
+						
+						$fields 		= '';
+						if (isset($tmpfields)) {
+							$fields 		= explode(';', $tmpfields);
+						}
+						?>
+						<ul class="btn-group" data-toggle="buttons">
+						<?php
+							foreach ($fields as $field) {
+								$checked 				= '';
+								$checkactive 		= '';
+								if (($field != 'ocrr_ptrn') && ($field != 'sys2')) {
+										$checked 			= "checked = checked";
+										$checkactive 	= " active"; ?>
+										<li class="btn btn-xs btn-default{{ $checkactive }}">
+											<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field; ?>
+										</li>
+								<?php }
+							}	?>
+						<?php
+							foreach ($allfields as $field) {
+								$checked 				= '';
+								$checkactive 		= '';
+								if (($field != 'ocrr_ptrn') && ($field != 'sys2')) {
+									if (!(in_array($field, $fields))) { ?>
+										<li class="btn btn-xs btn-default{{ $checkactive }}">
+											<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field; ?>
+										</li>
+										<?php
+									}
+									?>
+								<?php }
+							}	?>
+						</ul>
+						<input type="hidden" name="fieldstoshow[]" value="ocrr_ptrn">
+						<button type="submit" value="{{ trans('general.save') }}" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-save"></span> {{ trans('general.save') }} </button>
+			</div>
+		</div>
+	</div>
+	</form>
+<?php } ?>
 </section>

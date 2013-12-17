@@ -168,23 +168,24 @@ class Holding extends Eloquent {
     $j_ptrn = str_split($this->j_ptrn);
     $aux_ptrn = str_split($this->aux_ptrn);
     $i = 0;
-    $ret = '';
+    $ret = '<div style="display: inline-block;" data-toggle="buttons">';
 
     foreach ($ocrr_ptrn as $ocrr) { 
       switch ($ocrr) {
         case '0':
-          $ret .= '<i class="fa fa-square-o "></i>';
+          $ret .= '<i class="fa fa-square-o btn btn-xs btn-default "></i>';
           break;                          
         case '1':
           $classj = '';
           $classaux = '';
           if (isset($j_ptrn[$i]))     $classj   = ($j_ptrn[$i] == '1') ? ' j' : ''; 
           if (isset($aux_ptrn[$i]))   $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
-          $ret .= '<i class="fa fa-square pop-over'.$classj.$classaux.'" data-content="'.$this->f852b.' | '.$this->f852h.' | '.$ptrn[$i].'" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>';
+          $ret .= '<i class="fa fa-square pop-over btn btn-xs btn-default '.$classj.$classaux.'" data-content="'.$this->f852b.' | '.$this->f852h.' | '.$ptrn[$i].'" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>';
           break;
       }
      $i++; 
-    } 
+    }
+    $ret .= "</div>";
     return $ret;
 
   }

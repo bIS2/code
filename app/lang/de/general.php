@@ -1,7 +1,6 @@
 	<?php
 
 return array(
-
 	'yes' 		    			=> 'Ja',
 	'no'  			    		=> 'Nein',
 	'edit'  		    		=> 'Editieren',
@@ -36,4 +35,11 @@ return array(
 	'annotated'         => 'Angemerkt',
 	'lang_en'           => 'Englisch',
 	'lang_de'           => 'Deutsch',
+	'show_hide_fields'	=> 'Select fields to show in Holdings',
+	'select_fields_to_search'	=> 'Select fields to filter to',
+	'size'           		=> 'Size',
+	'or'           			=> 'or',
+	'AND'           			=> 'AND',	
+	'OR'           			=> 'OR',
+	'incorrects'        => 'Incorrects',
 );
