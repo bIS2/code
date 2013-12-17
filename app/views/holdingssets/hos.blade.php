@@ -134,7 +134,7 @@
 									@endif
 										<?php $k = 0; ?>
 											@foreach ($fieldstoshow as $field)
-												@if ($field != 'ocrr_ptrn')  <?php $k++; ?>						
+												@if ($field != 'ocrr_ptrn')  <?php $k++;$field = 'f'.$field; ?>						
 													<td>{{htmlspecialchars($holding->$field);}}</td>
 													@if ($k == 1)
 														<td class="ocrr_ptrn">
