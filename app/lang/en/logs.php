@@ -13,9 +13,9 @@ return array(
 	|
 	*/
 
-	'create_hlist' 							=> 'create a List :name',
-	'create_group' 							=> 'create a Group :name',
-	'holdingset_change_to_ok' 	=> 'change state to OK the HOLDINGSET: <strong>:name</strong>',
-	'holdingset_change_to_ko' 	=> 'change state PENDING the HOLDINGSET: <strong>:name</strong>',
+	'create_hlist' 				=> 'Create list: <strong>:name</strong>',
+	'create_group' 				=> 'Create group: <strong>:name</strong>',
+	'holdingset_change_to_ok' 	=> 'Change state of HOS to OK: <strong>:name</strong>',
+	'holdingset_change_to_ko' 	=> 'Change state of HOS to PENDING: <strong>:name</strong>',
 
 );
