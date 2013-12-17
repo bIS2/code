@@ -16,8 +16,6 @@ return array(
 	'orphan'						=> 'Orphan HOS',
 	'printer'						=> 'Print',
 	'all'							=> 'All',
-<<<<<<< HEAD
-=======
 	'create_group' 				=> 'Create Group',
 	'title_create_group' 	=> 'Create a Group of Holdings Set',
 	'move_to_group'				=> 'Move to',
@@ -30,7 +28,6 @@ return array(
 	'orphan'							=> 'Orphan HOS',
 	'printer'							=> 'Print',
 	'all'									=> 'All',
->>>>>>> 27c2d8e61715ac63fb48f8202f883e800c25d3ca
 	'click_to_view_in_other_tab' 	=> 'Click to view in other tab.',
 	'see_more_information' 			=> 'See more information',
 	'see_information_from_original_system' => 'See original information (external)',
@@ -41,7 +38,6 @@ return array(
 	'just_owner'					=> 'Owner',
 	'just_aux'						=> 'Additional',
 	'only_owner_and_aux'			=> 'Both',
-<<<<<<< HEAD
 	'clear_owner_filter'			=> 'Clear MAIN filter'
 	'drag_and_drop_into_a_grouptab_to_move_this_HOS_to_another_HosGroup'=> 'Drag and Drop into a Tab to move this HOS to a HOS Group',
 	'drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'				=> 'Drag and Drop into a Tab to add this HOS to a HOS Group',
@@ -54,19 +50,3 @@ return array(
 	'of'							=> 'of ',
 	'order_hos_by' 					=> 'Order HOS By'
 );
-=======
-	'clear_owner_filter'			=> 'Clear MAIN filter',
-	'only_owner_and_aux'	=> 'Both',
-	'clear_owner_filter'	=> 'clear_owner_filter',
-	'drag_and_drop_into_a_grouptab_to_move_this_HOS_to_another_HosGroup'=> 'Drag and Drop into a Tab to move this HOS to a HOS Group',
-	'drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'				=> 'Drag and Drop into a Tab to add this HOS to a HOS Group',
-	'no_results_to_show'	=> 'There is no result to show',
-	'no_notes'	=> 'No notes for this Holding',
-	'ocurrence_patron'	=> 'Ocurrence patron',
-	'reserved_by'	=> 'Reserved by: ',
-	'on_behalf_of'	=> 'On behalf of: ',
-	'showing'	=> 'Showing ',
-	'of'	=> 'of ',
-	'order_hos_by' => 'Order HOS By',
-);
->>>>>>> 27c2d8e61715ac63fb48f8202f883e800c25d3ca
