@@ -13,4 +13,8 @@ return array(
 	'confirmed'  			=> 'Confirmed',
 	'confirmed_owner'  		=> 'Confirmed Owner',
 	'confirmed_aux'  		=> 'Confirmed Auxiliar',
+	'holdingsets_confirm'	=> '',
+	'holdingsets_confirm_details'	=> '',
+	'holding_oks_details'	=> '',
+	'holding_annotated_datails' => ''
 );
