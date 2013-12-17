@@ -75,8 +75,6 @@
 		  <dd>{{$total_ok}}</dd>
 		  <dt>{{trans('stats.total_anottated')}}</dt>
 		  <dd>{{ $total_anottated}}</dd>
-		  <dt>{{trans('stats.total_delivery')}}</dt>
-		  <dd>{{$total_delivery}}</dd>
 		</dl>
 	</div>
 </div>	
