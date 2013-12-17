@@ -25,7 +25,7 @@ class Holding extends Eloquent {
   public function hlist(){
     return $this->belongsToMany('Hlist');
   }
-
+  
 	public function ok(){
 		return $this->hasOne('Ok');
 	}
@@ -41,7 +41,7 @@ class Holding extends Eloquent {
   // Scopes
   public function scopeInit ($query){
 
-  	$query = $query->with('ok','notes')->orderBy('f852b')->inLibrary();
+  	$query = $query->with('ok','notes')->orderBy('f852j','f852c')->inLibrary();
 
     if ( Auth::user()->hasRole('postuser') ) 
       $query->reviseds()->corrects();
