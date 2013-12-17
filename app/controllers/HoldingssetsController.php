@@ -1,5 +1,4 @@
 <?php
-
 class HoldingssetsController extends BaseController {
  	protected $layout = 'layouts.default';
 
@@ -17,7 +16,7 @@ class HoldingssetsController extends BaseController {
 	{
 		/* SEARCH ADVANCED FIELDS OPTIONS
 		----------------------------------------------------------------*/
-		define('ALL_SEARCHEABLESFIELDS', '022a;245a;245b;008x;245c;310a;362a;710a;780t;785t;852b;852h;008y');
+		define('ALL_SEARCHEABLESFIELDS', '022a;245a;245b;245c;246a;260a;260b;300a;300b;300c;310a;362a;500a;505a;710a;770t;772t;780t;785t;852b;852c;852h;852j;866a;866z');
 
 		// Is Filter
 		$allsearchablefields = ALL_SEARCHEABLESFIELDS;
@@ -28,88 +27,98 @@ class HoldingssetsController extends BaseController {
 			if ($value != '') {
 				$is_filter = true;
 			}
+			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) $is_filter = true;
 		}
 		$this->data['is_filter'] = $is_filter;
+
 		
 		/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 		-----------------------------------------------------------*/
-		define('DEFAULTS_FIELDS', '245a;245b;008x;ocrr_ptrn;sys2;260a;260b;710a;310a');
-		define('ALL_FIELDS', '022a;245a;245b;008x;ocrr_ptrn;sys2;245c;310a;362a;710a;780t;785t;852b;852h;008y');
+		define('DEFAULTS_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j');
+		define('ALL_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j');
 
-		if (!isset($_COOKIE[Auth::user()->username.'_fields_to_show'])) {
-			if (Session::get(Auth::user()->username.'_fields_to_show') == 'ocrr_ptrn;sys2') {
-			  setcookie(Auth::user()->username.'_fields_to_show', DEFAULTS_FIELDS, time() + (86400 * 30));
-			  Session::put(Auth::user()->username.'_fields_to_show', DEFAULTS_FIELDS);
+		if (!isset($_COOKIE[Auth::user()->username.'_fields_to_show_ok'])) {
+			if (Session::get(Auth::user()->username.'_fields_to_show_ok') == 'ocrr_ptrn') {
+			  setcookie(Auth::user()->username.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
+			  Session::put(Auth::user()->username.'_fields_to_show_ok', DEFAULTS_FIELDS);
 			}
 			else {
-				setcookie(Auth::user()->username.'_fields_to_show', Session::get(Auth::user()->username.'_fields_to_show'), time() + (86400 * 30));
+				setcookie(Auth::user()->username.'_fields_to_show_ok', Session::get(Auth::user()->username.'_fields_to_show_ok'), time() + (86400 * 30));
 			}
 		}
 
-		if ((Session::get(Auth::user()->username.'_fields_to_show') == 'ocrr_ptrn;sys2') || (Session::get(Auth::user()->username.'_fields_to_show') == '')) {
-		  setcookie(Auth::user()->username.'_fields_to_show', DEFAULTS_FIELDS, time() + (86400 * 30));
-		  Session::put(Auth::user()->username.'_fields_to_show', DEFAULTS_FIELDS);
+		if ((Session::get(Auth::user()->username.'_fields_to_show_ok') == 'ocrr_ptrn') || (Session::get(Auth::user()->username.'_fields_to_show_ok') == '')) {
+		  setcookie(Auth::user()->username.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
+		  Session::put(Auth::user()->username.'_fields_to_show_ok', DEFAULTS_FIELDS);
 		}
+		if (Input::get('clearorderfilter') == 1) {
+			Session::put(Auth::user()->username.'_sortinghos_by', null);
+			Session::put(Auth::user()->username.'_sortinghos', null);
+		}
+		$orderby = (Session::get(Auth::user()->username.'_sortinghos_by') != null) ? Session::get(Auth::user()->username.'_sortinghos_by') : 'f245a';
+		$order 	= (Session::get(Auth::user()->username.'_sortinghos') != null) ? Session::get(Auth::user()->username.'_sortinghos') : 'ASC';
 
 		// Groups
 		$this->data['groups'] = Auth::user()->groups;
-		$group_id = Input::get('group_id');
-		$this->data['group_id'] = $group_id;
 
-		$holdingssets = (Input::has('group_id')) ? 
-		Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC') :	
-		Holdingsset::orderBy('id', 'ASC');
+		$this->data['group_id'] = (in_array(Input::get('group_id'), $this->data['groups']->lists('id'))) ? Input::get('group_id') : '';
+		// var_dump($this->data['groups']);
+		// var_dump($this->data['group_id']);die();
+		$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets() : Holdingsset::orderBy($orderby, $order);
 				
-
 		$state = Input::get('state');
 
-		if (Input::has('group_id')) {
-			if (isset($state)) {
-				$holdingssets = ($state == 'ok') ? 
-				$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->ok()->orderBy('id', 'ASC') :
-				$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->pendings()->orderBy('id', 'ASC');
-			}
-			else {				
-				$holdingssets = Group::find(Input::get('group_id'))->holdingssets()->orderBy('id', 'ASC');
-			}
-		}
-		else {	
-			if (isset($state)) {
-				$holdingssets = ($state == 'ok') ? 
-				$holdingssets =	Holdingsset::orderBy('id', 'ASC')->ok() :
-				$holdingssets =	Holdingsset::orderBy('id', 'ASC')->pendings();
-			}
-			else {				
-				$holdingssets =	Holdingsset::orderBy('id', 'ASC');	
-			}
+		if (isset($state)) {
+			if ($state == 'ok') 
+				$holdingssets = $holdingssets->corrects()->ok();
+			if ($state == 'pending') 
+				$holdingssets = $holdingssets->corrects()->pendings();
+			if ($state == 'annotated') 
+				$holdingssets = $holdingssets->corrects()->pendings()->annotated();	
+			if ($state == 'incorrects') 
+				$holdingssets = $holdingssets->incorrects();
 		}
 
 		if ($this->data['is_filter']) {
+			// Take all holdings
+			$holdings= DB::table('holdings')->orderBy('is_owner', 'DESC');
 
-			$holdings= DB::table('holdings');
+			// If filter by owner or aux
+			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) {
+				$holdings = Auth::user()->library->holdings();
+				$holdings = ((Input::has('owner')) && (!(Input::has('aux')))) ? $holdings -> whereIsOwner('t') : $holdings;
+				$holdings = (!(Input::has('owner')) && ((Input::has('aux')))) ? $holdings -> whereIsAux('t') : $holdings;
+				if ((Input::has('owner')) && ((Input::has('aux'))))  {
+					$holdings = Auth::user()->library->holdings();
+					$owners = $holdings -> whereIsOwner('t')->lists('id');
+					$holdings = Auth::user()->library->holdings();
+					$auxs = $holdings -> whereIsAux('t')->lists('id');
+					$tmp = array_merge($owners, $auxs);
+					$idsok = array_unique($tmp);
+					$holdings = Auth::user()->library->holdings();
+					$holdings = $holdings->whereIn('id', $idsok);
+				}		
+			}
 			$openfilter = 0;
-
+			// Verify if some value for advanced search exists.
 			foreach ($allsearchablefields as $field) {
 				$value = Input::get('f'.$field);
 				if ($value != '') {
-					if ( Input::has('f'.$field) )  { $holdings = $holdings->whereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', strtolower( Input::get('f'.$field) ) ) );  $openfilter++; }
+					$orand = Input::get('OrAndFilter')[$openfilter-1];
+					$holdings = ($orand == 'OR') ? $holdings->OrWhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', strtolower( Input::get('f'.$field) ) ) ) :  $holdings->WhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', strtolower( Input::get('f'.$field) ) ) );  
+					$openfilter++; 
 				}
 			}
-			if (( Input::has('owner')) && (!(Input::has('aux')))) $holdings = $holdings->whereIsOwner('t')->where('sys2','like', Auth::user()->library()->first()->code."%");
-			if (( Input::has('aux')) && (!(Input::has('owner')))) $holdings = $holdings->whereIsAux('t')->where('sys2','like', Auth::user()->library()->first()->code."%");
-			if (( Input::has('owner')) && (Input::has('aux'))) $holdings = $holdings->whereIsAux('t')->orWhere('is_owner','=', 't')->where('sys2','like', Auth::user()->library()->first()->code."%");
-
 			if ($openfilter == 0)  $this->data['is_filter'] = false;
-
-		  $ids = $holdings->count() > 0 ? $holdings->lists('holdingsset_id') : [-1];
-
-		  $holdingssets = $holdingssets->whereIn('id', $ids);
+		  $ids = (count($holdings->lists('holdings.holdingsset_id')) > 0) ? $holdings->lists('holdings.holdingsset_id') : [-1];
+		  $holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
 		}
+		define(HOS_PAGINATE, 20);
+		$this->data['total'] = $holdingssets -> get() -> count();
+		$this->data['init'] = (HOS_PAGINATE >= $this->data['total']) ? $this->data['total'] : HOS_PAGINATE;
+		$this->data['holdingssets'] = $holdingssets-> paginate(HOS_PAGINATE);
 
-
-
-		$this->data['holdingssets'] = $holdingssets->paginate(20);
-
+		// $this->data['holdingssets'] = $holdingssets->paginate(20);
 		if (isset($_GET['page']))  {
 				$this->data['page'] = $_GET['page'];
 				return View::make('holdingssets/hos', $this->data);
@@ -148,8 +157,12 @@ class HoldingssetsController extends BaseController {
 					if (count($newfields) > $i) $fieldlist .= ';';
 				}
 			}
-			setcookie(Auth::user()->username.'_fields_to_show', $fieldlist, time() + (86400 * 30));
-			Session::put(Auth::user()->username.'_fields_to_show', $fieldlist);
+			// var_dump(Input::get('sortinghos_by'));
+			// var_dump(Input::get('sortinghos'));die();
+			setcookie(Auth::user()->username.'_fields_to_show_ok', $fieldlist, time() + (86400 * 30));
+			Session::put(Auth::user()->username.'_fields_to_show_ok', $fieldlist);
+			Session::put(Auth::user()->username.'_sortinghos_by', Input::get('sortinghos_by'));
+			Session::put(Auth::user()->username.'_sortinghos', Input::get('sortinghos'));
 			return Redirect::to(Input::get('urltoredirect'));
 		}
 	}
@@ -163,7 +176,7 @@ class HoldingssetsController extends BaseController {
 	public function show($id)
 	{
 		$this->data['holdingsset'] = Holdingsset::find($id);
-  	return View::make('holdingssets.show');
+  	return View::make('holdingssets.show', $this->data);
 	}
 
 	/**
@@ -200,31 +213,47 @@ class HoldingssetsController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+
 	}
 
-	// Set/Unset Ok to HOS
-	public function putOk($id) {
-		$holdingsset = Holdingsset::find($id);
-		$value = ( $holdingsset->ok ) ? false : true;
-
-		if ($holdingsset->update(['ok'=>$value]))
-			return ($value) ? Response::json( ['ok' => [$id]] ) : Response::json( ['ko' => [$id]] );
-		//
+/* ---------------------------------------------------------------------------------
+	Del Group Tab from HOSG View
+	--------------------------------------
+	Params:
+		$id: HOS Group id 
+-----------------------------------------------------------------------------------*/
+	public function putDelTabgroup($id) {
+		$groupsids = Session::get(Auth::user()->username.'_groups_to_show');
+		$newgroupsids = str_replace($id, '', $groupsids);
+		$newgroupsids = str_replace(';;', ';', $newgroupsids);
+	 	Session::put(Auth::user()->username.'_groups_to_show', $newgroupsids);
+		// $group = Group::find($id)->delete();
+		return Response::json( ['groupDelete' => [$id]] );
 	}	
 
-	// Lock/Unlock Holding
-	public function putLock($id) {
-		$holding = Holding::find($id);
-		$value = ( $holding->locked ) ? false : true;
+/* ---------------------------------------------------------------------------------
+	Get Holding Data from Original System
+	--------------------------------------
+	Params:
+		$id: Holding id
+-----------------------------------------------------------------------------------*/
+	public function getFromLibrary($id) {
+		$this->data['holding'] = Holding::find($id)->sys2;
+		$this->data['library'] = Library::orderBy('code', 'ASC')->libraryperholding(substr($this->data['holding'], 0, 4));
+		$this->data['holding'] = substr($this->data['holding'], 4, 9);
+		return View::make('holdingssets.externalholding', $this -> data);
+	}
 
-		if ($holding->update(['locked'=>$value]))
-			return ($value) ? Response::json( ['lock' => [$id]] ) : Response::json( ['unlock' => [$id]] );
-	}	
 
-
+/* ---------------------------------------------------------------------------------
+	Create a new HOS from only from a Holding
+	------------------------------------------
+	Params:
+		$id: Holding id
+-----------------------------------------------------------------------------------*/
 	public function putNewHOS($id) {
 		$holding 	= Holding::find($id);
+		$holdingsset_id = Input::get('holdingsset_id');
 
 		$lastId = Holdingsset::orderBy('id', 'DESC')->take(1)->get();
 		$key = '';
@@ -244,41 +273,123 @@ class HoldingssetsController extends BaseController {
 		$newHos ->	id 	= $key -> id + 1;
 		$newHos ->	sys1 	= $holding -> sys2;
 		$newHos ->	f245a = $holding -> f245a;
-		$newHos ->	ptrn 	= $newptrn;
-		$newHos ->	ok 		= false;
+		$newHos ->	ptrn 	= $newptrn; 
 		$newHos ->	save();
-		$holding = Holding::find($id)->update(['holdingsset_id'=>$newHos -> id]);
-		return Response::json( ['newhosok' => [$id]] );
+		$holding = Holding::find($id)->update(['holdingsset_id'=>$newHos -> id, 'is_owner' => 't', 'is_aux' => 'f']);
+		
+		holdingsset_recall($holdingsset_id);
+		$holdingssets[] = Holdingsset::find($holdingsset_id);
+		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+		return $newset;
+		// return Response::json( ['newhosok' => [$id]] );
 	}	
 
+/* ---------------------------------------------------------------------------------
+	Force a Holdins to be HOs owner
+	--------------------------------------
+	Params:
+		$id: Holdings id 
+		$holdingsset_id: Holdingssset id 
+-----------------------------------------------------------------------------------*/
 	public function putForceOwner($id) {
+		$holdingsset_id = Input::get('holdingsset_id');
+		$holdingsset = Holdingsset::find($holdingsset_id);
+
+		$unsetcurrentowner = $holdingsset -> holdings()->update(['is_owner' => 'f', 'force_owner' => false]);
+		$holding = Holding::find($id)->update(['is_owner'=>'t', 'force_owner' => true]);
+
+		holdingsset_recall($holdingsset_id);
+		$holdingssets[] = Holdingsset::find($holdingsset_id);
+		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+		return $newset;
+	}		
+
+/* ---------------------------------------------------------------------------------
+	Force a Holdins to be HOs owner
+	--------------------------------------
+	Params:
+		$id: Holdings id 
+		$holdingsset_id: Holdingssset id 
+-----------------------------------------------------------------------------------*/
+	public function putForceAux($id) {
+		$holdingsset_id = Input::get('holdingsset_id');
+		$holding = Holding::find($id)->update(['is_aux'=>'t', 'force_aux' => true]);
+		holdingsset_recall($holdingsset_id);
+		$holdingssets[] = Holdingsset::find($holdingsset_id);
+		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+		return $newset;
 	}	
 
-
-	public function putDelGroup($id) {
-		$groupsids = Session::get(Auth::user()->username.'_groups_to_show');
-		$newgroupsids = str_replace($id, '', $groupsids);
-		$newgroupsids = str_replace(';;', ';', $newgroupsids);
-	 	Session::put(Auth::user()->username.'_groups_to_show', $newgroupsids);
-		// $group = Group::find($id)->delete();
-		return Response::json( ['groupDelete' => [$id]] );
+/* ---------------------------------------------------------------------------------
+	Move a Hos to Other Hos Group 
+	--------------------------------------
+	Params:
+		$id: HOS id 
+-----------------------------------------------------------------------------------*/
+	public function putMoveHosToOthergroup($id) {
+		$origingroup 	= str_replace('group', '', Input::get('origingroup'));
+		$newgroup 		= str_replace('group', '', Input::get('newgroup'));
+		$holdingsset 	= DB::select('select * from group_holdingsset where holdingsset_id = ? AND group_id = ?', array($id, $newgroup));
+		if ($origingroup == '') {
+			// Copying from all holdingssets to a determinate HOS Groups
+			if (count($holdingsset) >= 1) {
+				// The holdings is already on destiny group.				
+				return Response::json( ['nothingtodo' => [1]] );
+			}
+			else {
+				DB::insert('insert into group_holdingsset (group_id, holdingsset_id, created_at, updated_at) values (?, ?, NOW(), NOW())', array($newgroup, $id));
+				$count = Holdingsset::find($id)->groups->count();
+				Holdingsset::find($id)->update(['groups_number'=>$count]);
+				return Response::json( ['ingroups' => $count] );
+			}
+		}
+		else {
+			// Moving from a HOS group to a other HOS Group
+			if (count($holdingsset) >= 1) {
+				// The holdings is already on destiny group.
+				$holdingsset = DB::delete('delete from group_holdingsset where holdingsset_id = ? AND group_id = ?', array($id, $origingroup));		
+			}
+			else {
+				DB::update('update group_holdingsset set group_id = '.$newgroup.' where holdingsset_id = ? AND group_id = ?', array($id, $origingroup));
+			}
+			return Response::json( ['removefromgroup' => [$id]] );
+		}
 	}	
 
+/* ---------------------------------------------------------------------------------
+	Get Holding Data from Original System
+	--------------------------------------
+	Params:
+		$id: Holding id
+-----------------------------------------------------------------------------------*/
+	public function putDeleteHosFromGroup($id) {
+		DB::delete('delete from group_holdingsset where holdingsset_id = ? AND group_id = ?', array($id, Input::get('group_id')));
+		return Response::json( ['removefromgroup' => [$id]] );
+	}
+
+/* ---------------------------------------------------------------------------------
+	Update the 866a from a holding
+	--------------------------------------
+	Params:
+		$id: Holding id 
+-----------------------------------------------------------------------------------*/
 	public function putUpdateField866aHolding($id) {
 		$new866a = Input::get('new866a');
 		$holding = Holding::find($id)->update(['f866a'=>$new866a]);
 		return Response::json( ['save866afield' => [$id]] );
 	}	
-
-	// Set/Unset Ok to HOS
-	public function getFromLibrary($id) {
-		$this->data['holding'] = Holding::find($id)->sys2;
-		$this->data['library'] = Library::orderBy('code', 'ASC')->libraryperholding(substr($this->data['holding'], 0, 4));
-		$this->data['holding'] = substr($this->data['holding'], 4, 9);
-		return View::make('holdingssets.externalholding', $this -> data);
-	}	
 }
 
+
+
+/* ---------------------------------------------------------------------------------
+	Truncate a string
+	--------------------------------------
+	Params:
+		$str: String to truncate
+		$length: Lenght of new string
+		$trailing:  Final Trailing
+-----------------------------------------------------------------------------------*/
 function truncate($str, $length, $trailing = '...') {
   $length-=strlen($trailing);
   if (strlen($str) > $length) {
@@ -291,6 +402,22 @@ function truncate($str, $length, $trailing = '...') {
   return $res;
 }
 
+/* ---------------------------------------------------------------------------------
+	Recall a holdingsset.
+	--------------------------------------
+	Params:
+		$id: HOS id
+		$params: Parameters to used in recall
+						- force_owner(int: Holding id): Fix a Holdings that has to be owner of the HOS
+						- force_aux(int: Holding id): Fix a Holdings thet has to be owner of the HOS
+-----------------------------------------------------------------------------------*/
+function holdingsset_recall($id) {
+
+}
+
+
+/* Obtain a new prtn 
+-----------------------------------------------------------------------------------*/
 function getNewPtrn($hol_ptrn) {
 		$ta_hol_arr[0]['ptrn']= array();
 		//si tiene algo se parte por el ;

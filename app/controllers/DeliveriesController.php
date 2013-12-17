@@ -46,11 +46,9 @@ class DeliveriesController extends BaseController {
 		$input = Input::all();
 		$validation = Validator::make($input, Delivery::$rules);
 
-		if ($validation->passes())
-		{
-			$this->delivery->create($input);
-
-			return Redirect::route('deliveries.index');
+		if ($validation->passes()){
+			$delivery = $this->delivery->create($input);
+			return Response::json( [ 'remove_by_holdingset_id' => $delivery->holding->holdingsset_id ] );
 		}
 
 		return Redirect::route('deliveries.create')

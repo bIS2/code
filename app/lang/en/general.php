@@ -9,6 +9,7 @@ return array(
 	'save_group'  		=> 'Save Group',
 	'save'  			=> 'Save',
 	'save_and_delivery' => 'Save and Delivery',
+<<<<<<< HEAD
 	'ok'  				=> 'OK',
 	'close'  			=> 'Close',
 	'cancel'  			=> 'Cancel',
@@ -19,6 +20,20 @@ return array(
 	'profile'			=> 'Profile',
 	'config'			=> 'Configuration',
 	'type_criteria' 	=> 'Type to search',
+=======
+	'ok'  							=> 'OK',
+	'close'  						=> 'Close',
+	'cancel'  					=> 'Cancel',
+	'reset'  						=> 'Reset',
+	'send'  						=> 'Send',
+	'sending'  					=> 'Sending...',
+	'disable_with'			=> 'Saving...',
+	'all'								=> 'All',
+	'logout'						=> 'Logout',
+	'profile'						=> 'Profile',
+	'config'						=> 'Configuration',
+	'type_criteria' 		=> 'Type to search',
+>>>>>>> 28744b320907c1d9709318f993c97e3dc4c1dc87
 	'placeholder_search'=> 'Type to search',
   'must_login' 			=> 'You must be logged in.',	
   'included_in' 		=> 'Included in',
@@ -37,8 +52,16 @@ return array(
 	'lang_de'           => 'German',
 	'show_hide_fields'	=> 'Select fields visible for HOL',
 	'select_fields_to_search'	=> 'Select fields to filter to',
+<<<<<<< HEAD
 	'size'           	=> 'Size (RM)',
 	'or'           		=> 'or',
 	'dashboard'			=> 'Overview',
 	'feedback'			=> 'Give Feedback'
+=======
+	'size'           		=> 'Size',
+	'or'           			=> 'or',
+	'AND'								=> 'AND',
+	'OR'           			=> 'OR',
+	'incorrects'        => 'Incorrects',
+>>>>>>> 28744b320907c1d9709318f993c97e3dc4c1dc87
 );

@@ -11,7 +11,7 @@ class Ok extends Eloquent {
   }
 
 	// Relations
-  public function holdings() {
+  public function holding() {
       return $this->belongsTo('Holding');
   }
 
@@ -19,4 +19,7 @@ class Ok extends Eloquent {
       return $this->belongsTo('User');
   }
 
+  public function scopeInLibrary($query){
+  	return $query->whereIn('holding_id', function($query){ $query->select('id')->from('holdings')->whereLibraryId(Auth::user()->id); });
+  }
 }

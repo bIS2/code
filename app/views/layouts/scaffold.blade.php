@@ -1,3 +1,4 @@
+<?php setcookie(Auth::user()->username.'_last_route', route('sets.index', Input::except(['xxx'])), time() + (86400 * 30)); ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>

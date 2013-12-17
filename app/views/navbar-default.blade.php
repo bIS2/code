@@ -13,9 +13,9 @@
 			@endif
 			
 			<!-- admin storeman -->
-			@if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') || Auth::user()->hasRole('postuser')) 
+			@if ( Authority::can('work','Holding') )
 				@include( 'layouts.items-menu-storeman' )
-			@endif	
+			@endif
 
 			<!-- admin librarian -->
 			@if ((Auth::user()->hasRole('bibuser')) || (Auth::user()->hasRole('resuser'))) 		
@@ -26,8 +26,15 @@
 
 		<ul class="nav navbar-nav pull-right">
 			@if (Auth::check())
-				<li>
-					<a data-toggle="dropdown" href="{{{ URL::to('user') }}}"><span class="fa fa-user"></span> {{{ Auth::user()->username }}}</a>
+	       <li>
+	       		<div class="navbar-text" data-toggle="tooltip" data-placement="bottom" data-original-title="{{ 'Sublibraries: '.Auth::user()->library->sublibraries}}">
+							{{Auth::user()->library->code}} {{{ Auth::user()->library->name }}}
+	       		</div>
+	       </li>
+					<li>
+					<a href="{{{ URL::to('user') }}}" >
+						<span class="fa fa-user"></span> {{{ Auth::user()->username }}}
+					</a>
 	       </li>
 	      <?php if (Session::get('locale') == 'de') { ?>
 

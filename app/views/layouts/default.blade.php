@@ -1,7 +1,5 @@
 @extends('layouts.scaffold')
 
-
-
 {{-- main --}}
 @section('main')
 
@@ -22,6 +20,7 @@
 		<!-- Content -->
 			@yield('content')
 		<!-- ./ content -->
+
 	</div>
 <!-- ./ container -->
 

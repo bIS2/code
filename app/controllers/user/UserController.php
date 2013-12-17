@@ -295,8 +295,8 @@ class UserController extends BaseController {
      */
     public function getLogout()
     {
+        Session::put(Auth::user()->username.'_last_route', '');
         Confide::logout();
-
         return Redirect::to('/');
     }
 

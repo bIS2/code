@@ -18,18 +18,41 @@ class User extends ConfideUser implements PresentableInterface {
 		return $this->hasMany('Group');
 	}
 
-    public function traces(){
-        return $this->hasMany('Trace');
-    }
+  public function traces(){
+      return $this->hasMany('Trace');
+  }
 
 	public function oks(){
 		return $this->hasMany('Ok');
 	}
 
+	public function deliveries(){
+		return $this->hasMany('Delivery');
+	}
+
+	public function reviseds(){
+		return $this->hasMany('Revised');
+	}
+
+  public function confirms() {
+      return $this->hasMany('Confirm');
+  }
+
+  public function incorrects() {
+      return $this->hasMany('Incorrects');
+  }
 
   public function library() {
       return $this->belongsTo('Library');
-  }	
+  }
+
+  public function lockeds() {
+      return $this->hasMany('Locked');
+  }  
+
+  public function feedbacks() {
+      return $this->hasMany('Feedback');
+  }
 
 	/**
 	 * The database table used by the model.

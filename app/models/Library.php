@@ -7,6 +7,8 @@ class Library extends Eloquent {
 
   public function users() {  return $this->hasMany('User');  }
 
+  public function holdings() {  return $this->hasMany('Holding');  }
+
   public function scopeLibraryperholding($query, $code) {
   	return $this->whereCode($code)->paginate(1);
   }	

@@ -1,4 +1,6 @@
 <?php
+error_reporting(0);
+// error_reporting(E_ALL);
 
 return array(
 
@@ -27,15 +29,33 @@ return array(
     */
 
     'collections' => array(
-    	'login' => function($collection) {
+
+        'login' => function($collection) {
+            $collection->directory('assets/css', function($collection)
+            {
+                $collection->add('bootstrap.min.css');
+                $collection->add('bootstrap-responsive.min.css');   
+                $collection->add('datatables-bootstrap.css');             
+                $collection->add('signin.css');
+            })->apply('CssMin');
+
+        },
+
+    	'pages' => function($collection) {
             $collection->directory('assets/css', function($collection)
             {
 	            $collection->add('bootstrap.min.css');
 	            $collection->add('bootstrap-responsive.min.css');   
-                $collection->add('datatables-bootstrap.css');             
-	            $collection->add('signin.css');
+                $collection->add('less/master.less')->apply('Less');
+                $collection->add('less/pages.less')->apply('Less');
             })->apply('CssMin');
 
+            $collection->directory('assets/js', function($collection){
+                $collection->add('jquery-1.10.2.min.js');
+                $collection->add('laravel-ujs.js');
+                $collection->add('bootstrap/bootstrap.js');
+
+            })->apply('JsMin');;
     	},
 
         'public' => function($collection)
@@ -61,10 +81,11 @@ return array(
                 $collection->add('ui/jquery.ui.selectable.js');
                 $collection->add('ui/jquery.ui.sortable.js');
                 $collection->add('ui/jquery.ui.droppable.js');
+                $collection->add('ui/jquery.ui.draggable.js');
                 $collection->add('bootstrap/bootstrap.js');
                 // $collection->requireDirectory('../../../vendor/twbs/bootstrap/js');
-                $collection->add('wysihtml5/wysihtml5-0.3.0.js');
-                $collection->add('wysihtml5/bootstrap-wysihtml5.js');
+                // $collection->add('wysihtml5/wysihtml5-0.3.0.js');
+                // $collection->add('wysihtml5/bootstrap-wysihtml5.js');
   //              $collection->javascript('http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js');
                 $collection->add('jquery.dataTables.js');
                 $collection->add('datatables-bootstrap.js');
@@ -74,6 +95,7 @@ return array(
                 $collection->add('flexigrid.js');
                 $collection->add('laravel-ujs.js');
                 $collection->add('bootstrap-editable.min.js');
+                $collection->add('jquery.ui.touch-punch.min.js');
                 $collection->add('tools.js');
 
                // $collection->requireDirectory('../../../vendor/twbs/bootstrap/js');

@@ -15,6 +15,11 @@ class DatabaseSeeder extends Seeder {
 		$this->call('TagsTableSeeder');
 		$this->call('TracesTableSeeder');
 		$this->call('DeliveriesTableSeeder');
+		$this->call('ConfirmsTableSeeder');
+		$this->call('RevisedsTableSeeder');
+		$this->call('LockedsTableSeeder');
+		$this->call('FeedbacksTableSeeder');
+		$this->call('IncorrectsTableSeeder');
 	}
 
 }

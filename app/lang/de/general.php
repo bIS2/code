@@ -1,10 +1,16 @@
 	<?php
 
 return array(
+<<<<<<< HEAD
 
 	'yes' 		    	=> 'Ja',
 	'no'  			    => 'Nein',
 	'edit'  		    => 'Editieren',
+=======
+	'yes' 		    			=> 'Ja',
+	'no'  			    		=> 'Nein',
+	'edit'  		    		=> 'Editieren',
+>>>>>>> 28744b320907c1d9709318f993c97e3dc4c1dc87
 	'delete'            => 'Löschen',
 	'search'            => 'Suchen',
 	'save_group'	    => 'Gruppe speichern',
@@ -36,10 +42,20 @@ return array(
 	'annotated'         => 'Angemerkte',
 	'lang_en'           => 'Englisch',
 	'lang_de'           => 'Deutsch',
+<<<<<<< HEAD
 	'show_hide_fields'	=> 'Angezeigte Felder für HOL wählen',
 	'select_fields_to_search'	=> 'Felder zum Filtern wählen',
 	'size'           	=> 'Umfang (lfm)',
 	'or'           		=> 'oder',
 	'dashboard'			=> 'Übersicht',
 	'feedback'			=> 'Feedback geben'
+=======
+	'show_hide_fields'	=> 'Select fields to show in Holdings',
+	'select_fields_to_search'	=> 'Select fields to filter to',
+	'size'           		=> 'Size',
+	'or'           			=> 'or',
+	'AND'           			=> 'AND',	
+	'OR'           			=> 'OR',
+	'incorrects'        => 'Incorrects',
+>>>>>>> 28744b320907c1d9709318f993c97e3dc4c1dc87
 );

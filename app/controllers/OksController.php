@@ -43,7 +43,6 @@ class OksController extends BaseController {
 	 * @return Response
 	 */
 	public function store()	{
-
 		$holding_id = Input::get('holding_id');
 
 		if ( Ok::whereHoldingId($holding_id)->exists() ){
