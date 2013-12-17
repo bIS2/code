@@ -41,7 +41,7 @@ class Holding extends Eloquent {
   // Scopes
   public function scopeInit ($query){
 
-  	$query = $query->with('ok','notes')->inLibrary();
+  	$query = $query->with('ok','notes')->orderBy('f852b')->inLibrary();
 
     if ( Auth::user()->hasRole('postuser') ) 
       $query->reviseds()->corrects();

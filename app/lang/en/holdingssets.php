@@ -38,7 +38,9 @@ return array(
 	'just_owner'					=> 'Owner',
 	'just_aux'						=> 'Additional',
 	'only_owner_and_aux'			=> 'Both',
-	'clear_owner_filter'			=> 'Clear MAIN filter'
+	'clear_owner_filter'			=> 'Clear MAIN filter',
+	'only_owner_and_aux'	=> 'Both',
+	'clear_owner_filter'	=> 'clear_owner_filter',
 	'drag_and_drop_into_a_grouptab_to_move_this_HOS_to_another_HosGroup'=> 'Drag and Drop into a Tab to move this HOS to a HOS Group',
 	'drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'				=> 'Drag and Drop into a Tab to add this HOS to a HOS Group',
 	'no_results_to_show'	=> 'There is no result to show',
@@ -50,4 +52,3 @@ return array(
 	'of'	=> 'of ',
 	'order_hos_by' => 'Order HOS By',
 );
-
