@@ -13,11 +13,8 @@ return array(
 	|
 	*/
 
-	'create_hlist' 				=> 'Liste erstellen: :name',
-	'create_group' 				=> 'Gruppe erstellen: :name',
-//	'holdingset_change_to_ok' 	=> 'change state to OK the HOLDINGSET: <strong>:name</strong>',
-	'holdingset_change_to_ok' 	=> 'Ändere HOS Niveau zu OK: <strong>:name</strong>', // pgt ???
-//	'holdingset_change_to_ko' 	=> 'change state PENDING the HOLDINGSET: <strong>:name</strong>',
-	'holdingset_change_to_ko' 	=> 'Ändere HOS Niveau zu PENDING: <strong>:name</strong>', // pgt ???
-
+	'create_hlist' 				=> 'Liste erstellen: <strong>:name</strong>',
+	'create_group' 				=> 'Gruppe erstellen: <strong>:name</strong>',
+	'holdingset_change_to_ok' 	=> 'Ändere HOS Niveau zu OK: <strong>:name</strong>',
+	'holdingset_change_to_ko' 	=> 'Ändere HOS Niveau zu PENDING: <strong>:name</strong>',
 );

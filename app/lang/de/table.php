@@ -11,6 +11,6 @@ return array(
 
 	// Roles
 	'users'      	=> '# Benutzer',
-	'no-holdings'	=> '#',
+	'no-holdings'	=> '# Holdings',
 
 );

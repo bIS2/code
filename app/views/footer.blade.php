@@ -5,7 +5,7 @@
 
 			<div id="wrap_btn_create_feedback" class="btn-group dropup pull-right" >
 			  <button id="btn_create_feedback" type="button" class="btn btn-default dropdown-toggle btn-xs" >
-			  	<i class="fa fa-question-circle"></i>
+			  	<i class="fa fa-bug"></i>
 			  	{{trans('general.feedback')}}
 			  </button>
 			</div>
@@ -18,6 +18,10 @@
 
 				@if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser'))
 					@include('stats.magvuser')
+				@endif
+
+				@if (Auth::user()->hasRole('postuser'))
+					@include('stats.postuser')
 				@endif
 
 			@endif
