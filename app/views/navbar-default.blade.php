@@ -13,9 +13,9 @@
 			@endif
 			
 			<!-- admin storeman -->
-			@if ( Authority::can('manage','Holding') )
+			@if ( Authority::can('work','Holding') )
 				@include( 'layouts.items-menu-storeman' )
-			@endif	
+			@endif
 
 			<!-- admin librarian -->
 			@if ((Auth::user()->hasRole('bibuser')) || (Auth::user()->hasRole('resuser'))) 		

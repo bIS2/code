@@ -85,7 +85,7 @@ Route::filter('auth_like_librarian', function(){
 });
 Route::filter('auth_like_storeman', function(){
 
-    if ( !Authority::can('manage','Holding') )
+    if ( !Authority::can('work','Holding') )
         return Redirect::to('/')->with('info',trans('messages.auth_like_storeman'));
     // if ( !Entrust::hasRole('maguser') && !Entrust::hasRole('magvuser') && !Entrust::hasRole('postuser')) 
 

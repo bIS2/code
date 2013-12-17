@@ -8,6 +8,10 @@ return [
 
         // Allow delivery holding from storage revision
 
+        if ( $user->hasRole('magvuser') || $user->hasRole('maguser') || $user->hasRole('speichuser') || Auth::user()->hasRole('postuser') ) {
+            return $authority->allow('work','Holding');
+        }
+
         if ( Auth::user()->hasRole('postuser') ) {
             $authority->allow('delivery', 'Holding', function($self, $holding) {
               return ( $holding->is_revised && $holding->is_correct  );
@@ -46,9 +50,6 @@ return [
             return $authority->allow('create','Hlist');
         }
 
-        if ( $user->hasRole('magvuser') || $user->hasRole('maguser') || $user->hasRole('speichuser') || Auth::user()->hasRole('postuser')) {
-            return $authority->allow('manage','Holding');
-        }
 
         // Action aliases. For example:
         //

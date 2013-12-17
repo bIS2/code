@@ -58,9 +58,6 @@
 					  <a href="{{ route('reviseds.store') }}" class="btn-link btn-xs btn-send" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
 					  	<span class="fa fa-mail-forward"></span> 
 					  </a>
-
-
-
 					@endif
 
 					@if (Authority::can('delivery', $holding))
