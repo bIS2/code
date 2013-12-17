@@ -11,11 +11,13 @@
 				    <div class="form-group">
 		          {{ Form::label('name', 'Name:') }}	
 		          {{ Form::text('name','',['placeholder'=>'Type a brief description', 'class'=>"form-control"]) }}
-				    </div>				
-				    <div class="form-group">
-		          {{ Form::label('worker_id', 'Worker:') }}
-		          {{ Form::select('size', Role::whereName('maguser')->first()->users()->orderby('username')->lists('username','user_id'),'',['class'=>"form-control"]  ) }}
-				    </div>				
+				    </div>
+				    @if (Auth::user()->hasRole('magvuser'))	
+					    <div class="form-group">
+			          {{ Form::label('worker_id', 'Worker:') }}
+			          {{ Form::select('size', Role::whereName('maguser')->first()->users()->orderby('username')->lists('username','user_id'),'',['class'=>"form-control"]  ) }}
+					    </div>				
+				    @endif
 
 					@if ($errors->any())
 						<ul>

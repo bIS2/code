@@ -24,6 +24,11 @@ class Hlist extends Eloquent {
 
   public function assigned() {
   	return $this->belongsTo('User');
+
+  }
+
+  public function delivery() {
+  	return $this->hasMany('Deliveries');
   }
 
 }
