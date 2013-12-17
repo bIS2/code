@@ -44,7 +44,7 @@
 					<a href="{{ route('holdings.show', $holding->id) }}" data-target="#modal-show" data-toggle="modal"><span class="glyphicon glyphicon-eye-open" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
 
 
-					@if (Authority::can('revise', $holding))
+					@if (Authority::can('work', $holding))
 					
 						<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.see_information_from_original_system') }}">
 							<span class="glyphicon glyphicon-list-alt"></span>

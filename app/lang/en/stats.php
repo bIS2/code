@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 
 return array(
@@ -8,16 +7,10 @@ return array(
 	'total_anottated'		=> 'All HOL annotated',
 	'total_delivery'		=> 'Own HOL delivered',
 	'holding_oks'			=> 'Own HOL ok',
-	'holding_annotated'		=> 'Own HOL annotated'
-
-=======
-	<?php
-
-return array(
+	'holding_annotated'		=> 'Own HOL annotated',
 	'grouped' 							=> 'Grouped',
 	'ungrouped'  							=> 'Ungrouped',
 	'confirmed'  						=> 'Confirmed',
 	'confirmed_owner'  						=> 'Confirmed Owner',
 	'confirmed_aux'  						=> 'Confirmed Auxiliar',
->>>>>>> 28744b320907c1d9709318f993c97e3dc4c1dc87
 );
