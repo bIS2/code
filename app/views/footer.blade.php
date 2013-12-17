@@ -5,7 +5,7 @@
 
 			<div id="wrap_btn_create_feedback" class="btn-group dropup pull-right" >
 			  <button id="btn_create_feedback" type="button" class="btn btn-default dropdown-toggle btn-xs" >
-			  	<i class="fa fa-question-circle"></i>
+			  	<i class="fa fa-bug"></i>
 			  	{{trans('general.feedback')}}
 			  </button>
 			</div>
