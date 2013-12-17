@@ -25,7 +25,7 @@ class Holding extends Eloquent {
   public function hlist(){
     return $this->belongsToMany('Hlist');
   }
-
+  
 	public function ok(){
 		return $this->hasOne('Ok');
 	}
