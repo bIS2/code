@@ -12,13 +12,20 @@
 
 <div class="col-xs-1">
 	<span class="label label-warning" data-toggle="tooltip" data-placement="top" data-original-title="{{ trans('stats.confirmed_aux') }}">
-		<i class="fa  fa-thumbs-up"></i> {{$confirmed_aux}} [{{ round(($confirmed_aux/$confirmed)*100,2) }}%]
+		<i class="fa  fa-thumbs-up"></i> {{$confirmed_aux}}/{{$confirmed}} [{{ round(($confirmed_aux/$confirmed)*100,2) }}%]
+	</span>
+</div>
+
+
+<div class="col-xs-1">
+	<span class="label label-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ trans('stats.confirmed_owner') }}">
+		<i class="fa  fa-thumbs-up"></i> {{$confirmed_owners}}/{{$confirmed}} [{{ round(($confirmed_owners/$confirmed)*100,2) }}%]
 	</span>
 </div>
 
 <div class="col-xs-1">
-	<span class="label label-danger" data-toggle="tooltip" data-placement="top" data-original-title="{{ trans('stats.confirmed_owner') }}">
-		<i class="fa  fa-thumbs-up"></i> {{$confirmed_owners}} [{{ round(($confirmed_owners/$confirmed)*100,2) }}%]
+	<span class="label label-default" data-toggle="tooltip" data-placement="top" data-original-title="{{ trans('stats.confirmed') }}">
+		<i class="fa  fa-thumbs-up"></i> {{$confirmed}}/{{$total}} [{{ round(($confirmed_aux/$confirmed)*100,2) }}%]
 	</span>
 </div>
 
