@@ -48,6 +48,7 @@ class GroupsController extends BaseController {
 		if ($validation->passes()) {
 			$group->save();
 			$group->holdingssets()->attach(Input::get('holdingsset_id'));
+			$group->holdingssets()->increment('groups_number');
 			return Redirect::route('sets.index', ['group_id'=>$group->id]);
 		}
 
