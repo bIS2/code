@@ -12,6 +12,7 @@ return array(
 	'ok'  				=> 'OK',
 	'close'  			=> 'Close',
 	'cancel'  			=> 'Cancel',
+	'back'  			=> 'Go Back',
 	'reset'  			=> 'Reset',
 	'disable_with'		=> 'Saving...',
 	'all'				=> 'All',
