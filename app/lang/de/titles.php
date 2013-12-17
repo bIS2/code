@@ -7,7 +7,8 @@ return array(
 	'users'     => 'Benutzer',
 	'libraries' => 'Bibliotheken',
 	'tags' 		=> 'Tags',
-	'traces' 	=> 'Verlauf', // pgt ???
+	'traces' 	=> 'Verlauf',
 	'lists' 	=> 'Listen',
+	'feedbacks' => 'Benutzerfeedback'
 
 );
