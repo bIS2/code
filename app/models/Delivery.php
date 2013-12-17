@@ -10,18 +10,15 @@ class Delivery extends Eloquent {
   }
 
 	public static $rules = array(
-		'holding_id' => 'required'
+		'hlist_id' => 'required'
 	);
 
   public function holding() {
-      return $this->belongsTo('Holding');
+      return $this->belongsTo('Hlist');
   }
 
   public function user() {
       return $this->belongsTo('user');
   }
 
-  public function scopeInLibrary($query){
-  	return $query->whereIn('holding_id', function($query){ $query->select('id')->from('holdings')->whereLibraryId(Auth::user()->id); });
-  }
 }

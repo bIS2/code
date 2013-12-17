@@ -6,12 +6,13 @@ return [
 
         $user = Auth::guest() ? new User : $authority->getCurrentUser();
 
-        // Allow delivery holding from storage revision
-        if ( Auth::user()->hasRole('postuser') ) {
-            $authority->allow('delivery', 'Holding', function($self, $holding) {
-              return ( $holding->is_revised && $holding->is_correct  );
-            });
-        }
+      	$authority->allow('create','Hlist', function($self,$user){
+      		return (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('postuser') );
+      	});	
+
+        $authority->allow('delivery', 'Hlist', function($self,$hlist) {
+          return  (Auth::user()->hasRole('postuser')) ;
+        });
 
         if ( $user->hasRole('magvuser') || $user->hasRole('maguser') || $user->hasRole('speichuser') || Auth::user()->hasRole('postuser') ) {
             return $authority->allow('work','Holding');
@@ -46,9 +47,6 @@ return [
           return !Auth::guest() && Auth::user()->hasRole('magvuser') && Auth::user()->hasRole('maguser');
         });
 
-        if ($user->hasRole('magvuser') || $user->hasRole('postuser') ) {
-            return $authority->allow('create','Hlist');
-        }
 
 
         // Action aliases. For example:

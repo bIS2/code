@@ -20,6 +20,10 @@
 					@include('stats.magvuser')
 				@endif
 
+				@if (Auth::user()->hasRole('postuser'))
+					@include('stats.postuser')
+				@endif
+
 			@endif
 
 	   </div>

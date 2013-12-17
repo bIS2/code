@@ -14,10 +14,11 @@
 	<div class="col-lg-12 ">
 
 		<div>{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} </div>
+
 		<table id="holdings-items" class="table table-bordered table-condensed flexme datatable">
 		<thead>
 			<tr>
-				@if (Authority::can('create','Hlist')) 
+				@if ( Authority::can('create','Hlist') ) 
 					<th><input id="select-all" name="select-all" type="checkbox" value="1"></th>
 				@endif
 				<th>{{ trans('general.actions') }}</th>
@@ -36,10 +37,12 @@
 			<tr id="<?= $holding->id ?>" class="{{ $holding->css }}" data-holdingsset="{{$holding->holdingsset_id}}">
 
 				@if (Authority::can('create','Hlist')) 
-					<td><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
+					<td ><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
 				@endif
 
-				<td id="{{ $holding->id }}" class="actions">
+				<td id="{{ $holding->id }}" class="actions" >
+					<a href="{{ route('holdings.show', $holding->id) }}" data-target="#modal-show" data-toggle="modal"><span class="glyphicon glyphicon-eye-open" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
+
 
 					@if (Authority::can('revise', $holding))
 					
@@ -59,23 +62,6 @@
 					  	<span class="fa fa-mail-forward"></span> 
 					  </a>
 					@endif
-
-					@if (Authority::can('delivery', $holding))
-
-					  <a href="{{ route('reviseds.store') }}" class="btn-link btn-xs btn-send" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
-					  	<span class="fa fa-truck fa-flip-horizontal"></span> 
-					  </a>
-
-					@endif
-
-					@if (Authority::can('receive', $holding))
-
-					  <a href="{{ route('reviseds.store') }}" class="btn-link btn-xs btn-send" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
-					  	<span class="fa fa-download"></span> 
-					  </a>
-
-					@endif
-
 
 				</td>
 				<td>

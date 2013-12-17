@@ -7,12 +7,12 @@
 </div>
 
 @if ($feedbacks->count())
-	<table class="table table-condensed table-hover">
+	<table class="table table-condensed table-hover datatable">
 		<thead>
 			<tr>
 				<th>{{ trans('table.email')}} </th>
-				<th>{{ trans('table.browser')}} </th>
 				<th>{{ trans('table.user')}} </th>
+				<th>{{ trans('table.browser')}} </th>
 				<th>{{ trans('table.content')}} </th>
 				<th>{{ trans('table.url')}} </th>
 			</tr>
