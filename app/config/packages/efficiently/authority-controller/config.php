@@ -14,11 +14,6 @@ return [
           return  (Auth::user()->hasRole('postuser')) ;
         });
 
-        if ( $user->hasRole('magvuser') || $user->hasRole('maguser') || $user->hasRole('speichuser') || Auth::user()->hasRole('postuser') ) {
-            return $authority->allow('work','Holding');
-        }
-
-
         if ( Auth::user()->hasRole('speichuser') ) {
             $authority->allow('receive', 'Holding', function($self, $holding) {
               return $holding->is_delivery;
@@ -33,6 +28,10 @@ return [
 
         $authority->allow('set_size', 'Holding', function($self, $holding) {
           return ( (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser')) && !$holding->is_revised );
+        });
+
+        $authority->allow('work', 'Holding', function($self, $holding) {
+          return ( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') || Auth::user()->hasRole('speichuser') || Auth::user()->hasRole('postuser') );
         });
 
         $authority->allow('manage', 'User', function($self, $user) {
