@@ -129,7 +129,6 @@ table {
 }
 .action-ok {
     display: inline-block;
-    width: 14%;
 }
 
 .container {
@@ -264,11 +263,19 @@ footer {
     ul.hol-sets {
         list-style-type: none;
         padding-left: 0;
+        div.accordion-toggle {
+            padding-left: 10px;
+            margin-left: 10px;
+            width: 120px;
+        }
         li {
             padding: (@font-size-base / 2) 5px 4px;
             border-top: 1px dotted @gray-lighter;
             &:hover {
                 // background-color: darken(@table-bg-hover, 10%);
+            }
+            input[type="checkbox"] .panel-collapse {
+                margin-top: 0 !important;
             }
         }
         border-bottom: 1px dotted @gray-lighter;
@@ -344,7 +351,7 @@ footer {
         margin: 0;
         vertical-align: top;
         color: #aaaaaa;
-        min-width: 13px !important;
+        min-width: 15px !important;
         cursor: pointer;
         font-size: 15px;
         &.fa-square {
@@ -521,7 +528,7 @@ table.table thead th:first-child {
     table.flexme > thead > tr > th.actions,
     table.flexme > tbody > tr > td.actions {
         position: absolute;
-        width: 155px !important;   
+        width: 205px !important;   
         height: 22px;  
         z-index: 9;
         left:21px;
@@ -537,7 +544,7 @@ table.table thead th:first-child {
     }
     table.flexme > thead > tr > th.actions + th,
     table.flexme > tbody > tr > td.actions + td {
-        padding-left: 165px;
+        padding-left: 215px;
         border-left: none;
     }
     > li {
@@ -545,6 +552,13 @@ table.table thead th:first-child {
             position: absolute;
             z-index: 9;
             left: 50%;
+            opacity: 0.5;
+        }
+        a.newhos {
+            left: -2px;
+            position: absolute;
+            top: 45px;
+            z-index: 10;
             display: none;
         }
         a.trash {
@@ -555,8 +569,8 @@ table.table thead th:first-child {
         }
         &:hover {
             span.move {
-                display: block;
                 cursor: move !important;
+                opacity: 1;
             }
             a.trash {
                 display: block;
