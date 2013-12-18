@@ -37,7 +37,7 @@ return array(
 	'just_owner'				=> 'Archivbestand',
 	'just_aux'					=> 'Ergänzungsbestand',
 	'only_owner_and_aux'		=> 'Beides',
-	'clear_owner_filter'		=> 'Lösche Filter Archivbestand'
+	'clear_owner_filter'		=> 'Lösche Filter Archivbestand',
 	'drag_and_drop_into_a_grouptab_to_move_this_HOS_to_another_HosGroup'=> 'Ziehe HOS in HOSG Tab',
 	'drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'	=> 'Ziehe HOS in HOSG Tab',
 	'no_results_to_show'		=> 'Sorry, kein Ergebnis',
