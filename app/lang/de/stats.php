@@ -9,7 +9,7 @@ return array(
 	'holding_oks'			=> 'Eigene HOL ok',
 	'holding_oks_details'	=> '(Details)',
 	'holding_annotated_datails' => '(Details)',
-	'holding_annotated'		=> 'Eigene HOL mit Annotationen'
+	'holding_annotated'		=> 'Eigene HOL mit Annotationen',
 	'grouped' 				=> 'Gruppiert',
 	'ungrouped'  			=> 'Nicht gruppiert',
 	'confirmed'  			=> 'Bestätigt',
