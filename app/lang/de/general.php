@@ -42,4 +42,8 @@ return array(
 	'or'           		=> 'oder',
 	'dashboard'			=> 'Übersicht',
 	'feedback'			=> 'Feedback geben'
+	'AND'				=> 'AND',
+	'OR'           		=> 'OR',
+	'incorrects'        => 'Unlösbare',
+	'send'				=> 'Senden',
 );
