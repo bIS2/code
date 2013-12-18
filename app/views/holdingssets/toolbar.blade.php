@@ -40,10 +40,6 @@
 								<?php endif; ?>
 							@endif
 					  </div>
-			  		<a href="#form-create-group" data-toggle="modal" class='btn btn-sm btn-default link_bulk_action disabled' style="padding: 0 5px;">
-			  			<i class="fa fa-folder-o" style="padding: 0px; line-height: 1em; font-size: 27px;"></i>
-	  					<span class="fa fa-plus-circle" style="position: absolute; left: 11px; font-size: 13px; top: 9px;"></span>
-			  		</a>
 				  </div>
 			  </li>
 			  <li>

@@ -15,7 +15,7 @@
 			  <div class="panel-heading row" data-toggle="buttons">
 		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="{{ $holdingsset->id }}" class="pull-left hl sel">
 		      <div href="#{{ $holdingsset -> sys1; }}{{$holdingsset -> id;}}" data-parent="#group-xx" title="{{ $holdingsset->f245a ;}}" data-toggle="collapse" class="btn btn-xs btn-default accordion-toggle collapsed pull-left" opened="0">
-		      	{{ $holdingsset->sys1 }} ::
+		      	{{ $holdingsset->sys1 }} <i class="fa fa-level-down"></i>
 		      </div>
 		      <div class="col-xs-8" opened="0"> 
 		      	{{  htmlspecialchars(truncate($holdingsset->f245a, 100),ENT_QUOTES); }}
@@ -50,10 +50,10 @@
 		      	@endif      	
 		      </div>
 		      	@if ((isset($group_id)) && ($group_id > 0))
-	      			<span class="move btn btn-default btn-xs" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_move_this_HOS_to_another_HosGroup'); }}"><i class="glyphicon glyphicon-move"></i></span>
+	      			<span class="move  btn-default btn-sm" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_move_this_HOS_to_another_HosGroup'); }}"><i class="glyphicon glyphicon-move"></i></span>
 	      			<a class="trash btn btn-error btn-xs" title="{{ trans('holdingssets.remove_hos_from_this_group'); }}" href="{{ action('HoldingssetsController@putDeleteHosFromGroup',[$holdingsset->id]) }}" data-params="group_id={{ $group_id }}" data-remote="true" data-method="put" data-disable-with="..."><i class="glyphicon glyphicon-trash"></i></a>
       			@else
-							<span class="move btn btn-default btn-xs" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'); }}"><i class="fa fa-copy"></i></span>
+							<span class="move  btn-default btn-sm" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'); }}"><i class="fa fa-copy"></i></span>
       			@endif
 							<a class="newhos btn btn-primary btn-xs pop-over" set="{{$holdingsset->id}}"  href="{{ action('HoldingssetsController@putNewHOS',[1]) }}" data-remote="true" data-method="put" data-params="holdingsset_id={{$holdingsset->id}}" data-disable-with="..." data-content="{{ trans('holdingssets.new_hos_from_these_hol'); }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-file-text"></i></a>
 			  </div>	

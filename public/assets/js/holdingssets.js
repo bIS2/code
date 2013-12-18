@@ -9,8 +9,8 @@ $(function(){
 		if (last_result != '') {
 			if (($(window).scrollTop() == $(document).height() - $(window).height()) && (!($('#hosg').hasClass('paginating'))) && (!($('#hosg').hasClass('nopaginate')))) {
 				$('#hosg').addClass('paginating');
-				$('#current_quantity > div').addClass('progress-bar');
-				$('#current_quantity > div').css('color', 'transparent');
+				$('#current_quantity > div').addClass('fa fa-cog fa-spin');
+				$('#current_quantity > div').html('');
 				$('#current_quantity > div').css('width', '100%');
 				page++;
 				url = "/sets?"+ window.location.search.substring(1) + '&page=' + page
@@ -26,7 +26,7 @@ $(function(){
 			 				$('#hosg').removeClass('paginating');
 			 				$('#current_quantity').fadeOut('slow', function() {
 			 					$(this).find('div').removeAttr('style');
-			 					$(this).find('div').removeClass('progress-bar');
+			 					$(this).find('div').removeClass('fa fa-cog fa-spin');
 			 					$(this).find('div').html($('#hosg ul.hol-sets li').length);
 			 					if (parseInt($('#total_quantity').html()) == ($('#hosg ul.hol-sets li').length)) $('#hosg').addClass('nopaginate');
 			 					$(this).fadeIn();
