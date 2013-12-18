@@ -42,9 +42,8 @@ return array(
 	'or'           		=> 'or',
 	'dashboard'			=> 'Overview',
 	'feedback'			=> 'Give Feedback',
-	'or'           		=> 'or',
 	'AND'				=> 'AND',
 	'OR'           		=> 'OR',
 	'incorrects'        => 'Incorrects',
-	'send'				=> 'Send'
+	'send'				=> 'Send',
 );
