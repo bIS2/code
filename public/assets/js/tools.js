@@ -100,7 +100,9 @@ $(function(){
       $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
 
     if ( result.success )
-      $('#'+result.success).addClass('success')}); 
+      $('#'+result.success).addClass('success')
+
+  }); 
 
     if ( result.hide_feedback )
       $('#btn_create_feedback').popover('hide'); 
@@ -108,10 +110,6 @@ $(function(){
     if ( result.remove_by_holdingsset )
       $('tr[data-holdingsset='+ result.remove_by_holdingsset +']').hide('slow', function(){ $(this).remove() }); 
 
-
-    
-
-  })
 
   $('th').each(function(){
 
