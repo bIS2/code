@@ -19,7 +19,7 @@
 				<table class="table table-bordered table-condensed ">
 					<thead>
 						<tr>
-							<th>{{ trans('tables.name') }}</th>
+							<th>{{ trans('table.name') }}</th>
 							<th><span class="fa fa-file-text"></span></th>
 							<th><span class="fa fa-thumbs-up"></span></th>
 							<th><span class="fa fa-tags"></span></th>
@@ -30,7 +30,10 @@
 					<tbody>
 						@foreach ($hlists as $list)
 							<tr id="{{ $list->id }}" class="{{ $list->is_delivery ? 'success' : '' }}">
-								<td>{{ link_to( route('holdings.index',['hlist'=>$list->id]), $list->name) }}</td>
+								<td>
+									<a href="#" class="editable" data-type="text" data-pk="{{$list->id}}" data-url="{{ route('lists.update',[$list->id]) }}" >{{ $list->name }} </a>
+									{{ link_to( route('holdings.index',['hlist'=>$list->id]), $list->name) }}
+								</td>
 								<td>{{{ $list->holdings->count() }}}</td>
 								<td>
 									@if ( ( $count = $list->holdings()->corrects()->count() )>0  )
@@ -43,7 +46,7 @@
 			          <td>
 
 			          	<a href="{{ route('deliveries.store') }}" class="btn btn-success btn-xs" data-remote="true" data-method="post" data-params="hlist_id={{$list->id}}&user_id={{Auth::user()->id}}">
-			          		<span class="fa  fa-truck fa-flip-horizontal" ></span> {{trans('general.delivery')}}
+			          		<span class="fa  fa-truck fa-flip-horizontal" ></span> {{trans('holdings.delivery')}}
 			          	</a>
 
 			          	<a href="{{ route('lists.edit',$list->id) }}" class="btn btn-default btn-xs"><span class="fa fa-edit" ></span> {{trans('general.edit')}}</a>
