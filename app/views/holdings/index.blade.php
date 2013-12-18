@@ -12,7 +12,6 @@
 
 <div class="row">
 	<div class="col-lg-12 ">
-
 		<div>{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} </div>
 
 		<table id="holdings-items" class="table table-bordered table-condensed flexme datatable">
@@ -41,10 +40,11 @@
 				@endif
 
 				<td id="{{ $holding->id }}" class="actions" >
+
 					<a href="{{ route('holdings.show', $holding->id) }}" data-target="#modal-show" data-toggle="modal"><span class="glyphicon glyphicon-eye-open" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
 
 
-					@if (Authority::can('work', $holding))
+					@if (Authority::can('touch', $holding))
 					
 						<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.see_information_from_original_system') }}">
 							<span class="glyphicon glyphicon-list-alt"></span>
@@ -62,6 +62,12 @@
 					  	<span class="fa fa-mail-forward"></span> 
 					  </a>
 					@endif
+
+					@if (Authority::can('receive',$holding))
+					  <a href="{{ route('receiveds.store') }}" class="btn-link btn-xs btn-send" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
+					  	<span class="fa fa-download"></span> 
+					  </a>
+				  @endif
 
 				</td>
 				<td>

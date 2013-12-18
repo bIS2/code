@@ -50,8 +50,8 @@ Route::get('language/{lang}', function($lang){
 		Route::resource('sets', 'HoldingssetsController');
 		Route::controller('sets', 'HoldingssetsController');
 
-		Route::controller('lists', 'HlistsController');
 		Route::resource('lists', 'HlistsController');
+		Route::controller('lists', 'HlistsController');
 
 		Route::resource('notes', 'NotesController');
 		Route::resource('reserves', 'ReservesController');
@@ -147,3 +147,6 @@ Route::resource('reviseds', 'RevisedsController');
 
 
 Route::resource('incorrects', 'IncorrectsController');
+
+
+Route::resource('receiveds', 'ReceivedsController');

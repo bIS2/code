@@ -5,7 +5,7 @@ class IncorrectsTableSeeder extends Seeder {
 	public function run()
 	{
 		// Uncomment the below to wipe the table clean before populating
-		// DB::table('incorrects')->truncate();
+		DB::table('incorrects')->truncate();
 
 		$incorrects = array(
 
