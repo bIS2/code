@@ -50,6 +50,3 @@ return array(
 	'order_hos_by' 				=> 'Sortiere HOS',
 
 );
-
-
-);
