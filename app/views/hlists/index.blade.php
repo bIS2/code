@@ -31,24 +31,25 @@
 						@foreach ($hlists as $list)
 							<tr id="{{ $list->id }}" class="{{ $list->is_delivery ? 'success' : '' }}">
 								<td>
-									<a href="#" class="editable" data-type="text" data-pk="{{$list->id}}" data-url="{{ route('lists.update',[$list->id]) }}" >{{ $list->name }} </a>
-									{{ link_to( route('holdings.index',['hlist'=>$list->id]), $list->name) }}
+									<a href="#" class="editable" data-type="text" data-name="name" data-pk="{{$list->id}}" data-url="{{ route('lists.update',[$list->id]) }}" >{{ $list->name }} </a>
 								</td>
-								<td>{{{ $list->holdings->count() }}}</td>
+								<td>
+									{{ link_to( route('holdings.index',['hlist'=>$list->id]), $list->holdings->count() ) }}
+								</td>
 								<td>
 									@if ( ( $count = $list->holdings()->corrects()->count() )>0  )
-										<a href="{{ route('holdings.index',['hlist'=>$list->id, 'ok2'=>true]) }}" >{{$count }}</a>
+										<a href="{{ route('holdings.index',['hlist_id'=>$list->id, 'ok2'=>true]) }}" >{{$count }}</a>
 									@else
 										{{{ $list->holdings()->corrects()->count() }}}
 									@endif
 								</td>
 								<td>{{ $list->holdings()->annotated()->count() }}</td>
 			          <td>
-
-			          	<a href="{{ route('deliveries.store') }}" class="btn btn-success btn-xs" data-remote="true" data-method="post" data-params="hlist_id={{$list->id}}&user_id={{Auth::user()->id}}">
-			          		<span class="fa  fa-truck fa-flip-horizontal" ></span> {{trans('holdings.delivery')}}
-			          	</a>
-
+			          	@if (Authority::can('delivery','Hlist'))
+				          	<a href="{{ route('deliveries.store') }}" class="btn btn-success btn-xs" data-remote="true" data-method="post" data-params="hlist_id={{$list->id}}&user_id={{Auth::user()->id}}" {{ $list->is_delivery ? 'disabled' : '' }}>
+				          		<span class="fa  fa-truck fa-flip-horizontal" ></span> {{trans('holdings.delivery')}}
+				          	</a>
+			          	@endif
 			          	<a href="{{ route('lists.edit',$list->id) }}" class="btn btn-default btn-xs"><span class="fa fa-edit" ></span> {{trans('general.edit')}}</a>
 
 			          	<a href="{{ route('lists.destroy',$list->id) }}" data-remote="true" data-method="delete" class="btn btn-danger btn-xs">

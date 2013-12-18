@@ -7,9 +7,6 @@
 				<li>
 					<strong>
 						{{ trans('holdings.title') }} 
-						@if ($hlist)
-							<small>&raquo; {{ $hlist->name }}</small>
-						@endif				
 					</strong>
 				</li>
 			  <li>
@@ -26,10 +23,9 @@
 					  		<span class="caret"></span>
 					  	</a>
 					  	<!-- Show list if exists -->
-							@if (Auth::user()->has('hlists')) 
-								<?php $lists = Auth::user()->hlists() ?>
+							@if ($hlists)
 								<ul class="dropdown-menu" role="menu">
-									@foreach (Auth::user()->hlists as $list) 
+									@foreach ($hlists as $list) 
 									<li>
 										<a href="{{ route('holdings.index',['hlist_id'=>$list->id]) }}"> {{ $list->name }} <span class="badge">{{ $list->holdings()->count() }} </span></a>
 									</li>

@@ -38,6 +38,10 @@ class Holding extends Eloquent {
 		return $this->hasOne('Revised');
 	}
 
+	public function receiveds(){
+		return $this->hasMany('Received');
+	}
+
   // Scopes
   public function scopeInit ($query){
 
@@ -137,6 +141,10 @@ class Holding extends Eloquent {
 
   public function getIsDeliveryAttribute(){
     return $this->deliveries()->exists();
+  }
+
+  public function getIsReceivedAttribute(){
+    return $this->receiveds()->exists();
   }
 
 
