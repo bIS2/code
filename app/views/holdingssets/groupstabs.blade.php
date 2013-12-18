@@ -106,19 +106,19 @@
 		</div>
 		<div class="btn-group" data-toggle="buttons">
 		  <label class="btn btn-default btn-xs{{ ((Session::get(Auth::user()->username.'_sortinghos') == null) || (Session::get(Auth::user()->username.'_sortinghos') == 'ASC')) ? ' active' : '' }}">
-		    <input type="radio" {{ ((Session::get(Auth::user()->username.'_sortinghos') == null) || (Session::get(Auth::user()->username.'_sortinghos') == 'ASC')) ? ' checked = checked' : '' }} name="sortinghos" value="ASC" id="option1"> ASC
+		    <input type="radio" {{ ((Session::get(Auth::user()->username.'_sortinghos') == null) || (Session::get(Auth::user()->username.'_sortinghos') == 'ASC')) ? ' checked = checked' : '' }} name="sortinghos" value="ASC" id="option1"><i class="fa fa-sort-asc"></i> ASC
 		  </label>
 		  <label class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos') == 'DESC') ? ' active' : '' }}">
-		    <input type="radio" {{ (Session::get(Auth::user()->username.'_sortinghos') == 'DESC') ? ' checked = checked' : '' }} name="sortinghos" value="DESC" id="option2"> DESC
+		    <input type="radio" {{ (Session::get(Auth::user()->username.'_sortinghos') == 'DESC') ? ' checked = checked' : '' }} name="sortinghos" value="DESC" id="option2"><i class="fa fa-sort-desc"></i> DESC
 		  </label>
 		</div>
 		<div class="btn-group">
-				<button type="submit" value="{{ trans('general.save') }}" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-save"></span> {{ trans('general.save') }} </button>
+				<button type="submit" value="{{ trans('general.sort') }}" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-save"></span> {{ trans('general.sort') }} </button>
 		</div>
 	</div>
 	<div id="hos-pagination" class="col-xs-3 text-center text-success">
 		<p>{{ trans('holdingssets.showing') }} </p>
-		<div id="current_quantity" class="progress progress-striped active">
+		<div id="current_quantity" class="active">
       <div style="width: 100%">{{ $init }}</div>
     </div> 
 		<p>{{ trans('holdingssets.of') }}</p>
@@ -172,7 +172,7 @@
 							}	?>
 						</ul>
 						<input type="hidden" name="fieldstoshow[]" value="ocrr_ptrn">
-						<button type="submit" value="{{ trans('general.save') }}" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-save"></span> {{ trans('general.save') }} </button>
+						<button type="submit" value="{{ trans('general.update_fields') }}" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-save"></span> {{ trans('general.update_fields') }} </button>
 			</div>
 		</div>
 	</div>

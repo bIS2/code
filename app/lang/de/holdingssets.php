@@ -48,8 +48,5 @@ return array(
 	'showing'					=> 'Zeigt ',
 	'of'						=> 'von ',
 	'order_hos_by' 				=> 'Sortiere HOS',
-
-);
-
-
+ 
 );
