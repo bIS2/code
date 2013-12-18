@@ -12,6 +12,7 @@ return array(
 	'tagged'					=> 'Tagged',
 	'annotated'				=> 'Annotated',
 	'deliveries'			=> 'Deliveries',
+	'delivery'			=> 'Delivery',
 	'aux'							=> 'Auxiliar',
 	'owner'						=> 'Owner',
 	'pending'					=> 'Pending',
