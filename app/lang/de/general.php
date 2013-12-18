@@ -41,7 +41,7 @@ return array(
 	'size'           	=> 'Umfang (lfm)',
 	'or'           		=> 'oder',
 	'dashboard'			=> 'Übersicht',
-	'feedback'			=> 'Feedback geben'
+	'feedback'			=> 'Feedback geben',
 	'AND'				=> 'AND',
 	'OR'           		=> 'OR',
 	'incorrects'        => 'Unlösbare',
