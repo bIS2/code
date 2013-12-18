@@ -46,7 +46,7 @@
 				<div class="form-group {{{ $errors->has('lastname') ? 'error' : '' }}}">
 					<label class="col-md-2 control-label" for="lastname">Lastname</label>
 					<div class="col-md-6">
-						<input class="form-control" type="text" lastname="lastname" id="lastname" value="{{{ Input::old('lastname', isset($user) ? $user->lastname : null) }}}" />
+						<input class="form-control" type="text" name="lastname" id="lastname" value="{{{ Input::old('lastname', isset($user) ? $user->lastname : null) }}}" />
 						{{{ $errors->first('lastname', '<span class="help-inline">:message</span>') }}}
 					</div>
 				</div>
