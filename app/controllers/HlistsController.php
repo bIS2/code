@@ -100,19 +100,16 @@ class HlistsController extends BaseController {
 		$input = array_except(Input::all(), '_method');
 		$validation = Validator::make($input, Hlist::$rules);
 
-		if ($validation->passes())
-		{
 			$hlist = $this->hlist->find($id);
-			$hlist->update($input);
+			$hlist->update([ 'name' => Input::get('value') ]);
 
-			return Redirect::route('hlists.show', $id);
-		}
+			// return Redirect::route('hlists.show', $id);
 
-		return Redirect::route('hlists.edit', $id)
+/*		return Redirect::route('hlists.edit', $id)
 			->withInput()
 			->withErrors($validation)
 			->with('message', 'There were validation errors.');
-	}
+*/	}
 
 	/**
 	 * Remove the specified resource from storage.

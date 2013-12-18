@@ -26,10 +26,11 @@ $(function(){
   	$('#btn_create_feedback').popover('hide')
   })
 
-  $.fn.editable.defaults.mode = 'inline';
   // $.fn.editable.defaults.inputclass = 'input-';
-  $.fn.editable.defaults.ajaxOptions = {type: "PUT"};
-  $('.editable').editable();
+  $('.editable').editable({
+  	mode: 'inline',
+  	ajaxOptions: {type: 'PUT'},
+  });
 
   doEditable();
 	

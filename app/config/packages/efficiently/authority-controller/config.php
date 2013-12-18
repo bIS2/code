@@ -14,11 +14,9 @@ return [
           return  (Auth::user()->hasRole('postuser')) ;
         });
 
-        if ( Auth::user()->hasRole('speichuser') ) {
-            $authority->allow('receive', 'Holding', function($self, $holding) {
-              return $holding->is_delivery;
-            });
-        }
+        $authority->allow('receive', 'Holding', function($self, $holding) {
+          return (!$holding->is_received && Auth::user()->hasRole('speichuser'));
+        });
 
         if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser')){
             $authority->allow('revise', 'Holding', function($self, $holding) {
@@ -32,6 +30,10 @@ return [
 
         $authority->allow('work', 'Holding', function($self, $holding) {
           return ( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') || Auth::user()->hasRole('speichuser') || Auth::user()->hasRole('postuser') );
+        });
+
+        $authority->allow('touch', 'Holding', function($self, $holding) {
+          return ( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') );
         });
 
         $authority->allow('manage', 'User', function($self, $user) {
