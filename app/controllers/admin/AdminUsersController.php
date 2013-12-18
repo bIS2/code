@@ -235,7 +235,7 @@ class AdminUsersController extends AdminController {
 
         if(empty($error)) {
             // Redirect to the new user page
-            return Redirect::to('admin/users/create')->with('success', Lang::get('admin/users/messages.edit.success'));
+            return Redirect::to('admin/users/edit/'.$user->id)->with('success', Lang::get('admin/users/messages.edit.success'));
         } else {
             return Redirect::to('admin/users/' . $user->id . '/edit')->with('error', Lang::get('admin/users/messages.edit.failure'));
         }

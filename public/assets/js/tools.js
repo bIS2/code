@@ -99,8 +99,16 @@ $(function(){
     if ( result.remove )
       $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
 
+    if ( result.success )
+      $('#'+result.success).addClass('success')}); 
+
+    if ( result.hide_feedback )
+      $('#btn_create_feedback').popover('hide'); 
+
     if ( result.remove_by_holdingsset )
       $('tr[data-holdingsset='+ result.remove_by_holdingsset +']').hide('slow', function(){ $(this).remove() }); 
+
+
     
 
   })

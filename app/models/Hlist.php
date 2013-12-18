@@ -24,11 +24,30 @@ class Hlist extends Eloquent {
 
   public function assigned() {
   	return $this->belongsTo('User');
-
   }
 
   public function delivery() {
-  	return $this->hasMany('Deliveries');
+  	return $this->hasMany('Delivery');
   }
+
+  public function getIsDeliveryAttribute(){
+    return $this->delivery()->exists();
+  }
+
+  // SCOPES
+  public function scopeInLibrary($query){
+    return $query->whereIn( 'user_id', function($query){ $query->select('id')->from('users')->whereLibraryId( Auth::user()->library_id ); });
+  }
+
+  public function scopeMy($query){
+    if ( Auth::user()->hasRole('speichuser') ) {
+      $query = $query->inLibrary();
+    } else {
+      $query = Auth::user()->hlists();
+    }
+
+    return $query;
+  }
+
 
 }

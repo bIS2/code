@@ -29,7 +29,7 @@
 
 					<tbody>
 						@foreach ($hlists as $list)
-							<tr id="{{ $list->id }}">
+							<tr id="{{ $list->id }}" class="{{ $list->is_delivery ? 'success' : '' }}">
 								<td>{{ link_to( route('holdings.index',['hlist'=>$list->id]), $list->name) }}</td>
 								<td>{{{ $list->holdings->count() }}}</td>
 								<td>
