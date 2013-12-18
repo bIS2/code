@@ -1,5 +1,7 @@
 <?php
-	$url = $library[0] -> externalurl.$holding;
+	$url = $library.$holding;
+	// var_dump($library);
+	// var_dump($holding);
 ?>
 <div class="modal-dialog">
   <div class="modal-content">
@@ -9,7 +11,6 @@
     </div>
     <div class="modal-body">
 		<?php
-			// var_dump($url);
 		 	$ch = curl_init();  
 		  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		  curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/2.0 (compatible; MSIE 3.02; Update a; AK; Windows 95)");
