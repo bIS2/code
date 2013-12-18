@@ -12,10 +12,13 @@
 		$btn 	= ($HOSincorrect) ? 'btn-danger' : $btn;
 	?>
 		<li id="{{ $holdingsset -> id; }}">
-			  <div class="panel-heading row">
+			  <div class="panel-heading row" data-toggle="buttons">
 		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="{{ $holdingsset->id }}" class="pull-left hl sel">
-		      <div href="#{{ $holdingsset -> sys1; }}{{$holdingsset -> id;}}" data-parent="#group-xx" title="{{ $holdingsset->f245a ;}}" data-toggle="collapse" class="accordion-toggle collapsed col-xs-10" opened="0">
-		      	{{ $holdingsset->sys1.' :: '.htmlspecialchars(truncate($holdingsset->f245a, 100),ENT_QUOTES); }}
+		      <div href="#{{ $holdingsset -> sys1; }}{{$holdingsset -> id;}}" data-parent="#group-xx" title="{{ $holdingsset->f245a ;}}" data-toggle="collapse" class="btn btn-xs btn-default accordion-toggle collapsed pull-left" opened="0">
+		      	{{ $holdingsset->sys1 }} ::
+		      </div>
+		      <div class="col-xs-8" opened="0"> 
+		      	{{  htmlspecialchars(truncate($holdingsset->f245a, 100),ENT_QUOTES); }}
 		      	@if ($holdingsset->has('holdings') && $count1 = $holdingsset -> holdings -> count()) 
 		      		<span class="badge"><i class="fa fa-files-o"></i> {{ $count1 }} </span><p class="separator">-</p>
 		      	@endif
@@ -24,7 +27,7 @@
 		      		><i class="fa fa-folder-o"></i> {{ $holdingsset->groups->count() }}</span>
 		      	@endif
 		      </div>
-		      <div class="text-right action-ok col-xs-1">
+		      <div class="text-right action-ok pull-right">
 		      	@if (Auth::user()->hasRole('resuser'))
 			      	<a class="btn btn-ok btn-xs {{ $btn }} disabled">
 			      		<span class="fa fa-thumbs-up {{ $txt }}"></span>	      		
@@ -47,11 +50,12 @@
 		      	@endif      	
 		      </div>
 		      	@if ((isset($group_id)) && ($group_id > 0))
-	      			<span class="btn btn-primary btn-xs move" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_move_this_HOS_to_another_HosGroup'); }}"><i class="glyphicon glyphicon-move"></i></span>
+	      			<span class="move btn btn-default btn-xs" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_move_this_HOS_to_another_HosGroup'); }}"><i class="glyphicon glyphicon-move"></i></span>
 	      			<a class="trash btn btn-error btn-xs" title="{{ trans('holdingssets.remove_hos_from_this_group'); }}" href="{{ action('HoldingssetsController@putDeleteHosFromGroup',[$holdingsset->id]) }}" data-params="group_id={{ $group_id }}" data-remote="true" data-method="put" data-disable-with="..."><i class="glyphicon glyphicon-trash"></i></a>
       			@else
-							<span class="move btn btn-primary btn-xs" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'); }}"><i class="fa fa-copy"></i></span>
+							<span class="move btn btn-default btn-xs" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'); }}"><i class="fa fa-copy"></i></span>
       			@endif
+							<a class="newhos btn btn-primary btn-xs pop-over" set="{{$holdingsset->id}}"  href="{{ action('HoldingssetsController@putNewHOS',[1]) }}" data-remote="true" data-method="put" data-params="holdingsset_id={{$holdingsset->id}}" data-disable-with="..." data-content="{{ trans('holdingssets.new_hos_from_these_hol'); }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-file-text"></i></a>
 			  </div>	
 	  		<div class="panel-collapse collapse container" id="{{$holdingsset -> sys1}}{{$holdingsset -> id}}">
 			    <div class="panel-body">
@@ -98,35 +102,35 @@
 									<tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}{{ $librarianclass }}{{ ($holding->is_annotated) ? ' text-warning' : '' }}">
 									<td class="table_order">{{ $hol_order }}</td>
 									@if (!($HOSconfirm) || $HOSannotated)
-										<td class="actions">
+										<td class="actions" holding="{{ $holding -> id }}">
 											@if (!($HOSconfirm) && !($HOSincorrect))
 				      					@if (Auth::user()->hasRole('resuser'))
 				      						@if ($holding->locked()->exists())
-									      		<a id="holding{{ $holding -> id; }}lock" set="{{$holdingsset->id}}" href="{{ route('lockeds.store',['holding_id' => $holding->id]) }}" class="pop-over {{ $btnlock }}" data-remote="true" data-method="post" data-params="holdingsset_id={{$holdingsset->id}}"  data-disable-with="..." data-content="<strong>{{ trans('holdingssets.reserved_by') }} </strong>{{ $holding->locked->user->name }}<br><strong>{{ trans('holdingssets.on_behalf_of') }}</strong> {{ $holding->locked->comments }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ><span class="glyphicon glyphicon-lock"></span></a>
+									      		<a id="holding{{ $holding -> id; }}lock" set="{{$holdingsset->id}}" href="{{ route('lockeds.store',['holding_id' => $holding->id]) }}" class="pop-over {{ $btnlock }}" data-remote="true" data-method="post" data-params="holdingsset_id={{$holdingsset->id}}"  data-disable-with="..." data-content="<strong>{{ trans('holdingssets.reserved_by') }} </strong>{{ $holding->locked->user->name }}<br><strong>{{ trans('holdingssets.on_behalf_of') }}</strong> {{ $holding->locked->comments }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-lock"></span></a>
 													@else
 														<a id="holding{{ $holding -> id; }}lock" set="{{$holdingsset->id}}" href="#" class="editable " data-type="text" data-pk="{{$holdingsset->id}}" data-url="{{ route('lockeds.update',[$holding->id]) }}" title="@if ($btn != 'btn-success disabled') {{ trans('holdinssets.lock_hol') }} @else {{ trans('holdingssets.unlock_hol') }}@endif"><span class="glyphicon glyphicon-lock"></span></a>
 													@endif
 												@else
 													@if (!($holding->locked)) 
 														<input id="holding_id" name="holding_id[]" type="checkbox" value="{{ $holding->id }}" class="pull-left hld selhld">&nbsp;
-														<a href="{{ route('holdings.show', $holding->id) }}" data-target="#modal-show" data-toggle="modal"><span class="glyphicon glyphicon-eye-open" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
-														<a href="http://bis.trialog.ch/sets/from-library/{{ $holding->id; }}" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.see_information_from_original_system') }}"><span class="glyphicon glyphicon-list-alt"></span></a>
-										      	<a id="holding{{$holding -> id;}}delete" set="{{$holdingsset->id}}"  href="{{ action('HoldingssetsController@putNewHOS',[$holding->id]) }}" data-remote="true" data-method="put" data-params="holdingsset_id={{$holdingsset->id}}"  data-disable-with="..." title="{{ trans('holdingssets.remove_from_HOS') }}"><span class="glyphicon glyphicon-trash"></span></a>
-										      	
+														<a href="{{ route('holdings.show', $holding->id) }}" data-target="#modal-show" data-toggle="modal" class="pop-over" data-content="<strong>{{ trans('holdingssets.see_more_information') }}</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-eye-open"></span></a>
+														<a href="http://bis.trialog.ch/sets/from-library/{{ $holding->id; }}" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" class="pop-over" data-content="<strong>{{ trans('holdingssets.see_information_from_original_system') }}</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-list-alt"></span></a>
+										      	&nbsp;|&nbsp;
+										      	<a id="holding{{$holding -> id;}}delete" set="{{$holdingsset->id}}"  href="{{ action('HoldingssetsController@putNewHOS',[$holding->id]) }}" data-remote="true" data-method="put" data-params="holdingsset_id={{$holdingsset->id}}" data-disable-with="..." class="pop-over" data-content="<strong>{{ trans('holdingssets.remove_from_HOS') }}</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-trash"></span></a>
+										      	<a href="http://bis.trialog.ch/sets/recall-holdings/{{ $holding->id; }}" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" class="pop-over" data-content="<strong>{{ trans('holdingssets.recall_hos_from_this_holding') }}</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="fa fa-crosshairs"></span></a>
+										      	<a href="http://bis.trialog.ch/sets/similarity-search/{{ $holding->id; }}" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" class="pop-over" data-content="<strong>{{ trans('holdingssets.similarity_search_from_this_holding') }}</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="fa fa-search"></span></a>
+										      	&nbsp;|&nbsp;
 										      	@if ($ownertrclass == '')
-															<a id="holding{{$holding -> id;}}forceowner" set="{{$holdingsset->id}}" href="{{ action('HoldingssetsController@putForceOwner',[$holding->id]) }}" data-remote="true" data-method="put" data-params="holdingsset_id={{$holdingsset->id}}" data-disable-with="..." title="{{ trans('holdingssets.force_owner') }}"><span class="fa fa-stop text-danger"></span></a>
+															<a id="holding{{$holding -> id;}}forceowner" set="{{$holdingsset->id}}" href="{{ action('HoldingssetsController@putForceOwner',[$holding->id]) }}" data-remote="true" data-method="put" data-params="holdingsset_id={{$holdingsset->id}}" data-disable-with="..." data-disable-with="..." class="pop-over" data-content="<strong>{{ trans('holdingssets.force_owner') }}</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="fa fa-stop text-danger"></span></a>
 														@endif
-
-														@if ($auxtrclass == '')
-															<a id="holding{{$holding -> id;}}forceaux" set="{{$holdingsset->id}}" href="{{ action('HoldingssetsController@putForceAux',[$holding->id]) }}" data-remote="true" data-method="put" data-params="holdingsset_id={{$holdingsset->id}}" data-disable-with="..." title="{{ trans('holdingssets.force_aux') }}"><span class="fa fa-stop text-warning"></span></a>
-														@endif
+															<a id="holding{{$holding -> id;}}forceaux" set="{{$holdingsset->id}}" href="{{ action('HoldingssetsController@putForceAux',[$holding->id]) }}" data-remote="true" data-method="put" data-params="holdingsset_id={{$holdingsset->id}}" data-disable-with="..." data-disable-with="..." class="forceaux pop-over" data-content="<strong>{{ trans('holdingssets.force_aux') }}</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="fa fa-stop text-warning"></span></a>
 													@else
-														<a id="holding{{ $holding -> id; }}lock" class="pop-over {{ $btnlock }}" data-content="<strong>Locked By: </strong>{{ $holding->locked->user->name }}<hr><strong>Comments:</strong> {{ $holding->locked->comments }}" data-placement="top" data-toggle="popover" data-html="true" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""><span class="glyphicon glyphicon-lock"></span></a>
+														<a id="holding{{ $holding -> id; }}lock" class="pop-over {{ $btnlock }}" data-content="<strong>{{ trans('holdingssets.reserved_by') }} </strong>{{ $holding->locked->user->name }}<br><strong>{{ trans('holdingssets.on_behalf_of') }}</strong> {{ $holding->locked->comments }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-lock"></span></a>
 													@endif
 								      	@endif
 								      @endif
 					      			@if ($holding->is_annotated)
-												<a href="{{ route('notes.create',['holding_id'=>$holding->id, 'consult' => '1']) }}" data-toggle="modal" data-target="#form-create-notes" class="btn-link btn-xs btn-tag">
+												<a href="{{ route('notes.create',['holding_id'=>$holding->id, 'consult' => '1']) }}" data-toggle="modal" data-target="#form-create-notes" class="btn-link btn-xs btn-tag pop-over" data-content="<strong>{{ trans('holdingssets.see_storeman_annotations') }}</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover">
 													<span class="fa fa-tags text-danger"></span>
 												</a>
 											@endif
