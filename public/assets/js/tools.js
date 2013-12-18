@@ -68,10 +68,9 @@ $(function(){
 		$(this).attr( 'data-params', $('.table input.hl:checkbox:checked').serialize() )
 	})
 
-    $('.remote').on('hidden.bs.modal', '.modal', function()    {
-        $(this).removeData('bs.modal').empty();
-
-    }); 
+  $('.remote').on('hidden.bs.modal', '.modal', function() {
+      $(this).removeData('bs.modal').empty();
+  }); 
 
 
 
@@ -100,16 +99,13 @@ $(function(){
       $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
 
     if ( result.success )
-      $('#'+result.success).addClass('success')}); 
+      $('#'+result.success).addClass('success'); 
 
     if ( result.hide_feedback )
       $('#btn_create_feedback').popover('hide'); 
 
     if ( result.remove_by_holdingsset )
       $('tr[data-holdingsset='+ result.remove_by_holdingsset +']').hide('slow', function(){ $(this).remove() }); 
-
-
-    
 
   })
 
