@@ -50,7 +50,7 @@ class ReceivedsController extends BaseController {
 		{
 			$this->received->create($input);
 
-			return Redirect::route('receiveds.index');
+			return Response::json( ['received'=> Input::get('holding_id')] );
 		}
 
 		return Redirect::route('receiveds.create')

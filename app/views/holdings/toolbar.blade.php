@@ -4,12 +4,12 @@
 		<div class="col-xs-12">
 
 			<ul class="list-inline">
-				<li>
+<!-- 				<li>
 					<strong>
 						{{ trans('holdings.title') }} 
 					</strong>
 				</li>
-			  <li>
+ -->			  <li>
 				  <div class="btn-group">
 				  	<div class="btn-group">
 					  	<a href="#" class="btn btn-sm dropdown-toggle {{ (Input::has('hlist_id')) ? 'btn-primary' : 'btn-default'}}" data-toggle="dropdown">

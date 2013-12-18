@@ -102,6 +102,9 @@ $(function(){
     if ( result.success )
       $('#'+result.success).addClass('success'); 
 
+    if ( result.received )
+      $('#'+result.received).addClass('received'); 
+
     if ( result.hide_feedback )
       $('#btn_create_feedback').popover('hide'); 
 
