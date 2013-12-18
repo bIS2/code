@@ -33,7 +33,9 @@
 	       </li>
 					<li>
 					<a href="{{{ URL::to('user') }}}" >
-						<span class="fa fa-user"></span> {{{ Auth::user()->username }}}
+						<span class="fa fa-user"></span> 
+						{{{ Auth::user()->username }}} 
+						<small>({{ Auth::user()->roles()->first()->name }})</small>
 					</a>
 	       </li>
 	      <?php if (Session::get('locale') == 'de') { ?>
