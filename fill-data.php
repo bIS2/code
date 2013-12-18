@@ -4,6 +4,8 @@
 	
 	$conn = pg_connect($conn_string) or die('ERROR!!!');
 
+	$truncate = pg_query($conn, "TRUNCATE holdingssets");
+	$truncate = pg_query($conn, "TRUNCATE holdings");
 	$resultbis = pg_query($conn, "SELECT * FROM hol_out WHERE sys1 <> '' ORDER BY sys1 ASC, sys2 ASC");
 	if (!$resultbis) {
 	  die("Error connecting to database.");
@@ -17,17 +19,17 @@
 		// var_dump($bi);
 		// echo $bi['sys1'].'->';
 		if ($syskey != $bi['sys1']) {
-			// if ($syskey != '')  {
-			// 	echo 'Actualizo count in BD';
-			// 	$query = "UPDATE holdingssets1 SET holdings_number=".$count." WHERE id = ".$i;
-			// 	echo '<br><br>'.$query.'<br><br>';
-			// 	$result = pg_query($conn, $query) or die(pg_last_error().'couting');
-			// }
+			if ($syskey != '')  {
+				// echo 'Actualizo count in BD';
+				$query = "UPDATE holdingssets SET holdings_number=".$count." WHERE sys1 = '".$syskey."'";
+				// echo '<br><br>'.$query.'<br><br>';
+				$result = pg_query($conn, $query) or die(pg_last_error().'couting');
+			}
 			$i++;
 			$syskey = $bi['sys1'];
 			$cero = 0;
 			// CREO UN NUEVO GRUPO E INSERTO
-			$query = "INSERT INTO holdingssets1 (id, sys1, f245a, ptrn, f008x, holdings_number, groups_number) VALUES 
+			$query = "INSERT INTO holdingssets (id, sys1, f245a, ptrn, f008x, holdings_number, groups_number) VALUES 
 			(
 				".$i.",
 				'".pg_escape_string(addslashes($bi['sys1']))."',
@@ -50,7 +52,7 @@
 		$is_aux = $bi['is_aux'] == null ? f : $bi['is_aux'];
 		$pot_owner = $bi['pot_owner'] == null ? f : $bi['pot_owner'];
 		$is_owner = $bi['is_owner'] == null ? f : $bi['is_owner'];
-		$query = "INSERT INTO holdings1
+		$query = "INSERT INTO holdings
 		(
 			id,
 			holdingsset_id,
