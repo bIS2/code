@@ -12,7 +12,7 @@
 		$btn 	= ($HOSincorrect) ? 'btn-danger' : $btn;
 	?>
 		<li id="{{ $holdingsset -> id; }}">
-			  <div class="panel-heading row" data-toggle="buttons">
+			  <div class="panel-heading row">
 		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="{{ $holdingsset->id }}" class="pull-left hl sel">
 		      <div href="#{{ $holdingsset -> sys1; }}{{$holdingsset -> id;}}" data-parent="#group-xx" title="{{ $holdingsset->f245a ;}}" data-toggle="collapse" class="btn btn-xs btn-default accordion-toggle collapsed pull-left" opened="0">
 		      	{{ $holdingsset->sys1 }} <i class="fa fa-level-down"></i>
