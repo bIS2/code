@@ -99,8 +99,16 @@ $(function(){
     if ( result.remove )
       $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
 
+    if ( result.success )
+      $('#'+result.success).addClass('success')}); 
+
+    if ( result.hide_feedback )
+      $('#btn_create_feedback').popover('hide'); 
+
     if ( result.remove_by_holdingsset )
       $('tr[data-holdingsset='+ result.remove_by_holdingsset +']').hide('slow', function(){ $(this).remove() }); 
+
+
     
 
   })
@@ -136,10 +144,10 @@ $(function(){
 })
 
 function getAsuccess() {
-  $('a').on({
+    $('a').on({
     'ajax:success': function(data, result, status) { 
         if ($(this).attr('set') > 0) {
-          reload_set($(this).attr('set'), result);
+          reload_set($(this).attr('set'), result);          
        }
 
         if ( result.remove )
@@ -149,6 +157,7 @@ function getAsuccess() {
         if ( result.ok ){
           value = result.ok;
           $('#'+value).find('.btn-ok').addClass('btn-success').removeClass('btn-default').removeClass('btn-warning');
+          $('#'+value).find('td.actions').html('');
           if (($('a#filter_pending').hasClass('active')) || ($('a#filter_annotated').hasClass('active'))) {
             $('li#'+value).remove();  
           }
@@ -209,24 +218,24 @@ function getAsuccess() {
 
         /* Holdings locks */
         if ( result.lock ){
-            $('#holding'+result.lock+'').addClass('locked').find('a#holding' + result.lock + 'lock').addClass('btn-warning');
+            $('#holding'+result.lock+'').addClass('locked').find('a#holding' + result.lock + 'lock').addClass('btn-warning')
         }
         if ( result.unlock ){
-            $('#holding'+result.unlock).removeClass('locked').find('a#holding' + result.unlock + 'lock').removeClass('btn-warning');    
+            $('#holding'+result.unlock).removeClass('locked').find('a#holding' + result.unlock + 'lock').removeClass('btn-warning')    
         }
 
         /* Holdings Tags */
         if ( result.tag ){
-            $('tr#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger');
+            $('tr#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger')
             $('#form-create-tags').modal('hide')
         }
         if ( result.untag ){
-            $('#'+result.untag).find('.btn-tag').removeClass('btn-danger').addClass('btn-default'); 
+            $('#'+result.untag).find('.btn-tag').removeClass('btn-danger').addClass('btn-default')
         }
 
         /* Deleted Group */
         if ( result.groupDelete ){
-            $('li#group'+result.groupDelete).remove(); 
+            $('li#group'+result.groupDelete).remove()
         } 
       }
     })
@@ -248,6 +257,7 @@ function reload_set(set, data) {
         setDraggoption();
         $('.pop-over').popover();
         doEditable();
+        makehosdivisibles()
       })
     })
   })
@@ -268,4 +278,24 @@ function doEditable() {
 
 function removedangerclass(value) {
   $('#incorrect' + value + 'text').removeClass('text-danger').addClass('text-warning');
+}
+
+function makehosdivisibles() {
+    $(':checkbox.selhld').click( function(){
+    // console.log('click');
+    if (this.checked) {
+      // console.log('CHECKED');
+      if ( $(this).parents('li').find(':checkbox:checked.selhld').length>=2)
+        $(this).parents('li').find('.newhos').css('display','block')
+    } else {
+      // console.log('NO-CHECKED');
+      if ( $(this).parents('li').find(':checkbox:checked.selhld').length<2)
+      $(this).parents('li').find('.newhos').css('display','none')
+    }
+  })
+
+  $('.newhos').on('click',function(){
+  $(this).attr('href', $(this).attr('href') + '?'+$('#' + $(this).attr('set') + ' input.selhld:checkbox:checked').serialize());
+    return true;
+  })
 }

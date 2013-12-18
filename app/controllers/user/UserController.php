@@ -97,6 +97,8 @@ class UserController extends BaseController {
             $oldUser = clone $user;
             $user->username = Input::get( 'username' );
             $user->email = Input::get( 'email' );
+            $user->name = Input::get( 'name' );
+            $user->lastname = Input::get( 'lastname' );
 
             $password = Input::get( 'password' );
             $passwordConfirmation = Input::get( 'password_confirmation' );
@@ -118,7 +120,7 @@ class UserController extends BaseController {
             }
 
             $user->prepareRules($oldUser, $user);
-
+            
             // Save if valid. Password field will be hashed before save
             $user->amend();
         }
@@ -127,8 +129,7 @@ class UserController extends BaseController {
         $error = $user->errors()->all();
 
         if(empty($error)) {
-            return Redirect::to('user')
-                ->with( 'success', Lang::get('user/user.user_account_updated') );
+            return Redirect::to('user')->with( 'success', Lang::get('user/user.user_account_updated') );
         } else {
             return Redirect::to('user')
                 ->withInput(Input::except('password','password_confirmation'))

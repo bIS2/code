@@ -55,9 +55,7 @@ class HoldingssetsController extends BaseController {
 			Session::put(Auth::user()->username.'_sortinghos_by', null);
 			Session::put(Auth::user()->username.'_sortinghos', null);
 		}
-		if (Input::get('refilldata') == 1) {
-			refill();
-		}
+
 		$orderby = (Session::get(Auth::user()->username.'_sortinghos_by') != null) ? Session::get(Auth::user()->username.'_sortinghos_by') : 'f245a';
 		$order 	= (Session::get(Auth::user()->username.'_sortinghos') != null) ? Session::get(Auth::user()->username.'_sortinghos') : 'ASC';
 
@@ -108,7 +106,7 @@ class HoldingssetsController extends BaseController {
 				$value = Input::get('f'.$field);
 				if ($value != '') {
 					$orand = Input::get('OrAndFilter')[$openfilter-1];
-					$holdings = ($orand == 'OR') ? $holdings->OrWhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', strtolower( Input::get('f'.$field) ) ) ) :  $holdings->WhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', strtolower( Input::get('f'.$field) ) ) );  
+					$holdings = ($orand == 'OR') ? $holdings->OrWhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', pg_escape_string(addslashes(strtolower( Input::get('f'.$field) ) ) )) ) :  $holdings->WhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', pg_escape_string(addslashes(strtolower( Input::get('f'.$field) ) ) ) ) );  
 					$openfilter++; 
 				}
 			}
@@ -247,6 +245,27 @@ class HoldingssetsController extends BaseController {
 		return View::make('holdingssets.externalholding', $this -> data);
 	}
 
+/* ---------------------------------------------------------------------------------
+	Recall Holdings from a specific holding
+	--------------------------------------
+	Params:
+		$id: Holding id
+-----------------------------------------------------------------------------------*/
+	public function getRecallHoldings($id) {
+		$this -> data['holdings']  = recall_holdings($id);
+		return View::make('holdingssets.recallingholdings', $this -> data);
+	}
+
+	/* ---------------------------------------------------------------------------------
+	Recall Holdings from a specific holding
+	--------------------------------------
+	Params:
+		$id: Holding id
+-----------------------------------------------------------------------------------*/
+	public function getSimilaritySearch($id) {
+		$this -> data['holdings']  = similarity_search($id);
+		return View::make('holdingssets.similarityresults', $this -> data);
+	}
 
 /* ---------------------------------------------------------------------------------
 	Create a new HOS from only from a Holding
@@ -255,33 +274,22 @@ class HoldingssetsController extends BaseController {
 		$id: Holding id
 -----------------------------------------------------------------------------------*/
 	public function putNewHOS($id) {
-		$holding 	= Holding::find($id);
-		$holdingsset_id = Input::get('holdingsset_id');
 
-		$lastId = Holdingsset::orderBy('id', 'DESC')->take(1)->get();
-		$key = '';
-		foreach ($lastId as $key) {
-			
+		if (Input::has('holding_id')) {
+			$ids = Input::get('holding_id');
+			$newhos_id = createNewHos($ids[0]);
+			Holding::whereIn('id', $ids)->update(['holdingsset_id'=>$newhos_id]);
+			Holdingsset::find($newhos_id)->update(['holdings_number' => count($ids), 'groups_number'=>0]);
+			holdingsset_recall($newhos_id);
 		}
-		$hol_ptrn = $holding -> hol_nrm;
-		$arr_ptrn = getNewPtrn($hol_ptrn);
-		$newptrn = '';
-		$p = 0;
-		foreach ($arr_ptrn as $ptrn) {
-			$p++;
-			$newptrn .= $ptrn;
-			if ($p < count($arr_ptrn)) $newptrn .= '|';
+		else {
+			$newhos_id = createNewHos($id);
 		}
-		$newHos = new Holdingsset;
-		$newHos ->	id 	= $key -> id + 1;
-		$newHos ->	sys1 	= $holding -> sys2;
-		$newHos ->	f245a = $holding -> f245a;
-		$newHos ->	ptrn 	= $newptrn; 
-		$newHos ->	save();
-		$holding = Holding::find($id)->update(['holdingsset_id'=>$newHos -> id, 'is_owner' => 't', 'is_aux' => 'f']);
-		
+
+		$holdingsset_id = Input::get('holdingsset_id');
 		holdingsset_recall($holdingsset_id);
 		$holdingssets[] = Holdingsset::find($holdingsset_id);
+		$holdingssets[] = Holdingsset::find($newhos_id);
 		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
 		return $newset;
 		// return Response::json( ['newhosok' => [$id]] );
@@ -299,7 +307,7 @@ class HoldingssetsController extends BaseController {
 		$holdingsset = Holdingsset::find($holdingsset_id);
 
 		$unsetcurrentowner = $holdingsset -> holdings()->update(['is_owner' => 'f', 'force_owner' => false]);
-		$holding = Holding::find($id)->update(['is_owner'=>'t', 'force_owner' => true]);
+		$holding = Holding::find($id)->update(['is_owner'=>'t', 'is_aux'=>'f', 'force_owner' => true, 'force_aux' => false]);
 
 		holdingsset_recall($holdingsset_id);
 		$holdingssets[] = Holdingsset::find($holdingsset_id);
@@ -315,8 +323,17 @@ class HoldingssetsController extends BaseController {
 		$holdingsset_id: Holdingssset id 
 -----------------------------------------------------------------------------------*/
 	public function putForceAux($id) {
+		// aux_ptrn-- poner en 1 los marcados
+		// ocrr_ptrn-- poner en 1 los marcados
+
+		// is_aux -> t
+		// is_owner -> false
+
+		// weight Cantidad de 1
+		// ocrr_nr Cantidad de ocurrencias
+
 		$holdingsset_id = Input::get('holdingsset_id');
-		$holding = Holding::find($id)->update(['is_aux'=>'t', 'force_aux' => true]);
+		$holding = Holding::find($id)->update(['is_aux'=>'t', 'is_owner'=>'f', 'ocrr_ptrn'=> Input::get('newptrn'), 'aux_ptrn'=> Input::get('newptrn'), 'weight' => Input::get('count'), 'ocrr_nr' => Input::get('count'), 'force_aux' => true, 'force_owner' => false]);
 		holdingsset_recall($holdingsset_id);
 		$holdingssets[] = Holdingsset::find($holdingsset_id);
 		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
@@ -484,181 +501,38 @@ function getNewPtrn($hol_ptrn) {
 		return $tmparr;
 }
 
-function refill() {
-	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
-	
-	$conn = pg_connect($conn_string) or die('ERROR!!!');
+function createNewHos($id) {
+	$holding = Holding::find($id);
+	$lastId = Holdingsset::orderBy('id', 'DESC')->take(1)->get();
+	$key = '';
+	foreach ($lastId as $key) {
+	}
+	$hol_ptrn = $holding -> hol_nrm;
+	$arr_ptrn = getNewPtrn($hol_ptrn);
+	$newptrn = '';
+	$p = 0;
+	foreach ($arr_ptrn as $ptrn) {
+		$p++;
+		$newptrn .= $ptrn;
+		if ($p < count($arr_ptrn)) $newptrn .= '|';
+	}
+	$newHos = new Holdingsset;
+	$newHos ->	id 	= $key -> id + 1;
+	$newHos ->	sys1 	= $holding -> sys2;
+	$newHos ->	f245a = $holding -> f245a;
+	$newHos ->	ptrn 	= $newptrn; 
+	$newHos ->	holdings_number 	= 0; 
+	$newHos ->	groups_number 		= 0; 
+	$newHos ->	f008x 	= $holding -> f008x; 
+	$newHos ->	save();
+	$holding = Holding::find($id)->update(['holdingsset_id'=>$newHos -> id, 'is_owner' => 't', 'is_aux' => 'f']);
+	return $newHos -> id;
+}
 
-	$resultbis = pg_query($conn, "SELECT * FROM hol_out WHERE sys1 <> '' ORDER BY sys1 ASC, sys2 ASC");
-	if (!$resultbis) {
-	  die("Error connecting to database.");
-	}
-	$i = 0;
-	$count 	= 0;
-	$syskey = '';
-	$j = 0;
-	while ($bi = pg_fetch_assoc($resultbis)) {
-		$j++;
-		// var_dump($bi);
-		// echo $bi['sys1'].'->';
-		if ($syskey != $bi['sys1']) {
-			// if ($syskey != '')  {
-			// 	echo 'Actualizo count in BD';
-			// 	$query = "UPDATE holdingssets1 SET holdings_number=".$count." WHERE id = ".$i;
-			// 	echo '<br><br>'.$query.'<br><br>';
-			// 	$result = pg_query($conn, $query) or die(pg_last_error().'couting');
-			// }
-			$i++;
-			$syskey = $bi['sys1'];
-			echo 'NUEVO GRUPO...';
-			$cero = 0;
-			// CREO UN NUEVO GRUPO E INSERTO
-			$query = "INSERT INTO holdingssets1 (id, sys1, f245a, ptrn, f008x, holdings_number, groups_number) VALUES 
-			(
-				".$i.",
-				'".$bi['sys1']."',
-				'".$bi['f245a']."',
-				'".$bi['ptrn']."',
-				'".$bi['f008x']."',
-				".$cero.",
-				".$cero."
-				)";
-			echo '<br><br>'.$query.'<br><br>';
-			$result = pg_query($conn, $query) or die(pg_last_error().'newhos');
-			$holdingsset_id = pg_last_oid($result);
-			$count = 0;
-		}
-		$count++;
-		// INSERT ITEM IN HOL_BIS
-		$false = false;
-		$exists_online = $bi['exists_online'] == null ? f : $bi['exists_online'];
-		$is_current = $bi['is_current'] == null ? f : $bi['is_current'];
-		$has_incomplete_vols = $bi['has_incomplete_vols'] == null ? f : $bi['has_incomplete_vols'];		
-		$is_aux = $bi['is_aux'] == null ? f : $bi['is_aux'];
-		$pot_owner = $bi['pot_owner'] == null ? f : $bi['pot_owner'];
-		$is_owner = $bi['is_owner'] == null ? f : $bi['is_owner'];
-		$query = "INSERT INTO holdings1
-		(
-			id,
-			holdingsset_id,
-			library_id,
-			sys2,
-g,
-f022a,
-f245a,
-f245b,
-f245c,
-f260a,
-score,
-flag,
-f260b,
-f310a,
-f710a,
-f780t,
-f785t,
-f852b,
-hol_nrm,
-probability,
-f008x,
-f008y,
-f362a,
-f866a,
-f866z,
-f852h,
-i,
-is_owner,
-ptrn,
-ocrr_ptrn,
-aux_ptrn,
-j_ptrn,
-weight,
-ocrr_nr,
-is_aux,
-pot_owner,
-hbib,
-f246a,
-f300a,
-f300b,
-f300c,
-f500a,
-f505a,
-f770t,
-f772t,
-f852a,
-f852j,
-f866c,
-f866h,
-exists_online,
-is_current,
-has_incomplete_vols,
-size,
-force_owner,
-force_aux,
-f866aupdated,
-f866aupdatedby
-		) 
-	VALUES 
-		(
-			".$j.",
-			".$i.",
-			".$cero.",
-			'".pg_escape_string(addslashes($bi['sys2']))."',
-		   ".pg_escape_string($bi['g']).",
-			'".pg_escape_string(addslashes($bi['f022a']))."',
-			'".pg_escape_string(addslashes($bi['f245a']))."',
-			'".pg_escape_string(addslashes($bi['f245b']))."',
-			'".pg_escape_string(addslashes($bi['f245c']))."',
-			'".pg_escape_string(addslashes($bi['f260a']))."',
-			'".$bi['score']."',
-			'".$bi['flag']."',
-			'".pg_escape_string(addslashes($bi['f260b']))."',
-			'".pg_escape_string(addslashes($bi['f310a']))."',
-			'".pg_escape_string(addslashes($bi['f710a']))."',
-			'".pg_escape_string(addslashes($bi['f780t']))."',
-			'".pg_escape_string(addslashes($bi['f785t']))."',
-			'".pg_escape_string(addslashes($bi['f852b']))."',
-			'".$bi['hol_nrm']."',
-			'".$bi['probability']."',
-			'".$bi['f008x']."',
-			'".$bi['f008y']."',
-			'".pg_escape_string(addslashes($bi['f362a']))."',
-			'".pg_escape_string(addslashes($bi['f866a']))."',
-			'".pg_escape_string(addslashes($bi['f866z']))."',
-			'".$bi['f852h']."',
-			'".$bi['i']."',
-			'".$is_owner."',
-			'".$bi['ptrn']."',
-			'".$bi['ocrr_ptrn']."',
-			'".$bi['aux_ptrn']."',
-			'".$bi['j_ptrn']."',
-			'".$bi['weight']."',
-			'".$bi['ocrr_nr']."',
-			'".$is_aux."',			
-			'".$pot_owner."',
-			'".$bi['hbib']."',
-			'".pg_escape_string(addslashes($bi['f246a']))."',
-			'".pg_escape_string(addslashes($bi['f300a']))."',
-			'".pg_escape_string(addslashes($bi['f300b']))."',
-			'".pg_escape_string(addslashes($bi['f300c']))."',
-			'".pg_escape_string(addslashes($bi['f500a']))."',
-			'".pg_escape_string(addslashes($bi['f505a']))."',
-			'".pg_escape_string(addslashes($bi['f770t']))."',
-			'".pg_escape_string(addslashes($bi['f772t']))."',
-			'".pg_escape_string(addslashes($bi['f852a']))."',
-			'".pg_escape_string(addslashes($bi['f852j']))."',
-			'".pg_escape_string(addslashes($bi['f866c']))."',
-			'".pg_escape_string(addslashes($bi['f866h']))."',
-			'".$exists_online."',
-			'".$is_current."',
-			'".$has_incomplete_vols."',		 	
-			".$cero.",
-			'f',
-			'f',
-			'".$bi['f866a']."',
-			".$cero."
-			)";
-		echo '<br><br>'.$query.'<br><br>';
-		$result = pg_query($conn, $query) or die(pg_last_error().'inserting');
-	}
-	die('ya me voooy');
+function recall_holdings() {
+	return 0;
+}
+
+function similarity_search() {
+	return 0;
 }

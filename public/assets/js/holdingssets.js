@@ -1,11 +1,4 @@
 $(function(){
-
-// $('#hosg').dataTable({
-//   "bFilter": true,
-//   "bPaginate": false,
-//   "bDestroy": true
-// });
-
 	$('.pop-over').popover();
 	setDatatable();
 	var page
@@ -45,20 +38,18 @@ $(function(){
 	});
 
 	$('#currentfiltersoption label').on('click', function() {
-		filter = $(this).attr('href');
+		filter = $(this).attr('href')
 		if ($(this).hasClass('active')) {
-			$(filter).appendTo('#fieldstosearchhidden');
+			$(filter).appendTo('#fieldstosearchhidden')
 		}
 		else	{
-			$(filter).appendTo('#currentfilters');
+			$(filter).appendTo('#currentfilters')
 		}
 	})
-
-	setDraggoption();
-
-	$( "#FieldsShow .btn-group" ).sortable();
-	$( "#FieldsShow .btn-group" ).disableSelection();
-	// $( "#hosg .hol-sets" ).disableSelection();
+	setDraggoption()
+	makehosdivisibles()
+	$( "#FieldsShow .btn-group" ).sortable()
+	$( "#FieldsShow .btn-group" ).disableSelection()
 })
 
 function setDatatable() {
@@ -80,11 +71,39 @@ function setDatatable() {
 				  });
 				getAsuccess();
 				$($(this).attr('href') + ' table').addClass('table');
-	  			$($(this).attr('href') + ' .flexme span').each(function() {
-	  			})
 				$(this).attr('opened', 1);
+				$($(this).attr('href') + ' a.forceaux').each(function() {
+					$(this).on('click', function() {
+						hol = $(this).parent().attr('holding');
+						actives = $('tr#holding'+hol + ' td.ocrr_ptrn .fa.active').length;
+						if (actives > 0) {
+							var newptrn = '';
+							var count = 0;
+							$('tr#holding'+hol + ' td.ocrr_ptrn .fa').each(function() {
+								if ($(this).hasClass('active') || $(this).hasClass('fa-square')) {
+									newptrn = newptrn + '1'
+									count++;
+								} 
+								else { 
+									newptrn = newptrn + '0'
+								}
+							})
+							// console.log(newptrn);
+							$(this).attr('data-params', $(this).attr('data-params') + '&newptrn='+newptrn + '&count=' + count);
+							console.log($(this).attr('data-params'));
+
+							return false;
+						} 
+						else {
+							// $('tr#holding'+hol + ' td.actions input:first-child + a').click();
+							return false;
+						}
+
+					});
+				})
 			}
 		})
+
   })
 }
 
@@ -93,8 +112,8 @@ function setDraggoption() {
 		handle: ".move",
 		helper: 'clone',
 		activeClass: "btn-primary",
-		cancel: "a.ui-icon", // clicking an icon won't initiate dragging
-		revert: "invalid", // when not dropped, the item will revert back to its initial position
+		cancel: "a.ui-icon",
+		revert: "invalid",
 	});
 
 	$( "#groups-tabs .accepthos" ).droppable({

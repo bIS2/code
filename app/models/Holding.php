@@ -72,7 +72,9 @@ class Holding extends Eloquent {
   }
 
   public function scopeDeliveries($query){
-  	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('deliveries'); });
+  	return $query->whereIn( 'holdings.id', function($query) { 
+      $query->select('holding_id')->from('deliveries'); 
+    });
   }
 
   public function scopeReviseds($query){

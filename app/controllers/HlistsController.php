@@ -21,7 +21,7 @@ class HlistsController extends BaseController {
 	 */
 	public function index()
 	{
-		$hlists = Auth::user()->hlists()->paginate(20);
+		$hlists = Hlist::my()->paginate(20);
 		return View::make('hlists.index', compact('hlists'));
 	}
 
