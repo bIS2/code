@@ -239,9 +239,9 @@ class HoldingssetsController extends BaseController {
 		$id: Holding id
 -----------------------------------------------------------------------------------*/
 	public function getFromLibrary($id) {
-		$this->data['holding'] = Holding::find($id)->sys2;
-		$this->data['library'] = Library::orderBy('code', 'ASC')->libraryperholding(substr($this->data['holding'], 0, 4));
-		$this->data['holding'] = substr($this->data['holding'], 4, 9);
+		$holding = Holding::find($id);
+		$this->data['library'] = $holding->library->externalurl;
+		$this->data['holding'] = substr($holding->sys2, 4, 9);
 		return View::make('holdingssets.externalholding', $this -> data);
 	}
 

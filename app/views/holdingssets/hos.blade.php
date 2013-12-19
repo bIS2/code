@@ -12,7 +12,7 @@
 		$btn 	= ($HOSincorrect) ? 'btn-danger' : $btn;
 	?>
 		<li id="{{ $holdingsset -> id; }}">
-			  <div class="panel-heading row" data-toggle="buttons">
+			  <div class="panel-heading row">
 		  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="{{ $holdingsset->id }}" class="pull-left hl sel">
 		      <div href="#{{ $holdingsset -> sys1; }}{{$holdingsset -> id;}}" data-parent="#group-xx" title="{{ $holdingsset->f245a ;}}" data-toggle="collapse" class="btn btn-xs btn-default accordion-toggle collapsed pull-left" opened="0">
 		      	{{ $holdingsset->sys1 }} <i class="fa fa-level-down"></i>
@@ -118,7 +118,7 @@
 										      	&nbsp;|&nbsp;
 										      	<a id="holding{{$holding -> id;}}delete" set="{{$holdingsset->id}}"  href="{{ action('HoldingssetsController@putNewHOS',[$holding->id]) }}" data-remote="true" data-method="put" data-params="holdingsset_id={{$holdingsset->id}}" data-disable-with="..." class="pop-over" data-content="<strong>{{ trans('holdingssets.remove_from_HOS') }}</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-trash"></span></a>
 										      	<a href="http://bis.trialog.ch/sets/recall-holdings/{{ $holding->id; }}" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" class="pop-over" data-content="<strong>{{ trans('holdingssets.recall_hos_from_this_holding') }}</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="fa fa-crosshairs"></span></a>
-										      	<a href="http://bis.trialog.ch/sets/similarity-search/{{ $holding->id; }}" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" class="pop-over" data-content="<strong>{{ trans('holdingssets.similarity_search_from_this_holding') }}</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="fa fa-search"></span></a>
+										      	<!-- <a href="http://bis.trialog.ch/sets/similarity-search/{{ $holding->id; }}" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" class="pop-over" data-content="<strong>{{ trans('holdingssets.similarity_search_from_this_holding') }}</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="fa fa-search"></span></a> -->
 										      	&nbsp;|&nbsp;
 										      	@if ($ownertrclass == '')
 															<a id="holding{{$holding -> id;}}forceowner" set="{{$holdingsset->id}}" href="{{ action('HoldingssetsController@putForceOwner',[$holding->id]) }}" data-remote="true" data-method="put" data-params="holdingsset_id={{$holdingsset->id}}" data-disable-with="..." data-disable-with="..." class="pop-over" data-content="<strong>{{ trans('holdingssets.force_owner') }}</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="fa fa-stop text-danger"></span></a>

@@ -100,16 +100,16 @@
 		  <label class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'groups_number') ? ' active' : '' }}" name="sortinghos_by">
 		    <input type="radio"{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'groups_number') ? ' checked = checked' : '' }} name="sortinghos_by" value="groups_number" id="option3"> HosG#
 		  </label>
-		  <label class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'f008x') ? ' active' : '' }} disabled" name="sortinghos_by">
+		  <label class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'f008x') ? ' active' : '' }}" name="sortinghos_by">
 		    <input type="radio"{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'f008x') ? ' checked = checked' : '' }} name="sortinghos_by" value="f008x" id="option4"> 008x
 		  </label>
 		</div>
 		<div class="btn-group" data-toggle="buttons">
 		  <label class="btn btn-default btn-xs{{ ((Session::get(Auth::user()->username.'_sortinghos') == null) || (Session::get(Auth::user()->username.'_sortinghos') == 'ASC')) ? ' active' : '' }}">
-		    <input type="radio" {{ ((Session::get(Auth::user()->username.'_sortinghos') == null) || (Session::get(Auth::user()->username.'_sortinghos') == 'ASC')) ? ' checked = checked' : '' }} name="sortinghos" value="ASC" id="option1"><i class="fa fa-sort-asc"></i> ASC
+		    <input type="radio" {{ ((Session::get(Auth::user()->username.'_sortinghos') == null) || (Session::get(Auth::user()->username.'_sortinghos') == 'ASC')) ? ' checked = checked' : '' }} name="sortinghos" value="ASC" id="option1"><i class="fa fa-sort-amount-asc"></i> ASC
 		  </label>
 		  <label class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos') == 'DESC') ? ' active' : '' }}">
-		    <input type="radio" {{ (Session::get(Auth::user()->username.'_sortinghos') == 'DESC') ? ' checked = checked' : '' }} name="sortinghos" value="DESC" id="option2"><i class="fa fa-sort-desc"></i> DESC
+		    <input type="radio" {{ (Session::get(Auth::user()->username.'_sortinghos') == 'DESC') ? ' checked = checked' : '' }} name="sortinghos" value="DESC" id="option2"><i class="fa fa-sort-amount-desc"></i> DESC
 		  </label>
 		</div>
 		<div class="btn-group">
