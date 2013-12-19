@@ -88,7 +88,7 @@
 							</thead>
 							<tbody>
 								<?php $hol_order = 0; ?>
-								@foreach ($holdingsset -> holdings as $holding)
+								@foreach ($holdingsset -> holdings->take(100) as $holding)
 									<?php 
 										$hol_order++;
 										$btnlock 	= ($holding->locked()->exists()) ? 'btn-warning ' : '';	
