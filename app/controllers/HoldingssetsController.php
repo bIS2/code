@@ -117,7 +117,7 @@ class HoldingssetsController extends BaseController {
 		define(HOS_PAGINATE, 20);
 		$this->data['total'] = $holdingssets -> get() -> count();
 		$this->data['init'] = (HOS_PAGINATE >= $this->data['total']) ? $this->data['total'] : HOS_PAGINATE;
-		$this->data['holdingssets'] = $holdingssets-> paginate(HOS_PAGINATE);
+		$this->data['holdingssets'] = $holdingssets->with('holdings')->paginate(HOS_PAGINATE);
 
 		// $this->data['holdingssets'] = $holdingssets->paginate(20);
 		if (isset($_GET['page']))  {

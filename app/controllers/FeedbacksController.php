@@ -21,7 +21,7 @@ class FeedbacksController extends BaseController {
 	 */
 	public function index()
 	{
-		$feedbacks = $this->feedback->all();
+		$feedbacks = $this->feedback->paginate(25);
 
 		return View::make('feedbacks.index', compact('feedbacks'));
 	}
