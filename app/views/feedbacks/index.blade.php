@@ -24,10 +24,11 @@
 					<td>{{{ $feedback->user->email }}}</td>
 					<td>{{{ $feedback->user->username }}}</td>
 					<td>{{{ $feedback->client }}}</td>
-					<td>{{{ $feedback->content }}}</td>
+					<td>
+						<a href="#" class="editable" data-type="textarea" data-pk="{{$feedback->id}}" data-url="{{ route('admin.feedback.update',[$feedback->id]) }}" >{{{ $feedback->content }}}</a>
+					</td>
 					<td>{{{ $feedback->url }}}</td>
           <td>
-          	{{ link_to_route('admin.feedbacks.edit', 'Edit', array($feedback->id), array('class' => 'btn btn-info btn-xs')) }}
           	<a href="{{ route('admin.feedbacks.destroy',$feedback->id) }}" data-remote="true" data-method="delete" class="btn btn-danger btn-xs">
           		<span class="fa fa-times"></span> {{ trans('general.delete') }}
           	</a>
