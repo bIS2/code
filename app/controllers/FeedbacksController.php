@@ -21,7 +21,7 @@ class FeedbacksController extends BaseController {
 	 */
 	public function index()
 	{
-		$feedbacks = $this->feedback->all();
+		$feedbacks = $this->feedback->paginate(25);
 
 		return View::make('feedbacks.index', compact('feedbacks'));
 	}
@@ -106,10 +106,10 @@ class FeedbacksController extends BaseController {
 			$feedback = $this->feedback->find($id);
 			$feedback->update($input);
 
-			return Redirect::route('feedbacks.show', $id);
+			return Redirect::route('admin.feedbacks.show', $id);
 		}
 
-		return Redirect::route('feedbacks.edit', $id)
+		return Redirect::route('admin.feedbacks.edit', $id)
 			->withInput()
 			->withErrors($validation)
 			->with('message', 'There were validation errors.');

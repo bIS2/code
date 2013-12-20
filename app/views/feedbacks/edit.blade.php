@@ -3,7 +3,7 @@
 @section('main')
 
 <h1>Edit Feedback</h1>
-{{ Form::model($feedback, array('method' => 'PATCH', 'route' => array('feedbacks.update', $feedback->id))) }}
+{{ Form::model($feedback, array('method' => 'PATCH', 'route' => array('admin.feedbacks.update', $feedback->id))) }}
 	<ul>
         <li>
             {{ Form::label('user_id', 'User_id:') }}
@@ -22,7 +22,7 @@
 
 		<li>
 			{{ Form::submit('Update', array('class' => 'btn btn-info')) }}
-			{{ link_to_route('feedbacks.show', 'Cancel', $feedback->id, array('class' => 'btn')) }}
+			{{ link_to_route('admin.feedbacks.show', 'Cancel', $feedback->id, array('class' => 'btn')) }}
 		</li>
 	</ul>
 {{ Form::close() }}

@@ -5,6 +5,7 @@ return array(
 	// commons
 	'actions' 		=> 'Actions',
 	'name' 				=> 'Name',
+	'date' 				=> 'Date',
 	'user' 				=> 'User Name',
 	'email' 				=> 'Name',
 	'content' 				=> 'Content',
