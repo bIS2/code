@@ -25,7 +25,7 @@ return [
         }
 
         $authority->allow('set_size', 'Holding', function($self, $holding) {
-          return ( (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser')) && !$holding->is_revised );
+          return ( ( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') )  && !$holding->is_revised );
         });
 
         $authority->allow('work', 'Holding', function($self, $holding) {

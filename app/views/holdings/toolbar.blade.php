@@ -63,32 +63,38 @@
 					  		@endforeach
 					  	</ul>
 				  	</div>
-
 				  	<a href="{{ route('holdings.index', Input::only('view') + ['corrects'=>'true'] ) }}" class="btn <?= ( Input::has('deliveries') ) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
 				  		<span class="fa fa-mail-forward"></span> {{{ trans('holdings.deliveries') }}}
 				  	</a>
-
-				  	<a href="?owner=true" class="btn <?= ( Input::has('owner')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
-				  		<i class="fa fa-square text-danger"></i> {{{ trans('holdings.owner') }}}
-				  	</a>
-
-				  	<a href="?aux=true" class="btn <?= ( Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
-				  		<i class="fa fa-square text-warning"></i> {{{ trans('holdings.aux') }}}
-				  	</a>
-
-				  	<a href="?pendings=true" class="btn <?= ( Input::has('pendings')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
-				  		<span class="fa fa-warning"></span> {{{ trans('holdings.pending') }}}
-				  	</a>
-
-				  	<a href="?unlist=true" class="btn <?= ( Input::has('orphans')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
-				  		<span class="fa fa-chain-broken"></span> {{{ trans('holdings.ungroup') }}}
-				  	</a>
-
-				  	<a href="#collapseOne" data-toggle="collapse" id="" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm accordion-toggle ">
-				  		<span class="fa fa-filter"></span> {{{ trans('holdings.advanced_filter') }}} 
-				  	</a>
-
 				  </div>
+
+				  	<div class="btn-group">
+					  	<a href="?owner=true" class="btn <?= ( Input::has('owner')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+					  		<i class="fa fa-square text-danger"></i> {{{ trans('holdings.owner') }}}
+					  	</a>
+
+					  	<a href="?aux=true" class="btn <?= ( Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+					  		<i class="fa fa-square text-warning"></i> {{{ trans('holdings.aux') }}}
+					  	</a>
+
+				  	</div>	
+
+				  	<div class="btn-group">
+					  	<a href="?pendings=true" class="btn <?= ( Input::has('pendings')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+					  		<span class="fa fa-warning"></span> {{{ trans('holdings.pending') }}}
+					  	</a>
+
+					  	<a href="?unlist=true" class="btn <?= ( Input::has('orphans')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+					  		<span class="fa fa-chain-broken"></span> {{{ trans('holdings.ungroup') }}}
+					  	</a>
+				  	</div>
+
+
+				  	<a href="#collapseOne" data-toggle="collapse" id="" class="btn <?= ($is_filter) ? 'btn-primary' : 'btn-default' ?> btn-sm accordion-toggle">
+				  		<span class="fa fa-filter"></span> {{{ trans('holdings.advanced_filter') }}} {{$is_filter}} 
+				  	</a>
+
+
 
 				  <div class="btn-group" >
 
@@ -147,6 +153,10 @@
 												     		<option value="%s LIKE '%%%s'" <?php if (Input::get('f'.$field.'format') == "%s LIKE '%%%s'") echo 'selected'; ?>>{{ trans('general.end_with') }}</option>
 												     	</select>
 													  <input type="text" class="form-control" name="f<?= $field; ?>" value="<?= Input::get('f'.$field) ?>">
+												  <select id="OrAndFilter" class="form-control" name="OrAndFilter{{$field}}">
+										     		<option value="AND"{{ ( Input::get( "OrAndFilter".$field )  == 'AND')? ' selected':''  }}>{{ trans('general.AND') }}</option>
+										     		<option value="OR"{{ ( Input::get( "OrAndFilter".$field ) == 'OR')? ' selected':''  }}>{{ trans('general.OR') }}</option>
+										     	</select>
 													</div>
 												</div>
 											<?php }
@@ -156,6 +166,7 @@
 										<button style="margin: 20px 0;" type="submit" class="btn btn-default btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> {{ trans('general.search') }}</button>
 									</div>
 								</form>
+
 								<div id="fieldstosearchhidden" style="display: none;">
 									<?php foreach ($allsearchablefields as $field) { 
 										$value = Input::get('f'.$field);
@@ -170,6 +181,11 @@
 											     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
 											     	</select>
 												  <input type="text" class="form-control" name="f<?= $field; ?>" value="<?= Input::get('f'.$field)  ?>">
+												  <select id="OrAndFilter" class="form-control" name="OrAndFilter{{$field}}">
+										     		<option value="AND"{{ ($AndOrs[$ff] == 'AND')? ' selected':''  }}>{{ trans('general.AND') }}</option>
+										     		<option value="OR"{{ ($AndOrs[$ff] == 'OR')? ' selected':''  }}>{{ trans('general.OR') }}</option>
+										     	</select>
+
 												</div>
 											</div>
 										<?php }

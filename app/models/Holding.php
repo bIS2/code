@@ -136,7 +136,7 @@ class Holding extends Eloquent {
   }
 
   public function getIsRevisedAttribute(){
-    return $this->reviseds()->exists();
+    return $this->revised()->exists();
   }
 
   public function getIsDeliveryAttribute(){

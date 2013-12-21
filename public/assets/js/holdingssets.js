@@ -119,6 +119,7 @@ function setDraggoption() {
 	$( "#groups-tabs .accepthos" ).droppable({
 		accept: "#hosg .hol-sets li",
 		hoverClass: "activedrop",
+		tolerance: "pointer", 
 		drop: function( event, ui ) {
 			recipient = $(this)
 			Url = "/sets/move-hos-to-othergroup/" + $(ui.draggable).attr('id')
