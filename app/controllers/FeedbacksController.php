@@ -46,6 +46,8 @@ class FeedbacksController extends BaseController {
 		$input = Input::all();
 		$validation = Validator::make($input, Feedback::$rules);
 
+
+
 		if ($validation->passes())
 		{
 			$this->feedback->create($input);
@@ -98,22 +100,19 @@ class FeedbacksController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$input = array_except(Input::all(), '_method');
+/*		$input = array_except(Input::all(), '_method');
 		$validation = Validator::make($input, Feedback::$rules);
-
-		if ($validation->passes())
-		{
+*/
 			$feedback = $this->feedback->find($id);
-			$feedback->update($input);
+			$feedback->update( ['content' => Input::get('value') ]);
 
-			return Redirect::route('admin.feedbacks.show', $id);
-		}
+/*			return Redirect::json('admin.feedbacks.show', $id);
 
 		return Redirect::route('admin.feedbacks.edit', $id)
 			->withInput()
 			->withErrors($validation)
 			->with('message', 'There were validation errors.');
-	}
+*/	}
 
 	/**
 	 * Remove the specified resource from storage.

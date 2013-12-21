@@ -94,7 +94,10 @@
 	          <div class="col-md-6">
 	            <select class="form-control" name="library_id" id="library_id" >
 	              @foreach ($libraries as $library)
-	            		<option value="<?= $library->id  ?>" >{{ $library->name }}</option>
+	            		<option value="<?= $library->id  ?>" {{ ( $user->library_id == $library->id ) ? 'selected' : '' }} >
+	            			{{ $library->code }} &raquo;
+	            			{{ $library->name }}
+	            		</option>
 	              @endforeach
 							</select>
 	      		</div>
@@ -103,10 +106,14 @@
 				<!-- Groups -->
 				<div class="form-group {{{ $errors->has('roles') ? 'error' : '' }}}">
             <label class="col-md-2 control-label" for="roles">Role</label>
-            <div class="col-md-3">
+            <div class="col-md-6">
 	            <select class="form-control" name="roles[]" id="roles[]" >
 	              @foreach ($roles as $role)
-									<option value="{{{ $role->id }}}">{{{ $role->name }}}</option>
+									<option value="{{{ $role->id }}}" {{ $user->hasRole($role->name) ? 'selected' : ''}}>
+										{{{ $role->name }}}
+										&raquo;
+										{{{ $role->description }}}
+									</option>
 	              @endforeach
 							</select>
 
@@ -120,9 +127,8 @@
 		<!-- Form Actions -->
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-6">
-				<button type="submit" class="btn btn-success">OK</button>
-				<a class="btn-cancel" href="{{{ URL::to('admin/users') }}}">Cancel</a>
-				<button type="reset" class="btn btn-default">Reset</button>
+				<button type="submit" class="btn btn-success"><i class="fa fa-check"></i> {{ trans('general.ok') }}</button>
+				<a class="btn btn-default" href="{{{ URL::to('admin/users') }}}"><i class="fa fa-times"></i> {{ trans('general.cancel') }}</a>
 			</div>
 		</div>
 		<!-- ./ form actions -->

@@ -8,7 +8,6 @@ class Holdingsset extends Eloquent {
 
   public static function boot() {
     parent::boot();
-		Holdingsset::observe(new TraceObserver);
   }
 
   public function holdings() {
