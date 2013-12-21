@@ -15,7 +15,7 @@
 			<a href="{{{ URL::to('admin/users/create') }}}" class="btn btn-sm btn-info "><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
 		</div>
 	</div>
-	<table id="users" class="table table-condensed table-hover">
+	<table id="users" class="table table-condensed table-hover datatable">
 		<thead>
 			<tr>
 				<th >{{{ Lang::get('admin/users/table.username') }}}</th>

@@ -9,7 +9,7 @@
 {{-- Content --}}
 @section('content')
 <section id="hosg" group_id = "<?php echo $group_id;  ?>" @if ($init == $total) {{ 'class="nopaginate"' }} @endif >
-	<ul class="hol-sets table">
+	<ul class="hol-sets table list-group">
 		<?php if (count($holdingssets) > 0) { ?>
 			@include('holdingssets.hos')
 		<?php }

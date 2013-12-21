@@ -18,7 +18,7 @@
 						<td><?= $holding->f245c; ?></td>
 					</tr>
 					<tr><?php $ownertrclass 	= ($holding->is_owner == 't') ? ' is_owner' : '';  ?>
-					  <td>ocrr_ptrn</td>
+					  <td>{{ trans('holdingssets.ocurrence_patron') }}</td>
 						<td class="ocrr_ptrn {{$ownertrclass}}"><?= $holding->patrn; ?></td>
 					</tr>
 					<tr>
