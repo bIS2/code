@@ -50,8 +50,6 @@
 				          		<span class="fa  fa-truck fa-flip-horizontal" ></span> {{trans('holdings.delivery')}}
 				          	</a>
 			          	@endif
-			          	<a href="{{ route('lists.edit',$list->id) }}" class="btn btn-default btn-xs"><span class="fa fa-edit" ></span> {{trans('general.edit')}}</a>
-
 			          	<a href="{{ route('lists.destroy',$list->id) }}" data-remote="true" data-method="delete" class="btn btn-danger btn-xs">
 			          		<span class="fa fa-times"></span> {{trans('general.delete')}}
 			          	</a>

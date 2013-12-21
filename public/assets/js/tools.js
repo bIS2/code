@@ -36,7 +36,10 @@ $(function(){
 	
   $('.datatable').dataTable({
     "bFilter": false,
-    "bPaginate": false
+    "bPaginate": false,
+    "aoColumns": [
+      { "sWidth": "5px" },null,null,null,null,null,null,null
+    ]    
   });
 
 	$(':checkbox#select-all').on('click',function(){
