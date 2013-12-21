@@ -3,16 +3,11 @@
 @section('content')
 
 <h1>
-	{{ trans('tags.title-index') }}
-	<small>{{ trans('tags.subtitle-index') }}</small>
+	{{ trans('notes.title-index') }}
+	<small>{{ trans('notes.subtitle-index') }}</small>
 </h1>
 
-<p>
-	<a href="#myModal" data-toggle="modal" >{{ trans('tags.add-new') }}</a>
-	{{ link_to_route('admin.tags.create', 'Add new tag') }}
-</p>
-
-@if ($tags->count())
+@if ($notes->count())
 	<table class="table table-striped table-bordered">
 		<thead>
 			<tr>
@@ -22,22 +17,21 @@
 		</thead>
 
 		<tbody>
-			@foreach ($tags as $tag)
+			@foreach ($notes as $note)
 				<tr>
-					<td>{{{ $tag->name }}}</td>
-					<td>{{{ $tag->holdings->count() }}}</td>
+					<td>{{{ $note->title }}}</td>
           <td>
-          	{{ link_to_route('admin.tags.edit', trans('general.edit'), array($tag->id), array('class' => 'btn btn-info btn-sm')) }}
-          	{{ link_to_route('admin.tags.destroy', trans('general.'), array($tag->id), array('class' => 'btn btn-danger btn-sm', 'data-method'=>"DELETE", 'data-remote'=>'true' )) }}
+          	{{ link_to_route('notes.edit', trans('general.edit'), array($note->id), array('class' => 'btn btn-info btn-sm')) }}
+          	{{ link_to_route('notes.destroy', trans('general.'), array($note->id), array('class' => 'btn btn-danger btn-sm', 'data-method'=>"DELETE", 'data-remote'=>'true' )) }}
           </td>
 				</tr>
 			@endforeach
 		</tbody>
 	</table>
 @else
-	There are no tags
+	There are no notes
 @endif
 
-@include('tags.create')
+@include('notes.create')
 
 @stop

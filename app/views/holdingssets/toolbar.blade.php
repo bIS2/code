@@ -134,7 +134,7 @@
 												     		<option value="%s LIKE '%%%s'" <?php if (Input::get('f'.$field.'format') == "%s LIKE '%%%s'") echo 'selected'; ?>>{{ trans('general.end_with') }}</option>
 												     	</select>
 													  <input type="text" class="form-control" name="f<?= $field; ?>" value="<?= Input::get('f'.$field) ?>">
-													  <select id="OrAndFilter" class="form-control" name="OrAndFilter[]">
+													  <select id="OrAndFilter" class="form-control" name="OrAndFilter{{$field}}">
 											     		<option value="AND"{{ ($AndOrs[$ff] == 'AND')? ' selected':''  }}>{{ trans('general.AND') }}</option>
 											     		<option value="OR"{{ ($AndOrs[$ff] == 'OR')? ' selected':''  }}>{{ trans('general.OR') }}</option>
 											     	</select>

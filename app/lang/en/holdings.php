@@ -20,5 +20,6 @@ return array(
 	'advanced_filter'	=> 'Advanced Filter',
 	'ungroup'					=> 'Unlist',
 	'printer'					=> 'Print',
+	'ocurrence_patron'			=> 'Ocurrence patron',
 
 );

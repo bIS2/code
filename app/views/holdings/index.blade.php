@@ -15,14 +15,14 @@
 			<thead>
 				<tr >
 					@if ( Authority::can('create','Hlist') ) 
-						<th style="width:5px"><input id="select-all" name="select-all" type="checkbox" value="1"></th>
+						<th ><input id="select-all" name="select-all" type="checkbox" value="1"></th>
 					@endif
 					<th>{{ trans('general.actions') }}</th>
 					<th>{{ trans('general.size') }}</th>
 					<th>852b <span class="fa fa-info-circle"></span></th>
 					<th>852h <span class="fa fa-info-circle"></span></th>
 					<th>866a <span class="fa fa-info-circle"></span></th>
-					<th>ocrr_ptrn</th>
+					<th>{{ trans('holdings.ocurrence_patron') }}</th>
 					<th>245a <span class="fa fa-info-circle"></span></th>
 					<th>362a <span class="fa fa-info-circle"></span></th>
 					<th>866z <span class="fa fa-info-circle"></span></th>
@@ -30,10 +30,10 @@
 			</thead>
 			<tbody class="selectable">
 			@foreach ($holdings as $holding)
-				<tr id="<?= $holding->id ?>" class="{{ $holding->css }}" data-holdingsset="{{$holding->holdingsset_id}}">
+				<tr id="<?= $holding->id ?>" class="{{ $holding->css }}" data-holdingsset="{{$holding->holdingsset_id}}" >
 
 					@if (Authority::can('create','Hlist')) 
-						<td ><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl"/></td>
+						<td style="width:5px !important"><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl" /></td>
 					@endif
 
 					<td id="{{ $holding->id }}" class="actions" >

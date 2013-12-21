@@ -19,7 +19,7 @@ class HoldingsController extends BaseController {
 	 */
 	public function Index()
 	{
-		$this->data['allsearchablefields'] = ['022a','245a','245b','008x','245c','310a','362a','710a','780t','785t','852b','852h','008y'];
+		$this->data['allsearchablefields'] = ['Size','852b','852h','866a','245a','866z'];
 
 		$holdings = ( Input::has('hlist_id') ) ?	Hlist::find( Input::get('hlist_id') )->holdings() : Holding::init();
 
@@ -35,14 +35,21 @@ class HoldingsController extends BaseController {
 		if ( Input::has('owner') )			$holdings = $holdings->owner();
 		if ( Input::has('aux') )				$holdings = $holdings->aux();
 
-		if ( Input::has('f852b') )  $holdings = $holdings->whereRaw( sprintf( Input::get('f852bformat'), 'LOWER(f852b)', strtolower( Input::get('f852b') ) ) );
-		if ( Input::has('f852h') ) 	$holdings = $holdings->whereRaw( sprintf( Input::get('f852hformat'), 'LOWER(f852h)', strtolower( Input::get('f852h') ) ) );
-		if ( Input::has('f245a') )  $holdings = $holdings->whereRaw( sprintf( Input::get('f245aformat'), 'LOWER(f245a)', strtolower( Input::get('f245a') ) ) );
-		if ( Input::has('f362a') ) 	$holdings = $holdings->whereRaw( sprintf( Input::get('f362aformat'), 'LOWER(f362a)', strtolower( Input::get('f362a') ) ) );
-		if ( Input::has('f866a') ) 	$holdings = $holdings->whereRaw( sprintf( Input::get('f866aformat'), 'LOWER(f866a)', strtolower( Input::get('f866a') ) ) );
-		if ( Input::has('f866z') ) 	$holdings = $holdings->whereRaw( sprintf( Input::get('f866zformat'), 'LOWER(f866z)', strtolower( Input::get('f866z') ) ) );
 
-		$this->data['is_filter'] = Input::has('f852b') || Input::has('f852h') || Input::has('f245a') || Input::has('f362a') || Input::has('f866a') || Input::has('f866z');
+		// Apply filter.
+		foreach ($this->data['allsearchablefields'] as $field) {
+
+			if ( Input::has('f'.$field) ) {
+
+				$orand = Input::has('OrAndFilter'.$field) ? Input::get('OrAndFilter'.$field) : 'and';
+
+				$holdings = ($orand == 'OR') ? 
+						$holdings->OrWhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', pg_escape_string(addslashes(strtolower( Input::get('f'.$field) ) ) )) ) :  
+						$holdings->WhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', pg_escape_string(addslashes(strtolower( Input::get('f'.$field) ) ) ) ) );  
+			}
+		}
+
+		$this->data['is_filter'] = Input::has('Size') || Input::has('f852b') || Input::has('f852h') || Input::has('f866a') || Input::has('f245a') || Input::has('f866z') ;
 		$this->data['holdings'] = $holdings->paginate(25);
 
 		// CONDITIONS
