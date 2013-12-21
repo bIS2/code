@@ -28,7 +28,9 @@
 			@if (Auth::check())
 	       <li>
 	       		<div class="navbar-text" data-toggle="tooltip" data-placement="bottom" data-original-title="{{ 'Sublibraries: '.Auth::user()->library->sublibraries}}">
-							{{Auth::user()->library->code}} {{{ Auth::user()->library->name }}}
+							{{Auth::user()->library->code}} 
+							&raquo;
+							{{{ Auth::user()->library->name }}}
 	       		</div>
 	       </li>
 					<li>

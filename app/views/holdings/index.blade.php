@@ -13,9 +13,9 @@
 
 			<table id="holdings-items" class="table table-bordered table-condensed flexme datatable">
 			<thead>
-				<tr>
+				<tr >
 					@if ( Authority::can('create','Hlist') ) 
-						<th><input id="select-all" name="select-all" type="checkbox" value="1"></th>
+						<th style="width:5px"><input id="select-all" name="select-all" type="checkbox" value="1"></th>
 					@endif
 					<th>{{ trans('general.actions') }}</th>
 					<th>{{ trans('general.size') }}</th>
