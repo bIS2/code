@@ -46,4 +46,5 @@ return array(
 	'OR'           		=> 'OR',
 	'incorrects'        => 'Incorrects',
 	'send'				=> 'Send',
+	'sort'		=> 'Sort',
 );

@@ -26,9 +26,10 @@ class HoldingssetsController extends BaseController {
 			$value = Input::get('f'.$field);
 			if ($value != '') {
 				$is_filter = true;
+				break;
 			}
-			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) $is_filter = true;
 		}
+		if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) $is_filter = true;
 		$this->data['is_filter'] = $is_filter;
 
 		
@@ -37,27 +38,34 @@ class HoldingssetsController extends BaseController {
 		define('DEFAULTS_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j');
 		define('ALL_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j');
 
-		if (!isset($_COOKIE[Auth::user()->username.'_fields_to_show_ok'])) {
-			if (Session::get(Auth::user()->username.'_fields_to_show_ok') == 'ocrr_ptrn') {
-			  setcookie(Auth::user()->username.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
-			  Session::put(Auth::user()->username.'_fields_to_show_ok', DEFAULTS_FIELDS);
+		/* User vars */
+		$uUserName = Auth::user()->username;
+		$uUserLibrary = Auth::user()->library;
+		$uUserLibraryId = Auth::user()->library->id;
+		// $uGroupname
+
+
+		if (!isset($_COOKIE[$uUserName.'_fields_to_show_ok'])) {
+			if (Session::get($uUserName.'_fields_to_show_ok') == 'ocrr_ptrn') {
+			  setcookie($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
+			  Session::put($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS);
 			}
 			else {
-				setcookie(Auth::user()->username.'_fields_to_show_ok', Session::get(Auth::user()->username.'_fields_to_show_ok'), time() + (86400 * 30));
+				setcookie($uUserName.'_fields_to_show_ok', Session::get($uUserName.'_fields_to_show_ok'), time() + (86400 * 30));
 			}
 		}
 
-		if ((Session::get(Auth::user()->username.'_fields_to_show_ok') == 'ocrr_ptrn') || (Session::get(Auth::user()->username.'_fields_to_show_ok') == '')) {
-		  setcookie(Auth::user()->username.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
-		  Session::put(Auth::user()->username.'_fields_to_show_ok', DEFAULTS_FIELDS);
+		if ((Session::get($uUserName.'_fields_to_show_ok') == 'ocrr_ptrn') || (Session::get($uUserName.'_fields_to_show_ok') == '')) {
+		  setcookie($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
+		  Session::put($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS);
 		}
 		if (Input::get('clearorderfilter') == 1) {
-			Session::put(Auth::user()->username.'_sortinghos_by', null);
-			Session::put(Auth::user()->username.'_sortinghos', null);
+			Session::put($uUserName.'_sortinghos_by', null);
+			Session::put($uUserName.'_sortinghos', null);
 		}
 
-		$orderby = (Session::get(Auth::user()->username.'_sortinghos_by') != null) ? Session::get(Auth::user()->username.'_sortinghos_by') : 'f245a';
-		$order 	= (Session::get(Auth::user()->username.'_sortinghos') != null) ? Session::get(Auth::user()->username.'_sortinghos') : 'ASC';
+		$orderby = (Session::get($uUserName.'_sortinghos_by') != null) ? Session::get($uUserName.'_sortinghos_by') : 'f245a';
+		$order 	= (Session::get($uUserName.'_sortinghos') != null) ? Session::get($uUserName.'_sortinghos') : 'ASC';
 
 		// Groups
 		$this->data['groups'] = Auth::user()->groups;
@@ -86,18 +94,16 @@ class HoldingssetsController extends BaseController {
 
 			// If filter by owner or aux
 			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) {
-				$holdings = Auth::user()->library->holdings();
-				$holdings = ((Input::has('owner')) && (!(Input::has('aux')))) ? $holdings -> whereIsOwner('t') : $holdings;
-				$holdings = (!(Input::has('owner')) && ((Input::has('aux')))) ? $holdings -> whereIsAux('t') : $holdings;
+				$holdings = ((Input::has('owner')) && (!(Input::has('aux')))) ? $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsOwner('t') : $holdings;
+				$holdings = (!(Input::has('owner')) && ((Input::has('aux')))) ? $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsAux('t') : $holdings;
 				if ((Input::has('owner')) && ((Input::has('aux'))))  {
-					$holdings = Auth::user()->library->holdings();
-					$owners = $holdings -> whereIsOwner('t')->lists('id');
-					$holdings = Auth::user()->library->holdings();
-					$auxs = $holdings -> whereIsAux('t')->lists('id');
-					$tmp = array_merge($owners, $auxs);
-					$idsok = array_unique($tmp);
-					$holdings = Auth::user()->library->holdings();
-					$holdings = $holdings->whereIn('id', $idsok);
+					$holdings = $uUserLibrary->holdings()->where('library_id','=',$uUserLibraryId)->where(function($query) {
+						 $query->where('is_owner', '=', 't')
+                   ->orWhere('is_aux', '=', 't');
+					});
+					// $owners = $uUserLibrary-> holdings() -> whereIsOwner('t')->lists('id');
+					// $auxs = $uUserLibrary-> holdings() -> whereIsAux('t')->lists('id');
+					// $holdings = $uUserLibrary->holdings()->whereIn('id', array_unique(array_merge($owners, $auxs)));
 				}		
 			}
 			$openfilter = 0;
@@ -106,7 +112,8 @@ class HoldingssetsController extends BaseController {
 				$value = Input::get('f'.$field);
 				if ($value != '') {
 					$orand = Input::get('OrAndFilter')[$openfilter-1];
-					$holdings = ($orand == 'OR') ? $holdings->OrWhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', pg_escape_string(addslashes(strtolower( Input::get('f'.$field) ) ) )) ) :  $holdings->WhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', pg_escape_string(addslashes(strtolower( Input::get('f'.$field) ) ) ) ) );  
+					$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', pg_escape_string(addslashes(strtolower( Input::get('f'.$field) ) ) )) ) :  
+																					$holdings->WhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', pg_escape_string(addslashes(strtolower( Input::get('f'.$field) ) ) ) ) );  
 					$openfilter++; 
 				}
 			}
@@ -117,7 +124,7 @@ class HoldingssetsController extends BaseController {
 		define(HOS_PAGINATE, 20);
 		$this->data['total'] = $holdingssets -> get() -> count();
 		$this->data['init'] = (HOS_PAGINATE >= $this->data['total']) ? $this->data['total'] : HOS_PAGINATE;
-		$this->data['holdingssets'] = $holdingssets->with('holdings')->paginate(HOS_PAGINATE);
+		$this->data['holdingssets'] = $holdingssets->orderBy($orderby, $order)->with('holdings')->paginate(HOS_PAGINATE);
 
 		// $this->data['holdingssets'] = $holdingssets->paginate(20);
 		if (isset($_GET['page']))  {
@@ -160,10 +167,11 @@ class HoldingssetsController extends BaseController {
 			}
 			// var_dump(Input::get('sortinghos_by'));
 			// var_dump(Input::get('sortinghos'));die();
-			setcookie(Auth::user()->username.'_fields_to_show_ok', $fieldlist, time() + (86400 * 30));
-			Session::put(Auth::user()->username.'_fields_to_show_ok', $fieldlist);
-			Session::put(Auth::user()->username.'_sortinghos_by', Input::get('sortinghos_by'));
-			Session::put(Auth::user()->username.'_sortinghos', Input::get('sortinghos'));
+			$uUserName = Auth::user()->username;
+			setcookie($uUserName.'_fields_to_show_ok', $fieldlist, time() + (86400 * 30));
+			Session::put($uUserName.'_fields_to_show_ok', $fieldlist);
+			Session::put($uUserName.'_sortinghos_by', Input::get('sortinghos_by'));
+			Session::put($uUserName.'_sortinghos', Input::get('sortinghos'));
 			return Redirect::to(Input::get('urltoredirect'));
 		}
 	}
@@ -224,10 +232,11 @@ class HoldingssetsController extends BaseController {
 		$id: HOS Group id 
 -----------------------------------------------------------------------------------*/
 	public function putDelTabgroup($id) {
-		$groupsids = Session::get(Auth::user()->username.'_groups_to_show');
+		$uUserName = Auth::user()->username;
+		$groupsids = Session::get($uUserName.'_groups_to_show');
 		$newgroupsids = str_replace($id, '', $groupsids);
 		$newgroupsids = str_replace(';;', ';', $newgroupsids);
-	 	Session::put(Auth::user()->username.'_groups_to_show', $newgroupsids);
+	 	Session::put($uUserName.'_groups_to_show', $newgroupsids);
 		// $group = Group::find($id)->delete();
 		return Response::json( ['groupDelete' => [$id]] );
 	}	
@@ -395,7 +404,7 @@ class HoldingssetsController extends BaseController {
 -----------------------------------------------------------------------------------*/
 	public function putUpdateField866aHolding($id) {
 		$new866a = Input::get('new866a');
-		$holding = Holding::find($id)->update(['f866a'=>$new866a]);
+		$holding = Holding::find($id)->update(['f866aupdated'=>$new866a]);
 		return Response::json( ['save866afield' => [$id]] );
 	}	
 }

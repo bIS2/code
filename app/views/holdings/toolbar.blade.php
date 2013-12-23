@@ -151,6 +151,7 @@
 												     		<option value="%s NOT LIKE '%%%s%%'" <?php if (Input::get('f'.$field.'format') == "%s NOT LIKE '%%%s%%'") echo 'selected'; ?>>{{ trans('general.no_contains') }}</option>
 												     		<option value="%s LIKE '%s%%'" <?php if (Input::get('f'.$field.'format') == "%s LIKE '%s%%'") echo 'selected'; ?>>{{ trans('general.begin_with') }}</option>
 												     		<option value="%s LIKE '%%%s'" <?php if (Input::get('f'.$field.'format') == "%s LIKE '%%%s'") echo 'selected'; ?>>{{ trans('general.end_with') }}</option>
+												     		<option value="%s = %s" <?php if (Input::get('f'.$field.'format') == "%s = %s") echo 'selected'; ?>>{{ trans('general.equal') }}</option>
 												     	</select>
 													  <input type="text" class="form-control" name="f<?= $field; ?>" value="<?= Input::get('f'.$field) ?>">
 												  <select id="OrAndFilter" class="form-control" name="OrAndFilter{{$field}}">
@@ -179,6 +180,8 @@
 											     		<option value="%s NOT LIKE '%%%s%%'">{{ trans('general.no_contains') }}</option>
 											     		<option value="%s LIKE '%s%%'">{{ trans('general.begin_with') }}</option>
 											     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
+											     		<option value="%s = %s">{{ trans('general.equal') }}</option>
+
 											     	</select>
 												  <input type="text" class="form-control" name="f<?= $field; ?>" value="<?= Input::get('f'.$field)  ?>">
 												  <select id="OrAndFilter" class="form-control" name="OrAndFilter{{$field}}">

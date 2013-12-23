@@ -17,6 +17,9 @@ return array(
 	'filter'          => 'Filter',
 	'advanced_filter' => 'Zusätzliche Filter',
 	'ungroup'         => 'Gruppe auflösen',
-	'printer'         => 'Drucken'
-
+	'printer'         => 'Drucken',
+	'ocurrence_patron'=> 'Ocurrence patron',
+	'hol_details'			=> 'Hol Details',
+	'field'						=> 'Field',
+	'value'						=> 'Value',
 );

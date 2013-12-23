@@ -19,7 +19,8 @@ class HoldingsController extends BaseController {
 	 */
 	public function Index()
 	{
-		$this->data['allsearchablefields'] = ['Size','852b','852h','866a','245a','866z'];
+
+		$this->data['allsearchablefields'] = ['size','022a','245a','245b','245c','246a','260a','260b','300a','300b','300c','310a','362a','500a','505a','710a','770t','772t','780t','785t','852b','852c','852h','852j','866a','866z'];
 
 		$holdings = ( Input::has('hlist_id') ) ?	Hlist::find( Input::get('hlist_id') )->holdings() : Holding::init();
 
@@ -37,19 +38,26 @@ class HoldingsController extends BaseController {
 
 
 		// Apply filter.
+		$is_filter = false;
 		foreach ($this->data['allsearchablefields'] as $field) {
 
-			if ( Input::has('f'.$field) ) {
+			if ( (Input::has('f'.$field)))  {
 
 				$orand = Input::has('OrAndFilter'.$field) ? Input::get('OrAndFilter'.$field) : 'and';
-
-				$holdings = ($orand == 'OR') ? 
-						$holdings->OrWhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', pg_escape_string(addslashes(strtolower( Input::get('f'.$field) ) ) )) ) :  
-						$holdings->WhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', pg_escape_string(addslashes(strtolower( Input::get('f'.$field) ) ) ) ) );  
+				$value = Input::get('f'.$field);
+				// die(var_dump($value));
+				if ($value != '') {	
+					$compare = ($field == 'size') ? $field : 'LOWER('.'f'.$field.')';
+					$is_filter = true;
+					// die($field);
+					$holdings = ($orand == 'OR') ? 
+							$holdings->OrWhereRaw( sprintf( Input::get('f'.$field.'format'), $compare, pg_escape_string(addslashes(strtolower( Input::get('f'.$field) ) ) )) ) :  
+							$holdings->WhereRaw( sprintf( Input::get('f'.$field.'format'), $compare, pg_escape_string(addslashes(strtolower( Input::get('f'.$field) ) ) ) ));  
+				}
 			}
 		}
 
-		$this->data['is_filter'] = Input::has('Size') || Input::has('f852b') || Input::has('f852h') || Input::has('f866a') || Input::has('f245a') || Input::has('f866z') ;
+		$this->data['is_filter'] = $is_filter;
 		$this->data['holdings'] = $holdings->paginate(25);
 
 		// CONDITIONS

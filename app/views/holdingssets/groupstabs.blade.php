@@ -79,14 +79,14 @@
 </ul>
 <?php if (count($holdingssets) > 0) { ?>
 <form method="post" action="{{ route('sets.index', Input::except(['noexists'])) }}">
-<div class="clearfix">
-	<div class="select-all col-xs-2">
+<div id="hos_actions_and_filters" class="clearfix">
+	<div class="pull-left select-all">
 	  <label>
 	    <input id="select-all" name="select-all" type="checkbox" value="1">
 	    <p class="btn btn-xs btn-primary">{{ trans('holdingssets.select_all_hos') }}</p>
 	  </label>
 	</div>
-	<div id="hos-sorting" class="col-xs-5 text-center text-success">
+	<div id="hos-sorting" class="pull-left text-center text-success">
 		<div class="btn-group" data-toggle="buttons">
 		  <label class="btn btn-success btn-xs pull-left disabled">
 				{{ trans('holdingssets.order_hos_by') }} 
@@ -116,18 +116,18 @@
 				<button type="submit" value="{{ trans('general.sort') }}" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-save"></span> {{ trans('general.sort') }} </button>
 		</div>
 	</div>
-	<div id="hos-pagination" class="col-xs-3 text-center text-success">
+	<div class="pull-right">
+	  <a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-xs btn-default dropdown-toggle pull-right collapsed text-warning" data-toggle="collapse">
+  		<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
+		</a>
+	</div>
+	<div id="hos-pagination" class="pull-right text-center text-success">
 		<p>{{ trans('holdingssets.showing') }} </p>
 		<div id="current_quantity" class="active">
       <div style="width: 100%">{{ $init }}</div>
     </div> 
 		<p>{{ trans('holdingssets.of') }}</p>
 		<div id="total_quantity">{{ $total }}</div>
-	</div>
-	<div class="col-xs-2">
-	  <a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-xs btn-default dropdown-toggle pull-right collapsed text-warning" data-toggle="collapse">
-  		<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
-		</a>
 	</div>
 </div>
 	<div class="col-xs-12">
