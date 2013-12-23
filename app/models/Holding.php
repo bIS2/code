@@ -171,7 +171,7 @@ class Holding extends Eloquent {
   	return ($this->is_revised) ? 'revised' : '';
   }
 
-  public function getPatrnAttribute(){
+  public function getPatrnAttribute($buttons){
 
     $ptrn = explode('|', $this->holdingsset->ptrn);
     $ocrr_ptrn = str_split($this->ocrr_ptrn);
@@ -191,6 +191,34 @@ class Holding extends Eloquent {
           if (isset($j_ptrn[$i]))     $classj   = ($j_ptrn[$i] == '1') ? ' j' : ''; 
           if (isset($aux_ptrn[$i]))   $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
           $ret .= '<i class="fa fa-square pop-over btn btn-xs btn-default '.$classj.$classaux.'" data-content="<strong>'.$this->f852b.' | '.$this->f852h.' | '.$ptrn[$i].'</strong>" data-html="true" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>';
+          break;
+      }
+     $i++; 
+    }
+    $ret .= "</div>";
+    return $ret;
+
+  }
+  public function getPatrnNoBtnAttribute($buttons){
+
+    $ptrn = explode('|', $this->holdingsset->ptrn);
+    $ocrr_ptrn = str_split($this->ocrr_ptrn);
+    $j_ptrn = str_split($this->j_ptrn);
+    $aux_ptrn = str_split($this->aux_ptrn);
+    $i = 0;
+    $ret = '<div style="display: inline-block;">';
+
+    foreach ($ocrr_ptrn as $ocrr) { 
+      switch ($ocrr) {
+        case '0':
+          $ret .= '<i class="fa fa-square-o btn"></i>';
+          break;                          
+        case '1':
+          $classj = '';
+          $classaux = '';
+          if (isset($j_ptrn[$i]))     $classj   = ($j_ptrn[$i] == '1') ? ' j' : ''; 
+          if (isset($aux_ptrn[$i]))   $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
+          $ret .= '<i class="fa fa-square pop-over btn'.$classj.$classaux.'" data-content="<strong>'.$this->f852b.' | '.$this->f852h.' | '.$ptrn[$i].'</strong>" data-html="true" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>';
           break;
       }
      $i++; 

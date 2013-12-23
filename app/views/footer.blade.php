@@ -35,4 +35,3 @@
 		@include('feedbacks._create')
 	</div>
 </div>
-

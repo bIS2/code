@@ -113,32 +113,7 @@ $(function(){
 
   })
 
-  $('th').each(function(){
-
-  	var a = {}, l = 0, i = $(this).index() + 1, $this=$(this);
-
-  	tds = $(this).parents('table').find('tr td:nth-child('+i+')' );
-  	tds.each(function(){
-
-	   (!a[$(this).text()]) ? a[$(this).text()] = 1 : a[$(this).text()]++;
-
-  	})
-
-  	content = ''
-  	$.each(a,function(key, value){
-  		content += '<span class="label label-info">'+value+'</span> '+key+'</br>'
-  	})
-  	// alert(a.length)
-    //if (a.length>0){
-      	$(this).find("span.fa").popover({
-      		trigger: 		'hover',
-      		placement: 	'bottom',
-      		html: 			true,
-      		content: 		content
-      	})
-    //}
-  })
-
+  countThs();
 	getAsuccess()
  
 })
@@ -240,6 +215,34 @@ function getAsuccess() {
       }
     })
 	
+}
+
+function countThs() {
+  $('th').each(function(){
+
+    var a = {}, l = 0, i = $(this).index() + 1, $this=$(this);
+
+    tds = $(this).parents('table').find('tr td:nth-child('+i+')' );
+    tds.each(function(){
+
+     (!a[$(this).text()]) ? a[$(this).text()] = 1 : a[$(this).text()]++;
+
+    })
+
+    content = ''
+    $.each(a,function(key, value){
+      content += '<span class="label label-info">'+value+'</span> '+key+'</br>'
+    })
+    // alert(a.length)
+    //if (a.length>0){
+        $(this).find("span.fa").popover({
+          trigger:    'hover',
+          placement:  'bottom',
+          html:       true,
+          content:    content
+        })
+    //}
+  })
 }
 
 function reload_set(set, data) {

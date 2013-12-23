@@ -21,5 +21,8 @@ return array(
 	'ungroup'					=> 'Unlist',
 	'printer'					=> 'Print',
 	'ocurrence_patron'			=> 'Ocurrence patron',
+	'hol_details'			=> 'Hol Details',
+	'field'			=> 'Field',
+	'value'			=> 'Value',
 
 );

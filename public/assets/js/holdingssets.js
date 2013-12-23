@@ -15,7 +15,7 @@ $(function(){
 				page++;
 				url = "/sets?"+ window.location.search.substring(1) + '&page=' + page
 			 	$.get(url,
-				  function(data){
+				  function(data) {
 			  		last_result = data
 				    // console.log(last_result);
 					  if (data != "") {
@@ -23,6 +23,8 @@ $(function(){
 			 				$('.pop-over').popover()
 			 				getAsuccess()
 			 				setDatatable()
+			 				doEditable()
+			 				makehosdivisibles()
 			 				$('#hosg').removeClass('paginating');
 			 				$('#current_quantity').fadeOut('slow', function() {
 			 					$(this).find('div').removeAttr('style');
@@ -32,7 +34,8 @@ $(function(){
 			 					$(this).fadeIn();
 			 				})
 						}
-				});
+					}
+				);
 		 	}
 	 	}
 	});
@@ -56,51 +59,67 @@ function setDatatable() {
 	$('#hosg .accordion-toggle').each(function() {
 		$(this).on('click', function() {
 			if ($(this).attr('opened') == 0) {
-				var aoColumns = []
-		    ths = $($(this).attr('href') + ' .flexme th');
-		    for (var i = 0; i < $(ths).length; i++) {
-		    	(($(ths[i]).hasClass('hocrr_ptrn')) || ($(ths[i]).hasClass('actions')) || ($(ths[i]).hasClass('table_order'))) ? aoColumns.push({ "asSorting": [ "" ] }) : aoColumns.push(null) 
-		    }
-				$($(this).attr('href') + ' .flexme').dataTable({
-				    "bFilter": false,
-				    "bPaginate": false,  
-		        "bLengthChange": true,
-		        "bInfo": true,
-		        "bAutoWidth": true,
-		        "aoColumns": aoColumns,
-				  });
-				getAsuccess();
-				$($(this).attr('href') + ' table').addClass('table');
-				$(this).attr('opened', 1);
-				$($(this).attr('href') + ' a.forceaux').each(function() {
-					$(this).on('click', function() {
-						hol = $(this).parent().attr('holding');
-						actives = $('tr#holding'+hol + ' td.ocrr_ptrn .fa.active').length;
-						if (actives > 0) {
-							var newptrn = '';
-							var count = 0;
-							$('tr#holding'+hol + ' td.ocrr_ptrn .fa').each(function() {
-								if ($(this).hasClass('active') || $(this).hasClass('fa-square')) {
-									newptrn = newptrn + '1'
-									count++;
-								} 
-								else { 
-									newptrn = newptrn + '0'
-								}
+				This = $(this);
+				url = "/sets?holcontent=1&holdingsset_id="+ $(This).attr('id')
+				$($(This).attr('href') + ' .panel-body').html('<div class="fa fa-cog fa-spin"></div>');
+			 	$.get(url,
+				  function(data) {
+			  		last_result = data
+				    // console.log(last_result);
+					  if (data != "") {
+					  	// console.log(data)
+					  	$($(This).attr('href') + ' .panel-body').html(data);
+							var aoColumns = []
+					    ths = $($(This).attr('href') + ' .flexme th');
+					    for (var i = 0; i < $(ths).length; i++) {
+					    	(($(ths[i]).hasClass('hocrr_ptrn')) || ($(ths[i]).hasClass('actions')) || ($(ths[i]).hasClass('table_order'))) ? aoColumns.push({ "asSorting": [ "" ] }) : aoColumns.push(null) 
+					    }
+							$($(This).attr('href') + ' .flexme').dataTable({
+						    "bFilter": false,
+						    "bPaginate": false,  
+				        "bLengthChange": true,
+				        "bInfo": true,
+				        "bAutoWidth": true,
+				        "aoColumns": aoColumns,
+						  });
+							getAsuccess()
+							countThs()
+							doEditable()
+							makehosdivisibles()
+							$('[data-toggle=tooltip]').tooltip()
+							$('[data-toggle=popover]').popover()
+							$($(This).attr('href') + ' table').addClass('table');
+							$(This).attr('opened', 1);
+							$($(This).attr('href') + ' a.forceaux').each(function() {
+								$(this).on('click', function() {
+									hol = $(this).parent().attr('holding');
+									actives = $('tr#holding'+hol + ' td.ocrr_ptrn .fa.active').length;
+									if (actives > 0) {
+										var newptrn = '';
+										var count = 0;
+										$('tr#holding'+hol + ' td.ocrr_ptrn .fa').each(function() {
+											if ($(this).hasClass('active') || $(this).hasClass('fa-square')) {
+												newptrn = newptrn + '1'
+												count++;
+											} 
+											else { 
+												newptrn = newptrn + '0'
+											}
+										})
+										// console.log(newptrn);
+										$(this).attr('data-params', $(this).attr('data-params') + '&newptrn='+newptrn + '&count=' + count);
+										console.log($(this).attr('data-params'));
+										return false;
+									} 
+									else {
+										// $('tr#holding'+hol + ' td.actions input:first-child + a').click();
+										return false;
+									}
+								});
 							})
-							// console.log(newptrn);
-							$(this).attr('data-params', $(this).attr('data-params') + '&newptrn='+newptrn + '&count=' + count);
-							console.log($(this).attr('data-params'));
-
-							return false;
-						} 
-						else {
-							// $('tr#holding'+hol + ' td.actions input:first-child + a').click();
-							return false;
 						}
-
-					});
-				})
+					}
+				);
 			}
 		})
 

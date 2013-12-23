@@ -16,43 +16,41 @@
 							@foreach ($holdings as $holding)
 							<div class="row item <?= ($i==0) ? 'active' : '' ?>">
 								<?php $i=1 ?>
-								<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1 {{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}" >
+								<div id="<?= $holding->id ?>" class="col-xs-6 col-md-offset-1 {{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}" >
 									<div class="well">
 										<div class="row">
-											<label class="col-xs-1 text-right" >852b</label>
-											<div class="col-xs-11">
+											<label class="col-xs-2 text-right" >852b</label>
+											<div class="col-xs-10">
 									  		{{ link_to_route( 'holdings.show', $holding->f852b, [ $holding->f852b ] ) }}
 											</div>
 										</div>
 										<div class="row">
-										  <label class="col-xs-1 text-right">852h</label >
-										  <div class="col-xs-11">{{ $holding->f852h }}</div>
+										  <label class="col-xs-2 text-right">852h</label >
+										  <div class="col-xs-10">{{ $holding->f852h }}</div>
 										</div>
 										<div class="row">
-										  <label class="col-xs-1 text-right">Patrn</label >
-										  <div class="ocrr_ptrn col-xs-11">{{ $holding->patrn }}</div>
+										  <label class="col-xs-2 text-right">Patrn</label >
+										  <div class="ocrr_ptrn col-xs-10">{{ $holding->patrn }}</div>
 										</div>
 										<div class="row">
-										  <label class="col-xs-1 text-right">245a</label >
+										  <label class="col-xs-2 text-right">245a</label >
 										  {{ $holding->f245a }}
 										</div>
 										<div class="row">
-										  <label class="col-xs-1 text-right">362a</label >
+										  <label class="col-xs-2 text-right">362a</label >
 										  {{ $holding->f362a }}
 										</div>
 										<div class="row">
-										  <label class="col-xs-1 text-right">866a</label >
+										  <label class="col-xs-2 text-right">866a</label >
 										  {{ $holding->f866a }}
 										</div>
 										<div class="row">
-										  <label class="col-xs-1 text-right">866z</label >
+										  <label class="col-xs-2 text-right">866z</label >
 										  {{ $holding->f866z }}
 										</div>
 									</div>
-
-
 								</div> <!-- /.col-xs-8 -->
-								<div class="col-xs-5">
+								<div class="col-xs-4">
 
 									<div class="row">
 									  <a href="{{ route('oks.store') }}" class="btn btn-success btn-ok col-sm-12" data-method="post" data-remote="true" data-params="holding_id={{$holding->id}}" data-disable-with="{{trans('general.sending')}}">

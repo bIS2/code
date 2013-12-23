@@ -23,7 +23,9 @@
 										  <?php $ownertrclass 	= ($holding->is_owner == 't') ? ' is_owner' : '';  ?>
 										  <dd class="ocrr_ptrn{{$ownertrclass}}">{{$holding->patrn}}</dd>
 										  <dt>245a</dt>
-										  <dd>{{htmlspecialchars($holding->f245a,ENT_QUOTES)}}</dd>
+										  <dd>{{htmlspecialchars($holding->f245,ENT_QUOTES)}}</dd>
+										  <dt>Size</dt>
+										  <dd>{{htmlspecialchars($holding->size,ENT_QUOTES)}}</dd>
 										  <dt>362a</dt>
 										  <dd>{{htmlspecialchars($holding->f362a,ENT_QUOTES)}}</dd>
 										  <dt>866a</dt>

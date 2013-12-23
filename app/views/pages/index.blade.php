@@ -6,12 +6,16 @@
 	<div class="col-xs-9">
 
 		<h2>
+			{{ trans('stats.global_log') }}
+		</h2>
+
+		<h3>
 			{{ trans('stats.holdingsets_confirm') }}
 			<small>{{ trans('stats.holdingsets_confirm_details') }}</small>
-		</h2>
-		<ul class="list-unstyled">
+		</h3>
+		<table class="table table-striped">
 			@foreach ($holdingsset_confirm as $confirm) 
-				<li>
+				<tr><td>
 					<span class="date text-muted" >
 						{{ $confirm->created_at->toDayDateTimeString() }}
 					</span>
@@ -20,37 +24,38 @@
 					</span>
 					{{ $confirm->holdingsset->sys1 }}
 					{{ $confirm->holdingsset->f245a }} 
-				</li>
+				</td></tr>
 			@endforeach
-		</ul>		
+		</table>		
 
-		<h2>
-			{{ trans('stats.holding_oks') }}
-			<small>{{ trans('stats.holding_oks_details') }}</small>
-		</h2>
-		<ul class="list-unstyled">
-			@foreach ($holdings_ok as $ok) 
-				<li>
-					<span class="date text-muted" >
-						{{ $ok->created_at->toDayDateTimeString() }}
-					</span>
-					<span class="user">
-						{{ $ok->user->username }}
-					</span>
-					{{ $ok->holding->f245a }}
-					{{ $ok->holding->f245b }} 
-					{{ $ok->holding->f245c }}
-				</li>
-			@endforeach
-		</ul>
-
-		<h2>
+		@if (count($holdings_ok) > 0)
+			<h3>
+				{{ trans('stats.holding_oks') }}
+				<small>{{ trans('stats.holding_oks_details') }}</small>
+			</h3>
+			<table class="table table-striped">
+				@foreach ($holdings_ok as $ok) 
+					<tr><td>
+						<span class="date text-muted" >
+							{{ $ok->created_at->toDayDateTimeString() }}
+						</span>
+						<span class="user">
+							{{ $ok->user->username }}
+						</span>
+						{{ $ok->holding->f245a }}
+						{{ $ok->holding->f245b }} 
+						{{ $ok->holding->f245c }}
+					</td></tr>
+				@endforeach
+			</table>
+		@endif
+		<h3>
 			{{ trans('stats.holding_annotated') }}
 			<small>{{ trans('stats.holding_annotated_datails') }}</small>
-		</h2>
-		<ul class="list-unstyled">
+		</h3>
+		<table class="table table-striped">
 			@foreach ($holdings_annotated as $ok) 
-				<li>
+				<tr><td>
 					<span class="date">
 						{{ $ok->created_at->toDayDateTimeString() }}
 					</span>
@@ -60,14 +65,14 @@
 					<span class="tag">
 						{{ $ok->tag->name }}
 					</span>
-				</li>
+				</td></tr>
 			@endforeach
-		</ul>
+		</table>
 
 	</div>
 
 	<div class="col-xs-3">
-
+	<h3>{{ Auth::user()->library->code }} {{ trans('stats.stats') }}</h3>
 		<dl class="dl-horizontal">
 		  <dt>{{trans('stats.total_holding')}}</dt>
 		  <dd>{{$total}}</dd>
