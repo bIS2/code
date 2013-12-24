@@ -7,8 +7,7 @@
       <div class="modal-body">
       	<table class="table table-bordered">
 					<thead>
-						<tr>
-							<th>245a</th>				
+						<tr>		
 							<th>hbib</th>				
 							<th class="hocrr_ptrn">
 								<?php 
@@ -18,8 +17,9 @@
 									 }
 								?><br>
 							</th>			
-							<th>245b</th>				
+							<th>245a :: 245b</th>				
 							<th>852b</th>				
+							<th>866a</th>				
 							<th>852h</th>				
 						</tr>
 					</thead>
@@ -32,14 +32,14 @@
 						<?php if (isset($aux_ptrn[$i]))  $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; ?>
 						<?php $preftrclass 	= ($holding->is_pref == 't') ? ' is_pref' : '';  ?>	
 						<?php $librarianclass = ' '.substr($holding->sys2, 0, 4);  ?>	
-							<tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}{{ $librarianclass }}{{ ($holding->is_annotated) ? ' text-warning' : '' }}">
-								<td>{{ htmlspecialchars($holding->f245a,ENT_QUOTES) }}</td>				
+							<tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}{{ $librarianclass }}{{ ($holding->is_annotated) ? ' text-warning' : '' }}">			
 								<td>{{ htmlspecialchars($holding->library->code,ENT_QUOTES) }}</td>				
 								<td class="ocrr_ptrn">
 									{{ $holding -> patrn }}<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>866a: </strong>{{ $holding -> f866a }}" data-placement="top" data-toggle="popover" data-html="true" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>
 								</td>				
-								<td>{{ htmlspecialchars($holding->f245b,ENT_QUOTES) }}</td>				
+								<td>{{ htmlspecialchars($holding->f245a,ENT_QUOTES) }} :: {{ htmlspecialchars($holding->f245b,ENT_QUOTES) }}</td>				
 								<td>{{ htmlspecialchars($holding->f852b,ENT_QUOTES) }}</td>				
+								<td>{{ htmlspecialchars($holding->f866a,ENT_QUOTES) }}</td>				
 								<td>{{ htmlspecialchars($holding->f852h,ENT_QUOTES) }}</td>	
 							</tr>
 						@endforeach

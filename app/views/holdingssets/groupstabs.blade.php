@@ -1,4 +1,6 @@
 <?php
+	$total = $holdingssets -> getTotal();
+	$init = $holdingssets -> getTo();
 	$groupsids = '';
 	$g = 0;
 	foreach ($groups as $group) {
