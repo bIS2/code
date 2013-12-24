@@ -79,7 +79,7 @@ Route::filter('guest', function()
 
 Route::filter('auth_like_librarian', function(){
 
-    if (!Entrust::hasRole('bibuser') && !Entrust::hasRole('superuser') && !Entrust::hasRole('resuser') ) 
+    if (!Entrust::hasRole('bibuser') && !Entrust::hasRole('resuser') ) 
         return Redirect::to('/')->with('info',trans('messages.auth_like_librarian'));
 
 });
