@@ -4,6 +4,7 @@ return array(
 
 	'home'    	=> 'Home',
 	'roles'     => 'Rollen',
+	'groups'     => 'Groups',
 	'users'     => 'Benutzer',
 	'libraries' => 'Bibliotheken',
 	'tags' 		=> 'Tags',

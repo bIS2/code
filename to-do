@@ -1,24 +1,6 @@
-1-utilizar usuarios más descriptivos
-2-definir privilegios.
-
-definir lista de bibliotecas. crear migration y seed
-
-package formularios.
-ayuda basset
-
-
--nested resources
--agregar metodos y colecciones a los recursos
-
-
--ubicar el cursor en el formulario focus.
--no administrar las etiquetas.
--busqueda avanzada.
--home con estadisticas.
-
-
-el almacenero solo revisa lo holding que tengan el campo is_owner=1 is_out=1
-
+- todos los hos que tengan un hol están ok, van al final de la cola. No es necesario el size.
+- filtro para los host reservados.
+- separar los cambios sobre 866 a una tabla independiente.
 
 
 urABABe7a4u.

@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="page-header">
-	<h1>Groups</h1>
+	<h1>{{ trans('titles.groups')}}</h1>
 </div>
 <!-- <p>{{ link_to_route('groups.create', 'Add new group') }}</p> -->
 
@@ -11,9 +11,9 @@
 	<table class="table table-striped table-bordered">
 		<thead>
 			<tr>
-				<th>Name</th>
-				<th>User</th>
-				<th>HOS</th>
+				<th>{{ trans('table.name')}}</th>
+				<th>{{ trans('table.user')}}</th>
+				<th>{{ trans('table.holdingssets')}}</th>
 			</tr>
 		</thead>
 
