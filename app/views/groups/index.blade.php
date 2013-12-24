@@ -19,15 +19,14 @@
 
 		<tbody>
 			@foreach ($groups as $group)
-				<tr>
+				<tr id="{{$group->id}}">
 					<td>{{{ $group-> name }}}</td>
 					<td>{{{ $group-> user -> username }}}</td>
 					<td>{{{ $group-> holdingssets() -> count() }}}</td>
-          <td>{{ link_to_route('groups.edit', 'Edit', array($group->id), array('class' => 'btn btn-info')) }}</td>
           <td>
-              {{ Form::open(array('method' => 'DELETE', 'route' => array('groups.destroy', $group->id))) }}
-                  {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
-              {{ Form::close() }}
+          	{{ link_to_route('groups.edit', 'Edit', array($group->id), array('class' => 'btn btn-info btn-xs')) }}
+	          {{ link_to_route('groups.destroy', trans('general.delete'), [$group->id], ['data-method' => 'DELETE', 'data-remote'=>true,'class' => 'btn btn-danger btn-xs' ]) }}
+
           </td>
 				</tr>
 			@endforeach
