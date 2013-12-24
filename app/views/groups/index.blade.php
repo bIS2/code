@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="page-header">
-	<h1>Groups</h1>
+	<h1>{{ trans('titles.groups')}}</h1>
 </div>
 <!-- <p>{{ link_to_route('groups.create', 'Add new group') }}</p> -->
 

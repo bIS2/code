@@ -4,6 +4,7 @@ return array(
 
 	'home'    	=> 'Home',
 	'roles'     => 'Roles',
+	'groups'     => 'Groups',
 	'feedbacks'     => 'Feedbacks',
 	'users'     => 'Users',
 	'libraries' => 'Libraries',
