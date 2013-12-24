@@ -4,7 +4,7 @@ return array(
 
 	'home'    	=> 'Home',
 	'roles'     => 'Rollen',
-	'groups'     => 'Groups',
+	'groups'     => 'Gruppen',
 	'users'     => 'Benutzer',
 	'libraries' => 'Bibliotheken',
 	'tags' 		=> 'Tags',
