@@ -46,7 +46,6 @@
 		<!-- ./ Main -->
 
 		<!-- Footer -->
-			@include('footer')
 		<!-- ./Footer -->
 
 		<!-- Javascripts

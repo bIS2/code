@@ -15,87 +15,88 @@
 						<div class="carousel-inner">
 							@foreach ($holdings as $holding)
 							<div class="row item <?= ($i==0) ? 'active' : '' ?>">
-								<?php $i=1 ?>
-								<div id="<?= $holding->id ?>" class="col-xs-6 col-md-offset-1 {{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}" >
-									<div class="well">
-										<div class="row">
-											<label class="col-xs-2 text-right" >852b</label>
-											<div class="col-xs-10">
-									  		{{ link_to_route( 'holdings.show', $holding->f852b, [ $holding->f852b ] ) }}
+								<div class="row">
+
+									<?php $i=1 ?>
+									<div id="<?= $holding->id ?>" class="col-xs-6 col-md-offset-1 {{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}" >
+										<div class="well">
+											<div class="row">
+												<label class="col-xs-2 text-right" >852b</label>
+												<div class="col-xs-10">
+										  		{{ link_to_route( 'holdings.show', $holding->f852b, [ $holding->f852b ] ) }}
+												</div>
+											</div>
+											<div class="row">
+											  <label class="col-xs-2 text-right">852h</label >
+											  <div class="col-xs-10">{{ $holding->f852h }}</div>
+											</div>
+											<div class="row">
+											  <label class="col-xs-2 text-right">Patrn</label >
+											  <div class="ocrr_ptrn col-xs-10">{{ $holding->patrn }}</div>
+											</div>
+											<div class="row">
+											  <label class="col-xs-2 text-right">245a</label >
+											  {{ $holding->f245a }}
+											</div>
+											<div class="row">
+											  <label class="col-xs-2 text-right">362a</label >
+											  {{ $holding->f362a }}
+											</div>
+											<div class="row">
+											  <label class="col-xs-2 text-right">866a</label >
+											  {{ $holding->f866a }}
+											</div>
+											<div class="row">
+											  <label class="col-xs-2 text-right">866z</label >
+											  {{ $holding->f866z }}
 											</div>
 										</div>
-										<div class="row">
-										  <label class="col-xs-2 text-right">852h</label >
-										  <div class="col-xs-10">{{ $holding->f852h }}</div>
-										</div>
-										<div class="row">
-										  <label class="col-xs-2 text-right">Patrn</label >
-										  <div class="ocrr_ptrn col-xs-10">{{ $holding->patrn }}</div>
-										</div>
-										<div class="row">
-										  <label class="col-xs-2 text-right">245a</label >
-										  {{ $holding->f245a }}
-										</div>
-										<div class="row">
-										  <label class="col-xs-2 text-right">362a</label >
-										  {{ $holding->f362a }}
-										</div>
-										<div class="row">
-										  <label class="col-xs-2 text-right">866a</label >
-										  {{ $holding->f866a }}
-										</div>
-										<div class="row">
-										  <label class="col-xs-2 text-right">866z</label >
-										  {{ $holding->f866z }}
-										</div>
-									</div>
-								</div> <!-- /.col-xs-8 -->
-								<div class="col-xs-4">
+									</div> <!-- /.col-xs-8 -->
+									<div class="col-xs-4">
 
-									<div class="row">
+											<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note'>
+										@foreach ( Tag::all() as $tag)
+
+											<?php $note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note ?>
+
+
+											{{ Form::hidden('holding_id',$holding->id) }}
+
+											<div class="form-group">
+										    <div class="input-group" data-toggle="buttons">
+										      <label class="input-group-addon btn btn-primary btn-sm {{ ($note->tag_id) ? 'active' : '' }}">
+										      	<span class="glyphicon glyphicon-ok-sign"></span>
+										        <input type="checkbox" name="notes[{{ $tag->id }}][tag_id]" value="{{ $tag->id }}">{{ $tag->name }}
+										      </label>
+										      <input type="text"  name="notes[{{ $tag->id }}][content]" value="{{ $note->content }}" class="form-control input-sm" placeholder="{{ trans('placeholders.notes_'.$tag->name) }}">
+										    </div><!-- /input-group -->
+										  </div><!-- /input-group -->
+
+										@endforeach
+
+
+									</div> <!-- /.col-xs-4 -->
+								</div> <!-- /.row -->
+
+								<div class="row">
+									<div class="col-xs-6 col-md-offset-1">
 									  <a href="{{ route('oks.store') }}" class="btn btn-success btn-ok col-sm-12" data-method="post" data-remote="true" data-params="holding_id={{$holding->id}}" data-disable-with="{{trans('general.sending')}}">
 									  	<span class="fa fa-thumbs-up"></span> {{trans('general.confirm')}}
 									  </a>
+
 									</div>
-									<div class="row">
-										<div class="col-sm-12 text-center">{{ trans('general.or') }}</div>
-									</div>
-									<div class="row">
-										<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note'>
-									@foreach ( Tag::all() as $tag)
-
-										<?php $note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note ?>
-
-
-										{{ Form::hidden('holding_id',$holding->id) }}
-
-										<div class="form-group">
-									    <div class="input-group" data-toggle="buttons">
-									      <label class="input-group-addon btn btn-primary btn-sm {{ ($note->tag_id) ? 'active' : '' }}">
-									      	<span class="glyphicon glyphicon-ok-sign"></span>
-									        <input type="checkbox" name="notes[{{ $tag->id }}][tag_id]" value="{{ $tag->id }}">{{ $tag->name }}
-									      </label>
-									      <input type="text"  name="notes[{{ $tag->id }}][content]" value="{{ $note->content }}" class="form-control input-sm" placeholder="{{ trans('placeholders.notes_'.$tag->name) }}">
-									    </div><!-- /input-group -->
-									  </div><!-- /input-group -->
-
-									@endforeach
-									<div class="">
+									<div class="col-xs-4">
 									  <button href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" type="submit" class="btn btn-danger btn-tag col-sm-12" data-disable-with="{{trans('general.sending')}}">
 									  	<span class="fa fa-tags"></span> {{trans('general.annotated')}}
 									  </button>
 									</div>
-
-									</div>
-
-
-								</div> <!-- /.col-xs-4 -->
-
-						</form>	
+								</div>
+								</form>	
 							</div> <!-- /.row.item -->
+
 						@endforeach
 					</div> <!-- /.carousel-inner -->
-							<div class="row">
+							<div class="row" style="margin-top:20px">
 								<div class="col-xs-12 text-center">
 								  <a class="btn btn-default btn-lg" href="#slider" data-slide="prev">
 								    <span class="glyphicon glyphicon-chevron-left"></span>
