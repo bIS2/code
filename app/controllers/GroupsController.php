@@ -122,7 +122,7 @@ class GroupsController extends BaseController {
 	public function destroy($id)
 	{
 		$this->group->find($id)->delete();
-		return Redirect::route('groups.index');
+		return Response::json( ['remove' => [$id]] );
 	}
 
 	public function postAttach($id){

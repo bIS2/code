@@ -87,8 +87,8 @@ function setDatatable() {
 					        "bAutoWidth": true,
 					        "aoColumns": aoColumns,
 							  });
-							  console.log($(ths).length)
-							  console.log(aoColumns.length)
+							  // console.log($(ths).length)
+							  // console.log(aoColumns.length)
 								$($(This).attr('href') + ' a.forceaux').each(function() {
 									$(this).on('click', function() {
 										hol = $(this).parent().attr('holding');
@@ -107,7 +107,7 @@ function setDatatable() {
 											})
 											// console.log(newptrn);
 											$(this).attr('data-params', $(this).attr('data-params') + '&newptrn='+newptrn + '&count=' + count);
-											console.log($(this).attr('data-params'));
+											// console.log($(this).attr('data-params'));
 											return false;
 										} 
 										else {

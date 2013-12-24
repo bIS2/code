@@ -15,13 +15,13 @@
 			  <div class="panel-heading row">
 		  		<div class="col-sm-12">
 		      	@if ((isset($group_id)) && ($group_id > 0))
-	      			<span class="move text-muted" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_move_this_HOS_to_another_HosGroup'); }}">
+	      			<span class="move text-muted pull-left" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_move_this_HOS_to_another_HosGroup'); }}">
 	      				<i class="fa fa-ellipsis-v"></i>
 	      				<i class="fa fa-ellipsis-v"></i>
 	      			</span>
 	      			<a class="trash btn btn-error btn-xs" title="{{ trans('holdingssets.remove_hos_from_this_group'); }}" href="{{ action('HoldingssetsController@putDeleteHosFromGroup',[$holdingsset->id]) }}" data-params="group_id={{ $group_id }}" data-remote="true" data-method="put" data-disable-with="..."><i class="glyphicon glyphicon-trash"></i></a>
       			@else
-							<span class="move text-muted" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'); }}">
+							<span class="move text-muted pull-left" title="{{ trans('holdingssets.drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'); }}">
 	      				<i class="fa fa-ellipsis-v"></i>
 	      				<i class="fa fa-ellipsis-v"></i>
 							</span>
@@ -44,7 +44,7 @@
 			      	@endif
 			      </span>
 
-			      <div class="text-right action-ok pull-right">
+			      <div class="text-right action-ok pull-left">
 			      	@if (Auth::user()->hasRole('resuser'))
 				      	<a class="btn btn-ok btn-xs {{ $btn }} disabled">
 				      		<span class="fa fa-thumbs-up {{ $txt }}"></span>	      		
