@@ -29,7 +29,7 @@
 
 			  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="{{ $holdingsset->id }}" class="hl sel">
 
-			      <a href="#{{ $holdingsset -> sys1; }}{{$holdingsset -> id;}}" id="{{ $holdingsset->id }}" data-parent="#group-xx" title="{{ $holdingsset->f245a ;}}" data-toggle="collapse" class="accordion-toggle collapsed " opened="0">
+			      <a href="#{{ $holdingsset -> sys1; }}{{$holdingsset -> id;}}" id="{{ $holdingsset->id }}" data-parent="#group-xx" title="{{ $holdingsset->f245a ;}}" data-toggle="collapse" class="accordion-toggle collapsed " opened="0" anchored="0">
 			      	{{ $holdingsset->sys1 }} <i class="fa fa-caret-down"></i>
 			      </a>
 

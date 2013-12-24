@@ -546,7 +546,7 @@ table.table thead th:first-child {
         width: 205px !important;   
         height: 22px;  
         z-index: 9;
-        left:21px;
+        left: 5px;
         border-bottom: none !important; 
         a {
             margin: 0 3px;
@@ -564,6 +564,9 @@ table.table thead th:first-child {
     }
     > li {
         position: relative;
+        .panel-body {
+            padding: 10px 0;
+        }
         span.move {
             padding-right: 5px;
             letter-spacing: -1px;
@@ -703,6 +706,9 @@ p.separator {
     width:10px;
     display:inline-block; 
 }
+.modal-body {
+    overflow-x : auto;
+}
 #modal-show {
     .modal-body {
         padding: 10px 20px;
@@ -791,4 +797,7 @@ a.btn-danger {
 .dl-horizontal > dd {
     text-align: right;
     margin-right: 40px;
+}
+#f866aeditablecontainer {
+    max-width: 600px !important;
 }

@@ -260,7 +260,6 @@ function reload_set(set, data) {
         setDraggoption();
         $('.pop-over').popover();
         doEditable();
-        makehosdivisibles()
       })
     })
   })
@@ -283,8 +282,9 @@ function removedangerclass(value) {
   $('#incorrect' + value + 'text').removeClass('text-danger').addClass('text-warning');
 }
 
-function makehosdivisibles() {
-    $(':checkbox.selhld').click( function(){
+function makehosdivisibles(table) {
+
+    $(table+' :checkbox.selhld').click( function(){
     // console.log('click');
     if (this.checked) {
       // console.log('CHECKED');
@@ -297,7 +297,7 @@ function makehosdivisibles() {
     }
   })
 
-  $('.newhos').on('click',function(){
+  $(table).parents('li').find('.newhos').on('click',function(){
   $(this).attr('href', $(this).attr('href') + '?'+$('#' + $(this).attr('set') + ' input.selhld:checkbox:checked').serialize());
     return true;
   })
