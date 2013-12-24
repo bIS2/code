@@ -21,10 +21,7 @@ $(function(){
 					  if (data != "") {
 					    $("#hosg ul li:last").after(data);
 			 				$('.pop-over').popover()
-			 				getAsuccess()
 			 				setDatatable()
-			 				doEditable()
-			 				makehosdivisibles()
 			 				$('#hosg').removeClass('paginating');
 			 				$('#current_quantity').fadeOut('slow', function() {
 			 					$(this).find('div').removeAttr('style');
@@ -50,79 +47,81 @@ $(function(){
 		}
 	})
 	setDraggoption()
-	makehosdivisibles()
 	$( "#FieldsShow .btn-group" ).sortable()
 	$( "#FieldsShow .btn-group" ).disableSelection()
 })
 
 function setDatatable() {
 	$('#hosg .accordion-toggle').each(function() {
-		$(this).on('click', function() {
-			if ($(this).attr('opened') == 0) {
-				This = $(this);
-				url = "/sets?holcontent=1&holdingsset_id="+ $(This).attr('id')
-				$($(This).attr('href') + ' .panel-body').html('<div class="fa fa-cog fa-spin"></div>');
-			 	$.get(url,
-				  function(data) {
-			  		last_result = data
-				    // console.log(last_result);
-					  if (data != "") {
-					  	// console.log(data)
-					  	$($(This).attr('href') + ' .panel-body').html(data);
-							var aoColumns = []
-					    ths = $($(This).attr('href') + ' .flexme th');
-					    for (var i = 0; i < $(ths).length; i++) {
-					    	(($(ths[i]).hasClass('hocrr_ptrn')) || ($(ths[i]).hasClass('actions')) || ($(ths[i]).hasClass('table_order'))) ? aoColumns.push({ "asSorting": [ "" ] }) : aoColumns.push(null) 
-					    }
-							$($(This).attr('href') + ' .flexme').dataTable({
-						    "bFilter": false,
-						    "bPaginate": false,  
-				        "bLengthChange": true,
-				        "bInfo": true,
-				        "bAutoWidth": true,
-				        "aoColumns": aoColumns,
-						  });
-							getAsuccess()
-							countThs()
-							doEditable()
-							makehosdivisibles()
-							$('[data-toggle=tooltip]').tooltip()
-							$('[data-toggle=popover]').popover()
-							$($(This).attr('href') + ' table').addClass('table');
-							$(This).attr('opened', 1);
-							$($(This).attr('href') + ' a.forceaux').each(function() {
-								$(this).on('click', function() {
-									hol = $(this).parent().attr('holding');
-									actives = $('tr#holding'+hol + ' td.ocrr_ptrn .fa.active').length;
-									if (actives > 0) {
-										var newptrn = '';
-										var count = 0;
-										$('tr#holding'+hol + ' td.ocrr_ptrn .fa').each(function() {
-											if ($(this).hasClass('active') || $(this).hasClass('fa-square')) {
-												newptrn = newptrn + '1'
-												count++;
-											} 
-											else { 
-												newptrn = newptrn + '0'
-											}
-										})
-										// console.log(newptrn);
-										$(this).attr('data-params', $(this).attr('data-params') + '&newptrn='+newptrn + '&count=' + count);
-										console.log($(this).attr('data-params'));
-										return false;
-									} 
-									else {
-										// $('tr#holding'+hol + ' td.actions input:first-child + a').click();
-										return false;
-									}
-								});
-							})
+		if ($(this).attr('anchored') == 0) {
+			$(this).attr('anchored', 1)
+			$(this).on('click', function() {
+				if ($(this).attr('opened') == 0) {
+					This = $(this);
+					url = "/sets?holcontent=1&holdingsset_id="+ $(This).attr('id')
+					$($(This).attr('href') + ' .panel-body').html('<div class="fa fa-cog fa-spin"></div>');
+				 	$.get(url,
+					  function(data) {
+				  		last_result = data
+					    // console.log(last_result);
+						  if (data != "") {
+						  	// console.log(data)
+						  	$($(This).attr('href') + ' .panel-body').html(data);
+								getAsuccess()
+								countThs()
+								doEditable()
+								makehosdivisibles($(This).attr('href'))
+								$(This).attr('opened', 1);
+								$('[data-toggle=tooltip]').tooltip()
+								$('[data-toggle=popover]').popover()
+								var aoColumns = []
+						    ths = $($(This).attr('href') + ' .flexme th');
+						    for (var i = 0; i < $(ths).length; i++) {
+						    	(($(ths[i]).hasClass('hocrr_ptrn')) || ($(ths[i]).hasClass('actions')) || ($(ths[i]).hasClass('table_order'))) ? aoColumns.push({ "asSorting": [ "" ] }) : aoColumns.push(null) 
+						    }
+								$($(This).attr('href') + ' .flexme').dataTable({
+							    "bFilter": false,
+							    "bPaginate": false,  
+					        "bLengthChange": true,
+					        "bInfo": true,
+					        "bAutoWidth": true,
+					        "aoColumns": aoColumns,
+							  });
+							  console.log($(ths).length)
+							  console.log(aoColumns.length)
+								$($(This).attr('href') + ' a.forceaux').each(function() {
+									$(this).on('click', function() {
+										hol = $(this).parent().attr('holding');
+										actives = $('tr#holding'+hol + ' td.ocrr_ptrn .fa.active').length;
+										if (actives > 0) {
+											var newptrn = '';
+											var count = 0;
+											$('tr#holding'+hol + ' td.ocrr_ptrn .fa').each(function() {
+												if ($(this).hasClass('active') || $(this).hasClass('fa-square')) {
+													newptrn = newptrn + '1'
+													count++;
+												} 
+												else { 
+													newptrn = newptrn + '0'
+												}
+											})
+											// console.log(newptrn);
+											$(this).attr('data-params', $(this).attr('data-params') + '&newptrn='+newptrn + '&count=' + count);
+											console.log($(this).attr('data-params'));
+											return false;
+										} 
+										else {
+											// $('tr#holding'+hol + ' td.actions input:first-child + a').click();
+											return false;
+										}
+									});
+								})
+							}
 						}
-					}
-				);
-			}
-		})
-
+					);
+				}
+			})
+		}
   })
 }
 

@@ -97,12 +97,11 @@ class HoldingssetsController extends BaseController {
 
 			if ($this->data['is_filter']) {
 				// Take all holdings
-				$holdings= DB::table('holdings')->orderBy('is_owner', 'DESC');
-
+				$holdings = -1;
 				// If filter by owner or aux
 				if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) {
-					$holdings = ((Input::has('owner')) && (!(Input::has('aux')))) ? $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsOwner('t') : $holdings;
-					$holdings = (!(Input::has('owner')) && ((Input::has('aux')))) ? $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsAux('t') : $holdings;
+					if ((Input::has('owner')) && (!(Input::has('aux')))) $holdings = $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsOwner('t');
+					if (!(Input::has('owner')) && ((Input::has('aux')))) $holdings = $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsAux('t');
 					if ((Input::has('owner')) && ((Input::has('aux'))))  {
 						$holdings = $uUserLibrary->holdings()->where('library_id','=',$uUserLibraryId)->where(function($query) {
 							 $query->where('is_owner', '=', 't')
@@ -113,8 +112,10 @@ class HoldingssetsController extends BaseController {
 						// $holdings = $uUserLibrary->holdings()->whereIn('id', array_unique(array_merge($owners, $auxs)));
 					}		
 				}
+
 				$openfilter = 0;
 				// Verify if some value for advanced search exists.
+				if ($holdings == -1) $holdings = DB::table('holdings')->orderBy('is_owner', 'DESC');
 				foreach ($allsearchablefields as $field) {
 					$value = Input::get('f'.$field);
 					if ($value != '') {
@@ -125,13 +126,14 @@ class HoldingssetsController extends BaseController {
 					}
 				}
 				if ($openfilter == 0)  $this->data['is_filter'] = false;
-			  $ids = (count($holdings->lists('holdings.holdingsset_id')) > 0) ? $holdings->lists('holdings.holdingsset_id') : [-1];
+				$holList = $holdings->select('holdings.holdingsset_id')->lists('holdings.holdingsset_id');
+			  $ids = (count($holList) > 0) ? $holList : [-1];
 			  $holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
+			  unset($holdings);
 			}
 			define(HOS_PAGINATE, 20);
-			$this->data['total'] = $holdingssets -> get() -> count();
-			$this->data['init'] = (HOS_PAGINATE >= $this->data['total']) ? $this->data['total'] : HOS_PAGINATE;
 			$this->data['holdingssets'] = $holdingssets->orderBy($orderby, $order)->with('holdings')->paginate(HOS_PAGINATE);
+			unset($holdingssets);
 
 			// $this->data['holdingssets'] = $holdingssets->paginate(20);
 			if (isset($_GET['page']))  {
