@@ -11,9 +11,9 @@
 	<table class="table table-striped table-bordered">
 		<thead>
 			<tr>
-				<th>Name</th>
-				<th>User</th>
-				<th>HOS</th>
+				<th>{{ trans('table.name')}}</th>
+				<th>{{ trans('table.user')}}</th>
+				<th>{{ trans('table.holdingssets')}}</th>
 			</tr>
 		</thead>
 
