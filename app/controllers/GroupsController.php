@@ -21,7 +21,7 @@ class GroupsController extends BaseController {
 	 */
 	public function index()
 	{
-		$groups = $this->group->all();
+		$groups = $this->group->paginate(25);
 		return View::make('groups.index', compact('groups'));
 	}
 

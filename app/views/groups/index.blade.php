@@ -32,6 +32,12 @@
 			@endforeach
 		</tbody>
 	</table>
+	</div>
+	<p>
+		{{ $groups->appends(Input::except('page'))->links()  }}
+	</p>
+</div>
+
 @else
 	{{ trans('groups.nogroups') }}
 @endif
