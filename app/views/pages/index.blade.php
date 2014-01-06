@@ -3,7 +3,7 @@
 @section('main')
 
 <div class="row">
-	<div class="col-xs-9">
+	<div class="col-xs-9 overfloaded-x">
 
 		<h2>
 			{{ trans('stats.global_log') }}
@@ -14,18 +14,35 @@
 			<small>{{ trans('stats.holdingsets_confirm_details') }}</small>
 		</h3>
 		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>{{ trans('general.date')}}</th>
+					<th>{{ trans('table.user')}}</th>
+					<th>sys</th>
+					<th>245a</th>
+				</tr>
+			</thead>
+			<tbody>
 			@foreach ($holdingsset_confirm as $confirm) 
-				<tr><td>
-					<span class="date text-muted" >
-						{{ $confirm->created_at->toDayDateTimeString() }}
-					</span>
-					<span class="user">
+				<tr>
+					<td class="date text-muted" >
+						<?php 
+							$fecha = new DateTime($confirm->created_at->toDayDateTimeString());
+							echo $fecha->format('d-m-Y H:i:s');
+						?>
+					</td>
+					<td class="user">
 						{{ $confirm->user->username }}
-					</span>
-					{{ $confirm->holdingsset->sys1 }}
-					{{ $confirm->holdingsset->f245a }} 
-				</td></tr>
+					</td>
+					<td>
+						{{ $confirm->holdingsset->sys1 }}
+					</td>
+					<td>
+						{{ $confirm->holdingsset->f245a }} 
+					</td>
+				</tr>
 			@endforeach
+			</tbody>
 		</table>		
 
 		@if (count($holdings_ok) > 0)
@@ -34,19 +51,31 @@
 				<small>{{ trans('stats.holding_oks_details') }}</small>
 			</h3>
 			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>{{ trans('general.date') }}</th>
+						<th>{{ trans('table.user') }}</th>
+						<th>245a</th>
+					</tr>
+				</thead>
+				<tbody>
 				@foreach ($holdings_ok as $ok) 
-					<tr><td>
-						<span class="date text-muted" >
-							{{ $ok->created_at->toDayDateTimeString() }}
-						</span>
-						<span class="user">
+					<tr>
+						<td class="date text-muted" >
+							<?php 
+								$fecha = new DateTime($ok->created_at->toDayDateTimeString());
+								echo $fecha->format('d-m-Y H:i:s');
+							?>
+						</td>
+						<td class="user">
 							{{ $ok->user->username }}
-						</span>
-						{{ $ok->holding->f245a }}
-						{{ $ok->holding->f245b }} 
-						{{ $ok->holding->f245c }}
-					</td></tr>
+						</td>
+						<td>
+							{{ $ok->holding->f245a }}
+						</td>
+					</tr>
 				@endforeach
+				</tbody>
 			</table>
 		@endif
 		<h3>
@@ -54,19 +83,31 @@
 			<small>{{ trans('stats.holding_annotated_datails') }}</small>
 		</h3>
 		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>{{ trans('general.date') }}</th>
+					<th>{{ trans('table.user') }}</th>
+					<th>Tag</th>
+				</tr>
+			</thead>
+			<tbody>
 			@foreach ($holdings_annotated as $ok) 
-				<tr><td>
-					<span class="date">
-						{{ $ok->created_at->toDayDateTimeString() }}
-					</span>
-					<span class="user">
+				<tr>
+					<td class="date">
+					<?php 
+						$fecha = new DateTime($ok->created_at->toDayDateTimeString());
+						echo $fecha->format('d-m-Y H:i:s');
+					?>
+					</td>
+					<td class="user">
 						{{ $ok->user->username }}
-					</span>
-					<span class="tag">
+					</td>
+					<td class="tag">
 						{{ $ok->tag->name }}
-					</span>
-				</td></tr>
+					</td>
+				</tr>
 			@endforeach
+			</tbody>
 		</table>
 
 	</div>

@@ -3,6 +3,11 @@
 class Confirm extends Eloquent {
 	protected $guarded = array();
 
+  public static function boot() {
+    parent::boot();
+    Confirm::observe(new ConfirmObserver);
+  }
+
 	public static $rules = array(
 		'holdingsset_id' => 'required',
 		'user_id' => 'required'

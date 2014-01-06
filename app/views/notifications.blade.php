@@ -1,8 +1,11 @@
 @if (count($errors->all()) > 0)
 <div class="alert alert-danger alert-block page-header">
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
-	<h4>Error</h4>
-	Please check the form below for errors
+	<h4>{{ trans('general.error') }}</h4>
+	{{ trans('general.plase_fix_errors_and_try_again') }}
+    <ul>
+        {{ implode('', $errors->all('<li class="error">:message</li>')) }}
+    </ul>
 </div>
 @endif
 

@@ -21,7 +21,7 @@ class GroupsController extends BaseController {
 	 */
 	public function index()
 	{
-		$groups = $this->group->paginate(25);
+		$groups = Auth::user()->groups;
 		return View::make('groups.index', compact('groups'));
 	}
 
@@ -46,14 +46,49 @@ class GroupsController extends BaseController {
 		$validation = Validator::make($group->toArray(), Group::$rules);
 
 		if ($validation->passes()) {
-			$group->save();
-			$group->holdingssets()->attach(Input::get('holdingsset_id'));
-			
-			// $group->holdingssets()->increment('groups_number');
-			return Redirect::route('sets.index', ['group_id'=>$group->id]);
+			if (Input::has('joining')) {
+				if (Input::has('group_id')) {
+					$group->save();
+					$groups_ids = !is_array(Input::get('group_id')) ? [$groups_ids] : Input::get('group_id');
+					// die(var_dump($groups_ids));
+					foreach ($groups_ids as $group_id) {
+						$old_group = Group::find($group_id);
+						$holdingssets_ids = $old_group->holdingssets()->select('holdingssets.id')->lists('holdingssets.id');
+						if (count($holdingssets_ids) > 0) {
+							$group->holdingssets()->attach($holdingssets_ids);
+							$old_group->holdingssets()->decrement('groups_number');
+							$old_group->holdingssets()->detach($holdingssets_ids);					
+						}
+						$old_group->delete();
+					}
+					$group->holdingssets()->increment('groups_number');
+				}
+				return Redirect::route('groups.index');
+			}
+			elseif(Input::has('deleting')) {
+				if (Input::has('group_id')) {
+					$groups_ids = !is_array(Input::get('group_id')) ? [$groups_ids] : Input::get('group_id');
+					foreach ($groups_ids as $group_id) {
+						$group_to_delete = Group::find($group_id);
+						$holdingssets_ids = $group_to_delete->holdingssets()->select('holdingssets.id')->lists('holdingssets.id');
+						if (count($holdingssets_ids) > 0) {
+							$group_to_delete->holdingssets()->decrement('groups_number');
+							$group_to_delete->holdingssets()->detach($holdingssets_ids);
+						}
+						$group_to_delete->delete();
+					}
+				}
+				return Redirect::route('groups.index');
+			}
+			else {
+				$group->save();
+				$group->holdingssets()->attach(Input::get('holdingsset_id'));
+				$group->holdingssets()->increment('groups_number');
+				return Redirect::route('sets.index', ['group_id'=>$group->id]);
+			}
 		}
 
-		return Redirect::route('groups.create')
+		return Redirect::route('sets.index')
 			->withInput()
 			->withErrors($validation)
 			->with('message', 'There were validation errors.');
@@ -104,7 +139,8 @@ class GroupsController extends BaseController {
 			$group = $this->group->find($id);
 			$group->update($input);
 
-			return Redirect::route('groups.show', $id);
+			return Redirect::route('groups.edit', $id)
+				->with('success', trans('groups.group_update_successfully'));;
 		}
 
 		return Redirect::route('groups.edit', $id)
@@ -121,7 +157,11 @@ class GroupsController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		$this->group->find($id)->delete();
+		$group_to_delete = $this->group->find($id);
+		$holdingssets_ids = $group_to_delete->holdingssets()->select('holdingssets.id')->lists('holdingssets.id');
+		$group_to_delete->holdingssets()->decrement('groups_number');
+		$group_to_delete->holdingssets()->detach($holdingssets_ids);
+		$group_to_delete->delete();
 		return Response::json( ['remove' => [$id]] );
 	}
 

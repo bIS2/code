@@ -1,3 +1,4 @@
+<?php setcookie(Auth::user()->username.'_last_route', route('sets.index', Input::except(['xxx'])), time() + (86400 * 30)); ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -9,9 +10,9 @@
 				bIS Project
 			@show
 		</title>
-		<meta name="keywords" content="your, awesome, keywords, here" />
-		<meta name="author" content="Jon Doe" />
-		<meta name="description" content="Lorem ipsum dolor sit amet, nihil fabulas et sea, nam posse menandri scripserit no, mei." />
+		<meta name="keywords" content="" />
+		<meta name="author" content="" />
+		<meta name="description" content="" />
 
 		<!-- Mobile Specific Metas
 		================================================== -->
@@ -19,7 +20,13 @@
 
 		<!-- CSS
 		================================================== -->
-        {{ Basset::show('pages.css') }}
+	  {{ Basset::show('public.css') }}
+	  {{ Basset::show('pages.css') }}
+
+		<style>
+		@section('styles')
+		@show
+		</style>
 
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
@@ -51,6 +58,8 @@
 
 		<!-- Javascripts
 		================================================== -->
-        {{ Basset::show('pages.js') }}
+        {{ Basset::show('public.js') }}
+        {{ Basset::show('holdingssets.js') }}
+        {{ Basset::show('holdings.js') }}
 	</body>
 </html>

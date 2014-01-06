@@ -7,7 +7,9 @@ class TraceObserver {
     	$klass=strtolower( get_class($model) );
   		Trace::create([ 
   			'user_id'	=> Auth::user()->id,
-  			'action'	=> trans("logs.create_$klass",['name'=>$model->name]) 
+            'action'    => trans("logs.create_$klass",['name'=>$model->name]) ,
+            'object_type'   => strtolower( get_class($model) ), 
+  			'object_id'	=>  $model->id,
   		]);
 	
     }

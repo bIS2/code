@@ -20,14 +20,47 @@ class HoldingsController extends BaseController {
 	public function Index()
 	{
 
-		$this->data['allsearchablefields'] = ['size','022a','245a','245b','245c','246a','260a','260b','300a','300b','300c','310a','362a','500a','505a','710a','770t','772t','780t','785t','852b','852c','852h','852j','866a','866z'];
+		/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
+			-----------------------------------------------------------*/
+			define('DEFAULTS_FIELDS', 'size;852b;852h;866a;ocrr_ptrn;245a;245b;022a;362a;866z;008x;exists_online;is_current;has_incomplete_vols');
+			define('ALL_FIELDS',      'size;852b;852h;866a;ocrr_ptrn;245a;245b;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j;866z;008x;exists_online;is_current;has_incomplete_vols');
+
+			/* User vars */
+			$uUserName = Auth::user()->username;
+			$uUserLibrary = Auth::user()->library;
+			$uUserLibraryId = Auth::user()->library->id;
+			// $uGroupname
+
+			if (!isset($_COOKIE[$uUserName.'_fields_to_show_ok'])) {
+				if (Session::get($uUserName.'_fields_to_show_ok') == 'ocrr_ptrn') {
+				  setcookie($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
+				  Session::put($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS);
+				}
+				else {
+					setcookie($uUserName.'_fields_to_show_ok', Session::get($uUserName.'_fields_to_show_ok'), time() + (86400 * 30));
+				}
+			}
+
+			if ((Session::get($uUserName.'_fields_to_show_ok') == 'ocrr_ptrn') || (Session::get($uUserName.'_fields_to_show_ok') == '')) {
+			  setcookie($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
+			  Session::put($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS);
+			}
+			if (Input::get('clearorderfilter') == 1) {
+				Session::put($uUserName.'_sortinghos_by', null);
+				Session::put($uUserName.'_sortinghos', null);
+			}
+
+
+
+
+		$this->data['allsearchablefields'] = ['size','022a','245a','245b','245c','246a','260a','260b','300a','300b','300c','310a','362a','500a','505a','710a','770t','772t','780t','785t','852b','852c','852h','852j','866a','866z', '008x', 'exists_online', 'is_current', 'has_incomplete_vols'];
 
 		$holdings = ( Input::has('hlist_id') ) ?	Hlist::find( Input::get('hlist_id') )->holdings() : Holding::init();
 
     $this->data['hlists'] = Hlist::my()->get();
     $this->data['hlist'] = (Input::has('hlist_id')) ? Hlist::find(Input::get('hlist_id')) : false;
 
-    $this->data['is_all'] = !(Input::has('corrects') || Input::has('tagged') || Input::has('pendings') || Input::has('unlist') || Input::has('owner') || Input::has('aux') );
+    $this->data['is_all'] = !(Input::has('corrects') || Input::has('tagged') || Input::has('pendings') || Input::has('unlist') || Input::has('owner') || Input::has('aux')|| Input::has('deliveries') );
 
 		if ( Input::has('corrects') ) 	$holdings = $holdings->corrects();
 		if ( Input::has('tagged') )			$holdings = $holdings->annotated(Input::get('tagged'));	
@@ -35,24 +68,33 @@ class HoldingsController extends BaseController {
 		if ( Input::has('unlist') )			$holdings = $holdings->orphans();
 		if ( Input::has('owner') )			$holdings = $holdings->owner();
 		if ( Input::has('aux') )				$holdings = $holdings->aux();
+		$holdings = ( Input::has('reviseds') || (Auth::user()->hasRole('postuser'))) ? $holdings->reviseds()->corrects() : $holdings->noreviseds();
+
+
 
 
 		// Apply filter.
 		$is_filter = false;
+
 		foreach ($this->data['allsearchablefields'] as $field) {
+			$value = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? Input::get('f'.$field) : Input::get($field);
+			if ($value != '')  {
+				$orand 		= Input::get('OrAndFilter')[$openfilter-1];
 
-			if ( (Input::has('f'.$field)))  {
-
-				$orand = Input::has('OrAndFilter'.$field) ? Input::get('OrAndFilter'.$field) : 'and';
-				$value = Input::get('f'.$field);
-				// die(var_dump($value));
 				if ($value != '') {	
-					$compare = ($field == 'size') ? $field : 'LOWER('.'f'.$field.')';
 					$is_filter = true;
-					// die($field);
-					$holdings = ($orand == 'OR') ? 
-							$holdings->OrWhereRaw( sprintf( Input::get('f'.$field.'format'), $compare, pg_escape_string(addslashes(strtolower( Input::get('f'.$field) ) ) )) ) :  
-							$holdings->WhereRaw( sprintf( Input::get('f'.$field.'format'), $compare, pg_escape_string(addslashes(strtolower( Input::get('f'.$field) ) ) ) ));  
+					$compare  = (($field == 'size')) ? $field : 'LOWER('.'f'.$field.')';
+					$compare 	= (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? $compare : $field;		
+					$format 	= (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? Input::get('f'.$field.'format') : '%s = %';		
+					$value 		= (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? $value : 't';
+					$var 			= (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? 'f'.$field : $field;
+					if (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) { 
+						$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($var) ) ) )) ) :  
+																					  $holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($var) ) ) ) ) );  
+					}
+					else {
+						$holdings = ($orand == 'OR') ? $holdings->orWhere($field, '=', 't') : $holdings->where($field, '=', 't');
+					}
 				}
 			}
 		}
@@ -64,6 +106,7 @@ class HoldingsController extends BaseController {
 		// filter by holdingsset ok
 		//  and holdings in their library
 		$view = (Input::has('view')) ? Input::get('view') : 'index';
+		// var_dump($this->data);die();
 		return View::make('holdings/'.$view, $this->data);
 
 	}
@@ -85,7 +128,29 @@ class HoldingsController extends BaseController {
 	 */
 	public function store()
 	{
-		return View::make('holdings/index', array('posts' => $holdings));
+		if (Input::has('urltoredirect'))	{
+			$newfields	= Input::get('fieldstoshow');
+			$fieldlist 	= '';
+			$i 					= 0;
+			if ($newfields != '') {
+				foreach ($newfields as $field) {
+					$fieldlist .= $field;
+					$i++;
+					if (count($newfields) > $i) $fieldlist .= ';';
+				}
+			}
+			// var_dump(Input::get('sortinghos_by'));
+			// var_dump(Input::get('sortinghos'));die();
+			$uUserName = Auth::user()->username;
+			setcookie($uUserName.'_fields_to_show_ok', $fieldlist, time() + (86400 * 30));
+			Session::put($uUserName.'_fields_to_show_ok', $fieldlist);
+			// Session::put($uUserName.'_sortinghos_by', Input::get('sortinghos_by'));
+			// Session::put($uUserName.'_sortinghos', Input::get('sortinghos'));
+			return Redirect::to(Input::get('urltoredirect'));
+		}
+		else {	
+			return View::make('holdings/index', array('posts' => $holdings));
+		}
 	}
 
 	/**
@@ -149,5 +214,21 @@ class HoldingsController extends BaseController {
 
 		return  Response::json( $return ) ;
 	}
+
+/* ---------------------------------------------------------------------------------
+	Del Hlist Tab from HOLS View
+	--------------------------------------
+	Params:
+		$id: HOLS HList id 
+-----------------------------------------------------------------------------------*/
+	public function putDelTabhlist($id) {
+		$uUserName = Auth::user()->username;
+		$groupsids = Session::get($uUserName.'_hlists_to_show');
+		$newgroupsids = str_replace($id, '', $groupsids);
+		$newgroupsids = str_replace(';;', ';', $newgroupsids);
+	 	Session::put($uUserName.'_hlists_to_show', $newgroupsids);
+		// $group = Group::find($id)->delete();
+		return Response::json( ['hlistDelete' => [$id]] );
+	}	
 
 }

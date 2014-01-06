@@ -14,7 +14,7 @@
 
 				<!-- username -->
 				<div class="form-group {{{ $errors->has('username') ? 'error' : '' }}}">
-					<label class="col-md-2 control-label" for="username">Username</label>
+					<label class="col-md-2 control-label" for="username">{{ trans('general.username') }} </label>
 					<div class="col-md-6">
 						<input class="form-control" type="text" name="username" id="username" value="{{{ Input::old('username', isset($user) ? $user->username : null) }}}" />
 						{{{ $errors->first('username', '<span class="help-inline">:message</span>') }}}
@@ -24,7 +24,7 @@
 
 				<!-- Email -->
 				<div class="form-group {{{ $errors->has('email') ? 'error' : '' }}}">
-					<label class="col-md-2 control-label" for="email">Email</label>
+					<label class="col-md-2 control-label" for="email">{{ trans('general.email') }}</label>
 					<div class="col-md-6">
 						<input class="form-control" type="text" name="email" id="email" value="{{{ Input::old('email', isset($user) ? $user->email : null) }}}" />
 						{{{ $errors->first('email', '<span class="help-inline">:message</span>') }}}
@@ -34,7 +34,7 @@
 
 				<!-- name -->
 				<div class="form-group {{{ $errors->has('name') ? 'error' : '' }}}">
-					<label class="col-md-2 control-label" for="name">Name</label>
+					<label class="col-md-2 control-label" for="name">{{ trans('general.name') }}</label>
 					<div class="col-md-6">
 						<input class="form-control" type="text" name="name" id="name" value="{{{ Input::old('name', isset($user) ? $user->name : null) }}}" />
 						{{{ $errors->first('name', '<span class="help-inline">:message</span>') }}}
@@ -44,7 +44,7 @@
 
 				<!-- lastname -->
 				<div class="form-group {{{ $errors->has('lastname') ? 'error' : '' }}}">
-					<label class="col-md-2 control-label" for="lastname">Lastname</label>
+					<label class="col-md-2 control-label" for="lastname">{{ trans('general.lastname') }}</label>
 					<div class="col-md-6">
 						<input class="form-control" type="text" name="lastname" id="lastname" value="{{{ Input::old('lastname', isset($user) ? $user->lastname : null) }}}" />
 						{{{ $errors->first('lastname', '<span class="help-inline">:message</span>') }}}
@@ -54,7 +54,7 @@
 
 				<!-- Password -->
 				<div class="form-group {{{ $errors->has('password') ? 'error' : '' }}}">
-					<label class="col-md-2 control-label" for="password">Password</label>
+					<label class="col-md-2 control-label" for="password">{{ trans('general.password') }}</label>
 					<div class="col-md-6">
 						<input class="form-control" type="password" name="password" id="password" value="" />
 						{{{ $errors->first('password', '<span class="help-inline">:message</span>') }}}
@@ -64,7 +64,7 @@
 
 				<!-- Password Confirm -->
 				<div class="form-group {{{ $errors->has('password_confirmation') ? 'error' : '' }}}">
-					<label class="col-md-2 control-label" for="password_confirmation">Password Confirm</label>
+					<label class="col-md-2 control-label" for="password_confirmation">{{ trans('general.password_confirm') }}</label>
 					<div class="col-md-6">
 						<input class="form-control" type="password" name="password_confirmation" id="password_confirmation" value="" />
 						{{{ $errors->first('password_confirmation', '<span class="help-inline">:message</span>') }}}
@@ -74,7 +74,7 @@
 
 				<!-- Activation Status -->
 				<div class="form-group {{{ $errors->has('activated') || $errors->has('confirm') ? 'error' : '' }}}">
-					<label class="col-md-2 control-label" for="confirm">Activate User?</label>
+					<label class="col-md-2 control-label" for="confirm">{{ trans('general.activate_user') }}?</label>
 					<div class="checkbox col-md-6">
 						<label >
 							<input type="radio" name="confirm" id="confirm" value="1"  {{ ($user->activated()) ? 'checked="checked"' : '' }} />
@@ -90,7 +90,7 @@
 
 					<!-- library_id -->
 					<div class="form-group {{{ $errors->has('library_id') ? 'error' : '' }}}">
-	          <label class="col-md-2 control-label" for="library_id">Library</label>
+	          <label class="col-md-2 control-label" for="library_id">{{ trans('general.library') }}</label>
 	          <div class="col-md-6">
 	            <select class="form-control" name="library_id" id="library_id" >
 	              @foreach ($libraries as $library)
@@ -105,7 +105,7 @@
 
 				<!-- Groups -->
 				<div class="form-group {{{ $errors->has('roles') ? 'error' : '' }}}">
-            <label class="col-md-2 control-label" for="roles">Role</label>
+            <label class="col-md-2 control-label" for="roles">{{ trans('general.role') }}</label>
             <div class="col-md-6">
 	            <select class="form-control" name="roles[]" id="roles[]" >
 	              @foreach ($roles as $role)

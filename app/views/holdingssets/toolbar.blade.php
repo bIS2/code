@@ -1,5 +1,6 @@
 <section class="container navbar navbar-default navbar-fixed-top">
 <div class="page-header clearfix">
+
 	<div id="main-filters" class="row">
 		<div class="col-xs-12">
 			<ul class="list-inline">
@@ -14,7 +15,7 @@
 			  <li>
 				  <div class="btn-group">
 				  	<div class="btn-group">
-					  	<a href="#" class="btn btn-sm dropdown-toggle {{ (Input::has('group_id')) ? 'btn-primary' : 'btn-default'}}" data-toggle="dropdown">
+					  	<a href="#" class="btn btn-sm dropdown-toggle {{ (Input::has('group_id')) ? 'btn-primary' : 'btn-default'}} {{ (Auth::user()->groups()->count() > 0) ? '' : ' disabled '}}" data-toggle="dropdown">
 					  		<i class="fa fa-list-ul"> </i> 
 					  		@if (Input::has('group_id'))
 					  			{{ Group::find(Input::get('group_id'))->name }}
@@ -78,9 +79,6 @@
 				  	<a href="#collapseOne" id="filter-btn" class="accordion-toggle <?= ($is_filter) ? 'btn-primary' : 'btn-default' ?> btn btn-sm dropdown-toggle" data-toggle="collapse" data-parent="#accordion2">
 			        <span class="fa fa fa-filter"></span> {{{ trans('holdingssets.advanced_filter') }}} <span class="caret"></span>
 			      </a>
-<!-- 				  	<a href="{{ route('sets.index') }}" class="btn <?= (false) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
-				  		<span class="glyphicon glyphicon-print"></span> {{{ trans('holdingssets.printer') }}}
-				  	</a> -->
 				  </div>
 			  </li>
 			</ul>
@@ -102,14 +100,33 @@
 											foreach ($allsearchablefields as $field) {
 												$checked 				= '';
 												$checkactive 		= '';
-												$value = Input::get('f'.$field);
+												$value = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size')) ? Input::get('f'.$field) : Input::get($field);
 												if ($value != '') {
 													$checked 			= "checked = checked";
 													$checkactive 	= " active";
 												}
-												?>
-												<label class="btn btn-primary btn-xs{{ $checkactive }}" href="#ff<?= $field; ?>" >
-													<input type="checkbox" <?= $checked; ?> value="<?= $field; ?>"><?= $field; ?>
+												$field_short = $field;
+												switch ($field) {
+													case 'exists_online':
+															$field_short = trans('holdings.exists_online_short');
+															$field_large = ' data-content="<strong>'.trans('holdings.exists_online_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+															$popover = " pop-over ";
+														break;
+													
+													case 'is_current':
+															$field_short = trans('holdings.is_current_short');
+															$field_large = ' data-content="<strong>'.trans('holdings.is_current_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+															$popover = " pop-over ";
+														break;
+													
+													case 'has_incomplete_vols':
+															$field_short = trans('holdings.has_incomplete_vols_short');
+															$field_large = ' data-content="<strong>'.trans('holdings.has_incomplete_vols_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+															$popover = " pop-over ";
+														break;										
+												}?>
+												<label class="btn btn-primary btn-xs{{ $checkactive }}{{ $popover }}" href="#ff<?= $field; ?>" {{ $field_large }}>
+													<input type="checkbox" <?= $checked; ?> value="<?= $field; ?>"><?= $field_short; ?>
 												</label>
 											<?php	}	?>
 										</div>		
@@ -122,17 +139,42 @@
 										<?= (Input::has('aux')) ? '<input type="hidden" name="aux" value="'.Input::get('aux').'">': '' ?>
 										<?php $ff = 0; $AndOrs = Input::get('OrAndFilter');
 										foreach ($allsearchablefields as $field) { 
-											$value = Input::get('f'.$field);
-											if ($value != '') { ?>
+											$value = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size')) ? Input::get('f'.$field) : Input::get($field);
+											if ($value != '') { 
+												if (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))  { ?>
+														<div id="ff<?= $field; ?>" class="form-group col-xs-2">
+															<div class="input-group inline input-group-sm">
+																<label class="input-group-addon">{{ trans('holdings.'.$field.'_short') }}</label>
+																<span class="input-group-addon  search-check">
+															  	<input type="checkbox" class="form-control" name="<?= $field; ?>" checked="checked">
+															  </span>
+															  <select id="OrAndFilter" class="form-control" name="OrAndFilter[]">
+													     		<option value="AND" selected>{{ trans('general.AND') }}</option>
+													     		<option value="OR">{{ trans('general.OR') }}</option>
+													     	</select>
+															</div>
+														</div>
+													<?php } 
+												else { ?>
 												<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 													<div class="input-group inline input-group-sm">
 													  <label class="input-group-addon"><?= $field; ?></label>
+													  <?php if (($field != '008x') && ($field != 'size')) { ?>
 										     			<select id="f<?= $field; ?>Filter" name="f<?= $field; ?>format" class="form-control">
-												     		<option value="%s LIKE '%%%s%%'" <?php if (Input::get('f'.$field.'format') == "%s LIKE '%%%s%%'") echo 'selected'; ?>>{{ trans('general.contains') }}</option>
-												     		<option value="%s NOT LIKE '%%%s%%'" <?php if (Input::get('f'.$field.'format') == "%s NOT LIKE '%%%s%%'") echo 'selected'; ?>>{{ trans('general.no_contains') }}</option>
-												     		<option value="%s LIKE '%s%%'" <?php if (Input::get('f'.$field.'format') == "%s LIKE '%s%%'") echo 'selected'; ?>>{{ trans('general.begin_with') }}</option>
-												     		<option value="%s LIKE '%%%s'" <?php if (Input::get('f'.$field.'format') == "%s LIKE '%%%s'") echo 'selected'; ?>>{{ trans('general.end_with') }}</option>
+												     		<option value="%s LIKE '%%%s%%'" <?= (Input::get('f'.$field.'format') == "%s LIKE '%%%s%%'") ? 'selected' : ''; ?> >{{ trans('general.contains') }}</option>
+												     		<option value="%s NOT LIKE '%%%s%%'" <?= (Input::get('f'.$field.'format') == "%s NOT LIKE '%%%s%%'") ? 'selected': ''; ?> >{{ trans('general.no_contains') }}</option>
+												     		<option value="%s LIKE '%s%%'" <?= (Input::get('f'.$field.'format') == "%s LIKE '%s%%'") ? 'selected' : ''; ?> >{{ trans('general.begin_with') }}</option>
+												     		<option value="%s LIKE '%%%s'" <?= (Input::get('f'.$field.'format') == "%s LIKE '%%%s'") ? 'selected' : ''; ?> >{{ trans('general.end_with') }}</option>
 												     	</select>
+												     	<?php }  else { ?>
+													     	<select id="f<?= $field; ?>Filter" name="f<?= $field; ?>format" class="form-control">
+													     		<option value="%s LIKE '%%%s%%'" <?= (Input::get('f'.$field.'format') == "%s LIKE '%%%s%%'") ? 'selected' : ''; ?> >{{ trans('general.contains') }}</option>
+													     		<option value="%s = %s" <?= (Input::get('f'.$field.'format') == "%s = %s") ? 'selected' : ''; ?>>{{ trans('general.equal') }}</option>
+													     		<option value="%s < %s" <?= (Input::get('f'.$field.'format') == "%s < %s") ? 'selected' : ''; ?>>{{ trans('general.less_than') }}</option>
+													     		<option value="%s > %s" <?= (Input::get('f'.$field.'format') == "%s > %s") ? 'selected' : ''; ?>>{{ trans('general.greater_than') }}</option>
+													     	</select>
+												     	<?php } ?>
+
 													  <input type="text" class="form-control" name="f<?= $field; ?>" value="<?= Input::get('f'.$field) ?>">
 													  <select id="OrAndFilter" class="form-control" name="OrAndFilter{{$field}}">
 											     		<option value="AND"{{ ($AndOrs[$ff] == 'AND')? ' selected':''  }}>{{ trans('general.AND') }}</option>
@@ -140,7 +182,10 @@
 											     	</select>
 													</div>
 												</div>
-											<?php $ff++; }
+											<?php 
+
+											}
+											$ff++; }
 										} ?>
 									</div>
 									<div id="searchsubmit" class="col-xs-12 text-center clearfix">
@@ -150,24 +195,50 @@
 								<div id="fieldstosearchhidden" style="display: none;">
 									<?php foreach ($allsearchablefields as $field) { 
 										$value = Input::get('f'.$field);
-										if (($value == null) || ($value == '')) { ?>
-											<div id="ff<?= $field; ?>" class="form-group col-xs-2">
-												<div class="input-group inline input-group-sm">
-												  <label class="input-group-addon"><?= $field; ?></label>
-									     			<select id="f<?= $field; ?>Filter" name="f<?= $field; ?>format" class="form-control">
-											     		<option value="%s LIKE '%%%s%%'" selected>{{ trans('general.contains') }}</option>
-											     		<option value="%s NOT LIKE '%%%s%%'">{{ trans('general.no_contains') }}</option>
-											     		<option value="%s LIKE '%s%%'">{{ trans('general.begin_with') }}</option>
-											     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
-											     	</select>
-												  <input type="text" class="form-control" name="f<?= $field; ?>" value="<?= Input::get('f'.$field)  ?>">
-												  <select id="OrAndFilter" class="form-control" name="OrAndFilter[]">
-										     		<option value="AND" selected>{{ trans('general.AND') }}</option>
-										     		<option value="OR">{{ trans('general.OR') }}</option>
-										     	</select>
-												</div>
-											</div>
+										if (($value == null) || ($value == '')) {
+											if (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size'))  { ?>
+													<div id="ff<?= $field; ?>" class="form-group col-xs-2">
+														<div class="input-group inline input-group-sm">
+															<label class="input-group-addon">{{ trans('holdings.'.$field.'_short') }}</label>
+															<span class="input-group-addon search-check">
+														  	<input type="checkbox" class="form-control" name="<?= $field; ?>" checked="checked">
+														  </span>
+														  <select id="OrAndFilter" class="form-control" name="OrAndFilter[]">
+												     		<option value="AND" selected>{{ trans('general.AND') }}</option>
+												     		<option value="OR">{{ trans('general.OR') }}</option>
+												     	</select>
+														</div>
+													</div>
+												<?php } 
+												else {
+													?>
+													<div id="ff<?= $field; ?>" class="form-group col-xs-2">
+														<div class="input-group inline input-group-sm">
+														  <label class="input-group-addon"><?= $field; ?></label>
+														  <?php if (($field != '008x') && ($field != 'size')) { ?>
+											     			<select id="f<?= $field; ?>Filter" name="f<?= $field; ?>format" class="form-control">
+													     		<option value="%s LIKE '%%%s%%'" selected>{{ trans('general.contains') }}</option>
+													     		<option value="%s NOT LIKE '%%%s%%'">{{ trans('general.no_contains') }}</option>
+													     		<option value="%s LIKE '%s%%'">{{ trans('general.begin_with') }}</option>
+													     		<option value="%s LIKE '%%%s'">{{ trans('general.end_with') }}</option>
+													     	</select>
+													     	<?php }  else { ?>
+														     	<select id="f<?= $field; ?>Filter" name="f<?= $field; ?>format" class="form-control">
+														     		<option value="%s = %s" selected>{{ trans('general.equal') }}</option>
+														     		<option value="%s < %s">{{ trans('general.less_than') }}</option>
+														     		<option value="%s > %s">{{ trans('general.greater_than') }}</option>
+														     		<option value="%s LIKE '%%%s%%'" <?= (Input::get('f'.$field.'format') == "%s LIKE '%%%s%%'") ? 'selected' : ''; ?> >{{ trans('general.contains') }}</option>
+														     	</select>
+													     	<?php } ?>
+														  <input type="text" class="form-control" name="f<?= $field; ?>" value="<?= Input::get('f'.$field)  ?>">
+														  <select id="OrAndFilter" class="form-control" name="OrAndFilter[]">
+												     		<option value="AND" selected>{{ trans('general.AND') }}</option>
+												     		<option value="OR">{{ trans('general.OR') }}</option>
+												     	</select>
+														</div>
+													</div>
 										<?php }
+										 	}
 									} ?>
 								</div>
 							</div> <!-- /.col -->	
