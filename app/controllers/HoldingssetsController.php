@@ -23,14 +23,14 @@ class HoldingssetsController extends BaseController {
 		else { 
 			/* SEARCH ADVANCED FIELDS OPTIONS
 			----------------------------------------------------------------*/
-			define('ALL_SEARCHEABLESFIELDS', '022a;245a;245b;245c;246a;260a;260b;300a;300b;300c;310a;362a;500a;505a;710a;770t;772t;780t;785t;852b;852c;852h;852j;866a;866z');
+			define('ALL_SEARCHEABLESFIELDS', '022a;245a;245b;245c;246a;260a;260b;300a;300b;300c;310a;362a;500a;505a;710a;770t;772t;780t;785t;852b;852c;852h;852j;866a;866z;008x;exists_online;is_current;has_incomplete_vols');
 
 			// Is Filter
 			$allsearchablefields = ALL_SEARCHEABLESFIELDS;
 			$allsearchablefields = explode(';', $allsearchablefields);
 			$is_filter = false;
 			foreach ($allsearchablefields as $field) {
-				$value = Input::get('f'.$field);
+					$value = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? Input::get('f'.$field) : Input::get($field);
 				if ($value != '') {
 					$is_filter = true;
 					break;
@@ -42,8 +42,8 @@ class HoldingssetsController extends BaseController {
 			
 			/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
-			define('DEFAULTS_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j');
-			define('ALL_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j');
+			define('DEFAULTS_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j;008x;exists_online;is_current;has_incomplete_vols');
+			define('ALL_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j;008x;exists_online;is_current;has_incomplete_vols');
 
 			/* User vars */
 			$uUserName = Auth::user()->username;
@@ -78,8 +78,6 @@ class HoldingssetsController extends BaseController {
 			$this->data['groups'] = Auth::user()->groups;
 
 			$this->data['group_id'] = (in_array(Input::get('group_id'), $this->data['groups']->lists('id'))) ? Input::get('group_id') : '';
-			// var_dump($this->data['groups']);
-			// var_dump($this->data['group_id']);die();
 			$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets() : Holdingsset::orderBy($orderby, $order);
 					
 			$state = Input::get('state');
@@ -90,7 +88,8 @@ class HoldingssetsController extends BaseController {
 				if ($state == 'pending') 
 					$holdingssets = $holdingssets->corrects()->pendings();
 				if ($state == 'annotated') 
-					$holdingssets = $holdingssets->corrects()->pendings()->annotated();	
+					$holdingssets = $holdingssets->corrects()
+				->annotated();	
 				if ($state == 'incorrects') 
 					$holdingssets = $holdingssets->incorrects();
 			}
@@ -107,9 +106,6 @@ class HoldingssetsController extends BaseController {
 							 $query->where('is_owner', '=', 't')
 	                   ->orWhere('is_aux', '=', 't');
 						});
-						// $owners = $uUserLibrary-> holdings() -> whereIsOwner('t')->lists('id');
-						// $auxs = $uUserLibrary-> holdings() -> whereIsAux('t')->lists('id');
-						// $holdings = $uUserLibrary->holdings()->whereIn('id', array_unique(array_merge($owners, $auxs)));
 					}		
 				}
 
@@ -117,14 +113,25 @@ class HoldingssetsController extends BaseController {
 				// Verify if some value for advanced search exists.
 				if ($holdings == -1) $holdings = DB::table('holdings')->orderBy('is_owner', 'DESC');
 				foreach ($allsearchablefields as $field) {
-					$value = Input::get('f'.$field);
+					$value = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? Input::get('f'.$field) : Input::get($field);
 					if ($value != '') {
-						$orand = Input::get('OrAndFilter')[$openfilter-1];
-						$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', pg_escape_string(addslashes(strtolower( Input::get('f'.$field) ) ) )) ) :  
-																						$holdings->WhereRaw( sprintf( Input::get('f'.$field.'format'), 'LOWER('.'f'.$field.')', pg_escape_string(addslashes(strtolower( Input::get('f'.$field) ) ) ) ) );  
+						$orand 		= Input::get('OrAndFilter')[$openfilter-1];
+						$compare 	= ($field == '008x') ? 'f'.$field : 'LOWER('.'f'.$field.')';
+						$compare 	= (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? $compare : $field;		
+						$format 	= (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? Input::get('f'.$field.'format') : '%s = %';		
+						$value 		= (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? $value : 't';
+						$var 			= (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? 'f'.$field : $field;
+						if (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) { 
+							$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($var) ) ) )) ) :  
+																						  $holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($var) ) ) ) ) );  
+						}
+						else {
+							$holdings = ($orand == 'OR') ? $holdings->orWhere($field, '=', 't') : $holdings->where($field, '=', 't');
+						}
 						$openfilter++; 
 					}
 				}
+				// die();
 				if ($openfilter == 0)  $this->data['is_filter'] = false;
 				$holList = $holdings->select('holdings.holdingsset_id')->lists('holdings.holdingsset_id');
 			  $ids = (count($holList) > 0) ? $holList : [-1];
@@ -132,7 +139,7 @@ class HoldingssetsController extends BaseController {
 			  unset($holdings);
 			}
 			define(HOS_PAGINATE, 20);
-			$this->data['holdingssets'] = $holdingssets->orderBy($orderby, $order)->with('holdings')->paginate(HOS_PAGINATE);
+			$this->data['holdingssets'] = $holdingssets->orderBy($orderby, $order)->orderBy('id', 'ASC')->with('holdings')->paginate(HOS_PAGINATE);
 			unset($holdingssets);
 
 			// $this->data['holdingssets'] = $holdingssets->paginate(20);
@@ -271,6 +278,7 @@ class HoldingssetsController extends BaseController {
 		$id: Holding id
 -----------------------------------------------------------------------------------*/
 	public function getRecallHoldings($id) {
+		// die($id);
 		$this -> data['holdings']  = recall_holdings($id);
 		return View::make('holdingssets.recallingholdings', $this -> data);
 	}
@@ -293,19 +301,21 @@ class HoldingssetsController extends BaseController {
 		$id: Holding id
 -----------------------------------------------------------------------------------*/
 	public function putNewHOS($id) {
+		$holdingsset_id = Input::get('holdingsset_id');
 
 		if (Input::has('holding_id')) {
 			$ids = Input::get('holding_id');
 			$newhos_id = createNewHos($ids[0]);
 			Holding::whereIn('id', $ids)->update(['holdingsset_id'=>$newhos_id]);
+			Holdingsset::find($holdingsset_id)->decrement('holdings_number', count($ids));
 			Holdingsset::find($newhos_id)->update(['holdings_number' => count($ids), 'groups_number'=>0]);
 			holdingsset_recall($newhos_id);
 		}
 		else {
+			Holdingsset::find($holdingsset_id)->decrement('holdings_number');
 			$newhos_id = createNewHos($id);
 		}
 
-		$holdingsset_id = Input::get('holdingsset_id');
 		holdingsset_recall($holdingsset_id);
 		$holdingssets[] = Holdingsset::find($holdingsset_id);
 		$holdingssets[] = Holdingsset::find($newhos_id);
@@ -325,11 +335,11 @@ class HoldingssetsController extends BaseController {
 		$holdingsset_id = Input::get('holdingsset_id');
 		$holdingsset = Holdingsset::find($holdingsset_id);
 
-		$unsetcurrentowner = $holdingsset -> holdings()->update(['is_owner' => 'f', 'force_owner' => false]);
-		$holding = Holding::find($id)->update(['is_owner'=>'t', 'is_aux'=>'f', 'force_owner' => true, 'force_aux' => false]);
+		$holdingsset -> holdings()->update(['is_owner' => 'f', 'force_owner' => false]);
+		Holding::find($id)->update(['is_owner'=>'t', 'is_aux'=>'f', 'force_owner' => true, 'force_aux' => false]);
 
 		holdingsset_recall($holdingsset_id);
-		$holdingssets[] = Holdingsset::find($holdingsset_id);
+		$holdingssets[] = $holdingsset;
 		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
 		return $newset;
 	}		
@@ -347,12 +357,30 @@ class HoldingssetsController extends BaseController {
 
 		// is_aux -> t
 		// is_owner -> false
-
 		// weight Cantidad de 1
 		// ocrr_nr Cantidad de ocurrencias
-
 		$holdingsset_id = Input::get('holdingsset_id');
-		$holding = Holding::find($id)->update(['is_aux'=>'t', 'is_owner'=>'f', 'ocrr_ptrn'=> Input::get('newptrn'), 'aux_ptrn'=> Input::get('newptrn'), 'weight' => Input::get('count'), 'ocrr_nr' => Input::get('count'), 'force_aux' => true, 'force_owner' => false]);
+		Holding::find($id)->update(['is_aux'=>'t', 'is_owner'=>'f', 'ocrr_ptrn'=> Input::get('newptrn'), 'aux_ptrn'=> Input::get('newauxptrn'), 'ocrr_nr' => Input::get('count'), 'force_aux' => true, 'force_owner' => false]);
+		holdingsset_recall($holdingsset_id);
+		$holdingssets[] = Holdingsset::find($holdingsset_id);
+		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+		return $newset;
+	}	
+
+/* ---------------------------------------------------------------------------------
+	Force a Holdins to be HOs owner
+	--------------------------------------
+	Params:
+		$id: Holdings id 
+		$holdingsset_id: Holdingssset id 
+-----------------------------------------------------------------------------------*/
+	public function putForceBlue($id) {
+		$holdingsset_id = Input::get('holdingsset_id');
+		$auxptrnOriginal = holding::find($id)->select('aux_ptrn')->get();
+		foreach ($auxptrnOriginal as $aux1) {
+			$aux = str_replace('1', '0', $aux1->aux_ptrn);
+		}
+		Holding::find($id)->update(['is_aux'=>'f', 'is_owner'=>'f', 'aux_ptrn' => $aux]);
 		holdingsset_recall($holdingsset_id);
 		$holdingssets[] = Holdingsset::find($holdingsset_id);
 		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
@@ -386,7 +414,10 @@ class HoldingssetsController extends BaseController {
 			// Moving from a HOS group to a other HOS Group
 			if (count($holdingsset) >= 1) {
 				// The holdings is already on destiny group.
-				$holdingsset = DB::delete('delete from group_holdingsset where holdingsset_id = ? AND group_id = ?', array($id, $origingroup));		
+				$holdingsset = DB::delete('delete from group_holdingsset where holdingsset_id = ? AND group_id = ?', array($id, $origingroup));
+				$count = Holdingsset::find($id)->groups->count();
+				Holdingsset::find($id)->update(['groups_number'=>$count]);
+				return Response::json( ['ingroups' => $count] );		
 			}
 			else {
 				DB::update('update group_holdingsset set group_id = '.$newgroup.' where holdingsset_id = ? AND group_id = ?', array($id, $origingroup));
@@ -402,7 +433,8 @@ class HoldingssetsController extends BaseController {
 		$id: Holding id
 -----------------------------------------------------------------------------------*/
 	public function putDeleteHosFromGroup($id) {
-		DB::delete('delete from group_holdingsset where holdingsset_id = ? AND group_id = ?', array($id, Input::get('group_id')));
+		Group::find(Input::get('group_id'))->holdingssets()->detach($id);
+		Holdingsset::find($id)->decrement('groups_number');
 		return Response::json( ['removefromgroup' => [$id]] );
 	}
 
@@ -548,8 +580,11 @@ function createNewHos($id) {
 	return $newHos -> id;
 }
 
-function recall_holdings() {
-	return 0;
+function recall_holdings($id) {
+	$holding  = Holding::find($id);
+	return Holding::
+	WhereRaw(sprintf( "%s LIKE '%%%s%%'", 'LOWER(f245a)', pg_escape_string(addslashes(strtolower( $holding->f245a ) ) ) ))
+	->WhereRaw(sprintf( "%s LIKE '%%%s%%'", 'LOWER(f245b)', pg_escape_string(addslashes(strtolower( $holding->f245b ) ) ) ))->get();
 }
 
 function similarity_search() {

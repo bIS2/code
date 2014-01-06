@@ -12,13 +12,13 @@
 	$total = $holdingssets -> getTotal();
 	$init = $holdingssets -> getTo();
 ?>
-<section id="hosg" group_id = "<?php echo $group_id;  ?>" @if ($init == $total) {{ 'class="nopaginate"' }} @endif >
+<section id="hosg" infinitepagination="1" group_id = "<?php echo $group_id;  ?>" @if ($init == $total) {{ 'class="nopaginate"' }} @endif >
 	<ul class="hol-sets table list-group">
 		<?php if (count($holdingssets) > 0) { ?>
 			@include('holdingssets.hos')
 		<?php }
 		else { ?>
-			<h2 class="text-danger">{{ trans('holdingssets.no_results_to_show') }}</h2>
+			<h2 class="text-info"><span class="fa fa-info-circle text-danger"></span> {{ trans('holdingssets.no_results_to_show') }}</h2>
 			<?php } ?>
 	</ul>
 </section>	

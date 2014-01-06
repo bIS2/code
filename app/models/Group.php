@@ -8,7 +8,6 @@ class Group extends Eloquent {
 		Group::observe(new TraceObserver);
   }
 
-
 	public static $rules = array(
 		'name' => 'required',
 		'user_id' => 'required'

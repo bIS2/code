@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      	<h3 class="modal-title">{{ $holding-> library->code }} :: {{ $holding-> f245a }}</h3>
+      	<h3 class="modal-title">{{ $holding-> library->code }} :: {{ htmlspecialchars($holding->f245a,ENT_QUOTES) }}</h3>
       </div>
       <div class="modal-body">
 
@@ -16,23 +16,23 @@
 					</thead>				
 					<tbody>
 						<tr>
-						  <td>f022a</td>
+						  <td>022a</td>
 							<td><?= $holding->f022a; ?></td>
 						</tr>
 						<tr>
-						  <td>f245a</td>
+						  <td>245a</td>
 							<td><?= htmlspecialchars($holding->f245a,ENT_QUOTES); ?></td>
 						</tr>					
 						<tr>
-						  <td>f245b</td>
+						  <td>245b</td>
 							<td><?= $holding->f245b; ?></td>
 						</tr>
 						<tr>
-						  <td>f245c</td>
+						  <td>245c</td>
 							<td><?= $holding->f245c; ?></td>
 						</tr>
 						<tr>
-						  <td>f246a</td>
+						  <td>246a</td>
 							<td><?= $holding->f246a; ?></td>
 						</tr>						
 						<tr><?php $ownertrclass 	= ($holding->is_owner == 't') ? ' is_owner' : '';  ?>
@@ -40,9 +40,10 @@
 							<td class="ocrr_ptrn {{$ownertrclass}}"><?= $holding->patrn_no_btn; ?></td>
 						</tr>
 						<tr>
-						  <td>f866a</td>
+						  <td>866a</td>
 							<td><?= $holding->f866a; ?></td>
-						</tr>							
+						</tr>		
+						<?php if (Auth::user()->hasRole('bibuser')) { ?>					
 						<tr>
 						  <td class="text-danger">{{ trans('general.edit') }} f866a</td>
 							<td>						
@@ -53,9 +54,10 @@
 					    </div><!-- /input-group -->
 							</td>
 						</tr>
+						<?php }  ?>
 						@if ($holding -> notes()-> exists())
 							<tr>
-								<td>Notes</td>
+								<td>{{ trans('holdings.notes') }}</td>
 								<td>
 									@foreach ( Tag::all() as $tag)
 										<?php
@@ -72,7 +74,7 @@
 									      <input type="text" disabled name="notes[{{ $tag->id }}][content]" value="{{ $note->content }}" class="form-control input-sm"{{ $consultnotes }} placeholder="{{ trans('placeholders.notes_'.$tag->name) }}">
 									    </div>
 									@endforeach
-									<strong>{{ trans('holdingssets.notes_made_by') }}: </strong>{{ $username }}
+									<strong>{{ trans('holdings.annotated_by') }}: </strong>{{ $username }}
 								</td>
 							</tr>
 						@endif	

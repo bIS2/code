@@ -44,14 +44,18 @@ class IncorrectsController extends BaseController {
 	public function store()
 	{
 		$holdingsset_id = Input::get('holdingsset_id');
-		if ( Incorrect::whereHoldingssetId($holdingsset_id)->exists() ){
-			Incorrect::whereHoldingssetId($holdingsset_id)->delete();
+		$incorrect_id = Incorrect::whereHoldingssetId($holdingsset_id)->lists('id');
+		if (count($incorrect_id) > 0) {
+			Incorrect::find($incorrect_id[0])->delete();
 			$ret = ['correct' => $holdingsset_id];
 		} else {
 			Incorrect::create([ 'holdingsset_id' => $holdingsset_id, 'user_id' => Auth::user()->id ]);
 			$ret = ['incorrect' => $holdingsset_id];
 		}
-		return Response::json( $ret );
+		$holdingssets[] = Holdingsset::find($holdingsset_id);
+		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+		return $newset;
+		// return Response::json( $ret );
 	}
 
 	/**

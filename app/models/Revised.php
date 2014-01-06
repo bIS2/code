@@ -10,7 +10,7 @@ class Revised extends Eloquent {
 
   public static function boot() {
     parent::boot();
-    // Delivery::observe(new SetUserObserver);
+    Revised::observe(new RevisedObserver);
   }
 
   public function holding() {
@@ -18,7 +18,7 @@ class Revised extends Eloquent {
   }
 
   public function user() {
-      return $this->belongsTo('user');
+      return $this->belongsTo('User');
   }
 	
 }

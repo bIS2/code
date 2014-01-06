@@ -10,9 +10,9 @@
 				bIS Project
 			@show
 		</title>
-		<meta name="keywords" content="your, awesome, keywords, here" />
-		<meta name="author" content="Jon Doe" />
-		<meta name="description" content="Lorem ipsum dolor sit amet, nihil fabulas et sea, nam posse menandri scripserit no, mei." />
+		<meta name="keywords" content="" />
+		<meta name="author" content="" />
+		<meta name="description" content="" />
 
 		<!-- Mobile Specific Metas
 		================================================== -->
