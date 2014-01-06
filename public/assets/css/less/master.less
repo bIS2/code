@@ -85,11 +85,14 @@
  * Semantics based on Twitter Bootstrap
  *
  */
+section.container {
+    padding-top: 60px;
+}
 
 .page-header {
     border-bottom: 1px solid #ffffff;
-    margin: 60px 0 0;
     padding-bottom: 9px;
+    margin: 0;
 } 
 
 .btn-cancel {
@@ -99,8 +102,14 @@
 
 .table {
     border-collapse: collapse;
+    th {
+        white-space: nowrap;
+    }
 }
 
+*:focus  {
+    outline: 0 !important;
+}
 .pagination {
     margin: 0;
 }
@@ -116,13 +125,6 @@ li.panel {
 }
 table {
     width: 100%;
-}
-.panel-heading {
-    padding: 0 10px !important;
-    cursor: pointer;
-    width: 100%;
-    // background: @input-border-focus;
-    // color: #fff;
 }
 .dataTable h3 {
     margin: 0;
@@ -235,6 +237,12 @@ footer {
     z-index: 10; 
     .stats > div {
         margin-right: 20px;
+        .label:hover {
+            background-color: #999999 !important;
+        }        
+        .label-success:hover {
+            background-color: #5CB85C !important;
+        }
     }
 }
 
@@ -268,9 +276,18 @@ footer {
     ul.hol-sets {
         list-style-type: none;
         padding-left: 0;
-        div.accordion-toggle {
-            padding-left: 10px;
-            width: 120px;
+        border-bottom: 1px dotted @gray-lighter;
+        a.accordion-toggle {
+            &.collapsed {
+                .fa-caret-up:before {
+                    content: "\f0d7" !important;
+                }
+            }
+            margin-right: 5px;
+            div {
+                width: 120px;
+                display: inline-block;
+            }
         }
         li {
             padding: (@font-size-base / 2) 5px 4px;
@@ -281,9 +298,16 @@ footer {
             input[type="checkbox"] .panel-collapse {
                 margin-top: 0 !important;
             }
-        }
-        border-bottom: 1px dotted @gray-lighter;
-        .ocrr_ptrn {
+            &.warning {
+                background: @state-warning-bg;
+            }
+            .panel-heading {
+                padding: 0 10px !important;
+                cursor: pointer;
+                width: 100%;
+                // background: @input-border-focus;
+                // color: #fff;
+            }
         }
         tr.locked td {
             .bis-locked;
@@ -361,6 +385,11 @@ footer {
 }
 //ocrr_ptrn
 .ocrr_ptrn {
+    max-width: 600px !important;
+    > div:first-child {
+        max-width: 575px;
+        overflow-x: auto;
+    }
     white-space: nowrap;
     .fa {
         padding: 0;
@@ -449,6 +478,7 @@ section.container {
         padding-left: 5px;
         #select-all {
             vertical-align: middle;
+            display: none;
         }
     }
 }
@@ -497,7 +527,35 @@ table.table thead th:first-child {
     overflow: auto;
    // padding: 5px 0 0 0;
 } 
-
+#holdings-items_wrapper {
+    #new-table {
+        // margin-top: -27px !important;
+        position: fixed;
+        left: 14px;
+        z-index: 9;
+        display: none;     
+        th {
+            // border: none !important;
+            // text-align: center;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-left: 7px;
+            border: none !important;
+            .fa {
+                visibility: hidden;
+            }
+        }
+    }
+    max-height: 350px;
+    overflow: auto;
+    table {
+        td {
+            line-height: 1em !important;
+            padding: 2px 20px 2px 5px !important;
+            vertical-align: middle;
+        }
+    }
+}
 .search-holdings {
     font-size: 12px !important;
     border-radius: 0px;
@@ -517,6 +575,10 @@ table.table thead th:first-child {
 .modal-dialog {
     width: 90%;
     /*margin-left: -500px;    */
+    .close {
+        float: left !important;
+        margin-right: 20px !important;
+    }
 }
 .popover {
     max-width: none !important;
@@ -602,6 +664,9 @@ table.table thead th:first-child {
                 cursor: pointer !important;
             }
         }
+        span span.badge:first-child {
+            min-width: 50px;
+        }
     }
     table.flexme > tbody > tr {            
         > td.actions a {
@@ -632,36 +697,36 @@ table.table thead th:first-child {
 #groups-tabs.nav-tabs > li {
    border-bottom: 1px solid #cccccc;
    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-#groups-tabs.nav-tabs > li > a {
+    > a {
     border-top: 1px solid #cccccc;
     border-right: 1px solid #cccccc;
     border-left: 1px solid #cccccc;
     background-color: #ededed;
     -moz-border-radius: 5px 5px 0 0;
          border-radius: 5px 5px 0 0;
-}
-#groups-tabs.nav-tabs > li.active,
-#groups-tabs.nav-tabs > li.activedrop {
-    border-bottom: 1px solid #ffffff;
-    box-shadow: none;
-    -moz-border-radius: 5px;
-         border-radius: 5px;
-}
-#groups-tabs.nav-tabs > li.active > a,
-#groups-tabs.nav-tabs > li.activedrop > a {
-    background-color: #ffffff;
+    }
+    &.active, &.activedrop {
+        border-bottom: 1px solid #ffffff;
+        box-shadow: none;
+        -moz-border-radius: 5px;
+             border-radius: 5px;
+        > a {
+            background-color: #ffffff;
+        }
+    }
+    &:hover {
+        .close {
+            display: block !important;
+        }
+    }
+    .fa {
+       font-size: 17px;
+       font-weight: bold;
+    }
 }
 .nav-tabs .close {
     border: none !important;
     display: none !important;
-}
-#groups-tabs.nav-tabs > li:hover .close {
-    display: block !important;
-}
-#groups-tabs.nav-tabs > li .fa {
-   font-size: 17px;
-   font-weight: bold;
 }
 
 #main-filters ul {
@@ -690,6 +755,10 @@ a#filter-btn.btn-primary {
 }
 #FieldsShow {
     padding-bottom: 10px;
+    .btn.btn-xs.btn-default {
+        padding-left: 4px;
+        padding-right: 4px;
+    }
 }
 .col-xs-3.checkbox {
     padding-left: 25px;
@@ -803,4 +872,33 @@ a.btn-danger {
 }
 #f866aeditablecontainer {
     max-width: 600px !important;
+}
+.overfloaded-x {
+    overflow-x: scroll;
+}
+
+#groups-list {
+     #select-all {
+        display: none;
+     }
+}
+
+// to fix buttons for german language
+#toolbar {
+    .pagination > li > a, .pagination > li > span {
+        padding: 0 12px !important;
+    }
+    .btn-sm, .btn-xs {
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+    .open > .dropdown-menu {
+        max-height: 350px;
+        overflow: auto;
+    }
+}
+span.input-group-addon.search-check {
+    display: table;
+    padding: 0 !important;
+    width: 100%;
 }

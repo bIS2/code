@@ -6,35 +6,40 @@ $(function(){
 	page = 1;
   xx = setInterval(adjustPaddingTop, 10); 
 	$(window).scroll(function() {
-		if (last_result != '') {
-			if (($(window).scrollTop() == $(document).height() - $(window).height()) && (!($('#hosg').hasClass('paginating'))) && (!($('#hosg').hasClass('nopaginate')))) {
-				$('#hosg').addClass('paginating');
-				$('#current_quantity > div').addClass('fa fa-cog fa-spin');
-				$('#current_quantity > div').html('');
-				$('#current_quantity > div').css('width', '100%');
-				page++;
-				url = "/sets?"+ window.location.search.substring(1) + '&page=' + page
-			 	$.get(url,
-				  function(data) {
-			  		last_result = data
-				    // console.log(last_result);
-					  if (data != "") {
-					    $("#hosg ul li:last").after(data);
-			 				$('.pop-over').popover()
-			 				setDatatable()
-			 				$('#hosg').removeClass('paginating');
-			 				$('#current_quantity').fadeOut('slow', function() {
-			 					$(this).find('div').removeAttr('style');
-			 					$(this).find('div').removeClass('fa fa-cog fa-spin');
-			 					$(this).find('div').html($('#hosg ul.hol-sets li').length);
-			 					if (parseInt($('#total_quantity').html()) == ($('#hosg ul.hol-sets li').length)) $('#hosg').addClass('nopaginate');
-			 					$(this).fadeIn();
-			 				})
+		if ($('#hosg').attr('infinitepagination') == '1') {
+			if (last_result != '') {
+				if (($(window).scrollTop() == $(document).height() - $(window).height()) && (!($('#hosg').hasClass('paginating'))) && (!($('#hosg').hasClass('nopaginate')))) {
+					$('#hosg').addClass('paginating');
+					$('#current_quantity > div').addClass('fa fa-cog fa-spin');
+					$('#current_quantity > div').html('');
+					$('#current_quantity > div').css('width', '100%');
+					page++;
+					url = "/sets?"+ window.location.search.substring(1) + '&page=' + page
+				 	$.get(url,
+					  function(data) {
+				  		last_result = data
+					    // console.log(last_result);
+						  if (data != "") {
+						    $("#hosg ul li:last").after(data);
+				 				$('.pop-over').popover()
+				 				setDatatable()
+				 				setDraggoption()
+				 				getAsuccess();
+				 				bulkActions();
+				 				$('#hosg').removeClass('paginating');
+				 				$('#current_quantity').fadeOut('slow', function() {
+				 					$(this).find('div').removeAttr('style');
+				 					$(this).find('div').removeClass('fa fa-cog fa-spin');
+				 					$(this).find('div').html($('#hosg ul.hol-sets li').length);
+				 					if (parseInt($('#total_quantity').html()) == ($('#hosg ul.hol-sets li').length)) $('#hosg').addClass('nopaginate');
+				 					$(this).fadeIn();
+				 				})
+							}
 						}
-					}
-				);
+					);
+			 	}
 		 	}
-	 	}
+		}
 	});
 
 	$('#currentfiltersoption label').on('click', function() {
@@ -70,6 +75,7 @@ function setDatatable() {
 								getAsuccess()
 								countThs()
 								doEditable()
+								setDraggoption()
 								makehosdivisibles($(This).attr('href'))
 								$(This).attr('opened', 1);
 								$('[data-toggle=tooltip]').tooltip()
@@ -89,26 +95,40 @@ function setDatatable() {
 							  });
 							  // console.log($(ths).length)
 							  // console.log(aoColumns.length)
+								$($(This).attr('href') + ' i.fa').each(function() {
+									$(this).on('mouseout', function() {
+										current = $(this)
+										newptrn = '';
+										newauxptrn = '';
+										count = 0;
+										hol = $(this).parents('tr').attr('holding');
+										$('tr#holding'+hol + ' td.ocrr_ptrn i.fa').each(function() {
+											if ($(this).hasClass('active') || $(this).hasClass('fa-square')) {												
+												newauxptrn = ($(this).hasClass('aux') || $(this).hasClass('active')) ? newauxptrn + '1' : newauxptrn + '0'
+												newptrn = newptrn + '1'
+												count++;
+											} 
+											else { 
+												newauxptrn = newauxptrn + '0'
+												newptrn = newptrn + '0'
+											}
+										})
+										dataparam = 'http://bis.trialog.ch/sets/force-aux/' + hol;
+										dataparam = dataparam + "?holdingsset_id=" + $(this).parents('tr').find(' a.forceaux').attr('set')
+										dataparam = dataparam + "&newptrn=" + newptrn
+										dataparam = dataparam + "&newauxptrn=" + newauxptrn
+										dataparam = dataparam + "&count=" + count
+										$(this).parents('tr').find(' a.forceaux').attr('href', dataparam);
+									});
+								})
+
+
 								$($(This).attr('href') + ' a.forceaux').each(function() {
 									$(this).on('click', function() {
 										hol = $(this).parent().attr('holding');
 										actives = $('tr#holding'+hol + ' td.ocrr_ptrn .fa.active').length;
 										if (actives > 0) {
-											var newptrn = '';
-											var count = 0;
-											$('tr#holding'+hol + ' td.ocrr_ptrn .fa').each(function() {
-												if ($(this).hasClass('active') || $(this).hasClass('fa-square')) {
-													newptrn = newptrn + '1'
-													count++;
-												} 
-												else { 
-													newptrn = newptrn + '0'
-												}
-											})
-											// console.log(newptrn);
-											$(this).attr('data-params', $(this).attr('data-params') + '&newptrn='+newptrn + '&count=' + count);
-											// console.log($(this).attr('data-params'));
-											return false;
+											return true;
 										} 
 										else {
 											// $('tr#holding'+hol + ' td.actions input:first-child + a').click();
@@ -116,6 +136,10 @@ function setDatatable() {
 										}
 									});
 								})
+
+
+
+
 							}
 						}
 					);
@@ -160,7 +184,7 @@ function setDraggoption() {
 				else {
 					if (result.ingroups > 0) {
 						badge = $(ui.draggable).find('span.badge.ingroups');
-						// console.log();
+						console.log('toy aqui');
 						if ($(badge).hasClass('ingroups') == true) {
 							$(badge).fadeOut('slow', function() {
 								$(badge).html('<i class="fa fa-folder-o"></i> ' + result.ingroups);
@@ -184,5 +208,5 @@ function setDraggoption() {
 }
 
 function adjustPaddingTop() {
-	$('body > div#toolbar + div.container').css('padding-top', parseInt($('section.container').height()) + 15);
+	$('body > div#toolbar + section.container').css('padding-top', parseInt($('#toolbar > section.container').height()) + 60);
 }

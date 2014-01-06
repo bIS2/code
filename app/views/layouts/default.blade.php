@@ -11,7 +11,7 @@
 <!-- Navbar -->
 <!-- ./ navbar -->
 <!-- Container -->
-	<div class="container">
+	<section class="container">
 		{{Session::get('info')}}
 		<!-- Notifications -->
 			@include('notifications')
@@ -21,7 +21,7 @@
 			@yield('content')
 		<!-- ./ content -->
 
-	</div>
+	</section>
 <!-- ./ container -->
 
 @stop

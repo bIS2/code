@@ -1,16 +1,18 @@
 @extends('layouts.default')
 
+{{-- Content --}}
 @section('content')
 
-<div class="page-header">
-	<div class="row">
-		<div class="col-xs-12">
-			<h2> 
-				{{ trans('lists.title') }} 
-			</h2>
-		</div> <!-- /.col-xs-12 -->
-	</div> <!-- /.row -->
-</div> <!-- /.page-header -->
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-xs-12">
+				<h2> 
+					{{ trans('lists.title') }} 
+				</h2>
+			</div> <!-- /.col-xs-12 -->
+		</div> <!-- /.row -->
+	</div> <!-- /.page-header -->
 
 	<div class="row">
 		<div class="col-xs-12">
@@ -96,3 +98,4 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
+</div><!-- /.modal -->

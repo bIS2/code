@@ -44,8 +44,14 @@ class ConfirmsController extends BaseController {
 	public function store()
 	{
 		$holdingsset_id = Input::get('holdingsset_id');
-		if ( Confirm::whereHoldingssetId($holdingsset_id)->exists() ){
-			Confirm::whereHoldingssetId($holdingsset_id)->delete();
+		$confirm_id = Confirm::whereHoldingssetId($holdingsset_id)->lists('id');
+
+		if ( count($confirm_id) > 0 ){
+			// Confirm::whereHoldingssetId($holdingsset_id)->delete();
+			// DB::table('confirms')->where('holdingsset_id', '=', $holdingsset_id)->delete();
+		  Confirm::find($confirm_id[0])->delete();
+			Revised::whereIn('holding_id', Holdingsset::find($holdingsset_id)->holdings()->lists('id'))->delete();
+
 			$ret = ['ko' => $holdingsset_id];
 		} else {
 			Confirm::create([ 'holdingsset_id' => $holdingsset_id, 'user_id' => Auth::user()->id ]);
@@ -54,9 +60,11 @@ class ConfirmsController extends BaseController {
 		// Delete all notes from holdings HOS, if exists
 		$ids = Holdingsset::find($holdingsset_id)->holdings()->select('id')->lists('id');
 		// $affectedRows = Note::whereIn('holding_id', $ids)->delete();
-		return Response::json( $ret );
+		$holdingssets[] = Holdingsset::find($holdingsset_id);
+		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+		return $newset;
+		// return Response::json( $ret );
 	}
-
 	/**
 	 * Display the specified resource.
 	 *

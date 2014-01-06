@@ -51,7 +51,8 @@ class Holding extends Eloquent {
       $query->reviseds()->corrects();
     
     if ( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') ) 
-      $query->confirms()->noReviseds()->ownerOrAux();
+      // $query->confirms()->noReviseds()->ownerOrAux();
+      $query->confirms()->ownerOrAux();
 
     if ( Auth::user()->hasRole('speichuser') ) 
       $query->deliveries();
@@ -91,8 +92,8 @@ class Holding extends Eloquent {
 
   public function scopePendings($query){
   	return $query
-  		->whereNotIn( 'id', function($query){ $query->select('holding_id')->from('oks'); } )
-  		->whereNotIn( 'id', function($query){ $query->select('holding_id')->distinct()->from('notes'); });
+  		->whereNotIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); } )
+  		->whereNotIn( 'holdings.id', function($query){ $query->select('holding_id')->distinct()->from('notes'); });
   }
 
   public function scopeAnnotated($query,$tag_id='%'){
@@ -107,7 +108,7 @@ class Holding extends Eloquent {
   } 
 
   public function scopeOrphans($query){
-    return $query->whereNotIn('id', function($query){ 
+    return $query->whereNotIn('holdings.id', function($query){ 
       $query->select('holding_id')->from('hlist_holding'); 
     });
   }
@@ -121,7 +122,7 @@ class Holding extends Eloquent {
   }
 
   public function scopeWorkers($query){
-    return $query->whereNotIn('id', function($query){ 
+    return $query->whereNotIn('holdings.id', function($query){ 
       $query->select('holding_id')->from('hlist_holding'); 
     });
   }
@@ -190,7 +191,12 @@ class Holding extends Eloquent {
           $classaux = '';
           if (isset($j_ptrn[$i]))     $classj   = ($j_ptrn[$i] == '1') ? ' j' : ''; 
           if (isset($aux_ptrn[$i]))   $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
-          $ret .= '<i class="fa fa-square pop-over btn btn-xs btn-default '.$classj.$classaux.'" data-content="<strong>'.$this->f852b.' | '.$this->f852h.' | '.$ptrn[$i].'</strong>" data-html="true" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>';
+          $pptrn1 = $ptrn[$i];
+          // var_dump($pptrn1);
+          $pptrn = explode('    ',$pptrn1);
+          $ppptrn = $pptrn[0];
+          if (count($pptrn) > 1) $ppptrn .= ' ('.$pptrn[1].')';
+          $ret .= '<i class="fa fa-square pop-over btn btn-xs btn-default '.$classj.$classaux.'" data-content="<strong>'.$ppptrn.' | '.$this->f852b.' :: '.$this->f852h.'</strong>" data-html="true" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>';
           break;
       }
      $i++; 

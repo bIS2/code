@@ -49,7 +49,13 @@ class RevisedsController extends BaseController {
 		if ($validation->passes())
 		{
 			$revised = $this->revised->create($input);
-			return Response::json( [ 'remove_by_holdingsset' => $revised->holding->holdingsset_id ] );
+			$holdingsset_id = $revised->holding->holdingsset_id;
+			if (holdingsset::find($holdingsset_id)->is_annotated) {
+				$holdings_id = Confirm::whereHoldingssetId($holdingsset_id)->lists('id');
+				$confirm_id = (count($holdings_id) > 0) ? $holdings_id : [-1];
+				$user = confirm::find($confirm_id[0])->delete();
+			}
+			return Response::json( [ 'remove_by_holdingsset' => $holdingsset_id ] );
 		}
 
 	}

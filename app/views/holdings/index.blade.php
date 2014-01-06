@@ -1,48 +1,54 @@
 @extends('layouts.default')
-
-@section('toolbar')
-	@include('holdings.toolbar')
-@stop
-
+<?php 
+	$fieldstoshow = Session::get(Auth::user()->username.'_fields_to_show_ok');
+	$fieldstoshow = explode(';',$fieldstoshow);
+?>
 {{-- Content --}}
 @section('content')
 
-	<div class="row">
-		<div class="col-lg-12 ">
-			<div>{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} </div>
+@section('toolbar')
+	@include('holdings.toolbar')	
+	@include('holdings.hliststabs')
+@stop
 
-			<table id="holdings-items" class="table table-bordered table-condensed flexme datatable">
+	<div class="row">
+		<div class="">
+		  <table id="new-table" class="table table-bordered table-condensed flexme">
+		  </table>
+			<table id="holdings-items" class="table table-bordered table-condensed flexme">
 			<thead>
-				<tr >
-					@if ( Authority::can('create','Hlist') ) 
-						<th ><input id="select-all" name="select-all" type="checkbox" value="1"></th>
-					@endif
-					<th>{{ trans('general.actions') }}</th>
-					<th>{{ trans('general.size') }}</th>
-					<th>852b <span class="fa fa-info-circle"></span></th>
-					<th>852h <span class="fa fa-info-circle"></span></th>
-					<th>866a <span class="fa fa-info-circle"></span></th>
-					<th>{{ trans('holdings.ocurrence_patron') }}</th>
-					<th>245a <span class="fa fa-info-circle"></span></th>
-					<th>362a <span class="fa fa-info-circle"></span></th>
-					<th>866z <span class="fa fa-info-circle"></span></th>
+				<tr>
+			
+						<th></th>
+			
+
+					<th class="actions">{{ trans('general.actions') }}</th>
+
+					<?php	$k = 0; ?>
+					@foreach ($fieldstoshow as $field) 
+						@if ($field != 'ocrr_ptrn') <?php $k++; ?>										
+							<th>{{ $field; }} <span class="fa fa-info-circle"></span></th> 
+								@if ($k == 2)
+								<th class="hocrr_ptrn">{{ trans('holdingssets.ocurrence_patron') }}
+								</th>
+							@endif
+						@endif
+					@endforeach	
 				</tr>
 			</thead>
 			<tbody class="selectable">
 			@foreach ($holdings as $holding)
 				<tr id="<?= $holding->id ?>" class="{{ $holding->css }}" data-holdingsset="{{$holding->holdingsset_id}}" >
-
-					@if (Authority::can('create','Hlist')) 
-						<td style="width:5px !important"><input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl" /></td>
-					@endif
-
+					<td style="width:5px !important">
+						@if (Authority::can('create','Hlist')) 
+							<input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl" />
+						@endif
+					</td>
 					<td id="{{ $holding->id }}" class="actions" >
-
 						<a href="{{ route('holdings.show', $holding->id) }}" data-target="#modal-show" data-toggle="modal"><span class="glyphicon glyphicon-eye-open" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
 
 
-						@if (Authority::can('touch', $holding))
-						
+						@if (Authority::can('touch', $holding))						
 							<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.see_information_from_original_system') }}">
 								<span class="glyphicon glyphicon-list-alt"></span>
 							</a>
@@ -65,40 +71,47 @@
 						  	<span class="fa fa-download"></span> 
 						  </a>
 					  @endif
-
 					</td>
-					<td>
 
-						@if (Authority::can('set_size', $holding))
-
-							<a href="#" class="editable" data-type="text" data-pk="{{$holding->id}}" data-url="{{ route('holdings.update',[$holding->id]) }}" >{{ $holding->size }} </a>
-
-						@else
-
-							{{ $holding->size }}
-
+				<?php $k = 0; ?>
+					@foreach ($fieldstoshow as $field)
+						@if ($field != 'ocrr_ptrn')  
+						<?php $k++;
+							$field = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size')) ? $field = 'f'.$field : $field; 
+						?>						
+							<td>
+								<?php if ($field == 'size') {  ?>
+									@if (Authority::can('set_size', $holding))
+										<a href="#" class="editable" data-type="text" data-pk="{{$holding->id}}" data-url="{{ route('holdings.update',[$holding->id]) }}" >{{ $holding->size }} </a>
+									@else
+										{{ $holding->size }}
+									@endif
+								<?php	}
+								else {
+									$str = htmlspecialchars($holding->$field);
+									if (strlen($str) > 30) { ?>
+										<span class="pop-over" data-content="<strong>{{ $str }}</strong>" data-placement="top" data-toggle="popover" data-html="true" class="btn btn-default" type="button" data-trigger="hover">{{ truncate($str, 30) }}</span>
+									<?php }
+									else {
+										echo $str;
+									}
+								}
+								?>
+							</td>
+							@if ($k == 2)
+								<td class="ocrr_ptrn">
+									{{ $holding -> patrn_no_btn }}
+									<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>{{ $holding -> f866a }}</strong>" data-placement="top" data-toggle="popover" data-html="true" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>
+								</td>
+							@endif
 						@endif
-						
-					</td>
-					<td>{{ $holding->f852b }}</td>
-					<td>{{ $holding->f852h; }}</td>
-					<td>{{ $holding->f866a; }}</td>
-					<td class="ocrr_ptrn">{{ $holding->patrn }}</td>
-	 				<td>{{ $holding->holdingsset->f245a }}</td>
-					<td>{{ $holding->f362a; }}</td>
-					<td>{{ $holding->f866z; }}</td>
-
+					@endforeach
 				</tr>
 			@endforeach
 			</tbody>
 		</table>
-		
 		</div>
-			<p>
-				{{ $holdings->appends(Input::except('page'))->links()  }}
-			</p>
 		</div>
-
 		<div class="remote">
 		 <div class="modal" id="form-create-notes"></div><!-- /.modal -->
 		 <div class="modal" id="modal-show"></div><!-- /.modal -->

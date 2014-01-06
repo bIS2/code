@@ -14,7 +14,7 @@
 								<?php 
 									$ptrn = (explode('|',$holdingsset -> ptrn)); 
 									foreach ($ptrn as $key) { 
-										echo '<i class="fa fa-square fa-lg pop-over" data-content="'.$key.'" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>';
+										echo '<i class="fa fa-square fa-lg pop-over" data-content="'.$key.'" data-placement="bottom" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>';
 									 }
 								?><br>
 							</th>			
