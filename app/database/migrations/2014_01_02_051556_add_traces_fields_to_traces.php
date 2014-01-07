@@ -13,8 +13,8 @@ class AddTracesFieldsToTraces extends Migration {
 	public function up()
 	{
 		Schema::table('traces', function(Blueprint $table) {
-			$table->text('object_type');
-			$table->integer('object_id');
+			$table->text('object_type')->nullable();
+			$table->integer('object_id')->nullable();
 		});
 	}
 
