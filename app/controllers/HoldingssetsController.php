@@ -376,7 +376,7 @@ class HoldingssetsController extends BaseController {
 -----------------------------------------------------------------------------------*/
 	public function putForceBlue($id) {
 		$holdingsset_id = Input::get('holdingsset_id');
-		$auxptrnOriginal = holding::find($id)->select('aux_ptrn')->get();
+		$auxptrnOriginal = Holding::find($id)->select('aux_ptrn')->get();
 		foreach ($auxptrnOriginal as $aux1) {
 			$aux = str_replace('1', '0', $aux1->aux_ptrn);
 		}
