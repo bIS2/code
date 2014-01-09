@@ -42,4 +42,4 @@ return array(
 	'sort'						=> 'Sortieren',
 	'title'   					=> 'Holding Sets',
 	'title_create_group' 		=> 'Gruppe von HOS erstellen',
-);
+); 	
