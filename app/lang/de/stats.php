@@ -3,11 +3,9 @@
 return array(
 
 	'annotated'					=> 'HOS die Annotationen enthalten',
-	'comfirmed_aux'				=> 'Kontrollierte HOS in der Bibliothek mit Ergänzungsbestand',
-	'comfirmed_owner'			=> 'Kontrollierte HOS in der Bibliothek mit Archivbestand',
 	'confirmed'  				=> 'Bestätigt',
-	'confirmed_aux'  			=> 'Kontrollierte Hilfsbestände',
-	'confirmed_owner'  			=> 'Kontrollierte Archivbestände',
+	'confirmed_aux'  			=> 'Kontrollierte HOS mit Hilfsbeständen',
+	'confirmed_owner'  			=> 'Kontrollierte HOS mit Archivbeständen',
 	'global_log'  				=> 'Global Log',
 	'grouped' 					=> 'Gruppiert',
 	'holding_annotated'			=> 'HOL mit Annotationen',
