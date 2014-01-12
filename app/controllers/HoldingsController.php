@@ -76,7 +76,7 @@ class HoldingsController extends BaseController {
 
 		foreach ($this->data['allsearchablefields'] as $field) {
 
-			$field = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') ) ? 'f'.$field : $field;
+			$field = (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size'))) ? 'f'.$field : $field;
 
 			if ( Input::has($field) )  {
 
@@ -84,7 +84,7 @@ class HoldingsController extends BaseController {
 				$value 			= Input::get($field);
 				$orand 			= Input::get('OrAndFilter')[$openfilter-1];
 				$format 		= Input::get( $field.'format' );
-				$compare = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') ) ? 'LOWER('.$field.')' : $field;
+				$compare = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != '008x') ) ? 'LOWER('.$field.')' : $field;
 
 				$holdings = ($orand == 'OR') ? 	
 					$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($value) ) ) )) ) :  

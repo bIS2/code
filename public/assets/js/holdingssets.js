@@ -1,23 +1,6 @@
 $(function() {
 	$('.pop-over').popover();
-	$('#modal-show').on('shown.bs.modal', function () {
-		$(this).find($(':checkbox')).on('click',function() {
-    if ($(this).hasClass('select-all')) {
-      $($(this).attr('selects-target')).find('input.hl:checkbox').prop('checked',this.checked)
-      $('div.select-all p').toggleClass('active')
-      if (this.checked) {
-        $(':checkbox.sel').parents('tr').addClass("warning")
-        $(':checkbox.sel').parents('li').addClass("warning")
-        $('a.link_bulk_action').removeClass('disabled')
-      }
-      else {
-        $(':checkbox.sel').parents('tr').removeClass("warning")
-        $(':checkbox.sel').parents('li').removeClass("warning")
-        $('a.link_bulk_action').addClass('disabled')
-      }
-    }
-})
-	})
+
 	setDatatable();
 	var page
 	var last_result = '-1'
@@ -111,20 +94,20 @@ function setDatatable() {
 					        "bAutoWidth": true,
 					        "aoColumns": aoColumns,
 							  });
-							  // console.log($(ths).length)
-							  // console.log(aoColumns.length)
 								$($(This).attr('href') + ' i.fa').each(function() {
 									$(this).on('mouseout', function() {
 										current = $(this)
 										newptrn = '';
 										newauxptrn = '';
 										count = 0;
+										actives = 0;
 										hol = $(this).parents('tr').attr('holding');
 										$('tr#holding'+hol + ' td.ocrr_ptrn i.fa').each(function() {
 											if ($(this).hasClass('active') || $(this).hasClass('fa-square')) {												
 												newauxptrn = ($(this).hasClass('aux') || $(this).hasClass('active')) ? newauxptrn + '1' : newauxptrn + '0'
 												newptrn = newptrn + '1'
 												count++;
+												actives  = $(this).hasClass('active') ? actives + 1 : actives
 											} 
 											else { 
 												newauxptrn = newauxptrn + '0'
@@ -136,10 +119,9 @@ function setDatatable() {
 										dataparam = dataparam + "&newptrn=" + newptrn
 										dataparam = dataparam + "&newauxptrn=" + newauxptrn
 										dataparam = dataparam + "&count=" + count
-										$(this).parents('tr').find(' a.forceaux').attr('href', dataparam);
+										if (actives > 0 )	$(this).parents('tr').find(' a.forceaux').attr('href', dataparam);
 									});
 								})
-
 
 								$($(This).attr('href') + ' a.forceaux').each(function() {
 									$(this).on('click', function() {
@@ -150,14 +132,10 @@ function setDatatable() {
 										} 
 										else {
 											// $('tr#holding'+hol + ' td.actions input:first-child + a').click();
-											return false;
+											// return false;
 										}
 									});
 								})
-
-
-
-
 							}
 						}
 					);
