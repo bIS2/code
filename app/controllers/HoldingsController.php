@@ -81,14 +81,13 @@ class HoldingsController extends BaseController {
 			if ( Input::has($field) )  {
 
 				$is_filter 	= true;
-				$value 			= Input::get($field);
 				$orand 			= Input::get('OrAndFilter')[$openfilter-1];
 				$format 		= Input::get( $field.'format' );
 				$compare = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') ) ? 'LOWER('.$field.')' : $field;
 
 				$holdings = ($orand == 'OR') ? 	
-					$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($value) ) ) )) ) :  
-				  $holdings->WhereRaw( sprintf( $format, $compare, $value ) );  
+					$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) ) :  
+				  $holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) );  
 
 			}
 

@@ -12,7 +12,7 @@
  -->			  <li>
 				  <div class="btn-group">
 				  	<div class="btn-group">
-					  	<a href="#" class="btn btn-sm dropdown-toggle {{ (Input::has('hlist_id')) ? 'btn-primary' : 'btn-default'}} {{ (Auth::user()->hlists()->count() > 0) ? '' : ' disabled '}}" data-toggle="dropdown">
+					  	<a href="#" class="btn btn-sm dropdown-toggle {{ (Input::has('hlist_id')) ? 'btn-primary' : 'btn-default'}} {{ ($hlists->count() > 0) ? '' : ' disabled '}}" data-toggle="dropdown">
 					  		<i class="fa fa-list-ul"> </i> 
 					  		@if (Input::has('hlist_id'))
 					  			<?php $list = Hlist::find(Input::get('hlist_id')) ?>

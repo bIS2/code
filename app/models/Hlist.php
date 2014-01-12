@@ -48,11 +48,11 @@ class Hlist extends Eloquent {
 
   public function scopeMy($query){
 
-    if ( Auth::user()->hasRole('speichuser') ) {
+    if ( Auth::user()->hasRole('speichuser') ) 
       $query = $query->inLibrary()->deliveries();
-    } else {
+    else 
       $query = Auth::user()->hlists();
-    }
+    
 
     return $query;
   }

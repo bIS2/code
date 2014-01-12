@@ -9,6 +9,7 @@ class RevisedObserver {
        'object_type' => 'holding',
        'object_id' => $model->holding->id,
       ]);
+
     }
 
     public function deleted($model) {
@@ -18,5 +19,7 @@ class RevisedObserver {
        'object_type' => 'holding',
        'object_id' => $model->holding->id,
       ]);
+
     }
+
 }

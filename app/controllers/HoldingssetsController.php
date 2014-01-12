@@ -583,7 +583,7 @@ function createNewHos($id) {
 function recall_holdings($id) {
 	$holding  = Holding::find($id);
 	return Holding::
-	WhereRaw(sprintf( "%s LIKE '%%%s%%'", 'f245a', htmlspecialchars($holding->f245a,ENT_QUOTES) ))
+	WhereRaw(sprintf( "%s LIKE '%%%s%%'", 'f260a', htmlspecialchars($holding->f260a,ENT_QUOTES) ))
 	->WhereRaw(sprintf( "%s LIKE '%%%s%%'", 'f245b', htmlspecialchars($holding->f245b,ENT_QUOTES) )  )->get();
 }
 

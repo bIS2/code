@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder {
 			$this->call('FeedbacksTableSeeder');
 			$this->call('IncorrectsTableSeeder');
 			$this->call('ReceivedsTableSeeder');
+		$this->call('CommentsTableSeeder');
 	}
 
 }
