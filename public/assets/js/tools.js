@@ -96,10 +96,12 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     if ( result.annotated ){
       $('#'+result.annotated).addClass('danger').removeClass('success'); 
       $('#form-create-notes').modal('hide')
+      $('#slider').carousel('next')
     } 
 
     if ( result.correct ){
       $('#'+result.correct).removeClass('danger').addClass('success'); 
+      $('#slider').carousel('next');
     } 
     if ( result.blank ){
       $('#'+result.blank).removeClass('danger').removeClass('success'); 

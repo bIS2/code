@@ -43,16 +43,21 @@ class Holding extends Eloquent {
 	}
 
   // Scopes
-  public function scopeInit ($query){
 
-  	$query = $query->with('ok','notes')->orderBy('f852j','f852c')->inLibrary();
+
+  public function scopeDefault($query){
+  	return $query->with('ok','notes')->orderBy('f852j','f852c')->inLibrary();
+  }
+
+  public function scopeInit ($query){
+  	$query = $query->default();
 
     if ( Auth::user()->hasRole('postuser') ) 
       $query->reviseds()->corrects();
     
     if ( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') ) 
       // $query->confirms()->noReviseds()->ownerOrAux();
-      $query->confirms()->ownerOrAux();
+      $query->confirms()->ownerOrAux()->nodelivery();
 
     if ( Auth::user()->hasRole('speichuser') ) 
       $query->deliveries();
