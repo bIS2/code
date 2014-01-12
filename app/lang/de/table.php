@@ -4,19 +4,21 @@ return array(
 
 	// commons
 	'actions' 		=> 'Aktion',
-	'name' 			=> 'table.name',
-	'date' 				=> 'table.date',
-	'user' 				=> 'table.user_name',
-	'email' 				=> 'table.email',
-	'content' 				=> 'table.content',
+	'name' 			=> 'Name',
+	'date' 			=> 'Datum',
+	'user' 			=> 'Benutzername',
+	'email' 		=> 'Email',
+	'content' 		=> 'Inhalt',
 	'description' 	=> 'Beschreibung',
 	'created_at' 	=> 'Erstellt am',
-	'group_name' => 'table.group_name',
+	'group_name' 	=> 'Name der Gruppe',
 
 	// Roles
+	'user'      	=> 'Benutzer',
 	'users'      	=> '# Benutzer',
 	'no-holdings'	=> '# Holdings',
-	'url' 				=> 'URL',
-	'browser' 				=> 'Browser',
-	
+	'holdingssets'	=> 'Anzahl HOS',
+	'url' 			=> 'URL',
+	'browser' 		=> 'Browser',
+
 );
