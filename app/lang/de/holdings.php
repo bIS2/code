@@ -31,4 +31,5 @@ return array(
 	'has_incomplete_vols_short'	=> 'holdings.has_incomplete_vols_short',
 	'reviseds'				=> 'holdings.reviseds',
 	'both'			=> 'holdings.Both',
+	'size'			=> 'Size',
 );

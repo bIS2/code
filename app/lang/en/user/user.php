@@ -16,6 +16,7 @@ return array(
 	'account'               => 'Account',
 	'forgot_password'       => 'Forgot Password',
 	'settings'              => 'Settings',
+	'edit_settings'         => 'Edit your Settings',
 	'profile'               => 'Profile',
 	'user_account_is_not_confirmed'          => 'User Account is not confirmed.',
 	'user_account_updated'          => 'User Account updated.',

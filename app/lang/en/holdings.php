@@ -31,4 +31,5 @@ return array(
 	'has_incomplete_vols_short'	=> 'Incomplete',
 	'reviseds'				=> 'Reviseds',
 	'both'			=> 'Both',
+	'size'			=> 'Size',
 );

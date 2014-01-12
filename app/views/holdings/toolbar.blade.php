@@ -110,15 +110,15 @@
 
 				  <div class="btn-group" >
 
-				  	<a href="{{ route('holdings.index', Input::except('view') ) }}" class="btn btn-default <?= (!Input::has('view')) ? 'active' : '' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index', Input::except('view') ) }}" class="btn btn-default <?= (!Input::has('view')) ? 'btn-primary' : '' ?> btn-sm" >
 				  		<span class="fa fa-table"></span> 
 				  	</a>
 
-				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn btn-default <?= (Input::get('view')=='slide') ? 'active' : '' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn btn-default <?= (Input::get('view')=='slide') ? 'btn-primary' : '' ?> btn-sm" >
 				  		<span class="fa fa-desktop"></span> 
 				  	</a>
 
-				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'print'] ) }}" target="_blank" class="btn btn-default <?= (Input::get('view')=='print') ? 'active' : '' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'print'] ) }}" target="_blank" class="btn btn-default <?= (Input::get('view')=='print') ? ' btn-primary' : '' ?> btn-sm" >
 				  		<span class="fa fa-print"></span> 
 				  	</a>
 				  	
@@ -188,7 +188,9 @@
 															<div class="input-group inline input-group-sm">
 																<label class="input-group-addon">{{ trans('holdings.'.$field.'_short') }}</label>
 																<span class="input-group-addon  search-check">
-															  	<input type="checkbox" class="form-control" name="<?= $field; ?>" checked="checked">
+																	<input type="hidden" name="<?= $field; ?>" value="0">
+																	<input type="hidden" name="<?= $field; ?>format" value="%s = %s">
+															  	<input type="checkbox" class="form-control" name="<?= $field; ?>" value="1" checked="checked">
 															  </span>
 															  <select id="OrAndFilter" class="form-control" name="OrAndFilter[]">
 													     		<option value="AND" selected>{{ trans('general.AND') }}</option>
@@ -244,9 +246,11 @@
 														<div class="input-group inline input-group-sm">
 															<label class="input-group-addon">{{ trans('holdings.'.$field.'_short') }}</label>
 															<span class="input-group-addon search-check">
-														  	<input type="checkbox" class="form-control" name="<?= $field; ?>" checked="checked">
+																<input type="hidden" name="<?= $field; ?>" value="0">
+														  	<input type="checkbox" class="form-control" name="<?= $field; ?>" value="1" checked="checked">
+																<input type="hidden" name="<?= $field; ?>format" value="%s = %s">
 														  </span>
-														  <select id="OrAndFilter" class="form-control" name="OrAndFilter[]">
+														  <select id="OrAndFilter" class="form-control" name="OrAndFilter[]">	
 												     		<option value="AND" selected>{{ trans('general.AND') }}</option>
 												     		<option value="OR">{{ trans('general.OR') }}</option>
 												     	</select>
