@@ -30,10 +30,6 @@ class Holding extends Eloquent {
 		return $this->hasOne('Ok');
 	}
 
-	public function delivery(){
-		return $this->hasOne('Delivery');
-	}
-
 	public function revised(){
 		return $this->hasOne('Revised');
 	}
@@ -76,10 +72,8 @@ class Holding extends Eloquent {
   	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); });
   }
 
-  public function scopeDeliveries($query){
-  	return $query->whereIn( 'holdings.id', function($query) { 
-      $query->select('holding_id')->from('deliveries'); 
-    });
+  public function scopeDeliveries($query) {
+  	return $query->whereDelivered(1);
   }
 
   public function scopeReviseds($query){
@@ -141,7 +135,7 @@ class Holding extends Eloquent {
   }
 
   public function getIsDeliveryAttribute(){
-    return $this->deliveries()->exists();
+    return $this->delivered;
   }
 
   public function getIsReceivedAttribute(){
@@ -153,7 +147,7 @@ class Holding extends Eloquent {
   // Attrubutes CSS Class
 
   public function getCssAttribute(){
-  	return $this->class_owner.' '.$this->class_correct.' '.$this->class_revised.' '.$this->class_annotated;
+  	return $this->class_owner.' '.$this->class_correct.' '.$this->class_revised.' '.$this->class_annotated.' '.$this->class_delivered;
   }
 
   public function getClassOwnerAttribute(){
@@ -170,6 +164,10 @@ class Holding extends Eloquent {
 
   public function getClassRevisedAttribute(){
   	return ($this->is_revised) ? 'revised' : '';
+  }
+
+  public function getClassDeliveredAttribute(){
+  	return ($this->is_delivery) ? 'delivered' : '';
   }
 
   public function getPatrnAttribute($buttons){
@@ -232,6 +230,16 @@ class Holding extends Eloquent {
     $ret .= "</div>";
     return $ret;
 
+  }
+
+  public function show($field, $len = 30){
+  	$str = $this->clean($this->$field);
+		return (strlen($str) > $len) ? '<span class="pop-over" data-content="<strong>'.$str.'</strong>" data-placement="top" data-toggle="popover" data-html="true" class="btn btn-default" type="button" data-trigger="hover">{{ truncate($str, 30) }}</span>' : $str;
+
+  }
+
+  public function clean($value){
+  	return htmlspecialchars($value);
   }
 
 }

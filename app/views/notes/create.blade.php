@@ -78,8 +78,8 @@
 
 	        <div class="modal-footer">
 	          <button type="reset" class="btn btn-default{{ $consultnotes }}" ><?= trans('general.reset') ?></button>
-	          <button type="submit" class="btn btn-success{{ $consultnotes }}" ><?= trans('general.save') ?></button>
-	          <a href="#" class="btn btn-danger" data-dismiss="modal" ><?= trans('general.close') ?></a>
+	          <button type="submit" class="btn btn-success{{ $consultnotes }}" ><i class="fa fa-check"></i> <?= trans('general.save') ?></button>
+	          <a href="#" class="btn btn-danger" data-dismiss="modal" ><i class="fa fa-times"></i> <?= trans('general.close') ?></a>
 	        </div>
 
 				</form>

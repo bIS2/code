@@ -63,4 +63,5 @@ return array(
 	'update' => 'Update',
 	'error' => 'Error',
 	'plase_fix_errors_and_try_again' => 'Please fix errors and try again',
+	'action'  			=> 'Action',
 );

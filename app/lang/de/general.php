@@ -63,4 +63,5 @@ return array(
 	'update' => 'general.update',
 	'error' => 'general.error',
 	'plase_fix_errors_and_try_again' => 'general.plase_fix_errors_and_try_again',
+	'action'  			=> 'Action',
 );
