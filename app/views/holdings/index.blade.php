@@ -12,7 +12,7 @@
 @stop
 
 	<div class="row">
-		<div class="">
+		<div class="col-xs-12">
 		  <table id="new-table" class="table table-bordered table-condensed flexme">
 		  </table>
 			<table id="holdings-items" class="table table-bordered table-condensed flexme">
@@ -81,8 +81,13 @@
 
 								@if (Authority::can('receive',$holding))
 									<li>
-									  <a href="{{ route('receiveds.store') }}" class="btn-send" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
-									  	<span class="fa fa-download"></span> {{ trans('general.view') }}
+									  <a href="{{ route('receiveds.store') }}" class="" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
+									  	<span class="fa fa-download"></span> {{ trans('general.receive') }}
+									  </a>
+									</li>
+									<li>
+									  <a href="{{ route('comments.create',['holding_id'=>$holding->id]) }}" class="btn-comment" data-toggle="modal" data-target="#form-create-comments">
+									  	<span class="fa fa-comment"></span> {{ trans('general.comment') }}
 									  </a>
 									</li>
 							  @endif
@@ -133,6 +138,7 @@
 		</div>
 		<div class="remote">
 		 <div class="modal" id="form-create-notes"></div><!-- /.modal -->
+		 <div class="modal" id="form-create-comments"></div><!-- /.modal -->
 		 <div class="modal" id="modal-show"></div><!-- /.modal -->
 		</div>
 

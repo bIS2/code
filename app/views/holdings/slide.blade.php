@@ -15,6 +15,7 @@
 						<div class="carousel-inner">
 							@foreach ($holdings as $holding)
 							<div class="row item <?= ($i==0) ? 'active' : '' ?>">
+											<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note'>
 								<div class="row">
 
 									<?php $i=1 ?>
@@ -60,7 +61,6 @@
 									</div> <!-- /.col-xs-8 -->
 									<div class="col-xs-5">
 
-											<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note'>
 										@foreach ( Tag::all() as $tag)
 
 											<?php $note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note ?>
@@ -71,7 +71,6 @@
 											<div class="form-group">
 										    <div class="input-group" data-toggle="buttons">
 										      <label class="input-group-addon btn btn-primary btn-sm {{ ($note->tag_id) ? 'active' : '' }}">
-										      	<span class="glyphicon glyphicon-ok-sign"></span>
 										        <input type="checkbox" name="notes[{{ $tag->id }}][tag_id]" value="{{ $tag->id }}">{{ $tag->name }}
 										      </label>
 										      <input type="text"  name="notes[{{ $tag->id }}][content]" value="{{ $note->content }}" class="form-control input-sm" placeholder="{{ trans('placeholders.notes_'.$tag->name) }}">
@@ -97,8 +96,9 @@
 									  </button>
 									</div>
 								</div>
-								</form>	
 							</div> <!-- /.row.item -->
+
+							</form>	
 
 						@endforeach
 					</div> <!-- /.carousel-inner -->

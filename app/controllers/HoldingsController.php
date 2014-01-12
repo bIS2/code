@@ -69,6 +69,12 @@ class HoldingsController extends BaseController {
 		if ( Input::has('unlist') )			$holdings = $holdings->orphans();
 		if ( Input::has('owner') )			$holdings = $holdings->owner();
 		if ( Input::has('aux') )				$holdings = $holdings->aux();
+
+		if ( Input::has('receiveds'))		$holdings = $holdings->default()->receiveds();
+		if ( Input::has('deliveries') )	$holdings = $holdings->default()->deliveries();
+		if ( Input::has('reviseds') )		$holdings = $holdings->default()->reviseds();
+		if ( Input::has('commenteds') )	$holdings = $holdings->default()->commenteds();
+
 		// $holdings = ( Input::has('reviseds') || (Auth::user()->hasRole('postuser'))) ? $holdings->reviseds()->corrects() : $holdings->noreviseds();
 
 		// Apply filter.
@@ -81,14 +87,13 @@ class HoldingsController extends BaseController {
 			if ( Input::has($field) )  {
 
 				$is_filter 	= true;
-				$value 			= Input::get($field);
 				$orand 			= Input::get('OrAndFilter')[$openfilter-1];
 				$format 		= Input::get( $field.'format' );
 				$compare = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != '008x') ) ? 'LOWER('.$field.')' : $field;
 
 				$holdings = ($orand == 'OR') ? 	
-					$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($value) ) ) )) ) :  
-				  $holdings->WhereRaw( sprintf( $format, $compare, $value ) );  
+					$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) ) :  
+				  $holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) );  
 
 			}
 

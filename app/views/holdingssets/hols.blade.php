@@ -76,6 +76,7 @@
 									<li>
 						      	<a id="holding{{ $holding -> id; }}lock" class="pop-over {{ $btnlock }} pull-right" data-content="<strong>{{ trans('holdingssets.reserved_by') }} </strong>{{ $holding->locked->user->name }}<br><strong>{{ trans('holdingssets.on_behalf_of') }}</strong> {{ $holding->locked->comments }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-lock"></span></a>
 						      </li>
+
 								@endif
 
 								@if (!($holding->locked)) 

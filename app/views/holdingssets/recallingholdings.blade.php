@@ -9,12 +9,11 @@
           <thead>
             <tr>    
               <th>
-                <div class="pull-left select-all">
-                  <label for="select-all">
+                <!-- <div class="pull-left select-all"> -->
                     <input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#recalling-holdings">
-                    <p class="btn btn-xs btn-primary pop-over"data-content="{{ trans('groups.select_all_holdings') }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-check"></i></p>
-                  </label>
-                </div>
+<!--                     <p class="btn btn-xs btn-primary pop-over"data-content="{{ trans('groups.select_all_holdings') }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-check"></i></p>	
+ -->
+                <!-- </div> -->
               </th>        
               <th>sys</th>        
               <th>ptr</th>     
