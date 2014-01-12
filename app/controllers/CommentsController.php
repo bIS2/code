@@ -32,7 +32,10 @@ class CommentsController extends BaseController {
 	 * @return Response
 	 */
 	public function create() {
-		$data['holding'] = Holding::find( Input::get('holding_id') ) ;
+
+		$comment = Comment::firstOrNew([ 'holding_id'=> Input::get('holding_id'), 'user_id' => Auth::user()->id ]);
+
+		$data['comment'] = $comment;
 		return View::make('comments.create', $data);
 	}
 

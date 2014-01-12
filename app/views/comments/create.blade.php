@@ -5,15 +5,16 @@
       <h4 class="modal-title">{{{ trans('comments.title-create') }}}</h4>
     </div>
     
-		<form action="{{ route('comments.store') }}" method="post" data-remote="true" id='create-comment'>
+		<!-- <form action="{{ route('comments.store') }}" method="post" data-remote="true" id='create-comment'> -->
+		{{ Form::model($comment,[ 'url'=>route('comments.store'),'method'=>"post", "data-remote"=>"true", "id"=>'create-comment' ]) }}
 
-				{{ Form::hidden( 'holding_id', $holding->id ) }}
-				{{ Form::hidden( 'user_id', Auth::user()->id ) }}
+				{{ Form::hidden( 'holding_id' ) }}
+				{{ Form::hidden( 'user_id' ) }}
 
 				<div class="col-xs-12">
 					<div class="form-group">
-				    <label for="exampleInputEmail1">Comment</label>
-				    <textarea  class="form-control" id="exampleInputEmail1" placeholder="Enter email" name="content" placeholder="{{ trans('comments.placeholder') }}"></textarea>
+				    <label for="content">Comment</label>
+				    {{ Form::textarea('content',null,['class'=>"form-control",'placeholder'=>trans('comments.placeholder'), 'rows'=>4 ]) }}
 				  </div>
 					@if ($errors->any())
 						<ul>

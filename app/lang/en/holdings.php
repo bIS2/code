@@ -30,6 +30,8 @@ return array(
 	'is_current_short'	=> 'Current',
 	'has_incomplete_vols_short'	=> 'Incomplete',
 	'reviseds'				=> 'Reviseds',
+	'receiveds'				=> 'Receiveds',
+	'commenteds'				=> 'Commenteds',
 	'both'			=> 'Both',
 	'size'			=> 'Size',
 );

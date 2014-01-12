@@ -12,7 +12,7 @@
 @stop
 
 	<div class="row">
-		<div class="">
+		<div class="col-xs-12">
 		  <table id="new-table" class="table table-bordered table-condensed flexme">
 		  </table>
 			<table id="holdings-items" class="table table-bordered table-condensed flexme">

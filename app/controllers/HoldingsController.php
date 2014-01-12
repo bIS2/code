@@ -69,6 +69,13 @@ class HoldingsController extends BaseController {
 		if ( Input::has('unlist') )			$holdings = $holdings->orphans();
 		if ( Input::has('owner') )			$holdings = $holdings->owner();
 		if ( Input::has('aux') )				$holdings = $holdings->aux();
+
+		$holdings = (Input::has('receiveds'))	? $holdings->receiveds() : $holdings->noreceiveds();
+
+		if ( Input::has('deliveries') )	$holdings = $holdings->deliveries();
+		if ( Input::has('reviseds') )		$holdings = $holdings->reviseds();
+		if ( Input::has('commenteds') )		$holdings = $holdings->commenteds();
+
 		// $holdings = ( Input::has('reviseds') || (Auth::user()->hasRole('postuser'))) ? $holdings->reviseds()->corrects() : $holdings->noreviseds();
 
 		// Apply filter.

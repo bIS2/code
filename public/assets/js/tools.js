@@ -112,7 +112,10 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
       $('#'+result.success).addClass('success'); 
 
     if ( result.received )
-      $('#'+result.received).addClass('received'); 
+      $('#'+result.received).hide('slow', function(){ $(this).remove() }); 
+
+    if ( result.delivered )
+      $('#'+result.delivered).hide('slow', function(){ $(this).remove() }); 
 
     if ( result.hide_feedback )
       $('#btn_create_feedback').popover('hide'); 

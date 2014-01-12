@@ -80,12 +80,28 @@ class Holding extends Eloquent {
   	return $query->whereDelivered('1');
   }
 
+  public function scopeNoDeliveries($query) {
+  	return $query->whereDelivered('0');
+  }
+
+  public function scopeReceiveds($query) {
+  	return $query->whereReceived('1');
+  }
+
+  public function scopeNoReceiveds($query) {
+  	return $query->whereReceived('0');
+  }
+
   public function scopeReviseds($query){
   	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('reviseds'); });
   }
 
   public function scopeNoReviseds($query){
   	return $query->whereNotIn( 'holdings.id', function($query){ $query->select('holding_id')->from('reviseds'); });
+  }
+
+  public function scopeCommenteds($query){
+  	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('comments'); });
   }
 
   public function scopePendings($query){
