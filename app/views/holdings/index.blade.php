@@ -36,7 +36,7 @@
 					@endforeach	
 				</tr>
 			</thead>
-			<tbody class="selectable">
+			<tbody id="holdings-targets" class="selectable">
 			@foreach ($holdings as $holding)
 				<tr id="<?= $holding->id ?>" class="{{ $holding->css }}" data-holdingsset="{{$holding->holdingsset_id}}" >
 					<td style="width:5px !important">

@@ -29,7 +29,7 @@
 						</tr>
 					</thead>
 
-					<tbody>
+					<tbody id="hlists-targets">
 						@foreach ($hlists as $list)
 							<tr id="{{ $list->id }}" class="{{ $list->is_delivery ? 'success' : '' }}">
 								<td>

@@ -1,3 +1,4 @@
+﻿<meta charset="utf-8" />
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
@@ -10,7 +11,7 @@
               <th>
                 <div class="pull-left select-all">
                   <label for="select-all">
-                    <input id="select-all" name="select-all" type="checkbox" value="1">
+                    <input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" selects-target="#recalling-holdings">
                     <p class="btn btn-xs btn-primary pop-over"data-content="{{ trans('groups.select_all_holdings') }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-check"></i></p>
                   </label>
                 </div>
@@ -24,7 +25,7 @@
               <th>852h</th>       
             </tr>
           </thead>
-          <tbody>
+          <tbody id="recalling-holdings">
             @foreach ($holdings as $holding)
               <tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}{{ $librarianclass }}{{ ($holding->is_annotated) ? ' text-warning' : '' }}">     
                 <td>              

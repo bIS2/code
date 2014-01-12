@@ -1,5 +1,23 @@
-$(function(){
+$(function() {
 	$('.pop-over').popover();
+	$('#modal-show').on('shown.bs.modal', function () {
+		$(this).find($(':checkbox')).on('click',function() {
+    if ($(this).hasClass('select-all')) {
+      $($(this).attr('selects-target')).find('input.hl:checkbox').prop('checked',this.checked)
+      $('div.select-all p').toggleClass('active')
+      if (this.checked) {
+        $(':checkbox.sel').parents('tr').addClass("warning")
+        $(':checkbox.sel').parents('li').addClass("warning")
+        $('a.link_bulk_action').removeClass('disabled')
+      }
+      else {
+        $(':checkbox.sel').parents('tr').removeClass("warning")
+        $(':checkbox.sel').parents('li').removeClass("warning")
+        $('a.link_bulk_action').addClass('disabled')
+      }
+    }
+})
+	})
 	setDatatable();
 	var page
 	var last_result = '-1'

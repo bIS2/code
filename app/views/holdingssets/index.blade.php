@@ -13,7 +13,7 @@
 	$init = $holdingssets -> getTo();
 ?>
 <section id="hosg" infinitepagination="1" group_id = "<?php echo $group_id;  ?>" @if ($init == $total) {{ 'class="nopaginate"' }} @endif >
-	<ul class="hol-sets table list-group">
+	<ul id="hos-targets" class="hol-sets table list-group">
 		<?php if (count($holdingssets) > 0) { ?>
 			@include('holdingssets.hos')
 		<?php }

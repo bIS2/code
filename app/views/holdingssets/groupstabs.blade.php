@@ -84,7 +84,7 @@
 <div id="hos_actions_and_filters" class="clearfix">
 	<div class="pull-left select-all">
 	  <label>
-	    <input id="select-all" name="select-all" type="checkbox" value="1">
+	    <input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" selects-target="#hos-targets">
 	    <p class="btn btn-xs btn-primary pop-over"data-content="{{ trans('holdingssets.select_all_hos') }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-check"></i></p>
 	  </label>
 	</div>

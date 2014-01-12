@@ -583,8 +583,8 @@ function createNewHos($id) {
 function recall_holdings($id) {
 	$holding  = Holding::find($id);
 	return Holding::
-	WhereRaw(sprintf( "%s LIKE '%%%s%%'", 'LOWER(f245a)', pg_escape_string(addslashes(strtolower( $holding->f245a ) ) ) ))
-	->WhereRaw(sprintf( "%s LIKE '%%%s%%'", 'LOWER(f245b)', pg_escape_string(addslashes(strtolower( $holding->f245b ) ) ) ))->get();
+	WhereRaw(sprintf( "%s LIKE '%%%s%%'", 'f245a', htmlspecialchars($holding->f245a,ENT_QUOTES) ))
+	->WhereRaw(sprintf( "%s LIKE '%%%s%%'", 'f245b', htmlspecialchars($holding->f245b,ENT_QUOTES) )  )->get();
 }
 
 function similarity_search() {
