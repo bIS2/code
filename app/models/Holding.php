@@ -57,7 +57,7 @@ class Holding extends Eloquent {
     
     if ( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') ) 
       // $query->confirms()->noReviseds()->ownerOrAux();
-      $query->confirms()->ownerOrAux()->nodelivery();
+      $query->confirms()->ownerOrAux()->nodeliveries();
 
     if ( Auth::user()->hasRole('speichuser') ) 
       $query->deliveries();
