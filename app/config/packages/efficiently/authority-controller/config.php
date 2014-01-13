@@ -18,6 +18,10 @@ return [
           return (!$holding->is_received && Auth::user()->hasRole('speichuser'));
         });
 
+        $authority->allow('revise', 'Holding', function($self, $holding) {
+          return ( ($holding->is_correct || $holding->is_annotated ) && (Auth::user()->hasRole('maguser') || Auth::user()->hasRole('maguser')) );
+        });
+
         if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser')){
             $authority->allow('revise', 'Holding', function($self, $holding) {
               return ( !$holding->is_revised );
