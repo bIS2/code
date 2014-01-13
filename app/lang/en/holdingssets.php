@@ -3,9 +3,7 @@
 return array(
 
 	'add_HOL_to_this_HOS'		=> 'Add HOL to this HOS',
-	'add_holdings'				=> 'Add Holdings to HOS',
-	'add_holdings'				=> 'Add Holdings to HOS',
-	'advanced_filter'			=> 'Advanced Filter',
+	'add_holdings'				=> 'Add HOL to HOS',
 	'advanced_filter'			=> 'Advanced Filter',
 	'all'						=> 'All',
 	'clear_owner_filter'		=> 'Clear MAIN filter',
@@ -13,7 +11,10 @@ return array(
 	'confirm_ok_HOS'			=> 'Confirm HOS to be ok',
 	'create_group' 				=> 'Create Group',
 	'drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'				=> 'Drag and Drop into a Tab to add this HOS to a HOS Group',
-	'drag_and_drop_into_a_grouptab_to_move_this_HOS_to_another_HosGroup'=> 'Drag and Drop into a Tab to move this HOS to a HOS Group',
+	'force_aux'					=> 'Change to YELLOW',
+	'force_blue'				=> 'Change zu BLUE',
+	'force_owner'				=> 'Change to RED',
+	'go_to_last_sessions'		=> 'Restore last session',
 	'groups'   					=> 'Groups',
 	'just_aux'					=> 'Additional',
 	'just_owner'				=> 'Owner',
