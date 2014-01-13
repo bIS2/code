@@ -18,7 +18,11 @@
 			<table id="holdings-items" class="table table-bordered table-condensed flexme">
 			<thead>
 				<tr>
-					<th></th>
+					@if ( Authority::can('create','Hlist') ) 
+						<th>
+							<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets">
+						</th>
+					@endif
 					<th class="actions">{{ trans('general.actions') }}</th>
 					<?php	$k = 0; ?>
 					@foreach ($fieldstoshow as $field) 
@@ -36,11 +40,11 @@
 			@foreach ($holdings as $holding)
 
 				<tr id="<?= $holding->id ?>" class="{{ $holding->css }}" data-holdingsset="{{$holding->holdingsset_id}}" >
-					<td style="width:5px !important">
-						@if (Authority::can('create','Hlist')) 
-							<input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl" />
-						@endif
-					</td>
+					@if (Authority::can('create','Hlist')) 
+						<td style="width:5px !important">
+								<input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl" />
+						</td>
+					@endif
 					<td id="{{ $holding->id }}" class="actions" >
 
 						<div class="btn-group actions-menu" data-container="body">

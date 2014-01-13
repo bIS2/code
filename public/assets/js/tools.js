@@ -46,23 +46,20 @@ $(function(){
   bulkActions();
 
   $('body').on('click', ':checkbox.select-all',function() {
-    // if ($(this).hasClass('select-all')) {
-    	console.log( $(this).data('target') )
 
-      $($(this).data('target')).find('input.hl:checkbox').prop('checked',this.checked)
-      $('div.select-all p').toggleClass('active')
-      if (this.checked) {
-        $(':checkbox.sel').parents('tr').addClass("warning")
-        $(':checkbox.sel').parents('li').addClass("warning")
-        $('a.link_bulk_action').removeClass('disabled')
-      }
-      else {
-        $(':checkbox.sel').parents('tr').removeClass("warning")
-        $(':checkbox.sel').parents('li').removeClass("warning")
-        $('a.link_bulk_action').addClass('disabled')
-      }
-    // }
-})
+    $($(this).data('target')).find('input.hl:checkbox').prop('checked',this.checked)
+    $('div.select-all p').toggleClass('active')
+    if (this.checked) {
+      $(':checkbox.sel').parents('tr').addClass("warning")
+      $(':checkbox.sel').parents('li').addClass("warning")
+      $('a.link_bulk_action').removeClass('disabled')
+    }
+    else {
+      $(':checkbox.sel').parents('tr').removeClass("warning")
+      $(':checkbox.sel').parents('li').removeClass("warning")
+      $('a.link_bulk_action').addClass('disabled')
+    }
+	})
   
 $('a.link_bulk_action').on('click', function(){
   $('.table input.hl:checkbox:checked').clone().attr('type','hidden').appendTo('form.bulk_action')
