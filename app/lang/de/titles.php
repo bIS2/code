@@ -2,14 +2,15 @@
 
 return array(
 
+	'feedbacks' => 'Benutzerfeedback',
+	'groups'    => 'Gruppen',
+	'holdings'	=> 'Holdings',
 	'home'    	=> 'Home',
-	'roles'     => 'Rollen',
-	'groups'     => 'Gruppen',
-	'users'     => 'Benutzer',
 	'libraries' => 'Bibliotheken',
+	'lists' 	=> 'Listen',
+	'roles'     => 'Rollen',
 	'tags' 		=> 'Tags',
 	'traces' 	=> 'Verlauf',
-	'lists' 	=> 'Listen',
-	'feedbacks' => 'Benutzerfeedback'
+	'users'     => 'Benutzer',
 
 );

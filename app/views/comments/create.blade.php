@@ -1,3 +1,6 @@
+<?php $url = ($comment->exists()) ? route('comments.update',$comment->id) : route('comments.store')  ?>
+<?php $method = ($comment->exists()) ? 'PUT' : 'POST' ?>
+
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
@@ -6,7 +9,7 @@
     </div>
     
 		<!-- <form action="{{ route('comments.store') }}" method="post" data-remote="true" id='create-comment'> -->
-		{{ Form::model($comment,[ 'url'=>route('comments.store'),'method'=>"post", "data-remote"=>"true", "id"=>'create-comment' ]) }}
+		{{ Form::model($comment,[ 'url'=>$url,'method'=>$method, "data-remote"=>"true", "id"=>'create-comment' ]) }}
 
 				{{ Form::hidden( 'holding_id' ) }}
 				{{ Form::hidden( 'user_id' ) }}
