@@ -23,7 +23,7 @@ class HoldingssetsController extends BaseController {
 		else { 
 			/* SEARCH ADVANCED FIELDS OPTIONS
 			----------------------------------------------------------------*/
-			define('ALL_SEARCHEABLESFIELDS', '022a;245a;245b;245c;246a;260a;260b;300a;300b;300c;310a;362a;500a;505a;710a;770t;772t;780t;785t;852b;852c;852h;852j;866a;866z;008x;exists_online;is_current;has_incomplete_vols');
+			define('ALL_SEARCHEABLESFIELDS', '022a;245a;245b;245c;246a;260a;260b;300a;300b;300c;310a;362a;500a;505a;710a;770t;772t;780t;785t;852b;852c;852h;852j;866a;866z;008x;size;exists_online;is_current;has_incomplete_vols');
 
 			// Is Filter
 			$allsearchablefields = ALL_SEARCHEABLESFIELDS;
@@ -42,8 +42,8 @@ class HoldingssetsController extends BaseController {
 			
 			/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
-			define('DEFAULTS_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j;008x;exists_online;is_current;has_incomplete_vols');
-			define('ALL_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j;008x;exists_online;is_current;has_incomplete_vols');
+			define('DEFAULTS_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j;008x;size;exists_online;is_current;has_incomplete_vols');
+			define('ALL_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j;008x;size;exists_online;is_current;has_incomplete_vols');
 
 			/* User vars */
 			$uUserName = Auth::user()->username;
@@ -112,16 +112,20 @@ class HoldingssetsController extends BaseController {
 				$openfilter = 0;
 				// Verify if some value for advanced search exists.
 				if ($holdings == -1) $holdings = DB::table('holdings')->orderBy('is_owner', 'DESC');
+
 				foreach ($allsearchablefields as $field) {
-					$value = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? Input::get('f'.$field) : Input::get($field);
+
+					$value = (!(($field == 'exists_online') && ($field == 'is_current') && ($field == 'has_incomplete_vols'))) ? Input::get('f'.$field) : Input::get($field);
+					
 					if ($value != '') {
 						$orand 		= Input::get('OrAndFilter')[$openfilter-1];
 						$compare 	= ($field == '008x') ? 'f'.$field : 'LOWER('.'f'.$field.')';
-						$compare 	= (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? $compare : $field;		
-						$format 	= (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? Input::get('f'.$field.'format') : '%s = %';		
-						$value 		= (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? $value : 't';
-						$var 			= (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? 'f'.$field : $field;
-						if (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) { 
+						$compare 	= ($field == 'size') ? $field : $compare;
+						$compare 	= (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))) ? $compare : $field;		
+						$format 	= (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))) ? Input::get('f'.$field.'format') : '%s = %';		
+						$value 		= (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))) ? $value : 't';
+						$var 			= (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') && ($field != 'size'))) ? 'f'.$field : $field;
+						if (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))) { 
 							$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($var) ) ) )) ) :  
 																						  $holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($var) ) ) ) ) );  
 						}
@@ -280,6 +284,7 @@ class HoldingssetsController extends BaseController {
 	public function getRecallHoldings($id) {
 		// die($id);
 		$this -> data['holdings']  = recall_holdings($id);
+		$this -> data['holdingsset_id']  = Holding::find($id)->holdingsset_id;
 		return View::make('holdingssets.recallingholdings', $this -> data);
 	}
 
@@ -305,10 +310,15 @@ class HoldingssetsController extends BaseController {
 
 		if (Input::has('holding_id')) {
 			$ids = Input::get('holding_id');
-			$newhos_id = createNewHos($ids[0]);
+
+			$newhos_id = (Input::has('update_hos') && (Input::get('update_hos') == 1)) ? $holdingsset_id : createNewHos($ids[0]);
+
 			Holding::whereIn('id', $ids)->update(['holdingsset_id'=>$newhos_id]);
-			Holdingsset::find($holdingsset_id)->decrement('holdings_number', count($ids));
-			Holdingsset::find($newhos_id)->update(['holdings_number' => count($ids), 'groups_number'=>0]);
+
+			(Input::has('update_hos') && (Input::get('update_hos') == 1)) ? Holdingsset::find($holdingsset_id)->increment('holdings_number', count($ids)) : Holdingsset::find($holdingsset_id)->decrement('holdings_number', count($ids));
+
+			(Input::has('update_hos') && (Input::get('update_hos') == 1)) ?  : Holdingsset::find($newhos_id)->update(['holdings_number' => count($ids), 'groups_number'=>0]);
+
 			holdingsset_recall($newhos_id);
 		}
 		else {
@@ -352,6 +362,7 @@ class HoldingssetsController extends BaseController {
 		$holdingsset_id: Holdingssset id 
 -----------------------------------------------------------------------------------*/
 	public function putForceAux($id) {
+		// die($id);
 		// aux_ptrn-- poner en 1 los marcados
 		// ocrr_ptrn-- poner en 1 los marcados
 
@@ -359,8 +370,18 @@ class HoldingssetsController extends BaseController {
 		// is_owner -> false
 		// weight Cantidad de 1
 		// ocrr_nr Cantidad de ocurrencias
+
 		$holdingsset_id = Input::get('holdingsset_id');
-		Holding::find($id)->update(['is_aux'=>'t', 'is_owner'=>'f', 'ocrr_ptrn'=> Input::get('newptrn'), 'aux_ptrn'=> Input::get('newauxptrn'), 'ocrr_nr' => Input::get('count'), 'force_aux' => true, 'force_owner' => false]);
+
+		if (Input::get('unique_aux') == 1) {
+			$holdingsset = Holdingsset::find($holdingsset_id);
+			$ptrn = Input::get('ptrn');
+			$empty_ptrn = str_replace('1', '0', $ptrn);
+			$holdingsset->holdings()->where('id', '!=', $id)->update(['is_aux' => 'f', 'force_owner' => false, 'aux_ptrn' => $empty_ptrn ]);
+		}
+		else {
+			Holding::find($id)->update(['is_aux'=>'t', 'is_owner'=>'f', 'ocrr_ptrn'=> Input::get('newptrn'), 'aux_ptrn'=> Input::get('newauxptrn'), 'ocrr_nr' => Input::get('count'), 'force_aux' => true, 'force_owner' => false]);
+		}
 		holdingsset_recall($holdingsset_id);
 		$holdingssets[] = Holdingsset::find($holdingsset_id);
 		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
@@ -582,9 +603,9 @@ function createNewHos($id) {
 
 function recall_holdings($id) {
 	$holding  = Holding::find($id);
-	return Holding::
-	WhereRaw(sprintf( "%s LIKE '%%%s%%'", 'LOWER(f245a)', pg_escape_string(addslashes(strtolower( $holding->f245a ) ) ) ))
-	->WhereRaw(sprintf( "%s LIKE '%%%s%%'", 'LOWER(f245b)', pg_escape_string(addslashes(strtolower( $holding->f245b ) ) ) ))->get();
+	return Holding::where('holdingsset_id','!=', $holding -> holdingsset_id )
+	->WhereRaw(sprintf( "%s LIKE '%%%s%%'", 'f245a', htmlspecialchars($holding->f245a,ENT_QUOTES)))
+	->orWhereRaw(sprintf( "%s LIKE '%%%s%%'", 'f245b', htmlspecialchars($holding->f245b,ENT_QUOTES) ))->get();
 }
 
 function similarity_search() {

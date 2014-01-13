@@ -30,8 +30,8 @@ class Holding extends Eloquent {
 		return $this->hasOne('Ok');
 	}
 
-	public function delivery(){
-		return $this->hasOne('Delivery');
+	public function comment(){
+		return $this->hasMany('Comment');
 	}
 
 	public function revised(){
@@ -43,16 +43,21 @@ class Holding extends Eloquent {
 	}
 
   // Scopes
-  public function scopeInit ($query){
 
-  	$query = $query->with('ok','notes')->orderBy('f852j','f852c')->inLibrary();
+
+  public function scopeDefault($query){
+  	return $query->with('ok','notes')->orderBy('f852j','f852c')->inLibrary();
+  }
+
+  public function scopeInit ($query){
+  	$query = $query->default();
 
     if ( Auth::user()->hasRole('postuser') ) 
       $query->reviseds()->corrects();
     
     if ( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') ) 
       // $query->confirms()->noReviseds()->ownerOrAux();
-      $query->confirms()->ownerOrAux();
+      $query->confirms()->ownerOrAux()->nodelivery();
 
     if ( Auth::user()->hasRole('speichuser') ) 
       $query->deliveries();
@@ -76,10 +81,20 @@ class Holding extends Eloquent {
   	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); });
   }
 
-  public function scopeDeliveries($query){
-  	return $query->whereIn( 'holdings.id', function($query) { 
-      $query->select('holding_id')->from('deliveries'); 
-    });
+  public function scopeDeliveries($query) {
+  	return $query->whereDelivered('1');
+  }
+
+  public function scopeNoDeliveries($query) {
+  	return $query->whereDelivered('0');
+  }
+
+  public function scopeReceiveds($query) {
+  	return $query->whereReceived('1');
+  }
+
+  public function scopeNoReceiveds($query) {
+  	return $query->whereReceived('0');
   }
 
   public function scopeReviseds($query){
@@ -88,6 +103,10 @@ class Holding extends Eloquent {
 
   public function scopeNoReviseds($query){
   	return $query->whereNotIn( 'holdings.id', function($query){ $query->select('holding_id')->from('reviseds'); });
+  }
+
+  public function scopeCommenteds($query){
+  	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('comments'); });
   }
 
   public function scopePendings($query){
@@ -141,11 +160,11 @@ class Holding extends Eloquent {
   }
 
   public function getIsDeliveryAttribute(){
-    return $this->deliveries()->exists();
+    return $this->delivered;
   }
 
   public function getIsReceivedAttribute(){
-    return $this->receiveds()->exists();
+    return $this->received;
   }
 
 
@@ -153,7 +172,7 @@ class Holding extends Eloquent {
   // Attrubutes CSS Class
 
   public function getCssAttribute(){
-  	return $this->class_owner.' '.$this->class_correct.' '.$this->class_revised.' '.$this->class_annotated;
+  	return $this->class_owner.' '.$this->class_correct.' '.$this->class_revised.' '.$this->class_annotated.' '.$this->class_delivered.' '.$this->class_received;
   }
 
   public function getClassOwnerAttribute(){
@@ -170,6 +189,14 @@ class Holding extends Eloquent {
 
   public function getClassRevisedAttribute(){
   	return ($this->is_revised) ? 'revised' : '';
+  }
+
+  public function getClassDeliveredAttribute(){
+  	return ( $this->is_delivery && !Auth::user()->hasRole('speichuser') )   ? 'delivered' : '';
+  }  
+
+  public function getClassReceivedAttribute(){
+  	return ( $this->is_received && Auth::user()->hasRole('speichuser') )   ? 'received' : '';
   }
 
   public function getPatrnAttribute($buttons){
@@ -232,6 +259,16 @@ class Holding extends Eloquent {
     $ret .= "</div>";
     return $ret;
 
+  }
+
+  public function show($field, $len = 30){
+  	$str = $this->clean($this->$field);
+		return (strlen($str) > $len) ? '<span class="pop-over" data-content="<strong>'.$str.'</strong>" data-placement="top" data-toggle="popover" data-html="true" class="btn btn-default" type="button" data-trigger="hover">{{ truncate($str, 30) }}</span>' : $str;
+
+  }
+
+  public function clean($value){
+  	return htmlspecialchars($value);
   }
 
 }

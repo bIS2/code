@@ -13,7 +13,7 @@ class Delivery extends Eloquent {
 		'hlist_id' => 'required'
 	);
 
-  public function holding() {
+  public function hlist() {
       return $this->belongsTo('Hlist');
   }
 

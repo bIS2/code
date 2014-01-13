@@ -389,6 +389,7 @@ footer {
     > div:first-child {
         max-width: 575px;
         overflow-x: auto;
+        vertical-align: middle;
     }
     white-space: nowrap;
     .fa {
@@ -445,7 +446,6 @@ tr.success, tr.danger{ .btn-send{ display:inline; } }
 //
 // Placed here since it has to come after the potential zebra striping
 
-
 .table-hover > tbody > tr:hover {
     .bis-hover (@swiss-blue);
     td {
@@ -493,7 +493,7 @@ section.container {
     }
     tbody td {
        white-space: nowrap;
-       vertical-align: middle;
+       vertical-align: middle !important;
        height: 20px;
        width: 100%;
        + td.sorting_1 {
@@ -609,7 +609,7 @@ table.table thead th:first-child {
         position: absolute;
         width: 205px !important;   
         height: 22px;  
-        z-index: 9;
+        // z-index: 9;
         left: 5px;
         border-bottom: none !important; 
         a {
@@ -859,7 +859,9 @@ a.btn-danger {
     color: #FF990F !important;
   }  
 }
-.received{ font-weight: bold; }
+
+tr.delivered,tr.received{  }
+
 #hos_actions_and_filters > div {
     margin-right: 20px;
     #hos-pagination {
@@ -901,4 +903,29 @@ span.input-group-addon.search-check {
     display: table;
     padding: 0 !important;
     width: 100%;
+}
+
+.actions-menu {
+        margin-top: -2px;
+    ul.dropdown-menu {        
+        top: -14px;
+        left: 60px;
+        z-index: 1;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
+        li {
+            display: inline-block;
+            border-top: none;
+            a {
+                padding: 0;
+            }
+        }
+    }
+}
+
+#toolbar,
+#footer  {
+    z-index: 9999;
+}
+.navbar {
+    z-index: 999999;
 }

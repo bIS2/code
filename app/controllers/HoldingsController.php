@@ -45,6 +45,7 @@ class HoldingsController extends BaseController {
 			  setcookie($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
 			  Session::put($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS);
 			}
+
 			if (Input::get('clearorderfilter') == 1) {
 				Session::put($uUserName.'_sortinghos_by', null);
 				Session::put($uUserName.'_sortinghos', null);
@@ -68,39 +69,39 @@ class HoldingsController extends BaseController {
 		if ( Input::has('unlist') )			$holdings = $holdings->orphans();
 		if ( Input::has('owner') )			$holdings = $holdings->owner();
 		if ( Input::has('aux') )				$holdings = $holdings->aux();
-		$holdings = ( Input::has('reviseds') || (Auth::user()->hasRole('postuser'))) ? $holdings->reviseds()->corrects() : $holdings->noreviseds();
 
+		if ( Input::has('receiveds'))		$holdings = $holdings->default()->receiveds();
+		if ( Input::has('deliveries') )	$holdings = $holdings->default()->deliveries();
+		if ( Input::has('reviseds') )		$holdings = $holdings->default()->reviseds();
+		if ( Input::has('commenteds') )	$holdings = $holdings->default()->commenteds();
 
-
+		// $holdings = ( Input::has('reviseds') || (Auth::user()->hasRole('postuser'))) ? $holdings->reviseds()->corrects() : $holdings->noreviseds();
 
 		// Apply filter.
 		$is_filter = false;
 
 		foreach ($this->data['allsearchablefields'] as $field) {
-			$value = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? Input::get('f'.$field) : Input::get($field);
-			if ($value != '')  {
-				$orand 		= Input::get('OrAndFilter')[$openfilter-1];
 
-				if ($value != '') {	
-					$is_filter = true;
-					$compare  = (($field == 'size')) ? $field : 'LOWER('.'f'.$field.')';
-					$compare 	= (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? $compare : $field;		
-					$format 	= (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? Input::get('f'.$field.'format') : '%s = %';		
-					$value 		= (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? $value : 't';
-					$var 			= (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) ? 'f'.$field : $field;
-					if (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols')) { 
-						$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($var) ) ) )) ) :  
-																					  $holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($var) ) ) ) ) );  
-					}
-					else {
-						$holdings = ($orand == 'OR') ? $holdings->orWhere($field, '=', 't') : $holdings->where($field, '=', 't');
-					}
-				}
+			$field = (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size'))) ? 'f'.$field : $field;
+
+			if ( Input::has($field) )  {
+
+				$is_filter 	= true;
+				$orand 			= Input::get('OrAndFilter')[$openfilter-1];
+				$format 		= Input::get( $field.'format' );
+				$compare = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != '008x') ) ? 'LOWER('.$field.')' : $field;
+
+				$holdings = ($orand == 'OR') ? 	
+					$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) ) :  
+				  $holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) );  
+
 			}
+
 		}
 
-		$this->data['is_filter'] = $is_filter;
-		$this->data['holdings'] = $holdings->paginate(25);
+		$this->data['is_filter'] 	= $is_filter;
+		$this->data['sql'] 				= sprintf( $format, $compare, $value );
+		$this->data['holdings'] 	= $holdings->paginate(25);
 
 		// CONDITIONS
 		// filter by holdingsset ok

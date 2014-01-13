@@ -21,6 +21,9 @@ class FeedbacksController extends BaseController {
 	 */
 	public function index()
 	{
+		if (Input::has('q')) 
+			$this->feedback = $this->feedback->where('content','like', '%'.Input::get('q').'%');
+				
 		$feedbacks = $this->feedback->paginate(25);
 
 		return View::make('feedbacks.index', compact('feedbacks'));

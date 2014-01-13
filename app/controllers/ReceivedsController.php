@@ -46,9 +46,10 @@ class ReceivedsController extends BaseController {
 		$input = Input::all();
 		$validation = Validator::make($input, Received::$rules);
 
-		if ($validation->passes())
-		{
-			$this->received->create($input);
+		if ($validation->passes()){
+
+			if ( !Received::whereHoldingId( Input::get('holding_id') )->exists() )
+				$this->received->create($input);
 
 			return Response::json( ['received'=> Input::get('holding_id')] );
 		}

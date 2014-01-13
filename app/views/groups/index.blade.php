@@ -22,7 +22,7 @@
 						<th>
 							<div class="pull-left select-all">
 							  <label for="select-all">
-							    <input id="select-all" name="select-all" type="checkbox" value="1">
+							    <input id="select-all" name="select-all" type="checkbox" value="1" selects-target="#groups-targets">
 							    <p class="btn btn-xs btn-primary pop-over"data-content="{{ trans('groups.select_all_groups') }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-check"></i></p>
 							  </label>
 							</div>
@@ -34,7 +34,7 @@
 					</tr>
 				</thead>
 
-				<tbody>
+				<tbody id="groups-targets">
 					@foreach ($groups as $group)
 						<tr id="{{$group->id}}">
 							<td><input id="group_id" name="group_id[]" type="checkbox" value="{{ $group->id }}" class="hl sel"></td>

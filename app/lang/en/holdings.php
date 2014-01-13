@@ -27,10 +27,13 @@ return array(
 	'pending'				=> 'Pending',
 	'printer'				=> 'Print',
 	'reviseds'				=> 'Reviseds',
+	'receiveds'				=> 'Receiveds',
+	'commenteds'				=> 'Commenteds',
+	'both'			=> 'Both',
+	'size'			=> 'Size',
 	'tagged'				=> 'Tagged',
 	'title'   				=> 'Holdings',
 	'title_create_group'	=> 'Create group',
 	'ungroup'				=> 'Unlist',
 	'value'					=> 'Value',
-
 );

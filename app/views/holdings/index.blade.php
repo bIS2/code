@@ -12,18 +12,14 @@
 @stop
 
 	<div class="row">
-		<div class="">
+		<div class="col-xs-12">
 		  <table id="new-table" class="table table-bordered table-condensed flexme">
 		  </table>
 			<table id="holdings-items" class="table table-bordered table-condensed flexme">
 			<thead>
 				<tr>
-			
-						<th></th>
-			
-
+					<th></th>
 					<th class="actions">{{ trans('general.actions') }}</th>
-
 					<?php	$k = 0; ?>
 					@foreach ($fieldstoshow as $field) 
 						@if ($field != 'ocrr_ptrn') <?php $k++; ?>										
@@ -36,8 +32,9 @@
 					@endforeach	
 				</tr>
 			</thead>
-			<tbody class="selectable">
+			<tbody id="holdings-targets" class="selectable">
 			@foreach ($holdings as $holding)
+
 				<tr id="<?= $holding->id ?>" class="{{ $holding->css }}" data-holdingsset="{{$holding->holdingsset_id}}" >
 					<td style="width:5px !important">
 						@if (Authority::can('create','Hlist')) 
@@ -45,66 +42,91 @@
 						@endif
 					</td>
 					<td id="{{ $holding->id }}" class="actions" >
-						<a href="{{ route('holdings.show', $holding->id) }}" data-target="#modal-show" data-toggle="modal"><span class="glyphicon glyphicon-eye-open" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
 
+						<div class="btn-group actions-menu" data-container="body">
+						  <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
+						    {{{ trans('general.action')}}} <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu">
 
-						@if (Authority::can('touch', $holding))						
-							<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.see_information_from_original_system') }}">
-								<span class="glyphicon glyphicon-list-alt"></span>
-							</a>
+						    <li class="btn btn-xs">
+									<a href="{{ route('holdings.show', $holding->id) }}" data-target="#modal-show" data-toggle="modal" >
+										<span class="fa fa-eye" title="{{ trans('holdingssets.see_more_information') }}" data-placement="top" data-toggle="popover" data-trigger="hover"></span>
+									</a>
+						    </li>
 
-						  <a href="{{ route('oks.store') }}" class="btn-link btn-xs btn-ok" data-method="post" data-remote="true" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" >
-						  	<span class="fa fa-thumbs-up"></span>
-						  </a>
+								@if (Authority::can('touch', $holding))
+									<li class="btn btn-xs" >
+										<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.see_information_from_original_system') }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover">
+											<span class="fa fa-external-link"></span>
+										</a>
+									</li>						
+									<li class="btn btn-xs">
+									  <a href="{{ route('oks.store') }}" class="btn-ok" data-method="post" data-remote="true" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" >
+									  	<span class="fa fa-thumbs-up"></span>
+									  </a>
+									</li>
+									<li class="btn btn-xs">
+									  <a href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-notes" class="btn-tag">
+									  	<span class="fa fa-tags"></span> 
+									  </a>
+									</li>
+									<li class="btn btn-xs">
+									  <a href="{{ route('reviseds.store') }}" class="btn-send" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
+									  	<span class="fa fa-mail-forward"></span> 									  </a>
+									</li>
+								@endif
 
-						  <a href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-notes" class="btn-link btn-xs btn-tag">
-						  	<span class="fa fa-tags"></span> 
-						  </a>
+								@if (Authority::can('receive',$holding))
+									<li class="btn btn-xs">
+									  <a href="{{ route('receiveds.store') }}" class="" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
+									  	<span class="fa fa-download"></span> 
+									  </a>
+									</li>
+									<li class="btn btn-xs">
+									  <a href="{{ route('comments.create',['holding_id'=>$holding->id]) }}" title="{{ trans('general.comment') }}" class="btn-comment" data-toggle="modal" data-target="#form-create-comments">
+									  	<span class="fa fa-comment"></span> 
+									  </a>
+									</li>
+							  @endif
 
-						  <a href="{{ route('reviseds.store') }}" class="btn-link btn-xs btn-send" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
-						  	<span class="fa fa-mail-forward"></span> 
-						  </a>
-						@endif
-
-						@if (Authority::can('receive',$holding))
-						  <a href="{{ route('receiveds.store') }}" class="btn-link btn-xs btn-send" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
-						  	<span class="fa fa-download"></span> 
-						  </a>
-					  @endif
+						  </ul>
+						</div>
 					</td>
 
 				<?php $k = 0; ?>
 					@foreach ($fieldstoshow as $field)
+
 						@if ($field != 'ocrr_ptrn')  
+
 						<?php $k++;
 							$field = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size')) ? $field = 'f'.$field : $field; 
 						?>						
 							<td>
-								<?php if ($field == 'size') {  ?>
+								@if ($field == 'size') 
+
 									@if (Authority::can('set_size', $holding))
 										<a href="#" class="editable" data-type="text" data-pk="{{$holding->id}}" data-url="{{ route('holdings.update',[$holding->id]) }}" >{{ $holding->size }} </a>
 									@else
 										{{ $holding->size }}
 									@endif
-								<?php	}
-								else {
-									$str = htmlspecialchars($holding->$field);
-									if (strlen($str) > 30) { ?>
-										<span class="pop-over" data-content="<strong>{{ $str }}</strong>" data-placement="top" data-toggle="popover" data-html="true" class="btn btn-default" type="button" data-trigger="hover">{{ truncate($str, 30) }}</span>
-									<?php }
-									else {
-										echo $str;
-									}
-								}
-								?>
+
+								@else 
+
+									{{ $holding->show( $field ) }};
+
+								@endif
 							</td>
+
 							@if ($k == 2)
 								<td class="ocrr_ptrn">
 									{{ $holding -> patrn_no_btn }}
 									<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>{{ $holding -> f866a }}</strong>" data-placement="top" data-toggle="popover" data-html="true" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>
 								</td>
 							@endif
+
 						@endif
+
 					@endforeach
 				</tr>
 			@endforeach
@@ -114,6 +136,7 @@
 		</div>
 		<div class="remote">
 		 <div class="modal" id="form-create-notes"></div><!-- /.modal -->
+		 <div class="modal" id="form-create-comments"></div><!-- /.modal -->
 		 <div class="modal" id="modal-show"></div><!-- /.modal -->
 		</div>
 

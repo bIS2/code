@@ -12,7 +12,7 @@
  -->			  <li>
 				  <div class="btn-group">
 				  	<div class="btn-group">
-					  	<a href="#" class="btn btn-sm dropdown-toggle {{ (Input::has('hlist_id')) ? 'btn-primary' : 'btn-default'}} {{ (Auth::user()->hlists()->count() > 0) ? '' : ' disabled '}}" data-toggle="dropdown">
+					  	<a href="#" class="btn btn-sm dropdown-toggle {{ (Input::has('hlist_id')) ? 'btn-primary' : 'btn-default'}} {{ ($hlists->count() > 0) ? '' : ' disabled '}}" data-toggle="dropdown">
 					  		<i class="fa fa-list-ul"> </i> 
 					  		@if (Input::has('hlist_id'))
 					  			<?php $list = Hlist::find(Input::get('hlist_id')) ?>
@@ -63,15 +63,27 @@
 					  		@endforeach
 					  	</ul>
 				  	</div>
+
 				  	<a href="{{ route('holdings.index', Input::only('view') + ['reviseds'=>'true'] ) }}" class="btn btn-default text-primary <?= ( Input::has('reviseds') ) ? 'active' : '' ?> btn-sm" >
 				  		<div class="text-primary"><span class="fa fa-mail-forward"></span> {{{ trans('holdings.reviseds') }}}</div>
 				  	</a>
-				  	<a href="{{ route('holdings.index', Input::only('view') + ['deliveries'=>'true'] ) }}" class="btn btn-success <?= ( Input::has('deliveries') ) ? 'active' : '' ?> btn-sm" >
+
+				  	<a href="{{ route('holdings.index', Input::only('view') + ['deliveries'=>'true'] ) }}" class="btn btn-default <?= ( Input::has('deliveries') ) ? 'active' : '' ?> btn-sm" >
 				  		<span class="fa fa-truck fa-flip-horizontal"></span> {{{ trans('holdings.deliveries') }}}
 				  	</a>
+
+				  	<a href="{{ route('holdings.index', Input::only('view') + ['receiveds'=>'true'] ) }}" class="btn btn-default <?= ( Input::has('receiveds') ) ? 'active' : '' ?> btn-sm" >
+				  		<span class="fa fa-download"></span> {{{ trans('holdings.receiveds') }}}
+				  	</a>
+
+				  	<a href="{{ route('holdings.index', Input::only('view') + ['commenteds'=>'true'] ) }}" class="btn btn-default <?= ( Input::has('commenteds') ) ? 'active' : '' ?> btn-sm" >
+				  		<span class="fa fa-comments"></span> {{{ trans('holdings.commenteds') }}}
+				  	</a>
+
 				  </div>
 
 				  	<div class="btn-group">
+
 					  	<a href="{{ route('holdings.index', Input::except(['owner', 'aux'])) }}" class="btn  <?= ( !Input::has('owner') && !Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 					  		 <i class="fa fa-list"></i> {{{ trans('holdings.all') }}}
 					  	</a>
@@ -88,6 +100,7 @@
 				  	</div>	
 
 				  	<div class="btn-group">
+
 					  	<a href="{{ route('holdings.index', Input::except(['pendings', 'unlist'])) }}" class="btn btn-default btn-sm{{ (Input::has('pendings') || Input::has('unlist')) ? '' : ' btn-primary ' }}" >
 					  		<span class="fa fa-list"></span> {{{ trans('holdings.all') }}}
 					  	</a>				  	
@@ -99,6 +112,7 @@
 					  	<a href="?unlist=true" class="btn <?= ( Input::has('unlist')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 					  		<span class="fa fa-chain-broken"></span> {{{ trans('holdings.ungroup') }}}
 					  	</a>
+
 				  	</div>
 
 
@@ -106,19 +120,17 @@
 				  		<span class="fa fa-filter"></span> {{{ trans('holdings.advanced_filter') }}} 
 				  	</a>
 
-
-
 				  <div class="btn-group" >
 
-				  	<a href="{{ route('holdings.index', Input::except('view') ) }}" class="btn btn-default <?= (!Input::has('view')) ? 'active' : '' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index', Input::except('view') ) }}" class="btn btn-default <?= (!Input::has('view')) ? 'btn-primary' : '' ?> btn-sm" >
 				  		<span class="fa fa-table"></span> 
 				  	</a>
 
-				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn btn-default <?= (Input::get('view')=='slide') ? 'active' : '' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn btn-default <?= (Input::get('view')=='slide') ? 'btn-primary' : '' ?> btn-sm" >
 				  		<span class="fa fa-desktop"></span> 
 				  	</a>
 
-				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'print'] ) }}" target="_blank" class="btn btn-default <?= (Input::get('view')=='print') ? 'active' : '' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'print'] ) }}" target="_blank" class="btn btn-default <?= (Input::get('view')=='print') ? ' btn-primary' : '' ?> btn-sm" >
 				  		<span class="fa fa-print"></span> 
 				  	</a>
 				  	
@@ -188,7 +200,9 @@
 															<div class="input-group inline input-group-sm">
 																<label class="input-group-addon">{{ trans('holdings.'.$field.'_short') }}</label>
 																<span class="input-group-addon  search-check">
-															  	<input type="checkbox" class="form-control" name="<?= $field; ?>" checked="checked">
+																	<input type="hidden" name="<?= $field; ?>" value="0">
+																	<input type="hidden" name="<?= $field; ?>format" value="%s = %s">
+															  	<input type="checkbox" class="form-control" name="<?= $field; ?>" value="1" checked="checked">
 															  </span>
 															  <select id="OrAndFilter" class="form-control" name="OrAndFilter[]">
 													     		<option value="AND" selected>{{ trans('general.AND') }}</option>
@@ -244,9 +258,11 @@
 														<div class="input-group inline input-group-sm">
 															<label class="input-group-addon">{{ trans('holdings.'.$field.'_short') }}</label>
 															<span class="input-group-addon search-check">
-														  	<input type="checkbox" class="form-control" name="<?= $field; ?>" checked="checked">
+																<input type="hidden" name="<?= $field; ?>" value="0">
+														  	<input type="checkbox" class="form-control" name="<?= $field; ?>" value="1" checked="checked">
+																<input type="hidden" name="<?= $field; ?>format" value="%s = %s">
 														  </span>
-														  <select id="OrAndFilter" class="form-control" name="OrAndFilter[]">
+														  <select id="OrAndFilter" class="form-control" name="OrAndFilter[]">	
 												     		<option value="AND" selected>{{ trans('general.AND') }}</option>
 												     		<option value="OR">{{ trans('general.OR') }}</option>
 												     	</select>

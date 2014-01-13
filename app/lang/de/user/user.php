@@ -16,6 +16,7 @@ return array(
 	'account'               => 'Konto',
 	'forgot_password'       => 'Passwort vergessen?',
 	'settings'              => 'Einstellungen',
+	'edit_settings'         => 'Edit your Settings',
 	'profile'               => 'Profil',
 	'user_account_is_not_confirmed'          => 'Benutzerkonto ist nicht bestätigt.',
 	'user_account_updated'          => 'Benutzerkonto aktualisiert.',

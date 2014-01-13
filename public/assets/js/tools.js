@@ -44,20 +44,26 @@ $(function(){
   });
 
   bulkActions();
-  $(':checkbox#select-all').on('click',function(){
-  $('.table').find('input.hl:checkbox').prop('checked',this.checked)
-  $('div.select-all p').toggleClass('active')
-  if (this.checked) {
-    $(':checkbox.sel').parents('tr').addClass("warning")
-    $(':checkbox.sel').parents('li').addClass("warning")
-    $('a.link_bulk_action').removeClass('disabled')
-  }
-  else {
-    $(':checkbox.sel').parents('tr').removeClass("warning")
-    $(':checkbox.sel').parents('li').removeClass("warning")
-    $('a.link_bulk_action').addClass('disabled')
-  }
+
+  $('body').on('click', ':checkbox.select-all',function() {
+    // if ($(this).hasClass('select-all')) {
+    	console.log( $(this).data('target') )
+
+      $($(this).data('target')).find('input.hl:checkbox').prop('checked',this.checked)
+      $('div.select-all p').toggleClass('active')
+      if (this.checked) {
+        $(':checkbox.sel').parents('tr').addClass("warning")
+        $(':checkbox.sel').parents('li').addClass("warning")
+        $('a.link_bulk_action').removeClass('disabled')
+      }
+      else {
+        $(':checkbox.sel').parents('tr').removeClass("warning")
+        $(':checkbox.sel').parents('li').removeClass("warning")
+        $('a.link_bulk_action').addClass('disabled')
+      }
+    // }
 })
+  
 $('a.link_bulk_action').on('click', function(){
   $('.table input.hl:checkbox:checked').clone().attr('type','hidden').appendTo('form.bulk_action')
 })
@@ -90,10 +96,12 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     if ( result.annotated ){
       $('#'+result.annotated).addClass('danger').removeClass('success'); 
       $('#form-create-notes').modal('hide')
+      $('#slider').carousel('next')
     } 
 
     if ( result.correct ){
       $('#'+result.correct).removeClass('danger').addClass('success'); 
+      $('#slider').carousel('next');
     } 
     if ( result.blank ){
       $('#'+result.blank).removeClass('danger').removeClass('success'); 
@@ -106,7 +114,14 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
       $('#'+result.success).addClass('success'); 
 
     if ( result.received )
-      $('#'+result.received).addClass('received'); 
+      $('#'+result.received).hide('slow', function(){ $(this).remove() }); 
+
+    if ( result.delivered )
+      $('#'+result.delivered).hide('slow', function(){ $(this).remove() }); 
+
+    if ( result.commented ){
+    	$('#form-create-comments').modal('hide')
+    }
 
     if ( result.hide_feedback )
       $('#btn_create_feedback').popover('hide'); 

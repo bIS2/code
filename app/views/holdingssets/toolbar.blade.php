@@ -139,7 +139,7 @@
 										<?= (Input::has('aux')) ? '<input type="hidden" name="aux" value="'.Input::get('aux').'">': '' ?>
 										<?php $ff = 0; $AndOrs = Input::get('OrAndFilter');
 										foreach ($allsearchablefields as $field) { 
-											$value = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size')) ? Input::get('f'.$field) : Input::get($field);
+											$value = (!(($field == 'exists_online') && ($field == 'is_current') && ($field == 'has_incomplete_vols'))) ? Input::get('f'.$field) : Input::get($field);
 											if ($value != '') { 
 												if (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))  { ?>
 														<div id="ff<?= $field; ?>" class="form-group col-xs-2">
@@ -159,7 +159,7 @@
 												<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 													<div class="input-group inline input-group-sm">
 													  <label class="input-group-addon"><?= $field; ?></label>
-													  <?php if (($field != '008x') && ($field != 'size')) { ?>
+													  <?php if (!(($field == '008x') || ($field == 'size'))) { ?>
 										     			<select id="f<?= $field; ?>Filter" name="f<?= $field; ?>format" class="form-control">
 												     		<option value="%s LIKE '%%%s%%'" <?= (Input::get('f'.$field.'format') == "%s LIKE '%%%s%%'") ? 'selected' : ''; ?> >{{ trans('general.contains') }}</option>
 												     		<option value="%s NOT LIKE '%%%s%%'" <?= (Input::get('f'.$field.'format') == "%s NOT LIKE '%%%s%%'") ? 'selected': ''; ?> >{{ trans('general.no_contains') }}</option>
@@ -196,7 +196,7 @@
 									<?php foreach ($allsearchablefields as $field) { 
 										$value = Input::get('f'.$field);
 										if (($value == null) || ($value == '')) {
-											if (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size'))  { ?>
+											if (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))  { ?>
 													<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 														<div class="input-group inline input-group-sm">
 															<label class="input-group-addon">{{ trans('holdings.'.$field.'_short') }}</label>
@@ -215,7 +215,7 @@
 													<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 														<div class="input-group inline input-group-sm">
 														  <label class="input-group-addon"><?= $field; ?></label>
-														  <?php if (($field != '008x') && ($field != 'size')) { ?>
+														  <?php if (!(($field == '008x') || ($field == 'size'))) { ?>
 											     			<select id="f<?= $field; ?>Filter" name="f<?= $field; ?>format" class="form-control">
 													     		<option value="%s LIKE '%%%s%%'" selected>{{ trans('general.contains') }}</option>
 													     		<option value="%s NOT LIKE '%%%s%%'">{{ trans('general.no_contains') }}</option>

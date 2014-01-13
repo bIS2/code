@@ -150,3 +150,5 @@ Route::resource('incorrects', 'IncorrectsController');
 
 
 Route::resource('receiveds', 'ReceivedsController');
+
+Route::resource('comments', 'CommentsController');
