@@ -82,6 +82,9 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 
 
   $('body').on( 'ajax:success', 'form,a', function(data, result, status){
+
+    if($(this).attr('id') == 'recalled') window.location.reload()
+
     /* Holdings Tags */
     if ( result.tag ){
       $('tr#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger');
@@ -125,7 +128,6 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 
     if ( result.remove_by_holdingsset )
       $('tr[data-holdingsset='+ result.remove_by_holdingsset +']').hide('slow', function(){ $(this).remove() }); 
-
   })
   countThs();
 	getAsuccess()
@@ -140,7 +142,7 @@ function getAsuccess() {
           if (set > 0) {          
             accordion = $('#hosg .hol-sets li#'+set).find('a.accordion-toggle');
             open = ($(accordion).hasClass('collapsed') == true) ? 0 : 1
-            console.log(open);
+            // console.log(open);
             reload_set(set, result, open);          
           }
           if ( result.remove )

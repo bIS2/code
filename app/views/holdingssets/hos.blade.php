@@ -11,6 +11,10 @@
 		$btn 	= ($holdingsset->is_unconfirmable) ? 'btn-success' : $btn;
 		$btn 	= ($HOSincorrect) ? 'btn-danger' : $btn;
 	?>
+		<?php if ($holdingsset->holdings->count()==0) {
+				$holdingsset -> delete();
+			}
+			else { ?>
 		<li id="{{ $holdingsset -> id; }}" class="list-group-item">
 			  <div class="panel-heading row">
 		  		<div class="col-sm-12">
@@ -93,4 +97,5 @@
 					</div>
 				</div>
 		</li>
+		<?php } ?>
 	@endforeach
