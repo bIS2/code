@@ -52,8 +52,6 @@ class HoldingsController extends BaseController {
 			}
 
 
-
-
 		$this->data['allsearchablefields'] = ['size','022a','245a','245b','245c','246a','260a','260b','300a','300b','300c','310a','362a','500a','505a','710a','770t','772t','780t','785t','852b','852c','852h','852j','866a','866z', '008x', 'exists_online', 'is_current', 'has_incomplete_vols'];
 
 		$holdings = ( Input::has('hlist_id') ) ?	Hlist::find( Input::get('hlist_id') )->holdings() : Holding::init();
