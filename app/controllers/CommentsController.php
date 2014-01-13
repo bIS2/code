@@ -109,7 +109,7 @@ class CommentsController extends BaseController {
 			$comment = $this->comment->find($id);
 			$comment->update($input);
 
-			return Redirect::route('comments.show', $id);
+			return Response::json( ['commented' => $input['holding_id']] );
 		}
 
 		return Redirect::route('comments.edit', $id)
