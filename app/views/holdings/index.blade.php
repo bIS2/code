@@ -60,6 +60,7 @@
 						    </li>
 
 								@if (Authority::can('touch', $holding))
+
 									<li class="btn btn-xs" >
 										<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.see_information_from_original_system') }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover">
 											<span class="fa fa-external-link"></span>
@@ -75,12 +76,19 @@
 									  	<span class="fa fa-tags"></span> 
 									  </a>
 									</li>
-									<li class="btn btn-xs">
-									  <a href="{{ route('reviseds.store') }}" class="btn-send" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
-									  	<span class="fa fa-mail-forward"></span> 									  </a>
-									</li>
 								@endif
 
+								@if (Authority::can('revise', $holding))
+
+									<li class="btn btn-xs">
+									  <a href="{{ route('reviseds.store') }}" class="btn-send" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
+									  	<span class="fa fa-mail-forward"></span> 
+									  </a>
+									</li>
+									
+								@endif
+
+								
 								@if (Authority::can('receive',$holding))
 									<li class="btn btn-xs">
 									  <a href="{{ route('receiveds.store') }}" class="" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
