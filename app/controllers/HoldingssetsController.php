@@ -310,7 +310,7 @@ class HoldingssetsController extends BaseController {
 
 		if (Input::has('holding_id')) {
 			$ids = Input::get('holding_id');
-
+	
 			$newhos_id = (Input::has('update_hos') && (Input::get('update_hos') == 1)) ? $holdingsset_id : createNewHos($ids[0]);
 
 			Holding::whereIn('id', $ids)->update(['holdingsset_id'=>$newhos_id]);
@@ -603,9 +603,13 @@ function createNewHos($id) {
 
 function recall_holdings($id) {
 	$holding  = Holding::find($id);
-	return Holding::where('holdingsset_id','!=', $holding -> holdingsset_id )
-	->WhereRaw(sprintf( "%s LIKE '%%%s%%'", 'f245a', htmlspecialchars($holding->f245a,ENT_QUOTES)))
-	->orWhereRaw(sprintf( "%s LIKE '%%%s%%'", 'f245b', htmlspecialchars($holding->f245b,ENT_QUOTES) ))->get();
+
+	return Holding::where('holdingsset_id','!=', $holding -> holdingsset_id )->where(function($query) use ($holding) {	
+		$query->where('f245a', 'like', '%'.htmlspecialchars($holding->f245a,ENT_QUOTES). '%');
+		// ->orWhere('f245b', 'like', '%'.htmlspecialchars($holding->f245b,ENT_QUOTES). '%');
+	})->take(10)->get();
+	// $queries = DB::getQueryLog();
+	// die(var_dump(end($queries)));
 }
 
 function similarity_search() {

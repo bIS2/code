@@ -90,7 +90,7 @@
 	@if ( Authority::can('create','Hlist') ) 
 		<div class="pull-left select-all">
 		  <label>
-		    <input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" selects-target="#holdings-targets">
+		    <input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets">
 		    <p class="btn btn-xs btn-primary pop-over" data-content="{{ trans('holdings.select_all_hol') }}" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-check"></i></p>
 		  </label>
 		</div>
