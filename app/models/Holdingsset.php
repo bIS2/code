@@ -101,6 +101,7 @@ class Holdingsset extends Eloquent {
     // var_dump($auxs);
     // var_dump($receiveds);
     // die();
+    $receiveds = (count($receiveds) > 0) ? $receiveds : [-1];
     return holdingsset::whereIn('id', $receiveds);
   }
 
