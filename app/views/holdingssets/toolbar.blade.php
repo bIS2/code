@@ -74,6 +74,11 @@
 				  	<a id="filter_incorrect" href="{{ route('sets.index', Input::except('state') + ['state'=>'incorrects']) }}" class="btn btn-danger <?= (Input::get('state') == 'incorrects') ? 'active' : '' ?> btn-sm">
 				  		<span class="fa fa-thumbs-down"></span> {{{ trans('general.incorrects') }}}
 				  	</a>
+						@if (count(holdingsset::receiveds()->lists('id')) > 0 )
+							<a href="/sets?state=receiveds" class="btn btn-default <?= (Input::get('state') == 'incorrects') ? 'active' : '' ?> btn-sm">
+								<span class="fa fa-download"></span> {{ trans('holdingssets.receiveds') }}
+							</a>
+						@endif
 				  </div>
 				  <div class="btn-group">
 				  	<a href="#collapseOne" id="filter-btn" class="accordion-toggle <?= ($is_filter) ? 'btn-primary' : 'btn-default' ?> btn btn-sm dropdown-toggle" data-toggle="collapse" data-parent="#accordion2">

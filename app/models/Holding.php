@@ -289,29 +289,27 @@ class Holding extends Eloquent {
           <?php if (!($holding->locked)) : ?>
             <input id="holding_id" name="holding_id[]" type="checkbox" value="<?= $holding->id; ?>" class="pull-left hld selhld">
           <?php endif ?>
+            <?php if (Auth::user()->hasRole('resuser')) : ?>
+                <?php if ($holding->locked()->exists()) : ?>
+                  <div class="pull-right">
+                    <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="<?= route('lockeds.store',['holding_id' => $holding->id]); ?>" class="pop-over <?= $btnlock; ?> pull-right" data-remote="true" data-method="post" data-params="holdingsset_id=<?=$holdingsset->id; ?>"  data-disable-with="..." data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?><br><strong><?= trans('holdingssets.on_behalf_of'); ?></strong> <?= $holding->locked->comments; ?>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-lock"></span></a>
+                  </div>
+                <?php else : ?>
+                  <div class="pull-right">
+                    <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="#" class="editable  pull-right" data-type="text" data-pk="<?=$holdingsset->id; ?>" data-url="<?= route('lockeds.update',[$holding->id]); ?>" title="<?php if ($btn != 'btn-success disabled') : ?> <?= trans('holdinssets.lock_hol'); ?> @else <?= trans('holdingssets.unlock_hol'); ?><?php endif ?>"><span class="glyphicon glyphicon-lock"></span></a>
+                  </div>
+                <?php endif ?>
+              <?php elseif($holding->locked) : ?>
+                <div class="pull-right">
+                  <a id="holding<?= $holding -> id; ?>lock" class="pop-over <?= $btnlock; ?> pull-right" data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?><br><strong><?= trans('holdingssets.on_behalf_of'); ?></strong> <?= $holding->locked->comments; ?>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-lock"></span></a>
+                </div>
+              <?php endif ?>
           <div class="btn-group actions-menu" data-container="body">
             <?php if (!($HOSconfirm) && !($HOSincorrect)) : ?>
             <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
               <?= trans('general.action'); ?> <i class="fa  fa-caret-right"></i>
             </button>
             <ul class="fa fa-careft-left dropdown-menu" role="menu">
-              <?php if (Auth::user()->hasRole('resuser')) : ?>
-                <?php if ($holding->locked()->exists()) : ?>
-                  <li>
-                    <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="<?= route('lockeds.store',['holding_id' => $holding->id]); ?>" class="pop-over <?= $btnlock; ?> pull-right" data-remote="true" data-method="post" data-params="holdingsset_id=<?=$holdingsset->id; ?>"  data-disable-with="..." data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?><br><strong><?= trans('holdingssets.on_behalf_of'); ?></strong> <?= $holding->locked->comments; ?>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-lock"></span></a>
-                  </li>
-                <?php else : ?>
-                  <li>
-                    <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="#" class="editable  pull-right" data-type="text" data-pk="<?=$holdingsset->id; ?>" data-url="<?= route('lockeds.update',[$holding->id]); ?>" title="<?php if ($btn != 'btn-success disabled') : ?> <?= trans('holdinssets.lock_hol'); ?> @else <?= trans('holdingssets.unlock_hol'); ?><?php endif ?>"><span class="glyphicon glyphicon-lock"></span></a>
-                  </li>
-                <?php endif ?>
-              <?php elseif($holding->locked) : ?>
-                <li>
-                  <a id="holding<?= $holding -> id; ?>lock" class="pop-over <?= $btnlock; ?> pull-right" data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?><br><strong><?= trans('holdingssets.on_behalf_of'); ?></strong> <?= $holding->locked->comments; ?>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-lock"></span></a>
-                </li>
-
-              <?php endif ?>
-
               <?php if (!($holding->locked)) : ?>
                 <li>
                   <a href="<?= route('holdings.show', $holding->id); ?>" data-target="#modal-show" data-toggle="modal" class="pop-over" data-content="<strong><?= trans('holdingssets.see_more_information'); ?></strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-eye-open"></span></a>
