@@ -115,7 +115,7 @@
 		  </label>
 		</div>
 		<div class="btn-group">
-				<button type="submit" value="{{ trans('general.sort') }}" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-save"></span> {{ trans('general.sort') }} </button>
+				<button type="submit" value="{{ trans('general.sort') }}" class="btn btn-xs btn-primary"> {{ trans('general.sort') }} </button>
 		</div>
 	</div>
 	<div class="pull-right">
@@ -174,7 +174,7 @@
 							}	?>
 						</ul>
 						<input type="hidden" name="fieldstoshow[]" value="ocrr_ptrn">
-						<button type="submit" value="{{ trans('general.update') }}" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-save"></span> {{ trans('general.update') }} </button>
+						<button type="submit" value="{{ trans('general.update') }}" class="btn btn-xs btn-primary"> {{ trans('general.update') }} </button>
 			</div>
 		</div>
 	</div>

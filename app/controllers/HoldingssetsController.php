@@ -88,10 +88,11 @@ class HoldingssetsController extends BaseController {
 				if ($state == 'pending') 
 					$holdingssets = $holdingssets->corrects()->pendings();
 				if ($state == 'annotated') 
-					$holdingssets = $holdingssets->corrects()
-				->annotated();	
+					$holdingssets = $holdingssets->corrects()->annotated();	
 				if ($state == 'incorrects') 
-					$holdingssets = $holdingssets->incorrects();
+					$holdingssets = $holdingssets->incorrects();				
+				if ($state == 'receiveds') 
+					$holdingssets = $holdingssets->receiveds();
 			}
 
 			if ($this->data['is_filter']) {
@@ -109,12 +110,11 @@ class HoldingssetsController extends BaseController {
 					}		
 				}
 
+
 				$openfilter = 0;
 				// Verify if some value for advanced search exists.
 				if ($holdings == -1) $holdings = DB::table('holdings')->orderBy('is_owner', 'DESC');
-
 				foreach ($allsearchablefields as $field) {
-
 					$value = (!(($field == 'exists_online') && ($field == 'is_current') && ($field == 'has_incomplete_vols'))) ? Input::get('f'.$field) : Input::get($field);
 					
 					if ($value != '') {
@@ -142,6 +142,7 @@ class HoldingssetsController extends BaseController {
 			  $holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
 			  unset($holdings);
 			}
+
 			define(HOS_PAGINATE, 20);
 			$this->data['holdingssets'] = $holdingssets->orderBy($orderby, $order)->orderBy('id', 'ASC')->with('holdings')->paginate(HOS_PAGINATE);
 			unset($holdingssets);
@@ -282,9 +283,10 @@ class HoldingssetsController extends BaseController {
 		$id: Holding id
 -----------------------------------------------------------------------------------*/
 	public function getRecallHoldings($id) {
-		// die($id);
+		$holding = Holding::find($id);
 		$this -> data['holdings']  = recall_holdings($id);
-		$this -> data['holdingsset_id']  = Holding::find($id)->holdingsset_id;
+		$this -> data['holdingsset_id']  = $holding->holdingsset_id;
+		$this -> data['hol']  = $holding;
 		return View::make('holdingssets.recallingholdings', $this -> data);
 	}
 
@@ -295,7 +297,10 @@ class HoldingssetsController extends BaseController {
 		$id: Holding id
 -----------------------------------------------------------------------------------*/
 	public function getSimilaritySearch($id) {
+		$holding = Holding::find($id);
 		$this -> data['holdings']  = similarity_search($id);
+		$this -> data['holdingsset_id']  = $holding->holdingsset_id;
+		$this -> data['hol']  = $holding;
 		return View::make('holdingssets.similarityresults', $this -> data);
 	}
 
@@ -318,7 +323,6 @@ class HoldingssetsController extends BaseController {
 			(Input::has('update_hos') && (Input::get('update_hos') == 1)) ? Holdingsset::find($holdingsset_id)->increment('holdings_number', count($ids)) : Holdingsset::find($holdingsset_id)->decrement('holdings_number', count($ids));
 
 			(Input::has('update_hos') && (Input::get('update_hos') == 1)) ?  : Holdingsset::find($newhos_id)->update(['holdings_number' => count($ids), 'groups_number'=>0]);
-
 			holdingsset_recall($newhos_id);
 		}
 		else {
@@ -499,18 +503,33 @@ function truncate($str, $length, $trailing = '...') {
 	--------------------------------------
 	Params:
 		$id: HOS id
-		$params: Parameters to used in recall
+		$Notice: Parameters to used in recall
 						- force_owner(int: Holding id): Fix a Holdings that has to be owner of the HOS
-						- force_aux(int: Holding id): Fix a Holdings thet has to be owner of the HOS
+						- 866aupdated if 866aupdated != '';
+						- lockeds holdings can't be used to the algoritm
+
 -----------------------------------------------------------------------------------*/
 function holdingsset_recall($id) {
+	// $arr_ptrn = getNewPtrn($id);
+	// die(var_dump($arr_ptrn));
 
+	// $newptrn = '';
+	// $p = 0;
+	// foreach ($arr_ptrn as $ptrn) {
+	// 	$p++;
+	// 	$newptrn .= $ptrn;
+	// 	if ($p < count($arr_ptrn)) $newptrn .= '|';
+	// }
+	//Holdingsset::find($id)->update(['ptrn' => getNewPtrn($id)])
 }
 
 
-/* Obtain a new prtn 
+/* Obtain a new prtn by hol
 -----------------------------------------------------------------------------------*/
-function getNewPtrn($hol_ptrn) {
+function getNewPtrn($id) {
+	$hodings_hos = DB::select('select * from holdings where holdingsset_id = ?', array($id));
+	$count_holdings = count($hodings_hos);
+	for ($i=0; $i<$count_holdings; $i++) {
 		$ta_hol_arr[0]['ptrn']= array();
 		//si tiene algo se parte por el ;
 		$ta_arr[0]['ptrn_arr'] = (preg_match('/\w/',$hol_ptrn))?explode(';',$hol_ptrn):array();
@@ -569,8 +588,8 @@ function getNewPtrn($hol_ptrn) {
 	    $tmparr); 
 		
 		$tmparr = array_values($tmparr);
-		
-		return $tmparr;
+	}
+	return $tmparr;
 }
 
 function createNewHos($id) {
@@ -580,38 +599,37 @@ function createNewHos($id) {
 	foreach ($lastId as $key) {
 	}
 	$hol_ptrn = $holding -> hol_nrm;
-	$arr_ptrn = getNewPtrn($hol_ptrn);
-	$newptrn = '';
-	$p = 0;
-	foreach ($arr_ptrn as $ptrn) {
-		$p++;
-		$newptrn .= $ptrn;
-		if ($p < count($arr_ptrn)) $newptrn .= '|';
-	}
 	$newHos = new Holdingsset;
 	$newHos ->	id 	= $key -> id + 1;
 	$newHos ->	sys1 	= $holding -> sys2;
 	$newHos ->	f245a = $holding -> f245a;
-	$newHos ->	ptrn 	= $newptrn; 
 	$newHos ->	holdings_number 	= 0; 
 	$newHos ->	groups_number 		= 0; 
 	$newHos ->	f008x 	= $holding -> f008x; 
 	$newHos ->	save();
+	holdingsset_recall($newHos -> id);
 	$holding = Holding::find($id)->update(['holdingsset_id'=>$newHos -> id, 'is_owner' => 't', 'is_aux' => 'f']);
 	return $newHos -> id;
 }
 
 function recall_holdings($id) {
 	$holding  = Holding::find($id);
-
 	return Holding::where('holdingsset_id','!=', $holding -> holdingsset_id )->where(function($query) use ($holding) {	
-		$query->where('f245a', 'like', '%'.htmlspecialchars($holding->f245a,ENT_QUOTES). '%');
+		$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.htmlspecialchars($holding->f245a,ENT_QUOTES). '%') : $query;
+		$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.htmlspecialchars($holding->f245b,ENT_QUOTES). '%') : $query;
+		// $query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.htmlspecialchars($holding->f245a,ENT_QUOTES). '%') : $query;
+		// $query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.htmlspecialchars($holding->f245a,ENT_QUOTES). '%') : $query;
+		// $query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.htmlspecialchars($holding->f245a,ENT_QUOTES). '%') : $query;
 		// ->orWhere('f245b', 'like', '%'.htmlspecialchars($holding->f245b,ENT_QUOTES). '%');
-	})->take(10)->get();
+	})->take(100)->get();
 	// $queries = DB::getQueryLog();
 	// die(var_dump(end($queries)));
 }
 
-function similarity_search() {
-	return 0;
+function similarity_search($id) {
+	$holding  = Holding::find($id);
+	return Holding::where('holdingsset_id','!=', $holding -> holdingsset_id )->where(function($query) use ($holding) {	
+		$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.htmlspecialchars($holding->f245a,ENT_QUOTES). '%') : $query;
+		$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.htmlspecialchars($holding->f245b,ENT_QUOTES). '%') : $query;
+	})->take(100)->get();
 }

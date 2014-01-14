@@ -2,7 +2,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3><?= $holdingsset->sys1.' :: '.htmlspecialchars($holdingsset->f245a,ENT_QUOTES); ?></h3>
+        <h3 class="modal-title"><?= $holdingsset->sys1.' :: '.htmlspecialchars($holdingsset->f245a,ENT_QUOTES); ?></h3>
       </div>
       <div class="modal-body">
       	<table class="table table-bordered">
@@ -37,7 +37,7 @@
 								<td>{{ htmlspecialchars($holding->sys2,ENT_QUOTES) }}</td>				
 								<td>{{ htmlspecialchars($holding->library->code,ENT_QUOTES) }}</td>				
 								<td class="ocrr_ptrn">
-									{{ $holding -> patrn }}
+									{{ $holding -> patrn_no_btn }}
 								</td>				
 								<td>{{ htmlspecialchars($holding->f866a,ENT_QUOTES) }}</td>				
 								<td>{{ htmlspecialchars($holding->f245a,ENT_QUOTES) }} :: {{ htmlspecialchars($holding->f245b,ENT_QUOTES) }}</td>				
