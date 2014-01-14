@@ -17,7 +17,7 @@ return array(
 	'contains'			=> 'Contains',
 	'correct'			=> 'Correct',
 	'dashboard'			=> 'Overview',
-	'date'				=> 'Date',
+	'Date'				=> 'Date',
 	'delete'  			=> 'Delete',
 	'desc' 				=> 'DESC',
 	'disable_with'		=> 'Saving...',
