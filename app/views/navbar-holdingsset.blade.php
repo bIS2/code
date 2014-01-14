@@ -37,7 +37,7 @@
 		      </span>
 		    </div>
 		 </form>		
-
+		 <?php holdingsset::deliveries(); ?>
      <ul class="nav navbar-nav pull-right">
           @if (Auth::check())
 

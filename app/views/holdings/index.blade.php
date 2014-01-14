@@ -51,7 +51,7 @@
 						  <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
 						    {{{ trans('general.action')}}} <span class="caret"></span>
 						  </button>
-						  <ul class="dropdown-menu" role="menu">
+						  <ul class="fa dropdown-menu" role="menu">
 
 						    <li class="btn btn-xs">
 									<a href="{{ route('holdings.show', $holding->id) }}" data-target="#modal-show" data-toggle="modal" >
@@ -125,7 +125,7 @@
 
 								@else 
 
-									{{ $holding->show( $field ) }};
+									{{ $holding->show( $field ) }}
 
 								@endif
 							</td>

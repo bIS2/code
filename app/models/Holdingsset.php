@@ -77,6 +77,33 @@ class Holdingsset extends Eloquent {
     return $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsAux('t')->whereLibraryId( Auth::user()->library_id ); });
   }
 
+  public function scopeReceiveds($query) {
+
+    $owners = $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsOwner('t')->whereReceived('t')->whereLibraryId( Auth::user()->library_id ); })->lists('id'); 
+
+    $auxs = $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsAux('t')->whereReceived('t')->whereLibraryId( Auth::user()->library_id ); })->lists('id');
+
+
+    $result = array_intersect($owners, $auxs);
+
+    foreach ($owners as $owner) {
+      $countauxs = count(Holding::whereHoldingssetId($owner)->whereIsAux('t')->lists('id'));
+      $count_auxs_receiveds = ($countauxs > 0) ? count(Holding::whereHoldingssetId($this->id)->whereIsAux('t')->whereReceived('t')->lists('id')) : 0;
+      // if ($owner == 176) die($countauxs.'->'.$count_auxs_receiveds);
+      if (!(in_array($owner, $result))) {
+        if ($countauxs  == 0) $receiveds[] = $owner;
+      }
+      else {
+        if ($count_auxs_receiveds == $countauxs['owner']) $receiveds[] = $owner;
+      }
+    }
+    // var_dump($owners);
+    // var_dump($auxs);
+    // var_dump($receiveds);
+    // die();
+    return holdingsset::whereIn('id', $receiveds);
+  }
+
 
   // ATTRIBUTES
   //*************************************************************************

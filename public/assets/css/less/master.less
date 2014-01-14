@@ -508,6 +508,7 @@ section.container {
 .hol-sets {
     input#holdingsset_id {
         margin-top: 3px;
+        margin-left: 10px;
     }  
 }
 
@@ -574,6 +575,7 @@ table.table thead th:first-child {
 }
 .modal-dialog {
     width: 90%;
+    padding-top: 45px !important;
     /*margin-left: -500px;    */
     .close {
         float: left !important;
@@ -607,7 +609,7 @@ table.table thead th:first-child {
     table.flexme > thead > tr > th.actions,
     table.flexme > tbody > tr > td.actions {
         position: absolute;
-        width: 205px !important;   
+        width: 90px !important;   
         height: 22px;  
         // z-index: 9;
         left: 5px;
@@ -623,7 +625,7 @@ table.table thead th:first-child {
     }
     table.flexme > thead > tr > th.actions + th,
     table.flexme > tbody > tr > td.actions + td {
-        padding-left: 215px;
+        padding-left: 100px;
         border-left: none;
     }
     > li {
@@ -778,12 +780,12 @@ p.separator {
     width:10px;
     display:inline-block; 
 }
-.modal-body {
-    overflow-x : auto;
-}
+
 #modal-show {
     .modal-body {
-        padding: 10px 20px;
+        margin: 0 20px;
+        overflow-x: auto;
+        padding: 0 !important;
     }
     .table.table-striped.table-condensed * {
         border: none;
@@ -906,24 +908,42 @@ span.input-group-addon.search-check {
 }
 
 .actions-menu {
-        margin-top: -2px;
+    margin-top: -2px;
+    button.dropdown-toggle {
+        z-index: 0 !important;
+        &:hover {
+            z-index: 0 !important;   
+        }
+    }
+    ul.dropdown-menu:before {   
+        content: "\f0d9";
+        color: #FFFFFF;
+        font-size: 25px;
+        left: -8px;
+        position: absolute;
+    }    
     ul.dropdown-menu {        
-        top: -14px;
+        top: -10px;
         left: 60px;
         z-index: 1;
         min-width: inherit;
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
         li {
             display: inline-block;
-            border-top: none;
-            padding: 7px 5px 4px;
+            border: none !important;
+            padding: 0 !important;
             a {
-                padding: 0;
+                padding: 2px 6px;
             }
         }
+        &.fa {
+            display: none;
+        }
+    }
+    &.open .dropdown-menu.fa {
+        display: block;
     }
 }
-
 #toolbar,
 #footer  {
     z-index: 9999;
