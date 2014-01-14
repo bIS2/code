@@ -8,7 +8,7 @@
 	$truncate = pg_query($conn, "TRUNCATE holdings");
 	$resultbis = pg_query($conn, "SELECT * FROM hol_out_new WHERE sys1 <> '' and sys2 <> '' ORDER BY sys1 ASC, sys2 ASC");
 	if (!$resultbis) {
-	  die("Error connecting to database.");
+	  die("Error connecting to database."); 
 	}
 	$i = 0;
 	$count 	= 0;
