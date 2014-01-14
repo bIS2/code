@@ -18,7 +18,11 @@
 			<table id="holdings-items" class="table table-bordered table-condensed flexme">
 			<thead>
 				<tr>
-					<th></th>
+					@if ( Authority::can('create','Hlist') ) 
+						<th>
+							<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets">
+						</th>
+					@endif
 					<th class="actions">{{ trans('general.actions') }}</th>
 					<?php	$k = 0; ?>
 					@foreach ($fieldstoshow as $field) 
@@ -36,11 +40,11 @@
 			@foreach ($holdings as $holding)
 
 				<tr id="<?= $holding->id ?>" class="{{ $holding->css }}" data-holdingsset="{{$holding->holdingsset_id}}" >
-					<td style="width:5px !important">
-						@if (Authority::can('create','Hlist')) 
-							<input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl" />
-						@endif
-					</td>
+					@if (Authority::can('create','Hlist')) 
+						<td style="width:5px !important">
+								<input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl" />
+						</td>
+					@endif
 					<td id="{{ $holding->id }}" class="actions" >
 
 						<div class="btn-group actions-menu" data-container="body">
@@ -56,6 +60,7 @@
 						    </li>
 
 								@if (Authority::can('touch', $holding))
+
 									<li class="btn btn-xs" >
 										<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.see_information_from_original_system') }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover">
 											<span class="fa fa-external-link"></span>
@@ -71,12 +76,19 @@
 									  	<span class="fa fa-tags"></span> 
 									  </a>
 									</li>
-									<li class="btn btn-xs">
-									  <a href="{{ route('reviseds.store') }}" class="btn-send" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
-									  	<span class="fa fa-mail-forward"></span> 									  </a>
-									</li>
 								@endif
 
+								@if (Authority::can('revise', $holding))
+
+									<li class="btn btn-xs">
+									  <a href="{{ route('reviseds.store') }}" class="btn-send" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
+									  	<span class="fa fa-mail-forward"></span> 
+									  </a>
+									</li>
+									
+								@endif
+
+								
 								@if (Authority::can('receive',$holding))
 									<li class="btn btn-xs">
 									  <a href="{{ route('receiveds.store') }}" class="" data-params="holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">

@@ -87,14 +87,6 @@
 <?php if (count($holdings) > 0) { ?>
 <form method="post" action="{{ route('holdings.index', Input::except(['noexists'])) }}">
 <div id="hos_actions_and_filters" class="clearfix">
-	@if ( Authority::can('create','Hlist') ) 
-		<div class="pull-left select-all">
-		  <label>
-		    <input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets">
-		    <p class="btn btn-xs btn-primary pop-over" data-content="{{ trans('holdings.select_all_hol') }}" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-check"></i></p>
-		  </label>
-		</div>
-	@endif
 	<div class="pull-right">
 	  <a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-xs btn-default dropdown-toggle pull-right collapsed text-warning" data-toggle="collapse">
   		<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
