@@ -3,6 +3,11 @@
 		<strong><span class="fa fa-file-text"></span> {{ trans('holdingssets.title')}}</strong>
 	</a>
 </li>
+<li class="{{ (!Request::is('holdings*')) ?: 'active'}}" > 
+	<a href="{{ route('holdings.index') }}" >
+		<strong><span class="fa fa-file-text"></span> {{ trans('holdings.title')}}</strong>
+	</a>
+</li>
 <li class="{{ (Request::is('groups*')) ? 'active' : '' }}">
 	<a href="{{ route('groups.index') }}" ><strong><span class="fa fa-list"></span> {{ trans('holdingssets.groups')}}</strong> </a>
 </li>

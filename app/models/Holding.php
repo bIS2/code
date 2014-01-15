@@ -34,23 +34,27 @@ class Holding extends Eloquent {
 		return $this->hasMany('Comment');
 	}
 
-	public function revised(){
-		return $this->hasOne('Revised');
-	}
+  public function revised(){
+    return $this->hasOne('Revised');
+  }
 
-	public function receiveds(){
-		return $this->hasMany('Received');
+  public function receiveds(){
+    return $this->hasMany('Received');
+  }
+
+	public function states(){
+		return $this->hasMany('State');
 	}
 
   // Scopes
 
 
-  public function scopeDefault($query){
+  public function scopeDefaults($query){
   	return $query->with('ok','notes')->orderBy('f852j','f852c')->inLibrary();
   }
 
   public function scopeInit ($query){
-  	$query = $query->default();
+  	$query = $query->defaults();
 
     if ( Auth::user()->hasRole('postuser') ) 
       $query->reviseds()->corrects();
@@ -106,7 +110,11 @@ class Holding extends Eloquent {
   }
 
   public function scopeCommenteds($query){
-  	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('comments'); });
+    return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('comments'); });
+  }
+
+  public function scopeWithState( $query, $state ){
+    return $query->whereIn( 'holdings.id', function($query) use ($state) { $query->select('holding_id')->from('states')->whereState($state); });
   }
 
   public function scopePendings($query){
@@ -167,7 +175,13 @@ class Holding extends Eloquent {
     return $this->received;
   }
 
+  public function getIsJunkedAttribute(){
+    return ( $this->states()->whereState('junk')->exists() )  ;
+  }
 
+  public function getIsBurnedAttribute(){
+    return ( $this->states()->whereState('burn')->exists() )  ;
+  }
 
   // Attrubutes CSS Class
 
@@ -286,9 +300,6 @@ class Holding extends Eloquent {
     if (isset($aux_ptrn[$i]))  $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
     $librarianclass = ' '.substr($holding->sys2, 0, 4); 
     ?>
-          <?php if (!($holding->locked)) : ?>
-            <input id="holding_id" name="holding_id[]" type="checkbox" value="<?= $holding->id; ?>" class="pull-left hld selhld">
-          <?php endif ?>
             <?php if (Auth::user()->hasRole('resuser')) : ?>
                 <?php if ($holding->locked()->exists()) : ?>
                   <div class="pull-right">

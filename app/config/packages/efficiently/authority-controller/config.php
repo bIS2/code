@@ -22,6 +22,14 @@ return [
           return ( ($holding->is_correct || $holding->is_annotated ) && (Auth::user()->hasRole('maguser') || Auth::user()->hasRole('maguser')) );
         });
 
+        $authority->allow('junk', 'Holding', function($self, $holding) {
+          return ( $holding->is_received && Auth::user()->hasRole('bibuser') && !$holding->is_junked );
+        });
+
+        $authority->allow('burn', 'Holding', function($self, $holding) {
+          return (  $holding->is_junked && Auth::user()->hasRole('magvuser') && !$holding->is_burned );
+        });
+
         if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser')){
             $authority->allow('revise', 'Holding', function($self, $holding) {
               return ( !$holding->is_revised );
