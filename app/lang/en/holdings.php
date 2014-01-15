@@ -36,6 +36,6 @@ return array(
 	'title_create_group'	=> 'Create group',
 	'ungroup'				=> 'Unlist',
 	'value'					=> 'Value',
-	'trasheds'					=> 'Junkeds',
+	'trasheds'					=> 'Trasheds',
 	'burneds'					=> 'Burneds',
 );
