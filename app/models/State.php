@@ -9,6 +9,11 @@ class State extends Eloquent {
 		'state' => 'required'
 	);
 
+  public static function boot() {
+    parent::boot();
+	State::observe(new StateObserver);
+  }
+
   public function holding() {
       return $this->belongsTo('Holding');
   }	

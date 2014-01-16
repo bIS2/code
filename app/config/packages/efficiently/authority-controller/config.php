@@ -14,20 +14,21 @@ return [
           return  (Auth::user()->hasRole('postuser')) ;
         });
 
-        $authority->allow('receive', 'Holding', function($self, $holding) {
-          return (!$holding->is_received && Auth::user()->hasRole('speichuser'));
-        });
 
         $authority->allow('revise', 'Holding', function($self, $holding) {
           return ( ($holding->is_correct || $holding->is_annotated ) && (Auth::user()->hasRole('maguser') || Auth::user()->hasRole('maguser')) );
         });
 
-        $authority->allow('junk', 'Holding', function($self, $holding) {
-          return ( $holding->is_received && Auth::user()->hasRole('bibuser') && !$holding->is_junked );
+        $authority->allow('receive', 'Holding', function($self, $holding) {
+          return ( $holding->was_delivery && !$holding->is_received && Auth::user()->hasRole('speichuser') );
+        });
+
+        $authority->allow('trash', 'Holding', function($self, $holding) {
+          return ( $holding->is_received && Auth::user()->hasRole('bibuser') && !$holding->is_trashed );
         });
 
         $authority->allow('burn', 'Holding', function($self, $holding) {
-          return (  $holding->is_junked && Auth::user()->hasRole('magvuser') && !$holding->is_burned );
+          return (  $holding->is_trashed && Auth::user()->hasRole('magvuser') && !$holding->is_burned );
         });
 
         if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser')){
