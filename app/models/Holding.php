@@ -86,19 +86,19 @@ class Holding extends Eloquent {
   }
 
   public function scopeDeliveries($query) {
-  	return $query->whereDelivered('1');
+  	return $query->whereState('delivery');
   }
 
   public function scopeNoDeliveries($query) {
-  	return $query->whereDelivered('0');
+  	return $query->where( 'state','<>','delivery');
   }
 
   public function scopeReceiveds($query) {
-  	return $query->whereReceived('1');
+  	return $query->whereState('receive');
   }
 
   public function scopeNoReceiveds($query) {
-  	return $query->whereReceived('0');
+  	return $query->where( 'state','<>','receive');
   }
 
   public function scopeReviseds($query){
@@ -112,9 +112,9 @@ class Holding extends Eloquent {
   public function scopeCommenteds($query){
     return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('comments'); });
   }
-
+  
   public function scopeWithState( $query, $state ){
-    return $query->whereIn( 'holdings.id', function($query) use ($state) { $query->select('holding_id')->from('states')->whereState($state)->lists('holding_id') + [-1]; });
+    return $query->defaults()->whereState($state);
   }
 
   public function scopePendings($query){
@@ -168,19 +168,31 @@ class Holding extends Eloquent {
   }
 
   public function getIsDeliveryAttribute(){
-    return $this->delivered;
+    return ( $this->state == 'delivery' );
+  }
+
+  public function getWasDeliveryAttribute(){
+    return $this->states()->whereState('delivery')->exists();
+  }
+
+  public function getWasReceivedyAttribute(){
+    return $this->states()->whereState('receive')->exists();
   }
 
   public function getIsReceivedAttribute(){
-    return $this->received;
+    return ( $this->state == 'receive' );
   }
 
-  public function getIsJunkedAttribute(){
-    return ( $this->states()->whereState('junk')->exists() )  ;
+  public function getIsTrashedAttribute(){
+    return ( $this->state == 'trash' );
   }
 
   public function getIsBurnedAttribute(){
-    return ( $this->states()->whereState('burn')->exists() )  ;
+    return ( $this->state == 'burn' );
+  }
+
+  public function getIsStateAttribute($state){
+    return ( $this->state == $state );
   }
 
   // Attrubutes CSS Class
