@@ -114,7 +114,7 @@ class Holding extends Eloquent {
   }
 
   public function scopeWithState( $query, $state ){
-    return $query->whereIn( 'holdings.id', function($query) use ($state) { $query->select('holding_id')->from('states')->whereState($state); });
+    return $query->whereIn( 'holdings.id', function($query) use ($state) { $query->select('holding_id')->from('states')->whereState($state)->lists('holding_id') + [-1]; });
   }
 
   public function scopePendings($query){
