@@ -8,6 +8,7 @@
 <table class="table table-hover flexme table-bordered draggable">
 	<thead>
 		<tr>
+			<th></th>
 			<th class="table_order">No.</th>
 			@if (!($HOSconfirm) || $HOSannotated)
 				<th class="actions">Actions</th>
@@ -42,6 +43,12 @@
 				$librarianclass = ' '.substr($holding->sys2, 0, 4); 
 			?>	
 			<tr id="holding{{ $holding -> id; }}" holding="{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}{{ $librarianclass }}{{ ($holding->is_annotated) ? ' text-warning' : '' }}">
+				<td>
+					<?php if (!($holding->locked)) : ?>
+	            		<input id="holding_id" name="holding_id[]" type="checkbox" value="<?= $holding->id; ?>" class="pull-left hld selhld">
+	          		<?php endif ?>
+				</td>
+
 			<td class="table_order">{{ $hol_order }}</td>
 			@if (!($HOSconfirm) || $HOSannotated)
 				<td class="actions" holding="{{ $holding -> id }}">

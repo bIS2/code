@@ -80,6 +80,14 @@
 				  		<span class="fa fa-comments"></span> {{{ trans('holdings.commenteds') }}}
 				  	</a>
 
+				  	<a href="{{ route('holdings.index', Input::only('view') + ['trasheds'=>'true'] ) }}" class="btn btn-default <?= ( Input::has('trasheds') ) ? 'active' : '' ?> btn-sm" >
+				  		<span class="fa fa-trash-o"></span> {{{ trans('holdings.trasheds') }}}
+				  	</a>
+
+				  	<a href="{{ route('holdings.index', Input::only('view') + ['burneds'=>'true'] ) }}" class="btn btn-default <?= ( Input::has('burned') ) ? 'active' : '' ?> btn-sm" >
+				  		<span class="fa fa-fire"></span> {{{ trans('holdings.burneds') }}}
+				  	</a>
+
 				  </div>
 
 				  	<div class="btn-group">

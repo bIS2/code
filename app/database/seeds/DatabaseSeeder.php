@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder {
 			$this->call('IncorrectsTableSeeder');
 			$this->call('ReceivedsTableSeeder');
 		$this->call('CommentsTableSeeder');
+		$this->call('JunksTableSeeder');
+		$this->call('StatesTableSeeder');
 	}
 
 }
