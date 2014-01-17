@@ -119,7 +119,7 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     if ( result.burn )
       $('#'+result.trash).hide('slow', function(){ $(this).remove() }); 
 
-    if ( result.burn )
+    if ( result.success )
       $('#'+result.success).addClass('success'); 
 
     if ( result.received )

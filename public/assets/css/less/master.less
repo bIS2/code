@@ -404,10 +404,6 @@ footer {
             @color: @swiss-blue;
             color: darken(@color, 10%);
             cursor: pointer;
-            &.aux {
-                @color: @swiss-yellow;
-                color: darken(@color, 10%);
-            }
             &.j {
                 color: lighten(@color, 10%);
             }
@@ -422,6 +418,10 @@ footer {
     &.j {
         color: lighten(@color, 10%) !important;
     }
+}
+.is_aux .fa-square.aux {
+    @color: @swiss-yellow;
+    color: darken(@color, 10%);
 }
 
 .is_pref .fa-square.aux {

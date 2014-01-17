@@ -46,7 +46,7 @@ return [
         });
 
         $authority->allow('touch', 'Holding', function($self, $holding) {
-          return (( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') ) && !$holding->is_revised);
+          return (( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') ) && !$holding->is_revised && !$holding->was_revised);
         });
 
         $authority->allow('manage', 'User', function($self, $user) {
