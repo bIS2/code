@@ -6,7 +6,7 @@ return array(
 	'activate_user'		=> 'Activate User',
 	'all'				=> 'All',
 	'AND'				=> 'AND',
-	'annotated'         => 'Annotate',
+	'annotated'         => 'Annotated',
 	'asc'				=> 'ASC',
 	'back'  			=> 'Go Back',
 	'begin_with'		=> 'Starts with',
