@@ -110,7 +110,16 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     if ( result.remove )
       $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
 
-    if ( result.success )
+    if ( result.receive )
+      $('#'+result.receive).hide('slow', function(){ $(this).remove() }); 
+
+    if ( result.trash )
+      $('#'+result.trash).hide('slow', function(){ $(this).remove() }); 
+
+    if ( result.burn )
+      $('#'+result.trash).hide('slow', function(){ $(this).remove() }); 
+
+    if ( result.burn )
       $('#'+result.success).addClass('success'); 
 
     if ( result.received )

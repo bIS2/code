@@ -68,11 +68,11 @@
 				  		<div class="text-primary"><span class="fa fa-mail-forward"></span> {{{ trans('holdings.reviseds') }}}</div>
 				  	</a>
 
-				  	<a href="{{ route('holdings.index', Input::only('view') + ['deliveries'=>'true'] ) }}" class="btn btn-default <?= ( Input::has('deliveries') ) ? 'active' : '' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'delivery'] ) }}" class="btn btn-default <?= ( Input::get('state')=='delivery' ) ? 'active' : '' ?> btn-sm" >
 				  		<span class="fa fa-truck fa-flip-horizontal"></span> {{{ trans('holdings.deliveries') }}}
 				  	</a>
 
-				  	<a href="{{ route('holdings.index', Input::only('view') + ['receiveds'=>'true'] ) }}" class="btn btn-default <?= ( Input::has('receiveds') ) ? 'active' : '' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'receive'] ) }}" class="btn btn-default <?= ( Input::get('state')=='receive' ) ? 'active' : '' ?> btn-sm" >
 				  		<span class="fa fa-download"></span> {{{ trans('holdings.receiveds') }}}
 				  	</a>
 
@@ -80,11 +80,11 @@
 				  		<span class="fa fa-comments"></span> {{{ trans('holdings.commenteds') }}}
 				  	</a>
 
-				  	<a href="{{ route('holdings.index', Input::only('view') + ['trasheds'=>'true'] ) }}" class="btn btn-default <?= ( Input::has('trasheds') ) ? 'active' : '' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'trash'] ) }}" class="btn btn-default <?= ( Input::get('state')=='trash' ) ? 'active' : '' ?> btn-sm" >
 				  		<span class="fa fa-trash-o"></span> {{{ trans('holdings.trasheds') }}}
 				  	</a>
 
-				  	<a href="{{ route('holdings.index', Input::only('view') + ['burneds'=>'true'] ) }}" class="btn btn-default <?= ( Input::has('burned') ) ? 'active' : '' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'burn'] ) }}" class="btn btn-default <?= ( Input::get('state')=='burn' ) ? 'active' : '' ?> btn-sm" >
 				  		<span class="fa fa-fire"></span> {{{ trans('holdings.burneds') }}}
 				  	</a>
 
