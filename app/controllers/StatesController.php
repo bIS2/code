@@ -48,9 +48,13 @@ class StatesController extends BaseController {
 
 		if ($validation->passes())
 		{
-			$this->state->create($input);
+			$state = $this->state->whereHoldingId($input['holding_id'])->where('state','=', $input['state'] );
 
-			return Response::json( [ $input['state'] => $input['holding_id'] ]  );
+			if ($state->exists()) 	$state->delete();
+
+			else $this->state->create( [ 'holding_id'=>$input['holding_id'], 'state'=> $input['state'], 'user_id'=>$input['user_id'] ] );
+
+			return Response::json( [ 'state' => $input['state'], 'success' => $input['holding_id'] ]  );
 		}
 
 		return Redirect::route('states.create')
