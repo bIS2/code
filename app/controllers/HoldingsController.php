@@ -68,10 +68,10 @@ class HoldingsController extends BaseController {
 		if ( Input::has('owner') )			$holdings = $holdings->owner();
 		if ( Input::has('aux') )			$holdings = $holdings->aux();
 
-		if ( Input::has('receiveds'))		$holdings = $holdings->default()->receiveds();
-		if ( Input::has('deliveries') )		$holdings = $holdings->default()->deliveries();
-		if ( Input::has('reviseds') )		$holdings = $holdings->default()->reviseds();
-		if ( Input::has('commenteds') )		$holdings = $holdings->default()->commenteds();
+		if ( Input::has('receiveds'))		$holdings = $holdings->defaults()->receiveds();
+		if ( Input::has('deliveries') )		$holdings = $holdings->defaults()->deliveries();
+		if ( Input::has('reviseds') )		$holdings = $holdings->defaults()->reviseds();
+		if ( Input::has('commenteds') )		$holdings = $holdings->defaults()->commenteds();
 
 		if ( Input::has('junkeds') )		$holdings = Holding::defaults()->withState('trash');
 		if ( Input::has('burneds') )		$holdings = Holding::defaults()->withState('burn');

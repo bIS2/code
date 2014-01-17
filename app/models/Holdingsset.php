@@ -12,7 +12,7 @@ class Holdingsset extends Eloquent {
   }
 
   public function holdings() {
-      return $this->hasMany('Holding')->orderBy('is_owner','DESC')->orderBy('is_aux','DESC')->orderBy('weight','DESC');
+      return $this->hasMany('Holding')->orderBy('is_owner','DESC')->orderBy('is_aux','DESC');
   }
 
   public function confirm() {
