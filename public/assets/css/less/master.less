@@ -404,10 +404,6 @@ footer {
             @color: @swiss-blue;
             color: darken(@color, 10%);
             cursor: pointer;
-            &.aux {
-                @color: @swiss-yellow;
-                color: darken(@color, 10%);
-            }
             &.j {
                 color: lighten(@color, 10%);
             }
@@ -422,6 +418,10 @@ footer {
     &.j {
         color: lighten(@color, 10%) !important;
     }
+}
+.is_aux .fa-square.aux {
+    @color: @swiss-yellow;
+    color: darken(@color, 10%);
 }
 
 .is_pref .fa-square.aux {
@@ -609,12 +609,12 @@ table.table thead th:first-child {
     }
     table.flexme > thead > tr > th.actions,
     table.flexme > tbody > tr > td.actions {
-        position: absolute;
-        width: 105px !important;   
-        height: 22px;  
+        //position: absolute;
+        //width: 105px !important;   
+        //height: 22px;  
         // z-index: 9;
-        left: 5px;
-        border-bottom: none !important; 
+        //left: 5px;
+        //border-bottom: none !important; 
         a {
             margin: 0 3px;
         }

@@ -8,6 +8,7 @@
 <table class="table table-hover flexme table-bordered draggable">
 	<thead>
 		<tr>
+			<th></th>
 			<th class="table_order">No.</th>
 			@if (!($HOSconfirm) || $HOSannotated)
 				<th class="actions">Actions</th>
@@ -29,19 +30,30 @@
 		</tr>
 	</thead>
 	<tbody>
-		<?php $hol_order = 0; ?>
-		@foreach ($holdingsset -> holdings()->orderBy('is_owner', 'ASC')->orderBy('is_aux', 'ASC')->get()->all() as $holding)
-			<?php 
+		<?php $hol_order = 0;?>
+		<?php $holdings = Holding::whereHoldingssetId($holdingsset->id)->orderBy('is_owner', 'DESC')->orderBy('is_aux', 'DESC')->orderBy('weight', 'DESC')->get();
+		// $queries = DB::getQueryLog();
+		// var_dump(end($queries));
+		 ?>
+		@foreach ($holdings as $holding)
+			<?php
 				$hol_order++;
 				$btnlock 	= ($holding->locked()->exists()) ? 'btn-warning ' : '';	
 				$trclass 	= ($holding->locked()->exists()) ? 'locked' : '';
-				$ownertrclass = ($holding->is_owner == 't') ? ' is_owner' : '';
-				$auxtrclass 	= ($holding->is_aux == 't') ? ' is_aux' : ''; 
+				$ownertrclass = (($holding->is_owner == 't') || ($holding->is_owner == '1')) ? ' is_owner' : '';
+				$auxtrclass 	= (($holding->is_aux == 't') || ($holding->is_aux == '1')) ? ' is_aux' : ''; 
+				var_dump($holding->is_aux);
 				if (isset($aux_ptrn[$i]))  $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
 				$preftrclass 	= ($holding->is_pref == 't') ? ' is_pref' : '';
 				$librarianclass = ' '.substr($holding->sys2, 0, 4); 
 			?>	
-			<tr id="holding{{ $holding -> id; }}" holding="{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}{{ $librarianclass }}{{ ($holding->is_annotated) ? ' text-warning' : '' }}">
+			<tr id="holding{{ $holding -> id; }}" holding="{{ $holding -> id; }}" class="{{ $trclass }} {{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}{{ $librarianclass }}{{ ($holding->is_annotated) ? ' text-warning' : '' }}">
+				<td>
+					<?php if (!($holding->locked)) : ?>
+	            		<input id="holding_id" name="holding_id[]" type="checkbox" value="<?= $holding->id; ?>" class="pull-left hld selhld">
+	          		<?php endif ?>
+				</td>
+
 			<td class="table_order">{{ $hol_order }}</td>
 			@if (!($HOSconfirm) || $HOSannotated)
 				<td class="actions" holding="{{ $holding -> id }}">

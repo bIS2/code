@@ -61,17 +61,25 @@ class HoldingsController extends BaseController {
 
     $this->data['is_all'] = !(Input::has('corrects') || Input::has('tagged') || Input::has('pendings') || Input::has('unlist') || Input::has('owner') || Input::has('aux')|| Input::has('deliveries') );
 
-		if ( Input::has('corrects') ) 	$holdings = $holdings->corrects();
-		if ( Input::has('tagged') )			$holdings = $holdings->annotated(Input::get('tagged'));	
 		if ( Input::has('pendings') )		$holdings = $holdings->pendings();
 		if ( Input::has('unlist') )			$holdings = $holdings->orphans();
 		if ( Input::has('owner') )			$holdings = $holdings->owner();
-		if ( Input::has('aux') )				$holdings = $holdings->aux();
+		if ( Input::has('aux') )			$holdings = $holdings->aux();
 
-		if ( Input::has('receiveds'))		$holdings = $holdings->default()->receiveds();
-		if ( Input::has('deliveries') )	$holdings = $holdings->default()->deliveries();
-		if ( Input::has('reviseds') )		$holdings = $holdings->default()->reviseds();
-		if ( Input::has('commenteds') )	$holdings = $holdings->default()->commenteds();
+
+		// if ( Input::has('reviseds') )		$holdings = $holdings->defaults()->reviseds();
+		// if ( Input::has('deliveries') )		$holdings = $holdings->defaults()->deliveries();
+		// if ( Input::has('receiveds'))		$holdings = $holdings->defaults()->receiveds();
+		if ( Input::has('tagged') )			$holdings = $holdings->annotated(Input::get('tagged'));	
+		if ( Input::has('commenteds') )		$holdings = $holdings->defaults()->commenteds();
+
+		// if ( Input::has('receiveds'))		$holdings = $holdings->defaults()->receiveds();
+		// if ( Input::has('deliveries') )		$holdings = $holdings->defaults()->deliveries();
+		// if ( Input::has('reviseds') )		$holdings = $holdings->defaults()->reviseds();
+		// if ( Input::has('commenteds') )		$holdings = $holdings->defaults()->commenteds();
+
+
+		if ( Input::has('state') )		$holdings = Holding::withState( Input::get('state') );
 
 		// $holdings = ( Input::has('reviseds') || (Auth::user()->hasRole('postuser'))) ? $holdings->reviseds()->corrects() : $holdings->noreviseds();
 
@@ -100,6 +108,8 @@ class HoldingsController extends BaseController {
 		$this->data['is_filter'] 	= $is_filter;
 		$this->data['sql'] 				= sprintf( $format, $compare, $value );
 		$this->data['holdings'] 	= $holdings->paginate(25);
+		$queries = DB::getQueryLog();
+		$this->data['last_query'] = $queries;			
 
 		// CONDITIONS
 		// filter by holdingsset ok

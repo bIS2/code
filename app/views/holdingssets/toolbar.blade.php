@@ -6,7 +6,6 @@
 			<ul class="list-inline">
 				<li>
 					<strong>
-						{{ trans('holdingssets.title') }} 
 						@if (isset($group))
 							<small>&raquo; {{ $group->name }}</small>
 						@endif				

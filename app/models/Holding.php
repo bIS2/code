@@ -34,23 +34,27 @@ class Holding extends Eloquent {
 		return $this->hasMany('Comment');
 	}
 
-	public function revised(){
-		return $this->hasOne('Revised');
-	}
+  public function revised(){
+    return $this->hasOne('Revised');
+  }
 
-	public function receiveds(){
-		return $this->hasMany('Received');
+  public function receiveds(){
+    return $this->hasMany('Received');
+  }
+
+	public function states(){
+		return $this->hasMany('State');
 	}
 
   // Scopes
 
 
-  public function scopeDefault($query){
-  	return $query->with('ok','notes')->orderBy('f852j','f852c')->inLibrary();
+  public function scopeDefaults($query){
+  	return $query->with('ok','notes', 'states')->orderBy('f852j','f852c')->inLibrary();
   }
 
   public function scopeInit ($query){
-  	$query = $query->default();
+  	$query = $query->defaults();
 
     if ( Auth::user()->hasRole('postuser') ) 
       $query->reviseds()->corrects();
@@ -78,23 +82,24 @@ class Holding extends Eloquent {
   }
 
   public function scopeCorrects($query){
-  	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); });
+  	return $query->whereState('ok');
+  	// return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); });
   }
 
   public function scopeDeliveries($query) {
-  	return $query->whereDelivered('1');
+  	return $query->whereState('delivery');
   }
 
   public function scopeNoDeliveries($query) {
-  	return $query->whereDelivered('0');
+  	return $query->where( 'state','<>','delivery');
   }
 
   public function scopeReceiveds($query) {
-  	return $query->whereReceived('1');
+  	return $query->whereState('receive');
   }
 
   public function scopeNoReceiveds($query) {
-  	return $query->whereReceived('0');
+  	return $query->where( 'state','<>','receive');
   }
 
   public function scopeReviseds($query){
@@ -106,12 +111,17 @@ class Holding extends Eloquent {
   }
 
   public function scopeCommenteds($query){
-  	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('comments'); });
+    return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('comments'); });
+  }
+  
+  public function scopeWithState( $query, $state ){
+    return $query->defaults()->where('state','like',$state."%");
   }
 
   public function scopePendings($query){
   	return $query
-  		->whereNotIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); } )
+  		->where( 'state','<>','ok' )
+  		// ->whereNotIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); } )
   		->whereNotIn( 'holdings.id', function($query){ $query->select('holding_id')->distinct()->from('notes'); });
   }
 
@@ -148,26 +158,48 @@ class Holding extends Eloquent {
   
   // Attrubutes States
   public function getIsCorrectAttribute(){
-    return $this->ok()->exists();
+    return ( $this->state == 'ok' );
   }
 
   public function getIsAnnotatedAttribute(){
-    return $this->notes()->exists();
+    return ( $this->state == 'annotated' );
   }
 
   public function getIsRevisedAttribute(){
-    return $this->revised()->exists();
+    return (substr($this->state,0,8) == 'revised_');
+  }
+
+  public function getWasRevisedAttribute(){
+    return $this->states()->where('state','like','revised_%')->exists();
   }
 
   public function getIsDeliveryAttribute(){
-    return $this->delivered;
+    return ( $this->state == 'delivery' );
+  }
+
+  public function getWasDeliveryAttribute(){
+    return $this->states()->whereState('delivery')->exists();
+  }
+
+  public function getWasReceivedyAttribute(){
+    return $this->states()->whereState('receive')->exists();
   }
 
   public function getIsReceivedAttribute(){
-    return $this->received;
+    return ( $this->state == 'receive' );
   }
 
+  public function getIsTrashedAttribute(){
+    return ( $this->state == 'trash' );
+  }
 
+  public function getIsBurnedAttribute(){
+    return ( $this->state == 'burn' );
+  }
+
+  public function getIsStateAttribute($state){
+    return ( $this->state == $state );
+  }
 
   // Attrubutes CSS Class
 
@@ -286,9 +318,6 @@ class Holding extends Eloquent {
     if (isset($aux_ptrn[$i]))  $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
     $librarianclass = ' '.substr($holding->sys2, 0, 4); 
     ?>
-          <?php if (!($holding->locked)) : ?>
-            <input id="holding_id" name="holding_id[]" type="checkbox" value="<?= $holding->id; ?>" class="pull-left hld selhld">
-          <?php endif ?>
             <?php if (Auth::user()->hasRole('resuser')) : ?>
                 <?php if ($holding->locked()->exists()) : ?>
                   <div class="pull-right">

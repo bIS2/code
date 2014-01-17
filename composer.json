@@ -16,10 +16,10 @@
 		"zizaco/entrust": "dev-master",
 		"jasonlewis/basset": "dev-master",
 		"robclancy/presenter": "1.2.*",
-    "j20/php-uuid": "dev-master",
-    "bllim/datatables": "*",
-    "mcamara/laravel-localization": "dev-master",
-    "efficiently/authority-controller":"dev-master"
+	    "j20/php-uuid": "dev-master",
+	    "bllim/datatables": "*",
+	    "mcamara/laravel-localization": "dev-master",
+	    "efficiently/authority-controller":"dev-master"
 	},
 	"require-dev": {
     "way/generators": "dev-master",

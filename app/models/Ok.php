@@ -7,7 +7,7 @@ class Ok extends Eloquent {
 
   public static function boot() {
     parent::boot();
-		Ok::observe(new OkObserver);
+		// Ok::observe(new OkObserver);
   }
 
 	// Relations
