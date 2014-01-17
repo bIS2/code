@@ -1253,6 +1253,8 @@ function holdingsset_recall($id) {
 		$query .= "'".$value['is_aux']."')";
 	*/
 	//var_dump($mishols[$ta_nr]['id']);
+	   $value['is_owner'] = (($value['is_owner'] == '0') || ($value['is_owner'] == 'f')) ? 'f' : 't';
+	   $value['is_aux'] = (($value['is_aux'] == '0') || ($value['is_aux'] == 'f')) ? 'f' : 't';
 		Holding::find($mishols[$ta_nr]['id'])->update(['ocrr_nr' => $value['ocrr_nr'], 'ocrr_ptrn' => $value['ocrr_ptrn'], 'weight' => $value['weight'], 'j_ptrn' => $value['j_ptrn'], 'is_owner' => $value['is_owner'], 'aux_ptrn' => $value['aux_ptrn'], 'is_aux' => $value['is_aux']]);
 		$finalptrn = $value['ptrn'];
 		// $query  = "UPDATE holdings SET ";
