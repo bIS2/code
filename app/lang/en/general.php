@@ -66,6 +66,7 @@ return array(
 	'show_hide_fields'	=> 'Select fields visible for HOL',
 	'size'           	=> 'Size (RM)',
 	'sort'				=> 'Sort',
+	'state'				=> 'State',
 	'type_criteria' 	=> 'Type to search',
 	'update'			=> 'Update',
 	'username'			=> 'Username',

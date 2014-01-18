@@ -2,9 +2,9 @@
 
 return array(
 
-	'notes_Missing'			=> 'Fehlen',
-	'notes_Additional'		=> 'Zusätzlich',
-	'notes_Bad_condition'	=> 'Schlechter Zustand',
-	'notes_Remarks'			=> 'Bemerkungen',
+	'notes_aditional'		=> 'Zusätzlich gefunden ...',
+	'notes_bad'				=> 'Schlechter Zustand ...',
+	'notes_missing'			=> 'Es fehlen ...',
+	'notes_remarks'			=> 'Bemerkungen',
 
 );

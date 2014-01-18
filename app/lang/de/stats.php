@@ -12,7 +12,7 @@ return array(
 	'grouped' 					=> 'Gruppiert',
 	'holding_annotated'			=> 'HOL mit Annotationen',
 	'holding_annotated_datails' => '(Details)',
-	'holding_oks'				=> 'Eigene HOL ok',
+	'holding_oks'				=> 'Kontrollierte HOL',
 	'holding_oks_details'		=> '(Details)',
 	'holdingsets_confirm'		=> 'Letzte kontrollierte HOS',
 	'holdingsets_confirm_details'	=> '(Details)',
