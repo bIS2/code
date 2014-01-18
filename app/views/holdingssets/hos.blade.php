@@ -31,11 +31,11 @@
 									</span>
 		      			@endif
 
-					  		<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="{{ $holdingsset->id }}" class="hl sel pull-left">
+					  	<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="{{ $holdingsset->id }}" class="hl sel pull-left">
 
-					      <a href="#{{ $holdingsset -> sys1; }}{{$holdingsset -> id;}}" id="{{ $holdingsset->id }}" data-parent="#group-xx" title="{{ $holdingsset->f245a ;}}" data-toggle="collapse" class="accordion-toggle collapsed " opened="0" anchored="0" ajaxsuccess="0"><div>{{ $holdingsset->sys1 }}</div><i class="fa fa-caret-up"></i></a>
+					    <a href="#{{ $holdingsset -> sys1; }}{{$holdingsset -> id;}}" id="{{ $holdingsset->id }}" data-parent="#group-xx" title="{{ $holdingsset->f245a ;}}" data-toggle="collapse" class="accordion-toggle collapsed " opened="0" anchored="0" ajaxsuccess="0"><div>{{ $holdingsset->sys1 }}</div><i class="fa fa-caret-up"></i></a>
 
-					      <span opened="0">
+					    <span opened="0">
 					      	<?php 
 						      	$holdings_number = $holdingsset -> holdings -> count();
 						      	$need_refresh = 0;
@@ -65,12 +65,12 @@
 					      	@endif
 					      	<?php if ($need_refresh == 1) { ?><span class="badge ingroups" style="background:red !important" title = "{{ $holdingsset -> showlistgroup }}"
 					      		><i class="fa fa-refresh"></i></span>
-					      </span><?php } ?>
+					    </span><?php } ?>
 					      	
 
-					      <div class="text-right action-ok pull-left">
+					     <div class="text-right action-ok pull-left">
 					    
-					      		@if ($HOSannotated && !$HOSconfirm && !$HOSincorrect) 
+					      		@if (($HOSannotated && !$HOSconfirm) || !$HOSconfirm) 
 						      		<a id="holdingsset{{ $holdingsset -> id }}incorrect" set="{{$holdingsset->id}}" href="{{route('incorrects.store',['holdingsset_id' => $holdingsset->id])}}" class="btn btn-ok btn-xs incorrect btn-default" data-remote="true" data-method="post" data-disable-with="..." title="{{ trans('holdingssets.incorrect_HOS') }}">
 						      			<span id="incorrect{{ $holdingsset -> id }}text" class="fa fa-thumbs-down"></span>
 						      		</a>		

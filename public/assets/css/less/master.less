@@ -132,7 +132,7 @@ table {
 .action-ok {
     display: inline-block;
     margin-right: 10px;
-    width: 50px;
+    width: 55px;
 }
 
 .container {
@@ -732,8 +732,34 @@ table.table thead th:first-child {
     display: none !important;
 }
 
-#main-filters ul {
-    margin-bottom: 0;
+#main-filters {
+    > div > ul {
+        margin-bottom: 0;
+        display: block;
+        float: left;
+        text-align: center;
+    }
+    .btn-group {
+        margin-bottom: 5px;
+        .btn-group {
+            margin-bottom: 0;
+        }
+    }
+}
+
+#currentfiltersoption {
+    display: block;
+    float: left;
+    text-align: center;
+    &.btn-group > .btn, .btn-group-vertical > .btn {
+        margin-bottom: 5px;
+        margin-left: -3px !important;
+        margin-right: 0 !important;
+        margin-top: 0 !important;
+        padding-bottom: 2px;
+        padding-top: 2px;
+        float: none;
+    }
 }
 
 a#filter-btn.btn-primary {
@@ -951,4 +977,9 @@ span.input-group-addon.search-check {
 }
 .navbar {
     z-index: 999999;
+}
+form.clear-search {
+    border: none !important;
+    margin: 0;
+    padding: 0 !important;
 }
