@@ -24,7 +24,7 @@ return [
         });
 
         $authority->allow('trash', 'Holding', function($self, $holding) {
-          return ( $holding->is_received && Auth::user()->hasRole('bibuser') && !$holding->is_trashed );
+          return ( $holding->is_received && Auth::user()->hasRole('bibuser') );
         });
 
         $authority->allow('burn', 'Holding', function($self, $holding) {
@@ -46,7 +46,7 @@ return [
         });
 
         $authority->allow('touch', 'Holding', function($self, $holding) {
-          return (( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') ) && !$holding->is_revised && !$holding->was_revised);
+          return (( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') ) && $holding->is_correct && $holding->is_annotated && $holding->is_blank);
         });
 
         $authority->allow('manage', 'User', function($self, $user) {

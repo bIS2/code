@@ -12,18 +12,19 @@
     </li>
 
     <li class="btn btn-xs">
-		<a href="{{ route('states.index', $holding->id) }}" data-target="#modal-show" data-toggle="modal" >
+		<a href="{{ route('states.index', [ 'holding_id' => $holding->id]) }}" data-target="#modal-show" data-toggle="modal" >
 			<span class="fa fa-folder" title="{{ trans('general.history') }}" data-placement="top" data-toggle="popover" data-trigger="hover"></span>
 		</a>
     </li>
 
+		<li class="btn btn-xs" >
+			<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.see_information_from_original_system') }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover">
+				<span class="fa fa-external-link"></span>
+			</a>
+		</li>						
+			
 		@if (Authority::can('touch', $holding))
 
-			<li class="btn btn-xs" >
-				<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.see_information_from_original_system') }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover">
-					<span class="fa fa-external-link"></span>
-				</a>
-			</li>						
 			<li class="btn btn-xs">
 			  <a href="{{ route('states.store') }}" class="btn-ok" data-method="post" data-remote="true" data-params="state=ok&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" >
 			  	<span class="fa fa-thumbs-up"></span>
