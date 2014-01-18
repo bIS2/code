@@ -14,7 +14,7 @@ $postuser = Role::whereName('postuser')
 				->select('username','users.id')
 				->lists('username','id'); 
 
-$users = array_merge($maguser,$postuser);
+$users = $maguser+$postuser;
 
 ?>
 <div class="modal fade" id="form-create-list">

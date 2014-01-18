@@ -16,15 +16,16 @@
 
 	<div class="row">
 		<div class="col-xs-12">
-			<?php //echo var_dump( $queries ) ?>
+			<?php //echo var_dump( $users ) ?>
 			@if ($hlists->count())
 				<table class="table table-bordered table-condensed ">
 					<thead>
 						<tr>
 							<th>{{ trans('table.name') }}</th>
 							<th>{{ trans('table.date') }}</th>
+							<th>{{ trans('table.asigned') }}</th>
 							<th>{{ trans('holdings.title') }}</span></th>
-							<th>{{ trans('table.details') }}</span></th>
+							<!-- <th>{{ trans('table.details') }}</span></th> -->
 							<th> </th>
 						</tr>
 					</thead>
@@ -37,14 +38,17 @@
 								</td>
 								<td>{{ $list->created_at }}</td>
 								<td>
-									{{ link_to( route('holdings.index',['hlist'=>$list->id]), $total = $list->holdings->count() ) }}
+									{{ $list->worker->username }} 	
 								</td>
 								<td>
+									{{ link_to( route('holdings.index',['hlist'=>$list->id]), $total = $list->holdings->count() ) }}
+								</td>
+<!-- 								<td>
 									{{ trans('holdings.corrects') }}:{{{ $corrects = $list->holdings()->corrects()->count() }}},
 									{{ trans('holdings.annotated') }}:{{ $annotated = $list->holdings()->annotated()->count() }},
 									{{ trans('holdings.pending') }}:{{ $total -  ($corrects + $annotated)  }}
 								</td>
-			          <td>
+ -->			          <td>
 
 			          	@if (Authority::can('delivery','Hlist'))
 
@@ -62,9 +66,14 @@
 
 			          	@endif
 
-			          	<a href="{{ route('lists.destroy',$list->id) }}" data-remote="true" data-method="delete" class="btn btn-danger btn-xs">
-			          		<span class="fa fa-times"></span> {{trans('general.delete')}}
-			          	</a>
+			          	@if ( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('bibuser')  )
+				          	<a href="{{ route('lists.edit',$list->id) }}" data-toggle="modal" data-target="#form-edit-list" class="btn btn-default btn-xs">
+				          		<span class="fa fa-edit"></span> {{trans('general.edit')}}
+				          	</a>
+				          	<a href="{{ route('lists.destroy',$list->id) }}" data-remote="true" data-method="delete" class="btn btn-danger btn-xs">
+				          		<span class="fa fa-times"></span> {{trans('general.delete')}}
+				          	</a>
+			          	@endif
 
 				        </td>
 							</tr>
@@ -74,6 +83,10 @@
 
 		</div> <!-- /.col-xs-12 -->
 	</div> <!-- /.row -->
+
+<div class="remote">
+	<div class="modal" id="form-edit-list"></div><!-- /.modal -->
+</div>
 
 
 @else
@@ -109,3 +122,4 @@
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
 </div><!-- /.modal -->
+
