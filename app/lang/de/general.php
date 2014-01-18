@@ -67,7 +67,7 @@ return array(
 	'size'           	=> 'Umfang (lfm)',
 	'sort'				=> 'Sortieren',
 	'type_criteria'     => 'Suche ...',
-	'update' 			=> 'Updaten',
+	'update' 			=> 'Vormerken',
 	'username'			=> 'Benutzername',
 	'yes' 		    	=> 'Ja',
 
