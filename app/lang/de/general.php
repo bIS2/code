@@ -67,7 +67,7 @@
 	'size'           	=> 'Umfang (lfm)',
 	'sort'				=> 'Sortieren',
 	'type_criteria'     => 'Suche ...',
-	'update' 			=> 'Vormerken',
+	'update' 			=> 'Merken',
 	'username'			=> 'Benutzername',
 	'yes' 		    	=> 'Ja',
 
