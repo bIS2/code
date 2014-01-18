@@ -23,8 +23,21 @@ class HlistsController extends BaseController {
 	public function index()
 	{
 		$this->data['hlists'] = Hlist::my()->paginate(20);
-		$queries = DB::getQueryLog();
-		$this->data['queries'] = $queries;			
+		$maguser = Role::whereName('maguser')
+						->first()
+						->users()
+						->whereLibraryId( Auth::user()->library_id )
+						->select('username','users.id')
+						->lists('username','id'); 
+
+		$postuser = Role::whereName('postuser')
+						->first()
+						->users()
+						->whereLibraryId( Auth::user()->library_id )
+						->select('username','users.id')
+						->lists('username','id'); 
+
+		$this->data['users'] = 	json_encode($postuser+$maguser);
 		return View::make('hlists.index', $this->data);
 	}
 
@@ -89,14 +102,9 @@ class HlistsController extends BaseController {
 	 */
 	public function edit($id)
 	{
-		$hlist = $this->hlist->find($id);
+		$list = $this->hlist->find($id);
 
-		if (is_null($hlist))
-		{
-			return Redirect::route('hlists.index');
-		}
-
-		return View::make('hlists.edit', compact('hlist'));
+		return View::make('hlists.edit', compact('list'));
 	}
 
 	/**
@@ -113,9 +121,9 @@ class HlistsController extends BaseController {
 			$hlist = $this->hlist->find($id);
 			$hlist->update($input);
 
-			return Response::json( ['list' => $id] );
+			// return Response::json( ['list' => $id] );
 
-			// return Redirect::route('hlists.show', $id);
+			return Redirect::route('lists.index', $id);
 
 /*		return Redirect::route('hlists.edit', $id)
 			->withInput()
