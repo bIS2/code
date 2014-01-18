@@ -15,7 +15,7 @@ return array(
 	'deliveries'			=> 'Sent',
 	'delivery'				=> 'Delivery',
 	'exists_online_short'	=> 'Online',
-	'field'					=> 'Field',
+	'field'					=> 'FELD',
 	'filter'				=> 'Filter',
 	'has_incomplete_vols_short'	=> 'Incomplete',
 	'hol_details'			=> 'Hol Details',

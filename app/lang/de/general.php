@@ -1,7 +1,8 @@
 	<?php
 
-return array(
+	return array(
 
+	'action'  			=> 'Action',
 	'actions'           => 'Aktionen',
 	'activate_user'		=> 'Benutzer aktivieren',
 	'all'               => 'Alle',
@@ -17,7 +18,9 @@ return array(
 	'contains'			=> 'Enthält',
 	'correct'			=> 'Richtig',
 	'dashboard'			=> 'Übersicht',
+	'dashboard'			=> 'Übersicht',
 	'Date'				=> 'Datum',
+	'date'				=> 'Datum',
 	'delete'            => 'Löschen',
 	'desc' 				=> 'DESC',
 	'disable_with'      => 'Speichern ...', 
@@ -62,34 +65,11 @@ return array(
 	'sending'           => 'Abschicken...',
 	'show_hide_fields'	=> 'Angezeigte Felder für HOL wählen',
 	'size'           	=> 'Umfang (lfm)',
-	'or'           		=> 'oder',
-	'dashboard'			=> 'Übersicht',
-	'feedback'			=> 'Feedback geben',
-	'AND'				=> 'AND',
-	'OR'           		=> 'OR',
-	'incorrects'        => 'Unlösbare',
-	'send'				=> 'Senden',
-	'sort'		=> 'general.Sort',
-	'username'		=> 'general.Username',
-	'email'		=> 'general.Email',
-	'name'		=> 'general.Name',
-	'lastname'		=> 'general.Lastname',
-	'password'		=> 'general.Password',
-	'password_confirm'		=> 'general.Password Confirm',
-	'activate_user'		=> 'general.Activate User',
-	'library'		=> 'general.Library',
-	'role'		=> 'general.Role',
-	'date'	=> 'general.Date',
-	'asc' => 'general.asc',
-	'desc' => 'general.desc',
-	'update' => 'general.update',
-	'error' => 'general.error',
-	'plase_fix_errors_and_try_again' => 'general.plase_fix_errors_and_try_again',
-	'action'  			=> 'Action',
 	'sort'				=> 'Sortieren',
 	'type_criteria'     => 'Suche ...',
 	'update' 			=> 'Updaten',
 	'username'			=> 'Benutzername',
 	'yes' 		    	=> 'Ja',
 
-);
+
+	);
