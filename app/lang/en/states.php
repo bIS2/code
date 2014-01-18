@@ -13,6 +13,7 @@ return array(
 	|
 	*/
 
+	'blank' 									=> 'Blank',
 	'ok' 									=> 'Correct',
 	'receive' 						=> 'Received',
 	'delivery' 						=> 'Sent',

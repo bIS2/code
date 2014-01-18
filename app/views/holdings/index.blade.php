@@ -23,11 +23,13 @@
 			<thead>
 				<tr>
 					@if ( Authority::can('create','Hlist') ) 
+						<th></th>
 						<th>
 							<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets">
 						</th>
 					@endif
 					<th class="actions">{{ trans('general.actions') }}</th>
+					<th>{{trans('general.state')}}</th>
 					<?php	$k = 0; ?>
 					@foreach ($fieldstoshow as $field) 
 						@if ($field != 'ocrr_ptrn') <?php $k++; ?>										
@@ -45,12 +47,21 @@
 
 				<tr id="<?= $holding->id ?>" class="{{ $holding->css }}" data-holdingsset="{{$holding->holdingsset_id}}" >
 					@if (Authority::can('create','Hlist')) 
+						<td>
+      				<i class="fa fa-ellipsis-v"></i>
+      				<i class="fa fa-ellipsis-v"></i>
+						</td>
 						<td style="width:5px !important">
-								<input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl" />
+							<input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl" />
 						</td>
 					@endif
 					<td id="{{ $holding->id }}" class="actions" >
 						@include('holdings.actions')
+					</td>
+					<td>
+						<span class="label label-default">
+							{{ trans('states.'.$holding->state) }}
+						</span>	
 					</td>
 
 					<?php $k = 0; ?>

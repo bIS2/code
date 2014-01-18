@@ -12,6 +12,7 @@ class HlistsController extends BaseController {
 	public function __construct(Hlist $hlist)
 	{
 		$this->hlist = $hlist;
+		$this->data = [];
 	}
 
 	/**
@@ -21,8 +22,10 @@ class HlistsController extends BaseController {
 	 */
 	public function index()
 	{
-		$hlists = Hlist::my()->paginate(20);
-		return View::make('hlists.index', compact('hlists'));
+		$this->data['hlists'] = Hlist::my()->paginate(20);
+		$queries = DB::getQueryLog();
+		$this->data['queries'] = $queries;			
+		return View::make('hlists.index', $this->data);
 	}
 
 	/**
@@ -32,7 +35,13 @@ class HlistsController extends BaseController {
 	 */
 	public function create()
 	{
-		return View::make('hlists.create');
+		$users = User::all()->lists('username','id');
+							
+/*							->whereLibraryId( Auth::user()->library_id )
+							->orderby('username')
+*/							
+
+		return View::make('hlists.create', ['users' => $users]);
 	}
 
 	/**
@@ -102,7 +111,9 @@ class HlistsController extends BaseController {
 		$validation = Validator::make($input, Hlist::$rules);
 
 			$hlist = $this->hlist->find($id);
-			$hlist->update([ 'name' => Input::get('value') ]);
+			$hlist->update($input);
+
+			return Response::json( ['list' => $id] );
 
 			// return Redirect::route('hlists.show', $id);
 

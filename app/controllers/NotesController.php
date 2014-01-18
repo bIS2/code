@@ -49,7 +49,7 @@ class NotesController extends BaseController {
 		$holding = Holding::find(Input::get('holding_id'));
 		
 		// delete all notes to insert new
-		if ($holding->is_annotated) $holding->notes()->delete();
+		if ( $holding->notes()->exists() ) $holding->notes()->delete();
 
 		foreach ($notes as $note) {
 			if (isset( $note['tag_id']) ){

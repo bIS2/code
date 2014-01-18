@@ -4,19 +4,23 @@ return [
 
     'initialize' => function($authority) {
 
-        $user = Auth::guest() ? new User : $authority->getCurrentUser();
+        $user = Auth::guest() ? new User : Auth::user();
 
       	$authority->allow('create','Hlist', function($self,$user){
-      		return (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('postuser') );
+      		return (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('bibuser') );
       	});	
 
         $authority->allow('delivery', 'Hlist', function($self,$hlist) {
-          return  (Auth::user()->hasRole('postuser')) ;
+          return  (Auth::user()->hasRole('postuser'));
+        });
+
+        $authority->allow('comment', 'Holding', function($self,$holding) {
+          return  ( Auth::user()->hasRole('postuser') || Auth::user()->hasRole('speichuser') ) ;
         });
 
 
-        $authority->allow('revise', 'Holding', function($self, $holding) {
-          return ( ($holding->is_correct || $holding->is_annotated ) && (Auth::user()->hasRole('maguser') || Auth::user()->hasRole('maguser')) );
+        $authority->allow('revise', 'Hlist', function($self, $hlist) {
+          return ( $hlist->is_finish && Auth::user()->hasRole('magvuser') && !$hlist->revised  );
         });
 
         $authority->allow('receive', 'Holding', function($self, $holding) {
@@ -61,7 +65,11 @@ return [
           return !Auth::guest() && Auth::user()->hasRole('magvuser') && Auth::user()->hasRole('maguser');
         });
 
+        if ($user->hasRole('magvuser') || $user->hasRole('maguser'))
+        	$authority->allow('btn-mag');
 
+        if ($user->hasRole('magvuser') || $user->hasRole('bibuser'))
+        	$authority->allow('btn-v');
 
         // Action aliases. For example:
         //

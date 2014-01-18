@@ -66,11 +66,15 @@
   		<?= trans('holdings.all') ?> <?= trans('holdings.title') ?>
   	</a>
   </li>
-  <li>
-	  <a data-toggle="modal" class='btn btn-default link_bulk_action disabled' data-target="#form-create-list" style="padding: 6px 11px;">
-	  	<i class="fa fa-plus-circle" style="font-size: 26px; padding: 0px;"></i>
-	  </a>
-  </li>
+
+  @if ( Authority::can('create','Hlist') ) 
+	  <li>
+		  <a data-toggle="modal" class='btn btn-default link_bulk_action disabled' data-target="#form-create-list" style="padding: 6px 11px;">
+		  	<i class="fa fa-plus-circle" style="font-size: 26px; padding: 0px;"></i>
+		  </a>
+	  </li>
+  @endif
+  
 	<?php foreach ($hlists as $hlist) {
 		if (in_array($hlist -> id, $hlistsids)) { 
 	 ?>

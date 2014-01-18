@@ -57,11 +57,14 @@ class Holding extends Eloquent {
   	$query = $query->defaults();
 
     if ( Auth::user()->hasRole('postuser') ) 
-      $query->reviseds()->corrects();
+      $query->revisedsCorrects();
     
-    if ( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') ) 
+    if ( Auth::user()->hasRole('magvuser') ) 
       // $query->confirms()->noReviseds()->ownerOrAux();
       $query->confirms()->ownerOrAux()->nodeliveries();
+
+    if ( Auth::user()->hasRole('maguser') ) 
+//      $query->whereIn('holdings.id', function($query){ $query->from('hlists')->holdings() } ) confirms()->ownerOrAux()->nodeliveries();
 
     if ( Auth::user()->hasRole('speichuser') ) 
       $query->deliveries();
@@ -103,7 +106,15 @@ class Holding extends Eloquent {
   }
 
   public function scopeReviseds($query){
-  	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('reviseds'); });
+  	return $query->where('state','like','revised_%');
+  }
+
+  public function scopeRevisedsCorrects($query){
+  	return $query->whereState('revised_ok');
+  }
+
+  public function scopeRevisedsAnnotated($query){
+  	return $query->whereState('revised_annotated');
   }
 
   public function scopeNoReviseds($query){
