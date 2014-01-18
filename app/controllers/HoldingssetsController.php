@@ -730,17 +730,17 @@ function holdingsset_recall($id) {
 	// var_dump(end($queries));
 	
 	$conn = pg_connect($conn_string) or die('ERROR!!!');
-	$query = "UPDATE holdings SET is_owner='". f ."' WHERE holdingsset_id = ".$id;
-	$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
+	// $query = "UPDATE holdings SET is_owner='". f ."' WHERE holdingsset_id = ".$id;
+	// $result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
 
-	$query = "UPDATE holdings SET is_aux='". f ."' WHERE holdingsset_id = ".$id;
-	$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
+	// $query = "UPDATE holdings SET is_aux='". f ."' WHERE holdingsset_id = ".$id;
+	// $result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
 
-	$query = "UPDATE holdingssets SET ptrn='' WHERE id = ".$id;
-	$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
+	// $query = "UPDATE holdingssets SET ptrn='' WHERE id = ".$id;
+	// $result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
 
-	$query = "UPDATE holdings SET aux_ptrn='' WHERE holdingsset_id = ".$id;
-	$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
+	// $query = "UPDATE holdings SET aux_ptrn='' WHERE holdingsset_id = ".$id;
+	// $result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
 
 	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 500";
 	$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
@@ -849,15 +849,14 @@ function holdingsset_recall($id) {
 		array_push($ta_hol_arr[$index]['hol'],$ta_arr[$i]);
 
 	    if ($ta_arr[$i]['force_owner'] == 't') $forceowner_index = $i;
-	    // if (Holding::find($ta_hol_arr[$index]['id'])->locked()->exists()) $blockeds_hols[] = $i;
+	    // var_dump($ta_arr[$i]['id']);
+	    if (Holding::find($ta_arr[$i]['id'])->locked) $blockeds_hols[] = $ta_arr[$i]['id'];
 		unset($ta_arr[$i]);
 		unset($tmparr);
 		// echo '.';
 
 	}
 	$mishols = $ta_hol_arr[0]['hol'];
-
-
 
 
 	//echo EOL.EOL;
@@ -889,7 +888,7 @@ function holdingsset_recall($id) {
 	 * 	potential owners by weight
 	 * 	potential owners by occurrences
 	 ***********************************************************************/
-
+	// var_dump($blockeds_hols);
 	for ($i=0; $i<$ta_hol_amnt; $i++){ //<---------------------------------- for each group of holdings (TA)...
 		
 		//Patron del HOS - como arreglo

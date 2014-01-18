@@ -1,6 +1,6 @@
 	<?php
 
-return array(
+	return array(
 
 	'action'  			=> 'Action',
 	'actions'           => 'Aktionen',
@@ -71,4 +71,5 @@ return array(
 	'username'			=> 'Benutzername',
 	'yes' 		    	=> 'Ja',
 
-);
+
+	);
