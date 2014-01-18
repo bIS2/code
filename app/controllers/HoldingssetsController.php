@@ -23,7 +23,7 @@ class HoldingssetsController extends BaseController {
 		else { 
 			/* SEARCH ADVANCED FIELDS OPTIONS
 			----------------------------------------------------------------*/
-			define('ALL_SEARCHEABLESFIELDS', '022a;245a;245b;245c;246a;260a;260b;300a;300b;300c;310a;362a;500a;505a;710a;770t;772t;780t;785t;852b;852c;852h;852j;866a;866z;008x;size;exists_online;is_current;has_incomplete_vols');
+			define('ALL_SEARCHEABLESFIELDS', '022a;245a;245b;245c;246a;260a;260b;260c;300a;300b;300c;310a;362a;500a;505a;710a;710b;770t;772t;780t;785t;852b;852c;852h;852j;866a;866z;008x;008y;size;exists_online;is_current;has_incomplete_vols');
 
 			// Is Filter
 			$allsearchablefields = ALL_SEARCHEABLESFIELDS;
@@ -42,8 +42,8 @@ class HoldingssetsController extends BaseController {
 			
 			/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
-			define('DEFAULTS_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j;008x;size;exists_online;is_current;has_incomplete_vols');
-			define('ALL_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j;008x;size;exists_online;is_current;has_incomplete_vols');
+			define('DEFAULTS_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;260c;362a;710a;710b;310a;246a;505a;770t;772t;780t;785t;852c;852j;866a;866z;008x;008y;size;exists_online;is_current;has_incomplete_vols');
+			define('ALL_FIELDS', '245a;245b;ocrr_ptrn;022a;260a;260b;260c;362a;710a;710b;310a;246a;505a;770t;772t;780t;785t;852c;852j;866a;866z;008x;008y;size;exists_online;is_current;has_incomplete_vols');
 
 			/* User vars */
 			$uUserName = Auth::user()->username;

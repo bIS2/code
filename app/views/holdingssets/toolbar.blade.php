@@ -21,8 +21,8 @@
 								<?php if ($i > 0) : ?>
 									<ul class="dropdown-menu" role="menu">
 										@foreach (Auth::user()->groups as $group) 
-										<li>
-											<a href="{{ route('sets.index',['group_id'=>$group->id]) }}"> {{ $group->name }} <span class="badge"><span class="fa fa-file-text"></span> {{ $group->holdingssets -> count() }} </span></a>
+										<li <?= ($group->id == Input::get('group_id')) ? 'class="active"' : '' ; ?>>
+											<a href="{{ route('sets.index',Input::except(['group_id']) + ['group_id' => $group->id ]) }}"> {{ $group->name }} <span class="badge"><span class="fa fa-file-text"></span> {{ $group->holdingssets -> count() }} </span></a>
 										</li>
 										@endforeach
 									</ul>
