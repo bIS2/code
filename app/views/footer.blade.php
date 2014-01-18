@@ -12,7 +12,7 @@
 		<div class="credit text-center row stats">
 			@if (!Auth::guest())
 
-				@if (Auth::user()->hasRole('bibuser'))
+				@if (Auth::user()->hasRole('bibuser') || Auth::user()->hasRole('resuser'))
 					@include('stats.bibuser')
 				@endif
 
