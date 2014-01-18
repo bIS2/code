@@ -92,7 +92,7 @@
 				  	<!-- COMMENTED WITH PROBLEMS RECEIVE -->
 				  	@if ( $user->hasRole('postuser') || $user->hasRole('speichuser') )
 
-					  	<a href="{{ route('holdings.index', Input::only('view') + ['commenteds'=>'true'] ) }}" class="btn btn-default <?= ( Input::has('commenteds') ) ? 'active' : '' ?> btn-sm" >
+					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'commented'] ) }}" class="btn btn-default <?= ( Input::get('state')=='commented' ) ? 'active' : '' ?> btn-sm" >
 					  		<span class="fa fa-comments"></span> {{{ trans('holdings.commenteds') }}}
 					  	</a>
 
