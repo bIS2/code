@@ -34,7 +34,7 @@
 						@foreach ($hlists as $list)
 							<tr id="{{ $list->id }}" class="{{ $list->is_delivery ? 'success' : '' }}">
 								<td>
-									<a href="#" class="editable" data-type="text" data-name="name" data-pk="{{$list->id}}" data-url="{{ route('lists.update',[$list->id]) }}" >{{ $list->name }} </a>
+									<a href="{{ route('holdings.index', Input::except(['hlist_id', 'page'])) }}" >{{ $list->name }} </a>
 								</td>
 								<td>{{ $list->created_at }}</td>
 								<td>
