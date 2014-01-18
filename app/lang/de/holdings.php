@@ -15,7 +15,7 @@ return array(
 	'deliveries'			=> 'Abgeschickte',
 	'delivery'				=> 'Abschicken',
 	'exists_online_short'	=> 'Auch online',
-	'field'					=> 'Feld',
+	'field'					=> 'FELD',
 	'filter'				=> 'Filter',
 	'has_incomplete_vols_short'	=> 'Icpl.',
 	'hol_details'	  		=> 'Details zu HOL',

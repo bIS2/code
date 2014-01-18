@@ -6,6 +6,9 @@ return array(
 	'confirmed'  				=> 'Confirmed',
 	'confirmed_aux'  			=> 'Confirmed Auxiliary HOL',
 	'confirmed_owner'  			=> 'Confirmed Owner HOL',
+	'correct'					=> 'Correct',
+	't_post'					=> 'HOL not posted',  // ???
+	'deliveries'				=> 'Deliveries',
 	'global_log'  				=> 'Global Log',
 	'grouped' 					=> 'HOS in groups',
 	'holding_annotated'			=> 'HOL annotated',
