@@ -21,7 +21,8 @@ class StatesController extends BaseController {
 	 */
 	public function index()
 	{
-		$states = $this->state->all();
+
+	$states = (Input::has('holding_id')) ?  $this->state->whereHoldingId(Input::get('holding_id'))->get() : $this->state->all() ;
 
 		return View::make('states.index', compact('states'));
 	}

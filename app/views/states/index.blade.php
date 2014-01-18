@@ -11,8 +11,6 @@
 
 			<h1>All States</h1>
 
-			<p>{{ link_to_route('states.create', 'Add new state') }}</p>
-
 			@if ($states->count())
 				<table class="table table-striped table-bordered">
 					<thead>
@@ -27,7 +25,7 @@
 						@foreach ($states as $state)
 							<tr>
 								<td>{{ $state->created_at }}</td>
-								<td>{{{ $state->state }}}</td>
+								<td>{{{ trans('states.'.$state->state) }}}</td>
 								<td>{{{ $state->user->username }}}</td>
 
 							</tr>
