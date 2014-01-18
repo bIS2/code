@@ -14,7 +14,7 @@ return array(
 	'force_aux'					=> 'Change to YELLOW',
 	'force_blue'				=> 'Change zu BLUE',
 	'force_owner'				=> 'Change to RED',
-	'go_to_last_sessions'		=> 'Restore last session',
+	'go_to_last_session'		=> 'Restore last session',
 	'groups'   					=> 'Groups',
 	'just_aux'					=> 'Additional',
 	'just_owner'				=> 'Owner',
