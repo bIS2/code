@@ -1,3 +1,22 @@
+<?php 
+
+$maguser = Role::whereName('maguser')
+				->first()
+				->users()
+				->whereLibraryId( Auth::user()->library_id )
+				->select('username','users.id')
+				->lists('username','id'); 
+
+$postuser = Role::whereName('postuser')
+				->first()
+				->users()
+				->whereLibraryId( Auth::user()->library_id )
+				->select('username','users.id')
+				->lists('username','id'); 
+
+$users = array_merge($maguser,$postuser);
+
+?>
 <div class="modal fade" id="form-create-list">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -15,7 +34,7 @@
 				    @if (Auth::user()->hasRole('magvuser'))	
 					    <div class="form-group">
 			          {{ Form::label('worker_id', 'Worker:') }}
-			          {{ Form::select('worker_id', User::whereLibraryId( Auth::user()->library_id )->orderby('username')->lists('username','id'),'',['class'=>"form-control"] ) }}
+			          {{ Form::select('worker_id',$users,'',['class'=>"form-control"] ) }}
 					    </div>				
 				    @endif
 
@@ -24,11 +43,16 @@
 							{{ implode('', $errors->all('<li class="error">:message</li>')) }}
 						</ul>
 					@endif
-
 	      </div>
 	      <div class="modal-footer">
-	        <a href="#" class="btn btn-danger" data-dismiss="modal"><?= trans('general.close') ?></a>
-	        <button class="btn btn-primary" type="submit" data-disable-with="<?= trans('general.disable_with')  ?>"><?= trans('general.save') ?></button>
+	        <button class="btn btn-success" type="submit" data-disable-with="<?= trans('general.disable_with')  ?>">
+	        	<i class="fa fa-check"></i>
+	        	<?= trans('general.save') ?>
+	        </button>
+	        <a href="#" class="btn btn-danger" data-dismiss="modal">
+	        	<i class="fa fa-times"></i>
+	        	<?= trans('general.close') ?>
+	        </a>
 	      </div>
 			</form>
     </div><!-- /.modal-content -->
