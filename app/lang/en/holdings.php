@@ -10,6 +10,7 @@ return array(
 	'both'					=> 'Both',
 	'burneds'				=> 'Unsolved',
 	'comment' 				=> 'Comment',
+	'corrects' 				=> 'Corrects',
 	'commenteds'			=> 'Commented',
 	'create_list'			=> 'Create List',
 	'deliveries'			=> 'Sent',

@@ -22,7 +22,7 @@
 				<span class="fa fa-external-link"></span>
 			</a>
 		</li>						
-			
+
 		@if (Authority::can('touch', $holding))
 
 			<li class="btn btn-xs">
@@ -35,16 +35,6 @@
 			  	<span class="fa fa-tags"></span> 
 			  </a>
 			</li>
-		@endif
-
-		@if (Authority::can('revise', $holding))
-
-			<li class="btn btn-xs">
-			  <a href="{{ route('states.store') }}" class="btn-send" data-params="state=revised_{{$holding->state}}&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
-			  	<span class="fa fa-mail-forward"></span> 
-			  </a>
-			</li>
-			
 		@endif
 
 		@if (Authority::can('trash', $holding))
@@ -73,12 +63,15 @@
 			  	<span class="fa fa-download"></span> 
 			  </a>
 			</li>
+	  @endif
+	  
+		@if (Authority::can('comment',$holding))
 			<li class="btn btn-xs">
-			  <a href="{{ route('comments.create',['holding_id'=>$holding->id]) }}" title="{{ trans('general.comment') }}" class="btn-comment" data-toggle="modal" data-target="#form-create-comments">
+			  <a href="{{ route('comments.create', ['holding_id'=>$holding->id]) }}" title="{{ trans('general.comment') }}" class="btn-comment" data-toggle="modal" data-target="#form-create-comments">
 			  	<span class="fa fa-comment"></span> 
 			  </a>
 			</li>
-	  	@endif
+	  @endif
 
   </ul>
 </div>

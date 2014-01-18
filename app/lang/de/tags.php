@@ -13,7 +13,12 @@ return array(
 	|
 	*/
 
-	'title-index' 				=> 'Tags',
-	'subtitle-index' 			=> '... für Holdings',
+	'missing' 					=> 'Missing',
+	'aditional' 				=> 'Aditional',
+	'bad' 							=> 'Bad Conditions',
+	'remarks' 					=> 'Remarks',
+	'title-index' 			=> 'Tags',
+	'subtitle-index' 		=> '... for Holdings',
+
 
 );

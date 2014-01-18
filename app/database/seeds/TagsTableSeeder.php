@@ -8,10 +8,10 @@ class TagsTableSeeder extends Seeder {
 		DB::table('tags')->delete();
 
 		$tags = [
-			[ 'name' => 'Missing' ],
-			[ 'name' => 'Additional' ],
-			[ 'name' => 'Bad condition' ],
-			[ 'name' => 'Remarks' ],
+			[ 'name' => 'missing' ],
+			[ 'name' => 'aditional' ],
+			[ 'name' => 'bad' ],
+			[ 'name' => 'remarks' ],
 		];
 
 				// Uncomment the below to run the seeder

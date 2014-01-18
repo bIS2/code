@@ -5,13 +5,14 @@ class Hlist extends Eloquent {
 
   public static function boot() {
     parent::boot();
+		Hlist::observe(new HlistObserver);
 		Hlist::observe(new TraceObserver);
   }
 
 
 	public static $rules = array(
-		'name' => 'required',
-		'user_id' => 'required'
+		// 'name' => 'required',
+		// 'user_id' => 'required'
 	);
 
 	public function holdings(){
@@ -36,6 +37,12 @@ class Hlist extends Eloquent {
     return $this->delivery()->exists();
   }
 
+  public function getIsFinishAttribute(){
+  	$total = $this->holdings()->count();
+  	$reviseds = $this->holdings()->whereState('ok')->orWhere('state', '=', 'annotated')->count();
+  	return ($total == $reviseds);
+  }
+
 
   // SCOPES
   public function scopeInLibrary($query){
@@ -48,12 +55,15 @@ class Hlist extends Eloquent {
 
   public function scopeMy($query){
 
-    if ( Auth::user()->hasRole('maguser') ) 
-      $query = $query->inLibrary()->whereWorkerId(Auth::user()->id);
-    elseif ( Auth::user()->hasRole('speichuser') ) 
-      $query = $query->inLibrary()->deliveries();
-    else 
-      $query = Auth::user()->hlists();
+
+    if ( Auth::user()->hasRole('maguser') || Auth::user()->hasRole('postuser') ) 
+      $query = $query->whereWorkerId(Auth::user()->id);
+
+    if ( Auth::user()->hasRole('speichuser') ) 
+      $query = $query->deliveries();
+
+    if (Auth::user()->hasRole('magvuser') && Auth::user()->hasRole('bibuser') )
+	    $query = Auth::user()->hlists();
 
     return $query;
   }

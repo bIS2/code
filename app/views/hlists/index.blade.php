@@ -16,16 +16,15 @@
 
 	<div class="row">
 		<div class="col-xs-12">
-
+			<?php //echo var_dump( $queries ) ?>
 			@if ($hlists->count())
 				<table class="table table-bordered table-condensed ">
 					<thead>
 						<tr>
 							<th>{{ trans('table.name') }}</th>
 							<th>{{ trans('table.date') }}</th>
-							<th><span class="fa fa-file-text"></span></th>
-							<th><span class="fa fa-thumbs-up"></span></th>
-							<th><span class="fa fa-tags"></span></th>
+							<th>{{ trans('holdings.title') }}</span></th>
+							<th>{{ trans('table.details') }}</span></th>
 							<th> </th>
 						</tr>
 					</thead>
@@ -38,22 +37,31 @@
 								</td>
 								<td>{{ $list->created_at }}</td>
 								<td>
-									{{ link_to( route('holdings.index',['hlist'=>$list->id]), $list->holdings->count() ) }}
+									{{ link_to( route('holdings.index',['hlist'=>$list->id]), $total = $list->holdings->count() ) }}
 								</td>
 								<td>
-									@if ( ( $count = $list->holdings()->corrects()->count() )>0  )
-										<a href="{{ route('holdings.index',['hlist_id'=>$list->id, 'ok2'=>true]) }}" >{{$count }}</a>
-									@else
-										{{{ $list->holdings()->corrects()->count() }}}
-									@endif
+									{{ trans('holdings.corrects') }}:{{{ $corrects = $list->holdings()->corrects()->count() }}},
+									{{ trans('holdings.annotated') }}:{{ $annotated = $list->holdings()->annotated()->count() }},
+									{{ trans('holdings.pending') }}:{{ $total -  ($corrects + $annotated)  }}
 								</td>
-								<td>{{ $list->holdings()->annotated()->count() }}</td>
 			          <td>
+
 			          	@if (Authority::can('delivery','Hlist'))
+
 				          	<a href="{{ route('deliveries.store') }}" class="btn btn-success btn-xs" data-remote="true" data-method="post" data-params="hlist_id={{$list->id}}&user_id={{Auth::user()->id}}" {{ $list->is_delivery ? 'disabled' : '' }}>
 				          		<span class="fa  fa-truck fa-flip-horizontal" ></span> {{trans('holdings.delivery')}}
 				          	</a>
+
 			          	@endif
+
+			          	@if (Authority::can('revise',$list))
+
+				          	<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
+				          		<span class="fa fa-check" ></span> {{trans('holdings.revised')}}
+				          	</a>
+
+			          	@endif
+
 			          	<a href="{{ route('lists.destroy',$list->id) }}" data-remote="true" data-method="delete" class="btn btn-danger btn-xs">
 			          		<span class="fa fa-times"></span> {{trans('general.delete')}}
 			          	</a>
