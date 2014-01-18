@@ -63,7 +63,9 @@ if ($proc_flag['time']) {
 }
 
 // connect to postgres server
-require_once 'db-connection.php';
+// require_once 'db-connection.php';
+$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+$con = pg_connect($conn_string) or die('ERROR!!!');
 
 // initialize variables
 $ta_sim_name      = 'ta_sim';    // result table

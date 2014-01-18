@@ -22,8 +22,9 @@ ini_set('memory_limit', '-1');
 
 $version = '131101 14:12 pgt';
 
-require_once 'db-connection.inc.php'; // connect to postgres server
-
+// require_once 'db-connection.inc.php'; // connect to postgres server
+$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+$con = pg_connect($conn_string) or die('ERROR!!!');
 
 /* ************************************************
  * Global variables
