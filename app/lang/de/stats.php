@@ -17,7 +17,7 @@ return array(
 	'holdingsets_confirm'		=> 'Letzte kontrollierte HOS',
 	'holdingsets_confirm_details'	=> '(Details)',
 	'stats'  					=> 'Statistik',
-	't_post'					=> 'HOL, die noch nicht ### worden sind.', // ???
+	't_post'					=> 'HOL, die noch nicht ... worden sind.', // ???
 	'total_anottated'			=> 'HOL mit Annotationen',
 	'total_delivery'			=> 'Ausgeliefert HOL',
 	'total_holding'				=> 'Alle HOL',
