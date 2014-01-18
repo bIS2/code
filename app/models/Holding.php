@@ -197,6 +197,10 @@ class Holding extends Eloquent {
     return ( $this->state == 'burn' );
   }
 
+  public function getIsBlankAttribute(){
+    return ( $this->state == 'blank' );
+  }
+
   public function getIsStateAttribute($state){
     return ( $this->state == $state );
   }

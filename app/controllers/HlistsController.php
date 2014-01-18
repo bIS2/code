@@ -43,8 +43,9 @@ class HlistsController extends BaseController {
 	public function store()
 	{
 		$holding_ids = Input::get('holding_id');
-		echo var_dump($holding_ids);
+		//echo var_dump($holding_ids);
 		$hlist = new Hlist([ 'name' => Input::get('name'), 'user_id' => Auth::user()->id ]);
+		if (Input::has('worker_id')) $hlist->worker_id = Input::get('worker_id');
 		$validation = Validator::make( $hlist->toArray(), Hlist::$rules );
 
 		if ($validation->passes()) {
