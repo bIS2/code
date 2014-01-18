@@ -45,7 +45,7 @@
 				  		<span class="fa fa-list"></span> {{{ trans('holdings.all') }}}
 				  	</a>
 
-				  	<a href="{{ route('holdings.index', Input::only('view') + ['corrects'=>'true'] ) }}" class="btn btn-default <?= ( Input::has('corrects') ) ? 'active' : '' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'ok'] ) }}" class="btn btn-default <?= ( Input::get('state')=='ok' ) ? 'active' : '' ?> btn-sm" >
 				  		<div class="text-success"><span class="fa fa-thumbs-up"></span> {{{ trans('holdings.ok2') }}}</div>
 				  	</a>
 
@@ -64,7 +64,7 @@
 					  	</ul>
 				  	</div>
 
-				  	<a href="{{ route('holdings.index', Input::only('view') + ['reviseds'=>'true'] ) }}" class="btn btn-default text-primary <?= ( Input::has('reviseds') ) ? 'active' : '' ?> btn-sm" >
+				  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'revised'] ) }}" class="btn btn-default text-primary <?= ( Input::get('state')=='revised' ) ? 'active' : '' ?> btn-sm" >
 				  		<div class="text-primary"><span class="fa fa-mail-forward"></span> {{{ trans('holdings.reviseds') }}}</div>
 				  	</a>
 

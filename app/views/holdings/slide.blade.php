@@ -16,7 +16,7 @@
 							@foreach ($holdings as $holding)
 							<div class="row item <?= ($i==0) ? 'active' : '' ?>">
 											<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note'>
-								<div class="row">
+								<div class="row {{ $holding->css }}">
 
 									<?php $i=1 ?>
 									<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1 {{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}" >
@@ -39,7 +39,7 @@
 											</div>
 											<div class="row">
 											  <label class="col-xs-2 text-right">Patrn</label >
-											  <div class="ocrr_ptrn col-xs-10">{{ $holding->patrn }}</div>
+											  <div class="ocrr_ptrn col-xs-10">{{ $holding->patrn_no_btn }}</div>
 											</div>
 											<div class="row">
 											  <label class="col-xs-2 text-right">245a</label >

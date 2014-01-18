@@ -15,7 +15,7 @@
 				    @if (Auth::user()->hasRole('magvuser'))	
 					    <div class="form-group">
 			          {{ Form::label('worker_id', 'Worker:') }}
-			          {{ Form::select('size', Role::whereName('maguser')->first()->users()->whereLibraryId(Auth::user()->library_id)->orderby('username')->lists('username','user_id'),'',['class'=>"form-control"]  ) }}
+			          {{ Form::select('worker_id', User::whereLibraryId( Auth::user()->library_id )->orderby('username')->lists('username','id'),'',['class'=>"form-control"] ) }}
 					    </div>				
 				    @endif
 

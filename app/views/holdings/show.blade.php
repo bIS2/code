@@ -126,10 +126,6 @@
 							<td><?= $holding->f780t; ?></td>
 						</tr>
 						<tr>
-						  <td>f780t</td>
-							<td><?= $holding->f780t; ?></td>
-						</tr>
-						<tr>
 						  <td>f785t</td>
 							<td><?= $holding->f785t; ?></td>
 						</tr>				

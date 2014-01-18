@@ -50,7 +50,7 @@ class Holding extends Eloquent {
 
 
   public function scopeDefaults($query){
-  	return $query->with('ok','notes')->orderBy('f852j','f852c')->inLibrary();
+  	return $query->with('ok','notes', 'states')->orderBy('f852j','f852c')->inLibrary();
   }
 
   public function scopeInit ($query){
@@ -82,7 +82,8 @@ class Holding extends Eloquent {
   }
 
   public function scopeCorrects($query){
-  	return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); });
+  	return $query->whereState('ok');
+  	// return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); });
   }
 
   public function scopeDeliveries($query) {
@@ -114,12 +115,13 @@ class Holding extends Eloquent {
   }
   
   public function scopeWithState( $query, $state ){
-    return $query->defaults()->whereState($state);
+    return $query->defaults()->where('state','like',$state."%");
   }
 
   public function scopePendings($query){
   	return $query
-  		->whereNotIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); } )
+  		->where( 'state','<>','ok' )
+  		// ->whereNotIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); } )
   		->whereNotIn( 'holdings.id', function($query){ $query->select('holding_id')->distinct()->from('notes'); });
   }
 
@@ -156,15 +158,19 @@ class Holding extends Eloquent {
   
   // Attrubutes States
   public function getIsCorrectAttribute(){
-    return $this->ok()->exists();
+    return ( $this->state == 'ok' );
   }
 
   public function getIsAnnotatedAttribute(){
-    return $this->notes()->exists();
+    return ( $this->state == 'annotated' );
   }
 
   public function getIsRevisedAttribute(){
-    return $this->revised()->exists();
+    return (substr($this->state,0,8) == 'revised_');
+  }
+
+  public function getWasRevisedAttribute(){
+    return $this->states()->where('state','like','revised_%')->exists();
   }
 
   public function getIsDeliveryAttribute(){
@@ -189,6 +195,10 @@ class Holding extends Eloquent {
 
   public function getIsBurnedAttribute(){
     return ( $this->state == 'burn' );
+  }
+
+  public function getIsBlankAttribute(){
+    return ( $this->state == 'blank' );
   }
 
   public function getIsStateAttribute($state){

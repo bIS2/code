@@ -1,9 +1,12 @@
 <?php
 
-class OkObserver {
+class StateObserver {
 
   public function created($model) {
-  	Note::whereHoldingId($model->holding_id)->delete();
+
+  	if ($model->state=='ok')
+	  	Note::whereHoldingId($model->holding_id)->delete();
+
   }
 
 }

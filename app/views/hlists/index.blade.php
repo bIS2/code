@@ -22,6 +22,7 @@
 					<thead>
 						<tr>
 							<th>{{ trans('table.name') }}</th>
+							<th>{{ trans('table.date') }}</th>
 							<th><span class="fa fa-file-text"></span></th>
 							<th><span class="fa fa-thumbs-up"></span></th>
 							<th><span class="fa fa-tags"></span></th>
@@ -35,6 +36,7 @@
 								<td>
 									<a href="#" class="editable" data-type="text" data-name="name" data-pk="{{$list->id}}" data-url="{{ route('lists.update',[$list->id]) }}" >{{ $list->name }} </a>
 								</td>
+								<td>{{ $list->created_at }}</td>
 								<td>
 									{{ link_to( route('holdings.index',['hlist'=>$list->id]), $list->holdings->count() ) }}
 								</td>
