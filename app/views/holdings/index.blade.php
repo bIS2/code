@@ -71,7 +71,7 @@
 						@if ($field != 'ocrr_ptrn')  
 
 						<?php $k++;
-							$field = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size')) ? $field = 'f'.$field : $field; 
+							$field = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != 'sys2')) ? $field = 'f'.$field : $field; 
 						?>						
 							<td>
 								@if ($field == 'size') 

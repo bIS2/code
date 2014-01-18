@@ -15,7 +15,7 @@ return [
         });
 
         $authority->allow('comment', 'Holding', function($self,$holding) {
-          return  ( Auth::user()->hasRole('postuser') || Auth::user()->hasRole('speichuser') ) ;
+          return  ( (!$holding->was_delivery && Auth::user()->hasRole('postuser')) || Auth::user()->hasRole('speichuser') ) ;
         });
 
 

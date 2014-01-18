@@ -22,7 +22,7 @@ class Holding extends Eloquent {
     return $this->hasOne('Locked');
   }
   
-  public function hlist(){
+  public function hlists(){
     return $this->belongsToMany('Hlist');
   }
   
