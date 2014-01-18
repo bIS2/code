@@ -42,7 +42,7 @@
 				$trclass 	= ($holding->locked()->exists()) ? 'locked' : '';
 				$ownertrclass = (($holding->is_owner == 't') || ($holding->is_owner == '1')) ? ' is_owner' : '';
 				$auxtrclass 	= (($holding->is_aux == 't') || ($holding->is_aux == '1')) ? ' is_aux' : ''; 
-				var_dump($holding->is_aux);
+				// var_dump($holding->is_aux);
 				if (isset($aux_ptrn[$i]))  $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
 				$preftrclass 	= ($holding->is_pref == 't') ? ' is_pref' : '';
 				$librarianclass = ' '.substr($holding->sys2, 0, 4); 
