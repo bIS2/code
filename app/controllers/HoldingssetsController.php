@@ -606,15 +606,9 @@ read_fieldlist();                    // create $fld_ta
 
 	$ids =  array();
 	$res = compare($bib_sys_ref);
-	foreach ($res as $r) {
-		$ids[] = $r['id'];
-	}
 
-	$ids[] = -1;
-	return Holding::whereIn('id',$ids)->take(100)->get();
+	return $res;
 	break;
-
-
 }
 
 /* ---------------------------------------------------------------------------------
@@ -1190,7 +1184,7 @@ function compare($sys) {
 	// get current time for process measurement
 	if ($proc_flag['time']) $date_start_cycle = new DateTime('now', new DateTimeZone('America/New_York'));
 
-	$sys_reference = $ta['sys']; // ex. bib_sys
+	$sys_reference = $ta['sys2']; // ex. bib_sys
 
 	// **** check if is_tit_freq  
 	// break f245a the same way as the titles in tit_freq
@@ -1278,7 +1272,7 @@ $query .= "\n FROM holdings";
 		} else { // normal case
 			if ($ta_res_sim[$rno]['s_f245a'] > 0.9) $ta_res_sim[$rno]['flag'] = '*'; // title must correspond a bit less
 		}	
-		if ($sys_reference == $ta_res_sim[$rno]['sys']) $ta_res_sim[$rno]['flag'] = '='; // mark original record with '='
+		if ($sys_reference == $ta_res_sim[$rno]['sys2']) $ta_res_sim[$rno]['flag'] = '='; // mark original record with '='
 	}
 
 	// -------------------- sort results in similarity order
@@ -1477,7 +1471,7 @@ function read_fieldlist() {
 	global $fld_ta, $fld_weight_model, $fld_sim, $cmp_sim_fields;
   // fields of a ta
 	$fld_ta = array (
-		'sys',      'f008x',    'f008y',    'f008l',    'f008s',
+		'sys2',      'f008x',    'f008y',    'f008l',    'f008s',
 		'f022a',    'f245a',    'f245b',    'f245c',    'f245d',    'f246i',
 		'f260a',    'f260b',    'f260c',    'f300c',
 		'f310a',    'f362a',    'f500a',
