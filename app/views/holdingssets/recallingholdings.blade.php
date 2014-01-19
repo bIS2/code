@@ -1,4 +1,6 @@
-﻿<?php $librarianclass = ' '.substr($hol->sys2, 0, 4); ?>
+﻿<?php $librarianclass = ' '.substr($hol->sys2, 0, 4); 
+var_dump($holdings);
+?>
 <div class="modal-dialog{{ $librarianclass }}">
   <div class="modal-content">
     <div class="modal-header">
