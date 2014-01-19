@@ -604,36 +604,15 @@ read_fieldlist();                    // create $fld_ta
 
 	$bib_sys_ref = $sys2;
 
-
-		compare($bib_sys_ref);
-		$ta_sim = array();
-	for ($rno = 0; $rno < sizeof($ta_res_sim); $rno++) {  // for all found
-		// write to table
-		$ta_sim  = &$ta_res_sim[$rno];
-		if ($proc_flag['table']) {
-			if ($ta_sim['flag'] <> '-') {
-				$bib_sys_cur = $ta_sim["sys"];
-				$query  = "INSERT INTO $ta_sim_name (sys1, sys2, score, flag, upd) VALUES";
-				$query .= "('".$bib_sys_ref."'".",'".$bib_sys_cur."',".$ta_sim["score"].",'".$ta_sim["flag"]."', current_timestamp);";
-	        //printf("QUERY: %s\n", $query);
-				$result = pg_query($con, $query); if (!$result) echo "Error executing".$query."\n";
-		      // remember that
-				$sys_compared[$bib_sys_cur] = true;
-			}
-		}
-    	// print results
-		if ($proc_flag['show'])
-			printf("%2d%s%s-%s %-12s %-37s %-20s %-35s\n",
-				substr($ta_sim['score'],0,2), 
-				$ta_res_sim[$rno]['flag'], 
-				$sys_reference, 
-				$ta_sim['sys'], 
-				substr($ta_sim['f022a'],0,12),
-				substr($ta_sim['f245a'],0,37),
-				substr($ta_sim['f362a_e'],0,20),
-				substr($ta_sim['f710a'],0,35)
-				);
+	$ids =  array();
+	$res = compare($bib_sys_ref);
+	foreach ($res as $r) {
+		$ids[] = $r['id'];
 	}
+
+	$ids[] = -1;
+	return Holding::whereIn('id',$ids)->take(100)->get();
+	break;
 
 
 }
@@ -1197,9 +1176,9 @@ function compare($sys) {
 	$query = "SELECT ".$select_fld." FROM holdings WHERE sys2 = '$sys'";
 	$result = pg_query($con, $query) or die(pg_last_error()); //; if (!$result) { echo "Error executing".$query."\n"; exit; }
 	$tas = pg_fetch_all($result);
-	echo $query."<br>";
+	// echo $query."<br>";
 	$ta = $tas[0];
-	var_dump($ta);
+	// var_dump($ta);
 
 	// ************************************************
 	// COMPARE WITH OTHERS
@@ -1217,7 +1196,7 @@ function compare($sys) {
 	// break f245a the same way as the titles in tit_freq
 	$query = "SELECT regexp_split_to_array(lower('".pg_escape_string($ta['f245a'])."'), E'[\- \.,:;\(\){}\"\']+') f245a_s";
 	$result = pg_query($con, $query)  or die(pg_last_error()); // if (!$result) echo "Error executing".$query."\n";
-	echo $query."<br>";
+	// echo $query."<br>";
 	$tit = pg_fetch_all($result);
 	$tit = substr($tit[0]['f245a_s'], 1, strlen($tit[0]['f245a_s'])-2);  // cut ()
 	$tit = implode(' ', explode(',',$tit));
@@ -1229,7 +1208,7 @@ function compare($sys) {
 	}
 
 	// create comparison query. If value is '' the result will be 0, so we do not compare this field
-	$query  = "SELECT sys2,";
+	$query  = "SELECT id, sys2,";
 	$query .= "\n f022a,         "; ($ta['f022a']   > '') ? $query .= " similarity(f022a,  '".pg_escape_string($ta['f022a'])."'  ) s_f022a," : $query .= " 0::integer s_f022a,";
 	$query .= "\n f245a, f245a_e,"; ($ta['f245a_e'] > '') ? $query .= " similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') s_f245a," : $query .= " 0::integer s_f245a,";
 	$query .= "\n f245b, f245b_e,"; ($ta['f245b_e'] > '') ? $query .= " similarity(f245b_e,'".pg_escape_string($ta['f245b_e'])."') s_f245b," : $query .= " 0::integer s_f245b,";
@@ -1268,8 +1247,7 @@ $query .= "\n FROM holdings";
 	$ta_res_sim = pg_fetch_all($result);
 	$size_r = sizeof($ta_res_sim);
 
-	echo $query."<br>";
-	var_dump($ta_res_sim);
+	// echo $query."<br>";
 	// die();
 	if (!$ta_res_sim) $size_r = 0;
 
@@ -1308,7 +1286,8 @@ $query .= "\n FROM holdings";
 	$last_ta_in_set = last_similar_ta_in_set(); // look for the last TA above the treshold
 
   usort($ta_res_sim, 'cmp_flag_score'); // *** sort result by flag, score for output
-  // return $ta_res_sim;
+  return $ta_res_sim;
+
 }
 
 // ***********************************************
