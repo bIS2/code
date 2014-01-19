@@ -1,5 +1,5 @@
-<?php $url = ($comment->exists()) ? route('comments.update',$comment->id) : route('comments.store')  ?>
-<?php $method = ($comment->exists()) ? 'PUT' : 'POST' ?>
+<?php $url = ($comment->exists) ? route('comments.update',$comment->id) : route('comments.store')  ?>
+<?php $method = ($comment->exists) ? 'PUT' : 'POST' ?>
 
 <div class="modal-dialog">
   <div class="modal-content">
