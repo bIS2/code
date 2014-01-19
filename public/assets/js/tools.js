@@ -125,8 +125,9 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     if ( result.received )
       $('#'+result.received).hide('slow', function(){ $(this).remove() }); 
 
-    if ( result.delivered )
-      $('#'+result.delivered).hide('slow', function(){ $(this).remove() }); 
+    if ( result.delivered ){
+      $('#'+result.delivered).addClass('success'); 
+    }
 
     if ( result.commented ){
     	$('#form-create-comments').modal('hide')
