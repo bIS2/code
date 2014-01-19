@@ -319,6 +319,7 @@ class HoldingssetsController extends BaseController {
 	public function getSimilaritySearch($id) {
 		$holding = Holding::find($id);
 		$this -> data['holdings']  = similarity_search($holding->sys2);
+		var_dump($this -> data['holdings']);
 		$this -> data['holdingsset_id']  = $holding->holdingsset_id;
 		$this -> data['hol']  = $holding;
 		return View::make('holdingssets.similarityresults', $this -> data);
