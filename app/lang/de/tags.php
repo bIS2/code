@@ -13,10 +13,10 @@ return array(
 	|
 	*/
 
-	'missing' 					=> 'Missing',
-	'aditional' 				=> 'Aditional',
-	'bad' 							=> 'Bad Conditions',
-	'remarks' 					=> 'Remarks',
+	'missing' 				=> 'Fehlend',
+	'aditional' 			=> 'Zus',
+	'bad' 					=> 'Bad Conditions',
+	'remarks' 				=> 'Remarks',
 	'title-index' 			=> 'Tags',
 	'subtitle-index' 		=> '... for Holdings',
 
