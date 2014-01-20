@@ -13,6 +13,7 @@ class HlistsController extends BaseController {
 	{
 		$this->hlist = $hlist;
 		$this->data = [];
+		$this->data['types'] = [ 'control'=>trans('lists.type-control'), 'unsolve'=>trans('lists.type-unsolve'), 'delivery'=>trans('lists.type-delivery')  ];
 	}
 
 	/**
@@ -22,7 +23,11 @@ class HlistsController extends BaseController {
 	 */
 	public function index()
 	{
-		$this->data['hlists'] = Hlist::my()->paginate(20);
+		if (Input::has('q')) 
+			$this->hlist = $this->hlist->where('name','like', '%'.Input::get('q').'%');
+
+		$this->data['hlists'] = $this->hlist->my()->paginate(20);
+
 		$maguser = Role::whereName('maguser')
 						->first()
 						->users()
@@ -102,9 +107,24 @@ class HlistsController extends BaseController {
 	 */
 	public function edit($id)
 	{
-		$list = $this->hlist->find($id);
+		$this->data['list'] = $this->hlist->find($id);
 
-		return View::make('hlists.edit', compact('list'));
+		$maguser = Role::whereName('maguser')
+						->first()
+						->users()
+						->whereLibraryId( Auth::user()->library_id )
+						->select('username','users.id')
+						->lists('username','id'); 
+
+		$postuser = Role::whereName('postuser')
+						->first()
+						->users()
+						->whereLibraryId( Auth::user()->library_id )
+						->select('username','users.id')
+						->lists('username','id'); 
+
+		$this->data['users'] = $maguser+$postuser;
+		return View::make('hlists.edit', $this->data);
 	}
 
 	/**
@@ -121,9 +141,14 @@ class HlistsController extends BaseController {
 			$hlist = $this->hlist->find($id);
 			$hlist->update($input);
 
-			// return Response::json( ['list' => $id] );
+			if (Request::ajax()){
 
-			return Redirect::route('lists.index', $id);
+				if ( $input['revised']==1 )
+					return Response::json( ['list_revised' => $id] );
+
+			} else {
+				return Redirect::route('lists.index', $id);
+			}
 
 /*		return Redirect::route('hlists.edit', $id)
 			->withInput()

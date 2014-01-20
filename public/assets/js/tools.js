@@ -103,6 +103,11 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
       $('#'+result.correct).removeClass('danger').addClass('success'); 
       $('#slider').carousel('next');
     } 
+
+    if ( result.list_revised ){
+      $('#'+result.list_revised).addClass('revised'); 
+    } 
+
     if ( result.blank ){
       $('#'+result.blank).removeClass('danger').removeClass('success'); 
     } 

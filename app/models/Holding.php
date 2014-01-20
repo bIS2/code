@@ -50,7 +50,7 @@ class Holding extends Eloquent {
 
 
   public function scopeDefaults($query){
-  	return $query->with('ok','notes', 'states')->orderBy('f852j','f852c')->inLibrary();
+  	return $query->with('notes', 'states')->orderBy('f852j','f852c')->inLibrary();
   }
 
   public function scopeInit ($query){

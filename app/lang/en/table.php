@@ -20,5 +20,7 @@ return array(
 	'holdingssets'		=> '# of HOS',
 	'url' 				=> 'URL',
 	'browser' 			=> 'Browser',
+	'type' 			=> 'Type',
+	'asigned' 			=> 'Asigned to',
 
 );
