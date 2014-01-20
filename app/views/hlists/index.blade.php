@@ -48,7 +48,7 @@
 
 					<tbody id="hlists-targets">
 						@foreach ($hlists as $list)
-							<tr id="{{ $list->id }}" class="{{ $list->revised ? 'revised' : '' }}">
+							<tr id="{{ $list->id }}" class="{{ $list->revised ? 'revised' : '' }} {{ $list->is_delivery ? 'delivered' : '' }}">
 								<td>
 									<a href="{{ route('holdings.index', Input::except(['hlist_id', 'page'])) }}" >{{ $list->name }} </a>
 								</td>

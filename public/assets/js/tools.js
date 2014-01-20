@@ -127,11 +127,12 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     if ( result.success )
       $('#'+result.success).addClass('success'); 
 
-    if ( result.received )
-      $('#'+result.received).hide('slow', function(){ $(this).remove() }); 
+    if ( result.received ){
+      $('#'+result.received).addClass('received'); 
+    }
 
     if ( result.delivered ){
-      $('#'+result.delivered).addClass('success'); 
+      $('#'+result.delivered).addClass('delivered'); 
     }
 
     if ( result.commented ){

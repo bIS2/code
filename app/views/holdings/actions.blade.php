@@ -59,7 +59,7 @@
 		
 		@if (Authority::can('receive',$holding))
 			<li class="btn btn-xs">
-			  <a href="{{ route('states.store') }}" class="" data-params="state=receive&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
+			  <a href="{{ route('states.store') }}" class="btn-receive" data-params="state=received&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
 			  	<span class="fa fa-download"></span> 
 			  </a>
 			</li>

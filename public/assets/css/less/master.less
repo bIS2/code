@@ -888,7 +888,7 @@ a.btn-danger {
   }  
 }
 
-tr.delivered,tr.received{  }
+
 
 #hos_actions_and_filters > div {
     margin-right: 20px;
@@ -989,8 +989,17 @@ form.clear-search {
 
 // LIST
 #hlists-targets{
-	.revised{ 
-		opacity: 0.5;
-		.btn{ display: none; }
-	}
+
+    tr.delivered,tr.received{  }        
+
+    .revised,.delivered{ 
+        opacity: 0.5;
+        .btn{ display: none; }
+    }
 } 
+
+#holdings-items{
+    .received{ 
+        .btn-receive{ display: none }
+    }
+}

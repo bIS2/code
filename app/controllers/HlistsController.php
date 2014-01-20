@@ -70,9 +70,22 @@ class HlistsController extends BaseController {
 	public function store()
 	{
 		$holding_ids = Input::get('holding_id');
+
+
 		//echo var_dump($holding_ids);
 		$hlist = new Hlist([ 'name' => Input::get('name'), 'user_id' => Auth::user()->id ]);
-		if (Input::has('worker_id')) $hlist->worker_id = Input::get('worker_id');
+
+		if ( Input::has('worker_id') ) {
+
+			$hlist->worker_id = Input::get('worker_id');
+
+			// if worker is postuser then attad to list only revised_ok holdings
+			if ( User::find(Input::get('worker_id'))->hasRole('postuser') ){
+				$holding_ids = Holding::whereIn('id',$holding_ids)->whereState('revised_ok')->lists('id');
+			}
+			//die( var_dump( User::find(Input::get('worker_id')) ) );
+	
+		}
 		$validation = Validator::make( $hlist->toArray(), Hlist::$rules );
 
 		if ($validation->passes()) {
