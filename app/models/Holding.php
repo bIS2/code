@@ -50,7 +50,7 @@ class Holding extends Eloquent {
 
 
   public function scopeDefaults($query){
-  	return $query->with('ok','notes', 'states')->orderBy('f852j','f852c')->inLibrary();
+  	return $query->with('notes', 'states')->orderBy('f852j','f852c')->inLibrary();
   }
 
   public function scopeInit ($query){
@@ -216,6 +216,14 @@ class Holding extends Eloquent {
     return ( $this->state == $state );
   }
 
+  public function getIsOwnerAttribute($state){
+    return ( $this->is_owner );
+  }
+  
+  public function getIsAuxAttribute($state){
+    return ( $this->is_aux );
+  }
+
   // Attrubutes CSS Class
 
   public function getCssAttribute(){
@@ -223,7 +231,7 @@ class Holding extends Eloquent {
   }
 
   public function getClassOwnerAttribute(){
-    return ($this->is_owner == 't') ? ' is_owner' : '';
+    return ($this->is_owner ) ? ' is_owner' : '';
   }
 
   public function getClassCorrectAttribute(){
@@ -253,7 +261,7 @@ class Holding extends Eloquent {
     $j_ptrn = str_split($this->j_ptrn);
     $aux_ptrn = str_split($this->aux_ptrn);
     $i = 0;
-    $ret = '<div style="display: inline-block;" data-toggle="buttons">';
+    $ret = '<div style="display: inline-block;" data-toggle="buttons" class="'.$this->class_owner.'">';
 
     foreach ($ocrr_ptrn as $ocrr) { 
       switch ($ocrr) {
@@ -286,7 +294,7 @@ class Holding extends Eloquent {
     $j_ptrn = str_split($this->j_ptrn);
     $aux_ptrn = str_split($this->aux_ptrn);
     $i = 0;
-    $ret = '<div style="display: inline-block;">';
+    $ret = '<div style="display: inline-block;" class="'.$this->class_owner.'">';
 
     foreach ($ocrr_ptrn as $ocrr) { 
       switch ($ocrr) {

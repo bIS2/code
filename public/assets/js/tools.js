@@ -103,6 +103,11 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
       $('#'+result.correct).removeClass('danger').addClass('success'); 
       $('#slider').carousel('next');
     } 
+
+    if ( result.list_revised ){
+      $('#'+result.list_revised).addClass('revised'); 
+    } 
+
     if ( result.blank ){
       $('#'+result.blank).removeClass('danger').removeClass('success'); 
     } 
@@ -122,11 +127,12 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     if ( result.success )
       $('#'+result.success).addClass('success'); 
 
-    if ( result.received )
-      $('#'+result.received).hide('slow', function(){ $(this).remove() }); 
+    if ( result.received ){
+      $('#'+result.received).addClass('received'); 
+    }
 
     if ( result.delivered ){
-      $('#'+result.delivered).addClass('success'); 
+      $('#'+result.delivered).addClass('delivered'); 
     }
 
     if ( result.commented ){
