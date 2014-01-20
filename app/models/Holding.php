@@ -333,23 +333,25 @@ class Holding extends Eloquent {
     if (isset($aux_ptrn[$i]))  $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
     $librarianclass = ' '.substr($holding->sys2, 0, 4); 
     ?>
-    <?php if (Auth::user()->hasRole('resuser')) : ?>
-      <?php if ($holding->locked()->exists()) : ?>
-        <div class="pull-right">
-          <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="<?= route('lockeds.store',['holding_id' => $holding->id]); ?>" class="pop-over <?= $btnlock; ?> pull-right" data-remote="true" data-method="post" data-params="holdingsset_id=<?=$holdingsset->id; ?>"  data-disable-with="..." data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?><br><strong><?= trans('holdingssets.on_behalf_of'); ?></strong> <?= $holding->locked->comments; ?>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-lock"></span></a>
-        </div>
-      <?php else : ?>
-        <div class="pull-right">
-          <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="#" class="editable  pull-right" data-type="text" data-pk="<?=$holdingsset->id; ?>" data-url="<?= route('lockeds.update',[$holding->id]); ?>" title="<?php if ($btn != 'btn-success disabled') : ?> <?= trans('holdinssets.lock_hol'); ?> @else <?= trans('holdingssets.unlock_hol'); ?><?php endif ?>"><span class="glyphicon glyphicon-lock"></span></a>
+
+    <div class="btn-group actions-menu pull-left" data-container="body">
+      <?php if (Auth::user()->hasRole('resuser')) : ?>
+        <?php if ($holding->locked()->exists()) : ?>
+          <div class="btn btn-default btn-xs">
+            <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="<?= route('lockeds.store',['holding_id' => $holding->id]); ?>" class="pop-over <?= $btnlock; ?> pull-right" data-remote="true" data-method="post" data-params="holdingsset_id=<?=$holdingsset->id; ?>"  data-disable-with="..." data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?><br><strong><?= trans('holdingssets.on_behalf_of'); ?></strong> <?= $holding->locked->comments; ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-lock"></span></a>
+          </div>
+        <?php else : ?>
+          <div class="btn btn-default btn-xs">
+            <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="#" class="editable  pull-right" data-type="text" data-pk="<?=$holdingsset->id; ?>" data-url="<?= route('lockeds.update',[$holding->id]); ?>" title="<?php if ($btn != 'btn-success disabled') : ?> <?= trans('holdinssets.lock_hol'); ?> @else <?= trans('holdingssets.unlock_hol'); ?><?php endif ?>"><span class="glyphicon glyphicon-lock"></span></a>
+          </div>
+        <?php endif ?>
+      <?php elseif($holding->locked) : ?>
+        <div class="btn btn-default btn-xs">
+          <a id="holding<?= $holding -> id; ?>lock" class="pop-over <?= $btnlock; ?> pull-right" data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?><br><strong><?= trans('holdingssets.on_behalf_of'); ?></strong> <?= $holding->locked->comments; ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-lock"></span></a>
         </div>
       <?php endif ?>
-    <?php elseif($holding->locked) : ?>
-      <div class="pull-right">
-        <a id="holding<?= $holding -> id; ?>lock" class="pop-over <?= $btnlock; ?> pull-right" data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?><br><strong><?= trans('holdingssets.on_behalf_of'); ?></strong> <?= $holding->locked->comments; ?>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-lock"></span></a>
-      </div>
-    <?php endif ?>
-    <div class="btn-group actions-menu" data-container="body">
-      <?php if (!($HOSconfirm) && !($HOSincorrect)) : ?>
+    
+      <?php if (!($HOSconfirm) && !($HOSincorrect) && !($holding->locked)) : ?>
         <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
           <?= trans('general.action'); ?> <i class="fa  fa-caret-right"></i>
         </button>

@@ -149,8 +149,8 @@
 							foreach ($fields as $field) {
 								$checked 				= '';
 								$checkactive 		= '';
-								if (($field != 'ocrr_ptrn') && ($field != 'sys2')) {
-										$checked 			= "checked = checked";
+								if (($field != 'ocrr_ptrn')) {
+										$checked 		= "checked = checked";
 										$checkactive 	= " active"; ?>
 										<li class="btn btn-xs btn-default{{ $checkactive }}">
 											<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field; ?>

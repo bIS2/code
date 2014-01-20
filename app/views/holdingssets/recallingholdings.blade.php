@@ -16,6 +16,8 @@
                 </th>        
                 <th>id</th>        
                 <th>sys</th>        
+                <th>score</th>        
+                <th>flag</th>        
                 <th>ptr</th>     
                 <th>245a :: 245b</th>       
                 <th>hbib</th>       
@@ -39,6 +41,8 @@
                   </td>        
                   <td>{{ htmlspecialchars($holding->id,ENT_QUOTES) }}</td>        
                   <td>{{ htmlspecialchars($holding->sys2,ENT_QUOTES) }}</td>        
+                  <td>{{ htmlspecialchars($holding->score,ENT_QUOTES) }}</td>        
+                  <td>{{ htmlspecialchars($holding->flag,ENT_QUOTES) }}</td>        
                   <td class="ocrr_ptrn">
                     {{ $holding -> patrn_no_btn }}
                   </td>       

@@ -610,7 +610,7 @@ table.table thead th:first-child {
     table.flexme > thead > tr > th.actions,
     table.flexme > tbody > tr > td.actions {
         //position: absolute;
-        //width: 105px !important;   
+        width: 300px !important;   
         //height: 22px;  
         // z-index: 9;
         //left: 5px;
@@ -681,7 +681,7 @@ table.table thead th:first-child {
     }
     .editable-container.editable-inline {
         position: absolute;
-        left: 160px !important;
+        left: 70px !important;
         top: -2px;
         * { font-size: 10px !important; }
         input.input-sm {
@@ -934,7 +934,11 @@ span.input-group-addon.search-check {
 }
 
 .actions-menu {
+    width: 110px;
     margin-top: -2px;
+    .btn.btn-default.btn-xs {
+        height: 22px;
+    }
     button.dropdown-toggle {
         z-index: 0 !important;
         &:hover {

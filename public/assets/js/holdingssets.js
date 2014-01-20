@@ -49,7 +49,12 @@ $(function() {
 			$(filter).appendTo('#fieldstosearchhidden')
 		}
 		else	{
-			$(filter).appendTo('#currentfilters')
+			if ($(filter).attr('id') == 'ffsys1') { 
+				$(filter).prependTo('#currentfilters')
+			}
+			else { 
+				$(filter).appendTo('#currentfilters')
+			}
 		}
 	})
 	setDraggoption()
