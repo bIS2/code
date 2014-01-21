@@ -10,7 +10,13 @@
       <div class="modal-body">
         <div class="row">
           <?php if (count($res) > 0) { ?>
-            <table class="table table-striped table-condensed flexme">
+          <script type="text/javascript">
+            $('.datatable').dataTable({
+              "bFilter": false,
+              "bPaginate": false  
+            });
+          </script>
+            <table class="table table-striped table-condensed flexme similarity-table">
               <thead>
                 <tr>    
                   <th>
