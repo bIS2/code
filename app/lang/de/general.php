@@ -1,6 +1,6 @@
 	<?php
 
-	return array(
+return array(
 
 	'action'  			=> 'Action',
 	'actions'           => 'Aktionen',

@@ -16,6 +16,7 @@ return array(
 	'force_owner'				=> 'ROT machen',
 	'go_to_last_session'		=> 'Zurück zu letzter Sitzung',
 	'groups'   					=> 'Gruppen',
+	'incorrect_HOS'				=> 'HOS kann nicht dedoubliert werden',
 	'just_aux'					=> 'Ergänzungsbestand',
 	'just_owner'				=> 'Archivbestand',
 	'move_to_group'				=> 'Verschieben zu',
