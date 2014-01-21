@@ -20,6 +20,8 @@ class ConfirmObserver {
 
     public function deleted($model) {
 
+    	$user_id = Auth::user()->id;
+    	
       foreach ($model->holdingsset->holdings()->lists('id') as $id) {
 	      State::create( [ 'holding_id' => $id, 'user_id' => $user_id, 'state'=>'blank' ] );
       }
