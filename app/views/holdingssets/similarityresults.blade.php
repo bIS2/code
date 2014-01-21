@@ -16,6 +16,19 @@
                 "bPaginate": false  
               });
             </script>
+            <style type="text/css">
+              .similarity-table table thead tr th:first-child,
+              .similarity-table table tbody tr td:first-child {
+                width: 10px !important;
+                max-width: 10px !important;
+              }
+              .similarity-table table thead tr th:first-child + th + th,
+              .similarity-table table tbody tr td:first-child + td + td {
+                width: 350px !important;
+                max-width: 350px !important;
+                overflow: hidden !important;
+              }
+            </style>
             <table class="table table-striped table-condensed flexme similarity-table">
               <thead>
                 <tr>    
