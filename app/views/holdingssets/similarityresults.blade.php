@@ -9,7 +9,7 @@
 
       <div class="modal-body">
       <div class="row">
-        <div class="col-xs-6">
+        <div class="col-xs-6" style="overflow: auto;">
           <?php if ($holdings->count() > 0) { ?>
             <table class="table table-striped table-condensed flexme">
               <thead>
@@ -59,8 +59,42 @@
             <h2 class="text-info"><span class="fa fa-info-circle text-danger"></span> {{ trans('holdingssets.no_results_to_show') }}</h2>
           <?php } ?>
         </div>
-        <div class="col-xs-6">
-          <?php var_dump($res); ?>
+        <div class="col-xs-6" style="overflow: auto;">
+            <?php if (count($res) > 0) { ?>
+            <table class="table table-striped table-condensed flexme">
+              <thead>
+                <tr>    
+                  <th>
+                    <input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#recalling-holdings">
+                  </th>        
+                  <th>id</th>        
+                  <th>sys</th>            
+                  <th>245a :: 245b</th>        
+                  <th>866a</th>       
+                  <th>852b</th>       
+                  <th>852h</th>       
+                </tr>
+              </thead>
+              <tbody id="recalling-holdings">
+                @foreach ($res as $holding)
+                  <?php 
+                    $librarianclass = ' '.substr($holding['sys2'], 0, 4);
+                  ?>
+                  <tr id="holding{{ $holding['id']; }}" class="{{ $librarianclass }}">     
+                    <td>              
+                      <input id="holding_id" name="holding_id[]" type="checkbox" value="{{ $holding->id }}" class="hl sel">
+                    </td>        
+                    <td>{{ htmlspecialchars($holding['id'],ENT_QUOTES) }}</td>        
+                    <td>{{ htmlspecialchars($holding['sys2'],ENT_QUOTES) }}</td>           
+                    <td>{{ htmlspecialchars($holding['f245a'],ENT_QUOTES) }} :: {{ htmlspecialchars($holding['f245b'],ENT_QUOTES) }}</td>           
+                    <td>{{ htmlspecialchars($holding['f866a'],ENT_QUOTES) }}</td>       
+                    <td>{{ htmlspecialchars($holding['f852b'],ENT_QUOTES) }}</td>       
+                    <td>{{ htmlspecialchars($holding['f852h'],ENT_QUOTES) }}</td> 
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          <?php } ?>
         </div>
         </div>
       </div>
