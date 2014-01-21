@@ -79,16 +79,16 @@ class Holdingsset extends Eloquent {
 
   public function scopeReceiveds($query) {
 
-    $owners = $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsOwner('t')->whereReceived('t')->whereLibraryId( Auth::user()->library_id ); })->lists('id'); 
+    $owners = $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsOwner('t')->whereState('received')->whereLibraryId( Auth::user()->library_id ); })->lists('id'); 
 
-    $auxs = $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsAux('t')->whereReceived('t')->whereLibraryId( Auth::user()->library_id ); })->lists('id');
+    $auxs = $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsAux('t')->whereState('received')->whereLibraryId( Auth::user()->library_id ); })->lists('id');
 
 
     $result = array_intersect($owners, $auxs);
 
     foreach ($owners as $owner) {
       $countauxs = count(Holding::whereHoldingssetId($owner)->whereIsAux('t')->lists('id'));
-      $count_auxs_receiveds = ($countauxs > 0) ? count(Holding::whereHoldingssetId($this->id)->whereIsAux('t')->whereReceived('t')->lists('id')) : 0;
+      $count_auxs_receiveds = ($countauxs > 0) ? count(Holding::whereHoldingssetId($this->id)->whereIsAux('t')->whereState('received')->lists('id')) : 0;
       // if ($owner == 176) die($countauxs.'->'.$count_auxs_receiveds);
       if (!(in_array($owner, $result))) {
         if ($countauxs  == 0) $receiveds[] = $owner;
