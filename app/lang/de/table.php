@@ -4,6 +4,7 @@ return array(
 
 	// commons
 	'actions' 		=> 'Aktion',
+	'asigned'		=> 'Zugewiesen an',
 	'name' 			=> 'Name',
 	'date' 			=> 'Datum',
 	'user' 			=> 'Benutzername',
@@ -19,6 +20,7 @@ return array(
 	'no-holdings'	=> '# Holdings',
 	'holdingssets'	=> 'Anzahl HOS',
 	'url' 			=> 'URL',
+	'type' 				=> 'Listentyp',
 	'browser' 		=> 'Browser',
 
 );

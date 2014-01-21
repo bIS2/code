@@ -19,6 +19,6 @@ return array(
 	'remarks' 				=> 'Remarks',
 	'title-index' 			=> 'Tags',
 	'subtitle-index' 		=> '... for Holdings',
-
+	'title-create'			=> 'History',
 
 );
