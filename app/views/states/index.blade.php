@@ -9,15 +9,15 @@
 
         <div class="modal-body">
 
-			<h1>All States</h1>
+			<h1>{{trans('states.title')}}</h1>
 
 			@if ($states->count())
 				<table class="table table-striped table-bordered">
 					<thead>
 						<tr>
-							<th>Date</th>
-							<th>State</th>
-							<th>User_id</th>
+							<th>{{ trans('table.date') }}</th>
+							<th>{{ trans('table.state')}}</th>
+							<th>{{ trans('table.user') }}</th>
 						</tr>
 					</thead>
 
@@ -33,7 +33,7 @@
 					</tbody>
 				</table>
 			@else
-				There are no states
+				{{ trans('states.no_result_states')}}
 			@endif
 
 

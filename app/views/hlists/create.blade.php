@@ -32,16 +32,17 @@ $types = [ 'control'=>trans('lists.type-control'), 'unsolve'=>trans('lists.type-
 		          {{ Form::label('name', trans('lists.name')) }}	
 		          {{ Form::text('name','',['placeholder'=>'Type a brief description', 'class'=>"form-control"]) }}
 				    </div>
+				    
 				    @if (Auth::user()->hasRole('magvuser'))	
 					    <div class="form-group">
 			          {{ Form::label('worker_id', trans('lists.worker')) }}
 			          {{ Form::select('worker_id',$users,'',['class'=>"form-control"] ) }}
 					    </div>				
+					    <div class="form-group">
+			          {{ Form::label('type', trans('lists.type')) }}
+			          {{ Form::select('type',$types,'',['class'=>"form-control"] ) }}
+					    </div>				
 				    @endif
-				    <div class="form-group">
-		          {{ Form::label('type', trans('lists.type')) }}
-		          {{ Form::select('type',$types,'',['class'=>"form-control"] ) }}
-				    </div>				
 
 					@if ($errors->any())
 						<ul>

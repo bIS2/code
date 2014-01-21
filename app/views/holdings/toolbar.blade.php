@@ -98,8 +98,17 @@
 
 				  	@endif
 
-				  	<!-- (TRASH) MARK IT TO ELIMINATE -->
+				  	<!-- HOLDING SPARE -->
 				  	@if ( $user->hasRole('bibuser') || $user->hasRole('magvuser') )
+
+					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'spare'] ) }}" class="btn btn-default <?= ( Input::get('state')=='spare' ) ? 'active' : '' ?> btn-sm" >
+					  		<span class="fa fa-flag"></span> {{{ trans('holdings.spare') }}}
+					  	</a>
+					  	
+				  	@endif
+				  	
+				  	<!-- (TRASH) MARK IT TO ELIMINATE -->
+				  	@if ( $user->hasRole('bibuser') )
 
 					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'trash'] ) }}" class="btn btn-default <?= ( Input::get('state')=='trash' ) ? 'active' : '' ?> btn-sm" >
 					  		<span class="fa fa-trash-o"></span> {{{ trans('holdings.trasheds') }}}
@@ -107,11 +116,20 @@
 					  	
 				  	@endif
 
+
 				  	<!-- DELETE -->
 				  	@if ( $user->hasRole('magvuser') )
 
 					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'burn'] ) }}" class="btn btn-default <?= ( Input::get('state')=='burn' ) ? 'active' : '' ?> btn-sm" >
 					  		<span class="fa fa-fire"></span> {{{ trans('holdings.burneds') }}}
+					  	</a>
+
+					  @endif
+
+				  	@if ( $user->hasRole('bibuser') || $user->hasRole('magvuser') )
+
+					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'integrated'] ) }}" class="btn btn-default <?= ( Input::get('state')=='integrated' ) ? 'active' : '' ?> btn-sm" >
+					  		<span class="fa fa-flag-checkered"></span> {{{ trans('holdings.integrated') }}}
 					  	</a>
 
 					  @endif
