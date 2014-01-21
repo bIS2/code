@@ -8,7 +8,6 @@
     <form id="recalled" method="put" action="{{ url('sets/new-ho-s') }}/{{ $holdingsset_id }}" data-remote="true">
 
       <div class="modal-body">
-        <div class="row">
           <?php if (count($res) > 0) { ?>
             <script type="text/javascript">
               $('.similarity-table').dataTable({
@@ -61,7 +60,6 @@
               </tbody>
             </table>
           <?php } ?>
-        </div>
       </div>
 
       <div class="modal-footer">
