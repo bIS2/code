@@ -112,10 +112,17 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
       $('#'+result.blank).removeClass('danger').removeClass('success'); 
     } 
 
+    if ( result.state ){
+      $('#'+result.id)
+      	.addClass(result.state)
+      	.find('td.state')
+      	.html('<span class="label label-default">' + result.state + '</span>'); 
+    }
+
     if ( result.remove )
       $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
 
-    if ( result.receive )
+    if ( result.received )
       $('#'+result.receive).hide('slow', function(){ $(this).remove() }); 
 
     if ( result.trash )

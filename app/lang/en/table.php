@@ -4,6 +4,7 @@ return array(
 
 	// commons
 	'actions' 			=> 'Actions',
+	'asigned'			=> 'Assigned to',
 	'name' 				=> 'Name',
 	'date' 				=> 'Date',
 	'user' 				=> 'User Name',
@@ -20,7 +21,7 @@ return array(
 	'holdingssets'		=> '# of HOS',
 	'url' 				=> 'URL',
 	'browser' 			=> 'Browser',
-	'type' 			=> 'Type',
+	'type' 				=> 'Type of List',
 	'asigned' 			=> 'Asigned to',
 
 );
