@@ -9,6 +9,10 @@ class IncorrectObserver {
        'object_type' => 'holdingsset',
        'object_id' => $model->holdingsset->id,
       ]);
+      foreach ($model->holdings()->lists('id') as $id) {
+	      State::create( [ 'holding_id' => $id, 'user_id' => Auth::user()->id, 'state'=>'incorrrected' ] )
+      }
+
     }
 
     public function deleted($model) {
@@ -18,5 +22,11 @@ class IncorrectObserver {
        'object_type' => 'holdingsset',
        'object_id' => $model->holdingsset->id,
       ]);
+
+      foreach ($model->holdings()->lists('id') as $id) {
+      	$prev_state = Holding::find($id)->states()->last()->state;
+	      State::create( [ 'holding_id' => $id, 'user_id' => Auth::user()->id, 'state'=>$prev_state ] );
+      }
+
     }
 }
