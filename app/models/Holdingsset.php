@@ -88,7 +88,6 @@ class Holdingsset extends Eloquent {
     foreach ($owners as $owner) {
       $countauxs = count(Holding::whereHoldingssetId($owner)->whereIsAux('t')->lists('id'));
       $count_auxs_receiveds = ($countauxs > 0) ? count(Holding::whereHoldingssetId($this->id)->whereIsAux('t')->whereState('received')->lists('id')) : 0;
-      // if ($owner == 176) die($countauxs.'->'.$count_auxs_receiveds);
       if (!(in_array($owner, $result))) {
         if ($countauxs  == 0) $receiveds[] = $owner;
       }
@@ -96,10 +95,6 @@ class Holdingsset extends Eloquent {
         if ($count_auxs_receiveds == $countauxs['owner']) $receiveds[] = $owner;
       }
     }
-    // var_dump($owners);
-    // var_dump($auxs);
-    // var_dump($receiveds);
-    // die();
     $receiveds = (count($receiveds) > 0) ? $receiveds : [-1];
     return holdingsset::whereIn('id', $receiveds);
   }

@@ -421,7 +421,7 @@ footer {
 }
 .is_aux .fa-square.aux {
     @color: @swiss-yellow;
-    color: darken(@color, 10%);
+    color: darken(@color, 20%);
 }
 
 .is_pref .fa-square.aux {
@@ -809,9 +809,11 @@ p.separator {
 
 #modal-show {
     .modal-body {
-        margin: 0 20px;
-        overflow-x: auto;
+        margin: 0 20px;        
         padding: 0 !important;
+        .table {
+            overflow-x: auto;
+        }
     }
     .table.table-striped.table-condensed * {
         border: none;

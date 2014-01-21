@@ -219,11 +219,15 @@ class Holding extends Eloquent {
   // Attrubutes CSS Class
 
   public function getCssAttribute(){
-  	return $this->class_owner.' '.$this->class_correct.' '.$this->class_aux.' '.$this->class_revised.' '.$this->class_annotated.' '.$this->class_delivered.' '.$this->class_received;
+  	return $this->class_owner.' '.$this->class_correct.' '.$this->class_aux.' '.$this->class_pref.' '.$this->class_revised.' '.$this->class_annotated.' '.$this->class_delivered.' '.$this->class_received;
   }
 
   public function getClassOwnerAttribute(){
     return (($this->is_owner == '1') || ($this->is_owner == 't')) ? ' is_owner' : '';
+  }
+
+  public function getClassPrefAttribute(){
+    return (($this->is_pref == '1') || ($this->is_pref == 't')) ? ' is_pref' : '';
   }
 
   public function getClassAuxAttribute(){
