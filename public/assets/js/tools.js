@@ -115,8 +115,8 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     if ( result.state ){
       $('#'+result.id)
       	.addClass(result.state)
-      	.find('td.state')
-      	.html('<span class="label label-default">' + result.state + '</span>'); 
+      	.find('td.state span.label')
+      	.text(result.state ); 
     }
 
     if ( result.remove )
