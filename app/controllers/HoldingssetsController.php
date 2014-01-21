@@ -1,4 +1,5 @@
 <?php
+
 global $con, $select_fld, $ta, $fld_ta, $ta_res_sim, $proc_flag, $rno, $freq_tit, $fld_weight_model, $ta_sim_fields, $fld_sim, $freq_tit,
 	$fld_weight_model, $fld_weight, $max_score, $treshold_score, $is_freq_tit, $proc_flag, $sys_reference;
 
@@ -318,7 +319,9 @@ class HoldingssetsController extends BaseController {
 -----------------------------------------------------------------------------------*/
 	public function getSimilaritySearch($id) {
 		$holding = Holding::find($id);
-		$this -> data['holdings']  = similarity_search($holding->sys2);
+		$res = similarity_search($holding->sys2);
+		$this -> data['res']  = $res;
+		$this -> data['holdings']  = Holding::where('holdingsset_id','=',$holding->holdingsset_id)->take(100)->get();
 		$this -> data['holdingsset_id']  = $holding->holdingsset_id;
 		$this -> data['hol']  = $holding;
 		return View::make('holdingssets.similarityresults', $this -> data);
@@ -539,20 +542,18 @@ function recall_holdings($id) {
 	return Holding::where('holdingsset_id','!=', $holding -> holdingsset_id )->whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
 		$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
 		$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.$holding->f245b. '%') : $query;
-		// $query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.htmlspecialchars($holding->f245a,ENT_QUOTES). '%') : $query;
-		// $query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.htmlspecialchars($holding->f245a,ENT_QUOTES). '%') : $query;
-		// $query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.htmlspecialchars($holding->f245a,ENT_QUOTES). '%') : $query;
-		// ->orWhere('f245b', 'like', '%'.htmlspecialchars($holding->f245b,ENT_QUOTES). '%');
 	})->take(100)->get();
-	$queries = DB::getQueryLog();
-	die(var_dump(end($queries)));
+	// $queries = DB::getQueryLog();
+	// die(var_dump(end($queries)));
 }
+
+
+
 
 function similarity_search($sys2) {
 
 global $con, $select_fld, $ta, $fld_ta, $ta_res_sim, $proc_flag, $rno, $freq_tit, $fld_weight_model, $ta_sim_fields, $fld_sim, $freq_tit,
 	$fld_weight_model, $fld_weight, $max_score, $treshold_score, $is_freq_tit, $proc_flag, $sys_reference;
-
 
 
 	// $holding  = Holding::find($id);
@@ -572,50 +573,39 @@ global $con, $select_fld, $ta, $fld_ta, $ta_res_sim, $proc_flag, $rno, $freq_tit
 	$date_start = $date = new DateTime('now', new DateTimeZone('America/New_York'));
 
 
-// die('toy aqui');
-$ta_sim_name      = 'ta_sim';    // result table
-$select_fld       = 'id,sys2,f022a,f245a,f245a_e,f245b_e,f245c_e,f_tit_e,f260a_e,f260b_e,f310a_e,f362a_e,f710a_e,f780t_e,f785t_e,f008x,f008y';  // fields 
-$fld_ta           = array();         // field list of table ta
-$ta_sim_fields    = '';              // fields for ta_sim_test
-$fld_sim          = array();         // field list of table_cmp
-$freq_tit         = get_freq_tit();  // fill $tit_freq with all frequent titles
-$weight_model     = 0;               // general weight model
-$fld_weight_model = array();         // model list of weights for every field
-$fld_weight       = array();         // currently used list of weights for every field
-$max_score        = 0;               // remember top score
-$treshold_score   = 45;              // discriminating similar and different   !!! recheck this value 
-$is_freq_tit      = false;           // remember if a title is a frequent title defined in tit_freq
-//$mult_f022a     = ' ';             // mark ISSN if there are several
-$rno              = 0;               // records number
-$sys_reference    = '';              // 
-//$sys_compared     = array();         // collect all sys1 o sys2 that already have been put into sets
+	// die('toy aqui');
+	$ta_sim_name      = 'ta_sim';    // result table
+	$select_fld       = 'id,sys2,f022a,f245a,f245a_e,f245b_e,f245c_e,f_tit_e,f260a_e,f260b_e,f310a_e,f362a_e,f710a_e,f780t_e,f785t_e,f008x,f008y';  // fields 
+	$fld_ta           = array();         // field list of table ta
+	$ta_sim_fields    = '';              // fields for ta_sim_test
+	$fld_sim          = array();         // field list of table_cmp
+	$freq_tit         = get_freq_tit();  // fill $tit_freq with all frequent titles
+	$weight_model     = 0;               // general weight model
+	$fld_weight_model = array();         // model list of weights for every field
+	$fld_weight       = array();         // currently used list of weights for every field
+	$max_score        = 0;               // remember top score
+	$treshold_score   = 45;              // discriminating similar and different   !!! recheck this value 
+	$is_freq_tit      = false;           // remember if a title is a frequent title defined in tit_freq
+	//$mult_f022a     = ' ';             // mark ISSN if there are several
+	$rno              = 0;               // records number
+	$sys_reference    = '';              // 
+	//$sys_compared     = array();         // collect all sys1 o sys2 that already have been put into sets
 
-// prepare list of fields to be used for comparison
-read_fieldlist();                    // create $fld_ta
+	// prepare list of fields to be used for comparison
+	read_fieldlist();                    // create $fld_ta
 
-// create resulting table
-//create_table($ta_sim_name);
+	// create resulting table
+	//create_table($ta_sim_name);
 
 
 
-	printf("Table $ta_sim_name truncated.\n<br><br>");
+	// printf("Table $ta_sim_name truncated.\n<br><br>");
 	create_table($ta_sim_name);
 
 
 	$bib_sys_ref = $sys2;
-
-	$ids =  array();
-	$res = compare($bib_sys_ref);
-	foreach ($res as $r) {
-		$ids[] = $r['id'];
-	}
-
-
-	$ids[] = -1;
-	return Holding::whereIn('id',$ids)->take(100)->get();
+	return compare($bib_sys_ref);
 	break;
-
-
 }
 
 /* ---------------------------------------------------------------------------------
@@ -652,7 +642,7 @@ function truncate($str, $length, $trailing = '...') {
 -----------------------------------------------------------------------------------*/
 function holdingsset_recall($id) {
 
-	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+	$conn_string = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 	$conn = pg_connect($conn_string) or die('ERROR!!!');
 
 	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 500";
@@ -1170,7 +1160,7 @@ function compare($sys) {
 	$fld_weight_model, $fld_weight, $max_score, $treshold_score, $is_freq_tit, $proc_flag, $sys_reference;
 // initialize variables
 
-	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+	$conn_string = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string) or die('ERROR!!!');
 
 	// get reference record
@@ -1568,7 +1558,7 @@ $fld_weight_model[2] = array (
 
 function create_table($tab_name) {
 
- 	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+ 	$conn_string = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string) or die('ERROR!!!');
 
 	$query  = "DROP TABLE IF EXISTS $tab_name; ";
