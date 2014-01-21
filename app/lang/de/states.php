@@ -14,12 +14,12 @@ return array(
 	*/
 
 	'blank' 						=> '-',
-	'ok' 							=> 'Confirmed',
-	'receive' 						=> 'Integrated in SPB',
-	'delivery' 						=> 'Sent to SPB',
-	'annotated' 					=> 'Annotaded by MAGUSER',
-	'burn' 							=> 'Not solvable',
-	'trash' 						=> 'To eliminate',
-	'revised_annotated' 			=> 'Annotated and back to BIBUSER',
+	'ok' 							=> 'Korrekt',
+	'receive' 						=> 'Erhalten',
+	'delivery' 						=> 'Zur SPB gesandt',
+	'annotated' 					=> 'Von MAGUSER annotiert',
+	'burn' 							=> 'Unlösbar',
+	'trash' 						=> 'Zu löschen',
+	'revised_annotated' 			=> 'Mit Annotation zurück an BIBUSER',
 
 );
