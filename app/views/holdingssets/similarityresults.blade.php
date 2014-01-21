@@ -30,7 +30,7 @@
                   ?>
                   <tr id="holding{{ $holding['id']; }}" class="{{ $librarianclass }}">     
                     <td>              
-                      <input id="holding_id" name="holding_id[]" type="checkbox" value="{{ $holding['id'] }}" <?php if (in_array($holding['id'], $holdings)) { echo ' class="hl sel" '; } else { echo ' checked="checked" readonly ';  } ?> class="">
+                      <input id="holding_id" name="holding_id[]" type="checkbox" value="{{ $holding['id'] }}" <?php if (!(in_array($holding['id'], $holdings))) { echo ' class="hl sel" '; } else { echo ' checked="checked" disabled ';  } ?> class="">
                     </td>
                     <td>{{ htmlspecialchars($holding['id'],ENT_QUOTES) }}</td>        
                     <td>{{ htmlspecialchars($holding['sys2'],ENT_QUOTES) }}</td>           
