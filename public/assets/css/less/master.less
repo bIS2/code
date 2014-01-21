@@ -1008,3 +1008,15 @@ form.clear-search {
         .btn-receive, .btn-comment{ display: none }
     }
 }
+
+#recalled .similarity-table-container table thead tr th:first-child,
+#recalled .similarity-table-container table tbody tr td:first-child {
+width: 10px !important;
+max-width: 10px !important;
+}
+#recalled .similarity-table-container table thead tr th:first-child + th + th,
+#recalled .similarity-table-container table tbody tr td:first-child + td + td {
+width: 350px !important;
+max-width: 350px !important;
+overflow: hidden !important;
+}

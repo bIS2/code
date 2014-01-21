@@ -7,7 +7,7 @@
     </div>
     <form id="recalled" method="put" action="{{ url('sets/new-ho-s') }}/{{ $holdingsset_id }}" data-remote="true">
 
-      <div class="modal-body">
+      <div class="modal-body similarity-table-container">
           <?php if (count($res) > 0) { ?>
             <script type="text/javascript">
               $('.similarity-table').dataTable({
@@ -15,19 +15,6 @@
                 "bPaginate": false  
               });
             </script>
-            <style type="text/css">
-              .similarity-table table thead tr th:first-child,
-              .similarity-table table tbody tr td:first-child {
-                width: 10px !important;
-                max-width: 10px !important;
-              }
-              .similarity-table table thead tr th:first-child + th + th,
-              .similarity-table table tbody tr td:first-child + td + td {
-                width: 350px !important;
-                max-width: 350px !important;
-                overflow: hidden !important;
-              }
-            </style>
             <table class="table table-striped table-condensed flexme similarity-table">
               <thead>
                 <tr>    
