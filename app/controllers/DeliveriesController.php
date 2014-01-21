@@ -51,10 +51,10 @@ class DeliveriesController extends BaseController {
 			return Response::json( [ 'delivered' => $delivery->hlist_id ] );
 		}
 
-		return Redirect::route('deliveries.create')
+/*		return Redirect::route('deliveries.create')
 			->withInput()
 			->withErrors($validation)
-			->with('message', 'There were validation errors.');
+			->with('message', 'There were validation errors.');*/
 	}
 
 	/**

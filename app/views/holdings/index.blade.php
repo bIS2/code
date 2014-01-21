@@ -74,6 +74,7 @@
 							$field = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != 'sys2')) ? $field = 'f'.$field : $field; 
 						?>						
 							<td>
+
 								@if ($field == 'size') 
 
 									@if (Authority::can('set_size', $holding))
@@ -91,6 +92,7 @@
 
 							@if ($k == 2)
 								<td class="ocrr_ptrn">
+
 									{{ $holding -> patrn_no_btn }}
 									<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>{{ $holding -> f866a }}</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
 								</td>
