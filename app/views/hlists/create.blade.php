@@ -15,8 +15,9 @@ $postuser = Role::whereName('postuser')
 				->lists('username','id'); 
 
 $users = $maguser+$postuser;
-
+$types = [ 'control'=>trans('lists.type-control'), 'unsolve'=>trans('lists.type-unsolve'), 'delivery'=>trans('lists.type-delivery')  ]
 ?>
+
 <div class="modal fade" id="form-create-list">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -28,15 +29,19 @@ $users = $maguser+$postuser;
 	      <div class="modal-body">
 
 				    <div class="form-group">
-		          {{ Form::label('name', 'Name:') }}	
+		          {{ Form::label('name', trans('lists.name')) }}	
 		          {{ Form::text('name','',['placeholder'=>'Type a brief description', 'class'=>"form-control"]) }}
 				    </div>
 				    @if (Auth::user()->hasRole('magvuser'))	
 					    <div class="form-group">
-			          {{ Form::label('worker_id', 'Worker:') }}
+			          {{ Form::label('worker_id', trans('lists.worker')) }}
 			          {{ Form::select('worker_id',$users,'',['class'=>"form-control"] ) }}
 					    </div>				
 				    @endif
+				    <div class="form-group">
+		          {{ Form::label('type', trans('lists.type')) }}
+		          {{ Form::select('type',$types,'',['class'=>"form-control"] ) }}
+				    </div>				
 
 					@if ($errors->any())
 						<ul>

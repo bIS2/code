@@ -1,4 +1,5 @@
 <?php
+
 global $con, $select_fld, $ta, $fld_ta, $ta_res_sim, $proc_flag, $rno, $freq_tit, $fld_weight_model, $ta_sim_fields, $fld_sim, $freq_tit,
 	$fld_weight_model, $fld_weight, $max_score, $treshold_score, $is_freq_tit, $proc_flag, $sys_reference;
 
@@ -318,7 +319,9 @@ class HoldingssetsController extends BaseController {
 -----------------------------------------------------------------------------------*/
 	public function getSimilaritySearch($id) {
 		$holding = Holding::find($id);
-		$this -> data['holdings']  = similarity_search($holding->sys2);
+		$res = similarity_search($holding->sys2);
+		$this -> data['res']  = $res;
+		$this -> data['holdings']  = Holding::where('holdingsset_id','=',$holding->holdingsset_id)->take(100)->get();
 		$this -> data['holdingsset_id']  = $holding->holdingsset_id;
 		$this -> data['hol']  = $holding;
 		return View::make('holdingssets.similarityresults', $this -> data);
@@ -539,20 +542,18 @@ function recall_holdings($id) {
 	return Holding::where('holdingsset_id','!=', $holding -> holdingsset_id )->whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
 		$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
 		$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.$holding->f245b. '%') : $query;
-		// $query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.htmlspecialchars($holding->f245a,ENT_QUOTES). '%') : $query;
-		// $query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.htmlspecialchars($holding->f245a,ENT_QUOTES). '%') : $query;
-		// $query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.htmlspecialchars($holding->f245a,ENT_QUOTES). '%') : $query;
-		// ->orWhere('f245b', 'like', '%'.htmlspecialchars($holding->f245b,ENT_QUOTES). '%');
 	})->take(100)->get();
-	$queries = DB::getQueryLog();
-	die(var_dump(end($queries)));
+	// $queries = DB::getQueryLog();
+	// die(var_dump(end($queries)));
 }
+
+
+
 
 function similarity_search($sys2) {
 
 global $con, $select_fld, $ta, $fld_ta, $ta_res_sim, $proc_flag, $rno, $freq_tit, $fld_weight_model, $ta_sim_fields, $fld_sim, $freq_tit,
 	$fld_weight_model, $fld_weight, $max_score, $treshold_score, $is_freq_tit, $proc_flag, $sys_reference;
-
 
 
 	// $holding  = Holding::find($id);
@@ -572,50 +573,39 @@ global $con, $select_fld, $ta, $fld_ta, $ta_res_sim, $proc_flag, $rno, $freq_tit
 	$date_start = $date = new DateTime('now', new DateTimeZone('America/New_York'));
 
 
-// die('toy aqui');
-$ta_sim_name      = 'ta_sim';    // result table
-$select_fld       = 'id,sys2,f022a,f245a,f245a_e,f245b_e,f245c_e,f_tit_e,f260a_e,f260b_e,f310a_e,f362a_e,f710a_e,f780t_e,f785t_e,f008x,f008y';  // fields 
-$fld_ta           = array();         // field list of table ta
-$ta_sim_fields    = '';              // fields for ta_sim_test
-$fld_sim          = array();         // field list of table_cmp
-$freq_tit         = get_freq_tit();  // fill $tit_freq with all frequent titles
-$weight_model     = 0;               // general weight model
-$fld_weight_model = array();         // model list of weights for every field
-$fld_weight       = array();         // currently used list of weights for every field
-$max_score        = 0;               // remember top score
-$treshold_score   = 45;              // discriminating similar and different   !!! recheck this value 
-$is_freq_tit      = false;           // remember if a title is a frequent title defined in tit_freq
-//$mult_f022a     = ' ';             // mark ISSN if there are several
-$rno              = 0;               // records number
-$sys_reference    = '';              // 
-//$sys_compared     = array();         // collect all sys1 o sys2 that already have been put into sets
+	// die('toy aqui');
+	$ta_sim_name      = 'ta_sim';    // result table
+	$select_fld       = 'id,sys2,f022a,f245a,f245a_e,f245b_e,f245c_e,f_tit_e,f260a_e,f260b_e,f310a_e,f362a_e,f710a_e,f780t_e,f785t_e,f008x,f008y';  // fields 
+	$fld_ta           = array();         // field list of table ta
+	$ta_sim_fields    = '';              // fields for ta_sim_test
+	$fld_sim          = array();         // field list of table_cmp
+	$freq_tit         = get_freq_tit();  // fill $tit_freq with all frequent titles
+	$weight_model     = 0;               // general weight model
+	$fld_weight_model = array();         // model list of weights for every field
+	$fld_weight       = array();         // currently used list of weights for every field
+	$max_score        = 0;               // remember top score
+	$treshold_score   = 45;              // discriminating similar and different   !!! recheck this value 
+	$is_freq_tit      = false;           // remember if a title is a frequent title defined in tit_freq
+	//$mult_f022a     = ' ';             // mark ISSN if there are several
+	$rno              = 0;               // records number
+	$sys_reference    = '';              // 
+	//$sys_compared     = array();         // collect all sys1 o sys2 that already have been put into sets
 
-// prepare list of fields to be used for comparison
-read_fieldlist();                    // create $fld_ta
+	// prepare list of fields to be used for comparison
+	read_fieldlist();                    // create $fld_ta
 
-// create resulting table
-//create_table($ta_sim_name);
+	// create resulting table
+	//create_table($ta_sim_name);
 
 
 
-	printf("Table $ta_sim_name truncated.\n<br><br>");
+	// printf("Table $ta_sim_name truncated.\n<br><br>");
 	create_table($ta_sim_name);
 
 
 	$bib_sys_ref = $sys2;
-
-	$ids =  array();
-	$res = compare($bib_sys_ref);
-	foreach ($res as $r) {
-		$ids[] = $r['id'];
-	}
-
-
-	$ids[] = -1;
-	return Holding::whereIn('id',$ids)->take(100)->get();
+	return compare($bib_sys_ref);
 	break;
-
-
 }
 
 /* ---------------------------------------------------------------------------------
@@ -1213,7 +1203,7 @@ function compare($sys) {
 	$query .= "\n f022a,         "; ($ta['f022a']   > '') ? $query .= " similarity(f022a,  '".pg_escape_string($ta['f022a'])."'  ) s_f022a," : $query .= " 0::integer s_f022a,";
 	$query .= "\n f245a, f245a_e,"; ($ta['f245a_e'] > '') ? $query .= " similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') s_f245a," : $query .= " 0::integer s_f245a,";
 	$query .= "\n f245b, f245b_e,"; ($ta['f245b_e'] > '') ? $query .= " similarity(f245b_e,'".pg_escape_string($ta['f245b_e'])."') s_f245b," : $query .= " 0::integer s_f245b,";
-	// $query .= "\n f245c,         "; ($ta['f245c_e'] > '') ? $query .= " similarity(f245c_e,'".pg_escape_string($ta['f245c_e'])."') s_f245c," : $query .= " 0::integer s_f245c,";
+	$query .= "\n f245c,         "; ($ta['f245c_e'] > '') ? $query .= " similarity(f245c_e,'".pg_escape_string($ta['f245c_e'])."') s_f245c," : $query .= " 0::integer s_f245c,";
 	$query .= "\n f_tit,         "; ($ta['f_tit_e'] > '') ? $query .= " similarity(f_tit_e,'".pg_escape_string($ta['f_tit_e'])."') s_f_tit," : $query .= " 0::integer s_f_tit,";
 	$query .= "\n f260a, f260a_e,"; ($ta['f260a_e'] > '') ? $query .= " similarity(f260a_e,'".pg_escape_string($ta['f260a_e'])."') s_f260a," : $query .= " 0::integer s_f260a,";
 	$query .= "\n f260b,         "; ($ta['f260b_e'] > '') ? $query .= " similarity(f260b_e,'".pg_escape_string($ta['f260b_e'])."') s_f260b," : $query .= " 0::integer s_f260b,";
@@ -1221,9 +1211,9 @@ function compare($sys) {
 	$query .= "\n f362a, f362a_e, similarity(
 		array_to_string(regexp_split_to_array(f362a_e, E'[^0-9]+'),';','*'),
 		array_to_string(regexp_split_to_array('".pg_escape_string($ta['f362a_e'])."', E'[^0-9]+'),';','*')) s_f362a,";
-// $query .= "\n f710a, f710a_e,"; ($ta['f710a_e'] > '') ? $query .= " similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') s_f710a," : $query .= " 0::integer s_f710a,";
-// $query .= "\n f780t, f780t_e,"; ($ta['f780t_e'] > '') ? $query .= " similarity(f780t_e,'".pg_escape_string($ta['f780t_e'])."') s_f780t," : $query .= " 0::integer s_f780t,";
-// $query .= "\n f785t, f785t_e,"; ($ta['f785t_e'] > '') ? $query .= " similarity(f785t_e,'".pg_escape_string($ta['f785t_e'])."') s_f785t," : $query .= " 0::integer s_f785t,";
+$query .= "\n f710a, f710a_e,"; ($ta['f710a_e'] > '') ? $query .= " similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') s_f710a," : $query .= " 0::integer s_f710a,";
+$query .= "\n f780t, f780t_e,"; ($ta['f780t_e'] > '') ? $query .= " similarity(f780t_e,'".pg_escape_string($ta['f780t_e'])."') s_f780t," : $query .= " 0::integer s_f780t,";
+$query .= "\n f785t, f785t_e,"; ($ta['f785t_e'] > '') ? $query .= " similarity(f785t_e,'".pg_escape_string($ta['f785t_e'])."') s_f785t," : $query .= " 0::integer s_f785t,";
 $query .= "\n f008x,         "; ($ta['f008x']   > '') ? $query .= " similarity(f008x  ,'".pg_escape_string($ta['f008x'])  ."') s_f008x," : $query .= " 0::integer s_f008x,";
 $query .= "\n f008y,         "; ($ta['f008y']   > '') ? $query .= " similarity(f008y  ,'".pg_escape_string($ta['f008y'])  ."') s_f008y"  : $query .= " 0::integer s_f008y";
 $query .= "\n FROM holdings";

@@ -50,7 +50,7 @@ class Holding extends Eloquent {
 
 
   public function scopeDefaults($query){
-  	return $query->with('ok','notes', 'states')->orderBy('f852j','f852c')->inLibrary();
+  	return $query->with('notes', 'states')->orderBy('f852j','f852c')->inLibrary();
   }
 
   public function scopeInit ($query){
@@ -219,11 +219,19 @@ class Holding extends Eloquent {
   // Attrubutes CSS Class
 
   public function getCssAttribute(){
-  	return $this->class_owner.' '.$this->class_correct.' '.$this->class_revised.' '.$this->class_annotated.' '.$this->class_delivered.' '.$this->class_received;
+  	return $this->class_owner.' '.$this->class_correct.' '.$this->class_aux.' '.$this->class_pref.' '.$this->class_revised.' '.$this->class_annotated.' '.$this->class_delivered.' '.$this->class_received;
   }
 
   public function getClassOwnerAttribute(){
-    return ($this->is_owner == 't') ? ' is_owner' : '';
+    return (($this->is_owner == '1') || ($this->is_owner == 't')) ? ' is_owner' : '';
+  }
+
+  public function getClassPrefAttribute(){
+    return (($this->is_pref == '1') || ($this->is_pref == 't')) ? ' is_pref' : '';
+  }
+
+  public function getClassAuxAttribute(){
+    return (($this->is_aux == '1') || ($this->is_aux == 't')) ? ' is_aux' : '';
   }
 
   public function getClassCorrectAttribute(){
@@ -253,7 +261,7 @@ class Holding extends Eloquent {
     $j_ptrn = str_split($this->j_ptrn);
     $aux_ptrn = str_split($this->aux_ptrn);
     $i = 0;
-    $ret = '<div style="display: inline-block;" data-toggle="buttons">';
+    $ret = '<div style="display: inline-block;" data-toggle="buttons" class="'.$this->class_owner.'">';
 
     foreach ($ocrr_ptrn as $ocrr) { 
       switch ($ocrr) {
@@ -286,7 +294,7 @@ class Holding extends Eloquent {
     $j_ptrn = str_split($this->j_ptrn);
     $aux_ptrn = str_split($this->aux_ptrn);
     $i = 0;
-    $ret = '<div style="display: inline-block;">';
+    $ret = '<div style="display: inline-block;" class="'.$this->class_owner.'">';
 
     foreach ($ocrr_ptrn as $ocrr) { 
       switch ($ocrr) {

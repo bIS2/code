@@ -6,22 +6,38 @@
 <div class="panel panel-info">
 	<div class="panel-heading">
 		<div class="row">
-			<div class="col-xs-12">
-				<h2> 
+
+			<div class="col-xs-8">
+				<div class="lead"> 
 					{{ trans('lists.title') }} 
-				</h2>
+				</div >
 			</div> <!-- /.col-xs-12 -->
+
+	  	<div class="col-sm-4">
+	  		<form action="{{ route('lists.index') }}"  method="get">
+			    <div class="input-group">
+			      <input type="text" class="form-control" name="q" value="{{ Input::get('q') }}" placeholder="{{ trans('general.placeholder_search') }}">
+			      <span class="input-group-btn">
+			        <button class="btn btn-default" type="submit">
+			        	<i class="fa fa-search"></i>
+			        	{{ trans('general.search') }}
+			        </button>
+			      </span>
+			    </div><!-- /input-group -->
+	  		</form>
+	  	</div>
+
 		</div> <!-- /.row -->
 	</div> <!-- /.page-header -->
-
 	<div class="row">
 		<div class="col-xs-12">
 			<?php //echo var_dump( $users ) ?>
 			@if ($hlists->count())
-				<table class="table table-bordered table-condensed ">
+				<table class="table table-bordered table-condensed datatable">
 					<thead>
 						<tr>
 							<th>{{ trans('table.name') }}</th>
+							<th>{{ trans('table.type') }}</th>
 							<th>{{ trans('table.date') }}</th>
 							<th>{{ trans('table.asigned') }}</th>
 							<th>{{ trans('holdings.title') }}</span></th>
@@ -32,10 +48,11 @@
 
 					<tbody id="hlists-targets">
 						@foreach ($hlists as $list)
-							<tr id="{{ $list->id }}" class="{{ $list->is_delivery ? 'success' : '' }}">
+							<tr id="{{ $list->id }}" class="{{ $list->revised ? 'revised' : '' }} {{ $list->is_delivery ? 'delivered' : '' }}">
 								<td>
 									<a href="{{ route('holdings.index', Input::except(['hlist_id', 'page'])) }}" >{{ $list->name }} </a>
 								</td>
+								<td>{{ trans('lists.type-'.$list->type) }}</td>
 								<td>{{ $list->created_at }}</td>
 								<td>
 									{{ $list->worker->username }} 	
@@ -80,7 +97,7 @@
 						@endforeach
 					</tbody>
 				</table>
-
+				<div class="pagination"></div>
 		</div> <!-- /.col-xs-12 -->
 	</div> <!-- /.row -->
 

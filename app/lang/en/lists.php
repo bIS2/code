@@ -2,5 +2,8 @@
 
 return array(
 
-	'title'   => 'Overview'
+	'title'   				=> 'Overview',
+	'type-control'   	=> 'Control',
+	'type-delivery'   => 'Delivery',
+	'type-unsolve'   	=> 'Unsolve',
 );

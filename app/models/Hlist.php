@@ -59,6 +59,7 @@ class Hlist extends Eloquent {
 
   public function scopeMy($query){
 
+  	$query = $query->with('user','holdings');
 
     if ( Auth::user()->hasRole('maguser') || Auth::user()->hasRole('postuser') ) 
       $query = $query->whereWorkerId(Auth::user()->id);
