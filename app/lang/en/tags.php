@@ -13,12 +13,12 @@ return array(
 	|
 	*/
 
-	'missing' 					=> 'Missing',
-	'aditional' 				=> 'Aditional',
-	'bad' 							=> 'Bad Conditions',
-	'remarks' 					=> 'Remarks',
+	'missing' 				=> 'Missing',
+	'aditional' 			=> 'Aditional',
+	'bad' 					=> 'Bad Conditions',
+	'remarks' 				=> 'Remarks',
 	'title-index' 			=> 'Tags',
 	'subtitle-index' 		=> '... for Holdings',
-
+	'title-create'			=> 'History',
 
 );
