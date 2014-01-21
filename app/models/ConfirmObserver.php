@@ -12,14 +12,14 @@ class ConfirmObserver {
       ]);
 
       foreach ($model->holdings()->lists('id') as $id) {
-	      State::create( [ 'holding_id' => $id, 'user_id' => Auth::user()->id, 'state'=>'confirmed' ] )
+	      State::create( [ 'holding_id' => $id, 'user_id' => Auth::user()->id, 'state'=>'confirmed' ] );
       }
     }
 
     public function deleted($model) {
 
       foreach ($model->holdings()->lists('id') as $id) {
-	      State::create( [ 'holding_id' => $id, 'user_id' => Auth::user()->id, 'state'=>'blank' ] )
+	      State::create( [ 'holding_id' => $id, 'user_id' => Auth::user()->id, 'state'=>'blank' ] );
       }
 
       Trace::create([ 
