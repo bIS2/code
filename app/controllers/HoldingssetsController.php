@@ -1,15 +1,13 @@
 <?php
 
-global $con, $select_fld, $ta, $fld_ta, $ta_res_sim, $proc_flag, $rno, $freq_tit, $fld_weight_model, $ta_sim_fields, $fld_sim, $freq_tit,
-	$fld_weight_model, $fld_weight, $max_score, $treshold_score, $is_freq_tit, $proc_flag, $sys_reference;
 
 class HoldingssetsController extends BaseController {
- 	protected $layout = 'layouts.default';
+	protected $layout = 'layouts.default';
 
 
-    public function __construct() {
-    	    	$this->beforeFilter( 'auth' );
-    }
+	public function __construct() {
+		$this->beforeFilter( 'auth' );
+	}
 
 	/**
 	 * Display a listing of the resource.
@@ -34,7 +32,7 @@ class HoldingssetsController extends BaseController {
 			$allsearchablefields = explode(';', $allsearchablefields);
 			$is_filter = false;
 			foreach ($allsearchablefields as $field) {
-					$value = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != 'sys1') && ($field != 'sys2')) ? Input::get('f'.$field) : Input::get($field);
+				$value = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != 'sys1') && ($field != 'sys2')) ? Input::get('f'.$field) : Input::get($field);
 				if ($value != '') {
 					$is_filter = true;
 					break;
@@ -58,8 +56,8 @@ class HoldingssetsController extends BaseController {
 
 			if (!isset($_COOKIE[$uUserName.'_fields_to_show_ok'])) {
 				if (Session::get($uUserName.'_fields_to_show_ok') == 'ocrr_ptrn') {
-				  setcookie($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
-				  Session::put($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS);
+					setcookie($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
+					Session::put($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS);
 				}
 				else {
 					setcookie($uUserName.'_fields_to_show_ok', Session::get($uUserName.'_fields_to_show_ok'), time() + (86400 * 30));
@@ -67,8 +65,8 @@ class HoldingssetsController extends BaseController {
 			}
 
 			if ((Session::get($uUserName.'_fields_to_show_ok') == 'ocrr_ptrn') || (Session::get($uUserName.'_fields_to_show_ok') == '')) {
-			  setcookie($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
-			  Session::put($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS);
+				setcookie($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
+				Session::put($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS);
 			}
 			if (Input::get('clearorderfilter') == 1) {
 				Session::put($uUserName.'_sortinghos_by', null);
@@ -83,7 +81,7 @@ class HoldingssetsController extends BaseController {
 
 			$this->data['group_id'] = (in_array(Input::get('group_id'), $this->data['groups']->lists('id'))) ? Input::get('group_id') : '';
 			$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets() : Holdingsset::orderBy($orderby, $order);
-					
+
 			$state = Input::get('state');
 
 			if (isset($state)) {
@@ -108,8 +106,8 @@ class HoldingssetsController extends BaseController {
 					if (!(Input::has('owner')) && ((Input::has('aux')))) $holdings = $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsAux('t');
 					if ((Input::has('owner')) && ((Input::has('aux'))))  {
 						$holdings = $uUserLibrary->holdings()->where('library_id','=',$uUserLibraryId)->where(function($query) {
-							 $query->where('is_owner', '=', 't')
-	                   ->orWhere('is_aux', '=', 't');
+							$query->where('is_owner', '=', 't')
+							->orWhere('is_aux', '=', 't');
 						});
 					}		
 				}
@@ -159,9 +157,9 @@ class HoldingssetsController extends BaseController {
 				}
 				if ($openfilter == 0)  $this->data['is_filter'] = false;
 				$holList = $holdings->select('holdings.holdingsset_id')->lists('holdings.holdingsset_id');
-			  $ids = (count($holList) > 0) ? $holList : [-1];
-			  $holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
-			  unset($holdings);
+				$ids = (count($holList) > 0) ? $holList : [-1];
+				$holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
+				unset($holdings);
 			}
 
 			define(HOS_PAGINATE, 20);
@@ -174,8 +172,8 @@ class HoldingssetsController extends BaseController {
 				return View::make('holdingssets/hos', $this->data);
 			}
 			else  { 
-			 	$this->data['page'] = 1;
-			 	return View::make('holdingssets/index', $this->data);
+				$this->data['page'] = 1;
+				return View::make('holdingssets/index', $this->data);
 			}
 		}
 	}
@@ -187,7 +185,7 @@ class HoldingssetsController extends BaseController {
 	 */
 	public function create()
 	{
-        return View::make('holdingssets.create');
+		return View::make('holdingssets.create');
 	}
 
 	/**
@@ -228,7 +226,7 @@ class HoldingssetsController extends BaseController {
 	public function show($id)
 	{
 		$this->data['holdingsset'] = Holdingsset::find($id);
-  		return View::make('holdingssets.show', $this->data);
+		return View::make('holdingssets.show', $this->data);
 	}
 
 	/**
@@ -239,7 +237,7 @@ class HoldingssetsController extends BaseController {
 	 */
 	public function edit($id)
 	{
-        return View::make('holdingssets.edit');
+		return View::make('holdingssets.edit');
 	}
 
 	/**
@@ -273,111 +271,111 @@ class HoldingssetsController extends BaseController {
 	--------------------------------------
 	Params:
 		$id: HOS Group id 
------------------------------------------------------------------------------------*/
-	public function putDelTabgroup($id) {
-		$uUserName = Auth::user()->username;
-		$groupsids = Session::get($uUserName.'_groups_to_show');
-		$newgroupsids = str_replace($id, '', $groupsids);
-		$newgroupsids = str_replace(';;', ';', $newgroupsids);
-	 	Session::put($uUserName.'_groups_to_show', $newgroupsids);
+		-----------------------------------------------------------------------------------*/
+		public function putDelTabgroup($id) {
+			$uUserName = Auth::user()->username;
+			$groupsids = Session::get($uUserName.'_groups_to_show');
+			$newgroupsids = str_replace($id, '', $groupsids);
+			$newgroupsids = str_replace(';;', ';', $newgroupsids);
+			Session::put($uUserName.'_groups_to_show', $newgroupsids);
 		// $group = Group::find($id)->delete();
-		return Response::json( ['groupDelete' => [$id]] );
-	}	
+			return Response::json( ['groupDelete' => [$id]] );
+		}	
 
 /* ---------------------------------------------------------------------------------
 	Get Holding Data from Original System
 	--------------------------------------
 	Params:
 		$id: Holding id
------------------------------------------------------------------------------------*/
-	public function getFromLibrary($id) {
-		$holding = Holding::find($id);
-		$this->data['library'] = $holding->library->externalurl;
-		$this->data['holding'] = substr($holding->sys2, 4, 9);
-		return View::make('holdingssets.externalholding', $this -> data);
-	}
+		-----------------------------------------------------------------------------------*/
+		public function getFromLibrary($id) {
+			$holding = Holding::find($id);
+			$this->data['library'] = $holding->library->externalurl;
+			$this->data['holding'] = substr($holding->sys2, 4, 9);
+			return View::make('holdingssets.externalholding', $this -> data);
+		}
 
 /* ---------------------------------------------------------------------------------
 	Recall Holdings from a specific holding
 	--------------------------------------
 	Params:
 		$id: Holding id
------------------------------------------------------------------------------------*/
-	public function getRecallHoldings($id) {
-		$holding = Holding::find($id);
-		$this -> data['holdings']  = recall_holdings($id);
-		$this -> data['holdingsset_id']  = $holding->holdingsset_id;
-		$this -> data['hol']  = $holding;
-		return View::make('holdingssets.recallingholdings', $this -> data);
-	}
+		-----------------------------------------------------------------------------------*/
+		public function getRecallHoldings($id) {
+			$holding = Holding::find($id);
+			$this -> data['holdings']  = recall_holdings($id);
+			$this -> data['holdingsset_id']  = $holding->holdingsset_id;
+			$this -> data['hol']  = $holding;
+			return View::make('holdingssets.recallingholdings', $this -> data);
+		}
 
 	/* ---------------------------------------------------------------------------------
 	Recall Holdings from a specific holding
 	--------------------------------------
 	Params:
 		$id: Holding id
------------------------------------------------------------------------------------*/
-	public function getSimilaritySearch($id) {
-		$holding = Holding::find($id);
-		$res = similarity_search($holding->sys2);
+		-----------------------------------------------------------------------------------*/
+		public function getSimilaritySearch($id) {
+			$holding = Holding::find($id);
+			$res = similarity_search($holding->sys2);
 
-		$this -> data['res']  = $res;
-		$this -> data['holdings']  = Holding::where('holdingsset_id','=',$holding->holdingsset_id)->select('id')->lists('id');
-		$this -> data['holdingsset_id']  = $holding->holdingsset_id;
-		$this -> data['hol']  = $holding;
-		return View::make('holdingssets.similarityresults', $this -> data);
-	}
+			$this -> data['res']  = $res;
+			$this -> data['holdings']  = Holding::where('holdingsset_id','=',$holding->holdingsset_id)->select('id')->lists('id');
+			$this -> data['holdingsset_id']  = $holding->holdingsset_id;
+			$this -> data['hol']  = $holding;
+			return View::make('holdingssets.similarityresults', $this -> data);
+		}
 
 /* ---------------------------------------------------------------------------------
 	Create a new HOS from only from a Holding
 	------------------------------------------
 	Params:
 		$id: Holding id
------------------------------------------------------------------------------------*/
-	public function putNewHOS($id) {
-		$holdingsset_id = Input::get('holdingsset_id');
-		if (Input::has('holding_id')) {
-			$ids = Input::get('holding_id');
-			if (Input::has('update_hos') && (Input::get('update_hos') == 1)) {
-				Holding::whereIn('id', $ids)->update(['holdingsset_id'=>$holdingsset_id]);
-				Holdingsset::find($holdingsset_id)->increment('holdings_number', count($ids));
-				$recalled = array();
-				foreach ($ids as $hol_id) {
-					$hos_ids = Holding::find($hol_id)->take(1)->lists('holdingsset_id');
-					$hos_id = $hos_ids[0];
-					Holdingsset::find($hos_id)->decrement('holdings_number');
-					if (!(in_array($hos_id, $recalled))) { 
-						holdingsset_recall($hos_id);
-						$recalled[] = $hol_id;
+		-----------------------------------------------------------------------------------*/
+		public function putNewHOS($id) {
+			$holdingsset_id = Input::get('holdingsset_id');
+			if (Input::has('holding_id')) {
+				$ids = Input::get('holding_id');
+				if (Input::has('update_hos') && (Input::get('update_hos') == 1)) {
+					Holding::whereIn('id', $ids)->update(['holdingsset_id'=>$holdingsset_id]);
+					Holdingsset::find($holdingsset_id)->increment('holdings_number', count($ids));
+					$recalled = array();
+					foreach ($ids as $hol_id) {
+						$hos_ids = Holding::find($hol_id)->take(1)->lists('holdingsset_id');
+						$hos_id = $hos_ids[0];
+						Holdingsset::find($hos_id)->decrement('holdings_number');
+						if (!(in_array($hos_id, $recalled))) { 
+							holdingsset_recall($hos_id);
+							$recalled[] = $hol_id;
+						}
 					}
+					holdingsset_recall($holdingsset_id);
+					$holdingssets[] = Holdingsset::find($holdingsset_id);
 				}
-				holdingsset_recall($holdingsset_id);
-				$holdingssets[] = Holdingsset::find($holdingsset_id);
+				else {
+					$newhos_id = createNewHos($ids[0]);
+					Holding::whereIn('id', $ids)->update(['holdingsset_id'=>$newhos_id]);
+					Holdingsset::find($holdingsset_id)->decrement('holdings_number', count($ids));
+					Holdingsset::find($newhos_id)->update(['holdings_number' => count($ids), 'groups_number'=>0]);
+					holdingsset_recall($holdingsset_id);
+					holdingsset_recall($newhos_id);
+					$holdingssets[] = Holdingsset::find($holdingsset_id);
+					$holdingssets[] = Holdingsset::find($newhos_id);
+				}
 			}
 			else {
-				$newhos_id = createNewHos($ids[0]);
-				Holding::whereIn('id', $ids)->update(['holdingsset_id'=>$newhos_id]);
-				Holdingsset::find($holdingsset_id)->decrement('holdings_number', count($ids));
-				Holdingsset::find($newhos_id)->update(['holdings_number' => count($ids), 'groups_number'=>0]);
+				Holdingsset::find($holdingsset_id)->decrement('holdings_number');
+				$newhos_id = createNewHos($id);
+				Holdingsset::find($newhos_id)->update(['holdings_number' => 1, 'groups_number'=>0]);
 				holdingsset_recall($holdingsset_id);
 				holdingsset_recall($newhos_id);
 				$holdingssets[] = Holdingsset::find($holdingsset_id);
 				$holdingssets[] = Holdingsset::find($newhos_id);
 			}
-		}
-		else {
-			Holdingsset::find($holdingsset_id)->decrement('holdings_number');
-			$newhos_id = createNewHos($id);
-			Holdingsset::find($newhos_id)->update(['holdings_number' => 1, 'groups_number'=>0]);
-			holdingsset_recall($holdingsset_id);
-			holdingsset_recall($newhos_id);
-			$holdingssets[] = Holdingsset::find($holdingsset_id);
-			$holdingssets[] = Holdingsset::find($newhos_id);
-		}
-		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
-		return $newset;
+			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+			return $newset;
 		// return Response::json( ['newhosok' => [$id]] );
-	}	
+		}	
 
 /* ---------------------------------------------------------------------------------
 	Force a Holdins to be HOs owner
@@ -385,18 +383,18 @@ class HoldingssetsController extends BaseController {
 	Params:
 		$id: Holdings id 
 		$holdingsset_id: Holdingssset id 
------------------------------------------------------------------------------------*/
-	public function putForceOwner($id) {
-		$holdingsset_id = Input::get('holdingsset_id');
-		$holdingsset = Holdingsset::find($holdingsset_id);
-		$holdingsset -> holdings()->update(['is_owner' => 'f', 'force_owner' => 'f']);
-		Holding::find($id)->update(['is_owner'=>'t', 'is_aux'=>'f', 'force_owner' => 't', 'force_aux' => 'f']);
+		-----------------------------------------------------------------------------------*/
+		public function putForceOwner($id) {
+			$holdingsset_id = Input::get('holdingsset_id');
+			$holdingsset = Holdingsset::find($holdingsset_id);
+			$holdingsset -> holdings()->update(['is_owner' => 'f', 'force_owner' => 'f']);
+			Holding::find($id)->update(['is_owner'=>'t', 'is_aux'=>'f', 'force_owner' => 't', 'force_aux' => 'f']);
 
-		holdingsset_recall($holdingsset_id);
-		$holdingssets[] = $holdingsset;
-		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
-		return $newset;
-	}		
+			holdingsset_recall($holdingsset_id);
+			$holdingssets[] = $holdingsset;
+			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+			return $newset;
+		}		
 
 /* ---------------------------------------------------------------------------------
 	Force a Holdins to be HOs owner
@@ -404,8 +402,8 @@ class HoldingssetsController extends BaseController {
 	Params:
 		$id: Holdings id 
 		$holdingsset_id: Holdingssset id 
------------------------------------------------------------------------------------*/
-	public function putForceAux($id) {
+		-----------------------------------------------------------------------------------*/
+		public function putForceAux($id) {
 		// die($id);
 		// aux_ptrn-- poner en 1 los marcados
 		// ocrr_ptrn-- poner en 1 los marcados
@@ -415,21 +413,21 @@ class HoldingssetsController extends BaseController {
 		// weight Cantidad de 1
 		// ocrr_nr Cantidad de ocurrencias
 
-		$holdingsset_id = Input::get('holdingsset_id');
-		if (Input::get('unique_aux') == 1) {
-			$holdingsset = Holdingsset::find($holdingsset_id);
-			$ptrn = Input::get('ptrn');
-			$empty_ptrn = str_replace('1', '0', $ptrn);
-			$holdingsset->holdings()->where('id', '!=', $id)->update(['is_aux' => 'f', 'aux_ptrn' => $empty_ptrn ]);
-			$holdingsset->holdings()->where('id', '=', $id)->update(['is_aux' => 't', 'aux_ptrn' => $ptrn]);
-		}
-		else {
-			Holding::find($id)->update(['is_aux'=>'t', 'is_owner'=>'f', 'ocrr_ptrn'=> Input::get('newptrn'), 'aux_ptrn'=> Input::get('newauxptrn'), 'ocrr_nr' => Input::get('count'), 'force_aux' => 't', 'force_owner' => 'f']);
-		}
-		$holdingssets[] = Holdingsset::find($holdingsset_id);
-		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
-		return $newset;
-	}	
+			$holdingsset_id = Input::get('holdingsset_id');
+			if (Input::get('unique_aux') == 1) {
+				$holdingsset = Holdingsset::find($holdingsset_id);
+				$ptrn = Input::get('ptrn');
+				$empty_ptrn = str_replace('1', '0', $ptrn);
+				$holdingsset->holdings()->where('id', '!=', $id)->update(['is_aux' => 'f', 'aux_ptrn' => $empty_ptrn ]);
+				$holdingsset->holdings()->where('id', '=', $id)->update(['is_aux' => 't', 'aux_ptrn' => $ptrn]);
+			}
+			else {
+				Holding::find($id)->update(['is_aux'=>'t', 'is_owner'=>'f', 'ocrr_ptrn'=> Input::get('newptrn'), 'aux_ptrn'=> Input::get('newauxptrn'), 'ocrr_nr' => Input::get('count'), 'force_aux' => 't', 'force_owner' => 'f']);
+			}
+			$holdingssets[] = Holdingsset::find($holdingsset_id);
+			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+			return $newset;
+		}	
 
 /* ---------------------------------------------------------------------------------
 	Force a Holdins to be HOs owner
@@ -437,125 +435,124 @@ class HoldingssetsController extends BaseController {
 	Params:
 		$id: Holdings id 
 		$holdingsset_id: Holdingssset id 
------------------------------------------------------------------------------------*/
-	public function putForceBlue($id) {
-		$holdingsset_id = Input::get('holdingsset_id');
-		$auxptrnOriginal = Holding::find($id)->select('aux_ptrn')->get();
-		foreach ($auxptrnOriginal as $aux1) {
-			$aux = str_replace('1', '0', $aux1->aux_ptrn);
-		}
-		Holding::find($id)->update(['is_aux'=>'f', 'is_owner'=>'f', 'aux_ptrn' => $aux]);
+		-----------------------------------------------------------------------------------*/
+		public function putForceBlue($id) {
+			$holdingsset_id = Input::get('holdingsset_id');
+			$auxptrnOriginal = Holding::find($id)->select('aux_ptrn')->get();
+			foreach ($auxptrnOriginal as $aux1) {
+				$aux = str_replace('1', '0', $aux1->aux_ptrn);
+			}
+			Holding::find($id)->update(['is_aux'=>'f', 'is_owner'=>'f', 'aux_ptrn' => $aux]);
 		// holdingsset_recall($holdingsset_id);
-		$holdingssets[] = Holdingsset::find($holdingsset_id);
-		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
-		return $newset;
-	}	
+			$holdingssets[] = Holdingsset::find($holdingsset_id);
+			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+			return $newset;
+		}	
 
 /* ---------------------------------------------------------------------------------
 	Move a Hos to Other Hos Group 
 	--------------------------------------
 	Params:
 		$id: HOS id 
------------------------------------------------------------------------------------*/
-	public function putMoveHosToOthergroup($id) {
-		$origingroup 	= str_replace('group', '', Input::get('origingroup'));
-		$newgroup 		= str_replace('group', '', Input::get('newgroup'));
-		$holdingsset 	= DB::select('select * from group_holdingsset where holdingsset_id = ? AND group_id = ?', array($id, $newgroup));
-		if ($origingroup == '') {
+		-----------------------------------------------------------------------------------*/
+		public function putMoveHosToOthergroup($id) {
+			$origingroup 	= str_replace('group', '', Input::get('origingroup'));
+			$newgroup 		= str_replace('group', '', Input::get('newgroup'));
+			$holdingsset 	= DB::select('select * from group_holdingsset where holdingsset_id = ? AND group_id = ?', array($id, $newgroup));
+			if ($origingroup == '') {
 			// Copying from all holdingssets to a determinate HOS Groups
-			if (count($holdingsset) >= 1) {
+				if (count($holdingsset) >= 1) {
 				// The holdings is already on destiny group.				
-				return Response::json( ['nothingtodo' => [1]] );
+					return Response::json( ['nothingtodo' => [1]] );
+				}
+				else {
+					DB::insert('insert into group_holdingsset (group_id, holdingsset_id, created_at, updated_at) values (?, ?, NOW(), NOW())', array($newgroup, $id));
+					$count = Holdingsset::find($id)->groups->count();
+					Holdingsset::find($id)->update(['groups_number'=>$count]);
+					return Response::json( ['ingroups' => $count] );
+				}
 			}
 			else {
-				DB::insert('insert into group_holdingsset (group_id, holdingsset_id, created_at, updated_at) values (?, ?, NOW(), NOW())', array($newgroup, $id));
-				$count = Holdingsset::find($id)->groups->count();
-				Holdingsset::find($id)->update(['groups_number'=>$count]);
-				return Response::json( ['ingroups' => $count] );
-			}
-		}
-		else {
 			// Moving from a HOS group to a other HOS Group
-			if (count($holdingsset) >= 1) {
+				if (count($holdingsset) >= 1) {
 				// The holdings is already on destiny group.
-				$holdingsset = DB::delete('delete from group_holdingsset where holdingsset_id = ? AND group_id = ?', array($id, $origingroup));
-				$count = Holdingsset::find($id)->groups->count();
-				Holdingsset::find($id)->update(['groups_number'=>$count]);
-				return Response::json( ['ingroups' => $count] );		
+					$holdingsset = DB::delete('delete from group_holdingsset where holdingsset_id = ? AND group_id = ?', array($id, $origingroup));
+					$count = Holdingsset::find($id)->groups->count();
+					Holdingsset::find($id)->update(['groups_number'=>$count]);
+					return Response::json( ['ingroups' => $count] );		
+				}
+				else {
+					DB::update('update group_holdingsset set group_id = '.$newgroup.' where holdingsset_id = ? AND group_id = ?', array($id, $origingroup));
+				}
+				return Response::json( ['removefromgroup' => [$id]] );
 			}
-			else {
-				DB::update('update group_holdingsset set group_id = '.$newgroup.' where holdingsset_id = ? AND group_id = ?', array($id, $origingroup));
-			}
-			return Response::json( ['removefromgroup' => [$id]] );
-		}
-	}	
+		}	
 
 /* ---------------------------------------------------------------------------------
 	Get Holding Data from Original System
 	--------------------------------------
 	Params:
 		$id: Holding id
------------------------------------------------------------------------------------*/
-	public function putDeleteHosFromGroup($id) {
-		Group::find(Input::get('group_id'))->holdingssets()->detach($id);
-		Holdingsset::find($id)->decrement('groups_number');
-		return Response::json( ['removefromgroup' => [$id]] );
-	}
+		-----------------------------------------------------------------------------------*/
+		public function putDeleteHosFromGroup($id) {
+			Group::find(Input::get('group_id'))->holdingssets()->detach($id);
+			Holdingsset::find($id)->decrement('groups_number');
+			return Response::json( ['removefromgroup' => [$id]] );
+		}
 
 /* ---------------------------------------------------------------------------------
 	Update the 866a from a holding
 	--------------------------------------
 	Params:
 		$id: Holding id 
------------------------------------------------------------------------------------*/
-	public function putUpdateField866aHolding($id) {
-		$new866a = Input::get('new866a');
-		$holding = Holding::find($id)->update(['f866aupdated'=>$new866a]);
-		return Response::json( ['save866afield' => [$id]] );
-	}	
-}
-
-function createNewHos($id) {
-	$holding = Holding::find($id);
-	$lastId = Holdingsset::orderBy('id', 'DESC')->take(1)->get();
-	$key = '';
-	foreach ($lastId as $key) {
+		-----------------------------------------------------------------------------------*/
+		public function putUpdateField866aHolding($id) {
+			$new866a = Input::get('new866a');
+			$holding = Holding::find($id)->update(['f866aupdated'=>$new866a]);
+			return Response::json( ['save866afield' => [$id]] );
+		}	
 	}
-	$hol_ptrn = $holding -> hol_nrm;
-	$newHos = new Holdingsset;
-	$newHos ->	id 	= $key -> id + 1;
-	$newHos ->	sys1 = $holding -> sys2;
-	$newHos ->	f245a = $holding -> f245a;
-	$newHos ->	holdings_number 	= 0; 
-	$newHos ->	groups_number 		= 0; 
-	$newHos ->	f008x 	= $holding -> f008x; 
-	$newHos ->	save();
-	$holding = Holding::find($id)->update(['holdingsset_id'=>$newHos -> id, 'is_owner' => 't', 'is_aux' => 'f']);
-	return $newHos -> id;
-}
 
-function recall_holdings($id) {
-	$holding  = Holding::find($id);
-	$ids  = Holdingsset::pendings()->select('id')->lists('id');
-	$ids[] = -1;	
-	echo count($ids);
+	function createNewHos($id) {
+		$holding = Holding::find($id);
+		$lastId = Holdingsset::orderBy('id', 'DESC')->take(1)->get();
+		$key = '';
+		foreach ($lastId as $key) {
+		}
+		$hol_ptrn = $holding -> hol_nrm;
+		$newHos = new Holdingsset;
+		$newHos ->	id 	= $key -> id + 1;
+		$newHos ->	sys1 = $holding -> sys2;
+		$newHos ->	f245a = $holding -> f245a;
+		$newHos ->	holdings_number 	= 0; 
+		$newHos ->	groups_number 		= 0; 
+		$newHos ->	f008x 	= $holding -> f008x; 
+		$newHos ->	save();
+		$holding = Holding::find($id)->update(['holdingsset_id'=>$newHos -> id, 'is_owner' => 't', 'is_aux' => 'f']);
+		return $newHos -> id;
+	}
+
+	function recall_holdings($id) {
+		$holding  = Holding::find($id);
+		$ids  = Holdingsset::pendings()->select('id')->lists('id');
+		$ids[] = -1;	
+		echo count($ids);
 	// die();
-	return Holding::where('holdingsset_id','!=', $holding -> holdingsset_id )->whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
-		$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
-		$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.$holding->f245b. '%') : $query;
-	})->take(100)->get();
+		return Holding::where('holdingsset_id','!=', $holding -> holdingsset_id )->whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
+			$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
+			$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.$holding->f245b. '%') : $query;
+		})->take(100)->get();
 	// $queries = DB::getQueryLog();
 	// die(var_dump(end($queries)));
-}
+	}
 
 
 
 
-function similarity_search($sys2) {
+	function similarity_search($sys2) {
 
-global $con, $select_fld, $ta, $fld_ta, $ta_res_sim, $proc_flag, $rno, $freq_tit, $fld_weight_model, $ta_sim_fields, $fld_sim, $freq_tit,
-	$fld_weight_model, $fld_weight, $max_score, $treshold_score, $is_freq_tit, $proc_flag, $sys_reference;
-
+		$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+		$con = pg_connect($conn_string) or die('ERROR!!!');
 
 	// $holding  = Holding::find($id);
 	// return Holding::where('holdingsset_id','!=', $holding -> holdingsset_id )->where(function($query) use ($holding) {	
@@ -569,9 +566,9 @@ global $con, $select_fld, $ta, $fld_ta, $ta_res_sim, $proc_flag, $rno, $freq_tit
 	// ini_set('display_startup_errors', TRUE);
 	// ini_set('memory_limit', '-1');
 //ini_set('max_execution_time', 24000); // 24000 seconds = 40 Min
-	date_default_timezone_set('America/New_York');
-	define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
-	$date_start = $date = new DateTime('now', new DateTimeZone('America/New_York'));
+		date_default_timezone_set('America/New_York');
+		define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
+		$date_start = $date = new DateTime('now', new DateTimeZone('America/New_York'));
 
 
 	// die('toy aqui');
@@ -580,7 +577,14 @@ global $con, $select_fld, $ta, $fld_ta, $ta_res_sim, $proc_flag, $rno, $freq_tit
 	$fld_ta           = array();         // field list of table ta
 	$ta_sim_fields    = '';              // fields for ta_sim_test
 	$fld_sim          = array();         // field list of table_cmp
-	$freq_tit         = get_freq_tit();  // fill $tit_freq with all frequent titles
+
+
+	$freq_tit         = array();  // fill $tit_freq with all frequent titles
+	$query = "SELECT f245a FROM tit_freq";
+	$result = pg_query($con, $query); if (!$result) { echo "Error executing".$query."\n".pg_last_error(); exit; }
+	$tmp_arr = pg_fetch_all($result);
+	foreach ($tmp_arr as $tmp) $freq_tit[] = $tmp['f245a'];
+
 	$weight_model     = 0;               // general weight model
 	$fld_weight_model = array();         // model list of weights for every field
 	$fld_weight       = array();         // currently used list of weights for every field
@@ -593,21 +597,267 @@ global $con, $select_fld, $ta, $fld_ta, $ta_res_sim, $proc_flag, $rno, $freq_tit
 	//$sys_compared     = array();         // collect all sys1 o sys2 that already have been put into sets
 
 	// prepare list of fields to be used for comparison
-	read_fieldlist();                    // create $fld_ta
+	  // fields of a ta
+
+	$fld_ta = array (
+		'sys',      'f008x',    'f008y',    'f008l',    'f008s',
+		'f022a',    'f245a',    'f245b',    'f245c',    'f245d',    'f246i',
+		'f260a',    'f260b',    'f260c',    'f300c',
+		'f310a',    'f362a',    'f500a',
+		'f710a',    'f710b',    'f730a',    'f770t',    'f780t',    'f780w',
+		'f852a',    'f852h',    'f856u',    'f866a',
+		'f949j',    'f949z'
+		);
+	  // fields with the results of every field compared (values 0..1)
+	$fld_sim = array (
+		's_f008x',  's_f008y',
+		's_f022a',  's_f245a',  's_f245b',  's_f245c',  's_f_tit',
+		's_f260a',  's_f260b',
+		's_f310a',  's_f362a',
+		's_f710a',  's_f780a'
+		);
+
+	  // output fields
+	$cmp_sim_fields  = "sys1,sys2, score, flag, f022a,s_f022a, f245a,s_f245a, f245b,s_f245b, f245c,s_f245c, f_tit, s_f_tit"; 
+	$cmp_sim_fields .= ",f260a,s_f260a, f260b,s_f260b";
+	$cmp_sim_fields .= ",f310a,s_f310a, f362a,s_f362a, f710a,s_f710a, f780t,s_f780t, f785t,s_f785t, f008x, s_f008x, f008y, s_f008y, proc_cmp, run_cmp";
+	$cmp_sim_fields .= ", off, no";
+
+	  // Weight model with values for match, similar, no-match. Values can be negative
+		// balanced weighting
+	$fld_weight_model[0] = array (
+		'f008x' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
+		'f008y' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
+		'f022a' => array('equ' => 10, 'sim' =>  0, 'dif' => -6),
+		'f245a' => array('equ' => 15, 'sim' =>  1, 'dif' => -3),
+		'f245b' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+		'f245c' => array('equ' => 15, 'sim' =>  0, 'dif' =>  0),
+		'f_tit' => array('equ' =>  3, 'sim' =>  1, 'dif' =>  0),
+		'f260a' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
+		'f260b' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
+		'f260c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+		'f300c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+		'f310a' => array('equ' =>  5, 'sim' =>  1, 'dif' => -3),
+		'f362a' => array('equ' =>  7, 'sim' =>  2, 'dif' => -7),
+		'f710a' => array('equ' => 10, 'sim' =>  3, 'dif' => -5),
+		'f780t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
+		'f785t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
+		'f852a' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+		);
+		// weights institution (7xx) even more
+$fld_weight_model[1] = array (
+	'f008x' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
+	'f008y' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
+	'f022a' => array('equ' => 10, 'sim' =>  0, 'dif' => -6),
+	'f245a' => array('equ' => 10, 'sim' =>  1, 'dif' => -3),
+	'f245b' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+	'f245c' => array('equ' => 10, 'sim' =>  0, 'dif' =>  0),
+	'f_tit' => array('equ' =>  3, 'sim' =>  1, 'dif' =>  0),
+	'f260a' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
+	'f260b' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
+	'f260c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+	'f300c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+	'f310a' => array('equ' =>  5, 'sim' =>  1, 'dif' => -3),
+	'f362a' => array('equ' =>  7, 'sim' =>  2, 'dif' => -7),
+	'f710a' => array('equ' => 20, 'sim' =>  3, 'dif' => -5),
+	'f780t' => array('equ' => 20, 'sim' =>  3, 'dif' =>  0),
+	'f785t' => array('equ' => 20, 'sim' =>  3, 'dif' =>  0),
+	'f852a' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+	);  
+
+			// weighting issn (022) more
+$fld_weight_model[2] = array (
+	'f008x' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
+	'f008y' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
+	'f022a' => array('equ' => 20, 'sim' =>  0, 'dif' => -6),
+	'f245a' => array('equ' => 10, 'sim' =>  1, 'dif' => -3),
+	'f245b' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+	'f245c' => array('equ' => 10, 'sim' =>  0, 'dif' =>  0),
+	'f_tit' => array('equ' =>  3, 'sim' =>  1, 'dif' =>  0),
+	'f260a' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
+	'f260b' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
+	'f260c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+	'f300c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+	'f310a' => array('equ' =>  5, 'sim' =>  1, 'dif' => -3),
+	'f362a' => array('equ' =>  7, 'sim' =>  2, 'dif' => -7),
+	'f710a' => array('equ' => 10, 'sim' =>  3, 'dif' => -5),
+	'f780t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
+	'f785t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
+	'f852a' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+			);                    // create $fld_ta
 
 	// create resulting table
 	//create_table($ta_sim_name);
 
-
-
 	// printf("Table $ta_sim_name truncated.\n<br><br>");
-	create_table($ta_sim_name);
+create_table($ta_sim_name);
+
+$sys = $sys2;
 
 
-	$bib_sys_ref = $sys2;
-	return compare($bib_sys_ref);
-	break;
-}
+
+
+	// get reference record
+$query = "SELECT ".$select_fld." FROM holdings WHERE sys2 = '$sys'";
+	$result = pg_query($con, $query) or die(pg_last_error()); //; if (!$result) { echo "Error executing".$query."\n"; exit; }
+	$tas = pg_fetch_all($result);
+	// echo $query."<br>";
+	$ta = $tas[0];
+	// var_dump($ta);
+
+	// ************************************************
+	// COMPARE WITH OTHERS
+	// ************************************************
+	$is_freq_tit = false;  // later set to true of title occurs many times
+	// initialize collect process information
+	$proc_info = array('equ' => 0, 'sim' => 0, 'try' => 0, 'dif' => 0, 'AGKB' => 0, 'BSUB' => 0, 'LUZB' => 0, 'SGHG' => 0, 'ZHUZ' => 0, 'ZHZB' => 0);
+
+	// get current time for process measurement
+	if ($proc_flag['time']) $date_start_cycle = new DateTime('now', new DateTimeZone('America/New_York'));
+
+	$sys_reference = $ta['sys']; // ex. bib_sys
+
+	// **** check if is_tit_freq  
+	// break f245a the same way as the titles in tit_freq
+	$query = "SELECT regexp_split_to_array(lower('".pg_escape_string($ta['f245a'])."'), E'[\- \.,:;\(\){}\"\']+') f245a_s";
+	$result = pg_query($con, $query)  or die(pg_last_error()); // if (!$result) echo "Error executing".$query."\n";
+	// echo $query."<br>";
+	$tit = pg_fetch_all($result);
+	$tit = substr($tit[0]['f245a_s'], 1, strlen($tit[0]['f245a_s'])-2);  // cut ()
+	$tit = implode(' ', explode(',',$tit));
+	$tit = str_replace(" \"\"", "", $tit);
+	$tit = preg_replace("/[\[\]]/", "", $tit);
+	if (in_array($tit, $freq_tit)) { // check if normalized title is a frequent title
+		$is_freq_tit = true;
+		if ($proc_flag['debug']) echo " !! FREQ(".$ta['f245a'].")\n";
+	}
+
+	// create comparison query. If value is '' the result will be 0, so we do not compare this field
+	$query  = "SELECT id, sys2,";
+	$query .= "\n f022a,         "; ($ta['f022a']   > '') ? $query .= " similarity(f022a,  '".pg_escape_string($ta['f022a'])."'  ) s_f022a," : $query .= " 0::integer s_f022a,";
+	$query .= "\n f245a, f245a_e,"; ($ta['f245a_e'] > '') ? $query .= " similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') s_f245a," : $query .= " 0::integer s_f245a,";
+	$query .= "\n f245b, f245b_e,"; ($ta['f245b_e'] > '') ? $query .= " similarity(f245b_e,'".pg_escape_string($ta['f245b_e'])."') s_f245b," : $query .= " 0::integer s_f245b,";
+	$query .= "\n f245c,         "; ($ta['f245c_e'] > '') ? $query .= " similarity(f245c_e,'".pg_escape_string($ta['f245c_e'])."') s_f245c," : $query .= " 0::integer s_f245c,";
+	$query .= "\n f_tit,         "; ($ta['f_tit_e'] > '') ? $query .= " similarity(f_tit_e,'".pg_escape_string($ta['f_tit_e'])."') s_f_tit," : $query .= " 0::integer s_f_tit,";
+	$query .= "\n f260a, f260a_e,"; ($ta['f260a_e'] > '') ? $query .= " similarity(f260a_e,'".pg_escape_string($ta['f260a_e'])."') s_f260a," : $query .= " 0::integer s_f260a,";
+	$query .= "\n f260b,         "; ($ta['f260b_e'] > '') ? $query .= " similarity(f260b_e,'".pg_escape_string($ta['f260b_e'])."') s_f260b," : $query .= " 0::integer s_f260b,";
+	$query .= "\n f310a,         "; ($ta['f310a_e'] > '') ? $query .= " similarity(f310a_e,'".pg_escape_string($ta['f310a_e'])."') s_f310a," : $query .= " 0::integer s_f310a,";
+	$query .= "\n f362a, f362a_e, similarity(
+		array_to_string(regexp_split_to_array(f362a_e, E'[^0-9]+'),';','*'),
+		array_to_string(regexp_split_to_array('".pg_escape_string($ta['f362a_e'])."', E'[^0-9]+'),';','*')) s_f362a,";
+$query .= "\n f710a, f710a_e,"; ($ta['f710a_e'] > '') ? $query .= " similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') s_f710a," : $query .= " 0::integer s_f710a,";
+$query .= "\n f780t, f780t_e,"; ($ta['f780t_e'] > '') ? $query .= " similarity(f780t_e,'".pg_escape_string($ta['f780t_e'])."') s_f780t," : $query .= " 0::integer s_f780t,";
+$query .= "\n f785t, f785t_e,"; ($ta['f785t_e'] > '') ? $query .= " similarity(f785t_e,'".pg_escape_string($ta['f785t_e'])."') s_f785t," : $query .= " 0::integer s_f785t,";
+$query .= "\n f008x,         "; ($ta['f008x']   > '') ? $query .= " similarity(f008x  ,'".pg_escape_string($ta['f008x'])  ."') s_f008x," : $query .= " 0::integer s_f008x,";
+$query .= "\n f008y,         "; ($ta['f008y']   > '') ? $query .= " similarity(f008y  ,'".pg_escape_string($ta['f008y'])  ."') s_f008y"  : $query .= " 0::integer s_f008y";
+$query .= "\n FROM holdings";
+	if ($is_freq_tit) { // for frequent titles include filters
+		$query .= "\n  WHERE similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') = 1";  // same title
+		if (($ta['f710a_e'] > '') and ($ta['f245c_e'] > '')) {
+ 			// $query .= " AND (similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') > 0.9";  // similiar organisation
+			$query .= "\n OR similarity(f245c_e,'".pg_escape_string($ta['f245c_e'])."') > 0.8)";
+} else {
+	if (($ta['f710a_e'] >  '') AND ($ta['f245c_e'] == ''))
+				// $query .= " AND similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') > 0.9";  // similiar organisation (710a)
+		if (($ta['f710a_e'] == '') AND ($ta['f245c_e'] >  ''))
+				$query .= " AND similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') > 0.8";  // similar organisation (245c)
+		}
+	} else {
+		$query .= "\n  WHERE similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') > 0.6";
+		// $query .= "\n     OR similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') > 0.8";
+	}
+	$query .= "\n  ORDER BY s_f245a DESC, f245a_e";
+//printf("%s\n", $query);
+	$result = pg_query($con, $query) or die(pg_last_error());// if (!$result) { echo "Error executing".$query."\n"; exit; }
+	$ta_res_sim = pg_fetch_all($result);
+	$size_r = sizeof($ta_res_sim);
+
+	// echo $query."<br>";
+	// die();
+	if (!$ta_res_sim) $size_r = 0;
+
+	$proc_info['found'] = $size_r;
+	if ($proc_flag['debug']) printf(" FOUND: %s\n", $proc_info['found']);
+
+
+	// -------------------- analyse and optimize result
+	for ($rno = 0; $rno < $size_r; $rno++) {
+	  // prepare score evaluation
+		$ta_res_sim[$rno]['score']      = 0;
+	  $ta_res_sim[$rno]['flag']       = '_'; // initialize with '_'
+	  if (!isset($ta_res_sim[$rno]['s_f022a']) or $ta_res_sim[$rno]['s_f022a'] == 'NaN') $ta_res_sim[$rno]['s_f022a']  = 0;
+	  if (!isset($ta_res_sim[$rno]['s_f245a']) or $ta_res_sim[$rno]['s_f245a'] == 'NaN') $ta_res_sim[$rno]['s_f245a']  = 0;
+	  if (!isset($ta_res_sim[$rno]['s_f245b']) or $ta_res_sim[$rno]['s_f245b'] == 'NaN') $ta_res_sim[$rno]['s_f245b']  = 0;
+	  if (!isset($ta_res_sim[$rno]['s_f245c']) or $ta_res_sim[$rno]['s_f245c'] == 'NaN') $ta_res_sim[$rno]['s_f245c']  = 0;
+	  if (!isset($ta_res_sim[$rno]['s_f_tit']) or $ta_res_sim[$rno]['s_f_tit'] == 'NaN') $ta_res_sim[$rno]['s_f_tit']  = 0;
+	  if (!isset($ta_res_sim[$rno]['s_f260a']) or $ta_res_sim[$rno]['s_f260a'] == 'NaN') $ta_res_sim[$rno]['s_f260a']  = 0;
+	  if (!isset($ta_res_sim[$rno]['s_f260b']) or $ta_res_sim[$rno]['s_f260b'] == 'NaN') $ta_res_sim[$rno]['s_f260b']  = 0;
+	  if (!isset($ta_res_sim[$rno]['s_f310a']) or $ta_res_sim[$rno]['s_f310a'] == 'NaN') $ta_res_sim[$rno]['s_f310a']  = 0;
+	  if (!isset($ta_res_sim[$rno]['s_f362a']) or $ta_res_sim[$rno]['s_f362a'] == 'NaN') $ta_res_sim[$rno]['s_f362a']  = 0;
+	  if (!isset($ta_res_sim[$rno]['s_f710a']) or $ta_res_sim[$rno]['s_f710a'] == 'NaN') $ta_res_sim[$rno]['s_f710a']  = 0;
+	  if (!isset($ta_res_sim[$rno]['s_f780t']) or $ta_res_sim[$rno]['s_f780t'] == 'NaN') $ta_res_sim[$rno]['s_f780t']  = 0;
+	  if (!isset($ta_res_sim[$rno]['s_f785t']) or $ta_res_sim[$rno]['s_f785t'] == 'NaN') $ta_res_sim[$rno]['s_f785t']  = 0;
+	  if (!isset($ta_res_sim[$rno]['s_f008x']) or $ta_res_sim[$rno]['s_f008x'] == 'NaN') $ta_res_sim[$rno]['s_f008x']  = 0;
+	  if (!isset($ta_res_sim[$rno]['s_f008y']) or $ta_res_sim[$rno]['s_f008y'] == 'NaN') $ta_res_sim[$rno]['s_f008y']  = 0;
+
+	  $ta_res_sim[$rno]['s_f008x'] = compare_field('f008x', $ta['f008x']  , $ta_res_sim[$rno]['f008x'], $ta_res_sim, $rno);
+	  $ta_res_sim[$rno]['s_f008y'] = compare_field('f008y', $ta['f008y']  , $ta_res_sim[$rno]['f008y'], $ta_res_sim, $rno);
+	  $ta_res_sim[$rno]['s_f022a'] = compare_field('f022a', $ta['f022a']  , $ta_res_sim[$rno]['f022a'], $ta_res_sim, $rno); // check if ISSN contained
+	  $ta_res_sim[$rno]['s_f260a'] = compare_field('f260a', $ta['f260a_e'], $ta_res_sim[$rno]['f260a_e'], $ta_res_sim, $rno);
+	  $ta_res_sim[$rno]['s_f780t'] = compare_field('f780t', $ta['f780t_e'], $ta_res_sim[$rno]['f780t_e'], $ta_res_sim, $rno);
+	  $ta_res_sim[$rno]['s_f785t'] = compare_field('f785t', $ta['f785t_e'], $ta_res_sim[$rno]['f785t_e'], $ta_res_sim, $rno);
+
+	  $ta_res_sim[$rno]["score"] += weight_every_fld("f022a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+	  $ta_res_sim[$rno]["score"] += weight_every_fld("f245a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+	  $ta_res_sim[$rno]["score"] += weight_every_fld("f245c", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+	  $ta_res_sim[$rno]["score"] += weight_every_fld("f_tit", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+	  $ta_res_sim[$rno]["score"] += weight_every_fld("f260a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+	  $ta_res_sim[$rno]["score"] += weight_every_fld("f260b", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+	  $ta_res_sim[$rno]["score"] += weight_every_fld("f310a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+	  $ta_res_sim[$rno]["score"] += weight_every_fld("f362a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+	  $ta_res_sim[$rno]["score"] += weight_every_fld("f710a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+	  $ta_res_sim[$rno]["score"] += weight_every_fld("f780t", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+	  $ta_res_sim[$rno]["score"] += weight_every_fld("f785t", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+	  $ta_res_sim[$rno]["score"] += weight_every_fld("f008x", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+	  $ta_res_sim[$rno]["score"] += weight_every_fld("f008y", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+
+
+	  if ($ta_res_sim[$rno]['score'] >= $max_score) $max_score = $ta_res_sim[$rno]['score'];  // remember highest score
+	}
+
+	if ($proc_flag['debug']) printf("SCORE: %s %s\n", $treshold_score, $max_score); // show SCORE
+
+
+	// now assign a similarity category for each TA
+	for ($rno = 0; $rno < $size_r; $rno++) {
+		if ($ta_res_sim[$rno]['score'] >= ($max_score - $treshold_score)) $ta_res_sim[$rno]['flag'] = '*'; else $ta_res_sim[$rno]['flag'] = '-'; // mark treshold
+		// adjust categorization of TA if f245a or f710a are nearly equal
+		if ($is_freq_tit) { // for frequent title use a stricter comparison
+			if (($ta_res_sim[$rno]['s_f245a'] == 1) && ($ta_res_sim[$rno]['s_f710a'] == 1)) $ta_res_sim[$rno]['flag'] = '*'; // must correspond
+		} else { // normal case
+			if ($ta_res_sim[$rno]['s_f245a'] > 0.9) $ta_res_sim[$rno]['flag'] = '*'; // title must correspond a bit less
+		}	
+		if ($sys_reference == $ta_res_sim[$rno]['sys']) $ta_res_sim[$rno]['flag'] = '='; // mark original record with '='
+	}
+
+	// -------------------- sort results in similarity order
+	usort($ta_res_sim, 'cmp_score'); // *** sort result by score type for output
+
+// get number of last good ta candidate
+	
+	$ta_sim_last_good = 0;
+	for ($rno = 0; $rno < sizeof($ta_res_sim); $rno++) {
+		if ($ta_res_sim[$rno]['flag'] == '*' || $ta_res_sim[$rno]['flag'] == '=') { // included in the result set
+			$ta_sim_last_good = $rno;  // remember last selected record
+		} else { break; }
+	}
+	$last_ta_in_set =  $ta_sim_last_good;
+
+
+	  usort($ta_res_sim, 'cmp_flag_score'); // *** sort result by flag, score for output
+	  return $ta_res_sim;
+
+	}
 
 /* ---------------------------------------------------------------------------------
 	Truncate a string
@@ -616,18 +866,18 @@ global $con, $select_fld, $ta, $fld_ta, $ta_res_sim, $proc_flag, $rno, $freq_tit
 		$str: String to truncate
 		$length: Lenght of new string
 		$trailing:  Final Trailing
------------------------------------------------------------------------------------*/
-function truncate($str, $length, $trailing = '...') {
-  $length-=strlen($trailing);
-  if (strlen($str) > $length) {
-    $res = substr($str, 0, $length);
-    $res .= $trailing;
-  }
-  else {
-    $res = $str;
-  }
-  return $res;
-}
+		-----------------------------------------------------------------------------------*/
+		function truncate($str, $length, $trailing = '...') {
+			$length-=strlen($trailing);
+			if (strlen($str) > $length) {
+				$res = substr($str, 0, $length);
+				$res .= $trailing;
+			}
+			else {
+				$res = $str;
+			}
+			return $res;
+		}
 
 
 /* ---------------------------------------------------------------------------------
@@ -640,18 +890,18 @@ function truncate($str, $length, $trailing = '...') {
 						- 866aupdated if 866aupdated != '';
 						- lockeds holdings can't be used to the algoritm
 
------------------------------------------------------------------------------------*/
-function holdingsset_recall($id) {
+						-----------------------------------------------------------------------------------*/
+						function holdingsset_recall($id) {
 
-	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
-	$conn = pg_connect($conn_string) or die('ERROR!!!');
+							$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+							$conn = pg_connect($conn_string) or die('ERROR!!!');
 
-	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 500";
-	$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
+							$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 500";
+							$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
 
-	$ta_arr = pg_fetch_all($result);
+							$ta_arr = pg_fetch_all($result);
 
-	$ta_amnt = sizeOf($ta_arr);
+							$ta_amnt = sizeOf($ta_arr);
 
 	/***********************************************************************
 	 * Se forman los grupos y se calculan los valores
@@ -685,7 +935,7 @@ function holdingsset_recall($id) {
 		$hol_ptrn = $ta_arr[$i]['hol_nrm'];
 		//si tiene algo se parte por el ;
 		$ta_arr[$i]['ptrn_arr'] = (preg_match('/\w/',$hol_ptrn))?explode(';',$hol_ptrn):array();
-			
+
 		if ($ta_arr[$i]['ptrn_arr']){
 			$ptrn_amnt	= sizeOf($ta_arr[$i]['ptrn_arr']);
 			for ($l=0; $l<$ptrn_amnt; $l++){
@@ -728,7 +978,7 @@ function holdingsset_recall($id) {
 			function($n){
 				return explode('|',substr(chunk_split($n,4,'|'),0,-1));
 			}, 
-	    $tmparr); 
+			$tmparr); 
 		
 		$volume = array();
 		$year = array();
@@ -742,7 +992,7 @@ function holdingsset_recall($id) {
 			function($n){
 				return implode('',$n); 
 			}, 
-	    $tmparr); 
+			$tmparr); 
 		
 		$tmparr = array_values($tmparr);
 		
@@ -750,8 +1000,8 @@ function holdingsset_recall($id) {
 		//aqui se van juntando los hol del TA
 		array_push($ta_hol_arr[$index]['hol'],$ta_arr[$i]);
 
-	  if (Holding::find($ta_arr[$i]['id'])->locked) $blockeds_hols[]['index'] = $i;
-	  if (Holding::find($ta_arr[$i]['id'])->locked) $blockeds_hols[]['id'] = $ta_arr[$i]['id'];
+		if (Holding::find($ta_arr[$i]['id'])->locked) $blockeds_hols[]['index'] = $i;
+		if (Holding::find($ta_arr[$i]['id'])->locked) $blockeds_hols[]['id'] = $ta_arr[$i]['id'];
 
 		unset($ta_arr[$i]);
 		unset($tmparr);
@@ -759,7 +1009,7 @@ function holdingsset_recall($id) {
 	}
 
 	foreach ($blockeds_hols as $hol) {
-	 	unset($ta_hol_arr[0]['hol'][$hol['index']]);
+		unset($ta_hol_arr[0]['hol'][$hol['index']]);
 	}
 
 	$ta_hol_arr[0]['hol'] = array_values($ta_hol_arr[0]['hol']);
@@ -816,7 +1066,7 @@ function holdingsset_recall($id) {
 			$ptrn);
 		
 		$ta_hol_arr[$i]['weight_ptrn'] = $weight_ptrn; //<-------------------- weight pattern
-			
+
 		$mx_ocrr_nr = 0;
 		$mx_weight = 0;
 		$posowners = array();	
@@ -834,7 +1084,7 @@ function holdingsset_recall($id) {
 			$ocrr_nr = 0;
 			
 			$j_factor = .5;
-					
+
 			$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'] = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,0):array();
 			$ta_hol_arr[$i]['hol'][$k]['j_arr'] = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,0):array();
 			
@@ -859,24 +1109,24 @@ function holdingsset_recall($id) {
 						
 						$ocrr_bgn = get_ptrn_position($ocrr_xtr[0],$ptrn);
 						$val_bgn = $ocrr_xtr[0];
-																
+
 						if (array_key_exists(1,$ocrr_xtr)){ //<----------------------- vvvvVVVVyyyyYYYY-vvvvVVVVyyyyYYYY
-								if (preg_match('/\w/',$ocrr_xtr[1])){
-									$ocrr_end = get_ptrn_position($ocrr_xtr[1],$ptrn);
-									$val_end = $ocrr_xtr[1];
-								}
+							if (preg_match('/\w/',$ocrr_xtr[1])){
+								$ocrr_end = get_ptrn_position($ocrr_xtr[1],$ptrn);
+								$val_end = $ocrr_xtr[1];
+							}
 								else { //<------------------------------------------------ vvvvVVVVyyyyYYYY-
 									$ocrr_end = $ptrn_amnt-1;
 									$val_end = (isset($ptrn[$ptrn_amnt-1]))?$ptrn[$ptrn_amnt-1]:'';
 								}
-						}
+							}
 						else { //<---------------------------------------------------- vvvvVVVVyyyyYYYY
 							
 							//si el valor solo es un agno buscar hasta donde llega ????
-								$tiny_chunks = explode('|',substr(chunk_split($ocrr_bgn,4,'|'),0,-1));
-								if (preg_match('/\w/',$tiny_chunks[2])) echo $tiny_chunks[2].EOL;
-								$ocrr_end = $ocrr_bgn;
-								$val_end = $val_bgn;
+							$tiny_chunks = explode('|',substr(chunk_split($ocrr_bgn,4,'|'),0,-1));
+							if (preg_match('/\w/',$tiny_chunks[2])) echo $tiny_chunks[2].EOL;
+							$ocrr_end = $ocrr_bgn;
+							$val_end = $val_bgn;
 						}
 						$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'][$ocrr_end] = 1;
 						if ($is_j) $ta_hol_arr[$i]['hol'][$ocrr_end]['j_arr'][$h] = 1;
@@ -893,13 +1143,13 @@ function holdingsset_recall($id) {
 			
 			$ocrr_ptrn = $ta_hol_arr[$i]['hol'][$k]['ocrr_arr']; //<------------ occurrences pattern
 			$j_ptrn = $ta_hol_arr[$i]['hol'][$k]['j_arr']; //<------------------ completeness pattern
-		
+
 			$hol_weight_ptrn = array_map( 
-	        function($w, $o, $j){
-						$j_factor = .5;
-						return $w*$o*(($j>0)?$j_factor:1); 
-					}, 
-	        $weight_ptrn, $ocrr_ptrn, $j_ptrn); 
+				function($w, $o, $j){
+					$j_factor = .5;
+					return $w*$o*(($j>0)?$j_factor:1); 
+				}, 
+				$weight_ptrn, $ocrr_ptrn, $j_ptrn); 
 			
 			$weight = array_sum($hol_weight_ptrn);  //<------------------------- weight
 			$ocrr_nr  = array_sum($ocrr_ptrn);  //<----------------------------- number of occurrences
@@ -908,13 +1158,13 @@ function holdingsset_recall($id) {
 		 * Finding potential owners
 		 ******************************************************************/
 
-			if ($weight !== 0 ) {
-				if ($weight > $mx_weight ) {
-					$mx_weight = $weight;
-					$posowners = array();	
-					$posowners[0] = $k;
-				}
-				else if ($weight === $mx_weight ) {
+		if ($weight !== 0 ) {
+			if ($weight > $mx_weight ) {
+				$mx_weight = $weight;
+				$posowners = array();	
+				$posowners[0] = $k;
+			}
+			else if ($weight === $mx_weight ) {
 					array_push($posowners,$k); //<---------------------------------- potential owners by weight
 				}
 			}
@@ -932,7 +1182,7 @@ function holdingsset_recall($id) {
 			
 			$ta_hol_arr[$i]['hol'][$k]['ocrr_nr'] = $ocrr_nr;
 			$ta_hol_arr[$i]['hol'][$k]['weight'] = $weight;
-		
+
 		/******************************************************************
 		 * UPDATE hol_out
 		 * 	ptrn
@@ -941,20 +1191,20 @@ function holdingsset_recall($id) {
 		 * 	ocrr_ptrn
 		 * 	j_ptrn
 		 ******************************************************************/
-			
-			$ta_res_arr[$ta.$hol.$g]['sys1'] 	  = $ta;
-			$ta_res_arr[$ta.$hol.$g]['sys2']      = $hol;
-			$ta_res_arr[$ta.$hol.$g]['g']         = $g;
-			$ta_res_arr[$ta.$hol.$g]['ptrn']      = implode('|',$ptrn);
-			$ta_res_arr[$ta.$hol.$g]['ocrr_nr']   = $ocrr_nr;
-			$ta_res_arr[$ta.$hol.$g]['ocrr_ptrn'] = implode('',$ocrr_ptrn);
-			$ta_res_arr[$ta.$hol.$g]['weight']    = $weight;
-			$ta_res_arr[$ta.$hol.$g]['j_ptrn']    = implode('',$j_ptrn);
-			
-			$ta_res_arr[$ta.$hol.$g]['is_owner']  = 'f';
-			$ta_res_arr[$ta.$hol.$g]['aux_ptrn']  = '';
-			$ta_res_arr[$ta.$hol.$g]['is_aux']    = 'f';
-			
+
+		$ta_res_arr[$ta.$hol.$g]['sys1'] 	  = $ta;
+		$ta_res_arr[$ta.$hol.$g]['sys2']      = $hol;
+		$ta_res_arr[$ta.$hol.$g]['g']         = $g;
+		$ta_res_arr[$ta.$hol.$g]['ptrn']      = implode('|',$ptrn);
+		$ta_res_arr[$ta.$hol.$g]['ocrr_nr']   = $ocrr_nr;
+		$ta_res_arr[$ta.$hol.$g]['ocrr_ptrn'] = implode('',$ocrr_ptrn);
+		$ta_res_arr[$ta.$hol.$g]['weight']    = $weight;
+		$ta_res_arr[$ta.$hol.$g]['j_ptrn']    = implode('',$j_ptrn);
+
+		$ta_res_arr[$ta.$hol.$g]['is_owner']  = 'f';
+		$ta_res_arr[$ta.$hol.$g]['aux_ptrn']  = '';
+		$ta_res_arr[$ta.$hol.$g]['is_aux']    = 'f';
+
 			/*
 			$query = "UPDATE hol_out 
 								SET ptrn='".implode('|',$ptrn) ."' , ocrr_nr='". $ocrr_nr ."' , ocrr_ptrn='". implode('',$ocrr_ptrn) ."' , weight='". $weight ."' , j_ptrn='". implode('',$j_ptrn) ."'
@@ -963,7 +1213,7 @@ function holdingsset_recall($id) {
 			*/
 			
 		}
-				
+
 		/******************************************************************
 		 * Finding "the owner" according to the following criteria:
 		 * 	preferred
@@ -1022,7 +1272,7 @@ function holdingsset_recall($id) {
 		$ocrr_nr  = 0;
 		
 		if($mishols[$i]['owner']) {
-	
+
 			$owner_ocrr_arr = $hol_arr[$ta_hol_arr[$i]['owner']]['ocrr_arr'];
 			$owner_ocrr_amnt = sizeOf($owner_ocrr_arr);
 			$weight_ptrn = $ta_hol_arr[$i]['weight_ptrn'];
@@ -1036,30 +1286,30 @@ function holdingsset_recall($id) {
 					return intval(!$n);
 				},
 				$owner_ocrr_arr);
-							
+
 			for ($k=0; $k<$hol_amnt; $k++){ //por cada hol
 				
 				if (isset($hol_arr[$k]['ocrr_arr'])){ //esto e un parche porque falta una fila
-				
-				$ocrr_ptrn = $hol_arr[$k]['ocrr_arr'];
-				$j_ptrn = $hol_arr[$k]['j_arr'];
-				
-				$aux_ptrn = array_map(
-					function ($n, $m){
-						return $n*$m;
-					},
-					$denied_owner, $ocrr_ptrn);
-				
+
+					$ocrr_ptrn = $hol_arr[$k]['ocrr_arr'];
+					$j_ptrn = $hol_arr[$k]['j_arr'];
+
+					$aux_ptrn = array_map(
+						function ($n, $m){
+							return $n*$m;
+						},
+						$denied_owner, $ocrr_ptrn);
+
 					$aux_weight_ptrn = array_map( 
 						function($w, $a, $j){
 							$j_factor = .5;
 							return $w*$a*(($j>0)?$j_factor:1); 
 						}, 
 						$weight_ptrn, $aux_ptrn, $j_ptrn); 
-			
+
 					$aux_weight = array_sum($aux_weight_ptrn);
 					$ocrr_nr  = array_sum($aux_ptrn);
-			
+
 			//se juntan los aul de mayor peso
 					if ($aux_weight !== 0 ) {
 						if ($aux_weight > $mx_weight ) {
@@ -1071,13 +1321,13 @@ function holdingsset_recall($id) {
 							$potaux_array[$k] = 1;
 						}
 					}
-			
-			$ta = $hol_arr[$k]['sys1'];
-			$hol = $hol_arr[$k]['sys2'];
-			$g = $hol_arr[$k]['g'];
-				
-			$ta_res_arr[$ta.$hol.$g]['aux_ptrn'] = implode($aux_ptrn);
-			
+
+					$ta = $hol_arr[$k]['sys1'];
+					$hol = $hol_arr[$k]['sys2'];
+					$g = $hol_arr[$k]['g'];
+
+					$ta_res_arr[$ta.$hol.$g]['aux_ptrn'] = implode($aux_ptrn);
+
 
 			/*
 			$query = "UPDATE hol_out 
@@ -1088,13 +1338,13 @@ function holdingsset_recall($id) {
 
 			}//fin del parche porque falta una fila
 			
-			}
-			$ta_hol_arr[$i]['potaux_array'] = $potaux_array;
 		}
-
-		
+		$ta_hol_arr[$i]['potaux_array'] = $potaux_array;
 	}
-				
+
+
+}
+
 		/******************************************************************
 		* Aqui se escribe aux_ptrn en la tabla y si is_aux
 		******************************************************************/
@@ -1105,27 +1355,27 @@ function holdingsset_recall($id) {
 		
 		$hol_amnt = sizeOf($hol_arr); //la cantidad de hol
 		
-			if($ta_hol_arr[$i]['owner']) {
+		if($ta_hol_arr[$i]['owner']) {
 			
 			$potaux_array = $ta_hol_arr[$i]['potaux_array'];
-				
+
 			for ($k=0; $k<$hol_amnt; $k++){ //por cada hol
 				
 				if (isset($hol_arr[$k]['ocrr_arr'])){ //esto e un parche porque falta una fila
 					
-				$ta = $hol_arr[$k]['sys1'];
-				$hol = $hol_arr[$k]['sys2'];
-				$g = $hol_arr[$k]['g'];
-				
-				$ta_res_arr[$ta.$hol.$g]['is_aux'] = $potaux_array[$k];
-				
+					$ta = $hol_arr[$k]['sys1'];
+					$hol = $hol_arr[$k]['sys2'];
+					$g = $hol_arr[$k]['g'];
+
+					$ta_res_arr[$ta.$hol.$g]['is_aux'] = $potaux_array[$k];
+
 				/*
 				$query = "UPDATE hol_out 
 									SET is_aux='". $potaux_array[$k] ."'
 									WHERE sys1 = '".$ta."' AND sys2 = '".$hol."' AND g = '".$g."'";
 				$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
 				*/
-							
+
 				}//fin del parche porque falta una fila
 			}
 		}
@@ -1138,8 +1388,8 @@ function holdingsset_recall($id) {
 	$ta_res_amnt = sizeof($ta_res_arr);
 	$ta_nr = 0;
 	foreach ($ta_res_arr as $key => $value){ // foreach sys1,sys2,g  write result in table hol_out_ptrn
-	  $value['is_owner'] = (($value['is_owner'] == '0') || ($value['is_owner'] == 'f')) ? 'f' : 't';
-	  $value['is_aux'] = (($value['is_aux'] == '0') || ($value['is_aux'] == 'f')) ? 'f' : 't';
+		$value['is_owner'] = (($value['is_owner'] == '0') || ($value['is_owner'] == 'f')) ? 'f' : 't';
+		$value['is_aux'] = (($value['is_aux'] == '0') || ($value['is_aux'] == 'f')) ? 'f' : 't';
 	  // var_dump($value);
 		Holding::find($mishols[$ta_nr]['id'])->update(['ocrr_nr' => $value['ocrr_nr'], 'ocrr_ptrn' => $value['ocrr_ptrn'], 'weight' => $value['weight'], 'j_ptrn' => $value['j_ptrn'], 'is_owner' => $value['is_owner'], 'aux_ptrn' => $value['aux_ptrn'], 'is_aux' => $value['is_aux']]);
 		$finalptrn = $value['ptrn'];
@@ -1153,140 +1403,11 @@ function holdingsset_recall($id) {
 
 
 
-
 // ***********************************************
-function compare($sys) {
-// ***********************************************
-	global $select_fld, $ta, $fld_ta, $ta_res_sim, $proc_flag, $rno, $freq_tit, $fld_weight_model, $ta_sim_fields, $fld_sim, $freq_tit,
-	$fld_weight_model, $fld_weight, $max_score, $treshold_score, $is_freq_tit, $proc_flag, $sys_reference;
-// initialize variables
-
-	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
-	$con = pg_connect($conn_string) or die('ERROR!!!');
-
-	// get reference record
-	$query = "SELECT ".$select_fld." FROM holdings WHERE sys2 = '$sys'";
-	$result = pg_query($con, $query) or die(pg_last_error()); //; if (!$result) { echo "Error executing".$query."\n"; exit; }
-	$tas = pg_fetch_all($result);
-	// echo $query."<br>";
-	$ta = $tas[0];
-	// var_dump($ta);
-
-	// ************************************************
-	// COMPARE WITH OTHERS
-	// ************************************************
-	$is_freq_tit = false;  // later set to true of title occurs many times
-	// initialize collect process information
-	$proc_info = array('equ' => 0, 'sim' => 0, 'try' => 0, 'dif' => 0, 'AGKB' => 0, 'BSUB' => 0, 'LUZB' => 0, 'SGHG' => 0, 'ZHUZ' => 0, 'ZHZB' => 0);
-
-	// get current time for process measurement
-	if ($proc_flag['time']) $date_start_cycle = new DateTime('now', new DateTimeZone('America/New_York'));
-
-	$sys_reference = $ta['sys']; // ex. bib_sys
-
-	// **** check if is_tit_freq  
-	// break f245a the same way as the titles in tit_freq
-	$query = "SELECT regexp_split_to_array(lower('".pg_escape_string($ta['f245a'])."'), E'[\- \.,:;\(\){}\"\']+') f245a_s";
-	$result = pg_query($con, $query)  or die(pg_last_error()); // if (!$result) echo "Error executing".$query."\n";
-	// echo $query."<br>";
-	$tit = pg_fetch_all($result);
-	$tit = substr($tit[0]['f245a_s'], 1, strlen($tit[0]['f245a_s'])-2);  // cut ()
-	$tit = implode(' ', explode(',',$tit));
-	$tit = str_replace(" \"\"", "", $tit);
-	$tit = preg_replace("/[\[\]]/", "", $tit);
-	if (in_array($tit, $freq_tit)) { // check if normalized title is a frequent title
-		$is_freq_tit = true;
-		if ($proc_flag['debug']) echo " !! FREQ(".$ta['f245a'].")\n";
-	}
-
-	// create comparison query. If value is '' the result will be 0, so we do not compare this field
-	$query  = "SELECT id, sys2,";
-	$query .= "\n f022a,         "; ($ta['f022a']   > '') ? $query .= " similarity(f022a,  '".pg_escape_string($ta['f022a'])."'  ) s_f022a," : $query .= " 0::integer s_f022a,";
-	$query .= "\n f245a, f245a_e,"; ($ta['f245a_e'] > '') ? $query .= " similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') s_f245a," : $query .= " 0::integer s_f245a,";
-	$query .= "\n f245b, f245b_e,"; ($ta['f245b_e'] > '') ? $query .= " similarity(f245b_e,'".pg_escape_string($ta['f245b_e'])."') s_f245b," : $query .= " 0::integer s_f245b,";
-	$query .= "\n f245c,         "; ($ta['f245c_e'] > '') ? $query .= " similarity(f245c_e,'".pg_escape_string($ta['f245c_e'])."') s_f245c," : $query .= " 0::integer s_f245c,";
-	$query .= "\n f_tit,         "; ($ta['f_tit_e'] > '') ? $query .= " similarity(f_tit_e,'".pg_escape_string($ta['f_tit_e'])."') s_f_tit," : $query .= " 0::integer s_f_tit,";
-	$query .= "\n f260a, f260a_e,"; ($ta['f260a_e'] > '') ? $query .= " similarity(f260a_e,'".pg_escape_string($ta['f260a_e'])."') s_f260a," : $query .= " 0::integer s_f260a,";
-	$query .= "\n f260b,         "; ($ta['f260b_e'] > '') ? $query .= " similarity(f260b_e,'".pg_escape_string($ta['f260b_e'])."') s_f260b," : $query .= " 0::integer s_f260b,";
-	$query .= "\n f310a,         "; ($ta['f310a_e'] > '') ? $query .= " similarity(f310a_e,'".pg_escape_string($ta['f310a_e'])."') s_f310a," : $query .= " 0::integer s_f310a,";
-	$query .= "\n f362a, f362a_e, similarity(
-		array_to_string(regexp_split_to_array(f362a_e, E'[^0-9]+'),';','*'),
-		array_to_string(regexp_split_to_array('".pg_escape_string($ta['f362a_e'])."', E'[^0-9]+'),';','*')) s_f362a,";
-$query .= "\n f710a, f710a_e,"; ($ta['f710a_e'] > '') ? $query .= " similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') s_f710a," : $query .= " 0::integer s_f710a,";
-$query .= "\n f780t, f780t_e,"; ($ta['f780t_e'] > '') ? $query .= " similarity(f780t_e,'".pg_escape_string($ta['f780t_e'])."') s_f780t," : $query .= " 0::integer s_f780t,";
-$query .= "\n f785t, f785t_e,"; ($ta['f785t_e'] > '') ? $query .= " similarity(f785t_e,'".pg_escape_string($ta['f785t_e'])."') s_f785t," : $query .= " 0::integer s_f785t,";
-$query .= "\n f008x,         "; ($ta['f008x']   > '') ? $query .= " similarity(f008x  ,'".pg_escape_string($ta['f008x'])  ."') s_f008x," : $query .= " 0::integer s_f008x,";
-$query .= "\n f008y,         "; ($ta['f008y']   > '') ? $query .= " similarity(f008y  ,'".pg_escape_string($ta['f008y'])  ."') s_f008y"  : $query .= " 0::integer s_f008y";
-$query .= "\n FROM holdings";
-	if ($is_freq_tit) { // for frequent titles include filters
-		$query .= "\n  WHERE similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') = 1";  // same title
-		if (($ta['f710a_e'] > '') and ($ta['f245c_e'] > '')) {
- 			// $query .= " AND (similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') > 0.9";  // similiar organisation
- 				$query .= "\n OR similarity(f245c_e,'".pg_escape_string($ta['f245c_e'])."') > 0.8)";
-} else {
-	if (($ta['f710a_e'] >  '') AND ($ta['f245c_e'] == ''))
-				// $query .= " AND similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') > 0.9";  // similiar organisation (710a)
-			if (($ta['f710a_e'] == '') AND ($ta['f245c_e'] >  ''))
-				$query .= " AND similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') > 0.8";  // similar organisation (245c)
-		}
-	} else {
-		$query .= "\n  WHERE similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') > 0.6";
-		// $query .= "\n     OR similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') > 0.8";
-	}
-	$query .= "\n  ORDER BY s_f245a DESC, f245a_e";
-//printf("%s\n", $query);
-	$result = pg_query($con, $query) or die(pg_last_error());// if (!$result) { echo "Error executing".$query."\n"; exit; }
-	$ta_res_sim = pg_fetch_all($result);
-	$size_r = sizeof($ta_res_sim);
-
-	// echo $query."<br>";
-	// die();
-	if (!$ta_res_sim) $size_r = 0;
-
-	$proc_info['found'] = $size_r;
-	if ($proc_flag['debug']) printf(" FOUND: %s\n", $proc_info['found']);
-
-
-	// -------------------- analyse and optimize result
-	for ($rno = 0; $rno < $size_r; $rno++) {
-	  // prepare score evaluation
-		$ta_res_sim[$rno]['score']      = 0;
-	  $ta_res_sim[$rno]['flag']       = '_'; // initialize with '_'
-		adjust_similarity_values();            // correct some 'strange'* comparison values
-		analyse_special_fields();              // analyse in detail some fields: f022a, ...
-		weight_ta();                           // **** weight similarity of TA
-	  if ($ta_res_sim[$rno]['score'] >= $max_score) $max_score = $ta_res_sim[$rno]['score'];  // remember highest score
-	}
-
-	if ($proc_flag['debug']) printf("SCORE: %s %s\n", $treshold_score, $max_score); // show SCORE
-
-
-	// now assign a similarity category for each TA
-	for ($rno = 0; $rno < $size_r; $rno++) {
-		if ($ta_res_sim[$rno]['score'] >= ($max_score - $treshold_score)) $ta_res_sim[$rno]['flag'] = '*'; else $ta_res_sim[$rno]['flag'] = '-'; // mark treshold
-		// adjust categorization of TA if f245a or f710a are nearly equal
-		if ($is_freq_tit) { // for frequent title use a stricter comparison
-			if (($ta_res_sim[$rno]['s_f245a'] == 1) && ($ta_res_sim[$rno]['s_f710a'] == 1)) $ta_res_sim[$rno]['flag'] = '*'; // must correspond
-		} else { // normal case
-			if ($ta_res_sim[$rno]['s_f245a'] > 0.9) $ta_res_sim[$rno]['flag'] = '*'; // title must correspond a bit less
-		}	
-		if ($sys_reference == $ta_res_sim[$rno]['sys']) $ta_res_sim[$rno]['flag'] = '='; // mark original record with '='
-	}
-
-	// -------------------- sort results in similarity order
-	usort($ta_res_sim, 'cmp_score'); // *** sort result by score type for output
-	$last_ta_in_set = last_similar_ta_in_set(); // look for the last TA above the treshold
-
-  usort($ta_res_sim, 'cmp_flag_score'); // *** sort result by flag, score for output
-  return $ta_res_sim;
-
-}
-
-// ***********************************************
-function last_similar_ta_in_set() {
+function last_similar_ta_in_set( $ta_res_sim) {
 // ***********************************************
 // get number of last good ta candidate
-	global $ta_res_sim;
+
 	$ta_sim_last_good = 0;
 	for ($rno = 0; $rno < sizeof($ta_res_sim); $rno++) {
 		if ($ta_res_sim[$rno]['flag'] == '*' || $ta_res_sim[$rno]['flag'] == '=') { // included in the result set
@@ -1296,24 +1417,12 @@ function last_similar_ta_in_set() {
 	return $ta_sim_last_good;
 }
 
-// ***********************************************
-function analyse_special_fields() {
-// ***********************************************
-  // analyse fields with special content
-	global $ta_res_sim, $rno, $ta;
-	$ta_res_sim[$rno]['s_f008x'] = compare_field('f008x', $ta['f008x']  , $ta_res_sim[$rno]['f008x']);
-	$ta_res_sim[$rno]['s_f008y'] = compare_field('f008y', $ta['f008y']  , $ta_res_sim[$rno]['f008y']);
-  $ta_res_sim[$rno]['s_f022a'] = compare_field('f022a', $ta['f022a']  , $ta_res_sim[$rno]['f022a']); // check if ISSN contained
-  $ta_res_sim[$rno]['s_f260a'] = compare_field('f260a', $ta['f260a_e'], $ta_res_sim[$rno]['f260a_e']);
-  $ta_res_sim[$rno]['s_f780t'] = compare_field('f780t', $ta['f780t_e'], $ta_res_sim[$rno]['f780t_e']);
-  $ta_res_sim[$rno]['s_f785t'] = compare_field('f785t', $ta['f785t_e'], $ta_res_sim[$rno]['f785t_e']);
-}
+
 
 // ***********************************************
-function compare_field ($fld, $valO, $valC) {
+function compare_field ($fld, $valO, $valC, $ta_res_sim, $rno) {
 // ***********************************************
   // adapt weight for specific fields
-	global $ta_res_sim, $rno;
   $similar = 0; // in case that both fields are empty
   if ($valO == '' and $valC == '') return 0;
   switch ($fld) {
@@ -1364,30 +1473,10 @@ function compare_field ($fld, $valO, $valC) {
 }
 
 // ***********************************************
-function weight_ta() {
-// ***********************************************
-  // add all weighted scores of each ta found
-	global $ta_res_sim, $rno, $weight_model;
-	$ta_res_sim[$rno]["score"] += weight_every_fld("f022a", $weight_model);
-	$ta_res_sim[$rno]["score"] += weight_every_fld("f245a", $weight_model);
-	$ta_res_sim[$rno]["score"] += weight_every_fld("f245c", $weight_model);
-	$ta_res_sim[$rno]["score"] += weight_every_fld("f_tit", $weight_model);
-	$ta_res_sim[$rno]["score"] += weight_every_fld("f260a", $weight_model);
-	$ta_res_sim[$rno]["score"] += weight_every_fld("f260b", $weight_model);
-	$ta_res_sim[$rno]["score"] += weight_every_fld("f310a", $weight_model);
-	$ta_res_sim[$rno]["score"] += weight_every_fld("f362a", $weight_model);
-	$ta_res_sim[$rno]["score"] += weight_every_fld("f710a", $weight_model);
-	$ta_res_sim[$rno]["score"] += weight_every_fld("f780t", $weight_model);
-	$ta_res_sim[$rno]["score"] += weight_every_fld("f785t", $weight_model);
-	$ta_res_sim[$rno]["score"] += weight_every_fld("f008x", $weight_model);
-	$ta_res_sim[$rno]["score"] += weight_every_fld("f008y", $weight_model);
-}
-
-// ***********************************************
-function weight_every_fld($fld, $weight_model) {
+function weight_every_fld($fld, $weight_model,$ta_res_sim, $rno, $fld_weight_model,$ta_res_sim, $rno, $fld_weight_model) {
 // ***********************************************
 	// calculate score value for $fld
-	global $ta_res_sim, $rno, $fld_weight_model;
+
 	$fld_weight = $fld_weight_model[$weight_model];
 	$score_delta = 0;
 	$s_fld = 's_'.$fld; // form field name for similarity values
@@ -1398,26 +1487,6 @@ function weight_every_fld($fld, $weight_model) {
 }
 
 
-// ***********************************************
-function adjust_similarity_values() {
-// ***********************************************
-  // adjust some fld with 'strange' similarity values
-	global $ta_res_sim, $rno;
-	if (!isset($ta_res_sim[$rno]['s_f022a']) or $ta_res_sim[$rno]['s_f022a'] == 'NaN') $ta_res_sim[$rno]['s_f022a']  = 0;
-	if (!isset($ta_res_sim[$rno]['s_f245a']) or $ta_res_sim[$rno]['s_f245a'] == 'NaN') $ta_res_sim[$rno]['s_f245a']  = 0;
-	if (!isset($ta_res_sim[$rno]['s_f245b']) or $ta_res_sim[$rno]['s_f245b'] == 'NaN') $ta_res_sim[$rno]['s_f245b']  = 0;
-	if (!isset($ta_res_sim[$rno]['s_f245c']) or $ta_res_sim[$rno]['s_f245c'] == 'NaN') $ta_res_sim[$rno]['s_f245c']  = 0;
-	if (!isset($ta_res_sim[$rno]['s_f_tit']) or $ta_res_sim[$rno]['s_f_tit'] == 'NaN') $ta_res_sim[$rno]['s_f_tit']  = 0;
-	if (!isset($ta_res_sim[$rno]['s_f260a']) or $ta_res_sim[$rno]['s_f260a'] == 'NaN') $ta_res_sim[$rno]['s_f260a']  = 0;
-	if (!isset($ta_res_sim[$rno]['s_f260b']) or $ta_res_sim[$rno]['s_f260b'] == 'NaN') $ta_res_sim[$rno]['s_f260b']  = 0;
-	if (!isset($ta_res_sim[$rno]['s_f310a']) or $ta_res_sim[$rno]['s_f310a'] == 'NaN') $ta_res_sim[$rno]['s_f310a']  = 0;
-	if (!isset($ta_res_sim[$rno]['s_f362a']) or $ta_res_sim[$rno]['s_f362a'] == 'NaN') $ta_res_sim[$rno]['s_f362a']  = 0;
-	if (!isset($ta_res_sim[$rno]['s_f710a']) or $ta_res_sim[$rno]['s_f710a'] == 'NaN') $ta_res_sim[$rno]['s_f710a']  = 0;
-	if (!isset($ta_res_sim[$rno]['s_f780t']) or $ta_res_sim[$rno]['s_f780t'] == 'NaN') $ta_res_sim[$rno]['s_f780t']  = 0;
-	if (!isset($ta_res_sim[$rno]['s_f785t']) or $ta_res_sim[$rno]['s_f785t'] == 'NaN') $ta_res_sim[$rno]['s_f785t']  = 0;
-	if (!isset($ta_res_sim[$rno]['s_f008x']) or $ta_res_sim[$rno]['s_f008x'] == 'NaN') $ta_res_sim[$rno]['s_f008x']  = 0;
-	if (!isset($ta_res_sim[$rno]['s_f008y']) or $ta_res_sim[$rno]['s_f008y'] == 'NaN') $ta_res_sim[$rno]['s_f008y']  = 0;
-}
 
 
 // ***********************************************
@@ -1449,117 +1518,9 @@ function cmp_flag_score($a, $b) {
   return ($a_srt > $b_srt) ? -1 : 1;
 }
 
-// -----------------------------------------------
-function get_freq_tit() {
-// -----------------------------------------------
-// lookup title in frequency list
-	global $con;
-// fill $tit_freq
-	// $query = "SELECT f245a FROM tit_freq";
-	// $result = pg_query($con, $query); if (!$result) { echo "Error executing";pg_last_error(); exit; }
-	// $tmp_arr = pg_fetch_all($result);
-	// foreach ($tmp_arr as $tmp) $freq_tit[] = $tmp['f245a'];
-	return [''];
-}
-
-
-// -----------------------------------------------
-function read_fieldlist() {
-// -----------------------------------------------
-	global $fld_ta, $fld_weight_model, $fld_sim, $cmp_sim_fields;
-  // fields of a ta
-	$fld_ta = array (
-		'sys',      'f008x',    'f008y',    'f008l',    'f008s',
-		'f022a',    'f245a',    'f245b',    'f245c',    'f245d',    'f246i',
-		'f260a',    'f260b',    'f260c',    'f300c',
-		'f310a',    'f362a',    'f500a',
-		'f710a',    'f710b',    'f730a',    'f770t',    'f780t',    'f780w',
-		'f852a',    'f852h',    'f856u',    'f866a',
-		'f949j',    'f949z'
-		);
-  // fields with the results of every field compared (values 0..1)
-	$fld_sim = array (
-		's_f008x',  's_f008y',
-		's_f022a',  's_f245a',  's_f245b',  's_f245c',  's_f_tit',
-		's_f260a',  's_f260b',
-		's_f310a',  's_f362a',
-		's_f710a',  's_f780a'
-		);
-
-  // output fields
-	$cmp_sim_fields  = "sys1,sys2, score, flag, f022a,s_f022a, f245a,s_f245a, f245b,s_f245b, f245c,s_f245c, f_tit, s_f_tit"; 
-	$cmp_sim_fields .= ",f260a,s_f260a, f260b,s_f260b";
-	$cmp_sim_fields .= ",f310a,s_f310a, f362a,s_f362a, f710a,s_f710a, f780t,s_f780t, f785t,s_f785t, f008x, s_f008x, f008y, s_f008y, proc_cmp, run_cmp";
-	$cmp_sim_fields .= ", off, no";
-
-
-  // Weight model with values for match, similar, no-match. Values can be negative
-	// balanced weighting
-	$fld_weight_model[0] = array (
-		'f008x' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
-		'f008y' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
-		'f022a' => array('equ' => 10, 'sim' =>  0, 'dif' => -6),
-		'f245a' => array('equ' => 15, 'sim' =>  1, 'dif' => -3),
-		'f245b' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-		'f245c' => array('equ' => 15, 'sim' =>  0, 'dif' =>  0),
-		'f_tit' => array('equ' =>  3, 'sim' =>  1, 'dif' =>  0),
-		'f260a' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
-		'f260b' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
-		'f260c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-		'f300c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-		'f310a' => array('equ' =>  5, 'sim' =>  1, 'dif' => -3),
-		'f362a' => array('equ' =>  7, 'sim' =>  2, 'dif' => -7),
-		'f710a' => array('equ' => 10, 'sim' =>  3, 'dif' => -5),
-		'f780t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
-		'f785t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
-		'f852a' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-		);
-	// weights institution (7xx) even more
-$fld_weight_model[1] = array (
-	'f008x' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
-	'f008y' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
-	'f022a' => array('equ' => 10, 'sim' =>  0, 'dif' => -6),
-	'f245a' => array('equ' => 10, 'sim' =>  1, 'dif' => -3),
-	'f245b' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-	'f245c' => array('equ' => 10, 'sim' =>  0, 'dif' =>  0),
-	'f_tit' => array('equ' =>  3, 'sim' =>  1, 'dif' =>  0),
-	'f260a' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
-	'f260b' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
-	'f260c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-	'f300c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-	'f310a' => array('equ' =>  5, 'sim' =>  1, 'dif' => -3),
-	'f362a' => array('equ' =>  7, 'sim' =>  2, 'dif' => -7),
-	'f710a' => array('equ' => 20, 'sim' =>  3, 'dif' => -5),
-	'f780t' => array('equ' => 20, 'sim' =>  3, 'dif' =>  0),
-	'f785t' => array('equ' => 20, 'sim' =>  3, 'dif' =>  0),
-	'f852a' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-	);  
-
-	// weighting issn (022) more
-$fld_weight_model[2] = array (
-	'f008x' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
-	'f008y' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
-	'f022a' => array('equ' => 20, 'sim' =>  0, 'dif' => -6),
-	'f245a' => array('equ' => 10, 'sim' =>  1, 'dif' => -3),
-	'f245b' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-	'f245c' => array('equ' => 10, 'sim' =>  0, 'dif' =>  0),
-	'f_tit' => array('equ' =>  3, 'sim' =>  1, 'dif' =>  0),
-	'f260a' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
-	'f260b' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
-	'f260c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-	'f300c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-	'f310a' => array('equ' =>  5, 'sim' =>  1, 'dif' => -3),
-	'f362a' => array('equ' =>  7, 'sim' =>  2, 'dif' => -7),
-	'f710a' => array('equ' => 10, 'sim' =>  3, 'dif' => -5),
-	'f780t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
-	'f785t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
-	'f852a' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-	);  
-}
-
 function create_table($tab_name) {
 
- 	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string) or die('ERROR!!!');
 
 	$query  = "DROP TABLE IF EXISTS $tab_name; ";
@@ -1569,12 +1530,12 @@ function create_table($tab_name) {
 
 
 
-	function get_ptrn_position ($ocrr,$ptrn){
-		$ptrn_size = sizeOf($ptrn);
-		for ($i=0; $i<$ptrn_size; $i++){
-			if ($ocrr===$ptrn[$i]) {
-				return $i;
-			}
+function get_ptrn_position ($ocrr,$ptrn){
+	$ptrn_size = sizeOf($ptrn);
+	for ($i=0; $i<$ptrn_size; $i++){
+		if ($ocrr===$ptrn[$i]) {
+			return $i;
 		}
-		return '?';
 	}
+	return '?';
+}
