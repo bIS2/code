@@ -79,7 +79,7 @@
 		if (in_array($hlist -> id, $hlistsids)) {  Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]
 	 ?>
 		<li id="hlist{{ $hlist->id }}" <?php if ($hlist_id == $hlist -> id) { echo 'class="active"'; } else { echo 'class="accepthos"'; } ?>>
-			<a <?php if ($hlist_id != $hlist -> id) { echo 'href="'.route('holdings.index',Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]).'"'; } ?> class="pull-left"><?= $hlist->name  ?>:{{ trans($list->type) }} <span class="badge">{{ $hlist->holdings -> count() }} </span></a></a>
+			<a <?php if ($hlist_id != $hlist -> id) { echo 'href="'.route('holdings.index',Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]).'"'; } ?> class="pull-left"><?= $hlist->name  ?> {{ trans($list->type) }} <span class="badge">{{ $hlist->holdings -> count() }} </span></a></a>
 
 			<?php if ($hlist_id != $hlist -> id) { ?>
 			<a href="{{ action('HoldingsController@putDelTabhlist',[$hlist->id]) }}" class="close" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><i class="fa fa-eye-slash"></i></a>

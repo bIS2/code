@@ -82,7 +82,7 @@ class HlistsController extends BaseController {
 			// if worker is postuser then attad to list only revised_ok holdings
 			if ( User::find(Input::get('worker_id'))->hasRole('postuser') ){
 				$ids = Holding::whereIn('id',$holding_ids)->whereState('revised_ok')->lists('id');
-				if (count($ids)) $holding_ids = $ids; 
+			 	$holding_ids =  (count($ids)>0) ? $ids : []; 
 
 			}
 			//die( var_dump( User::find(Input::get('worker_id')) ) );
@@ -91,8 +91,12 @@ class HlistsController extends BaseController {
 		$validation = Validator::make( $hlist->toArray(), Hlist::$rules );
 
 		if ($validation->passes()) {
+
 			$hlist->save();
-			$hlist->holdings()->attach( $holding_ids );
+
+			if ( count($holding_ids)>0) 
+				$hlist->holdings()->attach( $holding_ids );
+
 			return Redirect::route('holdings.index', ['hlist_id'=>$hlist->id]);
 		}
 
