@@ -216,22 +216,18 @@ class Holding extends Eloquent {
     return ( $this->state == $state );
   }
 
-  public function getIsOwnerAttribute($state){
-    return ( $this->is_owner );
-  }
-  
-  public function getIsAuxAttribute($state){
-    return ( $this->is_aux );
-  }
-
   // Attrubutes CSS Class
 
   public function getCssAttribute(){
-  	return $this->class_owner.' '.$this->class_correct.' '.$this->class_revised.' '.$this->class_annotated.' '.$this->class_delivered.' '.$this->class_received;
+  	return $this->class_owner.' '.$this->class_correct.' '.$this->class_aux.' '.$this->class_revised.' '.$this->class_annotated.' '.$this->class_delivered.' '.$this->class_received;
   }
 
   public function getClassOwnerAttribute(){
-    return ($this->is_owner ) ? ' is_owner' : '';
+    return (($this->is_owner == '1') || ($this->is_owner == 't')) ? ' is_owner' : '';
+  }
+
+  public function getClassAuxAttribute(){
+    return (($this->is_aux == '1') || ($this->is_aux == 't')) ? ' is_aux' : '';
   }
 
   public function getClassCorrectAttribute(){
