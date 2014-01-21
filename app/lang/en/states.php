@@ -21,5 +21,6 @@ return array(
 	'burn' 								=> 'Burned',
 	'trash' 							=> 'Mark to Trash',
 	'revised_annotated' 	=> 'Revised with Annotated',
+	'no_result_states' 			=> 'No result',
 
 );

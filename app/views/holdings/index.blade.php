@@ -28,7 +28,7 @@
 							<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets">
 						</th>
 					@endif
-					<th class="actions">{{ trans('general.actions') }}</th>
+					<th class="actions">{{trans('general.actions')}}</th>
 					<th>{{trans('general.state')}}</th>
 					<?php	$k = 0; ?>
 					@foreach ($fieldstoshow as $field) 
@@ -59,7 +59,7 @@
 					<td id="{{ $holding->id }}" class="actions" >
 						@include('holdings.actions')
 					</td>
-					<td>
+					<td class="state">
 						<span class="label label-default">
 							{{ trans('states.'.$holding->state) }}
 						</span>	
