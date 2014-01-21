@@ -70,9 +70,8 @@
                   <th>id</th>        
                   <th>sys</th>            
                   <th>245a :: 245b</th>        
-                  <th>866a</th>       
-                  <th>852b</th>       
-                  <th>852h</th>       
+                  <th>score</th>       
+                  <th>flag</th>           
                 </tr>
               </thead>
               <tbody id="recalling-holdings">
@@ -87,9 +86,8 @@
                     <td>{{ htmlspecialchars($holding['id'],ENT_QUOTES) }}</td>        
                     <td>{{ htmlspecialchars($holding['sys2'],ENT_QUOTES) }}</td>           
                     <td>{{ htmlspecialchars($holding['f245a'],ENT_QUOTES) }} :: {{ htmlspecialchars($holding['f245b'],ENT_QUOTES) }}</td>           
-                    <td>{{ htmlspecialchars($holding['f866a'],ENT_QUOTES) }}</td>       
-                    <td>{{ htmlspecialchars($holding['f852b'],ENT_QUOTES) }}</td>       
-                    <td>{{ htmlspecialchars($holding['f852h'],ENT_QUOTES) }}</td> 
+                    <td>{{ htmlspecialchars($holding['score'],ENT_QUOTES) }}</td>       
+                    <td>{{ htmlspecialchars($holding['flag'],ENT_QUOTES) }}</td>       
                   </tr>
                 @endforeach
               </tbody>
