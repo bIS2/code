@@ -8,8 +8,7 @@
     <form id="recalled" method="put" action="{{ url('sets/new-ho-s') }}/{{ $holdingsset_id }}" data-remote="true">
 
       <div class="modal-body similarity-table-container">
-          <?php if (count($res) > 0) { 
-            $res = arsort($res); ?>
+          <?php if (count($res) > 0) { ?>
             <script type="text/javascript">
               $('.similarity-table').dataTable({
                 "bFilter": false,
