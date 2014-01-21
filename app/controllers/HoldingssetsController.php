@@ -319,7 +319,9 @@ class HoldingssetsController extends BaseController {
 -----------------------------------------------------------------------------------*/
 	public function getSimilaritySearch($id) {
 		$holding = Holding::find($id);
-		$this -> data['holdings']  = similarity_search($holding->sys2);
+		$res = similarity_search($holding->sys2);
+		$this -> data['res']  = $res;
+		$this -> data['holdings']  = Holding::where('holdingsset_id','=',$holding->holdingsset_id)->take(100)->get();
 		$this -> data['holdingsset_id']  = $holding->holdingsset_id;
 		$this -> data['hol']  = $holding;
 		return View::make('holdingssets.similarityresults', $this -> data);
@@ -540,13 +542,9 @@ function recall_holdings($id) {
 	return Holding::where('holdingsset_id','!=', $holding -> holdingsset_id )->whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
 		$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
 		$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.$holding->f245b. '%') : $query;
-		// $query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.htmlspecialchars($holding->f245a,ENT_QUOTES). '%') : $query;
-		// $query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.htmlspecialchars($holding->f245a,ENT_QUOTES). '%') : $query;
-		// $query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.htmlspecialchars($holding->f245a,ENT_QUOTES). '%') : $query;
-		// ->orWhere('f245b', 'like', '%'.htmlspecialchars($holding->f245b,ENT_QUOTES). '%');
 	})->take(100)->get();
-	$queries = DB::getQueryLog();
-	die(var_dump(end($queries)));
+	// $queries = DB::getQueryLog();
+	// die(var_dump(end($queries)));
 }
 
 
@@ -601,28 +599,13 @@ global $con, $select_fld, $ta, $fld_ta, $ta_res_sim, $proc_flag, $rno, $freq_tit
 
 
 
-	printf("Table $ta_sim_name truncated.\n<br><br>");
+	// printf("Table $ta_sim_name truncated.\n<br><br>");
 	create_table($ta_sim_name);
 
 
 	$bib_sys_ref = $sys2;
-
-	$ids =  array();
-
-	$res = compare($bib_sys_ref);
-
-
-
-	foreach ($res as $r) {
-		$ids[] = $r['id'];
-	}
-
-
-	$ids[] = -1;
-	return Holding::whereIn('id',$ids)->take(100)->get();
+	return compare($bib_sys_ref);
 	break;
-
-
 }
 
 /* ---------------------------------------------------------------------------------
@@ -659,7 +642,7 @@ function truncate($str, $length, $trailing = '...') {
 -----------------------------------------------------------------------------------*/
 function holdingsset_recall($id) {
 
-	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+	$conn_string = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 	$conn = pg_connect($conn_string) or die('ERROR!!!');
 
 	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 500";
@@ -1177,7 +1160,7 @@ function compare($sys) {
 	$fld_weight_model, $fld_weight, $max_score, $treshold_score, $is_freq_tit, $proc_flag, $sys_reference;
 // initialize variables
 
-	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+	$conn_string = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string) or die('ERROR!!!');
 
 	// get reference record
@@ -1575,7 +1558,7 @@ $fld_weight_model[2] = array (
 
 function create_table($tab_name) {
 
- 	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+ 	$conn_string = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string) or die('ERROR!!!');
 
 	$query  = "DROP TABLE IF EXISTS $tab_name; ";
