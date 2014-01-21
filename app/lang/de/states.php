@@ -13,13 +13,13 @@ return array(
 	|
 	*/
 
+	'annotated' 					=> 'Von MAGUSER annotiert',
 	'blank' 						=> '-',
+	'burn' 							=> 'Unlösbar',
+	'delivery' 						=> 'Zur SPB gesandt',
 	'ok' 							=> 'Korrekt',
 	'receive' 						=> 'Erhalten',
-	'delivery' 						=> 'Zur SPB gesandt',
-	'annotated' 					=> 'Von MAGUSER annotiert',
-	'burn' 							=> 'Unlösbar',
-	'trash' 						=> 'Zu löschen',
 	'revised_annotated' 			=> 'Mit Annotation zurück an BIBUSER',
+	'trash' 						=> 'Zu löschen',
 
 );
