@@ -48,7 +48,7 @@
       <div class="modal-footer">
         <input type="hidden" name="holdingsset_id" value="{{ $holdingsset_id }}">
         <input type="hidden" name="update_hos" value="1">
-        <?php if ($holdings->count() > 0) { ?>
+        <?php if (count($res) > 0) { ?>
           <input type="submit" name="submit" class="btn btn-primary" data-disable-with="..." value="{{ trans('general.add_to_HOS') }}">
         <?php } ?>
         <button type="button" class="btn btn-danger" data-dismiss="modal">{{ trans('general.close') }}</button>
