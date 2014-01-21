@@ -13,14 +13,13 @@ return array(
 	|
 	*/
 
-	'blank' 									=> 'Blank',
-	'ok' 									=> 'Correct',
-	'receive' 						=> 'Received',
-	'delivery' 						=> 'Sent',
-	'annotated' 					=> 'Annotated',
-	'burn' 								=> 'Burned',
-	'trash' 							=> 'Mark to Trash',
-	'revised_annotated' 	=> 'Revised with Annotated',
-	'no_result_states' 			=> 'No result',
+	'annotated' 					=> 'Annotaded by MAGUSER',
+	'blank' 						=> '-',
+	'burn' 							=> 'Not solvable',
+	'delivery' 						=> 'Sent to SPB',
+	'ok' 							=> 'Confirmed',
+	'receive' 						=> 'Integrated in SPB',
+	'revised_annotated' 			=> 'Annotated and back to BIBUSER',
+	'trash' 						=> 'To eliminate',
 
 );

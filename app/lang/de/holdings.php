@@ -11,6 +11,7 @@ return array(
 	'burneds'				=> 'Nicht ablieferbare',
 	'comment'				=> 'Kommentar',
 	'commenteds'			=> 'Annotierte',
+	'corrects' 				=> 'Bestätigt',
 	'create_list'			=> 'Liste erstellen',
 	'deliveries'			=> 'Abgeschickte',
 	'delivery'				=> 'Abschicken',
@@ -19,6 +20,7 @@ return array(
 	'filter'				=> 'Filter',
 	'has_incomplete_vols_short'	=> 'Icpl.',
 	'hol_details'	  		=> 'Details zu HOL',
+	'integrated'			=> 'In SPB integriert',
 	'is_current_short'		=> 'Laufene ZS',
 	'lists'			  		=> 'Listen',
 	'move_to_list'	 		=> 'Verschieben zu',
@@ -31,11 +33,12 @@ return array(
 	'receiveds'				=> 'Erhaltene',
 	'reviseds'				=> 'Bearbeitet',
 	'size'					=> 'Size',
+	'spare'					=> 'Überschüssig',
 	'tagged'			 	=> 'Markierte',
 	'title'					=> 'Holdings',
 	'title_create_group' 	=> 'Gruppe erstellen',
-	'trasheds'				=> 'Eliminierte',  // ??
-	'ungroup'				=> 'Gruppe auflösen',
+	'trasheds'				=> 'Zu Eliminieren',
+	'ungroup'				=> 'Nicht gruppierte',
 	'value'			  		=> 'Wert',
 
 );
