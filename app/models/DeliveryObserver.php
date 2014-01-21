@@ -10,7 +10,7 @@ class DeliveryObserver {
 
   	// Set related holding like delivered
   	//Holding::whereIn( 'holdings.id',$model->hlist->holdings()->select('holdings.id')->lists('id') );
-    $ids = $model->hlist->holdings()->select('holdings.id')->lists('id');
+    $ids = $model->hlist->holdings()->whereState('revised_ok')->select('holdings.id')->lists('id');
 
     foreach ( $ids as $id ) {
       $state = new State;
