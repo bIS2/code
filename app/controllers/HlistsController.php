@@ -81,7 +81,9 @@ class HlistsController extends BaseController {
 
 			// if worker is postuser then attad to list only revised_ok holdings
 			if ( User::find(Input::get('worker_id'))->hasRole('postuser') ){
-				$holding_ids = Holding::whereIn('id',$holding_ids)->whereState('revised_ok')->lists('id');
+				$ids = Holding::whereIn('id',$holding_ids)->whereState('revised_ok')->lists('id');
+				if (count($ids)) $holding_ids = $ids; 
+
 			}
 			//die( var_dump( User::find(Input::get('worker_id')) ) );
 	
