@@ -197,7 +197,7 @@ class Holding extends Eloquent {
   }
 
   public function getIsReceivedAttribute(){
-    return ( $this->state == 'receive' );
+    return ( $this->state == 'received' );
   }
 
   public function getIsTrashedAttribute(){

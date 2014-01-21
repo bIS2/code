@@ -81,8 +81,7 @@ class Holdingsset extends Eloquent {
 
     $owners = $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsOwner('t')->whereState('received')->whereLibraryId( Auth::user()->library_id ); })->lists('id'); 
 
-    $auxs = $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsAux('t')->whereState('received')->whereLibraryId( Auth::user()->library_id ); })->lists('id');
-
+    $auxs 	= $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsAux('t')->whereState('received')->whereLibraryId( Auth::user()->library_id ); })->lists('id');
 
     $result = array_intersect($owners, $auxs);
 
