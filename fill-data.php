@@ -52,6 +52,7 @@
 		$is_aux = $bi['is_aux'] == null ? f : $bi['is_aux'];
 		$pot_owner = $bi['pot_owner'] == null ? f : $bi['pot_owner'];
 		$is_owner = $bi['is_owner'] == null ? f : $bi['is_owner'];
+		$is_pref = $bi['is_pref'] == null ? f : $bi['is_pref'];
 		$query = "INSERT INTO holdings
 		(
 			id,
@@ -90,6 +91,7 @@
 			ocrr_nr,
 			is_aux,
 			pot_owner,
+			is_pref,
 			hbib,
 			f246a,
 			f300a,
@@ -164,6 +166,7 @@
 			'".$bi['ocrr_nr']."',
 			'".$is_aux."',			
 			'".$pot_owner."',
+			'".$is_pref."',			
 			'".$bi['hbib']."',
 			'".pg_escape_string(addslashes($bi['f246a']))."',
 			'".pg_escape_string(addslashes($bi['f300a']))."',

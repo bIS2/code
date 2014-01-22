@@ -29,7 +29,12 @@
                 </tr>
               </thead>
               <tbody id="recalling-holdings">
+                <?php 
+                  $i = 0;
+                  $total = count($res);
+                ?>
                 @foreach ($res as $holding)
+                  <?php $holding = $res[($total-1)-$i]; $i++;?>
                   <?php 
                     $librarianclass = ' '.substr($holding['sys2'], 0, 4);
                   ?>
