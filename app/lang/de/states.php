@@ -16,11 +16,12 @@ return array(
 	'annotated' 					=> 'Von MAGUSER annotiert',
 	'blank' 						=> '-',
 	'burn' 							=> 'Unlösbar',
+	'confirmed' 					=> 'Bestätigt',
 	'delivery' 						=> 'Zur SPB gesandt',
 	'ok' 							=> 'Korrekt',
 	'receive' 						=> 'Erhalten',
 	'revised_annotated' 			=> 'Mit Annotation zurück an BIBUSER',
-	'title'							=> 'History'
+	'title'							=> 'Durchgeführte Aktionen',
 	'trash' 						=> 'Zu löschen',
 
 );

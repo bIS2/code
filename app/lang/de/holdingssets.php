@@ -37,7 +37,7 @@ return array(
 	'remove_from_HOS' 			=> 'Aus HOS löschen',
 	'reserved_by'				=> 'Reserviert von: ',
 	'see_information_from_original_system' => 'Information aus Ursprungssystem',
-	'see_more_information' 		=> 'Mehr Informationen',
+	'see_more_information' 		=> 'Für mehr Informationen draufklicken',
 	'select_all_hos'			=> 'Selektiere alle HOS',
 	'showing'					=> 'Zeigt ',
 	'similarity_search_from_this_holding' => 'Neue HOS mit dieser HOL als Basis finden',
