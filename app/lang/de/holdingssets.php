@@ -14,7 +14,7 @@ return array(
 	'force_aux'					=> 'GELB machen',
 	'force_blue'				=> 'BLAU machen',
 	'force_owner'				=> 'ROT machen',
-	'go_to_last_session'		=> 'Zurück zu letzter Sitzung',
+	'go_to_last_session'		=> 'Zurück zur letzten Sitzung',
 	'groups'   					=> 'Gruppen',
 	'incorrect_HOS'				=> 'HOS kann nicht dedoubliert werden',
 	'just_aux'					=> 'Ergänzungsbestand',

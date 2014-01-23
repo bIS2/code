@@ -20,6 +20,7 @@ return array(
 	'ok' 							=> 'Korrekt',
 	'receive' 						=> 'Erhalten',
 	'revised_annotated' 			=> 'Mit Annotation zurück an BIBUSER',
+	'title'							=> 'History'
 	'trash' 						=> 'Zu löschen',
 
 );
