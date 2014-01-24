@@ -34,20 +34,22 @@
                   $total = count($res);
                 ?>
                 @foreach ($res as $holding)
-                  <?php $holding = $res[($total-1)-$i]; $i++;?>
-                  <?php 
-                    $librarianclass = ' '.substr($holding['sys2'], 0, 4);
-                  ?>
-                  <tr id="holding{{ $holding['id']; }}" class="{{ $librarianclass }}">     
-                    <td>              
-                      <input id="holding_id" name="holding_id[]" type="checkbox" value="{{ $holding['id'] }}" <?php if (!(in_array($holding['id'], $holdings))) { echo ' class="hl sel" '; } else { echo ' checked="checked" disabled ';  } ?> class="">
-                    </td>
-                    <td>{{ htmlspecialchars($holding['id'],ENT_QUOTES) }}</td>        
-                    <td>{{ htmlspecialchars($holding['sys2'],ENT_QUOTES) }}</td>           
-                    <td>{{ htmlspecialchars($holding['f245a'],ENT_QUOTES) }} :: {{ htmlspecialchars($holding['f245b'],ENT_QUOTES) }}</td>           
-                    <td>{{ htmlspecialchars($holding['score'],ENT_QUOTES) }}</td>       
-                    <td>{{ htmlspecialchars($holding['flag'],ENT_QUOTES) }}</td>       
-                  </tr>
+                  <?php if (in_array(holding::find($holding['id'])->holdingsset_id, $hospendingsid)) { ?>
+                    <?php $holding = $res[($total-1)-$i]; $i++;?>
+                    <?php 
+                      $librarianclass = ' '.substr($holding['sys2'], 0, 4);
+                    ?>
+                    <tr id="holding{{ $holding['id']; }}" class="{{ $librarianclass }}">     
+                      <td>              
+                        <input id="holding_id" name="holding_id[]" type="checkbox" value="{{ $holding['id'] }}" <?php if (!(in_array($holding['id'], $holdings))) { echo ' class="hl sel" '; } else { echo ' checked="checked" disabled ';  } ?> class="">
+                      </td>
+                      <td>{{ htmlspecialchars($holding['id'],ENT_QUOTES) }}</td>        
+                      <td>{{ htmlspecialchars($holding['sys2'],ENT_QUOTES) }}</td>           
+                      <td>{{ htmlspecialchars($holding['f245a'],ENT_QUOTES) }} :: {{ htmlspecialchars($holding['f245b'],ENT_QUOTES) }}</td>           
+                      <td>{{ htmlspecialchars($holding['score'],ENT_QUOTES) }}</td>       
+                      <td>{{ htmlspecialchars($holding['flag'],ENT_QUOTES) }}</td>       
+                    </tr>
+                    <?php } ?>
                 @endforeach
               </tbody>
             </table>

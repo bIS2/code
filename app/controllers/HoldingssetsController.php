@@ -41,7 +41,11 @@ class HoldingssetsController extends BaseController {
 			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) $is_filter = true;
 			$this->data['is_filter'] = $is_filter;
 
-			
+			$hosbyone = Holdingsset::pendings()->whereHoldingsNumber(1)->select('id')->lists('id');
+			foreach ($hosbyone as $onehos) {
+				Confirm::create([ 'holdingsset_id' => $onehos, 'user_id' => Auth::user()->id ]);
+			}
+
 			/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
 			define('DEFAULTS_FIELDS', 'sys2;245a;245b;ocrr_ptrn;022a;260a;260b;260c;362a;710a;710b;310a;246a;505a;770t;772t;780t;785t;852c;852j;866a;866z;008x;008y;size;exists_online;is_current;has_incomplete_vols');
@@ -52,8 +56,6 @@ class HoldingssetsController extends BaseController {
 			$uUserLibrary = Auth::user()->library;
 			$uUserLibraryId = Auth::user()->library->id;
 			// $uGroupname
-
-
 			if (!isset($_COOKIE[$uUserName.'_fields_to_show_ok'])) {
 				if (Session::get($uUserName.'_fields_to_show_ok') == 'ocrr_ptrn') {
 					setcookie($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
@@ -111,7 +113,6 @@ class HoldingssetsController extends BaseController {
 						});
 					}		
 				}
-
 
 				$openfilter = 0;
 				$OrAndFilter = Input::get('OrAndFilter');
@@ -305,6 +306,7 @@ class HoldingssetsController extends BaseController {
 			$holding = Holding::find($id);
 			$this -> data['holdings']  = recall_holdings($id);
 			$this -> data['holdingsset_id']  = $holding->holdingsset_id;
+			$this -> data['hosholsid']  = Holdingsset::find($this -> data['holdingsset_id'])->holdings()->select('id')->lists('id');
 			$this -> data['hol']  = $holding;
 			return View::make('holdingssets.recallingholdings', $this -> data);
 		}
@@ -319,7 +321,11 @@ class HoldingssetsController extends BaseController {
 			$holding = Holding::find($id);
 			$res = similarity_search($holding->sys2);
 
+			$ids  = Holdingsset::pendings()->select('id')->lists('id');
+			$ids[] = -1;
+
 			$this -> data['res']  = $res;
+			$this -> data['hospendingsid']  = $ids;
 			$this -> data['holdings']  = Holding::where('holdingsset_id','=',$holding->holdingsset_id)->select('id')->lists('id');
 			$this -> data['holdingsset_id']  = $holding->holdingsset_id;
 			$this -> data['hol']  = $holding;
@@ -358,7 +364,9 @@ class HoldingssetsController extends BaseController {
 					Holdingsset::find($holdingsset_id)->decrement('holdings_number', count($ids));
 					Holdingsset::find($newhos_id)->update(['holdings_number' => count($ids), 'groups_number'=>0]);
 					holdingsset_recall($holdingsset_id);
+					if (Holdingsset::find($holdingsset_id)->holdings()->count() == 1) Confirm::create([ 'holdingsset_id' => $holdingsset_id, 'user_id' => Auth::user()->id ]);
 					holdingsset_recall($newhos_id);
+					Confirm::create([ 'holdingsset_id' => $newhos_id, 'user_id' => Auth::user()->id ]);
 					$holdingssets[] = Holdingsset::find($holdingsset_id);
 					$holdingssets[] = Holdingsset::find($newhos_id);
 				}
@@ -536,9 +544,9 @@ class HoldingssetsController extends BaseController {
 		$holding  = Holding::find($id);
 		$ids  = Holdingsset::pendings()->select('id')->lists('id');
 		$ids[] = -1;	
-		echo count($ids);
+		// echo count($ids);
 	// die();
-		return Holding::where('holdingsset_id','!=', $holding -> holdingsset_id )->whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
+		return Holding::whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
 			$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
 			$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.$holding->f245b. '%') : $query;
 		})->take(100)->get();

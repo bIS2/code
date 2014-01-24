@@ -3,14 +3,18 @@
 		<strong><span class="fa fa-file-text"></span> {{ trans('holdingssets.title')}}</strong>
 	</a>
 </li>
+<li class="{{ (Request::is('groups*')) ? 'active' : '' }}">
+	<a href="{{ route('groups.index') }}" ><strong><span class="fa fa-list"></span> {{ trans('holdingssets.groups')}}</strong> </a>
+</li>
+@if (count(holdingsset::receiveds()->lists('id')) > 0 )
+<?php if ((Auth::user()->hasRole('bibuser'))) { ?>
 <li class="{{ (!Request::is('holdings*')) ?: 'active'}}" > 
 	<a href="{{ route('holdings.index') }}" >
 		<strong><span class="fa fa-file-text"></span> {{ trans('holdings.title')}}</strong>
 	</a>
 </li>
-<li class="{{ (Request::is('groups*')) ? 'active' : '' }}">
-	<a href="{{ route('groups.index') }}" ><strong><span class="fa fa-list"></span> {{ trans('holdingssets.groups')}}</strong> </a>
-</li>
+<?php } ?>
+@endif
 @if ((Session::get(Auth::user()->username.'_last_route') == '') && ($_COOKIE[Auth::user()->username.'_last_route'] != ''))
 	<li class="btn btn-xs btn-warning">
 		<a href="{{ $_COOKIE[Auth::user()->username.'_last_route'] }}" ><strong><span class="fa fa-repeat"></span> {{ trans('holdingssets.go_to_last_session')}}</strong> </a>

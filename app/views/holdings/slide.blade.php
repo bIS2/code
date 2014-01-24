@@ -43,19 +43,19 @@
 											</div>
 											<div class="row">
 											  <label class="col-xs-2 text-right">245a</label >
-											  {{ $holding->f245a }}
+											  <div class="col-xs-10">{{ $holding->f245a }}</div>
 											</div>
 											<div class="row">
 											  <label class="col-xs-2 text-right">362a</label >
-											  {{ $holding->f362a }}
+											  <div class="col-xs-10">{{ $holding->f362a }}</div>
 											</div>
 											<div class="row">
 											  <label class="col-xs-2 text-right">866a</label >
-											  {{ $holding->f866a }}
+											  <div class="col-xs-10">{{ $holding->f866a }}</div>
 											</div>
 											<div class="row">
 											  <label class="col-xs-2 text-right">866z</label >
-											  {{ $holding->f866z }}
+											  <div class="col-xs-10">{{ $holding->f866z }}</div>
 											</div>
 										</div>
 									</div> <!-- /.col-xs-8 -->

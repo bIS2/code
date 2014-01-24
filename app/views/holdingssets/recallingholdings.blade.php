@@ -7,7 +7,13 @@
     </div>
     <form id="recalled" method="put" action="{{ url('sets/new-ho-s') }}/{{ $holdingsset_id }}" data-remote="true">
       <div class="modal-body">
-       <?php if ($holdings->count() > 0) { ?>
+      <?php if ($holdings->count() > 0) { ?>
+          <script type="text/javascript">
+            $('.similarity-table').dataTable({
+              "bFilter": false,
+              "bPaginate": false  
+            });
+          </script>
           <table class="table table-striped table-condensed flexme">
             <thead>
               <tr>    
@@ -37,7 +43,7 @@
                 ?>
                 <tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}{{ $librarianclass }}{{ ($holding->is_annotated) ? ' text-warning' : '' }}">     
                   <td>              
-                    <input id="holding_id" name="holding_id[]" type="checkbox" value="{{ $holding->id }}" class="hl sel">
+                    <input id="holding_id" name="holding_id[]" type="checkbox" value="{{ $holding -> id }}" <?php if (!(in_array($holding -> id, $hosholsid))) { echo ' class="hl sel" '; } else { echo ' checked="checked" disabled ';  } ?>>
                   </td>        
                   <td>{{ htmlspecialchars($holding->id,ENT_QUOTES) }}</td>        
                   <td>{{ htmlspecialchars($holding->sys2,ENT_QUOTES) }}</td>        
