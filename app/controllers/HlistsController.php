@@ -188,8 +188,18 @@ class HlistsController extends BaseController {
 	}
 
 	public function postAttach($id){
-		$hlist->holdings()->attach($holdings_ids);		
-		return Response::json( ['remove' => $holdings_ids] );
+		$holding = Holding::find(Input::get('holding_id'));
+		$list = $this->hlist->find($id);
+
+		$error = '';
+		if ( $list->type=='control' && $list->worker->hasRole('maguser') && !$holding->whereState('blank')->orWhere('state','=','ok')->orWhere('state','=','annotated')->exists() )
+			$error = 'attach-list-control';
+
+		if ( $list->type=='delivery' && !$holding->is_revised )
+			$error = 'attach-list-delivery';
+
+		$list->holdings()->attach($holding_id);		
+		return Response::json( ['attach' => $id] );
 	}
 
 	public function postDetach($id){

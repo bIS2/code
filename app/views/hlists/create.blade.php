@@ -15,7 +15,13 @@ $postuser = Role::whereName('postuser')
 				->lists('username','id'); 
 
 $users = $maguser+$postuser;
-$types = [ 'control'=>trans('lists.type-control'), 'unsolve'=>trans('lists.type-unsolve'), 'delivery'=>trans('lists.type-delivery')  ]
+
+$types = [ 
+	'control'=>trans('lists.type-control'), 
+	'unsolve'=>trans('lists.type-unsolve'), 
+	'delivery'=>trans('lists.type-delivery')  
+];
+
 ?>
 
 <div class="modal fade" id="form-create-list">
@@ -28,27 +34,30 @@ $types = [ 'control'=>trans('lists.type-control'), 'unsolve'=>trans('lists.type-
       <form action="<?= route('lists.store') ?>" method="post" class="bulk_action">
 	      <div class="modal-body">
 
-				    <div class="form-group">
+			    <div class="form-group">
 		          {{ Form::label('name', trans('lists.name')) }}	
 		          {{ Form::text('name','',['placeholder'=>'Type a brief description', 'class'=>"form-control"]) }}
+			    </div>
+				    
+			    @if (Auth::user()->hasRole('magvuser'))	
+
+				    <div class="form-group">
+						{{ Form::label('worker_id', trans('lists.worker')) }}
+						{{ Form::select('worker_id',$users,'',['class'=>"form-control"] ) }}
 				    </div>
 				    
-				    @if (Auth::user()->hasRole('magvuser'))	
-					    <div class="form-group">
-			          {{ Form::label('worker_id', trans('lists.worker')) }}
-			          {{ Form::select('worker_id',$users,'',['class'=>"form-control"] ) }}
-					    </div>				
-					    <div class="form-group">
-			          {{ Form::label('type', trans('lists.type')) }}
-			          {{ Form::select('type',$types,'',['class'=>"form-control"] ) }}
-					    </div>				
-				    @endif
+				    <div class="form-group">
+						{{ Form::label('type', trans('lists.type')) }}
+						{{ Form::select('type',$types,'',['class'=>"form-control"] ) }}
+				    </div>				
 
-					@if ($errors->any())
-						<ul>
-							{{ implode('', $errors->all('<li class="error">:message</li>')) }}
-						</ul>
-					@endif
+			    @endif
+
+				@if ($errors->any())
+					<ul>
+						{{ implode('', $errors->all('<li class="error">:message</li>')) }}
+					</ul>
+				@endif
 	      </div>
 	      <div class="modal-footer">
 	        <button class="btn btn-success" type="submit" data-disable-with="<?= trans('general.disable_with')  ?>">
@@ -65,3 +74,4 @@ $types = [ 'control'=>trans('lists.type-control'), 'unsolve'=>trans('lists.type-
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+@javascripts('validate')

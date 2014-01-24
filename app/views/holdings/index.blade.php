@@ -22,13 +22,13 @@
 			<table id="holdings-items" class="table table-bordered table-condensed flexme">
 			<thead>
 				<tr>
+					<th class="actions">{{trans('general.actions')}}</th>
 					@if ( Authority::can('create','Hlist') ) 
 						<th></th>
 						<th>
 							<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets">
 						</th>
 					@endif
-					<th class="actions">{{trans('general.actions')}}</th>
 					<th>{{trans('general.state')}}</th>
 					<?php	$k = 0; ?>
 					@foreach ($fieldstoshow as $field) 
@@ -45,20 +45,22 @@
 			<tbody id="holdings-targets" class="selectable">
 			@foreach ($holdings as $holding)
 
-				<tr id="<?= $holding->id ?>" class="{{ $holding->css }} ui-draggable" data-holdingsset="{{$holding->holdingsset_id}}" >
+				<tr id="<?= $holding->id ?>" class="{{ $holding->css }} draggable" data-holdingsset="{{$holding->holdingsset_id}}" >
+					<td id="{{ $holding->id }}" class="actions" >
+						@include('holdings.actions')
+					</td>
 					@if (Authority::can('create','Hlist')) 
 						<td>
-	    				<i class="fa fa-ellipsis-v"></i>
-	    				<i class="fa fa-ellipsis-v"></i>
+							<span class="move">
+			    				<i class="fa fa-ellipsis-v"></i>
+			    				<i class="fa fa-ellipsis-v"></i>
+							</span>
 						</td>
 						<td style="width:5px !important">
 							<input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl" />
 						</td>
 					@endif
 						</td>
-					<td id="{{ $holding->id }}" class="actions" >
-						@include('holdings.actions')
-					</td>
 					<td class="state">
 						<span class="label label-default">
 							{{ trans('states.'.$holding->state) }}

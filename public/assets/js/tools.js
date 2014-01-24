@@ -1,5 +1,26 @@
 $(function(){
 
+  $( ".draggable" ).draggable({   
+    handle: ".move",
+    appendTo: 'body',
+    zIndex: 100,
+    helper: 'clone',
+    revert: "invalid"
+  });   
+
+  $( "li.droppable" ).droppable({   
+    accept: "tr.draggable",
+    tolerance: "pointer", 
+    hoverClass: "activedrop",
+    drop: function(event, ui){
+      $to= $(this)
+      $from = $(ui.draggable)
+      // alert($from.attr('id'))
+      $.post( $to.data('attach-url'), { holding_id: $from.attr('id') } )
+    }
+
+  });  
+
   $('[data-toggle=tooltip]').tooltip()
 
   $('.stats .label-default').hover(
@@ -40,7 +61,8 @@ $(function(){
 	
   $('.datatable').dataTable({
     "bFilter": false,
-    "bPaginate": false  
+    "bPaginate": false , 
+    "bAutoWidth": false
   });
 
   bulkActions();
@@ -63,6 +85,7 @@ $(function(){
   
 $('a.link_bulk_action').on('click', function(){
   $('.table input.hl:checkbox:checked').clone().attr('type','hidden').appendTo('form.bulk_action')
+
 })
 
 $('a.link_bulk_action[data-remote]').on('click',function(){

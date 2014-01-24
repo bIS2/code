@@ -60,7 +60,7 @@
 	$hlistsids = explode(';', $hlistsids);
  	// var_dump($hlistsids);
 ?>
-<ul id="groups-tabs" class="nav nav-tabs">
+<ul id="lists-tabs" class="nav nav-tabs">
   <li <?php if (!($hlist_id > 0)) { echo 'class="active"'; } ?>>
   	<a href="<?= route('holdings.index', Input::except(['hlist_id', 'page']));  ?>">
   		<?= trans('holdings.all') ?> <?= trans('holdings.title') ?>
@@ -78,7 +78,7 @@
 	<?php foreach ($hlists as $hlist) {
 		if (in_array($hlist -> id, $hlistsids)) {  Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]
 	 ?>
-		<li id="hlist{{ $hlist->id }}" <?php if ($hlist_id == $hlist -> id) { echo 'class="active"'; } else { echo 'class="accepthos"'; } ?>>
+		<li id="hlist{{ $hlist->id }}" class="<?php echo ($hlist_id == $hlist->id) ? 'active' : 'accepthos' ?> droppable" data-attach-url="{{ action('HlistsController@postAttach', [$hlist->id]) }}">
 			<a <?php if ($hlist_id != $hlist -> id) { echo 'href="'.route('holdings.index',Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]).'"'; } ?> class="pull-left"><?= $hlist->name  ?> {{ trans($list->type) }} <span class="badge">{{ $hlist->holdings -> count() }} </span></a></a>
 
 			<?php if ($hlist_id != $hlist -> id) { ?>
