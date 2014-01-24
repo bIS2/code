@@ -16,6 +16,10 @@
 					</thead>				
 					<tbody>
 						<tr>
+						  <td>sys2</td>
+							<td><?= $holding->sys2; ?></td>
+						</tr>
+						<tr>
 						  <td>022a</td>
 							<td><?= $holding->f022a; ?></td>
 						</tr>

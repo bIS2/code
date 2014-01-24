@@ -36,7 +36,7 @@ return array(
 	'remove_from_HOS' 			=> 'Remove from HOS',
 	'reserved_by'				=> 'Reserved by: ',
 	'see_information_from_original_system' => 'See original information (external)',
-	'see_more_information' 		=> 'See more information',
+	'see_more_information' 		=> 'Click to see more information',
 	'select_all_hos'			=> 'Select All Holdings Sets',
 	'showing'					=> 'Showing ',
 	'similarity_search_from_this_holding' => 'Build new HOS with this HOL',
