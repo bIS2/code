@@ -22,13 +22,13 @@
 			<table id="holdings-items" class="table table-bordered table-condensed flexme">
 			<thead>
 				<tr>
-					<th class="actions">{{trans('general.actions')}}</th>
 					@if ( Authority::can('create','Hlist') ) 
 						<th></th>
 						<th>
 							<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets">
 						</th>
 					@endif
+					<th class="actions">{{trans('general.actions')}}</th>
 					<th>{{trans('general.state')}}</th>
 					<?php	$k = 0; ?>
 					@foreach ($fieldstoshow as $field) 
@@ -46,9 +46,6 @@
 			@foreach ($holdings as $holding)
 
 				<tr id="<?= $holding->id ?>" class="{{ $holding->css }} draggable" data-holdingsset="{{$holding->holdingsset_id}}" >
-					<td id="{{ $holding->id }}" class="actions" >
-						@include('holdings.actions')
-					</td>
 					@if (Authority::can('create','Hlist')) 
 						<td>
 							<span class="move">
@@ -60,6 +57,9 @@
 							<input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl" />
 						</td>
 					@endif
+					<td id="{{ $holding->id }}" class="actions" >
+						@include('holdings.actions')
+					</td>
 						</td>
 					<td class="state">
 						<span class="label label-default">

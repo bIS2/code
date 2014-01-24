@@ -62,7 +62,8 @@ $(function(){
   $('.datatable').dataTable({
     "bFilter": false,
     "bPaginate": false , 
-    "bAutoWidth": false
+    "aoColumnDefs": [
+      { "sWidth": "1000px", "aTargets": [ 0,1,2 ] } ]
   });
 
   bulkActions();

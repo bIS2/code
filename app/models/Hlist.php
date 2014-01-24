@@ -42,9 +42,19 @@ class Hlist extends Eloquent {
   }
 
   public function getIsFinishAttribute(){
-  	$total = $this->holdings()->count();
-  	$reviseds = $this->holdings()->whereState('ok')->orWhere('state', '=', 'annotated')->count();
-  	return ($total == $reviseds);
+    $total = $this->holdings()->count();
+    $reviseds = $this->holdings()->whereState('ok')->orWhere('state', '=', 'annotated')->count();
+    return ($total == $reviseds);
+  }  
+
+  public function getTypeIconAttribute(){
+
+    $icon = '<i class="fa fa-tachometer"></i>';
+
+    if ($this->type == 'delivery')  $icon = '<i class="fa fa-truck"></i>'; 
+    elseif ($this->type == 'unsolve')  $icon = '<i class="fa fa-fire"></i>' ;
+
+  	return $icon;
   }
 
 
