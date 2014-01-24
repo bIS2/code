@@ -49,7 +49,7 @@ class ConfirmsController extends BaseController {
 		if ( count($confirm_id) > 0 ){
 			// Confirm::whereHoldingssetId($holdingsset_id)->delete();
 			// DB::table('confirms')->where('holdingsset_id', '=', $holdingsset_id)->delete();
-		  Confirm::find($confirm_id[0])->delete();
+		  	Confirm::find($confirm_id[0])->delete();
 			Revised::whereIn('holding_id', Holdingsset::find($holdingsset_id)->holdings()->lists('id'))->delete();
 
 			$ret = ['ko' => $holdingsset_id];
