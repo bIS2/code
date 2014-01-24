@@ -14,7 +14,7 @@
 							</div>
 							@foreach ($holdings as $holding)
 							<div class="row item">
-								<div id="<?= $holding->id ?>" class="col-xs-6 col-md-offset-1" >
+								<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1" >
 									<div class="well well-sm">
 										<div>
 												<label  >852b: </label>
@@ -24,7 +24,7 @@
 										  <label >852h: </label >
 										  {{ $holding->f852h }}
 										</div>
-										<div class="ocrr_ptrn ">
+										<div class="ocrr_ptrn " style="white-space: inherit !important;">
 										  <label >Patrn: </label >
 									  	{{ $holding->patrn }}
 										</div>
@@ -48,17 +48,24 @@
 
 
 								</div> <!-- /.col-xs-8 -->
-								<div class="col-xs-4">
+								<div class="col-xs-5">
 									<div>
-										<ul class="list-unstyled">
-											<li><span class="fa fa-square-o"></span> {{trans('general.ok')}}</li>
+										<ul class="list-inline">
+											<li>
+												<h5>
+													<span class="fa fa-square-o"></span> {{trans('general.ok')}}
+												</h5>
+											</li>
 											@foreach ( $tags = Tag::all() as $tag)
 												<?php $note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note ?>
 												<li>
+													<h5>
 													<?= ($note->tag_id) ? '<span class="fa fa-check-square-o"></span>' : '<span class="fa fa-square-o"></span>' ?> {{ trans('tags.'.$tag->name) }}
+													</h5>
 												</li>
 											@endforeach
 										</ul>
+										{{ trans('fields.size')}} <input type="text">
 										<ul>
 											@foreach ( $holding->notes as $note)
 												<li>{{ $note->content }}</li>

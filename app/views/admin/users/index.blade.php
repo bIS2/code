@@ -23,7 +23,7 @@
 			</tr>
 		</thead>
 			<?php foreach ($users as $user) { ?>
-				<tr>
+				<tr id="{{$user->id}}">
 					<td><?= $user->username ?> </td>
 					<td><?= $user->email ?> </td>
 					<td><?= $user->roles[0]->name ?> </td>
@@ -31,8 +31,14 @@
 					<td><?= $user->activated() ?> </td>
 					<td><?= $user->joined() ?> </td>
 					<td>
-          	<a href="{{ URL::to('admin/users/edit/'.$user->id) }}" class="btn btn-success btn-xs"><span class="fa fa-edit" ></span> {{trans('general.edit')}}</a>
-          	<a href="{{ URL::to('admin/users/delete/'.$user->id) }}" data-remote="true" data-method="delete" class="btn btn-danger btn-xs"><span class="fa fa-times"></span> {{trans('general.delete')}}</a>
+	          	<a href="{{ URL::to('admin/users/edit/'.$user->id) }}" class="btn btn-success btn-xs"><span class="fa fa-edit" ></span> {{trans('general.edit')}}</a>
+	          	@if (!$user->hasRole('sysadmin'))
+		          	<a href="{{ action('AdminUsersController@postDelete',$user->id) }}" data-remote="true" data-method="post" data-params="_token={{ csrf_token() }}" class="btn btn-danger btn-xs">
+		          		<span class="fa fa-times"></span> 
+		          		{{trans('general.delete')}}
+		          	</a>
+	          	@endif
+
 					</td>
 				</tr>
 			<?php } ?>

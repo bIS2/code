@@ -10,20 +10,24 @@
 @section('content')
 <div class="row">
 
-	<div class="col-xs-4">
+	<div class="col-xs-6">
 		<div class="page-header">
-			<h3>Edit your settings</h3>
+			<h3>
+				<i class="fa fa-user"></i>
+				{{trans('table.title_edit_user')}}
+			</h3>
+			<hr>
 		</div>
 		{{ Form::model($user, [ 'url' => URL::to('user/' . $user->id . '/edit'), 'class'=>'form-horizontal' ] ) }}
-		<!-- <form class="form-horizontal" method="post" action="{{ URL::to('user/' . $user->id . '/edit') }}"  autocomplete="off"> -->
+		<!-- <form class="form-horizontal" method="post" action="{{ URL::to('user/' . $user->id . '/edit') }}"  autocomplete="off"> -->	
 		    <!-- CSRF Token -->
 		    <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 		    <!-- ./ csrf token -->
 		    <!-- General tab -->
 		    <div class="tab-pane active" id="tab-general">
 		        <!-- username -->
-		        <div class="form-group {{{ $errors->has('username') ? 'error' : '' }}}">
-		            <label class="col-md-4 control-label" for="username">Username</label>
+		        <div class="row form-group {{{ $errors->has('username') ? 'error' : '' }}}">
+		            <label class="col-md-4 control-label" for="username">{{trans('table.user')}}</label>
 		            <div class="col-md-8">
 		                <input class="form-control" disabled type="text" name="username" id="username" value="{{{ Input::old('username', $user->username) }}}" />
 		                {{{ $errors->first('username', '<span class="help-inline">:message</span>') }}}
@@ -33,7 +37,7 @@
 
 		        <!-- name -->
 		        <div class="form-group {{{ $errors->has('name') ? 'error' : '' }}}">
-		            <label class="col-md-4 control-label" for="name">Name</label>
+		            <label class="col-md-4 control-label" for="name">{{trans('table.name')}}</label>
 		            <div class="col-md-8">
 		            	{{ Form::text('name',null,['class'=>"form-control"]) }}
 	                {{{ $errors->first('name', '<span class="help-inline">:message</span>') }}}
@@ -43,7 +47,7 @@
 
 		        <!-- lastname -->
 		        <div class="form-group {{{ $errors->has('lastname') ? 'error' : '' }}}">
-		            <label class="col-md-4 control-label" for="lastname">Lastname</label>
+		            <label class="col-md-4 control-label" for="lastname">{{trans('table.lastname')}}</label>
 		            <div class="col-md-8">
 		            	{{ Form::text('lastname',null,['class'=>"form-control"]) }}
 	                {{{ $errors->first('lastname', '<span class="help-inline">:message</span>') }}}
@@ -53,7 +57,7 @@
 
 		        <!-- Email -->
 		        <div class="form-group {{{ $errors->has('email') ? 'error' : '' }}}">
-		            <label class="col-md-4 control-label" for="email">Email</label>
+		            <label class="col-md-4 control-label" for="email">{{trans('table.email')}}</label>
 		            <div class="col-md-8">
 		            	{{Form::email('email',null,['class'=>"form-control"])}}
 	                {{{ $errors->first('email', '<span class="help-inline">:message</span>') }}}
@@ -63,7 +67,7 @@
 
 		        <!-- Password -->
 		        <div class="form-group {{{ $errors->has('password') ? 'error' : '' }}}">
-		            <label class="col-md-4 control-label" for="password">Password</label>
+		            <label class="col-md-4 control-label" for="password">{{trans('table.password')}}</label>
 		            <div class="col-md-8">
 		            	{{Form::password('password',['class'=>"form-control"])}}
 	                {{{ $errors->first('password', '<span class="help-inline">:message</span>') }}}
@@ -73,7 +77,7 @@
 
 		        <!-- Password Confirm -->
 		        <div class="form-group {{{ $errors->has('password_confirmation') ? 'error' : '' }}}">
-		            <label class="col-md-4 control-label" for="password_confirmation">Password Confirm</label>
+		            <label class="col-md-4 control-label" for="password_confirmation">{{trans('table.password_confirmation')}}</label>
 		            <div class="col-md-8">
 		            	{{Form::password('password_confirmation',['class'=>"form-control"])}}
 	                {{{ $errors->first('password_confirmation', '<span class="help-inline">:message</span>') }}}

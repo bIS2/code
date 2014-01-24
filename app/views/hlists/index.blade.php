@@ -13,7 +13,7 @@
 				</div >
 			</div> <!-- /.col-xs-12 -->
 
-	  	<div class="col-sm-4">
+<!-- 	  	<div class="col-sm-4">
 	  		<form action="{{ route('lists.index') }}"  method="get">
 			    <div class="input-group">
 			      <input type="text" class="form-control" name="q" value="{{ Input::get('q') }}" placeholder="{{ trans('general.placeholder_search') }}">
@@ -23,10 +23,10 @@
 			        	{{ trans('general.search') }}
 			        </button>
 			      </span>
-			    </div><!-- /input-group -->
+			    </div>
 	  		</form>
 	  	</div>
-
+ -->
 		</div> <!-- /.row -->
 	</div> <!-- /.page-header -->
 	<div class="row">

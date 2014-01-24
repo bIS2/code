@@ -6,12 +6,12 @@ class StateObserver {
   	Holding::find($model->holding_id)->update([ 'state' => $model->state ]);
 
   	//if state==ok delete all annotated state 
-  	if ($model->state=='ok' && State::whereHoldingId($model->holding_id)->whereState('annotated' )->exists() )
-	  	State::whereHoldingId($model->holding_id)->andWhere( 'state','=','annotated' )->delete();
+  // 	if ($model->state=='ok' && State::whereHoldingId($model->holding_id)->whereState('annotated' )->exists() )
+	 //  	State::whereHoldingId($model->holding_id)->andWhere( 'state','=','annotated' )->delete();
 
-  	//if state is 'annotated' delete ok state 
-		if ($model->state=='annotated' && State::whereHoldingId($model->holding_id)->whereState('ok' )->exists())
-	  	State::whereHoldingId($model->holding_id)->andWhere( 'state', '=','ok' )->delete();
+  // 	//if state is 'annotated' delete ok state 
+		// if ($model->state=='annotated' && State::whereHoldingId($model->holding_id)->whereState('ok' )->exists())
+	 //  	State::whereHoldingId($model->holding_id)->andWhere( 'state', '=','ok' )->delete();
 
 
 	if ( $model->state=='received' ) {
