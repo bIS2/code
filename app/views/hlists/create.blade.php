@@ -1,25 +1,30 @@
 <?php 
-
-$maguser = Role::whereName('maguser')
+$options = '<option></option>';
+$magusers = Role::whereName('maguser')
+				->first()
+				->users()
+				->whereLibraryId( Auth::user()->library_id )
+				->select('username','users.id')
+				->lists('username','id'); 
+foreach ($magusers as $key=>$value) {
+	$options .= '<option value="'.$key.'" data-role="maguser">'.$value.'</option>';
+}
+$postusers = Role::whereName('postuser')
 				->first()
 				->users()
 				->whereLibraryId( Auth::user()->library_id )
 				->select('username','users.id')
 				->lists('username','id'); 
 
-$postuser = Role::whereName('postuser')
-				->first()
-				->users()
-				->whereLibraryId( Auth::user()->library_id )
-				->select('username','users.id')
-				->lists('username','id'); 
+foreach ($postusers as $key=>$value) {
+	$options .= '<option value="'.$key.'" data-role="postuser">'.$value.'</option>';
+}
 
-$users = $maguser+$postuser;
 
 $types = [ 
-	'control'=>trans('lists.type-control'), 
-	'unsolve'=>trans('lists.type-unsolve'), 
-	'delivery'=>trans('lists.type-delivery')  
+	'control'=>	'<i class="fa fa-tachometer"></i> '.trans('lists.type-control'), 
+	'unsolve'=>	'<i class="fa fa-fire"></i> '.trans('lists.type-unsolve'), 
+	'delivery'=>'<i class="fa fa-truck"></i> '.trans('lists.type-delivery')  
 ];
 
 ?>
@@ -31,7 +36,7 @@ $types = [
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title"><?= trans('holdings.title_create_group')  ?></h4>
       </div>
-      <form action="<?= route('lists.store') ?>" method="post" class="bulk_action">
+      <form id="form_list" action="<?= route('lists.store') ?>" method="post" class="bulk_action">
 	      <div class="modal-body">
 
 			    <div class="form-group">
@@ -42,14 +47,22 @@ $types = [
 			    @if (Auth::user()->hasRole('magvuser'))	
 
 				    <div class="form-group">
-						{{ Form::label('worker_id', trans('lists.worker')) }}
-						{{ Form::select('worker_id',$users,'',['class'=>"form-control"] ) }}
-				    </div>
+				    	 {{ Form::label('type', trans('lists.name')) }}
+				    	<div>
+					    	@foreach ($types as $key => $value)
+								<label class="checkbox-inline">
+								  <input type="radio" value="{{$key}}" name="name" > {{ $value }}
+								</label>				    	
+					    	@endforeach
+				    	</div>
+				    </div>				
 				    
 				    <div class="form-group">
-						{{ Form::label('type', trans('lists.type')) }}
-						{{ Form::select('type',$types,'',['class'=>"form-control"] ) }}
-				    </div>				
+						{{ Form::label('worker_id', trans('lists.worker')) }}
+						<select id="worker_id" name="worker_id" class="form-control">
+							{{ $options }}
+						</select>
+				    </div>
 
 			    @endif
 
@@ -64,7 +77,7 @@ $types = [
 	        	<i class="fa fa-check"></i>
 	        	<?= trans('general.save') ?>
 	        </button>
-	        <a href="#" class="btn btn-danger" data-dismiss="modal">
+	        <a href="#" class="btn btn-default" data-dismiss="modal">
 	        	<i class="fa fa-times"></i>
 	        	<?= trans('general.close') ?>
 	        </a>
@@ -74,4 +87,3 @@ $types = [
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-@javascripts('validate')

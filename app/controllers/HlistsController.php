@@ -83,8 +83,19 @@ class HlistsController extends BaseController {
 			if ( User::find(Input::get('worker_id'))->hasRole('postuser') ){
 				$ids = Holding::whereIn('id',$holding_ids)->whereState('revised_ok')->lists('id');
 			 	$holding_ids =  (count($ids)>0) ? $ids : []; 
-
 			}
+
+			if ( User::find(Input::get('worker_id'))->hasRole('maguser') ){
+				if ($hlist->type=='control'){
+					$ids = Holding::whereIn('id',$holding_ids)->whereState('ok')->orWhere('state','=','annotated')->lists('id');
+				 	$holding_ids =  (count($ids)>0) ? $ids : []; 
+				}
+				if ($hlist->type=='unsolve'){
+					$ids = Holding::whereIn('id',$holding_ids)->whereState('spare')->lists('id');
+				 	$holding_ids =  (count($ids)>0) ? $ids : []; 
+				}
+			}
+
 			//die( var_dump( User::find(Input::get('worker_id')) ) );
 	
 		}

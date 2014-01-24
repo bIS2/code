@@ -85,7 +85,7 @@
 			<span class="badge">{{ $hlist->holdings -> count() }} </span></a></a>
 
 			<?php if ($hlist_id != $hlist -> id) { ?>
-			<a href="{{ action('HoldingsController@putDelTabhlist',[$hlist->id]) }}" class="close" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><i class="fa fa-eye-slash"></i></a>
+				<a href="{{ action('HoldingsController@putDelTabhlist',[$hlist->id]) }}" class="close" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><i class="fa fa-eye-slash"></i></a>
 			<?php } ?>
 		</li>
 	<?php }

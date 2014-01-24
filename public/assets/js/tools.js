@@ -1,5 +1,12 @@
 $(function(){
 
+  typeList()
+
+  $('#form_list :radio').on('click',function(){
+    $('#form_list select#worker_id').val([])
+    typeList()
+  })
+
   $( ".draggable" ).draggable({   
     handle: ".move",
     appendTo: 'body',
@@ -395,4 +402,19 @@ function bulkActions() {
   })
 
 
+}
+
+
+function typeList(){
+
+
+  if ($('#form_list :radio:checked').val()=='delivery'){
+    $('#form_list select#worker_id option').hide()
+    $('#form_list select#worker_id option[data-role=postuser]').show()
+  }
+
+  if ($('#form_list :radio:checked').val()!='delivery'){
+    $('#form_list select#worker_id option').hide()
+    $('#form_list select#worker_id option[data-role=maguser]').show()
+  }
 }
