@@ -20,42 +20,39 @@
 
 									<?php $i=1 ?>
 									<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1 {{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}" >
-										<div class="well">
+										<div class="well" id="holding-slide">
 											<div class="row">
-											  <label class="col-xs-2 text-right">{{trans('holdings.size')}}</label >
-											  <div class="col-xs-10">
+												<label >852b</label>
+									  		{{ link_to_route( 'holdings.show', $holding->f852b, [ $holding->f852b ] ) }}
+											</div>
+											<div class="row">
+											  <label> 852h</label >
+											  {{ $holding->f852h }}
+											</div>
+											<div class="row ocrr_ptrn">
+											  <label> Patrn</label >
+											  {{ $holding->patrn_no_btn }}
+											</div>
+											<div class="row">
+											  <label> 245a</label >
+											  {{ $holding->f245a }}
+											</div>
+											<div class="row">
+											  <label> 362a</label >
+											  {{ $holding->f362a }}
+											</div>
+											<div class="row">
+											  <label> 866a</label >
+											  {{ $holding->f866a }}
+											</div>
+											<div class="row">
+											  <label> 866z</label >
+											  {{ $holding->f866z }}
+											</div>
+											<div class="row">
+											  <label> {{trans('holdings.size')}}</label >
+											  
 	  											<a href="#" class="editable" data-type="text" data-pk="{{$holding->id}}" data-url="{{ route('holdings.update',[$holding->id]) }}" >{{ $holding->size }} </a>
-											  </div>
-											</div>
-											<div class="row">
-												<label class="col-xs-2 text-right" >852b</label>
-												<div class="col-xs-10">
-										  		{{ link_to_route( 'holdings.show', $holding->f852b, [ $holding->f852b ] ) }}
-												</div>
-											</div>
-											<div class="row">
-											  <label class="col-xs-2 text-right">852h</label >
-											  <div class="col-xs-10">{{ $holding->f852h }}</div>
-											</div>
-											<div class="row">
-											  <label class="col-xs-2 text-right">Patrn</label >
-											  <div class="ocrr_ptrn col-xs-10">{{ $holding->patrn_no_btn }}</div>
-											</div>
-											<div class="row">
-											  <label class="col-xs-2 text-right">245a</label >
-											  <div class="col-xs-10">{{ $holding->f245a }}</div>
-											</div>
-											<div class="row">
-											  <label class="col-xs-2 text-right">362a</label >
-											  <div class="col-xs-10">{{ $holding->f362a }}</div>
-											</div>
-											<div class="row">
-											  <label class="col-xs-2 text-right">866a</label >
-											  <div class="col-xs-10">{{ $holding->f866a }}</div>
-											</div>
-											<div class="row">
-											  <label class="col-xs-2 text-right">866z</label >
-											  <div class="col-xs-10">{{ $holding->f866z }}</div>
 											</div>
 										</div>
 									</div> <!-- /.col-xs-8 -->

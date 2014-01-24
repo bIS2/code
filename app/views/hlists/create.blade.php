@@ -64,3 +64,4 @@ $types = [ 'control'=>trans('lists.type-control'), 'unsolve'=>trans('lists.type-
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+

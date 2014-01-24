@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.default')
 
 @section('content')
 
@@ -10,24 +10,34 @@
 	<table class="table table-striped table-hover table-condensed">
 		<thead>
 			<tr>
-				<th>Name</th>
-				<th>Code</th>
+				<th>{{trans('table.name')}}</th>
+				<th>{{trans('table.code')}}</th>
+				<th>{{trans('table.sublibraries')}}</th>
+				<th>{{trans('table.externalurl')}}</th>
+				<th>{{trans('table.no-users') }}</th>
+				<th></th>
 			</tr>
 		</thead>
 
 		<tbody>
 			@foreach ($libraries as $library)
 				<tr>
-					<td>{{{ $library->name }}}</td>
 					<td>{{{ $library->code }}}</td>
+					<td>{{{ $library->name }}}</td>
+					<td>{{{ $library->sublibraries }}}</td>
+					<td>{{{ $library->externalurl }}}</td>
+					<td>{{{ $library->users()->count() }}}</td>
                     <td>
-                    {{ link_to_route('admin.libraries.edit', 'Edit', array($library->id), array('class' => 'btn btn-info btn-sm')) }}
-                    {{ link_to_route('admin.libraries.edit', 'Edit', [$library->id], 
+                    	<a href="{{route('admin.libraries.edit',$library->id)}}" class = 'btn btn-info btn-sm'>
+                    		<i class="fa fa-edit"></i>
+                    		{{trans('general.edit')}}
+                    	</a>
+<!--                     {{ link_to_route('admin.libraries.edit', 'Edit', [$library->id], 
                     	[
 	                    	'class' => 'btn btn-danger btn-sm',
 	                    	'data-method' => 'DELETE',
 	                    	'date-remote' => 'true'
-                    	] ) }}
+                    	] ) }} -->
                     </td>
 				</tr>
 			@endforeach

@@ -193,8 +193,9 @@ class HlistsController extends BaseController {
 	}
 
 	public function postDetach($id){
-		$hlist->holdings()->detach($holdings_ids);		
-		return Response::json( ['remove' => [$holdings_ids]] );
+		$holding_id = Input::get('holding_id');
+		$this->hlist->find($id)->holdings()->detach($holding_id);		
+		return Response::json( ['remove' => $holding_id] );
 	}
 
 }

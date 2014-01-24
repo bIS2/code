@@ -16,10 +16,12 @@ return array(
 	'annotated' 					=> 'Annotaded by MAGUSER',
 	'blank' 						=> '-',
 	'burn' 							=> 'Not solvable',
+	'confirmed' 					=> 'Confirmed',
 	'delivery' 						=> 'Sent to SPB',
 	'ok' 							=> 'Confirmed',
 	'receive' 						=> 'Integrated in SPB',
 	'revised_annotated' 			=> 'Annotated and back to BIBUSER',
+	'title'							=> 'Actions executed',
 	'trash' 						=> 'To eliminate',
 
 );

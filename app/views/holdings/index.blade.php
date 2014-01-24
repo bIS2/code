@@ -45,7 +45,7 @@
 			<tbody id="holdings-targets" class="selectable">
 			@foreach ($holdings as $holding)
 
-				<tr id="<?= $holding->id ?>" class="{{ $holding->css }}" data-holdingsset="{{$holding->holdingsset_id}}" >
+				<tr id="<?= $holding->id ?>" class="{{ $holding->css }} ui-draggable" data-holdingsset="{{$holding->holdingsset_id}}" >
 					@if (Authority::can('create','Hlist')) 
 						<td>
 	    				<i class="fa fa-ellipsis-v"></i>
