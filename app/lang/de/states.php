@@ -13,12 +13,15 @@ return array(
 	|
 	*/
 
-	'missing' 				=> 'Missing',
-	'aditional' 			=> 'Aditional',
-	'bad' 					=> 'Bad Conditions',
-	'remarks' 				=> 'Remarks',
-	'title-index' 			=> 'Tags',
-	'subtitle-index' 		=> '... for Holdings',
-	'title-create'			=> 'History',
+	'annotated' 					=> 'Von MAGUSER annotiert',
+	'blank' 						=> '-',
+	'burn' 							=> 'Unlösbar',
+	'confirmed' 					=> 'Bestätigt',
+	'delivery' 						=> 'Zur SPB gesandt',
+	'ok' 							=> 'Korrekt',
+	'receive' 						=> 'Erhalten',
+	'revised_annotated' 			=> 'Mit Annotation zurück an BIBUSER',
+	'title'							=> 'Durchgeführte Aktionen',
+	'trash' 						=> 'Zu löschen',
 
 );

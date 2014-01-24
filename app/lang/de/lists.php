@@ -2,5 +2,9 @@
 
 return array(
 
-	'title'   => 'Übersicht'
+	'title'				=> 'Übersicht',
+	'type-control'   	=> 'Bestandskontrolle',
+	'type-delivery'		=> 'Ablieferung',
+	'type-unsolve'   	=> 'Nicht ablieferbar',
+	
 );
