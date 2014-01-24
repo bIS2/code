@@ -28,7 +28,7 @@
 					<td class="date col-xs-2 text-muted">
 						<?php 
 							$fecha = new DateTime($confirm->created_at->toDayDateTimeString());
-							echo $fecha->format('d-m-Y H:i:s');
+							echo $fecha->format('d-m-Y H:i');
 						?>
 					</td>
 					<td class="user col-xs-2">
@@ -65,7 +65,7 @@
 						<td class="date col-xs-2 text-muted">
 							<?php 
 								$fecha = new DateTime($ok->created_at->toDayDateTimeString());
-								echo $fecha->format('d-m-Y H:i:s');
+								echo $fecha->format('d-m-Y H:i');
 							?>
 						</td>
 						<td class="user col-xs-2">
@@ -101,7 +101,7 @@
 					<td class="date col-xs-2">
 					<?php 
 						$fecha = new DateTime($ok->created_at->toDayDateTimeString());
-						echo $fecha->format('d-m-Y H:i:s');
+						echo $fecha->format('d-m-Y H:i');
 					?>
 					</td>
 					<td class="user col-xs-2">

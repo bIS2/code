@@ -346,7 +346,7 @@ class Holding extends Eloquent {
       <?php if (Auth::user()->hasRole('resuser')) : ?>
         <?php if ($holding->locked()->exists()) : ?>
           <div class="btn btn-default btn-xs">
-            <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="<?= route('lockeds.store',['holding_id' => $holding->id]); ?>" class="pop-over <?= $btnlock; ?> pull-right" data-remote="true" data-method="post" data-params="holdingsset_id=<?=$holdingsset->id; ?>"  data-disable-with="..." data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?><br><strong><?= trans('holdingssets.on_behalf_of'); ?></strong> <?= $holding->locked->comments; ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-lock"></span></a>
+            <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="<?= route('lockeds.store',['holding_id' => $holding->id]); ?>" class="pop-over <?= $btnlock; ?> pull-right" data-remote="true" data-method="post" data-params="state=locked&holdingsset_id=<?=$holdingsset->id; ?>"  data-disable-with="..." data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?><br><strong><?= trans('holdingssets.on_behalf_of'); ?></strong> <?= $holding->locked->comments; ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-lock"></span></a>
           </div>
         <?php else : ?>
           <div class="btn btn-default btn-xs">

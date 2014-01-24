@@ -34,6 +34,7 @@ return array(
 	'pending'            		=> 'Unbearbeitete',
 	'printer'            		=> 'Druckansicht',
 	'recall_hos_from_this_holding' => 'Search other HOL',
+	'receiveds'					=> 'In SPB integriert',
 	'remove_from_HOS' 			=> 'Aus HOS löschen',
 	'reserved_by'				=> 'Reserviert von: ',
 	'see_information_from_original_system' => 'Information aus Ursprungssystem',
@@ -44,4 +45,5 @@ return array(
 	'sort'						=> 'Sortieren',
 	'title'   					=> 'Holding Sets',
 	'title_create_group' 		=> 'Gruppe von HOS erstellen',
+
 ); 	
