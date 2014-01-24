@@ -9,7 +9,7 @@ return array(
 	'user' 				=> 'User Name',
 	'lastname' 				=> 'Lastname',
 	'password' 				=> 'Password',
-	'password_confirmation' 				=> 'Password Confirmation',
+	'password_confirmation' => 'Password Confirmation',
 	'email' 			=> 'Email',
 	'asigned'			=> 'Assigned to',
 	'content' 			=> 'Content',
