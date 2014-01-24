@@ -130,7 +130,7 @@
 										$checked 			= "checked = checked";
 										$checkactive 	= " active"; ?>
 										<li class="btn btn-xs btn-default{{ $checkactive }}">
-											<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field; ?>
+											<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= trans('fields.'.$field); ?>
 										</li>
 								<?php }
 							}	?>
@@ -141,7 +141,7 @@
 								if (($field != 'ocrr_ptrn')) {
 									if (!(in_array($field, $fields))) { ?>
 										<li class="btn btn-xs btn-default{{ $checkactive }}">
-											<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field; ?>
+											<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= trans('fields.'.$field); ?>
 										</li>
 										<?php
 									}

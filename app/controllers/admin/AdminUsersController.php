@@ -281,7 +281,8 @@ class AdminUsersController extends AdminController {
         if ( empty($user) )
         {
             // TODO needs to delete all of that user's content
-            return Redirect::to('admin/users')->with('success', Lang::get('admin/users/messages.delete.success'));
+        		return Response::json( ['remove' => $id] );
+            // return Redirect::to('admin/users')->with('success', Lang::get('admin/users/messages.delete.success'));
         }
         else
         {
