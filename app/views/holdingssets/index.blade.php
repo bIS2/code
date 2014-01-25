@@ -11,7 +11,7 @@
 <?php 
 	$total = $holdingssets -> getTotal();
 	$init = $holdingssets -> getTo();
-	die('Before load hos');
+	// die('Before load hos');
 ?>
 <section id="hosg" infinitepagination="1" group_id = "<?php echo $group_id;  ?>" @if ($init == $total) {{ 'class="nopaginate"' }} @endif >
 	<ul id="hos-targets" class="hol-sets table list-group">
