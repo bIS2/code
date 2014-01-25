@@ -51,7 +51,7 @@ $types = [
 				    	<div>
 					    	@foreach ($types as $key => $value)
 								<label class="checkbox-inline">
-								  <input type="radio" value="{{$key}}" name="name" > {{ $value }}
+								  <input type="radio" value="{{$key}}" name="type" > {{ $value }}
 								</label>				    	
 					    	@endforeach
 				    	</div>
