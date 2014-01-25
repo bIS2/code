@@ -1,6 +1,8 @@
 <?php //var_dump($holdingssets); ?>
 @foreach ($holdingssets as $holdingsset)
+	
 <?php 
+// var_dump('Toy aqui');
 $hosbyone = Holdingsset::pendings()->whereHoldingsNumber(1)->select('id')->lists('id');
 foreach ($hosbyone as $onehos) {
 	
