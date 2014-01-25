@@ -228,6 +228,10 @@ class Holding extends Eloquent {
     return ( $this->state == $state );
   }
 
+  public function getTitleStateAttribute($state){
+    return trans( 'states.'.$this->state);
+  }
+
   // Attrubutes CSS Class
 
   public function getCssAttribute(){

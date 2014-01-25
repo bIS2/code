@@ -145,9 +145,15 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     } 
 
     if ( result.state ){
+
+    	obj = $('#'+result.id)
+
+    	if (result.state=='ok') 
+    		obj.addClass( 'success' ).removeClass('danger')
+
       $('#'+result.id)
       	.addClass(result.state)
-      	.find('td.state span.label')
+      	.find('.state span.label')
       	.text(result.state ); 
     }
 

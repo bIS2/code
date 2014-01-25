@@ -18,7 +18,7 @@ return array(
 	'burn' 							=> 'Not solvable',
 	'confirmed' 					=> 'Confirmed',
 	'delivery' 						=> 'Sent to SPB',
-	'ok' 							=> 'Confirmed',
+	'ok' 									=> 'Correct',
 	'receive' 						=> 'Integrated in SPB',
 	'revised_annotated' 			=> 'Annotated and back to BIBUSER',
 	'title'							=> 'Actions executed',

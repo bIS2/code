@@ -55,7 +55,7 @@ class StatesController extends BaseController {
 
 			else $this->state->create( [ 'holding_id'=>$input['holding_id'], 'state'=> $input['state'], 'user_id'=>$input['user_id'] ] );
 
-			return Response::json( [ 'state' => trans( 'states.'.$input['state']), 'id' => $input['holding_id'] ]  );
+			return Response::json( [ 'state' => $input['state'], 'id' => $input['holding_id'] ]  );
 		}
 
 		return Redirect::route('states.create')
