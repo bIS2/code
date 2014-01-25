@@ -23,7 +23,9 @@ $(function(){
       $to= $(this)
       $from = $(ui.draggable)
       // alert($from.attr('id'))
-      $.post( $to.data('attach-url'), { holding_id: $from.attr('id') } )
+      var call = $.post( $to.data('attach-url'), { holding_id: $from.attr('id') } )
+      call.done(function(result) { if ( result.error ) alert( result.error ) } )
+
     }
 
   });  
@@ -69,8 +71,7 @@ $(function(){
   $('.datatable').dataTable({
     "bFilter": false,
     "bPaginate": false , 
-    "aoColumnDefs": [
-      { "sWidth": "1000px", "aTargets": [ 0,1,2 ] } ]
+    // "aoColumnDefs": [	{ "sWidth": "3px", "aTargets": [ 0,1 ] },{ "sWidth": "20px", "aTargets": [ 2 ] } ]
   });
 
   bulkActions();
@@ -143,10 +144,23 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     } 
 
     if ( result.state ){
+
+    	obj = $('#'+result.id)
+
+    	if (result.state=='ok') 
+    		obj.addClass( 'success' ).removeClass('danger')
+    	
+    	if (result.state=='annotated'){
+    		obj.addClass( 'danger' ).removeClass('success')
+	      $('#form-create-notes').modal('hide')
+	      $('#slider').carousel('next')
+    		
+    	}
+
       $('#'+result.id)
       	.addClass(result.state)
-      	.find('td.state span.label')
-      	.text(result.state ); 
+      	.find('.state span.label')
+      	.text(result.state_title ); 
     }
 
     if ( result.remove )

@@ -63,8 +63,14 @@ class Holding extends Eloquent {
       // $query->confirms()->noReviseds()->ownerOrAux();
       $query->confirms()->ownerOrAux()->nodeliveries();
 
-    if ( Auth::user()->hasRole('maguser') ) 
-//      $query->whereIn('holdings.id', function($query){ $query->from('hlists')->holdings() } ) confirms()->ownerOrAux()->nodeliveries();
+    if ( Auth::user()->hasRole('maguser') ) {
+    	$lists = Hlist::whereWorkerId(Auth::user()->id)->lists('id');
+    	$query
+    			->join('hlist_holding', 'hlist_holding.holding_id','=', 'holdings.id')
+    			->join('hlists', 'hlist_holding.hlist_id','=', 'hlists.id')
+    			->whereIn('hlists.id',$lists);
+    }
+			// $query->whereIn('holdings.id', function($query){ $query->from('hlists')->holdings() } ) confirms()->ownerOrAux()->nodeliveries();
 
     if ( Auth::user()->hasRole('speichuser') ) 
       $query->deliveries();
@@ -130,10 +136,16 @@ class Holding extends Eloquent {
   }
 
   public function scopePendings($query){
+
   	return $query
-    ->where( 'state','<>','ok' )
-  		// ->whereNotIn( 'holdings.id', function($query){ $query->select('holding_id')->from('oks'); } )
-    ->whereNotIn( 'holdings.id', function($query){ $query->select('holding_id')->distinct()->from('notes'); });
+	    ->whereNotIn( 'holdings.id', function($query) { 
+	    		$query->select('holding_id')->from('states')
+	    					->orWhere('state','=','ok'); 
+	    	})
+	    ->orWhereNotIn( 'holdings.id', function($query) { 
+	    		$query->select('holding_id')->from('states')
+	    					->orWhere('state','=','annotated'); 
+	    	});
   }
 
   public function scopeAnnotated($query,$tag_id='%'){
@@ -168,6 +180,10 @@ class Holding extends Eloquent {
   }
   
   // Attrubutes States
+  public function getIsConfirmedAttribute(){
+    return ( $this->state == 'confirmed' );
+  }
+
   public function getIsCorrectAttribute(){
     return ( $this->state == 'ok' );
   }
@@ -214,6 +230,10 @@ class Holding extends Eloquent {
 
   public function getIsStateAttribute($state){
     return ( $this->state == $state );
+  }
+
+  public function getTitleStateAttribute($state){
+    return trans( 'states.'.$this->state);
   }
 
   // Attrubutes CSS Class

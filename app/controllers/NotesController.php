@@ -57,7 +57,7 @@ class NotesController extends BaseController {
 				$holding->notes()->save( $new_note );
 			}
 		}
-		return Response::json( ['annotated' => $holding->id] );
+		return Response::json( ['state'=>'annotated', 'state_title'=>trans('states.annotated'),'id' => $holding->id] );
 
 	}
 

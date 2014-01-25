@@ -50,7 +50,7 @@
 						@foreach ($hlists as $list)
 							<tr id="{{ $list->id }}" class="{{ $list->revised ? 'revised' : '' }} {{ $list->is_delivery ? 'delivered' : '' }}">
 								<td>
-									<a href="{{ route('holdings.index', Input::except(['hlist_id', 'page'])) }}" >{{ $list->name }} </a>
+									<a href="{{ route('holdings.index', [ 'hlist_id' => $hlist->id ] ) }}" >{{ $list->name }} </a>
 								</td>
 								<td>
 									{{ $list->type_icon }}
@@ -90,7 +90,7 @@
 				          	<a href="{{ route('lists.edit',$list->id) }}" data-toggle="modal" data-target="#form-edit-list" class="btn btn-default btn-xs">
 				          		<span class="fa fa-edit"></span> {{trans('general.edit')}}
 				          	</a>
-				          	<a href="{{ route('lists.destroy',$list->id) }}" data-remote="true" data-method="delete" class="btn btn-danger btn-xs">
+				          	<a href="{{ route('lists.destroy',$list->id) }}" data-remote="true" data-method="delete" class="btn btn-danger btn-xs" >
 				          		<span class="fa fa-times"></span> {{trans('general.delete')}}
 				          	</a>
 			          	@endif
