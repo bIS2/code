@@ -180,6 +180,10 @@ class Holding extends Eloquent {
   }
   
   // Attrubutes States
+  public function getIsConfirmedAttribute(){
+    return ( $this->state == 'confirmed' );
+  }
+
   public function getIsCorrectAttribute(){
     return ( $this->state == 'ok' );
   }

@@ -154,7 +154,7 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
       $('#'+result.id)
       	.addClass(result.state)
       	.find('.state span.label')
-      	.text(result.state ); 
+      	.text(result.state_title ); 
     }
 
     if ( result.remove )
