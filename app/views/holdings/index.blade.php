@@ -95,7 +95,8 @@
 							@if ($k == 2)
 								<td class="ocrr_ptrn">
 
-									{{ $holding -> patrn_no_btn }}
+									{{ $holding->patrn_no_btn }}
+									{{ $this->ocrr_ptrn }}
 									<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>{{ $holding -> f866a }}</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
 								</td>
 							@endif
