@@ -6,7 +6,7 @@
 <li class="{{ (Request::is('groups*')) ? 'active' : '' }}">
 	<a href="{{ route('groups.index') }}" ><strong><span class="fa fa-list"></span> {{ trans('holdingssets.groups')}}</strong> </a>
 </li>
-@if (count(holdingsset::receiveds()->lists('id')) > 0 )
+@if (count(Holdingsset::receiveds()->lists('id')) > 0 )
 <?php if ((Auth::user()->hasRole('bibuser'))) { ?>
 <li class="{{ (!Request::is('holdings*')) ?: 'active'}}" > 
 	<a href="{{ route('holdings.index') }}" >
