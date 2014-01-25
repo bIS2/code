@@ -98,7 +98,7 @@ class HoldingssetsController extends BaseController {
 				if ($state == 'receiveds') 
 					$holdingssets = $holdingssets->receiveds();
 			}
-			die('debug test - 1: After state'.count($holdingssets->select('holdingssets.id')-lists('id')));
+			die('debug test - 1: After state'.count($holdingssets->select('holdingssets.id')->lists('id')));
 			if ($this->data['is_filter']) {
 				// Take all holdings
 				$holdings = -1;
