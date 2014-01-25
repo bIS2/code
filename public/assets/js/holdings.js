@@ -18,7 +18,8 @@ $(function(){
     "bLengthChange": true,
     "bInfo": true,
     "bAutoWidth": true,
-    "aoColumns": aoColumns,
+    // "aoColumns": aoColumns,
+    // "aoColumnDefs": [	{ "sWidth": "3px", "aTargets": [ 0,1 ] },{ "sWidth": "10px", "aTargets": [ 2 ] } ]
   });
   tds = $('#holdings-items tbody > tr:first-child td');
   ths = $('#holdings-items th');

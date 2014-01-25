@@ -22,13 +22,11 @@
 			<table id="holdings-items" class="table table-bordered table-condensed flexme">
 			<thead>
 				<tr>
-					@if ( Authority::can('create','Hlist') ) 
-						<th></th>
-						<th>
-							<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets">
-						</th>
-					@endif
-					<th class="actions">{{trans('general.actions')}}</th>
+					<th></th>
+					<th>
+						<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets" {{ ( Authority::can('create','Hlist') ) ? '' : 'disabled' }}>
+					</th>
+					<th class="actions" style="width:10px !important">{{trans('general.actions')}}</th>
 					<th>{{trans('general.state')}}</th>
 					<?php	$k = 0; ?>
 					@foreach ($fieldstoshow as $field) 
@@ -46,17 +44,17 @@
 			@foreach ($holdings as $holding)
 
 				<tr id="<?= $holding->id ?>" class="{{ $holding->css }} draggable" data-holdingsset="{{$holding->holdingsset_id}}" >
-					@if (Authority::can('create','Hlist')) 
 						<td>
-							<span class="move">
-			    				<i class="fa fa-ellipsis-v"></i>
-			    				<i class="fa fa-ellipsis-v"></i>
-							</span>
+							@if (Authority::can('create','Hlist')) 
+								<span class="move">
+				    				<i class="fa fa-ellipsis-v"></i>
+				    				<i class="fa fa-ellipsis-v"></i>
+								</span>
+							@endif
 						</td>
 						<td style="width:5px !important">
-							<input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl" />
+							<input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl" {{ ( Authority::can('create','Hlist') ) ? '' : 'disabled' }} />
 						</td>
-					@endif
 					<td id="{{ $holding->id }}" class="actions" >
 						@include('holdings.actions')
 					</td>
