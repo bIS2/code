@@ -42,11 +42,16 @@ class HoldingssetsController extends BaseController {
 			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) $is_filter = true;
 			$this->data['is_filter'] = $is_filter;
 
-			// $hosbyone = Holdingsset::pendings()->whereHoldingsNumber(1)->select('id')->lists('id');
-			// foreach ($hosbyone as $onehos) {
-			// 	Confirm::create([ 'holdingsset_id' => $onehos, 'user_id' => Auth::user()->id ]);
-			// }
+			// $hosbyone = Holdingsset::whereHoldingsNumber(1)->select('id')->lists('id');
 
+			$hosbyone = DB::table('holdingssets')->whereHoldingsNumber(1)->whereNotIn('holdingssets.id', function($query) {
+					      $query -> select('holdingsset_id')->from('confirms');
+					    })->whereNotIn('holdingssets.id', function($query) {
+					      $query -> select('holdingsset_id')->from('incorrects');
+					    })->select('id')->get();
+			foreach ($hosbyone as $onehos) {
+				Confirm::create([ 'holdingsset_id' => $onehos->id, 'user_id' => Auth::user()->id ]);
+			}
 			/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
 			define('DEFAULTS_FIELDS', 'sys2;245a;245b;ocrr_ptrn;022a;260a;260b;260c;362a;710a;710b;310a;246a;505a;770t;772t;780t;785t;852c;852j;866a;866z;008x;008y;size;exists_online;is_current;has_incomplete_vols');
@@ -82,25 +87,31 @@ class HoldingssetsController extends BaseController {
 			$this->data['groups'] = Auth::user()->groups;
 
 			$this->data['group_id'] = (in_array(Input::get('group_id'), $this->data['groups']->lists('id'))) ? Input::get('group_id') : '';
-			$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets() : Holdingsset::where('holdings_number','<',101)->orderBy($orderby, $order);
+			$idsS = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets()->select('holdingssets.id')->lists('id') : Holdingsset::where('holdings_number','<',101)->select('holdingssets.id')->lists('id');
 
 			$state = Input::get('state');
 
 			if (isset($state)) {
 				if ($state == 'ok') 
-					$holdingssets = $holdingssets->corrects()->ok();
+					$idsS = $holdingssets->corrects()->ok()->select('holdingssets.id')->lists('holdingssets.id');
 				if ($state == 'pending') 
-					$holdingssets = $holdingssets->corrects()->pendings();
+					$idsS = (count($idsS) > 0) ? DB::table('holdingssets')->whereIn('holdingssets.id', $idsS) -> whereNotIn('holdingssets.id', function($query) {
+					      $query -> select('holdingsset_id')->from('confirms');
+					    })->whereNotIn('holdingssets.id', function($query) {
+					      $query -> select('holdingsset_id')->from('incorrects');
+					    })->select('id')->lists('id') : DB::table('holdingssets')->whereNotIn('holdingssets.id', function($query) {
+					      $query -> select('holdingsset_id')->from('confirms');
+					    })->whereNotIn('holdingssets.id', function($query) {
+					      $query -> select('holdingsset_id')->from('incorrects');
+					    })->select('id')->lists('id');
 				if ($state == 'annotated') 
-					$holdingssets = $holdingssets->corrects()->annotated();	
+					$idsS = $holdingssets->corrects()->annotated()->select('holdingssets.id')->lists('holdingssets.id');	
 				if ($state == 'incorrects') 
-					$holdingssets = $holdingssets->incorrects();				
+					$idsS = $holdingssets->incorrects()->select('holdingssets.id')->lists('holdingssets.id');				
 				if ($state == 'receiveds') 
-					$holdingssets = $holdingssets->receiveds();
+					$idsS = $holdingssets->receiveds()->select('holdingssets.id')->lists('holdingssets.id');
 			}
-			$queries = DB::getQueryLog();
-			die(var_dump($holdingssets));
-			die('debug test - 1: After state'.count($holdingssets->select('holdingssets.id')->lists('id')));
+
 			if ($this->data['is_filter']) {
 				// Take all holdings
 				$holdings = -1;
@@ -158,18 +169,18 @@ class HoldingssetsController extends BaseController {
 					}
 				}
 				if ($openfilter == 0)  $this->data['is_filter'] = false;
-				$holList = $holdings->select('holdings.holdingsset_id')->lists('holdings.holdingsset_id');
-				$ids = (count($holList) > 0) ? $holList : [-1];
-				$holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
+				$idsF = $holdings->select('holdings.holdingsset_id')->lists('holdings.holdingsset_id');
 				unset($holdings);
-				unset($ids);
 				unset($holList);
 			}
 			// die('debug test - 2: After filters');
 			define(HOS_PAGINATE, 20);
-			$this->data['holdingssets'] = $holdingssets->orderBy($orderby, $order)->orderBy('id', 'ASC')->with('holdings')->paginate(HOS_PAGINATE);
-			unset($holdingssets);
-
+			$idsF[] = -1;
+			$idsS[] = -1;
+			$ids = ($idsF[0] == -1) ? $idsS : array_intersect($idsF, $idsS);
+			// die(var_dump($ids));
+			$this->data['holdingssets'] = Holdingsset::whereIn('holdingssets.id', $ids)->orderBy($orderby, $order)->orderBy('id', 'ASC')->with('holdings')->paginate(HOS_PAGINATE);
+			unset($ids);
 			// $this->data['holdingssets'] = $holdingssets->paginate(20);
 			if (isset($_GET['page']))  {
 				$this->data['page'] = $_GET['page'];
@@ -902,18 +913,18 @@ $query .= "\n FROM holdings";
 						- 866aupdated if 866aupdated != '';
 						- lockeds holdings can't be used to the algoritm
 
-						-----------------------------------------------------------------------------------*/
-						function holdingsset_recall($id) {
+-----------------------------------------------------------------------------------*/
+function holdingsset_recall($id) {
 
-							$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
-							$conn = pg_connect($conn_string) or die('ERROR!!!');
+	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+	$conn = pg_connect($conn_string) or die('ERROR!!!');
 
-							$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 500";
-							$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
+	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 500";
+	$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
 
-							$ta_arr = pg_fetch_all($result);
+	$ta_arr = pg_fetch_all($result);
 
-							$ta_amnt = sizeOf($ta_arr);
+	$ta_amnt = sizeOf($ta_arr);
 
 	/***********************************************************************
 	 * Se forman los grupos y se calculan los valores

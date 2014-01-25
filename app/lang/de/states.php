@@ -14,7 +14,7 @@ return array(
 	*/
 
 	'annotated' 					=> 'Von MAGUSER annotiert',
-	'blank' 						=> '-',
+	'blank' 						=> '(noch ohne Status)',
 	'burn' 							=> 'HOS unlösbar',
 	'confirmed' 					=> 'HOS ok',
 	'delivery' 						=> 'Zur SPB gesandt',
@@ -23,7 +23,7 @@ return array(
 	'receive' 						=> 'In SPB integriert',
 	'received'						=> 'In SPB integriert',
 	'revised_annotated' 			=> 'Mit Annotation zurück an BIBUSER',
-	'revised_ok'		 			=> 'HOL kann als SPB abgegeben werden',
+	'revised_ok'		 			=> 'HOL kann an SPB abgegeben werden',
 	'title'							=> 'Durchgeführte Aktionen',
 	'trash' 						=> 'Zu löschen',
 
