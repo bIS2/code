@@ -18,10 +18,13 @@
     </li>
 
 		<li class="btn btn-sm" data-toggle="tooltip" title="{{trans('holdings.tooltip_show_external_link')}}">
-			<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.see_information_from_original_system') }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover">
+			<a href="{{ $holding->library->externalurl }}" target="_blank" set="{{$holdingsset->id}}"  title="{{ trans('holdingssets.see_information_from_original_system') }}" >
 				<span class="fa fa-external-link"></span>
 			</a>
-		</li>						
+<!-- 			<a href="http://bis.trialog.ch/sets/from-library/<?= $holding->id; ?>" target="" set="{{$holdingsset->id}}" data-target="#modal-show" data-toggle="modal" title="{{ trans('holdingssets.see_information_from_original_system') }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover">
+				<span class="fa fa-external-link"></span>
+			</a>
+ -->		</li>						
 
 		@if ( Input::has('hlist_id') && (Auth::user()->id == $hlist->user->id ))
 	    <li class="btn btn-sm" data-toggle="tooltip" title="{{trans('holdings.tooltip_remove_from_list')}}">
