@@ -175,7 +175,7 @@ class HoldingssetsController extends BaseController {
 			}
 			else  { 
 				$this->data['page'] = 1;
-				die('debug test - 3: Calling view');
+				// die('debug test - 3: Calling view');
 				return View::make('holdingssets/index', $this->data);
 			}
 		}
