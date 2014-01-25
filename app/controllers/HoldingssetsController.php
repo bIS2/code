@@ -43,10 +43,10 @@ class HoldingssetsController extends BaseController {
 			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) $is_filter = true;
 			$this->data['is_filter'] = $is_filter;
 
-			$hosbyone = Holdingsset::pendings()->whereHoldingsNumber(1)->select('id')->lists('id');
-			foreach ($hosbyone as $onehos) {
-				Confirm::create([ 'holdingsset_id' => $onehos, 'user_id' => Auth::user()->id ]);
-			}
+			// $hosbyone = Holdingsset::pendings()->whereHoldingsNumber(1)->select('id')->lists('id');
+			// foreach ($hosbyone as $onehos) {
+			// 	Confirm::create([ 'holdingsset_id' => $onehos, 'user_id' => Auth::user()->id ]);
+			// }
 
 			/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
