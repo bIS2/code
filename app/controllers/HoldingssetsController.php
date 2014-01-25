@@ -164,7 +164,7 @@ class HoldingssetsController extends BaseController {
 			define(HOS_PAGINATE, 20);
 			$this->data['holdingssets'] = $holdingssets->orderBy($orderby, $order)->orderBy('id', 'ASC')->with('holdings')->paginate(HOS_PAGINATE);
 			unset($holdingssets);
-			die('before call the view');
+			// die('before call the view');
 			// $this->data['holdingssets'] = $holdingssets->paginate(20);
 			if (isset($_GET['page']))  {
 				$this->data['page'] = $_GET['page'];
