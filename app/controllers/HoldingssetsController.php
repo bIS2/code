@@ -17,7 +17,6 @@ class HoldingssetsController extends BaseController {
 	public function Index()
 	{
 		
-
 		if (Input::has('holcontent')) {
 
 			$this->data['holdingssets'] = Holdingsset::whereId(Input::get('holdingsset_id'))->paginate(1);
@@ -43,10 +42,10 @@ class HoldingssetsController extends BaseController {
 			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) $is_filter = true;
 			$this->data['is_filter'] = $is_filter;
 
-			$hosbyone = Holdingsset::pendings()->whereHoldingsNumber(1)->select('id')->lists('id');
-			foreach ($hosbyone as $onehos) {
-				Confirm::create([ 'holdingsset_id' => $onehos, 'user_id' => Auth::user()->id ]);
-			}
+			// $hosbyone = Holdingsset::pendings()->whereHoldingsNumber(1)->select('id')->lists('id');
+			// foreach ($hosbyone as $onehos) {
+			// 	Confirm::create([ 'holdingsset_id' => $onehos, 'user_id' => Auth::user()->id ]);
+			// }
 
 			/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
@@ -67,7 +66,6 @@ class HoldingssetsController extends BaseController {
 					setcookie($uUserName.'_fields_to_show_ok', Session::get($uUserName.'_fields_to_show_ok'), time() + (86400 * 30));
 				}
 			}
-
 			if ((Session::get($uUserName.'_fields_to_show_ok') == 'ocrr_ptrn') || (Session::get($uUserName.'_fields_to_show_ok') == '')) {
 				setcookie($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
 				Session::put($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS);
@@ -100,7 +98,7 @@ class HoldingssetsController extends BaseController {
 				if ($state == 'receiveds') 
 					$holdingssets = $holdingssets->receiveds();
 			}
-
+			die('debug test - 1: After state');
 			if ($this->data['is_filter']) {
 				// Take all holdings
 				$holdings = -1;
@@ -122,7 +120,6 @@ class HoldingssetsController extends BaseController {
 				if ($holdings == -1) $holdings = DB::table('holdings')->orderBy('is_owner', 'DESC');
 
 				foreach ($allsearchablefields as $field) {
-
 					$value = (!(($field == 'exists_online') || ($field == 'is_current')  || ($field == 'has_incomplete_vols')  || ($field == 'size') || ($field == 'sys1')  || ($field == 'sys2'))) ? Input::get('f'.$field) : Input::get($field);
 					
 					if ($value != '') {
@@ -164,7 +161,7 @@ class HoldingssetsController extends BaseController {
 				$holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
 				unset($holdings);
 			}
-
+			die('debug test - 2: After filters');
 			define(HOS_PAGINATE, 20);
 			$this->data['holdingssets'] = $holdingssets->orderBy($orderby, $order)->orderBy('id', 'ASC')->with('holdings')->paginate(HOS_PAGINATE);
 			unset($holdingssets);
