@@ -23,6 +23,7 @@ return array(
 	'move_to_other_group'		=> 'Move to other group',
 	'no_notes'					=> 'No notes for this Holding',
 	'no_results_to_show'		=> 'There are no other HOL to show',
+	'notes_made_by'				=> 'Written by',
 	'ocurrence_patron'			=> 'Ocurrence patron',
 	'of'						=> 'of ',
 	'ok' 						=> 'Confirm',
@@ -45,4 +46,5 @@ return array(
 	'sort'						=> 'Sort',
 	'title'   					=> 'Holdings Sets',
 	'title_create_group' 		=> 'Create a Group of Holdings Set',
+	
 );

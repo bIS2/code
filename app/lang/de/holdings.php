@@ -19,6 +19,7 @@ return array(
 	'field'					=> 'FELD',
 	'filter'				=> 'Filter',
 	'has_incomplete_vols_short'	=> 'Icpl.',
+	'has_incomplete_vols_large'	=> 'Mit icpl. Volumen',
 	'hol_details'	  		=> 'Details zu HOL',
 	'integrated'			=> 'In SPB integrierte',
 	'is_current_short'		=> 'Laufene ZS',
