@@ -83,8 +83,19 @@ class HlistsController extends BaseController {
 			if ( User::find(Input::get('worker_id'))->hasRole('postuser') ){
 				$ids = Holding::whereIn('id',$holding_ids)->whereState('revised_ok')->lists('id');
 			 	$holding_ids =  (count($ids)>0) ? $ids : []; 
-
 			}
+
+			if ( User::find(Input::get('worker_id'))->hasRole('maguser') ){
+				if ($hlist->type=='control'){
+					$ids = Holding::whereIn('id',$holding_ids)->whereState('ok')->orWhere('state','=','annotated')->lists('id');
+				 	$holding_ids =  (count($ids)>0) ? $ids : []; 
+				}
+				if ($hlist->type=='unsolve'){
+					$ids = Holding::whereIn('id',$holding_ids)->whereState('spare')->lists('id');
+				 	$holding_ids =  (count($ids)>0) ? $ids : []; 
+				}
+			}
+
 			//die( var_dump( User::find(Input::get('worker_id')) ) );
 	
 		}
@@ -188,8 +199,18 @@ class HlistsController extends BaseController {
 	}
 
 	public function postAttach($id){
-		$hlist->holdings()->attach($holdings_ids);		
-		return Response::json( ['remove' => $holdings_ids] );
+		$holding = Holding::find(Input::get('holding_id'));
+		$list = $this->hlist->find($id);
+
+		$error = '';
+		if ( $list->type=='control' && $list->worker->hasRole('maguser') && !$holding->whereState('blank')->orWhere('state','=','ok')->orWhere('state','=','annotated')->exists() )
+			$error = 'attach-list-control';
+
+		if ( $list->type=='delivery' && !$holding->is_revised )
+			$error = 'attach-list-delivery';
+
+		$list->holdings()->attach($holding_id);		
+		return Response::json( ['attach' => $id] );
 	}
 
 	public function postDetach($id){
