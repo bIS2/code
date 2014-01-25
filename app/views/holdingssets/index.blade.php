@@ -1,7 +1,8 @@
 @extends('layouts.default')
 
 @section('toolbar')
-	
+	@include('holdingssets.toolbar')
+	@include('holdingssets.groupstabs')
 @stop
 
 
@@ -14,7 +15,7 @@
 <section id="hosg" infinitepagination="1" group_id = "<?php echo $group_id;  ?>" @if ($init == $total) {{ 'class="nopaginate"' }} @endif >
 	<ul id="hos-targets" class="hol-sets table list-group">
 		<?php if (count($holdingssets) > 0) { ?>
-			
+			@include('holdingssets.hos')
 		<?php }
 		else { ?>
 			<h2 class="text-info"><span class="fa fa-info-circle text-danger"></span> {{ trans('holdingssets.no_results_to_show') }}</h2>
