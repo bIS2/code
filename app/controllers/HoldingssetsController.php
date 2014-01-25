@@ -86,8 +86,9 @@ class HoldingssetsController extends BaseController {
 			if (isset($state)) {
 				if ($state == 'ok') 
 					$holdingssets = $holdingssets->whereState('ok');
-				if ($state == 'pending') 
-					$holdingssets = $holdingssets->whereState('blank');
+				if ($state == 'pending') {
+					$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets()->whereState('blank')->where('holdings_number','<',101) : Holdingsset::whereState('blank')->where('holdings_number','<',101);
+				}
 				if ($state == 'annotated') 
 					$holdingssets = $holdingssets->corrects()->annotated();	
 				if ($state == 'incorrects') 
