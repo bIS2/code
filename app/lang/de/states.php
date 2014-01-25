@@ -23,7 +23,7 @@ return array(
 	'receive' 						=> 'In SPB integriert',
 	'received'						=> 'In SPB integriert',
 	'revised_annotated' 			=> 'Mit Annotation zurück an BIBUSER',
-	'revised_ok'		 			=> 'HOL am Gestell kontrolliert',
+	'revised_ok'		 			=> 'HOL kann als SPB abgegeben werden',
 	'title'							=> 'Durchgeführte Aktionen',
 	'trash' 						=> 'Zu löschen',
 
