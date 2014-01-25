@@ -595,7 +595,7 @@ table.table thead th:first-child {
 }
 #groups-tabs.nav > li > a {
     display: block;
-    padding: 10px 25px 10px 15px;
+    padding: 10px 25px 10px;
     position: relative;
 }
 #groups-tabs.nav > li > a.link_bulk_action {
@@ -622,6 +622,10 @@ table.table thead th:first-child {
     table.flexme {
         .table_order {
             display: none;
+        }
+        th:first-child,
+        td:first-child {
+            width: 10px;
         }
     }
     table.flexme > thead > tr > th.actions + th,

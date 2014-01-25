@@ -75,8 +75,7 @@ $(function(){
 
   bulkActions();
 
-  $('body').on('click', ':checkbox.select-all',function() {
-
+  $('body').on('click', '#select-all',function() {
     $($(this).data('target')).find('input.hl:checkbox').prop('checked',this.checked)
     $('div.select-all p').toggleClass('active')
     if (this.checked) {

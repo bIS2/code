@@ -8,6 +8,7 @@ class Pages extends BaseController {
 	 * @return Response
 	 */
 	public function getIndex(){
+		if  (Input::has('lang')) return Redirect::to(Request::header('referer'));
 		$data['holdingsset_confirm'] 	= Confirm::take(10)->get();
 		$data['holdings_ok'] 					= Ok::take(10)->get();
 		$data['holdings_annotated'] 	= Note::take(10)->get();
