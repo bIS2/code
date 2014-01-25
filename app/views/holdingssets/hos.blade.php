@@ -3,10 +3,7 @@
 	
 <?php 
 // var_dump('Toy aqui');
-$hosbyone = Holdingsset::pendings()->whereHoldingsNumber(1)->select('id')->lists('id');
-foreach ($hosbyone as $onehos) {
-	
-}
+
 $need_refresh = 0;
 $HOSconfirm = $holdingsset->confirm()->exists();
 $HOSannotated = $holdingsset->is_annotated;
