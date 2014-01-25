@@ -2,14 +2,14 @@
 
 return array(
 
-	'advanced_filter'		=> 'Zusätzliche Filter',
+	'advanced_filter'		=> 'Zus. Filter',
 	'all'					=> 'Alle',
 	'annotate'				=> 'Annotieren',
 	'annotated'				=> 'Annotierte',
 	'annotated_by'			=> 'Annotiert von',
-	'aux'					=> 'Ergänzungsbestand',
+	'aux'					=> 'Erg.bestand',
 	'both'					=> 'Beides',
-	'burneds'				=> 'Nicht ablieferbare',
+	'burneds'				=> 'N ablieferbare',
 	'comment'				=> 'Kommentar',
 	'commenteds'			=> 'Annotierte',
 	'corrects' 				=> 'Kontrollierte',
@@ -36,7 +36,7 @@ return array(
 	'revised'				=> 'Liste i.O.',
 	'reviseds'				=> 'Bearbeitete',
 	'size'					=> 'Size',
-	'spare'					=> 'Überschüssig',
+	'spare'					=> 'Überschüssige',
 	'tagged'			 	=> 'Markierte',
 	'title'					=> 'Holdings',
 	'title_create_group' 	=> 'Gruppe erstellen',
@@ -47,7 +47,7 @@ return array(
 	'tooltip_show_external_link'	=> 'Daten im Ursprungskatalog sehen',
 	'tooltip_view'			=> 'Zeige die Details',
 	'trasheds'				=> 'Zu Eliminieren',
-	'ungroup'				=> 'Nicht gruppierte',
+	'ungroup'				=> 'N gruppierte',
 	'value'			  		=> 'Wert',
 
 );

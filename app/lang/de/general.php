@@ -9,7 +9,6 @@ return array(
 	'all'               => 'Alle',
 	'AND'				=> 'AND',
 	'annotated'         => 'Annotierte',
-	'annotate'         => 'Annotierte',
 	'asc' 				=> 'ASC',
 	'back'  			=> 'Zurück',
 	'begin_with'		=> 'Beginnt mit',
