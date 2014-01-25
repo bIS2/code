@@ -16,10 +16,10 @@
 							@foreach ($holdings as $holding)
 							<div class="row item <?= ($i==0) ? 'active' : '' ?>">
 											<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note'>
-								<div class="row {{ $holding->css }}">
+								<div class="row ">
 
 									<?php $i=1 ?>
-									<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1 {{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}" >
+									<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1 {{ $holding->css }} {{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}" >
 										<div class="well" id="holding-slide">
 											<div class="row state">
 												<label >{{ trans('general.state') }}</label>
@@ -96,7 +96,7 @@
 									</div>
 									<div class="col-xs-5">
 									  <button href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" type="submit" class="btn btn-danger btn-tag col-sm-12" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
-									  	<span class="fa fa-tags"></span> {{trans('general.annotated')}}
+									  	<span class="fa fa-tags"></span> {{trans('general.annotate')}}
 									  </button>
 									</div>
 								</div>
