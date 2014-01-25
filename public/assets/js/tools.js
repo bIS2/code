@@ -23,7 +23,9 @@ $(function(){
       $to= $(this)
       $from = $(ui.draggable)
       // alert($from.attr('id'))
-      $.post( $to.data('attach-url'), { holding_id: $from.attr('id') } )
+      var call = $.post( $to.data('attach-url'), { holding_id: $from.attr('id') } )
+      call.done(function(result) { if ( result.error ) alert( result.error ) } )
+
     }
 
   });  
@@ -69,8 +71,7 @@ $(function(){
   $('.datatable').dataTable({
     "bFilter": false,
     "bPaginate": false , 
-    "aoColumnDefs": [
-      { "sWidth": "1000px", "aTargets": [ 0,1,2 ] } ]
+    // "aoColumnDefs": [	{ "sWidth": "3px", "aTargets": [ 0,1 ] },{ "sWidth": "20px", "aTargets": [ 2 ] } ]
   });
 
   bulkActions();

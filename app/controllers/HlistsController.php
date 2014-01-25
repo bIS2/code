@@ -203,14 +203,22 @@ class HlistsController extends BaseController {
 		$list = $this->hlist->find($id);
 
 		$error = '';
-		if ( $list->type=='control' && $list->worker->hasRole('maguser') && !$holding->whereState('blank')->orWhere('state','=','ok')->orWhere('state','=','annotated')->exists() )
-			$error = 'attach-list-control';
+		if ( $list->type=='control' && !( ($holding->state=='confirmed') || ($holding->state=='ok') || ($holding->state=='annotated') ) )
+			$error = 'attach_list_control';
 
 		if ( $list->type=='delivery' && !$holding->is_revised )
-			$error = 'attach-list-delivery';
+			$error = 'attach_list_delivery';
 
-		$list->holdings()->attach($holding_id);		
-		return Response::json( ['attach' => $id] );
+		if ($error==''){
+
+			$list->holdings()->attach($holding_id);			
+			return Response::json( ['attach' => $id] );
+
+		} else {
+
+			return Response::json( [ 'error' => trans('errors.'.$error) ] );
+
+		}
 	}
 
 	public function postDetach($id){
