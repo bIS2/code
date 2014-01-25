@@ -118,6 +118,13 @@ return array(
                 $collection->add('holdings.js');
             })->apply('JsMin');
         },
+        'validate' => function($collection)
+        {
+            $collection->directory('assets/js', function($collection)
+            {
+                $collection->add('jquery.validate.min.js');
+            })->apply('JsMin');
+        },
 
         'admin' => function($collection)
         {

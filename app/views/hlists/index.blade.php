@@ -52,7 +52,10 @@
 								<td>
 									<a href="{{ route('holdings.index', Input::except(['hlist_id', 'page'])) }}" >{{ $list->name }} </a>
 								</td>
-								<td>{{ trans('lists.type-'.$list->type) }}</td>
+								<td>
+									{{ $list->type_icon }}
+									{{ trans('lists.type-'.$list->type) }}
+								</td>
 								<td>{{ $list->created_at }}</td>
 								<td>
 									{{ $list->worker->username }} 	
