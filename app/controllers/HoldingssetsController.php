@@ -98,7 +98,7 @@ class HoldingssetsController extends BaseController {
 				if ($state == 'receiveds') 
 					$holdingssets = $holdingssets->receiveds();
 			}
-			die('debug test - 1: After state');
+			// die('debug test - 1: After state');
 			if ($this->data['is_filter']) {
 				// Take all holdings
 				$holdings = -1;
@@ -160,6 +160,8 @@ class HoldingssetsController extends BaseController {
 				$ids = (count($holList) > 0) ? $holList : [-1];
 				$holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
 				unset($holdings);
+				unset($ids);
+				unset($holList);
 			}
 			die('debug test - 2: After filters');
 			define(HOS_PAGINATE, 20);
