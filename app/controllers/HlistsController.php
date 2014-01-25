@@ -75,25 +75,33 @@ class HlistsController extends BaseController {
 		//echo var_dump($holding_ids);
 		$hlist = new Hlist([ 'name' => Input::get('name'), 'user_id' => Auth::user()->id ]);
 
+
 		if ( Input::has('worker_id') ) {
 
 			$hlist->worker_id = Input::get('worker_id');
+			if ( Input::has('type') ) $hlist->type = Input::get('type');
+			$worker = User::whereId( Input::get('worker_id') )->first();
 
 			// if worker is postuser then attad to list only revised_ok holdings
-			if ( User::find(Input::get('worker_id'))->hasRole('postuser') ){
+			if ( $worker->hasRole('postuser') ){
+
 				$ids = Holding::whereIn('id',$holding_ids)->whereState('revised_ok')->lists('id');
 			 	$holding_ids =  (count($ids)>0) ? $ids : []; 
+
 			}
 
-			if ( User::find(Input::get('worker_id'))->hasRole('maguser') ){
-				if ($hlist->type=='control'){
-					$ids = Holding::whereIn('id',$holding_ids)->whereState('ok')->orWhere('state','=','annotated')->lists('id');
+			if ( $worker->hasRole('maguser') ){
+
+				if (  Input::get('type') =='control' ){
+					$ids = Holding::whereIn('id',$holding_ids)->where( function($query){ $query->whereState('ok')->orWhere('state','=','annotated'); } )->lists('id');
 				 	$holding_ids =  (count($ids)>0) ? $ids : []; 
 				}
-				if ($hlist->type=='unsolve'){
+
+				if (  Input::get('type')=='unsolve' ){
 					$ids = Holding::whereIn('id',$holding_ids)->whereState('spare')->lists('id');
 				 	$holding_ids =  (count($ids)>0) ? $ids : []; 
 				}
+
 			}
 
 			//die( var_dump( User::find(Input::get('worker_id')) ) );
