@@ -185,7 +185,7 @@ function setDraggoption() {
 				else {
 					if (result.ingroups > 0) {
 						badge = $(ui.draggable).find('span.badge.ingroups');
-						console.log('toy aqui');
+						console.log($(ui.draggable).attr('id'));
 						if ($(badge).hasClass('ingroups') == true) {
 							$(badge).fadeOut('slow', function() {
 								$(badge).html('<i class="fa fa-folder-o"></i> ' + result.ingroups);
@@ -193,8 +193,8 @@ function setDraggoption() {
 							});
 						}
 						else {
-							otherbadge = $(ui.draggable).find('span.badge + p');
-							$('<span style="display: none;" class="badge ingroups" title="Reload to update" ><i class="fa fa-folder-o"></i> ' + result.ingroups + '</span>').insertAfter(otherbadge);
+							otherbadge = $(ui.draggable).find('div.col-sm-12');
+							$('<span style="display: none;" class="badge ingroups" title="Reload to update" ><i class="fa fa-folder-o"></i> ' + result.ingroups + '</span>').appendTo(otherbadge);
 							newbadge = $(ui.draggable).find('span.badge.ingroups');
 							$(newbadge).fadeOut('slow', function() {
 								$(newbadge).removeAttr('style');

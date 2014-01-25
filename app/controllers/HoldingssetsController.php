@@ -16,6 +16,8 @@ class HoldingssetsController extends BaseController {
 	 */
 	public function Index()
 	{
+		
+
 		if (Input::has('holcontent')) {
 
 			$this->data['holdingssets'] = Holdingsset::whereId(Input::get('holdingsset_id'))->paginate(1);
@@ -82,7 +84,7 @@ class HoldingssetsController extends BaseController {
 			$this->data['groups'] = Auth::user()->groups;
 
 			$this->data['group_id'] = (in_array(Input::get('group_id'), $this->data['groups']->lists('id'))) ? Input::get('group_id') : '';
-			$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets() : Holdingsset::orderBy($orderby, $order);
+			$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets() : Holdingsset::where('holdings_number','<',101)->orderBy($orderby, $order);
 
 			$state = Input::get('state');
 
@@ -559,7 +561,7 @@ class HoldingssetsController extends BaseController {
 
 	function similarity_search($sys2) {
 
-		$conn_string = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+		$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 		$con = pg_connect($conn_string) or die('ERROR!!!');
 
 	// $holding  = Holding::find($id);
@@ -901,7 +903,7 @@ $query .= "\n FROM holdings";
 						-----------------------------------------------------------------------------------*/
 						function holdingsset_recall($id) {
 
-							$conn_string = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+							$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 							$conn = pg_connect($conn_string) or die('ERROR!!!');
 
 							$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 500";
@@ -1528,7 +1530,7 @@ function cmp_flag_score($a, $b) {
 
 function create_table($tab_name) {
 
-	$conn_string = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string) or die('ERROR!!!');
 
 	$query  = "DROP TABLE IF EXISTS $tab_name; ";

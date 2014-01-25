@@ -42,7 +42,6 @@ else { ?>
 				if ($holdings_number != $holdingsset -> holdings_number ) { $holdingsset->update(['holdings_number' => $holdings_number]); $need_refresh = 1; }
 				?>
 				<span class="badge"><i class="fa fa-files-o"></i> {{ $holdingsset -> holdings -> count() }}</span>
-
 				<?php if ($need_refresh == 1) { ?>
 				<span class="badge pop-over" style="background: red !important" data-content="<strong>{{ trans('holdingssets.please_refresh_the_page'); }}</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-refresh"></i></span>
 				<?php } ?>
@@ -61,35 +60,30 @@ else { ?>
 				$need_refresh = 0;
 				if ($groups_number  != $holdingsset -> groups_number ) { $holdingsset->update(['groups_number' => $groups_number]); $need_refresh = 1; }
 				?>
-				@if ($holdingsset->has('groups') && ($count=$holdingsset->groups->count()>0))
-				<span class="badge ingroups" title = "{{ $holdingsset -> showlistgroup }}"
-					><i class="fa fa-folder-o"></i> {{ $holdingsset->groups->count() }}</span>
+					@if ($holdingsset->has('groups') && ($count=$holdingsset->groups->count()>0))
+						<span class="badge ingroups" title = "{{ $holdingsset -> showlistgroup }}"
+						><i class="fa fa-folder-o"></i> {{ $holdingsset->groups->count() }}</span>
 					@endif
 					<?php if ($need_refresh == 1) { ?>
-					<span class="badge pop-over" style="background: red !important" data-content="<strong>{{ trans('holdingssets.please_refresh_the_page'); }}</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-refresh"></i></span>
+						<span class="badge pop-over" style="background: red !important" data-content="<strong>{{ trans('holdingssets.please_refresh_the_page'); }}</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-refresh"></i></span>
 					<?php } ?>
-
-
 					<div class="text-right action-ok pull-left">
-
-					@if (($HOSannotated && !$HOSconfirm) || !$HOSconfirm && !$HOSincorrect) 
-						<a id="holdingsset{{ $holdingsset -> id }}incorrect" set="{{$holdingsset->id}}" href="{{route('incorrects.store',['holdingsset_id' => $holdingsset->id])}}" class="btn btn-ok btn-xs incorrect btn-default" data-remote="true" data-method="post" data-disable-with="..." title="{{ trans('holdingssets.incorrect_HOS') }}">
-							<span id="incorrect{{ $holdingsset -> id }}text" class="fa fa-thumbs-down"></span>
-						</a>		
+						@if (($HOSannotated && !$HOSconfirm) || !$HOSconfirm && !$HOSincorrect) 
+							<a id="holdingsset{{ $holdingsset -> id }}incorrect" set="{{$holdingsset->id}}" href="{{route('incorrects.store',['holdingsset_id' => $holdingsset->id])}}" class="btn btn-ok btn-xs incorrect btn-default" data-remote="true" data-method="post" data-disable-with="..." title="{{ trans('holdingssets.incorrect_HOS') }}">
+								<span id="incorrect{{ $holdingsset -> id }}text" class="fa fa-thumbs-down"></span>
+							</a>		
 						@endif
 						<?php $hideconfirm = ''; ?>
-						@if ($HOSincorrect)
-						<?php $hideconfirm = 'style="display: none;"'; $txt = ' text-warning'; ?> 
-						<a id="holdingsset{{ $holdingsset -> id }}incorrect" set="{{$holdingsset->id}}" href="@if ($btn != 'btn-success disabled'){{route(incorrects.'.store',['holdingsset_id' => $holdingsset->id])}}@endif" class="btn btn-ok btn-xs incorrect {{ $btn }}" data-remote="true" data-method="post" data-disable-with="..." title="">
-							<span class="fa fa-thumbs-down"></span>
-						</a>	
-						@endif      	
+							@if ($HOSincorrect)
+							<?php $hideconfirm = 'style="display: none;"'; $txt = ' text-warning'; ?> 
+							<a id="holdingsset{{ $holdingsset -> id }}incorrect" set="{{$holdingsset->id}}" href="@if ($btn != 'btn-success disabled'){{route(incorrects.'.store',['holdingsset_id' => $holdingsset->id])}}@endif" class="btn btn-ok btn-xs incorrect {{ $btn }}" data-remote="true" data-method="post" data-disable-with="..." title="">
+								<span class="fa fa-thumbs-down"></span>
+							</a>	
+							@endif      	
 						<a id="holdingsset{{ $holdingsset -> id }}confirm" set="{{$holdingsset->id}}" href="@if ($btn != 'btn-success disabled'){{route(confirms.'.store',['holdingsset_id' => $holdingsset->id])}}@endif" class="btn btn-ok btn-xs {{ $btn }}" data-remote="true" data-method="post" data-disable-with="..." title="@if ($btn != 'btn-success disabled'){{ trans('holdingssets.confirm_ok_HOS') }} @else {{ trans('holdingssets.confirmed_HOS') }}@endif" {{$hideconfirm}}>
 							<span class="fa fa-thumbs-up {{$txt}}"></span>
 						</a>
-
 					</div>
-
 				</div>
 
 				<a class="newhos btn btn-primary btn-xs pop-over" set="{{$holdingsset->id}}" href="{{ action('HoldingssetsController@putNewHOS',[1]) }}" data-remote="true" data-method="put" data-params="holdingsset_id={{$holdingsset->id}}" data-disable-with="..." data-content="{{ trans('holdingssets.new_hos_from_these_hol'); }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-file-text"></i></a>
