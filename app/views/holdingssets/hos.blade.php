@@ -1,9 +1,19 @@
 <?php //var_dump($holdingssets); ?>
 @foreach ($holdingssets as $holdingsset)
 <?php 
-$HOSconfirm 	= $holdingsset->confirm()->exists();
+$hosbyone = Holdingsset::pendings()->whereHoldingsNumber(1)->select('id')->lists('id');
+foreach ($hosbyone as $onehos) {
+	
+}
+$need_refresh = 0;
+$HOSconfirm = $holdingsset->confirm()->exists();
 $HOSannotated = $holdingsset->is_annotated;
 $HOSincorrect = $holdingsset->is_incorrect;
+if (($holdingsset->holdings_number == 1) && (!$HOSconfirm) && (!$HOSincorrect)) {
+	Confirm::create([ 'holdingsset_id' => $holdingsset -> id, 'user_id' => Auth::user()->id ]);
+	$HOSconfirm = true;
+	$need_refresh = 1;
+}
 $btn 	= 'btn-default';
 $route = ($HOSincorrect) ? 'incorrects' : 'confirms';
 $txt 	= ($HOSannotated) ? ' text-warning' : '';
@@ -38,7 +48,6 @@ else { ?>
 			<span opened="0">
 				<?php 
 				$holdings_number = $holdingsset -> holdings -> count();
-				$need_refresh = 0;
 				if ($holdings_number != $holdingsset -> holdings_number ) { $holdingsset->update(['holdings_number' => $holdings_number]); $need_refresh = 1; }
 				?>
 				<span class="badge"><i class="fa fa-files-o"></i> {{ $holdingsset -> holdings -> count() }}</span>
@@ -57,7 +66,6 @@ else { ?>
 				?>
 				<?php 
 				$groups_number = $holdingsset -> groups -> count();
-				$need_refresh = 0;
 				if ($groups_number  != $holdingsset -> groups_number ) { $holdingsset->update(['groups_number' => $groups_number]); $need_refresh = 1; }
 				?>
 					@if ($holdingsset->has('groups') && ($count=$holdingsset->groups->count()>0))
