@@ -111,6 +111,7 @@ class HoldingssetsController extends BaseController {
 				if ($state == 'receiveds') 
 					$idsS = $holdingssets->receiveds()->select('holdingssets.id')->lists('holdingssets.id');
 			}
+			die(var_dump($idsS));
 
 			if ($this->data['is_filter']) {
 				// Take all holdings
