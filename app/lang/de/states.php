@@ -18,6 +18,7 @@ return array(
 	'burn' 							=> 'HOS unlösbar',
 	'confirmed' 					=> 'HOS ok',
 	'delivery' 						=> 'Zur SPB gesandt',
+	'no_result_states'				=> 'Noch keine History',
 	'ok' 							=> 'HOL vorhanden',
 	'receive' 						=> 'In SPB integriert',
 	'received'						=> 'In SPB integriert',

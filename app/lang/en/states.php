@@ -18,6 +18,7 @@ return array(
 	'burn' 							=> 'Not solvable',
 	'confirmed' 					=> 'HOS correct',
 	'delivery' 						=> 'Sent to SPB',
+	'no_result_states'				=> 'No actions until now',
 	'ok' 							=> 'HOL available',
 	'receive' 						=> 'Integrated in SPB',
 	'received'						=> 'Integrated in SPB',
