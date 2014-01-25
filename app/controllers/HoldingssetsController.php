@@ -43,11 +43,6 @@ class HoldingssetsController extends BaseController {
 			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) $is_filter = true;
 			$this->data['is_filter'] = $is_filter;
 
-			// $hosbyone = Holdingsset::pendings()->whereHoldingsNumber(1)->select('id')->lists('id');
-			// foreach ($hosbyone as $onehos) {
-			// 	Confirm::create([ 'holdingsset_id' => $onehos, 'user_id' => Auth::user()->id ]);
-			// }
-
 			/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
 			define('DEFAULTS_FIELDS', 'sys2;245a;245b;ocrr_ptrn;022a;260a;260b;260c;362a;710a;710b;310a;246a;505a;770t;772t;780t;785t;852c;852j;866a;866z;008x;008y;size;exists_online;is_current;has_incomplete_vols');
@@ -90,13 +85,13 @@ class HoldingssetsController extends BaseController {
 
 			if (isset($state)) {
 				if ($state == 'ok') 
-					$holdingssets = $holdingssets->corrects()->ok();
+					$holdingssets = $holdingssets->whereState('ok');
 				if ($state == 'pending') 
-					$holdingssets = $holdingssets->corrects()->pendings();
+					$holdingssets = $holdingssets->whereState('blank');
 				if ($state == 'annotated') 
 					$holdingssets = $holdingssets->corrects()->annotated();	
 				if ($state == 'incorrects') 
-					$holdingssets = $holdingssets->incorrects();				
+					$holdingssets = $holdingssets->whereState('incorrect');				
 				if ($state == 'receiveds') 
 					$holdingssets = $holdingssets->receiveds();
 			}

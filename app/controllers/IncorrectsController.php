@@ -48,9 +48,11 @@ class IncorrectsController extends BaseController {
 		if (count($incorrect_id) > 0) {
 			Incorrect::find($incorrect_id[0])->delete();
 			$ret = ['correct' => $holdingsset_id];
+			Holdingsset::find($holdingsset_id)->update(['state' => 'blank']);
 		} else {
 			Incorrect::create([ 'holdingsset_id' => $holdingsset_id, 'user_id' => Auth::user()->id ]);
 			$ret = ['incorrect' => $holdingsset_id];
+			Holdingsset::find($holdingsset_id)->update(['state' => 'incorrect']);
 		}
 		$holdingssets[] = Holdingsset::find($holdingsset_id);
 		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
