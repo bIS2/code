@@ -163,7 +163,7 @@ class HoldingssetsController extends BaseController {
 				unset($ids);
 				unset($holList);
 			}
-			die('debug test - 2: After filters');
+			// die('debug test - 2: After filters');
 			define(HOS_PAGINATE, 20);
 			$this->data['holdingssets'] = $holdingssets->orderBy($orderby, $order)->orderBy('id', 'ASC')->with('holdings')->paginate(HOS_PAGINATE);
 			unset($holdingssets);
@@ -175,6 +175,7 @@ class HoldingssetsController extends BaseController {
 			}
 			else  { 
 				$this->data['page'] = 1;
+				die('debug test - 3: Calling view');
 				return View::make('holdingssets/index', $this->data);
 			}
 		}
