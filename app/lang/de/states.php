@@ -15,12 +15,14 @@ return array(
 
 	'annotated' 					=> 'Von MAGUSER annotiert',
 	'blank' 						=> '-',
-	'burn' 							=> 'Unlösbar',
-	'confirmed' 					=> 'Bestätigt',
+	'burn' 							=> 'HOS unlösbar',
+	'confirmed' 					=> 'HOS ok',
 	'delivery' 						=> 'Zur SPB gesandt',
-	'ok' 							=> 'Korrekt',
-	'receive' 						=> 'Erhalten',
+	'ok' 							=> 'HOL vorhanden',
+	'receive' 						=> 'In SPB integriert',
+	'received'						=> 'In SPB integriert',
 	'revised_annotated' 			=> 'Mit Annotation zurück an BIBUSER',
+	'revised_ok'		 			=> 'HOL am Gestell kontrolliert',
 	'title'							=> 'Durchgeführte Aktionen',
 	'trash' 						=> 'Zu löschen',
 
