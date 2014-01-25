@@ -1,8 +1,7 @@
 @extends('layouts.default')
 
 @section('toolbar')
-	@include('holdingssets.toolbar')
-	@include('holdingssets.groupstabs')
+	
 @stop
 
 
