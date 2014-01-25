@@ -16,14 +16,20 @@
 							@foreach ($holdings as $holding)
 							<div class="row item <?= ($i==0) ? 'active' : '' ?>">
 											<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note'>
-								<div class="row {{ $holding->css }}">
+								<div class="row ">
 
 									<?php $i=1 ?>
-									<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1 {{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}" >
+									<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1 {{ $holding->css }} {{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}" >
 										<div class="well" id="holding-slide">
+											<div class="row state">
+												<label >{{ trans('general.state') }}</label>
+												<span class="label label-default">
+										  		{{ $holding->title_state }}
+												</span>
+												</div>
 											<div class="row">
 												<label >852b</label>
-									  		{{ link_to_route( 'holdings.show', $holding->f852b, [ $holding->f852b ] ) }}
+									  		{{ $holding->f852b }}
 											</div>
 											<div class="row">
 											  <label> 852h</label >
@@ -81,18 +87,20 @@
 								</div> <!-- /.row -->
 
 								<div class="row">
+									<?php $disabled = (Authority::can('touch', $holding)) ? '' : 'disabled'  ?>
 									<div class="col-xs-5 col-md-offset-1">
-									  <a href="{{ route('oks.store') }}" class="btn btn-success btn-ok col-sm-12" data-method="post" data-remote="true" data-params="holding_id={{$holding->id}}" data-disable-with="{{trans('general.sending')}}">
+									  <a href="{{ route('states.store') }}" class="btn btn-success btn-ok col-sm-12" data-method="post" data-remote="true" data-params="state=ok&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
 									  	<span class="fa fa-thumbs-up"></span> {{trans('general.confirm')}}
 									  </a>
 
 									</div>
 									<div class="col-xs-5">
-									  <button href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" type="submit" class="btn btn-danger btn-tag col-sm-12" data-disable-with="{{trans('general.sending')}}">
-									  	<span class="fa fa-tags"></span> {{trans('general.annotated')}}
+									  <button href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" type="submit" class="btn btn-danger btn-tag col-sm-12" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
+									  	<span class="fa fa-tags"></span> {{trans('general.annotate')}}
 									  </button>
 									</div>
 								</div>
+								
 							</div> <!-- /.row.item -->
 
 							</form>	
@@ -117,6 +125,15 @@
 			
 	</div>
 </div>
-
+<script type="text/javascript">
+	$(function(){
+/*		$('form#create-note').validate({
+			rules: {
+						'notes[][tag_id]': { required: true	}
+			}
+		})
+*/	})
+</script>
+@javascripts('validate')
 @stop
 

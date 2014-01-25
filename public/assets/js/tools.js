@@ -145,10 +145,23 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     } 
 
     if ( result.state ){
+
+    	obj = $('#'+result.id)
+
+    	if (result.state=='ok') 
+    		obj.addClass( 'success' ).removeClass('danger')
+    	
+    	if (result.state=='annotated'){
+    		obj.addClass( 'danger' ).removeClass('success')
+	      $('#form-create-notes').modal('hide')
+	      $('#slider').carousel('next')
+    		
+    	}
+
       $('#'+result.id)
       	.addClass(result.state)
-      	.find('td.state span.label')
-      	.text(result.state ); 
+      	.find('.state span.label')
+      	.text(result.state_title ); 
     }
 
     if ( result.remove )

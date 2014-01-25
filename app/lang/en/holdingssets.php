@@ -10,7 +10,7 @@ return array(
 	'click_to_view_in_other_tab' => 'Click to view in other tab.',
 	'confirm_ok_HOS'			=> 'Confirm HOS to be ok',
 	'create_group' 				=> 'Create Group',
-	'drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'				=> 'Drag and Drop into a Tab to add this HOS to a HOS Group',
+	'drag_and_drop_into_a_grouptab_to_add_this_HOS_to_a_HosGroup'	=> 'Drag and Drop into a Tab to add this HOS to a HOS Group',
 	'force_aux'					=> 'Change to YELLOW',
 	'force_blue'				=> 'Change zu BLUE',
 	'force_owner'				=> 'Change to RED',

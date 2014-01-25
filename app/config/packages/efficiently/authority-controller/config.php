@@ -50,7 +50,7 @@ return [
         });
 
         $authority->allow('touch', 'Holding', function($self, $holding) {
-          return (( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') ) && ($holding->is_correct || $holding->is_annotated || $holding->is_blank));
+          return (( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') ) && ($holding->is_correct || $holding->is_annotated || $holding->is_confirmed));
         });
 
         $authority->allow('manage', 'User', function($self, $user) {
