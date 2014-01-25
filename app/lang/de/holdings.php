@@ -4,6 +4,7 @@ return array(
 
 	'advanced_filter'		=> 'Zusätzliche Filter',
 	'all'					=> 'Alle',
+	'annotate'				=> 'Annotieren',
 	'annotated'				=> 'Annotierte',
 	'annotated_by'			=> 'Annotiert von',
 	'aux'					=> 'Ergänzungsbestand',

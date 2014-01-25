@@ -15,7 +15,7 @@ return array(
 	'cancel'            => 'Abbrechen',
 	'close'             => 'Schliessen',
 	'config'            => 'Konfiguration',
-	'confirm'           => 'Bestätigen',
+	'confirm'           => 'Bestand wie angegeben',
 	'contains'			=> 'Enthält',
 	'correct'			=> 'Richtig',
 	'dashboard'			=> 'Übersicht',

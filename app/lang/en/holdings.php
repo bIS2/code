@@ -4,6 +4,7 @@ return array(
 
 	'advanced_filter'		=> 'Advanced Filter',
 	'all'   				=> 'All',
+	'annotate'				=> 'Annotate',
 	'annotated'				=> 'Annotated',
 	'annotated_by'			=> 'Annotated By',
 	'aux'					=> 'Auxiliar',
