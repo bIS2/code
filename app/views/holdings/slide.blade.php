@@ -125,15 +125,5 @@
 			
 	</div>
 </div>
-<script type="text/javascript">
-	$(function(){
-/*		$('form#create-note').validate({
-			rules: {
-						'notes[][tag_id]': { required: true	}
-			}
-		})
-*/	})
-</script>
-@javascripts('validate')
 @stop
 
