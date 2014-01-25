@@ -50,7 +50,7 @@
 						@foreach ($hlists as $list)
 							<tr id="{{ $list->id }}" class="{{ $list->revised ? 'revised' : '' }} {{ $list->is_delivery ? 'delivered' : '' }}">
 								<td>
-									<a href="{{ route('holdings.index', [ 'hlist_id' => $hlist->id ] ) }}" >{{ $list->name }} </a>
+									<a href="{{ route('holdings.index', [ 'hlist_id' => $list->id ] ) }}" >{{ $list->name }} </a>
 								</td>
 								<td>
 									{{ $list->type_icon }}
