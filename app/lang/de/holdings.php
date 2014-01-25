@@ -33,6 +33,7 @@ return array(
 	'pending'				=> 'Unkontrollierte',
 	'printer'				=> 'Drucken',
 	'receiveds'				=> 'Erhaltene',
+	'revised'				=> 'Liste i.O.',
 	'reviseds'				=> 'Bearbeitete',
 	'size'					=> 'Size',
 	'spare'					=> 'Überschüssig',
