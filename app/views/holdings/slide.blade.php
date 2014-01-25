@@ -96,7 +96,7 @@
 									</div>
 									<div class="col-xs-5">
 									  <button href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" type="submit" class="btn btn-danger btn-tag col-sm-12" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
-									  	<span class="fa fa-tags"></span> {{trans('general.annotate')}}
+									  	<span class="fa fa-tags"></span> {{trans('holdings.annotate')}}
 									  </button>
 									</div>
 								</div>
