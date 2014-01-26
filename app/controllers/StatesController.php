@@ -44,8 +44,10 @@ class StatesController extends BaseController {
 	 */
 	public function store()
 	{
-		$input = Input::all();
+		$input = Input::except('hlist_id');
 		$validation = Validator::make($input, State::$rules);
+
+		$hlist = Hlist::find(Input::get('hlist_id'));
 
 		if ($validation->passes())
 		{
@@ -55,7 +57,12 @@ class StatesController extends BaseController {
 
 			else $this->state->create( [ 'holding_id'=>$input['holding_id'], 'state'=> $input['state'], 'user_id'=>$input['user_id'] ] );
 
-			return Response::json( [ 'state' => $input['state'],'state_title' => trans( 'states.'.$input['state']), 'id' => $input['holding_id'] ]  );
+			return Response::json([ 
+				'state' => $input['state'],
+				'state_title' => trans( 'states.'.$input['state']), 
+				'id' => $input['holding_id'],
+				'list_completed' => $hlist->is_finish
+				]);
 		}
 
 		return Redirect::route('states.create')
