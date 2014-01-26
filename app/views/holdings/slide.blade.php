@@ -23,7 +23,7 @@
 										<div class="well" id="holding-slide">
 											<div class="row state">
 												<label >{{ trans('general.state') }}</label>
-												<span class="label label-default">
+												<span class="label label-primary">
 										  		{{ $holding->title_state }}
 												</span>
 												</div>

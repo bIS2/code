@@ -18,6 +18,7 @@
 				<th >{{{ Lang::get('admin/users/table.roles') }}}</th>
 				<th >{{{ Lang::get('admin/users/table.library') }}}</th>
 				<th >{{{ Lang::get('admin/users/table.activated') }}}</th>
+				<th >{{{ Lang::get('admin/users/table.disabled') }}}</th>
 				<th >{{{ Lang::get('admin/users/table.created_at') }}}</th>
 				<th >{{{ Lang::get('table.actions') }}}</th>
 			</tr>
@@ -29,14 +30,23 @@
 					<td><?= $user->roles[0]->name ?> </td>
 					<td><?= @$user->library->name ?> </td>
 					<td><?= $user->activated() ?> </td>
+					<td><?= $user->disabled ?> </td>
 					<td><?= $user->joined() ?> </td>
 					<td>
-	          	<a href="{{ URL::to('admin/users/edit/'.$user->id) }}" class="btn btn-success btn-xs"><span class="fa fa-edit" ></span> {{trans('general.edit')}}</a>
-	          	@if (!$user->hasRole('sysadmin'))
+
+	          	@if ( ( $user->hasRole('superuser') && Auth::user()->hasRole('sysadmin') ) || ( !$user->hasRole('sysadmin') && Auth::user()->hasRole('superuser') && ($user->library_id == Auth::user()->library_id)) )
+
+		          	<a href="{{ URL::to('admin/users/edit/'.$user->id) }}" class="btn btn-success btn-xs"><span class="fa fa-edit" ></span> {{trans('general.edit')}}</a>
+
+	          	@endif
+
+	          	@if ( ( $user->hasRole('superuser') && Auth::user()->hasRole('sysadmin') ) || ( !$user->hasRole('sysadmin') && Auth::user()->hasRole('superuser') && ($user->library_id == Auth::user()->library_id)) && (Auth::user()->id!=$user->id) )
+
 		          	<a href="{{ action('AdminUsersController@postDelete',$user->id) }}" data-remote="true" data-method="post" data-params="_token={{ csrf_token() }}" class="btn btn-danger btn-xs">
 		          		<span class="fa fa-times"></span> 
 		          		{{trans('general.delete')}}
 		          	</a>
+
 	          	@endif
 
 					</td>

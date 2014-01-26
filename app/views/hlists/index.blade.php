@@ -100,7 +100,7 @@
 						@endforeach
 					</tbody>
 				</table>
-				<div class="pagination"></div>
+				<div class="pagination">{{ $hlists->appends(Input::except('page'))->links()  }}</div>
 		</div> <!-- /.col-xs-12 -->
 	</div> <!-- /.row -->
 
