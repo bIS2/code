@@ -40,6 +40,7 @@ return array(
 	'tagged'			 	=> 'Markierte',
 	'title'					=> 'Holdings',
 	'title_create_group' 	=> 'Gruppe erstellen',
+	'tooltip_comment'		=> 'Kommentar',
 	'tooltip_list_history'	=> 'History zeigen',
 	'tooltip_notes'			=> 'Annotationen',
 	'tooltip_ok'			=> 'HOL in Ordnung',
