@@ -7,6 +7,7 @@ return array(
 	'advanced_filter'    		=> 'Suchfilter',
 	'all'                		=> 'Alle',
 	'clear_owner_filter'		=> 'Lösche Filter Archivbestand',
+	'click_to_remove_correct_state' => "Status 'Kontrolliert' zurücksetzen",
 	'click_to_view_in_other_tab'=> 'In separatem Browser-Tab öffnen.',
 	'confirm_ok_HOS'			=> 'HOS als ok bestätigen',
 	'create_group'				=> 'Gruppe erstellen',
