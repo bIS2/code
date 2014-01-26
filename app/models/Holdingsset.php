@@ -43,6 +43,13 @@ class Holdingsset extends Eloquent {
   public function scopePendings($query){
     return $query
     ->whereState('blank');
+  }
+
+  public function scopeReserveds($query) {     
+    $ids = Holding::reserved()->select('holdingsset_id')->lists('holdingsset_id');
+    if (count($ids) == 0 ) $ids = [-1];
+    return $query
+    ->whereIn('holdingssets.id', $ids);
   }  
 
   public function scopeIncorrects($query){

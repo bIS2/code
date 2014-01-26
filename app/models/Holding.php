@@ -130,6 +130,10 @@ class Holding extends Eloquent {
   public function scopeCommenteds($query){
     return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('comments'); });
   }
+
+  public function scopeReserved($query){
+    return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('lockeds'); });
+  }
   
   public function scopeWithState( $query, $state ){
     return $query->defaults()->where('state','like',$state."%");

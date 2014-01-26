@@ -308,7 +308,7 @@ function getAsuccess() {
         }
       }
     })
-	
+	 $('[data-toggle=tooltip]').tooltip()
 }
 
 function countThs() {
