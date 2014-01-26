@@ -13,7 +13,7 @@ return array(
 '866z' => '866z' ,
 '008x' => '008x' ,
 'exists_online' =>'Online' ,
-'is_current' =>'Current' ,
+'is_current' =>'Laufend' ,
 'has_incomplete_vols' => 'Icpl' ,
 '260a' => '260a' ,
 '260b' => '260b' ,

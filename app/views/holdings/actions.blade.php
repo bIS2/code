@@ -38,7 +38,7 @@
 		@if (Authority::can('touch', $holding))
 
 			<li class="btn btn-sm" data-toggle="tooltip" title="{{trans('holdings.tooltip_ok')}}">
-			  <a href="{{ route('states.store') }}" class="btn-ok" data-method="post" data-remote="true" data-params="state=ok&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" >
+			  <a href="{{ route('states.store') }}" class="btn-ok" data-method="post" data-remote="true" data-params="hlist_id={{$hlist->id}}&state=ok&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" >
 			  	<span class="fa fa-thumbs-up"></span>
 			  </a>
 			</li>
