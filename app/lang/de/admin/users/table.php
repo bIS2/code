@@ -10,6 +10,7 @@ return array(
 	'groups'     	=> 'Gruppe',
 	'roles'     	=> 'Rollen',
 	'activated'  	=> 'Aktiviert',
+	'disabled'  	=> 'Disabled',
 	'created_at' 	=> 'Erstellt am',
 	'library' 		=> 'Bibliothek',
 

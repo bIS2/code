@@ -185,6 +185,10 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
       $('#'+result.received).addClass('received'); 
     }
 
+    if ( result.disabled ){
+      $('#'+result.received).addClass('text-muted'); 
+    }
+
     if ( result.delivered ){
       $('#'+result.delivered).addClass('delivered'); 
     }

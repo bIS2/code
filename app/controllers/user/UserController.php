@@ -181,6 +181,9 @@ class UserController extends BaseController {
         if ( Confide::logAttempt( $input, true ) )
         {
             $r = Session::get('loginRedirect');
+
+            // User::whereId( Auth::user()->id )->first()->update( ['last_login'=>Carbon::now() ]);
+
             if (!empty($r))
             {
                 Session::forget('loginRedirect');

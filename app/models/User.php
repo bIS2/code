@@ -164,6 +164,11 @@ class User extends ConfideUser implements PresentableInterface {
         return  ($this->confirmed) ? Lang::get('general.yes') : Lang::get('general.no');
     }
 
+    public function getDisabledAttribute()
+    {
+        return  ($this->disable) ? Lang::get('general.yes') : Lang::get('general.no');
+    }
+
 
 	//public function afterSave($success=true, $forced = false){ return null;}
 }
