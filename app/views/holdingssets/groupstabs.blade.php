@@ -89,27 +89,27 @@
 	</div>
 	<div id="hos-sorting" class="pull-left text-center text-success">
 		<div class="btn-group" data-toggle="buttons">
-		  <label class="btn btn-primary btn-xs pull-left disabled">
-				{{ trans('holdingssets.order_hos_by') }} 
+		  <label class="btn btn-xs pull-left disabled">
+				<strong>{{ trans('holdingssets.order_hos_by') }}</strong>
 		  </label>
-		  <label class="btn btn-default btn-xs{{ ((Session::get(Auth::user()->username.'_sortinghos_by') == null) || (Session::get(Auth::user()->username.'_sortinghos_by') == f245a)) ? ' active' : '' }}">
+		  <label data-toggle="tooltip" title="<?= trans('holdingssets.order_by_field_245a'); ?>" data-container="body" class="btn btn-default btn-xs{{ ((Session::get(Auth::user()->username.'_sortinghos_by') == null) || (Session::get(Auth::user()->username.'_sortinghos_by') == f245a)) ? ' active' : '' }}">
 		    <input type="radio"{{ ((Session::get(Auth::user()->username.'_sortinghos_by') == null) || (Session::get(Auth::user()->username.'_sortinghos_by') == f245a)) ? ' checked = checked' : '' }} name="sortinghos_by" value="f245a" id="option1"> 245a
 		  </label>
-		  <label class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'holdings_number') ? ' active' : '' }}" name="sortinghos_by">
+		  <label data-toggle="tooltip" title="<?= trans('holdingssets.order_by_number_of_hols_inside_hos'); ?>" data-container="body"  class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'holdings_number') ? ' active' : '' }}" name="sortinghos_by">
 		    <input type="radio"{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'holdings_number') ? ' checked = checked' : '' }} name="sortinghos_by" value="holdings_number" id="option2"> hols#
 		  </label>
-		  <label class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'groups_number') ? ' active' : '' }}" name="sortinghos_by">
+		  <label data-toggle="tooltip" title="<?= trans('holdingssets.order_by_groups_numbers_that_belong_ecah_hos'); ?>" data-container="body" class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'groups_number') ? ' active' : '' }}" name="sortinghos_by">
 		    <input type="radio"{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'groups_number') ? ' checked = checked' : '' }} name="sortinghos_by" value="groups_number" id="option3"> HosG#
 		  </label>
-		  <label class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'f008x') ? ' active' : '' }}" name="sortinghos_by">
+		  <label data-toggle="tooltip" title="<?= trans('holdingssets.order_by_field_008x'); ?>" data-container="body"  class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'f008x') ? ' active' : '' }}" name="sortinghos_by">
 		    <input type="radio"{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'f008x') ? ' checked = checked' : '' }} name="sortinghos_by" value="f008x" id="option4"> 008x
 		  </label>
 		</div>
 		<div class="btn-group" data-toggle="buttons">
-		  <label class="btn btn-default btn-xs{{ ((Session::get(Auth::user()->username.'_sortinghos') == null) || (Session::get(Auth::user()->username.'_sortinghos') == trans('general.asc'))) ? ' active' : '' }}">
+		  <label data-toggle="tooltip" title="<?= trans('holdingssets.order_asc_using_order_criteria'); ?>" data-container="body"  class="btn btn-default btn-xs{{ ((Session::get(Auth::user()->username.'_sortinghos') == null) || (Session::get(Auth::user()->username.'_sortinghos') == trans('general.asc'))) ? ' active' : '' }}">
 		    <input type="radio" {{ ((Session::get(Auth::user()->username.'_sortinghos') == null) || (Session::get(Auth::user()->username.'_sortinghos') == 'ASC')) ? ' checked = checked' : '' }} name="sortinghos" value="{{ trans('general.asc') }}" id="option1"><i class="fa fa-sort-amount-asc"></i> {{ trans('general.asc') }}
 		  </label>
-		  <label class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos') == trans('general.desc')) ? ' active' : '' }}">
+		  <label data-toggle="tooltip" title="<?= trans('holdingssets.order_desc_using_order_criteria'); ?>" data-container="body"  class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos') == trans('general.desc')) ? ' active' : '' }}">
 		    <input type="radio" {{ (Session::get(Auth::user()->username.'_sortinghos') == trans('general.desc')) ? ' checked = checked' : '' }} name="sortinghos" value="{{ trans('general.desc') }}" id="option2"><i class="fa fa-sort-amount-desc"></i> {{ trans('general.desc') }}
 		  </label>
 		</div>
@@ -147,24 +147,68 @@
 						<ul class="btn-group" data-toggle="buttons">
 						<?php
 							foreach ($fields as $field) {
-								$checked 				= '';
+									$popover = '';
+									$field_short = $field;
+									switch ($field) {
+										case 'exists_online':
+										$field_short = trans('holdings.exists_online_short');
+										$field_large = ' data-content="<strong>'.trans('holdings.exists_online_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+										$popover = " pop-over ";
+										break;
+										
+										case 'is_current':
+										$field_short = trans('holdings.is_current_short');
+										$field_large = ' data-content="<strong>'.trans('holdings.is_current_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+										$popover = " pop-over ";
+										break;
+										
+										case 'has_incomplete_vols':
+										$field_short = trans('holdings.has_incomplete_vols_short');
+										$field_large = ' data-content="<strong>'.trans('holdings.has_incomplete_vols_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+										$popover = " pop-over ";
+										break;										
+									}
+
+								$checked 			= '';
 								$checkactive 		= '';
 								if (($field != 'ocrr_ptrn')) {
 										$checked 		= "checked = checked";
 										$checkactive 	= " active"; ?>
-										<li class="btn btn-xs btn-default{{ $checkactive }}">
-											<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field; ?>
+										<li class="btn btn-xs btn-default{{ $checkactive }} {{ $popover }}" {{ $field_large }}>
+											<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field_short; ?>
 										</li>
 								<?php }
 							}	?>
 						<?php
 							foreach ($allfields as $field) {
+								$popover = '';
+									$field_short = $field;
+									switch ($field) {
+										case 'exists_online':
+										$field_short = trans('holdings.exists_online_short');
+										$field_large = ' data-content="<strong>'.trans('holdings.exists_online_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+										$popover = " pop-over ";
+										break;
+										
+										case 'is_current':
+										$field_short = trans('holdings.is_current_short');
+										$field_large = ' data-content="<strong>'.trans('holdings.is_current_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+										$popover = " pop-over ";
+										break;
+										
+										case 'has_incomplete_vols':
+										$field_short = trans('holdings.has_incomplete_vols_short');
+										$field_large = ' data-content="<strong>'.trans('holdings.has_incomplete_vols_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+										$popover = " pop-over ";
+										break;										
+									}
+
 								$checked 				= '';
 								$checkactive 		= '';
 								if (($field != 'ocrr_ptrn') && ($field != 'sys2')) {
 									if (!(in_array($field, $fields))) { ?>
-										<li class="btn btn-xs btn-default{{ $checkactive }}">
-											<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field; ?>
+										<li class="btn btn-xs btn-default{{ $checkactive }} {{ $popover }}" {{ $field_large }}>
+											<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field_short; ?>
 										</li>
 										<?php
 									}

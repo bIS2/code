@@ -744,8 +744,9 @@ table.table thead th:first-child {
         text-align: center;
     }
     .btn-group {
-        .btn-group {
-            margin-bottom: 0;
+        margin-bottom: 5px;
+        .tags-menu {
+            left: 130px;
         }
     }
 }
@@ -893,7 +894,7 @@ a.incorrect {
 }
 a.btn-danger {
   span.fa.fa-thumbs-down {
-    color: #FF990F !important;
+    // color: #FF990F !important;
   }  
 }
 
@@ -1031,3 +1032,14 @@ tr.draggable{ background-color: #fff; }
     overflow: hidden !important;
 }
 span.move{ cursor: move; }
+
+span.btn-incorrect {
+    > a {
+        opacity: 0.1;
+    }
+    &:hover {
+        > a {
+            opacity: 1;
+        }
+    }
+}

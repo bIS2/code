@@ -1,6 +1,6 @@
 <?php
 	error_reporting(0);
-	$conn_string = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 	
 	$conn = pg_connect($conn_string) or die('ERROR!!!');
 

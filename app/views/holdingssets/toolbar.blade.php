@@ -3,35 +3,29 @@
 
 		<div id="main-filters" class="row">
 			<div class="col-xs-12">
-				<ul class="list-inline">
-					<li>
 						<div class="btn-group">
-							<div class="btn-group">
-								<a href="#" class="btn btn-sm dropdown-toggle btn-default {{ (Auth::user()->groups()->count() > 0) ? '' : ' disabled '}}" data-toggle="dropdown">
-									<i class="fa fa-list-ul"> </i>					 
-									{{{ trans('holdingssets.groups') }}}					  	
-									<span class="caret"></span>
-								</a>
-								<!-- Show list if exists -->
-								@if (Auth::user()->has('groups')) 
-								<?php $groups = Auth::user()->groups()->count(); $i = 0; ?>
-								@foreach (Auth::user()->groups as $group) 
-								<?php $i++; ?>
-								@endforeach 
-								<?php if ($i > 0) : ?>
-									<ul class="dropdown-menu" role="menu">
-										@foreach (Auth::user()->groups as $group) 
-										<li <?= ($group->id == Input::get('group_id')) ? 'class="active"' : '' ; ?>>
-											<a href="{{ route('sets.index',Input::except(['group_id']) + ['group_id' => $group->id ]) }}"> {{ $group->name }} <span class="badge"><span class="fa fa-file-text"></span> {{ $group->holdingssets -> count() }} </span></a>
-										</li>
-										@endforeach
-									</ul>
-								<?php endif; ?>
-								@endif
-							</div>
+							<a href="#" class="btn btn-sm dropdown-toggle btn-default {{ (Auth::user()->groups()->count() > 0) ? '' : ' disabled '}}" data-toggle="dropdown">
+								<i class="fa fa-list-ul"> </i>					 
+								{{{ trans('holdingssets.groups') }}}					  	
+								<span class="caret"></span>
+							</a>
+							<!-- Show list if exists -->
+							@if (Auth::user()->has('groups')) 
+							<?php $groups = Auth::user()->groups()->count(); $i = 0; ?>
+							@foreach (Auth::user()->groups as $group) 
+							<?php $i++; ?>
+							@endforeach 
+							<?php if ($i > 0) : ?>
+								<ul class="dropdown-menu" role="menu">
+									@foreach (Auth::user()->groups as $group) 
+									<li <?= ($group->id == Input::get('group_id')) ? 'class="active"' : '' ; ?>>
+										<a href="{{ route('sets.index',Input::except(['group_id']) + ['group_id' => $group->id ]) }}"> {{ $group->name }} <span class="badge"><span class="fa fa-file-text"></span> {{ $group->holdingssets -> count() }} </span></a>
+									</li>
+									@endforeach
+								</ul>
+							<?php endif; ?>
+							@endif
 						</div>
-					</li>
-					<li>
 						<div class="btn-group">
 							<a href="{{ route('sets.index', Input::except(['owner','aux'])) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') != true)) ? 'btn-primary' : 'btn-default' ?> btn-sm" title="{{ trans('holdingssets.clear_owner_filter') }}">	
 								<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}			  		
@@ -50,20 +44,23 @@
 							<a id="filter_all" href="{{ route('sets.index', Input::except('state')) }}" class="btn btn-primary <?= ((Input::get('state') != 'ok') && (Input::get('state') != 'pending') && (Input::get('state') == '')) ? 'active' : '' ?> btn-sm" >
 								<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}
 							</a>
-							<a id="filter_confirmed" href="{{ route('sets.index', Input::except('state') + ['state'=>'ok']) }}" class="btn btn-success <?= (Input::get('state')=='ok') ? 'active' : '' ?> btn-sm" >
-								<span class="fa fa-thumbs-up"></span> {{{ trans('holdingssets.oked') }}}
-							</a>
 							<a id="filter_pending" href="{{ route('sets.index', Input::except('state') + ['state'=>'pending']) }}" class="btn btn-default <?= (Input::get('state') == 'pending') ? 'active' : '' ?> btn-sm">
 								<span class="fa fa-thumbs-up"></span> {{{ trans('holdingssets.pending') }}}
 							</a>
-							<a id="filter_annotated" href="{{ route('sets.index', Input::except('state') + ['state'=>'annotated']) }}" class="btn btn-warning <?= (Input::get('state') == 'annotated') ? 'active' : '' ?> btn-sm">
-								<span class="fa fa-thumbs-up"></span> {{{ trans('general.annotated') }}}
+							<a id="filter_confirmed" href="{{ route('sets.index', Input::except('state') + ['state'=>'ok']) }}" class="btn btn-success <?= (Input::get('state')=='ok') ? 'active' : '' ?> btn-sm" >
+								<span class="fa fa-thumbs-up"></span> {{{ trans('holdingssets.oked') }}}
+							</a>
+							<a id="filter_annotated" href="{{ route('sets.index', Input::except('state') + ['state'=>'annotated']) }}" class="btn btn-default <?= (Input::get('state') == 'annotated') ? 'active' : '' ?> btn-sm">
+								<span class="fa fa-thumbs-up text-warning"></span> <span class="text-warning">{{{ trans('general.annotated') }}}</span>
+							</a>
+							<a id="filter_incorrect" href="{{ route('sets.index', Input::except('state') + ['state'=>'reserveds']) }}" class="btn btn-info  <?= (Input::get('state') == 'reserveds') ? 'active' : '' ?> btn-sm">
+								<span class="fa fa-lock"></span> <span class="">{{{ trans('general.reserveds') }}}</span>
 							</a>
 							<a id="filter_incorrect" href="{{ route('sets.index', Input::except('state') + ['state'=>'incorrects']) }}" class="btn btn-danger <?= (Input::get('state') == 'incorrects') ? 'active' : '' ?> btn-sm">
 								<span class="fa fa-thumbs-down"></span> {{{ trans('general.incorrects') }}}
 							</a>
 							@if (count(Holdingsset::receiveds()->lists('id')) > 0 )
-							<a href="/sets?state=receiveds" class="btn btn-default <?= (Input::get('state') == 'incorrects') ? 'active' : '' ?> btn-sm">
+							<a href="/sets?state=receiveds" class="btn btn-default <?= (Input::get('state') == 'receiveds') ? 'active' : '' ?> btn-sm">
 								<span class="fa fa-download"></span> {{ trans('holdingssets.receiveds') }}
 							</a>
 							@endif
@@ -76,8 +73,6 @@
 								<span class="fa fa fa-filter"></span> {{{ trans('holdingssets.advanced_filter') }}} <span class="caret"></span>
 							</a>
 						</div>
-					</li>
-				</ul>
 			</div>
 		</div> <!-- /.row -->
 		<div class="row">
@@ -102,6 +97,7 @@
 													$checkactive 	= " active";
 												}
 												$field_short = $field;
+												$popover = '';
 												switch ($field) {
 													case 'exists_online':
 													$field_short = trans('holdings.exists_online_short');

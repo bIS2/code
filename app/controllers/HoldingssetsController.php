@@ -43,11 +43,6 @@ class HoldingssetsController extends BaseController {
 			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) $is_filter = true;
 			$this->data['is_filter'] = $is_filter;
 
-			$hosbyone = Holdingsset::pendings()->whereHoldingsNumber(1)->select('id')->lists('id');
-			foreach ($hosbyone as $onehos) {
-				Confirm::create([ 'holdingsset_id' => $onehos, 'user_id' => Auth::user()->id ]);
-			}
-
 			/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
 			define('DEFAULTS_FIELDS', 'sys2;245a;245b;ocrr_ptrn;022a;260a;260b;260c;362a;710a;710b;310a;246a;505a;770t;772t;780t;785t;852c;852j;866a;866z;008x;008y;size;exists_online;is_current;has_incomplete_vols');
@@ -84,21 +79,23 @@ class HoldingssetsController extends BaseController {
 			$this->data['groups'] = Auth::user()->groups;
 
 			$this->data['group_id'] = (in_array(Input::get('group_id'), $this->data['groups']->lists('id'))) ? Input::get('group_id') : '';
-			$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets() : Holdingsset::where('holdings_number','<',101)->orderBy($orderby, $order);
+			$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets() : Holdingsset::where('holdings_number','<',101);
 
 			$state = Input::get('state');
 
 			if (isset($state)) {
 				if ($state == 'ok') 
-					$holdingssets = $holdingssets->corrects()->ok();
-				if ($state == 'pending') 
-					$holdingssets = $holdingssets->corrects()->pendings();
+					$holdingssets = $holdingssets->corrects();
+				if ($state == 'pending')
+					$holdingssets = $holdingssets->pendings();
 				if ($state == 'annotated') 
-					$holdingssets = $holdingssets->corrects()->annotated();	
+					$holdingssets = $holdingssets->annotated();	
 				if ($state == 'incorrects') 
-					$holdingssets = $holdingssets->incorrects();				
+					$holdingssets = $holdingssets->incorrects();					
 				if ($state == 'receiveds') 
-					$holdingssets = $holdingssets->receiveds();
+					$holdingssets = $holdingssets->receiveds();					
+				if ($state == 'reserveds') 
+					$holdingssets = $holdingssets->reserveds();
 			}
 
 			if ($this->data['is_filter']) {
@@ -168,7 +165,7 @@ class HoldingssetsController extends BaseController {
 			define(HOS_PAGINATE, 20);
 			$this->data['holdingssets'] = $holdingssets->orderBy($orderby, $order)->orderBy('id', 'ASC')->with('holdings')->paginate(HOS_PAGINATE);
 			unset($holdingssets);
-
+			// die('before call the view');
 			// $this->data['holdingssets'] = $holdingssets->paginate(20);
 			if (isset($_GET['page']))  {
 				$this->data['page'] = $_GET['page'];
@@ -366,9 +363,17 @@ class HoldingssetsController extends BaseController {
 					Holdingsset::find($holdingsset_id)->decrement('holdings_number', count($ids));
 					Holdingsset::find($newhos_id)->update(['holdings_number' => count($ids), 'groups_number'=>0]);
 					holdingsset_recall($holdingsset_id);
-					if (Holdingsset::find($holdingsset_id)->holdings()->count() == 1) Confirm::create([ 'holdingsset_id' => $holdingsset_id, 'user_id' => Auth::user()->id ]);
+					if (Holdingsset::find($holdingsset_id)->holdings()->count() == 1) {
+
+						Confirm::create([ 'holdingsset_id' => $holdingsset_id, 'user_id' => Auth::user()->id ]);
+						// Holdingsset::find($holdingsset_id)->update(['state' => 'ok']);
+
+					}
 					holdingsset_recall($newhos_id);
+
 					Confirm::create([ 'holdingsset_id' => $newhos_id, 'user_id' => Auth::user()->id ]);
+					// Holdingsset::find($newhos_id)->update(['state' => 'ok']);
+					
 					$holdingssets[] = Holdingsset::find($holdingsset_id);
 					$holdingssets[] = Holdingsset::find($newhos_id);
 				}
@@ -517,9 +522,17 @@ class HoldingssetsController extends BaseController {
 		$id: Holding id 
 		-----------------------------------------------------------------------------------*/
 		public function putUpdateField866aHolding($id) {
+
+
 			$new866a = Input::get('new866a');
-			$holding = Holding::find($id)->update(['f866aupdated'=>$new866a]);
+
+			$new866a = normalize866a($new866a);
+
+			$holding = Holding::find($id)->update(['f866aupdated'=>$new866a, 'hol_nrm' => $new866a]);
+			holdingsset_recall($holding->holdingsset_id);
+
 			return Response::json( ['save866afield' => [$id]] );
+
 		}	
 	}
 
@@ -561,7 +574,7 @@ class HoldingssetsController extends BaseController {
 
 	function similarity_search($sys2) {
 
-		$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+		$conn_string = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 		$con = pg_connect($conn_string) or die('ERROR!!!');
 
 	// $holding  = Holding::find($id);
@@ -571,7 +584,7 @@ class HoldingssetsController extends BaseController {
 	// })->take(100)->get();
 	// break;
 
-	//error_reporting(E_ALL);
+	// error_reporting(E_ALL);
 	// ini_set('display_errors', TRUE);
 	// ini_set('display_startup_errors', TRUE);
 	// ini_set('memory_limit', '-1');
@@ -903,7 +916,7 @@ $query .= "\n FROM holdings";
 						-----------------------------------------------------------------------------------*/
 						function holdingsset_recall($id) {
 
-							$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+							$conn_string = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 							$conn = pg_connect($conn_string) or die('ERROR!!!');
 
 							$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 500";
@@ -1530,7 +1543,7 @@ function cmp_flag_score($a, $b) {
 
 function create_table($tab_name) {
 
-	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+	$conn_string = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string) or die('ERROR!!!');
 
 	$query  = "DROP TABLE IF EXISTS $tab_name; ";
@@ -1548,4 +1561,10 @@ function get_ptrn_position ($ocrr,$ptrn){
 		}
 	}
 	return '?';
+}
+
+
+function normalize866a() {
+
+	return true;
 }
