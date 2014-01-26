@@ -134,24 +134,66 @@
 						<ul class="btn-group" data-toggle="buttons">
 						<?php
 							foreach ($fields as $field) {
+								$popover = '';
+								$field_short = trans('fields.'.$field);
+								switch ($field) {
+									case 'exists_online':
+									$field_short = trans('holdings.exists_online_short');
+									$field_large = ' data-content="<strong>'.trans('holdings.exists_online_large').'</strong>" data-placement="top" data-toggle="tooltip" data-html="true" data-trigger="hover" ';
+									$popover = " pop-over ";
+									break;
+									
+									case 'is_current':
+									$field_short = trans('holdings.is_current_short');
+									$field_large = ' data-content="<strong>'.trans('holdings.is_current_large').'</strong>" data-placement="top" data-toggle="tooltip" data-html="true" data-trigger="hover" ';
+									$popover = " pop-over ";
+									break;
+									
+									case 'has_incomplete_vols':
+									$field_short = trans('holdings.has_incomplete_vols_short');
+									$field_large = ' data-content="<strong>'.trans('holdings.has_incomplete_vols_large').'</strong>" data-placement="top" data-toggle="tooltip" data-html="true" data-trigger="hover" ';
+									$popover = " pop-over ";
+									break;										
+								}
 								$checked 				= '';
 								$checkactive 		= '';
 								if (($field != 'ocrr_ptrn')) {
 										$checked 			= "checked = checked";
 										$checkactive 	= " active"; ?>
-										<li class="btn btn-xs btn-default{{ $checkactive }}">
-											<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= trans('fields.'.$field); ?>
+										<li class="btn btn-xs btn-default{{ $checkactive }} pop-over" {{ $field_large }}>
+											<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field_short; ?>
 										</li>
 								<?php }
 							}	?>
 						<?php
 							foreach ($allfields as $field) {
+									$popover = '';
+									$field_short = trans('fields.'.$field);
+									switch ($field) {
+										case 'exists_online':
+										$field_short = trans('holdings.exists_online_short');
+										$field_large = ' data-content="<strong>'.trans('holdings.exists_online_large').'</strong>" data-placement="top" data-toggle="tooltip" data-html="true" data-trigger="hover" ';
+										$popover = " pop-over ";
+										break;
+										
+										case 'is_current':
+										$field_short = trans('holdings.is_current_short');
+										$field_large = ' data-content="<strong>'.trans('holdings.is_current_large').'</strong>" data-placement="top" data-toggle="tooltip" data-html="true" data-trigger="hover" ';
+										$popover = " pop-over ";
+										break;
+										
+										case 'has_incomplete_vols':
+										$field_short = trans('holdings.has_incomplete_vols_short');
+										$field_large = ' data-content="<strong>'.trans('holdings.has_incomplete_vols_large').'</strong>" data-placement="top" data-toggle="tooltip" data-html="true" data-trigger="hover" ';
+										$popover = " pop-over ";
+										break;										
+									}
 								$checked 				= '';
 								$checkactive 		= '';
 								if (($field != 'ocrr_ptrn')) {
 									if (!(in_array($field, $fields))) { ?>
-										<li class="btn btn-xs btn-default{{ $checkactive }}">
-											<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= trans('fields.'.$field); ?>
+										<li class="btn btn-xs btn-default{{ $checkactive }}"{{ $field_large }}>
+											<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field_short; ?>
 										</li>
 										<?php
 									}

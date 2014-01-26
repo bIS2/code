@@ -79,7 +79,7 @@ class HoldingssetsController extends BaseController {
 			$this->data['groups'] = Auth::user()->groups;
 
 			$this->data['group_id'] = (in_array(Input::get('group_id'), $this->data['groups']->lists('id'))) ? Input::get('group_id') : '';
-			$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets() : Holdingsset::where('holdings_number','<',101)->orderBy($orderby, $order);
+			$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets() : Holdingsset::where('holdings_number','<',101);
 
 			$state = Input::get('state');
 
@@ -93,7 +93,9 @@ class HoldingssetsController extends BaseController {
 				if ($state == 'incorrects') 
 					$holdingssets = $holdingssets->incorrects();					
 				if ($state == 'receiveds') 
-					$holdingssets = $holdingssets->receiveds();
+					$holdingssets = $holdingssets->receiveds();					
+				if ($state == 'reserveds') 
+					$holdingssets = $holdingssets->reserveds();
 			}
 
 			if ($this->data['is_filter']) {
@@ -520,9 +522,17 @@ class HoldingssetsController extends BaseController {
 		$id: Holding id 
 		-----------------------------------------------------------------------------------*/
 		public function putUpdateField866aHolding($id) {
+
+
 			$new866a = Input::get('new866a');
-			$holding = Holding::find($id)->update(['f866aupdated'=>$new866a]);
+
+			$new866a = normalize866a($new866a);
+
+			$holding = Holding::find($id)->update(['f866aupdated'=>$new866a, 'hol_nrm' => $new866a]);
+			holdingsset_recall($holding->holdingsset_id);
+
 			return Response::json( ['save866afield' => [$id]] );
+
 		}	
 	}
 
@@ -574,7 +584,7 @@ class HoldingssetsController extends BaseController {
 	// })->take(100)->get();
 	// break;
 
-	error_reporting(E_ALL);
+	// error_reporting(E_ALL);
 	// ini_set('display_errors', TRUE);
 	// ini_set('display_startup_errors', TRUE);
 	// ini_set('memory_limit', '-1');
@@ -1551,4 +1561,10 @@ function get_ptrn_position ($ocrr,$ptrn){
 		}
 	}
 	return '?';
+}
+
+
+function normalize866a() {
+
+	return true;
 }
