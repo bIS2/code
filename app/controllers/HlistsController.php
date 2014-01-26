@@ -98,7 +98,7 @@ class HlistsController extends BaseController {
 			if ( $worker->hasRole('maguser') ){
 
 				if (  Input::get('type') =='control' ){
-					$ids = Holding::whereIn('id',$holding_ids)->where( function($query){ $query->whereState('ok')->orWhere('state','=','annotated'); } )->lists('id');
+					$ids = Holding::whereIn('id',$holding_ids)->where( function($query){ $query->whereState('ok')->orWhere('state','=','annotated')->orWhere('state','=','confirmed'); } )->lists('id');
 				 	$holding_ids =  (count($ids)>0) ? $ids : []; 
 				}
 
@@ -115,6 +115,7 @@ class HlistsController extends BaseController {
 		$validation = Validator::make( $hlist->toArray(), Hlist::$rules );
 
 		if ($validation->passes()) {
+
 
 			if ( count($holding_ids)>0) {
 				$hlist->save();
