@@ -197,6 +197,10 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     	$('#form-create-comments').modal('hide')
     }
 
+    if ( result.error ){
+    	alert(result.error)
+    }
+
     if ( result.hide_feedback )
       $('#btn_create_feedback').popover('hide'); 
 

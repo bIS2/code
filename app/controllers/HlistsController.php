@@ -116,12 +116,15 @@ class HlistsController extends BaseController {
 
 		if ($validation->passes()) {
 
-			$hlist->save();
-
-			if ( count($holding_ids)>0) 
+			if ( count($holding_ids)>0) {
+				$hlist->save();
 				$hlist->holdings()->attach( $holding_ids );
+				return Redirect::route('holdings.index', ['hlist_id'=>$hlist->id]);
+			} else {
+				return Response::json( ['error' => trans('errors.list_in_blank')] );
+			}
 
-			return Redirect::route('holdings.index', ['hlist_id'=>$hlist->id]);
+
 		}
 
 		return Redirect::route('hlists.create')
