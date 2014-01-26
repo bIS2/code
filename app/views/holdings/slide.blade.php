@@ -89,7 +89,7 @@
 								<div class="row">
 									<?php $disabled = (Authority::can('touch', $holding)) ? '' : 'disabled'  ?>
 									<div class="col-xs-5 col-md-offset-1">
-									  <a href="{{ route('states.store') }}" class="btn btn-success btn-ok col-sm-12" data-method="post" data-remote="true" data-params="state=ok&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
+									  <a href="{{ route('states.store') }}" action="click-and-slide" class="btn btn-success btn-ok col-sm-12" data-method="post" data-remote="true" data-params="state=ok&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
 									  	<span class="fa fa-thumbs-up"></span> {{trans('general.confirm')}}
 									  </a>
 

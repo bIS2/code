@@ -49,15 +49,19 @@ class ConfirmsController extends BaseController {
 		if ( count($confirm_id) > 0 ){
 			// Confirm::whereHoldingssetId($holdingsset_id)->delete();
 			// DB::table('confirms')->where('holdingsset_id', '=', $holdingsset_id)->delete();
+
 		  	Confirm::find($confirm_id[0])->delete();
+			// Holdingsset::find($holdingsset_id)->update(['state' => 'blank']);
+
 			Revised::whereIn('holding_id', Holdingsset::find($holdingsset_id)->holdings()->lists('id'))->delete();
-			Holdingsset::find($holdingsset_id)->update(['state' => 'blank']);
 
 			$ret = ['ko' => $holdingsset_id];
 		} else {
+
 			Confirm::create([ 'holdingsset_id' => $holdingsset_id, 'user_id' => Auth::user()->id ]);
+			// Holdingsset::find($holdingsset_id)->update(['state' => 'ok']);
+			
 			$ret = ['ok' => $holdingsset_id];
-			Holdingsset::find($holdingsset_id)->update(['state' => 'ok']);
 		}
 		// Delete all notes from holdings HOS, if exists
 		$ids = Holdingsset::find($holdingsset_id)->holdings()->select('id')->lists('id');

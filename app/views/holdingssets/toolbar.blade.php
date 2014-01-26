@@ -102,6 +102,7 @@
 													$checkactive 	= " active";
 												}
 												$field_short = $field;
+												$popover = '';
 												switch ($field) {
 													case 'exists_online':
 													$field_short = trans('holdings.exists_online_short');

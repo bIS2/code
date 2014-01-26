@@ -6,7 +6,9 @@ class DeliveryObserver {
 
   	$holding = Holding::find($model->holding_id);
   	if ($holding->is_annotated)
+      
   		Confirm::whereHoldingssetId( $holding->holdingsset_id )->delete();
+      // Holdingsset::find($holding->holdingsset_id)->update(['state' => 'blank']);
 
   	// Set related holding like delivered
   	//Holding::whereIn( 'holdings.id',$model->hlist->holdings()->select('holdings.id')->lists('id') );
