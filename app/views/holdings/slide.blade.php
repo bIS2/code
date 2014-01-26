@@ -23,7 +23,7 @@
 										<div class="well" id="holding-slide">
 											<div class="row state">
 												<label >{{ trans('general.state') }}</label>
-												<span class="label label-default">
+												<span class="label label-primary">
 										  		{{ $holding->title_state }}
 												</span>
 												</div>
@@ -89,14 +89,14 @@
 								<div class="row">
 									<?php $disabled = (Authority::can('touch', $holding)) ? '' : 'disabled'  ?>
 									<div class="col-xs-5 col-md-offset-1">
-									  <a href="{{ route('states.store') }}" class="btn btn-success btn-ok col-sm-12" data-method="post" data-remote="true" data-params="state=ok&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
+									  <a href="{{ route('states.store') }}" action="click-and-slide" class="btn btn-success btn-ok col-sm-12" data-method="post" data-remote="true" data-params="state=ok&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
 									  	<span class="fa fa-thumbs-up"></span> {{trans('general.confirm')}}
 									  </a>
 
 									</div>
 									<div class="col-xs-5">
 									  <button href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" type="submit" class="btn btn-danger btn-tag col-sm-12" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
-									  	<span class="fa fa-tags"></span> {{trans('general.annotate')}}
+									  	<span class="fa fa-tags"></span> {{trans('holdings.annotate')}}
 									  </button>
 									</div>
 								</div>

@@ -32,34 +32,34 @@ class Holdingsset extends Eloquent {
   // *********************************************************
   public function scopeOk($query){
     return $query
-    ->whereIn('holdingssets.id', function($query) {
-      $query -> select('holdingsset_id')->from('confirms');
-    });
+    ->whereState('ok');
   }
 
-  public function scopeConfirmed($query){
-    return $query->whereIn('holdingssets.id', function($query) { $query->select('holdingsset_id')->from('confirms'); });
+  public function scopeConfirmed($query){   
+    return $query
+    ->whereState('ok');
   }
 
   public function scopePendings($query){
     return $query
-    ->whereNotIn('holdingssets.id', function($query) {
-      $query -> select('holdingsset_id')->from('confirms');
-    });
+    ->whereState('blank');
+  }
+
+  public function scopeReserveds($query) {     
+    $ids = Holding::reserved()->select('holdingsset_id')->lists('holdingsset_id');
+    if (count($ids) == 0 ) $ids = [-1];
+    return $query
+    ->whereIn('holdingssets.id', $ids);
   }  
 
   public function scopeIncorrects($query){
     return $query
-    ->whereIn('holdingssets.id', function($query) {
-      $query -> select('holdingsset_id')->from('incorrects');
-    });
+    ->whereState('incorrect');
   }
 
   public function scopeCorrects($query){
     return $query
-    ->whereNotIn('holdingssets.id', function($query) {
-      $query -> select('holdingsset_id')->from('incorrects');
-    });
+    ->whereState('ok');
   }
 
   public function scopeAnnotated($query){

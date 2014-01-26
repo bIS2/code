@@ -60,7 +60,7 @@
 					</td>
 						</td>
 					<td class="state">
-						<span class="label label-default">
+						<span class="label label-primary">
 							{{ trans('states.'.$holding->state) }}
 						</span>	
 					</td>

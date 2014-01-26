@@ -6,7 +6,7 @@
 <li class="{{ (Request::is('groups*')) ? 'active' : '' }}">
 	<a href="{{ route('groups.index') }}" ><strong><span class="fa fa-list"></span> {{ trans('holdingssets.groups')}}</strong> </a>
 </li>
-@if (count(holdingsset::receiveds()->lists('id')) > 0 )
+@if (count(Holdingsset::receiveds()->lists('id')) > 0 )
 <?php if ((Auth::user()->hasRole('bibuser'))) { ?>
 <li class="{{ (!Request::is('holdings*')) ?: 'active'}}" > 
 	<a href="{{ route('holdings.index') }}" >
@@ -17,7 +17,7 @@
 @endif
 @if ((Session::get(Auth::user()->username.'_last_route') == '') && ($_COOKIE[Auth::user()->username.'_last_route'] != ''))
 	<li class="btn btn-xs btn-warning">
-		<a href="{{ $_COOKIE[Auth::user()->username.'_last_route'] }}" ><strong><span class="fa fa-repeat"></span> {{ trans('holdingssets.go_to_last_session')}}</strong> </a>
+		<a href="{{ $_COOKIE[Auth::user()->username.'_last_route'] }}" ><strong><span class="fa fa-repeat"><!-- </span> {{ trans('holdingssets.go_to_last_session')}}</strong>  --></a>
 	</li>
 	<?php Session::put(Auth::user()->username.'_last_route', $_COOKIE[Auth::user()->username.'_last_route']); ?>
 @endif

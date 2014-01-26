@@ -3,8 +3,8 @@
 	<div class="container">
 		<a class="navbar-brand" href="/" title="Begleitendes Informationssystem">bIS</a>
 		<ul class="nav navbar-nav">
-			<li> 
-				<a href="/" ><span class="fa fa-home"></span> {{ trans('titles.home')}}</a>
+			<li data-toggle="tooltip" data-placement="bottom" data-original-title="{{ trans('titles.home')}}"> 
+				<a href="/" ><span class="fa fa-home"></span> </a>
 			</li>
 
 			<!-- admin menu ROLE::SYSADMIN-->

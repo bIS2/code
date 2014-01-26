@@ -595,7 +595,7 @@ table.table thead th:first-child {
 }
 #groups-tabs.nav > li > a {
     display: block;
-    padding: 10px 25px 10px 15px;
+    padding: 10px 25px 10px;
     position: relative;
 }
 #groups-tabs.nav > li > a.link_bulk_action {
@@ -622,6 +622,10 @@ table.table thead th:first-child {
     table.flexme {
         .table_order {
             display: none;
+        }
+        th:first-child,
+        td:first-child {
+            width: 10px;
         }
     }
     table.flexme > thead > tr > th.actions + th,
@@ -740,8 +744,9 @@ table.table thead th:first-child {
         text-align: center;
     }
     .btn-group {
-        .btn-group {
-            margin-bottom: 0;
+        margin-bottom: 5px;
+        .tags-menu {
+            left: 130px;
         }
     }
 }
@@ -889,7 +894,7 @@ a.incorrect {
 }
 a.btn-danger {
   span.fa.fa-thumbs-down {
-    color: #FF990F !important;
+    // color: #FF990F !important;
   }  
 }
 
@@ -1027,3 +1032,14 @@ tr.draggable{ background-color: #fff; }
     overflow: hidden !important;
 }
 span.move{ cursor: move; }
+
+span.btn-incorrect {
+    > a {
+        opacity: 0.1;
+    }
+    &:hover {
+        > a {
+            opacity: 1;
+        }
+    }
+}

@@ -76,8 +76,7 @@ $(function(){
 
   bulkActions();
 
-  $('body').on('click', ':checkbox.select-all',function() {
-
+  $('body').on('click', '#select-all',function() {
     $($(this).data('target')).find('input.hl:checkbox').prop('checked',this.checked)
     $('div.select-all p').toggleClass('active')
     if (this.checked) {
@@ -148,13 +147,16 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 
     	obj = $('#'+result.id)
 
-    	if (result.state=='ok') 
+    	if (result.state=='ok') {
     		obj.addClass( 'success' ).removeClass('danger')
+        $('a[data-slide="next"]').click();
+      }
     	
     	if (result.state=='annotated'){
     		obj.addClass( 'danger' ).removeClass('success')
 	      $('#form-create-notes').modal('hide')
-	      $('#slider').carousel('next')
+        $('a[data-slide="next"]').click();
+	      // $('#slider').carousel('next')
     		
     	}
 
@@ -210,7 +212,7 @@ function getAsuccess() {
     'ajax:success': function(data, result, status) {
         set = $(this).attr('set')
         if ($(this).attr('ajaxsuccess') != 1) {
-          $(this).attr('ajaxsuccess', 1)
+          $(this).attr('ajaxsuccess', 1)          
           if (set > 0) {          
             accordion = $('#hosg .hol-sets li#'+set).find('a.accordion-toggle');
             open = ($(accordion).hasClass('collapsed') == true) ? 0 : 1
@@ -310,7 +312,7 @@ function getAsuccess() {
         }
       }
     })
-	
+	 $('[data-toggle=tooltip]').tooltip()
 }
 
 function countThs() {

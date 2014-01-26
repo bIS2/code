@@ -20,12 +20,11 @@
 				<thead>
 					<tr>
 						<th>
-							<div class="pull-left select-all">
-							  <label for="select-all">
-							    <input id="select-all" name="select-all" type="checkbox" value="1" data-target="#groups-targets">
-							    <p class="btn btn-xs btn-primary pop-over"data-content="{{ trans('groups.select_all_groups') }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-check"></i></p>
-							  </label>
-							</div>
+							<label>
+								<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#groups-targets">
+								<p class="btn btn-xs btn-primary pop-over"data-content="{{ trans('groups.select_all_groups') }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-check"></i></p>
+							</label>
+							
 						</th>
 						<th>{{ trans('table.group_name') }}</th>
 						<th>{{ trans('table.user') }}</th>

@@ -54,6 +54,7 @@ class RevisedsController extends BaseController {
 				$holdings_id = Confirm::whereHoldingssetId($holdingsset_id)->lists('id');
 				$confirm_id = (count($holdings_id) > 0) ? $holdings_id : [-1];
 				$user = confirm::find($confirm_id[0])->delete();
+				// Holdingsset::find($confirm_id[0])->update(['state' => 'blank']);
 			}
 			return Response::json( [ 'remove_by_holdingsset' => $holdingsset_id ] );
 		}

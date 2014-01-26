@@ -1,6 +1,6 @@
 @foreach ($holdingssets as $holdingsset)
 <?php 
-	$HOSconfirm 	= $holdingsset->confirm()->exists();
+	$HOSconfirm   = $holdingsset->confirm()->exists();
 	$HOSannotated = $holdingsset->is_annotated;
 	$fieldstoshow = Session::get(Auth::user()->username.'_fields_to_show_ok');
 	$fieldstoshow = explode(';',$fieldstoshow);
@@ -74,7 +74,7 @@
 							@if ($k == 1)
 								<td class="ocrr_ptrn">
 									{{ $holding -> patrn }}
-									<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>{{ $holding -> f866a }}</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
+									<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>{{ htmlspecialchars($holding -> f866a) }}</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
 								</td>
 								<td>{{ $holding->library->code }}</td>
 							@endif

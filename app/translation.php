@@ -44,6 +44,8 @@ if (Input::has('lang'))
     if (in_array(Input::get('lang'), $localesAllowed)) {    
         Session::put('locale', Input::get('lang'));
         setcookie('prefered_lang',Input::get('lang'), time() + (864000 * 30));
+        return Redirect::to(Request::header('referer'));
+        die(Request::header('referer'));
     }
     // else     
     //     Session::put('locale', DEFAULT_LANG);

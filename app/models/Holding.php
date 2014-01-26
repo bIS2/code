@@ -130,6 +130,10 @@ class Holding extends Eloquent {
   public function scopeCommenteds($query){
     return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('comments'); });
   }
+
+  public function scopeReserved($query){
+    return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('lockeds'); });
+  }
   
   public function scopeWithState( $query, $state ){
     return $query->defaults()->where('state','like',$state."%");
@@ -363,7 +367,7 @@ class Holding extends Eloquent {
     ?>
 
     <div class="btn-group actions-menu pull-left" data-container="body">
-      <?php if (Auth::user()->hasRole('resuser')) : ?>
+      <?php if ((Auth::user()->hasRole('resuser')) && (Auth::user()->library->id == $holding->library_id)) : ?>
         <?php if ($holding->locked()->exists()) : ?>
           <div class="btn btn-default btn-xs">
             <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="<?= route('lockeds.store',['holding_id' => $holding->id]); ?>" class="pop-over <?= $btnlock; ?> pull-right" data-remote="true" data-method="post" data-params="state=locked&holdingsset_id=<?=$holdingsset->id; ?>"  data-disable-with="..." data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?><br><strong><?= trans('holdingssets.on_behalf_of'); ?></strong> <?= $holding->locked->comments; ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-lock"></span></a>

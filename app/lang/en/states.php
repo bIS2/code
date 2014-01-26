@@ -14,7 +14,7 @@ return array(
 	*/
 
 	'annotated' 					=> 'Annotaded by MAGUSER',
-	'blank' 						=> '-',
+	'blank' 						=> '(still without status)',
 	'burn' 							=> 'Not solvable',
 	'confirmed' 					=> 'HOS correct',
 	'delivery' 						=> 'Sent to SPB',
@@ -23,7 +23,7 @@ return array(
 	'receive' 						=> 'Integrated in SPB',
 	'received'						=> 'Integrated in SPB',
 	'revised_annotated' 			=> 'Annotated and back to BIBUSER',
-	'revised_ok'		 			=> 'HOL available on shelf',
+	'revised_ok'		 			=> 'HOL can be delivered to SPB',
 	'title'							=> 'Actions executed',
 	'trash' 						=> 'To eliminate',
 

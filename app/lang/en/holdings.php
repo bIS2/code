@@ -33,6 +33,7 @@ return array(
 	'pending'				=> 'Pending',
 	'printer'				=> 'Print',
 	'receiveds'				=> 'Received',
+	'revised'				=> 'List revised',
 	'reviseds'				=> 'Revised',
 	'size'					=> 'Size',
 	'spare'					=> 'Spare HOL',
