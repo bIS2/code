@@ -55,6 +55,7 @@ return array(
 	'prev'              => 'Vorhergehender',
 	'profile'           => 'Profil',
 	'reset'             => 'Zurücksetzen',
+	'reserveds'			=> 'Reservierte',
 	'role'				=> 'Rolle',
 	'save'              => 'Speichern',
 	'save_and_delivery' => 'Speichern und Abgeben',

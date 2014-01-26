@@ -54,6 +54,7 @@ return array(
 	'plase_fix_errors_and_try_again' => 'Please fix errors and try again',
 	'prev'              => 'Previous',
 	'profile'			=> 'Profile',
+	'reserveds'			=> 'Reserved',
 	'reset'  			=> 'Reset',
 	'role'				=> 'Role',
 	'save'  			=> 'Save',

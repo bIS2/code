@@ -7,6 +7,7 @@ return array(
 	'advanced_filter'			=> 'Advanced Filter',
 	'all'						=> 'All',
 	'clear_owner_filter'		=> 'Clear MAIN filter',
+	'check_hos_as_incorrect' 	=> "Mark HOS as 'Unsolved'",
 	'click_to_remove_correct_state' => 'Remove state Correct',
 	'click_to_view_in_other_tab' => 'Click to view in other tab.',
 	'confirm_ok_HOS'			=> 'Confirm HOS to be ok',
