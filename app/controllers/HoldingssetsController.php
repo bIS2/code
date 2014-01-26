@@ -85,14 +85,13 @@ class HoldingssetsController extends BaseController {
 
 			if (isset($state)) {
 				if ($state == 'ok') 
-					$holdingssets = $holdingssets->whereState('ok');
-				if ($state == 'pending') {
-					$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets()->whereState('blank')->where('holdings_number','<',101) : Holdingsset::whereState('blank')->where('holdings_number','<',101);
-				}
+					$holdingssets = $holdingssets->corrects();
+				if ($state == 'pending')
+					$holdingssets = $holdingssets->pendings();
 				if ($state == 'annotated') 
-					$holdingssets = $holdingssets->corrects()->annotated();	
+					$holdingssets = $holdingssets->annotated();	
 				if ($state == 'incorrects') 
-					$holdingssets = $holdingssets->whereState('incorrect');				
+					$holdingssets = $holdingssets->incorrects();					
 				if ($state == 'receiveds') 
 					$holdingssets = $holdingssets->receiveds();
 			}
@@ -362,9 +361,17 @@ class HoldingssetsController extends BaseController {
 					Holdingsset::find($holdingsset_id)->decrement('holdings_number', count($ids));
 					Holdingsset::find($newhos_id)->update(['holdings_number' => count($ids), 'groups_number'=>0]);
 					holdingsset_recall($holdingsset_id);
-					if (Holdingsset::find($holdingsset_id)->holdings()->count() == 1) Confirm::create([ 'holdingsset_id' => $holdingsset_id, 'user_id' => Auth::user()->id ]);
+					if (Holdingsset::find($holdingsset_id)->holdings()->count() == 1) {
+
+						Confirm::create([ 'holdingsset_id' => $holdingsset_id, 'user_id' => Auth::user()->id ]);
+						// Holdingsset::find($holdingsset_id)->update(['state' => 'ok']);
+
+					}
 					holdingsset_recall($newhos_id);
+
 					Confirm::create([ 'holdingsset_id' => $newhos_id, 'user_id' => Auth::user()->id ]);
+					// Holdingsset::find($newhos_id)->update(['state' => 'ok']);
+					
 					$holdingssets[] = Holdingsset::find($holdingsset_id);
 					$holdingssets[] = Holdingsset::find($newhos_id);
 				}
@@ -557,7 +564,7 @@ class HoldingssetsController extends BaseController {
 
 	function similarity_search($sys2) {
 
-		$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+		$conn_string = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 		$con = pg_connect($conn_string) or die('ERROR!!!');
 
 	// $holding  = Holding::find($id);
@@ -899,7 +906,7 @@ $query .= "\n FROM holdings";
 						-----------------------------------------------------------------------------------*/
 						function holdingsset_recall($id) {
 
-							$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+							$conn_string = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 							$conn = pg_connect($conn_string) or die('ERROR!!!');
 
 							$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 500";
@@ -1526,7 +1533,7 @@ function cmp_flag_score($a, $b) {
 
 function create_table($tab_name) {
 
-	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+	$conn_string = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string) or die('ERROR!!!');
 
 	$query  = "DROP TABLE IF EXISTS $tab_name; ";
