@@ -1,5 +1,5 @@
 <?
-error_reporting(E_ALL);
+// error_reporting(E_ALL);
 	$url = 'http://ilu.zhbluzern.ch/F/?/&func=find-b&find_code=SYS&request=000277165';
 	// $url = 'http://desarrolloat.ananas.travel';
  	$ch = curl_init();  

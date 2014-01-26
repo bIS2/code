@@ -574,7 +574,7 @@ class HoldingssetsController extends BaseController {
 	// })->take(100)->get();
 	// break;
 
-	//error_reporting(E_ALL);
+	error_reporting(E_ALL);
 	// ini_set('display_errors', TRUE);
 	// ini_set('display_startup_errors', TRUE);
 	// ini_set('memory_limit', '-1');
