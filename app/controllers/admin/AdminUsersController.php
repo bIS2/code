@@ -271,10 +271,18 @@ class AdminUsersController extends AdminController {
             return Redirect::to('admin/users')->with('error', Lang::get('admin/users/messages.delete.impossible'));
         }
 
-        AssignedRoles::where('user_id', $user->id)->delete();
+        //Check if user have work disable
+        if ($user->states()->exists()) {
 
-        $id = $user->id;
-        $user->delete();
+        	$user->update(['disable'=>true]);
+
+        } else {
+	        AssignedRoles::where('user_id', $user->id)->delete();
+
+	        $id = $user->id;
+	        $user->delete();
+        	
+        }
 
         // Was the comment post deleted?
         $user = User::find($id);
@@ -283,9 +291,9 @@ class AdminUsersController extends AdminController {
             // TODO needs to delete all of that user's content
         		return Response::json( ['remove' => $id] );
             // return Redirect::to('admin/users')->with('success', Lang::get('admin/users/messages.delete.success'));
-        }
-        else
-        {
+        } elseif ($user->disable) {
+        		return Response::json( ['disabled' => $id] );
+        } else {
             // There was a problem deleting the user
             return Redirect::to('admin/users')->with('error', Lang::get('admin/users/messages.delete.error'));
         }

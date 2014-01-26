@@ -65,6 +65,10 @@ return [
           return !Auth::guest() && Auth::user()->hasRole('magvuser') && Auth::user()->hasRole('maguser');
         });
 
+        $authority->allow('delete','User', function($self, $user) {
+        	return ( ( $user->hasRole('superuser') && Auth::user()->hasRole('sysadmin') ) || ( !$user->hasRole('sysadmin') && Auth::user()->hasRole('superuser') && ($user->library_id == Auth::user()->library_id)));
+        });
+
         if ($user->hasRole('magvuser') || $user->hasRole('maguser'))
         	$authority->allow('btn-mag');
 

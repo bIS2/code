@@ -79,12 +79,13 @@
 		if (in_array($hlist -> id, $hlistsids)) {  Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]
 	 ?>
 		<li id="hlist{{ $hlist->id }}" class="<?php echo ($hlist_id == $hlist->id) ? 'active' : 'accepthos' ?> droppable" data-attach-url="{{ action('HlistsController@postAttach', [$hlist->id]) }}">
-			<a <?php if ($hlist_id != $hlist -> id) { echo 'href="'.route('holdings.index',Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]).'"'; } ?> class="pull-left">
+			<a <?php if ($hlist_id != $hlist -> id) { echo 'href="'.route('holdings.index',Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]).'"'; } ?> class="">
 				{{ $hlist->type_icon }}
 				<?= $hlist->name  ?> 
-			<span class="badge">{{ $hlist->holdings -> count() }} </span></a></a>
+				<span class="badge">{{ $hlist->holdings -> count() }} </span>
+			</a>
 
-			<?php if ($hlist_id != $hlist -> id) { ?>
+			<?php if ($hlist_id != $hlist->id) { ?>
 				<a href="{{ action('HoldingsController@putDelTabhlist',[$hlist->id]) }}" class="close" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><i class="fa fa-eye-slash"></i></a>
 			<?php } ?>
 		</li>

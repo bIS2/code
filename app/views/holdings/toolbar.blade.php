@@ -98,6 +98,13 @@
 
 				  	@endif
 
+				  	@if ( $user->hasRole('bibuser') || $user->hasRole('magvuser') )
+
+					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'integrated'] ) }}" class="btn btn-default <?= ( Input::get('state')=='integrated' ) ? 'active' : '' ?> btn-sm" >
+					  		<span class="fa fa-flag-checkered"></span> {{{ trans('holdings.integrated') }}}
+					  	</a>
+
+					  @endif
 				  	<!-- HOLDING SPARE -->
 				  	@if ( $user->hasRole('bibuser') || $user->hasRole('magvuser') )
 
@@ -126,13 +133,6 @@
 
 					  @endif
 
-				  	@if ( $user->hasRole('bibuser') || $user->hasRole('magvuser') )
-
-					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'integrated'] ) }}" class="btn btn-default <?= ( Input::get('state')=='integrated' ) ? 'active' : '' ?> btn-sm" >
-					  		<span class="fa fa-flag-checkered"></span> {{{ trans('holdings.integrated') }}}
-					  	</a>
-
-					  @endif
 
 				  </div>
 
