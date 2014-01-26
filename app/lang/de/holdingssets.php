@@ -42,6 +42,7 @@ return array(
 	'order_hos_by' 				=> 'Sortiere HOS: ',
 	'orphan'					=> 'Waisenkinder',
 	'pending'            		=> 'Unbearbeitete',
+	'please_refresh_the_page'	=> 'Aktualisierung nötig. Bitte Seite mit F5 neu laden',
 	'printer'            		=> 'Druckansicht',
 	'recall_hos_from_this_holding' => 'Search other HOL',
 	'receiveds'					=> 'In SPB integriert',

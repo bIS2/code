@@ -42,6 +42,7 @@ return array(
 	'order_hos_by' 				=> 'Order HOS By',
 	'orphan'					=> 'Orphan HOS',
 	'pending'					=> 'Pending',
+	'please_refresh_the_page'	=> 'Needs refreshing. Please press F5 to load page again',
 	'printer'					=> 'Print',
 	'recall_hos_from_this_holding' => 'Search other HOL',
 	'receiveds'					=> 'In SPB integrated',
