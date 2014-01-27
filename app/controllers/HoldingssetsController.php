@@ -570,316 +570,299 @@ class HoldingssetsController extends BaseController {
 	}
 
 
-
+/* ---------------------------------------------------------------------------------
+	Search similaritys holdings from a hol
+	--------------------------------------
+	Params:
+		$str: sys2 of the holdings
+		-----------------------------------------------------------------------------------*/
 
 	function similarity_search($sys2) {
 
 		$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
-		$con = pg_connect($conn_string) or die('ERROR!!!');
+		$conn_string1 = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+		$con = pg_connect($conn_string) or ($con = pg_connect($conn_string1));
 
-	// $holding  = Holding::find($id);
-	// return Holding::where('holdingsset_id','!=', $holding -> holdingsset_id )->where(function($query) use ($holding) {	
-	// 	$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.htmlspecialchars($holding->f245a,ENT_QUOTES). '%') : $query;
-	// 	$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.htmlspecialchars($holding->f245b,ENT_QUOTES). '%') : $query;
-	// })->take(100)->get();
-	// break;
-
-	// error_reporting(E_ALL);
-	// ini_set('display_errors', TRUE);
-	// ini_set('display_startup_errors', TRUE);
-	// ini_set('memory_limit', '-1');
-//ini_set('max_execution_time', 24000); // 24000 seconds = 40 Min
 		date_default_timezone_set('America/New_York');
 		define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
 		$date_start = $date = new DateTime('now', new DateTimeZone('America/New_York'));
 
-
-	// die('toy aqui');
-	$ta_sim_name      = 'ta_sim';    // result table
-	$select_fld       = 'id,sys2,f022a,f245a,f245a_e,f245b_e,f245c_e,f_tit_e,f260a_e,f260b_e,f310a_e,f362a_e,f710a_e,f780t_e,f785t_e,f008x,f008y';  // fields 
-	$fld_ta           = array();         // field list of table ta
-	$ta_sim_fields    = '';              // fields for ta_sim_test
-	$fld_sim          = array();         // field list of table_cmp
+		$ta_sim_name      = 'ta_sim';    // result table
+		$select_fld       = 'id,sys2,f022a,f245a,f245a_e,f245b_e,f245c_e,f_tit_e,f260a_e,f260b_e,f310a_e,f362a_e,f710a_e,f780t_e,f785t_e,f008x,f008y';  // fields 
+		$fld_ta           = array();         // field list of table ta
+		$ta_sim_fields    = '';              // fields for ta_sim_test
+		$fld_sim          = array();         // field list of table_cmp
 
 
-	$freq_tit         = array();  // fill $tit_freq with all frequent titles
-	$query = "SELECT f245a FROM tit_freq";
-	$result = pg_query($con, $query); if (!$result) { echo "Error executing".$query."\n".pg_last_error(); exit; }
-	$tmp_arr = pg_fetch_all($result);
-	foreach ($tmp_arr as $tmp) $freq_tit[] = $tmp['f245a'];
+		$freq_tit  = array();  // fill $tit_freq with all frequent titles
+		$query = "SELECT f245a FROM tit_freq";
+		$result = pg_query($con, $query); if (!$result) { echo "Error executing".$query."\n".pg_last_error(); exit; }
+		$tmp_arr = pg_fetch_all($result);
+		foreach ($tmp_arr as $tmp) $freq_tit[] = $tmp['f245a'];
 
-	$weight_model     = 0;               // general weight model
-	$fld_weight_model = array();         // model list of weights for every field
-	$fld_weight       = array();         // currently used list of weights for every field
-	$max_score        = 0;               // remember top score
-	$treshold_score   = 45;              // discriminating similar and different   !!! recheck this value 
-	$is_freq_tit      = false;           // remember if a title is a frequent title defined in tit_freq
-	//$mult_f022a     = ' ';             // mark ISSN if there are several
-	$rno              = 0;               // records number
-	$sys_reference    = '';              // 
-	//$sys_compared     = array();         // collect all sys1 o sys2 that already have been put into sets
+		$weight_model     = 0;               // general weight model
+		$fld_weight_model = array();         // model list of weights for every field
+		$fld_weight       = array();         // currently used list of weights for every field
+		$max_score        = 0;               // remember top score
+		$treshold_score   = 45;              // discriminating similar and different   !!! recheck this value 
+		$is_freq_tit      = false;           // remember if a title is a frequent title defined in tit_freq
+		//$mult_f022a     = ' ';             // mark ISSN if there are several
+		$rno              = 0;               // records number
+		$sys_reference    = '';              // 
+		//$sys_compared     = array();         // collect all sys1 o sys2 that already have been put into sets
 
-	// prepare list of fields to be used for comparison
-	  // fields of a ta
+		// prepare list of fields to be used for comparison
+		  // fields of a ta
 
-	$fld_ta = array (
-		'sys',      'f008x',    'f008y',    'f008l',    'f008s',
-		'f022a',    'f245a',    'f245b',    'f245c',    'f245d',    'f246i',
-		'f260a',    'f260b',    'f260c',    'f300c',
-		'f310a',    'f362a',    'f500a',
-		'f710a',    'f710b',    'f730a',    'f770t',    'f780t',    'f780w',
-		'f852a',    'f852h',    'f856u',    'f866a',
-		'f949j',    'f949z'
-		);
-	  // fields with the results of every field compared (values 0..1)
-	$fld_sim = array (
-		's_f008x',  's_f008y',
-		's_f022a',  's_f245a',  's_f245b',  's_f245c',  's_f_tit',
-		's_f260a',  's_f260b',
-		's_f310a',  's_f362a',
-		's_f710a',  's_f780a'
-		);
+		$fld_ta = array (
+			'sys',      'f008x',    'f008y',    'f008l',    'f008s',
+			'f022a',    'f245a',    'f245b',    'f245c',    'f245d',    'f246i',
+			'f260a',    'f260b',    'f260c',    'f300c',
+			'f310a',    'f362a',    'f500a',
+			'f710a',    'f710b',    'f730a',    'f770t',    'f780t',    'f780w',
+			'f852a',    'f852h',    'f856u',    'f866a',
+			'f949j',    'f949z'
+			);
+		  // fields with the results of every field compared (values 0..1)
+		$fld_sim = array (
+			's_f008x',  's_f008y',
+			's_f022a',  's_f245a',  's_f245b',  's_f245c',  's_f_tit',
+			's_f260a',  's_f260b',
+			's_f310a',  's_f362a',
+			's_f710a',  's_f780a'
+			);
 
-	  // output fields
-	$cmp_sim_fields  = "sys1,sys2, score, flag, f022a,s_f022a, f245a,s_f245a, f245b,s_f245b, f245c,s_f245c, f_tit, s_f_tit"; 
-	$cmp_sim_fields .= ",f260a,s_f260a, f260b,s_f260b";
-	$cmp_sim_fields .= ",f310a,s_f310a, f362a,s_f362a, f710a,s_f710a, f780t,s_f780t, f785t,s_f785t, f008x, s_f008x, f008y, s_f008y, proc_cmp, run_cmp";
-	$cmp_sim_fields .= ", off, no";
+		  // output fields
+		$cmp_sim_fields  = "sys1,sys2, score, flag, f022a,s_f022a, f245a,s_f245a, f245b,s_f245b, f245c,s_f245c, f_tit, s_f_tit"; 
+		$cmp_sim_fields .= ",f260a,s_f260a, f260b,s_f260b";
+		$cmp_sim_fields .= ",f310a,s_f310a, f362a,s_f362a, f710a,s_f710a, f780t,s_f780t, f785t,s_f785t, f008x, s_f008x, f008y, s_f008y, proc_cmp, run_cmp";
+		$cmp_sim_fields .= ", off, no";
 
-	  // Weight model with values for match, similar, no-match. Values can be negative
-		// balanced weighting
-	$fld_weight_model[0] = array (
-		'f008x' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
-		'f008y' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
-		'f022a' => array('equ' => 10, 'sim' =>  0, 'dif' => -6),
-		'f245a' => array('equ' => 15, 'sim' =>  1, 'dif' => -3),
-		'f245b' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-		'f245c' => array('equ' => 15, 'sim' =>  0, 'dif' =>  0),
-		'f_tit' => array('equ' =>  3, 'sim' =>  1, 'dif' =>  0),
-		'f260a' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
-		'f260b' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
-		'f260c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-		'f300c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-		'f310a' => array('equ' =>  5, 'sim' =>  1, 'dif' => -3),
-		'f362a' => array('equ' =>  7, 'sim' =>  2, 'dif' => -7),
-		'f710a' => array('equ' => 10, 'sim' =>  3, 'dif' => -5),
-		'f780t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
-		'f785t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
-		'f852a' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-		);
-		// weights institution (7xx) even more
-$fld_weight_model[1] = array (
-	'f008x' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
-	'f008y' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
-	'f022a' => array('equ' => 10, 'sim' =>  0, 'dif' => -6),
-	'f245a' => array('equ' => 10, 'sim' =>  1, 'dif' => -3),
-	'f245b' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-	'f245c' => array('equ' => 10, 'sim' =>  0, 'dif' =>  0),
-	'f_tit' => array('equ' =>  3, 'sim' =>  1, 'dif' =>  0),
-	'f260a' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
-	'f260b' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
-	'f260c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-	'f300c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-	'f310a' => array('equ' =>  5, 'sim' =>  1, 'dif' => -3),
-	'f362a' => array('equ' =>  7, 'sim' =>  2, 'dif' => -7),
-	'f710a' => array('equ' => 20, 'sim' =>  3, 'dif' => -5),
-	'f780t' => array('equ' => 20, 'sim' =>  3, 'dif' =>  0),
-	'f785t' => array('equ' => 20, 'sim' =>  3, 'dif' =>  0),
-	'f852a' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-	);  
+		  // Weight model with values for match, similar, no-match. Values can be negative
+			// balanced weighting
+		$fld_weight_model[0] = array (
+			'f008x' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
+			'f008y' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
+			'f022a' => array('equ' => 10, 'sim' =>  0, 'dif' => -6),
+			'f245a' => array('equ' => 15, 'sim' =>  1, 'dif' => -3),
+			'f245b' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+			'f245c' => array('equ' => 15, 'sim' =>  0, 'dif' =>  0),
+			'f_tit' => array('equ' =>  3, 'sim' =>  1, 'dif' =>  0),
+			'f260a' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
+			'f260b' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
+			'f260c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+			'f300c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+			'f310a' => array('equ' =>  5, 'sim' =>  1, 'dif' => -3),
+			'f362a' => array('equ' =>  7, 'sim' =>  2, 'dif' => -7),
+			'f710a' => array('equ' => 10, 'sim' =>  3, 'dif' => -5),
+			'f780t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
+			'f785t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
+			'f852a' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+			);
+			// weights institution (7xx) even more
+		$fld_weight_model[1] = array (
+			'f008x' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
+			'f008y' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
+			'f022a' => array('equ' => 10, 'sim' =>  0, 'dif' => -6),
+			'f245a' => array('equ' => 10, 'sim' =>  1, 'dif' => -3),
+			'f245b' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+			'f245c' => array('equ' => 10, 'sim' =>  0, 'dif' =>  0),
+			'f_tit' => array('equ' =>  3, 'sim' =>  1, 'dif' =>  0),
+			'f260a' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
+			'f260b' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
+			'f260c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+			'f300c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+			'f310a' => array('equ' =>  5, 'sim' =>  1, 'dif' => -3),
+			'f362a' => array('equ' =>  7, 'sim' =>  2, 'dif' => -7),
+			'f710a' => array('equ' => 20, 'sim' =>  3, 'dif' => -5),
+			'f780t' => array('equ' => 20, 'sim' =>  3, 'dif' =>  0),
+			'f785t' => array('equ' => 20, 'sim' =>  3, 'dif' =>  0),
+			'f852a' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+		);  
 
-			// weighting issn (022) more
-$fld_weight_model[2] = array (
-	'f008x' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
-	'f008y' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
-	'f022a' => array('equ' => 20, 'sim' =>  0, 'dif' => -6),
-	'f245a' => array('equ' => 10, 'sim' =>  1, 'dif' => -3),
-	'f245b' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-	'f245c' => array('equ' => 10, 'sim' =>  0, 'dif' =>  0),
-	'f_tit' => array('equ' =>  3, 'sim' =>  1, 'dif' =>  0),
-	'f260a' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
-	'f260b' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
-	'f260c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-	'f300c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-	'f310a' => array('equ' =>  5, 'sim' =>  1, 'dif' => -3),
-	'f362a' => array('equ' =>  7, 'sim' =>  2, 'dif' => -7),
-	'f710a' => array('equ' => 10, 'sim' =>  3, 'dif' => -5),
-	'f780t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
-	'f785t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
-	'f852a' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-			);                    // create $fld_ta
+					// weighting issn (022) more
+		$fld_weight_model[2] = array (
+			'f008x' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
+			'f008y' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
+			'f022a' => array('equ' => 20, 'sim' =>  0, 'dif' => -6),
+			'f245a' => array('equ' => 10, 'sim' =>  1, 'dif' => -3),
+			'f245b' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+			'f245c' => array('equ' => 10, 'sim' =>  0, 'dif' =>  0),
+			'f_tit' => array('equ' =>  3, 'sim' =>  1, 'dif' =>  0),
+			'f260a' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
+			'f260b' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
+			'f260c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+			'f300c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+			'f310a' => array('equ' =>  5, 'sim' =>  1, 'dif' => -3),
+			'f362a' => array('equ' =>  7, 'sim' =>  2, 'dif' => -7),
+			'f710a' => array('equ' => 10, 'sim' =>  3, 'dif' => -5),
+			'f780t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
+			'f785t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
+			'f852a' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+		);                    // create $fld_ta
 
-	// create resulting table
-	//create_table($ta_sim_name);
+		create_table($ta_sim_name);
+		$sys = $sys2;
 
-	// printf("Table $ta_sim_name truncated.\n<br><br>");
-create_table($ta_sim_name);
+		// get reference record
+		$query = "SELECT ".$select_fld." FROM holdings WHERE sys2 = '$sys'";
+		$result = pg_query($con, $query) or die(pg_last_error()); //; if (!$result) { echo "Error executing".$query."\n"; exit; }
+		$tas = pg_fetch_all($result);
+		// echo $query."<br>";
+		$ta = $tas[0];
+		// var_dump($ta);
 
-$sys = $sys2;
+		// ************************************************
+		// COMPARE WITH OTHERS
+		// ************************************************
+		$is_freq_tit = false;  // later set to true of title occurs many times
+		// initialize collect process information
+		$proc_info = array('equ' => 0, 'sim' => 0, 'try' => 0, 'dif' => 0, 'AGKB' => 0, 'BSUB' => 0, 'LUZB' => 0, 'SGHG' => 0, 'ZHUZ' => 0, 'ZHZB' => 0);
 
+		// get current time for process measurement
+		if ($proc_flag['time']) $date_start_cycle = new DateTime('now', new DateTimeZone('America/New_York'));
 
+		$sys_reference = $ta['sys2']; // ex. bib_sys
 
-
-	// get reference record
-$query = "SELECT ".$select_fld." FROM holdings WHERE sys2 = '$sys'";
-	$result = pg_query($con, $query) or die(pg_last_error()); //; if (!$result) { echo "Error executing".$query."\n"; exit; }
-	$tas = pg_fetch_all($result);
-	// echo $query."<br>";
-	$ta = $tas[0];
-	// var_dump($ta);
-
-	// ************************************************
-	// COMPARE WITH OTHERS
-	// ************************************************
-	$is_freq_tit = false;  // later set to true of title occurs many times
-	// initialize collect process information
-	$proc_info = array('equ' => 0, 'sim' => 0, 'try' => 0, 'dif' => 0, 'AGKB' => 0, 'BSUB' => 0, 'LUZB' => 0, 'SGHG' => 0, 'ZHUZ' => 0, 'ZHZB' => 0);
-
-	// get current time for process measurement
-	if ($proc_flag['time']) $date_start_cycle = new DateTime('now', new DateTimeZone('America/New_York'));
-
-	$sys_reference = $ta['sys']; // ex. bib_sys
-
-	// **** check if is_tit_freq  
-	// break f245a the same way as the titles in tit_freq
-	$query = "SELECT regexp_split_to_array(lower('".pg_escape_string($ta['f245a'])."'), E'[\- \.,:;\(\){}\"\']+') f245a_s";
-	$result = pg_query($con, $query)  or die(pg_last_error()); // if (!$result) echo "Error executing".$query."\n";
-	// echo $query."<br>";
-	$tit = pg_fetch_all($result);
-	$tit = substr($tit[0]['f245a_s'], 1, strlen($tit[0]['f245a_s'])-2);  // cut ()
-	$tit = implode(' ', explode(',',$tit));
-	$tit = str_replace(" \"\"", "", $tit);
-	$tit = preg_replace("/[\[\]]/", "", $tit);
-	if (in_array($tit, $freq_tit)) { // check if normalized title is a frequent title
-		$is_freq_tit = true;
-		if ($proc_flag['debug']) echo " !! FREQ(".$ta['f245a'].")\n";
-	}
-
-	// create comparison query. If value is '' the result will be 0, so we do not compare this field
-	$query  = "SELECT id, sys2,";
-	$query .= "\n f022a,         "; ($ta['f022a']   > '') ? $query .= " similarity(f022a,  '".pg_escape_string($ta['f022a'])."'  ) s_f022a," : $query .= " 0::integer s_f022a,";
-	$query .= "\n f245a, f245a_e,"; ($ta['f245a_e'] > '') ? $query .= " similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') s_f245a," : $query .= " 0::integer s_f245a,";
-	$query .= "\n f245b, f245b_e,"; ($ta['f245b_e'] > '') ? $query .= " similarity(f245b_e,'".pg_escape_string($ta['f245b_e'])."') s_f245b," : $query .= " 0::integer s_f245b,";
-	$query .= "\n f245c,         "; ($ta['f245c_e'] > '') ? $query .= " similarity(f245c_e,'".pg_escape_string($ta['f245c_e'])."') s_f245c," : $query .= " 0::integer s_f245c,";
-	$query .= "\n f_tit,         "; ($ta['f_tit_e'] > '') ? $query .= " similarity(f_tit_e,'".pg_escape_string($ta['f_tit_e'])."') s_f_tit," : $query .= " 0::integer s_f_tit,";
-	$query .= "\n f260a, f260a_e,"; ($ta['f260a_e'] > '') ? $query .= " similarity(f260a_e,'".pg_escape_string($ta['f260a_e'])."') s_f260a," : $query .= " 0::integer s_f260a,";
-	$query .= "\n f260b,         "; ($ta['f260b_e'] > '') ? $query .= " similarity(f260b_e,'".pg_escape_string($ta['f260b_e'])."') s_f260b," : $query .= " 0::integer s_f260b,";
-	$query .= "\n f310a,         "; ($ta['f310a_e'] > '') ? $query .= " similarity(f310a_e,'".pg_escape_string($ta['f310a_e'])."') s_f310a," : $query .= " 0::integer s_f310a,";
-	$query .= "\n f362a, f362a_e, similarity(
-		array_to_string(regexp_split_to_array(f362a_e, E'[^0-9]+'),';','*'),
-		array_to_string(regexp_split_to_array('".pg_escape_string($ta['f362a_e'])."', E'[^0-9]+'),';','*')) s_f362a,";
-$query .= "\n f710a, f710a_e,"; ($ta['f710a_e'] > '') ? $query .= " similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') s_f710a," : $query .= " 0::integer s_f710a,";
-$query .= "\n f780t, f780t_e,"; ($ta['f780t_e'] > '') ? $query .= " similarity(f780t_e,'".pg_escape_string($ta['f780t_e'])."') s_f780t," : $query .= " 0::integer s_f780t,";
-$query .= "\n f785t, f785t_e,"; ($ta['f785t_e'] > '') ? $query .= " similarity(f785t_e,'".pg_escape_string($ta['f785t_e'])."') s_f785t," : $query .= " 0::integer s_f785t,";
-$query .= "\n f008x,         "; ($ta['f008x']   > '') ? $query .= " similarity(f008x  ,'".pg_escape_string($ta['f008x'])  ."') s_f008x," : $query .= " 0::integer s_f008x,";
-$query .= "\n f008y,         "; ($ta['f008y']   > '') ? $query .= " similarity(f008y  ,'".pg_escape_string($ta['f008y'])  ."') s_f008y"  : $query .= " 0::integer s_f008y";
-$query .= "\n FROM holdings";
-	if ($is_freq_tit) { // for frequent titles include filters
-		$query .= "\n  WHERE similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') = 1";  // same title
-		if (($ta['f710a_e'] > '') and ($ta['f245c_e'] > '')) {
- 			// $query .= " AND (similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') > 0.9";  // similiar organisation
-			$query .= "\n OR similarity(f245c_e,'".pg_escape_string($ta['f245c_e'])."') > 0.8)";
-} else {
-	if (($ta['f710a_e'] >  '') AND ($ta['f245c_e'] == ''))
-				// $query .= " AND similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') > 0.9";  // similiar organisation (710a)
-		if (($ta['f710a_e'] == '') AND ($ta['f245c_e'] >  ''))
-				$query .= " AND similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') > 0.8";  // similar organisation (245c)
+		// **** check if is_tit_freq  
+		// break f245a the same way as the titles in tit_freq
+		$query = "SELECT regexp_split_to_array(lower('".pg_escape_string($ta['f245a'])."'), E'[\- \.,:;\(\){}\"\']+') f245a_s";
+		$result = pg_query($con, $query)  or die(pg_last_error()); // if (!$result) echo "Error executing".$query."\n";
+		// echo $query."<br>";
+		$tit = pg_fetch_all($result);
+		$tit = substr($tit[0]['f245a_s'], 1, strlen($tit[0]['f245a_s'])-2);  // cut ()
+		$tit = implode(' ', explode(',',$tit));
+		$tit = str_replace(" \"\"", "", $tit);
+		$tit = preg_replace("/[\[\]]/", "", $tit);
+		if (in_array($tit, $freq_tit)) { // check if normalized title is a frequent title
+			$is_freq_tit = true;
+			if ($proc_flag['debug']) echo " !! FREQ(".$ta['f245a'].")\n";
 		}
-	} else {
-		$query .= "\n  WHERE similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') > 0.6";
-		// $query .= "\n     OR similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') > 0.8";
-	}
-	$query .= "\n  ORDER BY s_f245a DESC, f245a_e";
-//printf("%s\n", $query);
-	$result = pg_query($con, $query) or die(pg_last_error());// if (!$result) { echo "Error executing".$query."\n"; exit; }
-	$ta_res_sim = pg_fetch_all($result);
-	$size_r = sizeof($ta_res_sim);
 
-	// echo $query."<br>";
-	// die();
-	if (!$ta_res_sim) $size_r = 0;
+		// create comparison query. If value is '' the result will be 0, so we do not compare this field
+		$query  = "SELECT id, sys2,";
+		$query .= "\n f022a,         "; ($ta['f022a']   > '') ? $query .= " similarity(f022a,  '".pg_escape_string($ta['f022a'])."'  ) s_f022a," : $query .= " 0::integer s_f022a,";
+		$query .= "\n f245a, f245a_e,"; ($ta['f245a_e'] > '') ? $query .= " similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') s_f245a," : $query .= " 0::integer s_f245a,";
+		$query .= "\n f245b, f245b_e,"; ($ta['f245b_e'] > '') ? $query .= " similarity(f245b_e,'".pg_escape_string($ta['f245b_e'])."') s_f245b," : $query .= " 0::integer s_f245b,";
+		$query .= "\n f245c,         "; ($ta['f245c_e'] > '') ? $query .= " similarity(f245c_e,'".pg_escape_string($ta['f245c_e'])."') s_f245c," : $query .= " 0::integer s_f245c,";
+		$query .= "\n f_tit,         "; ($ta['f_tit_e'] > '') ? $query .= " similarity(f_tit_e,'".pg_escape_string($ta['f_tit_e'])."') s_f_tit," : $query .= " 0::integer s_f_tit,";
+		$query .= "\n f260a, f260a_e,"; ($ta['f260a_e'] > '') ? $query .= " similarity(f260a_e,'".pg_escape_string($ta['f260a_e'])."') s_f260a," : $query .= " 0::integer s_f260a,";
+		$query .= "\n f260b,         "; ($ta['f260b_e'] > '') ? $query .= " similarity(f260b_e,'".pg_escape_string($ta['f260b_e'])."') s_f260b," : $query .= " 0::integer s_f260b,";
+		$query .= "\n f310a,         "; ($ta['f310a_e'] > '') ? $query .= " similarity(f310a_e,'".pg_escape_string($ta['f310a_e'])."') s_f310a," : $query .= " 0::integer s_f310a,";
+		$query .= "\n f362a, f362a_e, similarity(
+			array_to_string(regexp_split_to_array(f362a_e, E'[^0-9]+'),';','*'),
+			array_to_string(regexp_split_to_array('".pg_escape_string($ta['f362a_e'])."', E'[^0-9]+'),';','*')) s_f362a,";
+		$query .= "\n f710a, f710a_e,"; ($ta['f710a_e'] > '') ? $query .= " similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') s_f710a," : $query .= " 0::integer s_f710a,";
+		$query .= "\n f780t, f780t_e,"; ($ta['f780t_e'] > '') ? $query .= " similarity(f780t_e,'".pg_escape_string($ta['f780t_e'])."') s_f780t," : $query .= " 0::integer s_f780t,";
+		$query .= "\n f785t, f785t_e,"; ($ta['f785t_e'] > '') ? $query .= " similarity(f785t_e,'".pg_escape_string($ta['f785t_e'])."') s_f785t," : $query .= " 0::integer s_f785t,";
+		$query .= "\n f008x,         "; ($ta['f008x']   > '') ? $query .= " similarity(f008x  ,'".pg_escape_string($ta['f008x'])  ."') s_f008x," : $query .= " 0::integer s_f008x,";
+		$query .= "\n f008y,         "; ($ta['f008y']   > '') ? $query .= " similarity(f008y  ,'".pg_escape_string($ta['f008y'])  ."') s_f008y"  : $query .= " 0::integer s_f008y";
+		$query .= "\n FROM holdings";
+		if ($is_freq_tit) { // for frequent titles include filters
+			$query .= "\n  WHERE similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') = 1";  // same title
+			if (($ta['f710a_e'] > '') and ($ta['f245c_e'] > '')) {
+		 			$query .= " AND (similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') > 0.9";  // similiar organisation
+					$query .= "\n OR similarity(f245c_e,'".pg_escape_string($ta['f245c_e'])."') > 0.8)";
+			} else {
+				if (($ta['f710a_e'] >  '') AND ($ta['f245c_e'] == ''))
+					$query .= " AND similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') > 0.9";  // similiar organisation (710a)
+				if (($ta['f710a_e'] == '') AND ($ta['f245c_e'] >  ''))
+						$query .= " AND similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') > 0.8";  // similar organisation (245c)
+				}
+		} else {
+				$query .= "\n  WHERE similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') > 0.6";
+				$query .= "\n     OR similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') > 0.8";
+		}
+			$query .= "\n  ORDER BY s_f245a DESC, f245a_e";
+		//printf("%s\n", $query);
+			$result = pg_query($con, $query) or die(pg_last_error());// if (!$result) { echo "Error executing".$query."\n"; exit; }
+			$ta_res_sim = pg_fetch_all($result);
+			$size_r = sizeof($ta_res_sim);
 
-	$proc_info['found'] = $size_r;
-	if ($proc_flag['debug']) printf(" FOUND: %s\n", $proc_info['found']);
+			// echo $query."<br>";
+			// die();
+			if (!$ta_res_sim) $size_r = 0;
 
-
-	// -------------------- analyse and optimize result
-	for ($rno = 0; $rno < $size_r; $rno++) {
-	  // prepare score evaluation
-		$ta_res_sim[$rno]['score']      = 0;
-	  $ta_res_sim[$rno]['flag']       = '_'; // initialize with '_'
-	  if (!isset($ta_res_sim[$rno]['s_f022a']) or $ta_res_sim[$rno]['s_f022a'] == 'NaN') $ta_res_sim[$rno]['s_f022a']  = 0;
-	  if (!isset($ta_res_sim[$rno]['s_f245a']) or $ta_res_sim[$rno]['s_f245a'] == 'NaN') $ta_res_sim[$rno]['s_f245a']  = 0;
-	  if (!isset($ta_res_sim[$rno]['s_f245b']) or $ta_res_sim[$rno]['s_f245b'] == 'NaN') $ta_res_sim[$rno]['s_f245b']  = 0;
-	  if (!isset($ta_res_sim[$rno]['s_f245c']) or $ta_res_sim[$rno]['s_f245c'] == 'NaN') $ta_res_sim[$rno]['s_f245c']  = 0;
-	  if (!isset($ta_res_sim[$rno]['s_f_tit']) or $ta_res_sim[$rno]['s_f_tit'] == 'NaN') $ta_res_sim[$rno]['s_f_tit']  = 0;
-	  if (!isset($ta_res_sim[$rno]['s_f260a']) or $ta_res_sim[$rno]['s_f260a'] == 'NaN') $ta_res_sim[$rno]['s_f260a']  = 0;
-	  if (!isset($ta_res_sim[$rno]['s_f260b']) or $ta_res_sim[$rno]['s_f260b'] == 'NaN') $ta_res_sim[$rno]['s_f260b']  = 0;
-	  if (!isset($ta_res_sim[$rno]['s_f310a']) or $ta_res_sim[$rno]['s_f310a'] == 'NaN') $ta_res_sim[$rno]['s_f310a']  = 0;
-	  if (!isset($ta_res_sim[$rno]['s_f362a']) or $ta_res_sim[$rno]['s_f362a'] == 'NaN') $ta_res_sim[$rno]['s_f362a']  = 0;
-	  if (!isset($ta_res_sim[$rno]['s_f710a']) or $ta_res_sim[$rno]['s_f710a'] == 'NaN') $ta_res_sim[$rno]['s_f710a']  = 0;
-	  if (!isset($ta_res_sim[$rno]['s_f780t']) or $ta_res_sim[$rno]['s_f780t'] == 'NaN') $ta_res_sim[$rno]['s_f780t']  = 0;
-	  if (!isset($ta_res_sim[$rno]['s_f785t']) or $ta_res_sim[$rno]['s_f785t'] == 'NaN') $ta_res_sim[$rno]['s_f785t']  = 0;
-	  if (!isset($ta_res_sim[$rno]['s_f008x']) or $ta_res_sim[$rno]['s_f008x'] == 'NaN') $ta_res_sim[$rno]['s_f008x']  = 0;
-	  if (!isset($ta_res_sim[$rno]['s_f008y']) or $ta_res_sim[$rno]['s_f008y'] == 'NaN') $ta_res_sim[$rno]['s_f008y']  = 0;
-
-	  $ta_res_sim[$rno]['s_f008x'] = compare_field('f008x', $ta['f008x']  , $ta_res_sim[$rno]['f008x'], $ta_res_sim, $rno);
-	  $ta_res_sim[$rno]['s_f008y'] = compare_field('f008y', $ta['f008y']  , $ta_res_sim[$rno]['f008y'], $ta_res_sim, $rno);
-	  $ta_res_sim[$rno]['s_f022a'] = compare_field('f022a', $ta['f022a']  , $ta_res_sim[$rno]['f022a'], $ta_res_sim, $rno); // check if ISSN contained
-	  $ta_res_sim[$rno]['s_f260a'] = compare_field('f260a', $ta['f260a_e'], $ta_res_sim[$rno]['f260a_e'], $ta_res_sim, $rno);
-	  $ta_res_sim[$rno]['s_f780t'] = compare_field('f780t', $ta['f780t_e'], $ta_res_sim[$rno]['f780t_e'], $ta_res_sim, $rno);
-	  $ta_res_sim[$rno]['s_f785t'] = compare_field('f785t', $ta['f785t_e'], $ta_res_sim[$rno]['f785t_e'], $ta_res_sim, $rno);
-
-	  $ta_res_sim[$rno]["score"] += weight_every_fld("f022a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
-	  $ta_res_sim[$rno]["score"] += weight_every_fld("f245a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
-	  $ta_res_sim[$rno]["score"] += weight_every_fld("f245c", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
-	  $ta_res_sim[$rno]["score"] += weight_every_fld("f_tit", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
-	  $ta_res_sim[$rno]["score"] += weight_every_fld("f260a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
-	  $ta_res_sim[$rno]["score"] += weight_every_fld("f260b", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
-	  $ta_res_sim[$rno]["score"] += weight_every_fld("f310a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
-	  $ta_res_sim[$rno]["score"] += weight_every_fld("f362a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
-	  $ta_res_sim[$rno]["score"] += weight_every_fld("f710a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
-	  $ta_res_sim[$rno]["score"] += weight_every_fld("f780t", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
-	  $ta_res_sim[$rno]["score"] += weight_every_fld("f785t", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
-	  $ta_res_sim[$rno]["score"] += weight_every_fld("f008x", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
-	  $ta_res_sim[$rno]["score"] += weight_every_fld("f008y", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+			$proc_info['found'] = $size_r;
+			if ($proc_flag['debug']) printf(" FOUND: %s\n", $proc_info['found']);
 
 
-	  if ($ta_res_sim[$rno]['score'] >= $max_score) $max_score = $ta_res_sim[$rno]['score'];  // remember highest score
-	}
+			// -------------------- analyse and optimize result
+			for ($rno = 0; $rno < $size_r; $rno++) {
+			  // prepare score evaluation
+				$ta_res_sim[$rno]['score']      = 0;
+			  $ta_res_sim[$rno]['flag']       = '_'; // initialize with '_'
+			  if (!isset($ta_res_sim[$rno]['s_f022a']) or $ta_res_sim[$rno]['s_f022a'] == 'NaN') $ta_res_sim[$rno]['s_f022a']  = 0;
+			  if (!isset($ta_res_sim[$rno]['s_f245a']) or $ta_res_sim[$rno]['s_f245a'] == 'NaN') $ta_res_sim[$rno]['s_f245a']  = 0;
+			  if (!isset($ta_res_sim[$rno]['s_f245b']) or $ta_res_sim[$rno]['s_f245b'] == 'NaN') $ta_res_sim[$rno]['s_f245b']  = 0;
+			  if (!isset($ta_res_sim[$rno]['s_f245c']) or $ta_res_sim[$rno]['s_f245c'] == 'NaN') $ta_res_sim[$rno]['s_f245c']  = 0;
+			  if (!isset($ta_res_sim[$rno]['s_f_tit']) or $ta_res_sim[$rno]['s_f_tit'] == 'NaN') $ta_res_sim[$rno]['s_f_tit']  = 0;
+			  if (!isset($ta_res_sim[$rno]['s_f260a']) or $ta_res_sim[$rno]['s_f260a'] == 'NaN') $ta_res_sim[$rno]['s_f260a']  = 0;
+			  if (!isset($ta_res_sim[$rno]['s_f260b']) or $ta_res_sim[$rno]['s_f260b'] == 'NaN') $ta_res_sim[$rno]['s_f260b']  = 0;
+			  if (!isset($ta_res_sim[$rno]['s_f310a']) or $ta_res_sim[$rno]['s_f310a'] == 'NaN') $ta_res_sim[$rno]['s_f310a']  = 0;
+			  if (!isset($ta_res_sim[$rno]['s_f362a']) or $ta_res_sim[$rno]['s_f362a'] == 'NaN') $ta_res_sim[$rno]['s_f362a']  = 0;
+			  if (!isset($ta_res_sim[$rno]['s_f710a']) or $ta_res_sim[$rno]['s_f710a'] == 'NaN') $ta_res_sim[$rno]['s_f710a']  = 0;
+			  if (!isset($ta_res_sim[$rno]['s_f780t']) or $ta_res_sim[$rno]['s_f780t'] == 'NaN') $ta_res_sim[$rno]['s_f780t']  = 0;
+			  if (!isset($ta_res_sim[$rno]['s_f785t']) or $ta_res_sim[$rno]['s_f785t'] == 'NaN') $ta_res_sim[$rno]['s_f785t']  = 0;
+			  if (!isset($ta_res_sim[$rno]['s_f008x']) or $ta_res_sim[$rno]['s_f008x'] == 'NaN') $ta_res_sim[$rno]['s_f008x']  = 0;
+			  if (!isset($ta_res_sim[$rno]['s_f008y']) or $ta_res_sim[$rno]['s_f008y'] == 'NaN') $ta_res_sim[$rno]['s_f008y']  = 0;
 
-	if ($proc_flag['debug']) printf("SCORE: %s %s\n", $treshold_score, $max_score); // show SCORE
+			  $ta_res_sim[$rno]['s_f008x'] = compare_field('f008x', $ta['f008x']  , $ta_res_sim[$rno]['f008x'], $ta_res_sim, $rno);
+			  $ta_res_sim[$rno]['s_f008y'] = compare_field('f008y', $ta['f008y']  , $ta_res_sim[$rno]['f008y'], $ta_res_sim, $rno);
+			  $ta_res_sim[$rno]['s_f022a'] = compare_field('f022a', $ta['f022a']  , $ta_res_sim[$rno]['f022a'], $ta_res_sim, $rno); // check if ISSN contained
+			  $ta_res_sim[$rno]['s_f260a'] = compare_field('f260a', $ta['f260a_e'], $ta_res_sim[$rno]['f260a_e'], $ta_res_sim, $rno);
+			  $ta_res_sim[$rno]['s_f780t'] = compare_field('f780t', $ta['f780t_e'], $ta_res_sim[$rno]['f780t_e'], $ta_res_sim, $rno);
+			  $ta_res_sim[$rno]['s_f785t'] = compare_field('f785t', $ta['f785t_e'], $ta_res_sim[$rno]['f785t_e'], $ta_res_sim, $rno);
+
+			  $ta_res_sim[$rno]["score"] += weight_every_fld("f022a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+			  $ta_res_sim[$rno]["score"] += weight_every_fld("f245a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+			  $ta_res_sim[$rno]["score"] += weight_every_fld("f245c", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+			  $ta_res_sim[$rno]["score"] += weight_every_fld("f_tit", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+			  $ta_res_sim[$rno]["score"] += weight_every_fld("f260a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+			  $ta_res_sim[$rno]["score"] += weight_every_fld("f260b", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+			  $ta_res_sim[$rno]["score"] += weight_every_fld("f310a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+			  $ta_res_sim[$rno]["score"] += weight_every_fld("f362a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+			  $ta_res_sim[$rno]["score"] += weight_every_fld("f710a", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+			  $ta_res_sim[$rno]["score"] += weight_every_fld("f780t", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+			  $ta_res_sim[$rno]["score"] += weight_every_fld("f785t", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+			  $ta_res_sim[$rno]["score"] += weight_every_fld("f008x", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
+			  $ta_res_sim[$rno]["score"] += weight_every_fld("f008y", $weight_model,$ta_res_sim, $rno, $fld_weight_model);
 
 
-	// now assign a similarity category for each TA
-	for ($rno = 0; $rno < $size_r; $rno++) {
-		if ($ta_res_sim[$rno]['score'] >= ($max_score - $treshold_score)) $ta_res_sim[$rno]['flag'] = '*'; else $ta_res_sim[$rno]['flag'] = '-'; // mark treshold
-		// adjust categorization of TA if f245a or f710a are nearly equal
-		if ($is_freq_tit) { // for frequent title use a stricter comparison
-			if (($ta_res_sim[$rno]['s_f245a'] == 1) && ($ta_res_sim[$rno]['s_f710a'] == 1)) $ta_res_sim[$rno]['flag'] = '*'; // must correspond
-		} else { // normal case
-			if ($ta_res_sim[$rno]['s_f245a'] > 0.9) $ta_res_sim[$rno]['flag'] = '*'; // title must correspond a bit less
-		}	
-		if ($sys_reference == $ta_res_sim[$rno]['sys']) $ta_res_sim[$rno]['flag'] = '='; // mark original record with '='
-	}
+			  if ($ta_res_sim[$rno]['score'] >= $max_score) $max_score = $ta_res_sim[$rno]['score'];  // remember highest score
+			}
 
-	// -------------------- sort results in similarity order
-	usort($ta_res_sim, 'cmp_score'); // *** sort result by score type for output
-
-// get number of last good ta candidate
-	
-	$ta_sim_last_good = 0;
-	for ($rno = 0; $rno < sizeof($ta_res_sim); $rno++) {
-		if ($ta_res_sim[$rno]['flag'] == '*' || $ta_res_sim[$rno]['flag'] == '=') { // included in the result set
-			$ta_sim_last_good = $rno;  // remember last selected record
-		} else { break; }
-	}
-	$last_ta_in_set =  $ta_sim_last_good;
+			if ($proc_flag['debug']) printf("SCORE: %s %s\n", $treshold_score, $max_score); // show SCORE
 
 
-	  usort($ta_res_sim, 'cmp_flag_score'); // *** sort result by flag, score for output
-	  return $ta_res_sim;
+			// now assign a similarity category for each TA
+			for ($rno = 0; $rno < $size_r; $rno++) {				
+				if ($ta_res_sim[$rno]['score'] >= ($max_score - $treshold_score)) $ta_res_sim[$rno]['flag'] = '*'; else $ta_res_sim[$rno]['flag'] = '-'; // mark treshold
+				// adjust categorization of TA if f245a or f710a are nearly equal
 
+				if ($is_freq_tit) { // for frequent title use a stricter comparison
+					if (($ta_res_sim[$rno]['s_f245a'] == 1) && ($ta_res_sim[$rno]['s_f710a'] == 1)) $ta_res_sim[$rno]['flag'] = '*'; // must correspond
+				} else { // normal case
+					if ($ta_res_sim[$rno]['s_f245a'] > 0.9) $ta_res_sim[$rno]['flag'] = '*'; // title must correspond a bit less
+				}	
+				if ($sys_reference == $ta_res_sim[$rno]['sys2']) $ta_res_sim[$rno]['flag'] = '='; // mark original record with '='
+			}
+
+		// -------------------- sort results in similarity order
+		usort($ta_res_sim, 'cmp_score'); // *** sort result by score type for output
+
+		// get number of last good ta candidate		
+		$ta_sim_last_good = 0;
+		for ($rno = 0; $rno < sizeof($ta_res_sim); $rno++) {
+			if ($ta_res_sim[$rno]['flag'] == '*' || $ta_res_sim[$rno]['flag'] == '=') { // included in the result set
+				$ta_sim_last_good = $rno;  // remember last selected record
+			} else { break; }
+		}
+		$last_ta_in_set =  $ta_sim_last_good;
+		var_dump($last_ta_in_set);
+		usort($ta_res_sim, 'cmp_flag_score'); // *** sort result by flag, score for output
+		 
+		return $ta_res_sim;
 	}
 
 /* ---------------------------------------------------------------------------------
@@ -914,17 +897,18 @@ $query .= "\n FROM holdings";
 						- lockeds holdings can't be used to the algoritm
 
 						-----------------------------------------------------------------------------------*/
-						function holdingsset_recall($id) {
+function holdingsset_recall($id) {
 
-							$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
-							$conn = pg_connect($conn_string) or die('ERROR!!!');
+	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+	$conn_string1 = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+	$con = pg_connect($conn_string) or ($con = pg_connect($conn_string1));
 
-							$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 500";
-							$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
+	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 500";
+	$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
 
-							$ta_arr = pg_fetch_all($result);
+	$ta_arr = pg_fetch_all($result);
 
-							$ta_amnt = sizeOf($ta_arr);
+	$ta_amnt = sizeOf($ta_arr);
 
 	/***********************************************************************
 	 * Se forman los grupos y se calculan los valores
@@ -1544,7 +1528,8 @@ function cmp_flag_score($a, $b) {
 function create_table($tab_name) {
 
 	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
-	$con = pg_connect($conn_string) or die('ERROR!!!');
+	$conn_string1 = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+	$con = pg_connect($conn_string) or ($con = pg_connect($conn_string1));
 
 	$query  = "DROP TABLE IF EXISTS $tab_name; ";
 	$query .= "CREATE TABLE $tab_name (sys1 char(10), sys2 char(10), score integer, flag char(1), upd timestamp)";

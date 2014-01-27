@@ -1,4 +1,5 @@
 $(function() {
+	
 	$('.pop-over').popover();
 
 	setDatatable();

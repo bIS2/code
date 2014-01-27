@@ -74,8 +74,8 @@ else { ?>
 			</span>
 			<div class="text-right action-ok pull-left">
 				@if (($HOSannotated && !$HOSconfirm) || !$HOSconfirm && !$HOSincorrect) 
-					<span class="btn-incorrect" data-toggle="tooltip" title="<?= trans('holdingssets.check_hos_as_incorrect'); ?>" data-container="body">
-						<a id="holdingsset{{ $holdingsset -> id }}incorrect" set="{{$holdingsset->id}}" href="{{route('incorrects.store',['holdingsset_id' => $holdingsset->id])}}" class="btn btn-ok btn-xs incorrect btn-default" data-remote="true" data-method="post" data-disable-with="..." data-toggle="tooltip" data-container="body">
+					<span class="btn-incorrect pop-over" data-content="<?= trans('holdingssets.check_hos_as_incorrect'); ?>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" data-container="body">
+						<a id="holdingsset{{ $holdingsset -> id }}incorrect" set="{{$holdingsset->id}}" href="{{route('incorrects.store',['holdingsset_id' => $holdingsset->id])}}" class="btn btn-ok btn-xs incorrect btn-default" data-remote="true" data-method="post" data-disable-with="...">
 							<span id="incorrect{{ $holdingsset -> id }}text" class="fa fa-thumbs-down"></span>
 						</a>		
 					</span>
@@ -83,11 +83,11 @@ else { ?>
 				<?php $hideconfirm = ''; ?>
 					@if ($HOSincorrect)
 					<?php $hideconfirm = 'style="display: none;"'; $txt = ' text-warning'; ?> 
-					<a id="holdingsset{{ $holdingsset -> id }}incorrect" set="{{$holdingsset->id}}" href="@if ($btn != 'btn-success disabled'){{route(incorrects.'.store',['holdingsset_id' => $holdingsset->id])}}@endif" class="btn btn-ok btn-xs incorrect {{ $btn }}" data-remote="true" data-method="post" data-disable-with="..." data-toggle="tooltip" title="<?= trans('holdingssets.click_to_remove_incorrect_state'); ?>" data-container="body">
+					<a id="holdingsset{{ $holdingsset -> id }}incorrect" set="{{$holdingsset->id}}" href="@if ($btn != 'btn-success disabled'){{route(incorrects.'.store',['holdingsset_id' => $holdingsset->id])}}@endif" class="btn btn-ok btn-xs incorrect {{ $btn }} pop-over" data-remote="true" data-method="post" data-disable-with="..." data-content="<?= trans('holdingssets.click_to_remove_incorrect_state'); ?>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" data-container="body">
 						<span class="fa fa-thumbs-down"></span>
 					</a>	
 					@endif      	
-				<a id="holdingsset{{ $holdingsset -> id }}confirm" set="{{$holdingsset->id}}" href="@if ($btn != 'btn-success disabled'){{route(confirms.'.store',['holdingsset_id' => $holdingsset->id])}}@endif" class="btn btn-ok btn-xs {{ $btn }}" data-remote="true" data-method="post" data-disable-with="..." title="@if ($btn == 'btn-success disabled'){{ trans('holdingssets.hos_blocked_by_proccess') }} @elseif($btn == 'btn-success') {{ trans('holdingssets.click_to_remove_correct_state') }} @else {{ trans('holdingssets.click_to_confirm_HOS') }} @endif" {{$hideconfirm}} data-toggle="tooltip" data-container="body">
+				<a id="holdingsset{{ $holdingsset -> id }}confirm" set="{{$holdingsset->id}}" href="@if ($btn != 'btn-success disabled'){{route(confirms.'.store',['holdingsset_id' => $holdingsset->id])}}@endif" class="btn btn-ok btn-xs {{ $btn }} pop-over" data-remote="true" data-method="post" data-disable-with="..." {{$hideconfirm}} data-content="@if ($btn == 'btn-success disabled'){{ trans('holdingssets.hos_blocked_by_proccess') }} @elseif($btn == 'btn-success') {{ trans('holdingssets.click_to_remove_correct_state') }} @else {{ trans('holdingssets.click_to_confirm_HOS') }} @endif" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover">
 					<span class="fa fa-thumbs-up {{$txt}}"></span>
 				</a>
 			</div>
