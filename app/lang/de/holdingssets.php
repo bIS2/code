@@ -52,7 +52,7 @@ return array(
 	'see_more_information' 		=> 'Für mehr Informationen draufklicken',
 	'select_all_hos'			=> 'Selektiere alle HOS',
 	'showing'					=> 'Zeigt ',
-	'similarity_search_from_this_holding' => 'Ähnliche HOS wied diese finden (similarity)',
+	'similarity_search_from_this_holding' => 'Ähnliche HOS wie diese finden (similarity)',
 	'sort'						=> 'Sortieren',
 	'title'   					=> 'Holding Sets',
 	'title_create_group' 		=> 'Gruppe von HOS erstellen',
