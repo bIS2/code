@@ -11,7 +11,6 @@ class HlistObserver {
   				'state' 			=> 'revised_'.$holding->state, 
   				'user_id'			=> Auth::user()->id 
   			]);
-
   		}
   	}
 
