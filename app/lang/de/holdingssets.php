@@ -47,6 +47,7 @@ return array(
 	'recall_hos_from_this_holding' => 'Search other HOL',
 	'receiveds'					=> 'In SPB integriert',
 	'remove_from_HOS' 			=> 'Aus HOS löschen',
+	'remove_hos_from_this_group' 	=> 'Aus dieser HOSG löschen',
 	'reserved_by'				=> 'Reserviert von: ',
 	'see_information_from_original_system' => 'Information aus Ursprungssystem',
 	'see_more_information' 		=> 'Für mehr Informationen draufklicken',
