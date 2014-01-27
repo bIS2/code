@@ -22,7 +22,7 @@ return array(
 	'has_incomplete_vols_large'	=> 'Mit icpl. Volumen',
 	'has_incomplete_vols_short'	=> 'Icpl.',
 	'hol_details'	  		=> 'Details zu HOL',
-	'integrated'			=> 'In SPB integrierte',
+	'integrated'			=> 'In SPB eingetroffen und integriert',
 	'is_current_short'		=> 'Laufene ZS',
 	'lists'			  		=> 'Listen',
 	'move_to_list'	 		=> 'Verschieben zu',

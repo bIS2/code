@@ -35,7 +35,6 @@
                 ?>
                 @foreach ($res as $holding)
                   <?php if (in_array(holding::find($holding['id'])->holdingsset_id, $hospendingsid)) { ?>
-                    <?php $holding = $res[($total-1)-$i]; $i++;?>
                     <?php 
                       $librarianclass = ' '.substr($holding['sys2'], 0, 4);
                     ?>

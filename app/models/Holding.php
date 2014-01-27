@@ -112,7 +112,7 @@ class Holding extends Eloquent {
   }
 
   public function scopeReviseds($query){
-  	return $query->where('state','like','revised_%');
+  	return $query->whereState('revised_ok');
   }
 
   public function scopeRevisedsCorrects($query){
