@@ -6,6 +6,8 @@ class StateObserver {
   	
   	Holding::find($model->holding_id)->update([ 'state' => $model->state ]);
 
+  	if ($model->state == 'revised_annotated') Confirm::whereHoldingssetId(Holding::find($model->holding_id)->holdingsset_id)->delete();
+
   	//if state==ok delete all annotated state 
   // 	if ($model->state=='ok' && State::whereHoldingId($model->holding_id)->whereState('annotated' )->exists() )
 	 //  	State::whereHoldingId($model->holding_id)->andWhere( 'state','=','annotated' )->delete();
