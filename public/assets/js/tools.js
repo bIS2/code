@@ -24,7 +24,14 @@ $(function(){
       $from = $(ui.draggable)
       // alert($from.attr('id'))
       var call = $.post( $to.data('attach-url'), { holding_id: $from.attr('id') } )
-      call.done(function(result) { if ( result.error ) alert( result.error ) } )
+      call.done(function(result) { 
+      	if ( result.error ) {
+      		alert( result.error ) 
+      	} else{
+      		$('#'+result.attach ).text( result.counter )
+      		alert( 'OK'  )
+      	}
+      })
 
     }
 
@@ -42,6 +49,10 @@ $(function(){
       $(this).addClass('label-default')
     }
   )
+  
+  $('a').on('click', function() {
+    $(this).tooltip('hide')
+  });
 
   $(document).on('keypress', function(event) {
     if (event.keyCode == 27) $('.modal .close').click();

@@ -16,39 +16,44 @@ class StateObserver {
 		// if ($model->state=='annotated' && State::whereHoldingId($model->holding_id)->whereState('ok' )->exists())
 	 //  	State::whereHoldingId($model->holding_id)->andWhere( 'state', '=','ok' )->delete();
 
-
 	if ( $model->state=='received' ) {
 
 		//find holdings with in same holdingsset 
 		$holding_in_set = Holding::whereHoldingssetId( $model->holding->holdingsset_id );
 
-		$owner_in_set = $holding_in_set->whereIsOwner('t')->lists('id');
-		$aux_in_set = $holding_in_set->whereIsAux('t')->lists('id');
+		$owner_received = $holding_in_set->whereIsOwner('t')->whereState('received')->lists('id');
 
-		$owner_received = $holding_in_set->whereState('received')->lists('id');
-		$aux_received = $holding_in_set->whereState('received')->lists('id');
+		if (( count($owner_received)>0 )){
 
-		$count_owner = count($owner_in_set); 								// count owner in holdingsets (HOS)
-		$count_owner_received = count($owner_received);			// count owner received in holdingsets (HOS)
-		$count_aux = count($aux_in_set);										// count aux in holdingsets (HOS)
-		$count_aux_receievd = count($aux_received);					// count aux received in holdingsets (HOS)
+			$holding_in_set = Holding::whereHoldingssetId( $model->holding->holdingsset_id );
+			$aux_in_set = $holding_in_set->whereIsAux('t')->lists('id');
 
-		if (( $count_owner == $count_owner_received ) && ($count_aux == $count_aux_received) ){
 
-			$owner_and_aux = array_intersect($owner_in_set,$aux_in_set);
-			$no_owner_and_aux = array_diff( $holding_in_set->count(), $owner_and_aux);
+			$holding_in_set = Holding::whereHoldingssetId( $model->holding->holdingsset_id );
+			$aux_received = $holding_in_set->whereIsAux('t')->whereState('received')->lists('id');
 
-			foreach ($owner_and_aux as $holding_id) {
-				State::create( [ 'holding_id'=>$holding_id, 'user_id'=>Auth::user()->id, 'state'=>'integrated' ] );
-			}	  
+			if ( count($aux_in_set) == count($aux_received))  {
 
-			foreach ($no_owner_and_aux as $holding_id) {
-				State::create( [ 'holding_id'=>$holding_id, 'user_id'=>Auth::user()->id, 'state'=>'spare' ] );
-			}	  
+				$owner_and_aux = array_merge( $owner_received ,$aux_in_set );
+				$holding_in_set = Holding::whereHoldingssetId( $model->holding->holdingsset_id );
+				$no_owner_and_aux = array_diff( $holding_in_set->lists('id'), $owner_and_aux);
+
+				$model->holding->holdingsset->update(['state'=>'integrated']);
+
+				foreach ($owner_and_aux as $holding_id) {
+					State::create( [ 'holding_id'=>$holding_id, 'user_id'=>Auth::user()->id, 'state'=>'integrated' ] );
+				}	  
+
+				foreach ($no_owner_and_aux as $holding_id) {
+					State::create( [ 'holding_id'=>$holding_id, 'user_id'=>Auth::user()->id, 'state'=>'spare' ] );
+				}	  
+
+			}
 
 		}
 
 	}
 
 }
+
 }

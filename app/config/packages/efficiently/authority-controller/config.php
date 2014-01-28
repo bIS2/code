@@ -20,7 +20,7 @@ return [
 
 
         $authority->allow('revise', 'Hlist', function($self, $hlist) {
-          return ( $hlist->is_finish && Auth::user()->hasRole('magvuser') && !$hlist->revised  );
+          return ( $hlist->is_finish && Auth::user()->hasRole('maguser') && !$hlist->revised  );
         });
 
         $authority->allow('receive', 'Holding', function($self, $holding) {
@@ -28,7 +28,7 @@ return [
         });
 
         $authority->allow('trash', 'Holding', function($self, $holding) {
-          return ( $holding->is_received && Auth::user()->hasRole('bibuser') );
+          return ( $holding->whereState('spare') && Auth::user()->hasRole('bibuser') );
         });
 
         $authority->allow('burn', 'Holding', function($self, $holding) {

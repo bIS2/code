@@ -62,6 +62,7 @@ class HoldingsController extends BaseController {
     $this->data['is_all'] = !(Input::has('corrects') || Input::has('tagged') || Input::has('pendings') || Input::has('unlist') || Input::has('owner') || Input::has('aux')|| Input::has('deliveries') );
 
 		if ( Input::has('pendings') )		$holdings = $holdings->pendings();
+		
 		if ( Input::has('unlist') )			$holdings = $holdings->orphans();
 		if ( Input::has('owner') )			$holdings = $holdings->owner();
 		if ( Input::has('aux') )			$holdings = $holdings->aux();
@@ -98,8 +99,8 @@ class HoldingsController extends BaseController {
 		$this->data['is_filter'] 	= $is_filter;
 		$this->data['sql'] 			= sprintf( $format, $compare, $value );
 		$this->data['holdings'] 	= $holdings->paginate(25);
-		$queries = DB::getQueryLog();
-		$this->data['last_query'] = $queries;			
+		// $queries = DB::getQueryLog();
+		// $this->data['last_query'] = $queries;			
 
 		// CONDITIONS
 		// filter by holdingsset ok

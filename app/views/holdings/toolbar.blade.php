@@ -5,21 +5,30 @@
 			<div class="col-xs-12">
 
 				<div class="btn-group">
+
 					<a href="#" class="btn btn-sm dropdown-toggle {{ (Input::has('hlist_id')) ? 'btn-default' : 'btn-default'}} {{ ($hlists->count() > 0) ? '' : ' disabled '}}" data-toggle="dropdown">
 						<i class="fa fa-list-ul"> </i> 
 						{{{ trans('holdings.lists') }}} 
 						<span class="caret"></span>
 					</a>
+
 					<!-- Show list if exists -->
 					@if ($hlists)
+
 					<ul class="dropdown-menu" role="menu">
+
 						@foreach ($hlists as $list) 
+
 						<li <?= ($list->id == Input::get('hlist_id')) ? 'class="active"' : '' ; ?>>
 							<a href="{{ route('holdings.index',Input::except(['hlist_id']) + ['hlist_id' => $list->id ]) }}"> {{ $list->name }} <span class="badge">{{ $list->holdings()->count() }} </span></a>
 						</li>
+						
 						@endforeach
+
 					</ul>
+
 					@endif
+
 				</div>
 
 				  <div class="btn-group">
@@ -127,44 +136,53 @@
 
 				</div>
 
-				<div class="btn-group">
+				@if ( !Auth::user()->hasRole('bibuser') )
 
-					<a href="{{ route('holdings.index', Input::except(['owner', 'aux'])) }}" class="btn  <?= ( !Input::has('owner') && !Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
-						<i class="fa fa-list"></i> {{{ trans('holdings.all') }}}
-					</a>
+					<div class="btn-group">
 
-					<a href="?owner=true" class="btn <?= ( Input::has('owner')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
-						<i class="fa fa-square text-danger"></i> {{{ trans('holdings.owner') }}}
-					</a>
+						<a href="{{ route('holdings.index', Input::except(['owner', 'aux'])) }}" class="btn <?= ( !Input::has('owner') && !Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+							<i class="fa fa-list"></i> {{{ trans('holdings.all') }}}
+						</a>
 
-					<a href="?aux=true" class="btn <?= ( Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
-						<i class="fa fa-square text-warning"></i> {{{ trans('holdings.aux') }}}
-					</a>
+						<a href="?owner=true" class="btn <?= ( Input::has('owner')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+							<i class="fa fa-square text-danger"></i> {{{ trans('holdings.owner') }}}
+						</a>
 
-				</div>	
+						<a href="?aux=true" class="btn <?= ( Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+							<i class="fa fa-square text-warning"></i> {{{ trans('holdings.aux') }}}
+						</a>
 
-				<div class="btn-group">
+					</div>
 
-					<a href="{{ route('holdings.index', Input::except(['pendings', 'unlist'])) }}" class="btn btn-default btn-sm{{ (Input::has('pendings') || Input::has('unlist')) ? '' : ' btn-primary ' }}" >
-						<span class="fa fa-list"></span> {{{ trans('holdings.all') }}}
-					</a>				  	
+				@endif
 
-					<a href="?pendings=true" class="btn <?= ( Input::has('pendings')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
-						<span class="fa fa-warning"></span> {{{ trans('holdings.pending') }}}
-					</a>
+				@if (!Auth::user()->hasRole('postuser'))
 
-					<a href="?unlist=true" class="btn <?= ( Input::has('unlist')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
-						<span class="fa fa-chain-broken"></span> {{{ trans('holdings.ungroup') }}}
-					</a>
-				</div>
-				<div class="btn-group">
-					<a id="filter_all" href="{{ route('holdings.index', Input::only(['state', 'owner', 'aux', 'pending', 'unlist', 'hlist_id'])) }}" class="btn <?= (Input::get('filtered') == '1') ? 'btn-default' : 'btn-primary'; ?> btn-sm" >
-						<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}
-					</a>
-					<a href="#collapseOne" data-toggle="collapse" id="filter-btn" class="btn <?= ($is_filter) ? 'btn-primary' : 'btn-default' ?> btn-sm accordion-toggle">
-						<span class="fa fa-filter"></span> {{{ trans('holdings.advanced_filter') }}} 
-					</a>
-				</div>
+					<div class="btn-group">
+
+						<a href="{{ route('holdings.index', Input::except(['pendings', 'unlist'])) }}" class="btn btn-default btn-sm{{ (Input::has('pendings') || Input::has('unlist')) ? '' : ' btn-primary ' }}" >
+							<span class="fa fa-list"></span> {{{ trans('holdings.all') }}}
+						</a>				  	
+
+						<a href="?pendings=true" class="btn <?= ( Input::has('pendings')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+							<span class="fa fa-warning"></span> {{{ trans('holdings.pending') }}}
+						</a>
+
+						<a href="?unlist=true" class="btn <?= ( Input::has('unlist')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+							<span class="fa fa-chain-broken"></span> {{{ trans('holdings.ungroup') }}}
+						</a>
+					</div>
+					<div class="btn-group">
+						<a id="filter_all" href="{{ route('holdings.index', Input::only(['state', 'owner', 'aux', 'pending', 'unlist', 'hlist_id'])) }}" class="btn <?= (Input::get('filtered') == '1') ? 'btn-default' : 'btn-primary'; ?> btn-sm" >
+							<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}
+						</a>
+						<a href="#collapseOne" data-toggle="collapse" id="filter-btn" class="btn <?= ($is_filter) ? 'btn-primary' : 'btn-default' ?> btn-sm accordion-toggle">
+							<span class="fa fa-filter"></span> {{{ trans('holdings.advanced_filter') }}} 
+						</a>
+					</div>
+
+				@endif
+
 				<div class="btn-group" >
 
 					<a href="{{ route('holdings.index', Input::except('view') ) }}" class="btn btn-default <?= (!Input::has('view')) ? 'btn-primary' : '' ?> btn-sm" >
