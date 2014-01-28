@@ -61,25 +61,32 @@
  	// var_dump($hlistsids);
 ?>
 <ul id="lists-tabs" class="nav nav-tabs">
+
+	@if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('bibuser'))
+
   <li <?php if (!($hlist_id > 0)) { echo 'class="active"'; } ?>>
   	<a href="<?= route('holdings.index', Input::except(['hlist_id', 'page']));  ?>">
   		<?= trans('holdings.all') ?> <?= trans('holdings.title') ?>
   	</a>
   </li>
 
+  @endif
+
   @if ( Authority::can('create','Hlist') ) 
+
 	  <li>
 		  <a data-toggle="modal" class='btn btn-default link_bulk_action disabled' data-target="#form-create-list" style="padding: 6px 11px;">
 		  	<i class="fa fa-plus-circle" style="font-size: 26px; padding: 0px;"></i>
 		  </a>
 	  </li>
+
   @endif
   
 	<?php foreach ($hlists as $hlist) {
-		if (in_array($hlist -> id, $hlistsids)) {  Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]
+		if (in_array($hlist->id, $hlistsids)) {  Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]
 	 ?>
 		<li id="hlist{{ $hlist->id }}" class="<?php echo ($hlist_id == $hlist->id) ? 'active' : 'accepthos' ?> droppable" data-attach-url="{{ action('HlistsController@postAttach', [$hlist->id]) }}">
-			<a <?php if ($hlist_id != $hlist -> id) { echo 'href="'.route('holdings.index',Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]).'"'; } ?> class="">
+			<a <?php if ($hlist_id != $hlist->id) { echo 'href="'.route('holdings.index',Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]).'"'; } ?> class="">
 				{{ $hlist->type_icon }}
 				<?= $hlist->name  ?> 
 				<span class="badge">{{ $hlist->holdings -> count() }} </span>
@@ -105,6 +112,15 @@
 	</div>
 
 	<div class="col-xs-3">
+
+  	@if (Authority::can('revise',$list))
+
+    	<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
+    		<span class="fa fa-check" ></span> {{trans('holdings.revised')}}
+    	</a>
+
+  	@endif
+
 	  <a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-xs btn-default dropdown-toggle pull-right collapsed text-warning" data-toggle="collapse">
   		<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
 		</a>

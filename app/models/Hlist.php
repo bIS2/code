@@ -44,8 +44,12 @@ class Hlist extends Eloquent {
   public function getIsFinishAttribute(){
     $total = $this->holdings()->count();
     $reviseds = $this->holdings()->whereState('ok')->orWhere('state', '=', 'annotated')->count();
-    return ($total == $reviseds);
+    return ( ($total == $reviseds) && !$this->revised );
   }  
+  
+  public function getReadyToReviseAttribute(){
+  	$this->is_finish;
+  }
 
   public function getTypeIconAttribute(){
 
