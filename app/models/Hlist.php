@@ -51,6 +51,17 @@ class Hlist extends Eloquent {
   	$this->is_finish;
   }
 
+  public function getStateAttribute(){
+
+  	$state = 'pending';
+
+  	if (($this->type=='control') && $this->revised) 					$state = 'revised';
+  	if ($this->type=='delivery' && $this->delivery->exists)  	$state = 'delivery';
+
+  	return $state;
+  	
+  }
+
   public function getTypeIconAttribute(){
 
     $icon = '<i class="fa fa-tachometer"></i>';
