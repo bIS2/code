@@ -47,21 +47,31 @@ class StatesController extends BaseController {
 		$input = Input::except('hlist_id');
 		$validation = Validator::make($input, State::$rules);
 
-		$hlist = Hlist::find(Input::get('hlist_id'));
+		if ($validation->passes()) {
 
-		if ($validation->passes())
-		{
 			$state = $this->state->whereHoldingId($input['holding_id'])->where('state','=', $input['state'] );
 
-			if ($state->exists()) 	$state->delete();
+			// if hlist_id exist get the list and verify if finish tu 
+			$list_finish = false;
+			if (Input::has('hlist_id')) {
+				$hlist = Hlist::find(Input::get('hlist_id'));
+				$list_finish = $hlist->ready_to_revise;
+			}
 
-			else $this->state->create( [ 'holding_id'=>$input['holding_id'], 'state'=> $input['state'], 'user_id'=>$input['user_id'] ] );
+			if ($state->exists()) 	
+				$state->delete();
+			else 
+				$this->state->create([ 
+					'holding_id'	=> $input['holding_id'], 
+					'state'				=> $input['state'], 
+					'user_id'			=> $input['user_id'] 
+				]);
 
 			return Response::json([ 
-				'state' => $input['state'],
-				'state_title' => trans( 'states.'.$input['state']), 
-				'id' => $input['holding_id'],
-				'list_completed' => $hlist->is_finish
+				'state' 					=> $input['state'],
+				'state_title' 		=> trans( 'states.'.$input['state']), 
+				'id' 							=> $input['holding_id'],
+				'list_completed' 	=> $list_finish
 				]);
 		}
 

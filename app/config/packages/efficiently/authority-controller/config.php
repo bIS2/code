@@ -20,7 +20,7 @@ return [
 
 
         $authority->allow('revise', 'Hlist', function($self, $hlist) {
-          return ( $hlist->is_finish && Auth::user()->hasRole('magvuser') && !$hlist->revised  );
+          return ( $hlist->is_finish && Auth::user()->hasRole('maguser') && !$hlist->revised  );
         });
 
         $authority->allow('receive', 'Holding', function($self, $holding) {
