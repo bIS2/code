@@ -10,7 +10,9 @@ class Pages extends BaseController {
 	public function getIndex(){
 		if  (Input::has('lang')) return Redirect::to(Request::header('referer'));
 		$data['holdingsset_confirm'] 	= Confirm::take(10)->get();
-		$data['holdings_ok'] 					= Ok::take(10)->get();
+		$ids = Holding::inLibrary()->lists('holdings.id');
+		$ids[] = -1;
+		$data['holdings_ok'] 			= State::whereState('ok')->whereIn('holding_id', $ids);
 		$data['holdings_annotated'] 	= Note::take(10)->get();
 		$data['holdings_revised'] 		= Revised::take(10)->get();
 

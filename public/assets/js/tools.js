@@ -42,6 +42,10 @@ $(function(){
       $(this).addClass('label-default')
     }
   )
+  
+  $('a').on('click', function() {
+    $(this).tooltip('hide')
+  });
 
   $(document).on('keypress', function(event) {
     if (event.keyCode == 27) $('.modal .close').click();
