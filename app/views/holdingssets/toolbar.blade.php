@@ -41,7 +41,7 @@
 							</a>
 						</div>
 						<div class="btn-group">
-							<a id="filter_all" href="{{ route('sets.index', Input::except('state')) }}" class="btn btn-primary <?= ((Input::get('state') != 'ok') && (Input::get('state') != 'pending') && (Input::get('state') == '')) ? 'active' : '' ?> btn-sm" >
+							<a id="filter_all" href="{{ route('sets.index', Input::except('state')) }}" class="btn  <?= (Input::has('state')) ? 'btn-default' : 'btn-primary active'; ?> btn-sm" >
 								<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}
 							</a>
 							<a id="filter_pending" href="{{ route('sets.index', Input::except('state') + ['state'=>'pending']) }}" class="btn btn-default <?= (Input::get('state') == 'pending') ? 'active' : '' ?> btn-sm">
