@@ -50,7 +50,7 @@ class Holding extends Eloquent {
 
 
   public function scopeDefaults($query){
-  	return $query->with('notes', 'states')->orderBy('f852j','f852c')->inLibrary();
+  	return $query->with('notes', 'states')->orderBy('f852j','f852c')->wasConfirmed()->inLibrary();
   }
 
   public function scopeInit ($query){
@@ -87,7 +87,7 @@ class Holding extends Eloquent {
   }
 
   public function scopeConfirms($query){
-  	return $query->whereState('confirmed');
+  	return $query->wasConfirmed();
   }
 
   public function scopeCorrects($query){
@@ -115,8 +115,13 @@ class Holding extends Eloquent {
   	return $query->whereState('revised_ok');
   }
 
+
   public function scopeRevisedsCorrects($query){
-  	return $query->whereState('revised_ok');
+    return $query->whereState('revised_ok');
+  }
+
+  public function scopeWasConfirmed($query) {
+    return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('states')->whereState('confirmed'); });
   }
 
   public function scopeRevisedsAnnotated($query){
@@ -142,14 +147,7 @@ class Holding extends Eloquent {
   public function scopePendings($query){
 
   	return $query
-	    ->whereNotIn( 'holdings.id', function($query) { 
-	    		$query->select('holding_id')->from('states')
-	    					->orWhere('state','=','ok'); 
-	    	})
-	    ->orWhereNotIn( 'holdings.id', function($query) { 
-	    		$query->select('holding_id')->from('states')
-	    					->orWhere('state','=','annotated'); 
-	    	});
+	    ->whereState('confirmed');
   }
 
   public function scopeAnnotated($query,$tag_id='%'){

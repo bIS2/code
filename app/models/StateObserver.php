@@ -16,7 +16,6 @@ class StateObserver {
 		// if ($model->state=='annotated' && State::whereHoldingId($model->holding_id)->whereState('ok' )->exists())
 	 //  	State::whereHoldingId($model->holding_id)->andWhere( 'state', '=','ok' )->delete();
 
-
 	if ( $model->state=='received' ) {
 
 		//find holdings with in same holdingsset 
@@ -26,12 +25,17 @@ class StateObserver {
 
 		if (( count($owner_received)>0 )){
 
+			$holding_in_set = Holding::whereHoldingssetId( $model->holding->holdingsset_id );
 			$aux_in_set = $holding_in_set->whereIsAux('t')->lists('id');
+
+
+			$holding_in_set = Holding::whereHoldingssetId( $model->holding->holdingsset_id );
 			$aux_received = $holding_in_set->whereIsAux('t')->whereState('received')->lists('id');
 
 			if ( count($aux_in_set) == count($aux_received))  {
 
-				$owner_and_aux = array_merge( $owner_in_set,$aux_in_set );
+				$owner_and_aux = array_merge( $owner_received ,$aux_in_set );
+				$holding_in_set = Holding::whereHoldingssetId( $model->holding->holdingsset_id );
 				$no_owner_and_aux = array_diff( $holding_in_set->lists('id'), $owner_and_aux);
 
 				$model->holding->holdingsset->update(['state'=>'integrated']);
