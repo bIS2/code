@@ -46,6 +46,7 @@ class Hlist extends Eloquent {
     $reviseds = $this->holdings()->whereState('ok')->orWhere('state', '=', 'annotated')->count();
     return ( ($total == $reviseds) && !$this->revised );
   }  
+  
   public function getReadyToReviseAttribute(){
   	$this->is_finish;
   }

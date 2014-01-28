@@ -73,11 +73,13 @@
   @endif
 
   @if ( Authority::can('create','Hlist') ) 
+
 	  <li>
 		  <a data-toggle="modal" class='btn btn-default link_bulk_action disabled' data-target="#form-create-list" style="padding: 6px 11px;">
 		  	<i class="fa fa-plus-circle" style="font-size: 26px; padding: 0px;"></i>
 		  </a>
 	  </li>
+
   @endif
   
 	<?php foreach ($hlists as $hlist) {
@@ -110,6 +112,15 @@
 	</div>
 
 	<div class="col-xs-3">
+
+  	@if (Authority::can('revise',$list))
+
+    	<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
+    		<span class="fa fa-check" ></span> {{trans('holdings.revised')}}
+    	</a>
+
+  	@endif
+
 	  <a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-xs btn-default dropdown-toggle pull-right collapsed text-warning" data-toggle="collapse">
   		<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
 		</a>
