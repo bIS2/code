@@ -98,7 +98,7 @@ class HlistsController extends BaseController {
 			if ( $worker->hasRole('maguser') ){
 
 				if (  Input::get('type') =='control' ){
-					
+
 					$ids = Holding::whereIn('id',$holding_ids)->where( function($query){ 
 
 						$query
@@ -112,7 +112,7 @@ class HlistsController extends BaseController {
 
 				if (  Input::get('type')=='unsolve' ){
 					$ids = Holding::whereIn('id',$holding_ids)->whereState('spare')->lists('id');
-				 	$holding_ids =  (count($ids)>0) ? $ids : []; 
+				 	$holding_ids =  ( count($ids)>0 ) ? $ids : []; 
 				}
 
 			}
@@ -126,11 +126,15 @@ class HlistsController extends BaseController {
 
 
 			if ( count($holding_ids)>0) {
+
 				$hlist->save();
 				$hlist->holdings()->attach( $holding_ids );
 				return Redirect::route('holdings.index', ['hlist_id'=>$hlist->id]);
+
 			} else {
+
 				return Response::json( ['error' => trans('errors.list_in_blank')] );
+
 			}
 
 
@@ -228,20 +232,23 @@ class HlistsController extends BaseController {
 		$list = $this->hlist->find($id);
 
 		$error = '';
-		if ( $list->type=='control' && !( ($holding->state=='confirmed') || ($holding->state=='ok') || ($holding->state=='annotated') ) )
+		if ( ($list->type=='control') && !( ($holding->state=='confirmed') || ($holding->state=='ok') || ($holding->state=='annotated') ) )
 			$error = 'attach_list_control';
 
-		if ( $list->type=='delivery' && !$holding->is_revised )
+		if ( ($list->type=='delivery') && !$holding->is_revised )
 			$error = 'attach_list_delivery';
+
+		if ( in_array( $holding->id, $list->holdings()->select('holdings.id')->lists('holdings.id') ))
+			$error = 'attach_holding_in_list';
 
 		if ($error==''){
 
-			$list->holdings()->attach($holding_id);			
-			return Response::json( ['attach' => $id] );
+			$list->holdings()->attach($holding->id);			
+			return Response::json( ['attach' => $id,'count' => $this->hlist->holding()->count() ] );
 
 		} else {
 
-			return Response::json( [ 'error' => trans('errors.'.$error) ] );
+			return Response::json( [ 'error' => trans('errors.'.$error), 'type'=> $holding->state ] );
 
 		}
 	}
@@ -249,7 +256,7 @@ class HlistsController extends BaseController {
 	public function postDetach($id){
 		$holding_id = Input::get('holding_id');
 		$this->hlist->find($id)->holdings()->detach($holding_id);		
-		return Response::json( ['remove' => $holding_id] );
+		return Response::json( ['remove' => $holding_id, 'count' => $this->hlist->holding()->count() ] );
 	}
 
 }

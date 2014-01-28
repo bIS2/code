@@ -37,6 +37,7 @@
 					<thead>
 						<tr>
 							<th>{{ trans('table.name') }}</th>
+							<th>{{ trans('table.state') }}</th>
 							<th>{{ trans('table.type') }}</th>
 							<th>{{ trans('table.date') }}</th>
 							<th>{{ trans('table.asigned') }}</th>
@@ -53,6 +54,11 @@
 									<a href="{{ route('holdings.index', [ 'hlist_id' => $list->id ] ) }}" >{{ $list->name }} </a>
 								</td>
 								<td>
+									<span class="label label-primary">
+										{{ $list->state }}
+									</span>
+								</td>
+								<td>
 									{{ $list->type_icon }}
 									{{ trans('lists.type-'.$list->type) }}
 								</td>
@@ -63,12 +69,14 @@
 								<td>
 									{{ link_to( route('holdings.index',['hlist'=>$list->id]), $total = $list->holdings->count() ) }}
 								</td>
+
 <!-- 								<td>
 									{{ trans('holdings.corrects') }}:{{{ $corrects = $list->holdings()->corrects()->count() }}},
 									{{ trans('holdings.annotated') }}:{{ $annotated = $list->holdings()->annotated()->count() }},
 									{{ trans('holdings.pending') }}:{{ $total -  ($corrects + $annotated)  }}
 								</td>
- -->			          <td>
+ -->			       
+ 								<td>
 
 			          	@if (Authority::can('delivery','Hlist'))
 

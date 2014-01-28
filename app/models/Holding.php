@@ -87,7 +87,7 @@ class Holding extends Eloquent {
   }
 
   public function scopeConfirms($query){
-  	return $query->whereIn( 'holdingsset_id', function($query){ $query->select('holdingsset_id')->from('confirms')->lists('holdingsset_id'); });
+  	return $query->whereState('confirmed');
   }
 
   public function scopeCorrects($query){
