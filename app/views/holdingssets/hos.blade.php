@@ -76,7 +76,7 @@ else { ?>
 				@if (($HOSannotated && !$HOSconfirm) || !$HOSconfirm && !$HOSincorrect) 
 					<span class="btn-incorrect pop-over" data-content="<?= trans('holdingssets.check_hos_as_incorrect'); ?>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" data-container="body">
 						<a id="holdingsset{{ $holdingsset -> id }}incorrect" set="{{$holdingsset->id}}" href="{{route('incorrects.store',['holdingsset_id' => $holdingsset->id])}}" class="btn btn-ok btn-xs incorrect btn-default" data-remote="true" data-method="post" data-disable-with="...">
-							<span id="incorrect{{ $holdingsset -> id }}text" class="fa fa-thumbs-down"></span>
+							<span id="incorrect{{ $holdingsset -> id }}text" class="fa fa-thumbs-down text-danger"></span>
 						</a>		
 					</span>
 				@endif

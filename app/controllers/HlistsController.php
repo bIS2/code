@@ -244,7 +244,7 @@ class HlistsController extends BaseController {
 		if ($error==''){
 
 			$list->holdings()->attach($holding->id);			
-			return Response::json( ['attach' => $id,'count' => $this->hlist->holding()->count() ] );
+			return Response::json( ['attach' => $id,'counter' => $list->holdings()->count() ] );
 
 		} else {
 
@@ -255,8 +255,9 @@ class HlistsController extends BaseController {
 
 	public function postDetach($id){
 		$holding_id = Input::get('holding_id');
-		$this->hlist->find($id)->holdings()->detach($holding_id);		
-		return Response::json( ['remove' => $holding_id, 'count' => $this->hlist->holding()->count() ] );
+		$list = $this->hlist->find($id);
+		$list->holdings()->detach($holding_id);		
+		return Response::json( ['remove' => $holding_id, 'counter' => $list->holdings()->count() ] );
 	}
 
 }
