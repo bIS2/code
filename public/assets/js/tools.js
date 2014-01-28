@@ -28,7 +28,7 @@ $(function(){
       	if ( result.error ) {
       		alert( result.error ) 
       	} else{
-      		$('#'+result.attach ).text( result.counter )
+      		$('.counter').text( result.counter )
       		alert( 'OK'  )
       	}
       })
@@ -177,8 +177,12 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
       	.text(result.state_title ); 
     }
 
-    if ( result.remove )
+    if ( result.remove ){
       $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
+      if (result.counter)
+      	$('.counter').text(result.counter)
+    	
+    }
 
     if ( result.received )
       $('#'+result.receive).hide('slow', function(){ $(this).remove() }); 
