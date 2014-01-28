@@ -8,12 +8,12 @@ $need_refresh = 0;
 $HOSconfirm = $holdingsset->confirm()->exists();
 $HOSannotated = $holdingsset->is_annotated;
 $HOSincorrect = $holdingsset->is_incorrect;
-// if (($holdingsset->holdings_number == 1) && (!$HOSconfirm) && (!$HOSincorrect)) {
-// 	Confirm::create([ 'holdingsset_id' => $holdingsset -> id, 'user_id' => Auth::user()->id ]);
-// 	// Holdingsset::find($holdingsset -> id)->update(['state' => 'ok']);
-// 	$HOSconfirm = true;
-// 	$need_refresh = 1;
-// }
+if (($holdingsset->holdings_number == 1) && (!$HOSconfirm) && (!$HOSincorrect) && (!$HOSannotated)) {
+	Confirm::create([ 'holdingsset_id' => $holdingsset -> id, 'user_id' => Auth::user()->id ]);
+	Holdingsset::find($holdingsset -> id)->update(['state' => 'ok']);
+	$HOSconfirm = true;
+	$need_refresh = 1;
+}
 $btn 	= 'btn-default';
 $route = ($HOSincorrect) ? 'incorrects' : 'confirms';
 $txt 	= ($HOSannotated) ? ' text-warning' : '';
@@ -76,7 +76,7 @@ else { ?>
 				@if (($HOSannotated && !$HOSconfirm) || !$HOSconfirm && !$HOSincorrect) 
 					<span class="btn-incorrect pop-over" data-content="<?= trans('holdingssets.check_hos_as_incorrect'); ?>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" data-container="body">
 						<a id="holdingsset{{ $holdingsset -> id }}incorrect" set="{{$holdingsset->id}}" href="{{route('incorrects.store',['holdingsset_id' => $holdingsset->id])}}" class="btn btn-ok btn-xs incorrect btn-default" data-remote="true" data-method="post" data-disable-with="...">
-							<span id="incorrect{{ $holdingsset -> id }}text" class="fa fa-thumbs-down"></span>
+							<span id="incorrect{{ $holdingsset -> id }}text" class="fa fa-thumbs-down text-danger"></span>
 						</a>		
 					</span>
 				@endif
