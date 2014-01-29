@@ -57,7 +57,7 @@
 			<td class="table_order">{{ $hol_order }}</td>
 			@if (!($HOSconfirm) || $HOSannotated)
 				<td class="actions" holding="{{ $holding -> id }}">
-					{{ $holding -> bibuser_actions($holdingsset) }}
+					{{ $holding -> bibuser_actions($holdingsset, $hol_order) }}
 				</td>
 			@endif
 				<?php $k = 0; ?>

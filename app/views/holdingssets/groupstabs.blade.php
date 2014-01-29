@@ -129,6 +129,7 @@
     </div> 
 		<p>{{ trans('holdingssets.of') }}</p>
 		<div id="total_quantity">{{ $total }}</div>
+		<a id="next-page" class="btn btn-xs btn-info"  data-toggle="tooltip" title="<?= trans('holdingssets.more_holdingssets'); ?>" data-container="body" ><i class="fa fa-forward"></i></a>
 	</div>
 </div>
 	<div class="col-xs-12">
