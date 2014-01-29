@@ -903,7 +903,7 @@ function holdingsset_recall($id) {
 	$conn_string1 = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string) or ($con = pg_connect($conn_string1));
 
-	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 500";
+	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 100";
 	$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
 
 	$ta_arr = pg_fetch_all($result);
@@ -1049,223 +1049,223 @@ function holdingsset_recall($id) {
 	 * 	potential owners by occurrences
 	 ***********************************************************************/
 	// var_dump($blockeds_hols);
-	for ($i=0; $i<$ta_hol_amnt; $i++){ //<---------------------------------- for each group of holdings (TA)...
+	// for ($i=0; $i<$ta_hol_amnt; $i++){ //<---------------------------------- for each group of holdings (TA)...
 		
-		//Patron del HOS - como arreglo
-		$ptrn = $ta_hol_arr[$i]['ptrn'];
+	// 	//Patron del HOS - como arreglo
+	// 	$ptrn = $ta_hol_arr[$i]['ptrn'];
 
-		// Tamaño del arreglo del patrón
-		$ptrn_amnt = sizeOf($ptrn);
+	// 	// Tamaño del arreglo del patrón
+	// 	$ptrn_amnt = sizeOf($ptrn);
 		
-		// Hols del HOS
-		$hol_arr = $ta_hol_arr[$i]['hol'];
+	// 	// Hols del HOS
+	// 	$hol_arr = $ta_hol_arr[$i]['hol'];
 
-		// Cantidad de hols
-		$hol_amnt = sizeOf($hol_arr);
+	// 	// Cantidad de hols
+	// 	$hol_amnt = sizeOf($hol_arr);
 
-		$weight_ptrn = array_map(
-			function ($n){
-				$chunks = explode('|',substr(chunk_split($n,4,'|'),0,-1));
-				$d_vol = intval($chunks[1])-intval($chunks[0]);
-				$d_year = intval($chunks[3])-intval($chunks[2]);
-				return (($d_vol>0)?$d_vol:(($d_year>0)?$d_year:0))+1;
-			},
-			$ptrn);
+	// 	$weight_ptrn = array_map(
+	// 		function ($n){
+	// 			$chunks = explode('|',substr(chunk_split($n,4,'|'),0,-1));
+	// 			$d_vol = intval($chunks[1])-intval($chunks[0]);
+	// 			$d_year = intval($chunks[3])-intval($chunks[2]);
+	// 			return (($d_vol>0)?$d_vol:(($d_year>0)?$d_year:0))+1;
+	// 		},
+	// 		$ptrn);
 		
-		$ta_hol_arr[$i]['weight_ptrn'] = $weight_ptrn; //<-------------------- weight pattern
+	// 	$ta_hol_arr[$i]['weight_ptrn'] = $weight_ptrn; //<-------------------- weight pattern
 
-		$mx_ocrr_nr = 0;
-		$mx_weight = 0;
-		$posowners = array();	
-		$posowners_oc = array();
-		$owner_index = ''; 
-		$ta_hol_arr[$i]['owner'] = '';
+	// 	$mx_ocrr_nr = 0;
+	// 	$mx_weight = 0;
+	// 	$posowners = array();	
+	// 	$posowners_oc = array();
+	// 	$owner_index = ''; 
+	// 	$ta_hol_arr[$i]['owner'] = '';
 		
-		for ($k=0; $k<$hol_amnt; $k++){ //<----------------------------------- for each holding (hol)...
+	// 	for ($k=0; $k<$hol_amnt; $k++){ //<----------------------------------- for each holding (hol)...
 			
-			$ta = $hol_arr[$k]['sys1'];
-			$hol = $hol_arr[$k]['sys2'];
-			$g = $hol_arr[$k]['g'];
+	// 		$ta = $hol_arr[$k]['sys1'];
+	// 		$hol = $hol_arr[$k]['sys2'];
+	// 		$g = $hol_arr[$k]['g'];
 			
-			$weight = 0;
-			$ocrr_nr = 0;
+	// 		$weight = 0;
+	// 		$ocrr_nr = 0;
 			
-			$j_factor = .5;
+	// 		$j_factor = .5;
 
-			$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'] = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,0):array();
-			$ta_hol_arr[$i]['hol'][$k]['j_arr'] = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,0):array();
+	// 		$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'] = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,0):array();
+	// 		$ta_hol_arr[$i]['hol'][$k]['j_arr'] = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,0):array();
 			
-			$ocrr = $ta_hol_arr[$i]['hol'][$k]['ptrn_arr'];
+	// 		$ocrr = $ta_hol_arr[$i]['hol'][$k]['ptrn_arr'];
 			
-			if ($ocrr) {
-				$ocrr_amnt = sizeOf($ocrr);
+	// 		if ($ocrr) {
+	// 			$ocrr_amnt = sizeOf($ocrr);
 				
-				for ($l=0; $l<$ocrr_amnt; $l++){ //por cada pedacito
-					if (isset($ocrr[$l])){
-						//hay pedacito y se puede partir
-						$ocrr_piece = $ocrr[$l];
+	// 			for ($l=0; $l<$ocrr_amnt; $l++){ //por cada pedacito
+	// 				if (isset($ocrr[$l])){
+	// 					//hay pedacito y se puede partir
+	// 					$ocrr_piece = $ocrr[$l];
 						
-						$is_j = preg_match('/[j]/',$ocrr_piece);
-						$ocrr_piece[16] = '-'; //<------------------------------------ fixes the 16th char (patch)...			
-						$ocrr_piece = preg_replace('/[j]/', ' ', $ocrr_piece);
-						$ocrr_piece = preg_replace('/\s$/', '',$ocrr_piece);
+	// 					$is_j = preg_match('/[j]/',$ocrr_piece);
+	// 					$ocrr_piece[16] = '-'; //<------------------------------------ fixes the 16th char (patch)...			
+	// 					$ocrr_piece = preg_replace('/[j]/', ' ', $ocrr_piece);
+	// 					$ocrr_piece = preg_replace('/\s$/', '',$ocrr_piece);
 						
-						$ocrr_piece = preg_replace('/[n]/', '',$ocrr_piece); //<------ parche
+	// 					$ocrr_piece = preg_replace('/[n]/', '',$ocrr_piece); //<------ parche
 						
-						$ocrr_xtr = explode('-',$ocrr_piece);
+	// 					$ocrr_xtr = explode('-',$ocrr_piece);
 						
-						$ocrr_bgn = get_ptrn_position($ocrr_xtr[0],$ptrn);
-						$val_bgn = $ocrr_xtr[0];
+	// 					$ocrr_bgn = get_ptrn_position($ocrr_xtr[0],$ptrn);
+	// 					$val_bgn = $ocrr_xtr[0];
 
-						if (array_key_exists(1,$ocrr_xtr)){ //<----------------------- vvvvVVVVyyyyYYYY-vvvvVVVVyyyyYYYY
-							if (preg_match('/\w/',$ocrr_xtr[1])){
-								$ocrr_end = get_ptrn_position($ocrr_xtr[1],$ptrn);
-								$val_end = $ocrr_xtr[1];
-							}
-								else { //<------------------------------------------------ vvvvVVVVyyyyYYYY-
-									$ocrr_end = $ptrn_amnt-1;
-									$val_end = (isset($ptrn[$ptrn_amnt-1]))?$ptrn[$ptrn_amnt-1]:'';
-								}
-							}
-						else { //<---------------------------------------------------- vvvvVVVVyyyyYYYY
+	// 					if (array_key_exists(1,$ocrr_xtr)){ //<----------------------- vvvvVVVVyyyyYYYY-vvvvVVVVyyyyYYYY
+	// 						if (preg_match('/\w/',$ocrr_xtr[1])){
+	// 							$ocrr_end = get_ptrn_position($ocrr_xtr[1],$ptrn);
+	// 							$val_end = $ocrr_xtr[1];
+	// 						}
+	// 							else { //<------------------------------------------------ vvvvVVVVyyyyYYYY-
+	// 								$ocrr_end = $ptrn_amnt-1;
+	// 								$val_end = (isset($ptrn[$ptrn_amnt-1]))?$ptrn[$ptrn_amnt-1]:'';
+	// 							}
+	// 						}
+	// 					else { //<---------------------------------------------------- vvvvVVVVyyyyYYYY
 							
-							//si el valor solo es un agno buscar hasta donde llega ????
-							$tiny_chunks = explode('|',substr(chunk_split($ocrr_bgn,4,'|'),0,-1));
-							if (preg_match('/\w/',$tiny_chunks[2])) echo $tiny_chunks[2].EOL;
-							$ocrr_end = $ocrr_bgn;
-							$val_end = $val_bgn;
-						}
-						$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'][$ocrr_end] = 1;
-						if ($is_j) $ta_hol_arr[$i]['hol'][$ocrr_end]['j_arr'][$h] = 1;
-						for ($h=$ocrr_bgn; $h<$ocrr_end; $h++){
-							$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'][$h] = 1;
-							if ($is_j) $ta_hol_arr[$i]['hol'][$k]['j_arr'][$h] = 1;
-						}
-					}
-					else {
-						//no se pudo determinar
-					}
-				}
-			}
+	// 						//si el valor solo es un agno buscar hasta donde llega ????
+	// 						$tiny_chunks = explode('|',substr(chunk_split($ocrr_bgn,4,'|'),0,-1));
+	// 						if (preg_match('/\w/',$tiny_chunks[2])) echo $tiny_chunks[2].EOL;
+	// 						$ocrr_end = $ocrr_bgn;
+	// 						$val_end = $val_bgn;
+	// 					}
+	// 					$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'][$ocrr_end] = 1;
+	// 					if ($is_j) $ta_hol_arr[$i]['hol'][$ocrr_end]['j_arr'][$h] = 1;
+	// 					for ($h=$ocrr_bgn; $h<$ocrr_end; $h++){
+	// 						$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'][$h] = 1;
+	// 						if ($is_j) $ta_hol_arr[$i]['hol'][$k]['j_arr'][$h] = 1;
+	// 					}
+	// 				}
+	// 				else {
+	// 					//no se pudo determinar
+	// 				}
+	// 			}
+	// 		}
 			
-			$ocrr_ptrn = $ta_hol_arr[$i]['hol'][$k]['ocrr_arr']; //<------------ occurrences pattern
-			$j_ptrn = $ta_hol_arr[$i]['hol'][$k]['j_arr']; //<------------------ completeness pattern
+	// 		$ocrr_ptrn = $ta_hol_arr[$i]['hol'][$k]['ocrr_arr']; //<------------ occurrences pattern
+	// 		$j_ptrn = $ta_hol_arr[$i]['hol'][$k]['j_arr']; //<------------------ completeness pattern
 
-			$hol_weight_ptrn = array_map( 
-				function($w, $o, $j){
-					$j_factor = .5;
-					return $w*$o*(($j>0)?$j_factor:1); 
-				}, 
-				$weight_ptrn, $ocrr_ptrn, $j_ptrn); 
+	// 		$hol_weight_ptrn = array_map( 
+	// 			function($w, $o, $j){
+	// 				$j_factor = .5;
+	// 				return $w*$o*(($j>0)?$j_factor:1); 
+	// 			}, 
+	// 			$weight_ptrn, $ocrr_ptrn, $j_ptrn); 
 			
-			$weight = array_sum($hol_weight_ptrn);  //<------------------------- weight
-			$ocrr_nr  = array_sum($ocrr_ptrn);  //<----------------------------- number of occurrences
+	// 		$weight = array_sum($hol_weight_ptrn);  //<------------------------- weight
+	// 		$ocrr_nr  = array_sum($ocrr_ptrn);  //<----------------------------- number of occurrences
 			
-		/******************************************************************
-		 * Finding potential owners
-		 ******************************************************************/
+	// 	/******************************************************************
+	// 	 * Finding potential owners
+	// 	 ******************************************************************/
 
-		if ($weight !== 0 ) {
-			if ($weight > $mx_weight ) {
-				$mx_weight = $weight;
-				$posowners = array();	
-				$posowners[0] = $k;
-			}
-			else if ($weight === $mx_weight ) {
-					array_push($posowners,$k); //<---------------------------------- potential owners by weight
-				}
-			}
+	// 	if ($weight !== 0 ) {
+	// 		if ($weight > $mx_weight ) {
+	// 			$mx_weight = $weight;
+	// 			$posowners = array();	
+	// 			$posowners[0] = $k;
+	// 		}
+	// 		else if ($weight === $mx_weight ) {
+	// 				array_push($posowners,$k); //<---------------------------------- potential owners by weight
+	// 			}
+	// 		}
 			
-			if ($ocrr_nr !== 0 ) {
-				if ($ocrr_nr > $mx_ocrr_nr ) {
-					$mx_ocrr_nr = $ocrr_nr;
-					$posowners_oc = array();	
-					$posowners_oc[0] = $k;
-				}
-				else if ($ocrr_nr === $mx_ocrr_nr ) {
-					array_push($posowners_oc,$k); //<------------------------------- potential owners by occurrences
-				}
-			}
+	// 		if ($ocrr_nr !== 0 ) {
+	// 			if ($ocrr_nr > $mx_ocrr_nr ) {
+	// 				$mx_ocrr_nr = $ocrr_nr;
+	// 				$posowners_oc = array();	
+	// 				$posowners_oc[0] = $k;
+	// 			}
+	// 			else if ($ocrr_nr === $mx_ocrr_nr ) {
+	// 				array_push($posowners_oc,$k); //<------------------------------- potential owners by occurrences
+	// 			}
+	// 		}
 			
-			$ta_hol_arr[$i]['hol'][$k]['ocrr_nr'] = $ocrr_nr;
-			$ta_hol_arr[$i]['hol'][$k]['weight'] = $weight;
+	// 		$ta_hol_arr[$i]['hol'][$k]['ocrr_nr'] = $ocrr_nr;
+	// 		$ta_hol_arr[$i]['hol'][$k]['weight'] = $weight;
 
-		/******************************************************************
-		 * UPDATE hol_out
-		 * 	ptrn
-		 * 	ocrr_nr
-		 * 	weight
-		 * 	ocrr_ptrn
-		 * 	j_ptrn
-		 ******************************************************************/
+	// 	/******************************************************************
+	// 	 * UPDATE hol_out
+	// 	 * 	ptrn
+	// 	 * 	ocrr_nr
+	// 	 * 	weight
+	// 	 * 	ocrr_ptrn
+	// 	 * 	j_ptrn
+	// 	 ******************************************************************/
 
-		$ta_res_arr[$ta.$hol.$g]['sys1'] 	  = $ta;
-		$ta_res_arr[$ta.$hol.$g]['sys2']      = $hol;
-		$ta_res_arr[$ta.$hol.$g]['g']         = $g;
-		$ta_res_arr[$ta.$hol.$g]['ptrn']      = implode('|',$ptrn);
-		$ta_res_arr[$ta.$hol.$g]['ocrr_nr']   = $ocrr_nr;
-		$ta_res_arr[$ta.$hol.$g]['ocrr_ptrn'] = implode('',$ocrr_ptrn);
-		$ta_res_arr[$ta.$hol.$g]['weight']    = $weight;
-		$ta_res_arr[$ta.$hol.$g]['j_ptrn']    = implode('',$j_ptrn);
+	// 	$ta_res_arr[$ta.$hol.$g]['sys1'] 	  = $ta;
+	// 	$ta_res_arr[$ta.$hol.$g]['sys2']      = $hol;
+	// 	$ta_res_arr[$ta.$hol.$g]['g']         = $g;
+	// 	$ta_res_arr[$ta.$hol.$g]['ptrn']      = implode('|',$ptrn);
+	// 	$ta_res_arr[$ta.$hol.$g]['ocrr_nr']   = $ocrr_nr;
+	// 	$ta_res_arr[$ta.$hol.$g]['ocrr_ptrn'] = implode('',$ocrr_ptrn);
+	// 	$ta_res_arr[$ta.$hol.$g]['weight']    = $weight;
+	// 	$ta_res_arr[$ta.$hol.$g]['j_ptrn']    = implode('',$j_ptrn);
 
-		$ta_res_arr[$ta.$hol.$g]['is_owner']  = 'f';
-		$ta_res_arr[$ta.$hol.$g]['aux_ptrn']  = '';
-		$ta_res_arr[$ta.$hol.$g]['is_aux']    = 'f';
+	// 	$ta_res_arr[$ta.$hol.$g]['is_owner']  = 'f';
+	// 	$ta_res_arr[$ta.$hol.$g]['aux_ptrn']  = '';
+	// 	$ta_res_arr[$ta.$hol.$g]['is_aux']    = 'f';
 
-			/*
-			$query = "UPDATE hol_out 
-								SET ptrn='".implode('|',$ptrn) ."' , ocrr_nr='". $ocrr_nr ."' , ocrr_ptrn='". implode('',$ocrr_ptrn) ."' , weight='". $weight ."' , j_ptrn='". implode('',$j_ptrn) ."'
-								WHERE sys1 = '".$ta."' AND sys2 = '".$hol."' AND g = '".$g."'";
-			$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
-			*/
+	// 		/*
+	// 		$query = "UPDATE hol_out 
+	// 							SET ptrn='".implode('|',$ptrn) ."' , ocrr_nr='". $ocrr_nr ."' , ocrr_ptrn='". implode('',$ocrr_ptrn) ."' , weight='". $weight ."' , j_ptrn='". implode('',$j_ptrn) ."'
+	// 							WHERE sys1 = '".$ta."' AND sys2 = '".$hol."' AND g = '".$g."'";
+	// 		$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
+	// 		*/
 			
-		}
+	// 	}
 
-		/******************************************************************
-		 * Finding "the owner" according to the following criteria:
-		 * 	preferred
-		 * 	heaviest
-		 * 	highest occurrences number
-		 ******************************************************************/
+	// 	/******************************************************************
+	// 	 * Finding "the owner" according to the following criteria:
+	// 	 * 	preferred
+	// 	 * 	heaviest
+	// 	 * 	highest occurrences number
+	// 	 ******************************************************************/
 		
-		if ($posowners) {
-			$owners_amnt = sizeOf ($posowners);
-			if ($owners_amnt>1){
-				for ($o_index=0; $o_index<$owners_amnt; $o_index++){
-					$is_pref = $ta_hol_arr[$i]['hol'][$o_index]['is_pref'];
-					$owner_index = $posowners[$o_index];
-					if ($is_pref=='t')break;
-					else if (in_array($posowners[$o_index],$posowners_oc))break;
-				}
-			}
-			else $owner_index =  $posowners[0];
-		}
+	// 	if ($posowners) {
+	// 		$owners_amnt = sizeOf ($posowners);
+	// 		if ($owners_amnt>1){
+	// 			for ($o_index=0; $o_index<$owners_amnt; $o_index++){
+	// 				$is_pref = $ta_hol_arr[$i]['hol'][$o_index]['is_pref'];
+	// 				$owner_index = $posowners[$o_index];
+	// 				if ($is_pref=='t')break;
+	// 				else if (in_array($posowners[$o_index],$posowners_oc))break;
+	// 			}
+	// 		}
+	// 		else $owner_index =  $posowners[0];
+	// 	}
 
-		$owner_index = ($forceowner_index != -1)  ? $forceowner_index : $owner_index;
-		$ta_hol_arr[$i]['owner'] = ($forceowner_index != -1)  ? $forceowner_index : $owner_index;
-		$mishols[$i]['owner'] = ($forceowner_index != -1)  ? $forceowner_index : $owner_index;
+	// 	$owner_index = ($forceowner_index != -1)  ? $forceowner_index : $owner_index;
+	// 	$ta_hol_arr[$i]['owner'] = ($forceowner_index != -1)  ? $forceowner_index : $owner_index;
+	// 	$mishols[$i]['owner'] = ($forceowner_index != -1)  ? $forceowner_index : $owner_index;
 
 		
-		/******************************************************************
-		 * UPDATE hol_out
-		 * 	is_owner
-		 ******************************************************************/
+	// 	/******************************************************************
+	// 	 * UPDATE hol_out
+	// 	 * 	is_owner
+	// 	 ******************************************************************/
 
-		if ($owner_index !== '') {
+	// 	if ($owner_index !== '') {
 			
-			$ta = $mishols[$owner_index]['sys1'];
-			$hol = $mishols[$owner_index]['sys2'];
-			$g = $mishols[$owner_index]['g'];
+	// 		$ta = $mishols[$owner_index]['sys1'];
+	// 		$hol = $mishols[$owner_index]['sys2'];
+	// 		$g = $mishols[$owner_index]['g'];
 			
-			$ta_res_arr[$ta.$hol.$g]['is_owner'] = 't';
-			/*
-			$query = "UPDATE hol_out SET is_owner='". 1 ."' 
-								WHERE sys1 = '".$ta."' AND sys2 = '".$hol."' AND g = '".$g."'";
-			$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
-			*/
-		}
-	}
-
+	// 		$ta_res_arr[$ta.$hol.$g]['is_owner'] = 't';
+	// 		/*
+	// 		$query = "UPDATE hol_out SET is_owner='". 1 ."' 
+	// 							WHERE sys1 = '".$ta."' AND sys2 = '".$hol."' AND g = '".$g."'";
+	// 		$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
+	// 		*/
+	// 	}
+	// }
+	// die('toy aqui ahora');
 	/***********************************************************************
 	 * Aqui se encuentra la biblioteca de apoyo a partir del owner
 	 * la aux se calcula completando con la que tiene mayor peso/ocurrencia
