@@ -8,12 +8,13 @@ $need_refresh = 0;
 $HOSconfirm = $holdingsset->confirm()->exists();
 $HOSannotated = $holdingsset->is_annotated;
 $HOSincorrect = $holdingsset->is_incorrect;
-//if (($holdingsset->holdings_number == 1) && (!$HOSconfirm) && (!$HOSincorrect) && (!$HOSannotated)) {
-//	Confirm::create([ 'holdingsset_id' => $holdingsset -> id, 'user_id' => Auth::user()->id ]);
-//	Holdingsset::find($holdingsset -> id)->update(['state' => 'ok']);
-//	$HOSconfirm = true;
-//	$need_refresh = 1;
-//}
+// if (($holdingsset->holdings_number == 1) && (!$HOSconfirm) && (!$HOSincorrect) && (!$HOSannotated)) {
+// 	Confirm::create([ 'holdingsset_id' => $holdingsset -> id, 'user_id' => Auth::user()->id ]);
+// 	Holdingsset::find($holdingsset -> id)->update(['state' => 'ok']);
+// 	$HOSconfirm = true;
+// 	$need_refresh = 1;
+// }
+
 $btn 	= 'btn-default';
 $route = ($HOSincorrect) ? 'incorrects' : 'confirms';
 $txt 	= ($HOSannotated) ? ' text-warning' : '';
