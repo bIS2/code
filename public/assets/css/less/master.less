@@ -303,10 +303,7 @@ footer {
             }
             .panel-heading {
                 padding: 0 10px !important;
-                cursor: pointer;
                 width: 100%;
-                // background: @input-border-focus;
-                // color: #fff;
             }
         }
         tr.locked td {
@@ -582,6 +579,14 @@ table.table thead th:first-child {
         float: left !important;
         margin-right: 20px !important;
     }
+    .ocrr_ptrn {
+        max-width: auto;
+        > div:first-child {
+            max-width: auto;
+            overflow-x: visible !important;
+            vertical-align: middle;
+        }
+    }
 }
 .popover {
     max-width: none !important;
@@ -604,22 +609,44 @@ table.table thead th:first-child {
 
 #hosg .hol-sets {
     position: relative;
-    table.flexme > thead > tr > th.actions {
-        background-color: #ffffff;
-    }
-    table.flexme > thead > tr > th.actions,
-    table.flexme > tbody > tr > td.actions {
-        //position: absolute;
-        width: 300px !important;   
-        //height: 22px;  
-        // z-index: 9;
-        //left: 5px;
-        //border-bottom: none !important; 
-        a {
-            margin: 0 3px;
+    table {
+        > thead > tr > th.actions {
+            background-color: #ffffff;
         }
+        > thead > tr > th.actions,
+        > thead > tr > th.hocrr_ptrn,
+        > tbody > tr > td.actions {
+            //position: absolute;
+            min-width: 210px; 
+            //height: 22px;  
+            // z-index: 9;
+            //left: 5px;
+            //border-bottom: none !important; 
+            a, i, span {
+                margin: 0 3px;
+                font-size: 14px;
+            }
+        }
+        > thead > tr > th.hocrr_ptrn  {
+            a, i, span {
+                margin: 0 3px;
+                font-size: 14px;
+            }
+        } 
+    &.confirm {
+        > thead > tr > th.actions,
+        > tbody > tr > td.actions {
+            //position: absolute;
+            min-width: 70px; 
+            //height: 22px;  
+            // z-index: 9;
+            //left: 5px;
+            //border-bottom: none !important; 
+        }         
     }
-    table.flexme {
+}
+
+table.flexme {
         .table_order {
             display: none;
         }
@@ -777,6 +804,7 @@ a#filter-btn.btn-primary {
     padding: 10px 20px 0;
     .form-group.col-xs-2 {
         margin-bottom: 5px;
+        clear: both;
         * {
             padding: 5px;
             height: 25px;

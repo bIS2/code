@@ -48,7 +48,6 @@ class Holding extends Eloquent {
 
   // Scopes
 
-
   public function scopeDefaults($query){
   	return $query->with('notes', 'states')->orderBy('f852j','f852c')->wasConfirmed()->inLibrary();
   }
@@ -121,7 +120,7 @@ class Holding extends Eloquent {
   }
 
   public function scopeWasConfirmed($query) {
-    return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('states')->whereState('confirmed'); });
+    return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('states')->whereState('confirmed'); })->where('state', '<>', 'blank')->where('state', '<>', 'revised_annotated')->where('state', '<>', 'incorrected');
   }
 
   public function scopeRevisedsAnnotated($query){
@@ -191,7 +190,8 @@ class Holding extends Eloquent {
   }
 
   public function getIsAnnotatedAttribute(){
-    return ( $this->state == 'annotated' );
+    $state =  $this->state;
+    return (( $state == 'revised_annotated') || ($state == 'annotated'));
   }
 
   public function getIsRevisedAttribute(){
@@ -362,115 +362,63 @@ class Holding extends Eloquent {
     $auxtrclass   = ($holding->is_aux == 't') ? ' is_aux' : ''; 
     if (isset($aux_ptrn[$i]))  $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
     $librarianclass = ' '.substr($holding->sys2, 0, 4); 
-    $top = ($order == 1) ? 'bottom' : 'top';
+    $top = ($order == 1) ? 'right' : 'top';
     ?>
 
-    <div class="btn-group actions-menu pull-left" data-container="body">
+    
       <?php if ((Auth::user()->hasRole('resuser')) && (Auth::user()->library->id == $holding->library_id)) : ?>
-        <?php if ($holding->locked()->exists()) : ?>
-          <div class="btn btn-default btn-xs">
-            <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="<?= route('lockeds.store',['holding_id' => $holding->id]); ?>" class="pop-over <?= $btnlock; ?> pull-right" data-remote="true" data-method="post" data-params="state=locked&holdingsset_id=<?=$holdingsset->id; ?>"  data-disable-with="..." data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?><br><strong><?= trans('holdingssets.on_behalf_of'); ?></strong> <?= $holding->locked->comments; ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-lock"></span></a>
-          </div>
-        <?php else : ?>
-          <div class="btn btn-default btn-xs">
-            <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="#" class="editable  pull-right" data-type="text" data-pk="<?=$holdingsset->id; ?>" data-url="<?= route('lockeds.update',[$holding->id]); ?>" title="<?php if ($btn != 'btn-success disabled') : ?> <?= trans('holdinssets.lock_hol'); ?> @else <?= trans('holdingssets.unlock_hol'); ?><?php endif ?>"><span class="glyphicon glyphicon-lock"></span></a>
-          </div>
+        <?php if ($holding->locked()->exists()) : ?>         
+            <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="<?= route('lockeds.store',['holding_id' => $holding->id]); ?>" class="<?= $btnlock; ?> pull-right" data-remote="true" data-method="post" data-params="state=locked&holdingsset_id=<?=$holdingsset->id; ?>"  data-disable-with="..." ><span class="glyphicon glyphicon-lock pop-over" data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?><br><strong><?= trans('holdingssets.on_behalf_of'); ?></strong> <?= $holding->locked->comments; ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
+          <?php else : ?>          
+            <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="#" class="editable pull-right" data-type="text" data-pk="<?=$holdingsset->id; ?>" data-url="<?= route('lockeds.update',[$holding->id]); ?>"><span class="glyphicon glyphicon-lock pop-over" data-content="<strong><?php if ($btn != 'btn-success disabled') : ?> <?= trans('holdinssets.lock_hol'); ?> @else <?= trans('holdingssets.unlock_hol'); ?><?php endif ?></strong> <?= $holding->locked->comments; ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>          
         <?php endif ?>
-      <?php elseif($holding->locked) : ?>
-        <div class="btn btn-default btn-xs">
-          <a id="holding<?= $holding -> id; ?>lock" class="pop-over <?= $btnlock; ?> pull-right" data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?><br><strong><?= trans('holdingssets.on_behalf_of'); ?></strong> <?= $holding->locked->comments; ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"><span class="glyphicon glyphicon-lock"></span></a>
-        </div>
+      <?php elseif($holding->locked) : ?>    
+          <a id="holding<?= $holding -> id; ?>lock" class="<?= $btnlock; ?> pull-right"><span class="glyphicon glyphicon-lock pop-over" data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?><br><strong><?= trans('holdingssets.on_behalf_of'); ?></strong> <?= $holding->locked->comments; ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
       <?php endif ?>
     
-      <?php if (!($HOSconfirm) && !($HOSincorrect) && !($holding->locked)) : ?>
+     <!--  
         <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
           <?= trans('general.action'); ?> <i class="fa  fa-caret-right"></i>
         </button>
-        <ul class="fa fa-careft-left dropdown-menu" role="menu">
-          <?php if (!($holding->locked)) : ?>
+        -->
+          
+              <a href="<?= route('holdings.show', $holding->id); ?>" data-target="#modal-show" data-toggle="modal"><span class="fa fa-eye pop-over" data-content="<strong><?= trans('holdingssets.see_more_information'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
 
-            <li class="pop-over" data-content="<strong><?= trans('holdingssets.see_more_information'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover">
-              <a href="<?= route('holdings.show', $holding->id); ?>" data-target="#modal-show" data-toggle="modal" >
-              	<span class="fa fa-eye"></span>
-              </a>
-            </li>
+              <a href="/sets/from-library/<?= $holding->id; ?>" set="<?=$holdingsset->id; ?>" data-target="#modal-show" data-toggle="modal"><span class="fa fa-external-link pop-over" data-content="<strong><?= trans('holdingssets.see_information_from_original_system'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
+              |
+            <?php if (!($HOSconfirm) && !($HOSincorrect) && !($holding->locked)) : ?>
+              
+              <a id="holding<?=$holding -> id;; ?>delete" set="<?=$holdingsset->id; ?>"  href="<?= action('HoldingssetsController@putNewHOS',[$holding->id]); ?>" data-remote="true" data-method="put" data-params="holdingsset_id=<?=$holdingsset->id; ?>" data-disable-with="..." class="pop-over" data-content="<strong><?= trans('holdingssets.remove_from_HOS'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"><span class="fa fa-times"></span></a>
+              |
+              <a href="/sets/recall-holdings/<?= $holding->id; ?>" set="<?=$holdingsset->id; ?>" data-target="#modal-show" data-toggle="modal"><span class="fa fa-crosshairs pop-over" data-content="<strong><?= trans('holdingssets.recall_hos_from_this_holding'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
 
-            <li class="pop-over" data-content="<?= trans('holdingssets.see_information_from_original_system'); ?>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover">
-              <a href="/sets/from-library/<?= $holding->id; ?>" set="<?=$holdingsset->id; ?>" data-target="#modal-show" data-toggle="modal">
-              	<span class="fa fa-external-link"></span>
-              </a>
-            </li>
 
-            <li>
-              <a id="holding<?=$holding -> id;; ?>delete" set="<?=$holdingsset->id; ?>"  href="<?= action('HoldingssetsController@putNewHOS',[$holding->id]); ?>" data-remote="true" data-method="put" data-params="holdingsset_id=<?=$holdingsset->id; ?>" data-disable-with="..." class="pop-over" data-content="<?= trans('holdingssets.remove_from_HOS'); ?>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover">
-              	<span class="fa fa-times"></span>
-              </a>
-            </li>
-
-            <li class="pop-over" data-content="<?= trans('holdingssets.recall_hos_from_this_holding'); ?>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover">
-              <a href="/sets/recall-holdings/<?= $holding->id; ?>" set="<?=$holdingsset->id; ?>" data-target="#modal-show" data-toggle="modal">
-              	<span class="fa fa-crosshairs"></span>
-              </a>
-            </li>
-
-            <li class="pop-over" data-content="<?= trans('holdingssets.similarity_search_from_this_holding'); ?>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover">
-              <a href="/sets/similarity-search/<?= $holding->id; ?>" set="<?=$holdingsset->id; ?>" data-target="#modal-show" data-toggle="modal" >
-              	<span class="fa fa-search"></span>
-              </a>
-            </li>
-
+              <a href="/sets/similarity-search/<?= $holding->id; ?>" set="<?=$holdingsset->id; ?>" data-target="#modal-show" data-toggle="modal"><span class="fa fa-search pop-over" data-content="<strong><?= trans('holdingssets.similarity_search_from_this_holding'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
+              |
             <?php if ($ownertrclass == '') : ?>
 
-              <li>
-                <a id="holding<?=$holding -> id;; ?>forceowner" set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putForceOwner',[$holding->id]); ?>" data-remote="true" data-method="put" data-params="holdingsset_id=<?=$holdingsset->id; ?>" data-disable-with="..." class="pop-over" data-content="<?= trans('holdingssets.force_owner'); ?>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover">
-                	<span class="fa fa-stop text-danger"></span>
-                </a>
-              </li>
+                <a id="holding<?=$holding -> id; ?>forceowner" set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putForceOwner',[$holding->id]); ?>" data-remote="true" data-method="put" data-params="holdingsset_id=<?=$holdingsset->id; ?>" data-disable-with="..."><span class="fa fa-stop text-danger pop-over" data-content="<strong><?= trans('holdingssets.force_owner'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
 
             <?php endif ?>
 
-            <li>
-              <a id="holding<?=$holding -> id;; ?>forceaux" set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putForceAux',[$holding->id]); ?>?unique_aux=1&holdingsset_id=<?= $holdingsset->id; ?>&ptrn=<?= $holding->aux_ptrn; ?>" data-remote="true" data-method="put" data-params="holdingsset_id=<?=$holdingsset->id; ?>" data-disable-with="..." class="forceaux pop-over" data-content="<?= trans('holdingssets.force_aux'); ?>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover">
-              	<span class="fa fa-stop text-warning"></span>
-              </a>
-            </li>
+              <a id="holding<?=$holding -> id; ?>forceaux" set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putForceAux',[$holding->id]); ?>?unique_aux=1&holdingsset_id=<?= $holdingsset->id; ?>&ptrn=<?= $holding->aux_ptrn; ?>" data-remote="true" data-method="put" data-params="holdingsset_id=<?=$holdingsset->id; ?>" data-disable-with="..." class="forceaux"><span class="fa fa-stop text-warning pop-over" data-content="<strong><?= trans('holdingssets.force_aux'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
 
-            <li>
-              <a id="holding<?=$holding -> id;; ?>forceblue" set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putForceBlue',[$holding->id]); ?>" data-remote="true" data-method="put" data-params="holdingsset_id=<?=$holdingsset->id; ?>" data-disable-with="..." data-disable-with="..." class="forceblue pop-over" data-content="<?= trans('holdingssets.force_blue'); ?>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover">
-              	<span class="fa fa-stop text-primary"></span>
-              </a>
-            </li>
+              <a id="holding<?=$holding -> id; ?>forceblue" set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putForceBlue',[$holding->id]); ?>" data-remote="true" data-method="put" data-params="holdingsset_id=<?=$holdingsset->id; ?>" data-disable-with="..." data-disable-with="..." class="forceblue"><span class="fa fa-stop text-primary pop-over" data-content="<strong><?= trans('holdingssets.force_blue'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>           
 
           <?php endif ?>
 
           <?php if ($holding->is_annotated) : ?>
-
-            <li>
-              <a href="<?= route('notes.create',['holding_id'=>$holding->id, 'consult' => '1']); ?>" data-toggle="modal" data-target="#form-create-notes" class="btn-link btn-xs btn-tag pop-over" data-content="<?= trans('holdingssets.see_storeman_annotations'); ?>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover">
-                <span class="fa fa-tags text-danger"></span>
+            |
+              <a href="<?= route('notes.create',['holding_id'=>$holding->id, 'consult' => '1']); ?>" data-toggle="modal" data-target="#form-create-notes" class="btn-link btn-xs btn-tag">
+                <span class="fa fa-tags text-danger pop-over" data-content="<strong><?= trans('holdingssets.see_storeman_annotations'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"></span>
               </a>
-            </li>
+    
 
-            <?php endif ?>
+          <?php endif ?>
 
-          </ul>
+
+          <!-- </ul> -->
           <?php  ?>
-
-        <?php elseif ($holding->is_annotated) : ?>
-
-          <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" data-trigger="hover">
-            <?= trans('general.action'); ?> <i class="fa  fa-caret-right"></i>
-          </button>
-
-          <ul class="fa fa-careft-left dropdown-menu" role="menu">
-            <li>
-              <a href="<?= route('notes.create',['holding_id'=>$holding->id, 'consult' => '1']); ?>" data-toggle="modal" data-target="#form-create-notes" class="btn-link btn-xs btn-tag pop-over" data-content="<strong><?= trans('holdingssets.see_storeman_annotations'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover">
-                <span class="fa fa-tags text-danger"></span>
-              </a>
-            </li>
-          </ul>
-          
-        <?php endif ?>
       </div>
       <?php }
     }
