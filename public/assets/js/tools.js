@@ -1,12 +1,16 @@
+// Contains all the logic on the client
+
 $(function(){
 
   typeList()
 
+  //Cuando se cambio el tipo de lista que se quiere crear se actualiza los usuarios a los que se les puede asignar ese tipo de lista
   $('#form_list :radio').on('click',function(){
     $('#form_list select#worker_id').val([])
     typeList()
   })
 
+  //manipulates the elements marked with the css class .draggable
   $( ".draggable" ).draggable({   
     handle: ".move",
     appendTo: 'body',
@@ -15,6 +19,7 @@ $(function(){
     revert: "invalid"
   });   
 
+  //manipulates the elements <LI> marked with the css class .draggable
   $( "li.droppable" ).droppable({   
     accept: "tr.draggable",
     tolerance: "pointer", 
@@ -37,6 +42,7 @@ $(function(){
 
   });  
 
+  // Manipulate tooltip. Use the bootstrap plugin
   $('[data-toggle=tooltip]').tooltip()
 
   $('.stats .label-default').hover(
@@ -55,6 +61,7 @@ $(function(){
     if (event.keyCode == 27) $('.modal .close').click();
   }) 
 
+  // Show form to create feedback
   $('#btn_create_feedback').popover({
   	html: true,
   	content: function(){ return $('#wrap_create_feedback').html() },
@@ -63,6 +70,7 @@ $(function(){
 
   })
 
+  //Click in button with class .close-popover close de form to create feedback
 	$('body').on( 'click', '.close-popover', function(e){
 		e.preventDefault()
   	$('#btn_create_feedback').popover('hide')
@@ -79,7 +87,6 @@ $(function(){
   $('.datatable').dataTable({
     "bFilter": false,
     "bPaginate": false , 
-    // "aoColumnDefs": [	{ "sWidth": "3px", "aTargets": [ 0,1 ] },{ "sWidth": "20px", "aTargets": [ 2 ] } ]
   });
 
   bulkActions();
@@ -119,11 +126,10 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
   }); 
 
 
-
+  // Manipula all reponse ajax json
   $('body').on( 'ajax:success', 'form,a', function(data, result, status){
     if($(this).attr('id') == 'recalled') window.location.reload()
 
-    /* Holdings Tags */
     if ( result.tag ){
       $('tr#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger');
       $('#form-create-tags').modal('hide')

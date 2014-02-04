@@ -17,10 +17,10 @@
  */
 
 // Route::group(['prefix' => LaravelLocalization::setLanguage(),'before' => 'LaravelLocalizationRedirectFilter'], function() {
-Route::get('language/{lang}', function($lang){
-    App::setLocale($lang);
-    return Redirect::to('/');
-});
+    Route::get('language/{lang}', function($lang){
+        App::setLocale($lang);
+        return Redirect::to('/');
+    });
 
 	Route::model('user', 'User');
 	Route::model('comment', 'Comment');
@@ -38,13 +38,13 @@ Route::get('language/{lang}', function($lang){
 		Route::resource('admin/libraries', 'LibrariesController' );
 		Route::resource('admin/tags', 'TagsController');
 		Route::resource('admin/traces', 'TracesController');
-    Route::resource('admin/feedbacks', 'FeedbacksController');
+        Route::resource('admin/feedbacks', 'FeedbacksController');
 
 		Route::resource('groups', 'GroupsController');
 		Route::controller('groups', 'GroupsController');
 
 
-    Route::resource('holdings', 'HoldingsController');
+        Route::resource('holdings', 'HoldingsController');
 		Route::controller('holdings', 'HoldingsController');
 
 		Route::resource('sets', 'HoldingssetsController');
@@ -63,11 +63,11 @@ Route::get('language/{lang}', function($lang){
 		Route::when('sets*', 'auth_like_librarian');
 		// Route::when('holdings*', 'auth_like_storeman');
 
-    Route::when('admin/roles*', 'admin_roles');
+        Route::when('admin/roles*', 'admin_roles');
 		Route::when('admin/users*', 'admin_users');
         
-    Route::controller('external', 'ExternalController');
-    Route::resource('external', 'ExternalController');
+        Route::controller('external', 'ExternalController');
+        Route::resource('external', 'ExternalController');
 
 
 	});
@@ -142,12 +142,7 @@ Route::resource('confirms', 'ConfirmsController');
 
 Route::resource('lockeds', 'LockedsController');
 
-Route::resource('reviseds', 'RevisedsController');
-
-
-
 Route::resource('incorrects', 'IncorrectsController');
-
 
 Route::resource('receiveds', 'ReceivedsController');
 

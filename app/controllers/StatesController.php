@@ -1,5 +1,9 @@
 <?php
-
+/*
+*
+*	Controls the workflow States.
+*
+*/
 class StatesController extends BaseController {
 
 	/**

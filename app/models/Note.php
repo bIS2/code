@@ -1,4 +1,7 @@
 <?php
+/*
+* Represents the table Notes in the database, relationships, methods and attributes. Notes added to the holdings by maguser
+*/
 
 class Note extends Eloquent {
 	protected $guarded = array();

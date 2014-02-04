@@ -1,4 +1,8 @@
 <?php
+/*
+* Represents the table Comments in the database, relationships, methods and attributes.
+*
+*/
 
 class Comment extends Eloquent {
 	protected $guarded = array();

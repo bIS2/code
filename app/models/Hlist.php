@@ -1,5 +1,8 @@
 <?php
-
+/*
+* Represents the table Hlists in the database, relationships, methods and attributes. Represents a list of holdings
+*
+*/
 class Hlist extends Eloquent {
 	protected $guarded = array();
 

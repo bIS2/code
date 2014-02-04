@@ -1,5 +1,9 @@
 <?php
-
+/*
+*
+*	Controls workflow with Holdings Set (HOS)
+*
+*/
 
 class HoldingssetsController extends BaseController {
 	protected $layout = 'layouts.default';
@@ -10,7 +14,7 @@ class HoldingssetsController extends BaseController {
 	}
 
 	/**
-	 * Display a listing of the resource.
+	 * Display a listing of the Holdings Set (HOS).
 	 *
 	 * @return Response
 	 */
@@ -161,7 +165,7 @@ class HoldingssetsController extends BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Show the form for creating a new Holdings Set (HOS).
 	 *
 	 * @return Response
 	 */
@@ -171,7 +175,7 @@ class HoldingssetsController extends BaseController {
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Store a newly created Holdings Set (HOS) in storage.
 	 *
 	 * @return Response
 	 */
@@ -200,7 +204,7 @@ class HoldingssetsController extends BaseController {
 	}
 
 	/**
-	 * Display the specified resource.
+	 * Display the specified Holdings Set (HOS).
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -212,7 +216,7 @@ class HoldingssetsController extends BaseController {
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
+	 * Show the form for editing the specified Holdings Set (HOS).
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -223,7 +227,7 @@ class HoldingssetsController extends BaseController {
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Update the specified Holdings Set (HOS) in storage.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -238,7 +242,7 @@ class HoldingssetsController extends BaseController {
 	}
 
 	/**
-	 * Remove the specified resource from storage.
+	 * Remove the specified Holdings Set (HOS) from storage.
 	 *
 	 * @param  int  $id
 	 * @return Response

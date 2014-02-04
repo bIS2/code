@@ -1,4 +1,8 @@
 <?php
+/*
+* Represents the table Group in the database, relationships, methods and attributes.
+*
+*/
 
 class Group extends Eloquent {
 	protected $guarded = array();

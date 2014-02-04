@@ -1,5 +1,9 @@
 <?php
-
+/*
+*
+*	Controls workflow with Pages.
+*
+*/
 class Pages extends BaseController {
 
 	/**
@@ -14,11 +18,11 @@ class Pages extends BaseController {
 		$ids[] = -1;
 		$data['holdings_ok'] 			= State::whereState('ok')->whereIn('holding_id', $ids);
 		$data['holdings_annotated'] 	= Note::take(10)->get();
-		$data['holdings_revised'] 		= Revised::take(10)->get();
+		$data['holdings_revised'] 		= Holding::inLibrary()->reviseds()->get();
 
-		$data['total'] 						= Holding::inLibrary()->count();
+		$data['total'] 					= Holding::inLibrary()->count();
 		$data['total_ok'] 				= Holding::inLibrary()->corrects()->count();
-		$data['total_anottated'] 	= Holding::inLibrary()->annotated()->count();
+		$data['total_anottated'] 		= Holding::inLibrary()->annotated()->count();
 
 		return View::make('pages.index', $data);
 	}

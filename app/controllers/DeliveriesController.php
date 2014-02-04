@@ -1,5 +1,11 @@
 <?php
 
+/*
+*
+*	Controls the workflow lists Holding when delivered.
+*
+*/
+
 class DeliveriesController extends BaseController {
 
 	/**
@@ -15,7 +21,7 @@ class DeliveriesController extends BaseController {
 	}
 
 	/**
-	 * Display a listing of the resource.
+	 * Display a listing of the Delivered List of Holding.
 	 *
 	 * @return Response
 	 */
@@ -27,7 +33,7 @@ class DeliveriesController extends BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Show the form for creating a new Delivered List of Holding.
 	 *
 	 * @return Response
 	 */
@@ -37,7 +43,7 @@ class DeliveriesController extends BaseController {
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Store a newly created Delivered List of Holding in storage.
 	 *
 	 * @return Response
 	 */
@@ -58,7 +64,7 @@ class DeliveriesController extends BaseController {
 	}
 
 	/**
-	 * Display the specified resource.
+	 * Display the specified Delivered List of Holding.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -71,7 +77,7 @@ class DeliveriesController extends BaseController {
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
+	 * Show the form for editing the specified Delivered List of Holding.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -89,7 +95,7 @@ class DeliveriesController extends BaseController {
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Update the specified Delivered List of Holding in storage.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -114,7 +120,7 @@ class DeliveriesController extends BaseController {
 	}
 
 	/**
-	 * Remove the specified resource from storage.
+	 * Remove the specified Delivered List of Holding from storage.
 	 *
 	 * @param  int  $id
 	 * @return Response

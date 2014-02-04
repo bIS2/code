@@ -1,4 +1,8 @@
 <?php
+/*
+* Represents the table Confirm in the database, relationships, methods and attributes. Make lists as delivered
+*
+*/
 
 class Delivery extends Eloquent {
 	protected $guarded = array();

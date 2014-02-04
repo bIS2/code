@@ -1,4 +1,9 @@
 <?php
+/*
+*
+*	Controls workflow with Holdings List
+*
+*/
 
 class HlistsController extends BaseController {
 
@@ -227,6 +232,12 @@ class HlistsController extends BaseController {
 		return Response::json( ['remove' => [$id]] );
 	}
 
+	/**
+	 * Attach exists Holdings to List.
+	 *
+	 * @param  int  $id
+	 * @return Response JSON
+	 */
 	public function postAttach($id){
 		$holding = Holding::find(Input::get('holding_id'));
 		$list = $this->hlist->find($id);
@@ -253,6 +264,12 @@ class HlistsController extends BaseController {
 		}
 	}
 
+	/**
+	 * Detach Holding from List.
+	 *
+	 * @param  int  $id
+	 * @return Response JSON
+	 */
 	public function postDetach($id){
 		$holding_id = Input::get('holding_id');
 		$list = $this->hlist->find($id);

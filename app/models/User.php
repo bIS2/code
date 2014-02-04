@@ -1,4 +1,7 @@
 <?php
+/*
+* Represents the table Users in the database, relationships, methods and attributes.
+*/
 
 use Zizaco\Confide\ConfideUser;
 use Zizaco\Confide\Confide;
@@ -28,10 +31,6 @@ class User extends ConfideUser implements PresentableInterface {
 
 	public function deliveries(){
 		return $this->hasMany('Delivery');
-	}
-
-	public function reviseds(){
-		return $this->hasMany('Revised');
 	}
 
   public function confirms() {

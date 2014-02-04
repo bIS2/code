@@ -1,5 +1,9 @@
 <?php
-
+/*
+*
+*	Controls workflow with Feedbacks
+*
+*/
 class FeedbacksController extends BaseController {
 
 	/**
@@ -15,7 +19,7 @@ class FeedbacksController extends BaseController {
 	}
 
 	/**
-	 * Display a listing of the resource.
+	 * Display a listing of the feedback.
 	 *
 	 * @return Response
 	 */
@@ -30,7 +34,7 @@ class FeedbacksController extends BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Show the form for creating a new feedback.
 	 *
 	 * @return Response
 	 */
@@ -40,7 +44,7 @@ class FeedbacksController extends BaseController {
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Store a newly created feedback in storage.
 	 *
 	 * @return Response
 	 */
@@ -65,7 +69,7 @@ class FeedbacksController extends BaseController {
 	}
 
 	/**
-	 * Display the specified resource.
+	 * Display the specified feedback.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -78,7 +82,7 @@ class FeedbacksController extends BaseController {
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
+	 * Show the form for editing the specified feedback.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -96,7 +100,7 @@ class FeedbacksController extends BaseController {
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Update the specified feedback in storage.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -118,7 +122,7 @@ class FeedbacksController extends BaseController {
 */	}
 
 	/**
-	 * Remove the specified resource from storage.
+	 * Remove the specified feedback from storage.
 	 *
 	 * @param  int  $id
 	 * @return Response

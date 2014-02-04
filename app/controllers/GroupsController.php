@@ -1,4 +1,9 @@
 <?php
+/*
+*
+*	Controls workflow with Hos Group
+*
+*/
 
 class GroupsController extends BaseController {
 
@@ -15,7 +20,7 @@ class GroupsController extends BaseController {
 	}
 
 	/**
-	 * Display a listing of the resource.
+	 * Display a listing of the Hos Gruop.
 	 *
 	 * @return Response
 	 */
@@ -26,7 +31,7 @@ class GroupsController extends BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Show the form for creating a new Hos Gruop.
 	 *
 	 * @return Response
 	 */
@@ -36,7 +41,7 @@ class GroupsController extends BaseController {
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Store a newly created Hos Gruop in storage.
 	 *
 	 * @return Response
 	 */
@@ -95,7 +100,7 @@ class GroupsController extends BaseController {
 	}
 
 	/**
-	 * Display the specified resource.
+	 * Display the specified Hos Gruop.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -106,7 +111,7 @@ class GroupsController extends BaseController {
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
+	 * Show the form for editing the specified Hos Gruop.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -124,7 +129,7 @@ class GroupsController extends BaseController {
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Update the specified Hos Gruop in storage.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -150,7 +155,7 @@ class GroupsController extends BaseController {
 	}
 
 	/**
-	 * Remove the specified resource from storage.
+	 * Remove the specified Hos Gruop from storage.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -165,11 +170,24 @@ class GroupsController extends BaseController {
 		return Response::json( ['remove' => [$id]] );
 	}
 
+	
+	/**
+	 * Attach exists Hos to Group.
+	 *
+	 * @param  int  $id
+	 * @return Response JSON
+	 */
 	public function postAttach($id){
 		$group->holdings()->attach($holdings_ids);		
 		return Response::json( ['remove' => $holdings_ids] );
 	}
 
+	/**
+	 * Detach Hos from Group.
+	 *
+	 * @param  int  $id
+	 * @return Response JSON
+	 */
 	public function postDetach($id){
 		$group->holdings()->detach($holdings_ids);		
 		return Response::json( ['remove' => [$holdings_ids]] );

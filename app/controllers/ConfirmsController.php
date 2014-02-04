@@ -1,4 +1,9 @@
 <?php
+/*
+*
+*	Controls workflow in Confirmed Holdings. 
+*
+*/
 
 class ConfirmsController extends BaseController {
 
@@ -15,7 +20,7 @@ class ConfirmsController extends BaseController {
 	}
 
 	/**
-	 * Display a listing of the resource.
+	 * Display a listing of the Holding Cofirmed.
 	 *
 	 * @return Response
 	 */
@@ -27,7 +32,7 @@ class ConfirmsController extends BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Show the form for creating a new Holding Cofirmed.
 	 *
 	 * @return Response
 	 */
@@ -37,7 +42,7 @@ class ConfirmsController extends BaseController {
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Store a newly created Holding Cofirmed in storage.
 	 *
 	 * @return Response
 	 */
@@ -72,7 +77,7 @@ class ConfirmsController extends BaseController {
 		// return Response::json( $ret );
 	}
 	/**
-	 * Display the specified resource.
+	 * Display the specified Holding Cofirmed.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -85,7 +90,7 @@ class ConfirmsController extends BaseController {
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
+	 * Show the form for editing the specified Holding Cofirmed.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -103,7 +108,7 @@ class ConfirmsController extends BaseController {
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Update the specified Holding Cofirmed in storage.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -128,7 +133,7 @@ class ConfirmsController extends BaseController {
 	}
 
 	/**
-	 * Remove the specified resource from storage.
+	 * Remove the specified Holding Cofirmed from storage.
 	 *
 	 * @param  int  $id
 	 * @return Response

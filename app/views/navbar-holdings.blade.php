@@ -1,3 +1,4 @@
+<!-- navbar for holding: includes the brand and commun functions -->
 
 <div class="navbar navbar-default navbar-fixed-top">
 	 <div class="container">

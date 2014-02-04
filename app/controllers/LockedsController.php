@@ -1,5 +1,9 @@
 <?php
-
+/*
+*
+*	Controls workflow with Holdings Locked
+*
+*/
 class LockedsController extends BaseController {
 
 	/**

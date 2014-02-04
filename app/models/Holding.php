@@ -1,5 +1,7 @@
 <?php
-
+/*
+* Represents the table Holdings in the database, relationships, methods and attributes. *
+*/
 class Holding extends Eloquent {
 	protected $guarded = array();
 	public static $rules = array();
@@ -32,10 +34,6 @@ class Holding extends Eloquent {
 
   public function comment(){
     return $this->hasMany('Comment');
-  }
-
-  public function revised(){
-    return $this->hasOne('Revised');
   }
 
   public function receiveds(){
@@ -111,7 +109,7 @@ class Holding extends Eloquent {
   }
 
   public function scopeReviseds($query){
-  	return $query->whereState('revised_ok');
+  	return $query->where('state','like','revised_%');
   }
 
 
@@ -128,7 +126,7 @@ class Holding extends Eloquent {
   }
 
   public function scopeNoReviseds($query){
-  	return $query->whereNotIn( 'holdings.id', function($query){ $query->select('holding_id')->from('reviseds'); });
+  	// return $query->whereNotIn( 'holdings.id', function($query){ $query->select('holding_id')->from('reviseds'); });
   }
 
   public function scopeCommenteds($query){
