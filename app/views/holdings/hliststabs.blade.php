@@ -122,8 +122,10 @@
 	<div class="col-xs-4">
 		<div class="pull-right">
 
-			<?php if (Input::has('hlist_id')) $list = Hlist::find(Input::get('hlist_id')); ?>
-			<span class="label label-primary state-list"> {{ $list->state }}</span>
+			@if (Input::has('hlist_id'))
+				<?php $list = Hlist::find(Input::get('hlist_id')); ?>
+				<span class="label label-primary state-list"> {{ $list->state }}</span>
+			@endif
 
 	  	@if ( Authority::can('revise',$list) )
 
