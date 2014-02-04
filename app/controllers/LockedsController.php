@@ -43,8 +43,9 @@ class LockedsController extends BaseController {
 	 */
 	public function store()
 	{
+		$holdingsset_id = Input::get('holdingsset_id');
+		$holding_id = Input::get('holding_id');
 		if (Auth::user()->hasRole('resuser')) {
-			$holding_id = Input::get('holding_id');
 			// var_dump($holding_id);
 			if ( Locked::whereHoldingId($holding_id)->exists() ) {
 				if ( Locked::whereUserId(Auth::user()->id)->whereHoldingId($holding_id)->exists() ) {
@@ -59,8 +60,9 @@ class LockedsController extends BaseController {
 		else {
 			$ret = ['denied' => $holding_id];
 		}
-		$holdingsset_id = Input::get('holdingsset_id');
-		holdingsset_recall($holdingsset_id);
+		
+		if ($ret['denied'] != $holding_id) holdingsset_recall($holdingsset_id);
+
 		$holdingssets[] = Holdingsset::find($holdingsset_id);
 		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
 		return $newset;
@@ -103,11 +105,13 @@ class LockedsController extends BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
-	{
-	if (Auth::user()->hasRole('resuser')) {
-			$holding_id = $id;
+	public function update($id) {
+		$holding_id = $id;
+		$holdingsset_id = Input::get('pk');
+		if (Auth::user()->hasRole('resuser')) {
+
 			// var_dump($holding_id);
+
 			if ( Locked::whereHoldingId($holding_id)->exists() ) {
 				if ( Locked::whereUserId(Auth::user()->id)->whereHoldingId($holding_id)->exists() ) {
 					Locked::whereHoldingId($holding_id)->delete();
@@ -124,8 +128,9 @@ class LockedsController extends BaseController {
 		else {
 			$ret = ['denied' => $holding_id];
 		}
-		$holdingsset_id = Input::get('pk');
-		holdingsset_recall($holdingsset_id);
+
+		if (($ret['denied'] != $holding_id) && ((Holding::find($holding_id)->is_onwer == 1) || (Holding::find($holding_id)->is_onwer == 't') || (Holding::find($holding_id)->is_aux == 1) || (Holding::find($holding_id)->is_aux == 't'))) holdingsset_recall($holdingsset_id);
+
 		$holdingssets[] = Holdingsset::find($holdingsset_id);
 		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
 		return $newset;

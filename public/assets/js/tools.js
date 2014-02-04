@@ -49,10 +49,7 @@ $(function(){
       $(this).addClass('label-default')
     }
   )
-  
-  $('a').on('click', function() {
-    $(this).tooltip('hide')
-  });
+
 
   $(document).on('keypress', function(event) {
     if (event.keyCode == 27) $('.modal .close').click();
@@ -124,7 +121,6 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 
 
   $('body').on( 'ajax:success', 'form,a', function(data, result, status){
-
     if($(this).attr('id') == 'recalled') window.location.reload()
 
     /* Holdings Tags */
@@ -230,7 +226,7 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 
 function getAsuccess() {
     $('a').on({
-    'ajax:success': function(data, result, status) {
+    'ajax:success': function(data, result, status) {        
         set = $(this).attr('set')
         if ($(this).attr('ajaxsuccess') != 1) {
           $(this).attr('ajaxsuccess', 1)          
@@ -379,7 +375,7 @@ function reload_set(set, data, open) {
         $('.pop-over').popover();
         doEditable()
         getAsuccess()
-        bulkActions()
+        bulkActions()       
         if (open == 1) { $(accordion).click() }
       })
     })

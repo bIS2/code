@@ -27,26 +27,19 @@ class HoldingssetsController extends BaseController {
 		else { 
 			/* SEARCH ADVANCED FIELDS OPTIONS
 			----------------------------------------------------------------*/
-			define('ALL_SEARCHEABLESFIELDS', 'sys1;sys2;022a;245a;245b;245c;246a;260a;260b;260c;300a;300b;300c;310a;362a;500a;505a;710a;710b;770t;772t;780t;785t;852b;852c;852h;852j;866a;866z;008x;008y;size;exists_online;is_current;has_incomplete_vols');
+			define('ALL_SEARCHEABLESFIELDS', 'sys1;sys2;f008x;f008y;f022a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;ocrr_nr;size;exists_online;is_current;has_incomplete_vols');
 
 			// Is Filter
 			$allsearchablefields = ALL_SEARCHEABLESFIELDS;
 			$allsearchablefields = explode(';', $allsearchablefields);
-			$is_filter = false;
-			foreach ($allsearchablefields as $field) {
-				$value = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != 'sys1') && ($field != 'sys2')) ? Input::get('f'.$field) : Input::get($field);
-				if ($value != '') {
-					$is_filter = true;
-					break;
-				}
-			}
+			$is_filter = (Input::get('is_filter') == '1');
 			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) $is_filter = true;
 			$this->data['is_filter'] = $is_filter;
 
 			/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
-			define('DEFAULTS_FIELDS', 'sys2;245a;245b;ocrr_ptrn;022a;260a;260b;260c;362a;710a;710b;310a;246a;505a;770t;772t;780t;785t;852c;852j;866a;866z;008x;008y;size;exists_online;is_current;has_incomplete_vols');
-			define('ALL_FIELDS', 'sys2;245a;245b;ocrr_ptrn;022a;260a;260b;260c;362a;710a;710b;310a;246a;505a;770t;772t;780t;785t;852c;852j;866a;866z;008x;008y;size;exists_online;is_current;has_incomplete_vols');
+			define('DEFAULTS_FIELDS', 'sys2;f008x;f008y;f022a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;ocrr_nr;size;exists_online;is_current;has_incomplete_vols');
+			define('ALL_FIELDS', 'sys2;f008x;f008y;f022a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;ocrr_nr;size;exists_online;is_current;has_incomplete_vols');
 
 			/* User vars */
 			$uUserName = Auth::user()->username;
@@ -120,20 +113,15 @@ class HoldingssetsController extends BaseController {
 
 				foreach ($allsearchablefields as $field) {
 
-					$value = (!(($field == 'exists_online') || ($field == 'is_current')  || ($field == 'has_incomplete_vols')  || ($field == 'size') || ($field == 'sys1')  || ($field == 'sys2'))) ? Input::get('f'.$field) : Input::get($field);
+					$value = Input::get($field);
 					
 					if ($value != '') {
 						$orand 		= $OrAndFilter[$openfilter-1];
-						$compare 	= ($field == '008x') ? 'f'.$field : 'LOWER('.'f'.$field.')';
-						$compare 	= (($field == 'sys1') || ($field == 'sys2')) ? 'LOWER('.$field.')' : $compare;
-						$compare 	= (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size'))) ? $compare : $field;		
-						$format 	= (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))) ? Input::get('f'.$field.'format') : '%s = %';		
-						$format 	= (!(($field == 'size') || ($field == 'sys1') || ($field == 'sys2'))) ? $format : Input::get($field.'format');
-						$value 		= (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))) ? $value : 't';
-						$var 		= (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size') || ($field == 'sys1') || ($field == 'sys2'))) ? 'f'.$field : $field;
-						if ($field == 'sys1') {
+						$compare 	= Input::get($field.'compare');
+						$format 	= Input::get($field.'format');
 
-							$hos = Holdingsset::WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($var) ) ) ) ) )->select('id')->lists('id');
+						if ($field == 'sys1') {
+							$hos = Holdingsset::WhereRaw( sprintf( $format, $compare,'aab',  pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) )->select('id')->lists('id');
 							$hos[] = -1;
 							$newholdings = Holding::whereIn('holdingsset_id', $hos)->select('id')->lists('id');
 							$newholdings[] = -1;
@@ -141,17 +129,11 @@ class HoldingssetsController extends BaseController {
 							$holdings = ($orand == 'OR') ? $holdings->orWhereIn('id', $newholdings) : $holdings->whereIn('id', $newholdings);
 							$openfilter++; 
 						}
-						else {
-							if (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))) { 
-								$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($var) ) ) )) ) :  
-								$holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($var) ) ) ) ) );  
-								$openfilter++; 
-							}
-							else {
-								$holdings = ($orand == 'OR') ? $holdings->orWhere($field, '=', 't') : $holdings->where($field, '=', 't');
-								$openfilter++; 
-							}
-
+						else {		
+							// die(var_dump(sprintf( $format, $compare,'aab',  pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) )));			
+							$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) ) :  
+							$holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) );  
+							$openfilter++;
 						}
 					}
 				}
@@ -162,7 +144,7 @@ class HoldingssetsController extends BaseController {
 				unset($holdings);
 			}
 
-			define(HOS_PAGINATE, 20);
+			define(HOS_PAGINATE, 50);
 			$this->data['holdingssets'] = $holdingssets->orderBy($orderby, $order)->orderBy('id', 'ASC')->with('holdings')->paginate(HOS_PAGINATE);
 			unset($holdingssets);
 			// die('before call the view');
@@ -402,10 +384,12 @@ class HoldingssetsController extends BaseController {
 		public function putForceOwner($id) {
 			$holdingsset_id = Input::get('holdingsset_id');
 			$holdingsset = Holdingsset::find($holdingsset_id);
-			$holdingsset -> holdings()->update(['is_owner' => 'f', 'force_owner' => 'f']);
-			Holding::find($id)->update(['is_owner'=>'t', 'is_aux'=>'f', 'force_owner' => 't', 'force_aux' => 'f']);
+			$holdingsset -> holdings()->update(['is_owner' => 'f', 'force_owner' => 'f', 'force_blue' => 'f', 'force_aux' => 'f']);
+
+			Holding::find($id)->update(['is_owner'=>'t', 'force_owner' => 't']);
 
 			holdingsset_recall($holdingsset_id);
+
 			$holdingssets[] = $holdingsset;
 			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
 			return $newset;
@@ -453,13 +437,27 @@ class HoldingssetsController extends BaseController {
 		-----------------------------------------------------------------------------------*/
 		public function putForceBlue($id) {
 			$holdingsset_id = Input::get('holdingsset_id');
-			$auxptrnOriginal = Holding::find($id)->select('aux_ptrn')->get();
-			foreach ($auxptrnOriginal as $aux1) {
-				$aux = str_replace('1', '0', $aux1->aux_ptrn);
-			}
-			Holding::find($id)->update(['is_aux'=>'f', 'is_owner'=>'f', 'aux_ptrn' => $aux]);
-		// holdingsset_recall($holdingsset_id);
+			$holding = Holding::find($id);
+			$auxptrnOriginal = $holding->aux_ptrn;
+			$aux = str_replace('1', '0', $auxptrnOriginal);
+		    $was_oner = (($holding->is_owner == '1') || ($holding->is_owner == 't')) ? true : false;
+			$holding->update(['is_aux'=>'f', 'is_owner'=>'f', 'force_blue'=>'t', 'aux_ptrn' => $aux]);
+		    if ($was_oner) holdingsset_recall($holdingsset_id);
 			$holdingssets[] = Holdingsset::find($holdingsset_id);
+			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+			return $newset;
+		}	
+
+/* ---------------------------------------------------------------------------------
+	Force a Holdins to be HOs owner
+	--------------------------------------
+	Params:
+		$id: Holdings id 
+		$holdingsset_id: Holdingssset id 
+		-----------------------------------------------------------------------------------*/
+		public function putRecallHoldingsset($id) {
+			holdingsset_recall($id);
+			$holdingssets[] = Holdingsset::find($id);
 			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
 			return $newset;
 		}	
@@ -903,7 +901,7 @@ function holdingsset_recall($id) {
 	$conn_string1 = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string) or ($con = pg_connect($conn_string1));
 
-	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 500";
+	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 100";
 	$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
 
 	$ta_arr = pg_fetch_all($result);
@@ -1007,8 +1005,10 @@ function holdingsset_recall($id) {
 		//aqui se van juntando los hol del TA
 		array_push($ta_hol_arr[$index]['hol'],$ta_arr[$i]);
 
-		if (Holding::find($ta_arr[$i]['id'])->locked) $blockeds_hols[]['index'] = $i;
-		if (Holding::find($ta_arr[$i]['id'])->locked) $blockeds_hols[]['id'] = $ta_arr[$i]['id'];
+		// if ((Holding::find($ta_arr[$i]['id'])->locked) || (Holding::find($ta_arr[$i]['id'])->force_blue == 't') || (Holding::find($ta_arr[$i]['id'])->force_blue == '1')) {
+		// 	$blockeds_hols[]['index'] = $i;
+		// 	$blockeds_hols[]['id'] = $ta_arr[$i]['id'];
+		// }
 
 		unset($ta_arr[$i]);
 		unset($tmparr);
@@ -1265,7 +1265,7 @@ function holdingsset_recall($id) {
 			*/
 		}
 	}
-
+	// die('toy aqui ahora');
 	/***********************************************************************
 	 * Aqui se encuentra la biblioteca de apoyo a partir del owner
 	 * la aux se calcula completando con la que tiene mayor peso/ocurrencia

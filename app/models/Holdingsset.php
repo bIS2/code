@@ -106,9 +106,7 @@ class Holdingsset extends Eloquent {
   }
 
   public function getIsUnconfirmableAttribute(){  
-    $ids = (count($this->holdings()->lists('id')) > 0) ? $this->holdings()->lists('id') : [-1];
-    $inhlist = DB::table('hlist_holding')->whereIn('holding_id', $ids)->exists();
-    return (($this->is_confirm) && (!($this->is_revised)) && (!($this->is_annotated)) && (!($this->is_correct)) && (!($inhlist)));
+    return ($this ->locked == 1);
   }
 
   public function getShowlistgroupAttribute($query){
