@@ -54,7 +54,7 @@
 									<a href="{{ route('holdings.index', [ 'hlist_id' => $list->id ] ) }}" >{{ $list->name }} </a>
 								</td>
 								<td>
-									<span class="label label-primary">
+									<span class="label label-primary state-list">
 										{{ $list->state }}
 									</span>
 								</td>
