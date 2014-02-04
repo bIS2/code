@@ -203,7 +203,7 @@ class HlistsController extends BaseController {
 			if (Request::ajax()){
 
 				if ( $input['revised']==1 )
-					return Response::json( ['list_revised' => $id] );
+					return Response::json([ 'list_revised' => $id, 'state' => trans( 'states.'.$hlist->state ) ]);
 
 			} else {
 				return Redirect::route('lists.index', $id);
@@ -244,7 +244,7 @@ class HlistsController extends BaseController {
 		if ($error==''){
 
 			$list->holdings()->attach($holding->id);			
-			return Response::json( ['attach' => $id,'counter' => $list->holdings()->count() ] );
+			return Response::json(['attach' => $id,'counter' => $list->holdings()->count() ] );
 
 		} else {
 

@@ -77,7 +77,9 @@
 
 	        <div class="modal-footer">
 	          <button type="reset" class="btn btn-default{{ $consultnotes }}" ><?= trans('general.reset') ?></button>
-	          <button type="submit" class="btn btn-success{{ $consultnotes }}" ><i class="fa fa-check"></i> <?= trans('general.save') ?></button>
+	          <button type="submit" class="btn btn-success{{ $consultnotes }}" data-disabled-with="{{trans('general.disable_with')}}">
+	          	<i class="fa fa-check"></i> <?= trans('general.save') ?>
+	          </button>
 	          <a href="#" class="btn btn-danger" data-dismiss="modal" ><i class="fa fa-times"></i> <?= trans('general.close') ?></a>
 	        </div>
 

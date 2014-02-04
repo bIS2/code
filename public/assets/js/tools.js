@@ -147,7 +147,9 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     } 
 
     if ( result.list_revised ){
-      $('#'+result.list_revised).addClass('revised'); 
+      $('#'+result.list_revised).addClass('revised');
+      $('.state-list').text( result.state );
+      $('.btn-revise').hide();
     } 
 
     if ( result.blank ){
