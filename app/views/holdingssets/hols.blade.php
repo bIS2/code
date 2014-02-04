@@ -5,23 +5,22 @@
 	$fieldstoshow = Session::get(Auth::user()->username.'_fields_to_show_ok');
 	$fieldstoshow = explode(';',$fieldstoshow);
 ?>
-<table class="table table-hover flexme table-bordered draggable">
+<table class="table table-hover flexme table-bordered draggable <?= ($HOSconfirm) ? 'confirm' : ''; ?>">
 	<thead>
 		<tr>
 			<th></th>
 			<th class="table_order">No.</th>
-			@if (!($HOSconfirm) || $HOSannotated)
-				<th class="actions">Actions</th>
-			@endif
+			<th class="actions">Actions</th>
 			<?php	$k = 0; ?>
 			@foreach ($fieldstoshow as $field) 
 				@if ($field != 'ocrr_ptrn') <?php $k++; ?>										
 					<th>{{ $field; }} <span class="fa fa-info-circle"></span></th> 
 						@if ($k == 1)
 						<th class="hocrr_ptrn">{{ trans('holdingssets.ocurrence_patron') }}
-							<a href="{{ route('sets.show', $holdingsset->id) }}" data-target="#set-show" data-toggle="modal">
-								<span class="glyphicon glyphicon-question-sign" title="{{ trans('holdingssets.see_more_information') }}"></span>
-							</a>
+							<a href="{{ route('sets.show', $holdingsset->id) }}" data-target="#set-show" data-toggle="modal"><span class="glyphicon glyphicon-question-sign" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
+							@if (!$HOSconfirm)
+								<a set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putRecallHoldingsset',[$holdingsset->id]); ?>" data-remote="true" data-method="put" data-disable-with="..." data-disable-with="..." class="forceblue pop-over" data-content="<?= trans('holdingssets.recall_HOS'); ?>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-refresh text-danger"></i></a>
+							@endif
 						</th>
 						<th>hbib <span class="fa fa-info-circle"></span></th>
 					@endif
@@ -55,19 +54,15 @@
 				</td>
 
 			<td class="table_order">{{ $hol_order }}</td>
-			@if (!($HOSconfirm) || $HOSannotated)
 				<td class="actions" holding="{{ $holding -> id }}">
 					{{ $holding -> bibuser_actions($holdingsset, $hol_order) }}
 				</td>
-			@endif
 				<?php $k = 0; ?>
 					@foreach ($fieldstoshow as $field)
 
 						@if ($field != 'ocrr_ptrn')  
 
-						<?php $k++;
-							$field = (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size') || ($field == 'sys2'))) ? $field = 'f'.$field : $field; 
-						?>					
+						<?php $k++; ?>					
 							<td>
 								{{ $holding->show( $field ) }}
 							</td>

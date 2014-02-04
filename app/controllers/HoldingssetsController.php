@@ -27,26 +27,19 @@ class HoldingssetsController extends BaseController {
 		else { 
 			/* SEARCH ADVANCED FIELDS OPTIONS
 			----------------------------------------------------------------*/
-			define('ALL_SEARCHEABLESFIELDS', 'sys1;sys2;022a;245a;245b;245c;246a;260a;260b;260c;300a;300b;300c;310a;362a;500a;505a;710a;710b;770t;772t;780t;785t;852b;852c;852h;852j;866a;866z;008x;008y;size;exists_online;is_current;has_incomplete_vols');
+			define('ALL_SEARCHEABLESFIELDS', 'sys1;sys2;f008x;f008y;f022a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;ocrr_nr;size;exists_online;is_current;has_incomplete_vols');
 
 			// Is Filter
 			$allsearchablefields = ALL_SEARCHEABLESFIELDS;
 			$allsearchablefields = explode(';', $allsearchablefields);
-			$is_filter = false;
-			foreach ($allsearchablefields as $field) {
-				$value = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != 'sys1') && ($field != 'sys2')) ? Input::get('f'.$field) : Input::get($field);
-				if ($value != '') {
-					$is_filter = true;
-					break;
-				}
-			}
+			$is_filter = (Input::get('is_filter') == '1');
 			if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) $is_filter = true;
 			$this->data['is_filter'] = $is_filter;
 
 			/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
-			define('DEFAULTS_FIELDS', 'sys2;245a;245b;ocrr_ptrn;022a;260a;260b;260c;362a;710a;710b;310a;246a;505a;770t;772t;780t;785t;852c;852j;866a;866z;008x;008y;size;exists_online;is_current;has_incomplete_vols');
-			define('ALL_FIELDS', 'sys2;245a;245b;ocrr_ptrn;022a;260a;260b;260c;362a;710a;710b;310a;246a;505a;770t;772t;780t;785t;852c;852j;866a;866z;008x;008y;size;exists_online;is_current;has_incomplete_vols');
+			define('DEFAULTS_FIELDS', 'sys2;f008x;f008y;f022a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;ocrr_nr;size;exists_online;is_current;has_incomplete_vols');
+			define('ALL_FIELDS', 'sys2;f008x;f008y;f022a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;ocrr_nr;size;exists_online;is_current;has_incomplete_vols');
 
 			/* User vars */
 			$uUserName = Auth::user()->username;
@@ -120,20 +113,15 @@ class HoldingssetsController extends BaseController {
 
 				foreach ($allsearchablefields as $field) {
 
-					$value = (!(($field == 'exists_online') || ($field == 'is_current')  || ($field == 'has_incomplete_vols')  || ($field == 'size') || ($field == 'sys1')  || ($field == 'sys2'))) ? Input::get('f'.$field) : Input::get($field);
+					$value = Input::get($field);
 					
 					if ($value != '') {
 						$orand 		= $OrAndFilter[$openfilter-1];
-						$compare 	= ($field == '008x') ? 'f'.$field : 'LOWER('.'f'.$field.')';
-						$compare 	= (($field == 'sys1') || ($field == 'sys2')) ? 'LOWER('.$field.')' : $compare;
-						$compare 	= (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size'))) ? $compare : $field;		
-						$format 	= (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))) ? Input::get('f'.$field.'format') : '%s = %';		
-						$format 	= (!(($field == 'size') || ($field == 'sys1') || ($field == 'sys2'))) ? $format : Input::get($field.'format');
-						$value 		= (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))) ? $value : 't';
-						$var 		= (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size') || ($field == 'sys1') || ($field == 'sys2'))) ? 'f'.$field : $field;
-						if ($field == 'sys1') {
+						$compare 	= Input::get($field.'compare');
+						$format 	= Input::get($field.'format');
 
-							$hos = Holdingsset::WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($var) ) ) ) ) )->select('id')->lists('id');
+						if ($field == 'sys1') {
+							$hos = Holdingsset::WhereRaw( sprintf( $format, $compare,'aab',  pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) )->select('id')->lists('id');
 							$hos[] = -1;
 							$newholdings = Holding::whereIn('holdingsset_id', $hos)->select('id')->lists('id');
 							$newholdings[] = -1;
@@ -141,17 +129,11 @@ class HoldingssetsController extends BaseController {
 							$holdings = ($orand == 'OR') ? $holdings->orWhereIn('id', $newholdings) : $holdings->whereIn('id', $newholdings);
 							$openfilter++; 
 						}
-						else {
-							if (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))) { 
-								$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($var) ) ) )) ) :  
-								$holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($var) ) ) ) ) );  
-								$openfilter++; 
-							}
-							else {
-								$holdings = ($orand == 'OR') ? $holdings->orWhere($field, '=', 't') : $holdings->where($field, '=', 't');
-								$openfilter++; 
-							}
-
+						else {		
+							// die(var_dump(sprintf( $format, $compare,'aab',  pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) )));			
+							$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) ) :  
+							$holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) );  
+							$openfilter++;
 						}
 					}
 				}
@@ -162,7 +144,7 @@ class HoldingssetsController extends BaseController {
 				unset($holdings);
 			}
 
-			define(HOS_PAGINATE, 20);
+			define(HOS_PAGINATE, 50);
 			$this->data['holdingssets'] = $holdingssets->orderBy($orderby, $order)->orderBy('id', 'ASC')->with('holdings')->paginate(HOS_PAGINATE);
 			unset($holdingssets);
 			// die('before call the view');
@@ -402,10 +384,12 @@ class HoldingssetsController extends BaseController {
 		public function putForceOwner($id) {
 			$holdingsset_id = Input::get('holdingsset_id');
 			$holdingsset = Holdingsset::find($holdingsset_id);
-			$holdingsset -> holdings()->update(['is_owner' => 'f', 'force_owner' => 'f']);
-			Holding::find($id)->update(['is_owner'=>'t', 'is_aux'=>'f', 'force_owner' => 't', 'force_aux' => 'f']);
+			$holdingsset -> holdings()->update(['is_owner' => 'f', 'force_owner' => 'f', 'force_blue' => 'f', 'force_aux' => 'f']);
+
+			Holding::find($id)->update(['is_owner'=>'t', 'force_owner' => 't']);
 
 			holdingsset_recall($holdingsset_id);
+
 			$holdingssets[] = $holdingsset;
 			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
 			return $newset;
@@ -453,13 +437,27 @@ class HoldingssetsController extends BaseController {
 		-----------------------------------------------------------------------------------*/
 		public function putForceBlue($id) {
 			$holdingsset_id = Input::get('holdingsset_id');
-			$auxptrnOriginal = Holding::find($id)->select('aux_ptrn')->get();
-			foreach ($auxptrnOriginal as $aux1) {
-				$aux = str_replace('1', '0', $aux1->aux_ptrn);
-			}
-			Holding::find($id)->update(['is_aux'=>'f', 'is_owner'=>'f', 'aux_ptrn' => $aux]);
-		// holdingsset_recall($holdingsset_id);
+			$holding = Holding::find($id);
+			$auxptrnOriginal = $holding->aux_ptrn;
+			$aux = str_replace('1', '0', $auxptrnOriginal);
+		    $was_oner = (($holding->is_owner == '1') || ($holding->is_owner == 't')) ? true : false;
+			$holding->update(['is_aux'=>'f', 'is_owner'=>'f', 'force_blue'=>'t', 'aux_ptrn' => $aux]);
+		    if ($was_oner) holdingsset_recall($holdingsset_id);
 			$holdingssets[] = Holdingsset::find($holdingsset_id);
+			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+			return $newset;
+		}	
+
+/* ---------------------------------------------------------------------------------
+	Force a Holdins to be HOs owner
+	--------------------------------------
+	Params:
+		$id: Holdings id 
+		$holdingsset_id: Holdingssset id 
+		-----------------------------------------------------------------------------------*/
+		public function putRecallHoldingsset($id) {
+			holdingsset_recall($id);
+			$holdingssets[] = Holdingsset::find($id);
 			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
 			return $newset;
 		}	
@@ -1007,8 +1005,10 @@ function holdingsset_recall($id) {
 		//aqui se van juntando los hol del TA
 		array_push($ta_hol_arr[$index]['hol'],$ta_arr[$i]);
 
-		if (Holding::find($ta_arr[$i]['id'])->locked) $blockeds_hols[]['index'] = $i;
-		if (Holding::find($ta_arr[$i]['id'])->locked) $blockeds_hols[]['id'] = $ta_arr[$i]['id'];
+		// if ((Holding::find($ta_arr[$i]['id'])->locked) || (Holding::find($ta_arr[$i]['id'])->force_blue == 't') || (Holding::find($ta_arr[$i]['id'])->force_blue == '1')) {
+		// 	$blockeds_hols[]['index'] = $i;
+		// 	$blockeds_hols[]['id'] = $ta_arr[$i]['id'];
+		// }
 
 		unset($ta_arr[$i]);
 		unset($tmparr);
@@ -1049,222 +1049,222 @@ function holdingsset_recall($id) {
 	 * 	potential owners by occurrences
 	 ***********************************************************************/
 	// var_dump($blockeds_hols);
-	// for ($i=0; $i<$ta_hol_amnt; $i++){ //<---------------------------------- for each group of holdings (TA)...
+	for ($i=0; $i<$ta_hol_amnt; $i++){ //<---------------------------------- for each group of holdings (TA)...
 		
-	// 	//Patron del HOS - como arreglo
-	// 	$ptrn = $ta_hol_arr[$i]['ptrn'];
+		//Patron del HOS - como arreglo
+		$ptrn = $ta_hol_arr[$i]['ptrn'];
 
-	// 	// Tamaño del arreglo del patrón
-	// 	$ptrn_amnt = sizeOf($ptrn);
+		// Tamaño del arreglo del patrón
+		$ptrn_amnt = sizeOf($ptrn);
 		
-	// 	// Hols del HOS
-	// 	$hol_arr = $ta_hol_arr[$i]['hol'];
+		// Hols del HOS
+		$hol_arr = $ta_hol_arr[$i]['hol'];
 
-	// 	// Cantidad de hols
-	// 	$hol_amnt = sizeOf($hol_arr);
+		// Cantidad de hols
+		$hol_amnt = sizeOf($hol_arr);
 
-	// 	$weight_ptrn = array_map(
-	// 		function ($n){
-	// 			$chunks = explode('|',substr(chunk_split($n,4,'|'),0,-1));
-	// 			$d_vol = intval($chunks[1])-intval($chunks[0]);
-	// 			$d_year = intval($chunks[3])-intval($chunks[2]);
-	// 			return (($d_vol>0)?$d_vol:(($d_year>0)?$d_year:0))+1;
-	// 		},
-	// 		$ptrn);
+		$weight_ptrn = array_map(
+			function ($n){
+				$chunks = explode('|',substr(chunk_split($n,4,'|'),0,-1));
+				$d_vol = intval($chunks[1])-intval($chunks[0]);
+				$d_year = intval($chunks[3])-intval($chunks[2]);
+				return (($d_vol>0)?$d_vol:(($d_year>0)?$d_year:0))+1;
+			},
+			$ptrn);
 		
-	// 	$ta_hol_arr[$i]['weight_ptrn'] = $weight_ptrn; //<-------------------- weight pattern
+		$ta_hol_arr[$i]['weight_ptrn'] = $weight_ptrn; //<-------------------- weight pattern
 
-	// 	$mx_ocrr_nr = 0;
-	// 	$mx_weight = 0;
-	// 	$posowners = array();	
-	// 	$posowners_oc = array();
-	// 	$owner_index = ''; 
-	// 	$ta_hol_arr[$i]['owner'] = '';
+		$mx_ocrr_nr = 0;
+		$mx_weight = 0;
+		$posowners = array();	
+		$posowners_oc = array();
+		$owner_index = ''; 
+		$ta_hol_arr[$i]['owner'] = '';
 		
-	// 	for ($k=0; $k<$hol_amnt; $k++){ //<----------------------------------- for each holding (hol)...
+		for ($k=0; $k<$hol_amnt; $k++){ //<----------------------------------- for each holding (hol)...
 			
-	// 		$ta = $hol_arr[$k]['sys1'];
-	// 		$hol = $hol_arr[$k]['sys2'];
-	// 		$g = $hol_arr[$k]['g'];
+			$ta = $hol_arr[$k]['sys1'];
+			$hol = $hol_arr[$k]['sys2'];
+			$g = $hol_arr[$k]['g'];
 			
-	// 		$weight = 0;
-	// 		$ocrr_nr = 0;
+			$weight = 0;
+			$ocrr_nr = 0;
 			
-	// 		$j_factor = .5;
+			$j_factor = .5;
 
-	// 		$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'] = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,0):array();
-	// 		$ta_hol_arr[$i]['hol'][$k]['j_arr'] = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,0):array();
+			$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'] = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,0):array();
+			$ta_hol_arr[$i]['hol'][$k]['j_arr'] = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,0):array();
 			
-	// 		$ocrr = $ta_hol_arr[$i]['hol'][$k]['ptrn_arr'];
+			$ocrr = $ta_hol_arr[$i]['hol'][$k]['ptrn_arr'];
 			
-	// 		if ($ocrr) {
-	// 			$ocrr_amnt = sizeOf($ocrr);
+			if ($ocrr) {
+				$ocrr_amnt = sizeOf($ocrr);
 				
-	// 			for ($l=0; $l<$ocrr_amnt; $l++){ //por cada pedacito
-	// 				if (isset($ocrr[$l])){
-	// 					//hay pedacito y se puede partir
-	// 					$ocrr_piece = $ocrr[$l];
+				for ($l=0; $l<$ocrr_amnt; $l++){ //por cada pedacito
+					if (isset($ocrr[$l])){
+						//hay pedacito y se puede partir
+						$ocrr_piece = $ocrr[$l];
 						
-	// 					$is_j = preg_match('/[j]/',$ocrr_piece);
-	// 					$ocrr_piece[16] = '-'; //<------------------------------------ fixes the 16th char (patch)...			
-	// 					$ocrr_piece = preg_replace('/[j]/', ' ', $ocrr_piece);
-	// 					$ocrr_piece = preg_replace('/\s$/', '',$ocrr_piece);
+						$is_j = preg_match('/[j]/',$ocrr_piece);
+						$ocrr_piece[16] = '-'; //<------------------------------------ fixes the 16th char (patch)...			
+						$ocrr_piece = preg_replace('/[j]/', ' ', $ocrr_piece);
+						$ocrr_piece = preg_replace('/\s$/', '',$ocrr_piece);
 						
-	// 					$ocrr_piece = preg_replace('/[n]/', '',$ocrr_piece); //<------ parche
+						$ocrr_piece = preg_replace('/[n]/', '',$ocrr_piece); //<------ parche
 						
-	// 					$ocrr_xtr = explode('-',$ocrr_piece);
+						$ocrr_xtr = explode('-',$ocrr_piece);
 						
-	// 					$ocrr_bgn = get_ptrn_position($ocrr_xtr[0],$ptrn);
-	// 					$val_bgn = $ocrr_xtr[0];
+						$ocrr_bgn = get_ptrn_position($ocrr_xtr[0],$ptrn);
+						$val_bgn = $ocrr_xtr[0];
 
-	// 					if (array_key_exists(1,$ocrr_xtr)){ //<----------------------- vvvvVVVVyyyyYYYY-vvvvVVVVyyyyYYYY
-	// 						if (preg_match('/\w/',$ocrr_xtr[1])){
-	// 							$ocrr_end = get_ptrn_position($ocrr_xtr[1],$ptrn);
-	// 							$val_end = $ocrr_xtr[1];
-	// 						}
-	// 							else { //<------------------------------------------------ vvvvVVVVyyyyYYYY-
-	// 								$ocrr_end = $ptrn_amnt-1;
-	// 								$val_end = (isset($ptrn[$ptrn_amnt-1]))?$ptrn[$ptrn_amnt-1]:'';
-	// 							}
-	// 						}
-	// 					else { //<---------------------------------------------------- vvvvVVVVyyyyYYYY
+						if (array_key_exists(1,$ocrr_xtr)){ //<----------------------- vvvvVVVVyyyyYYYY-vvvvVVVVyyyyYYYY
+							if (preg_match('/\w/',$ocrr_xtr[1])){
+								$ocrr_end = get_ptrn_position($ocrr_xtr[1],$ptrn);
+								$val_end = $ocrr_xtr[1];
+							}
+								else { //<------------------------------------------------ vvvvVVVVyyyyYYYY-
+									$ocrr_end = $ptrn_amnt-1;
+									$val_end = (isset($ptrn[$ptrn_amnt-1]))?$ptrn[$ptrn_amnt-1]:'';
+								}
+							}
+						else { //<---------------------------------------------------- vvvvVVVVyyyyYYYY
 							
-	// 						//si el valor solo es un agno buscar hasta donde llega ????
-	// 						$tiny_chunks = explode('|',substr(chunk_split($ocrr_bgn,4,'|'),0,-1));
-	// 						if (preg_match('/\w/',$tiny_chunks[2])) echo $tiny_chunks[2].EOL;
-	// 						$ocrr_end = $ocrr_bgn;
-	// 						$val_end = $val_bgn;
-	// 					}
-	// 					$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'][$ocrr_end] = 1;
-	// 					if ($is_j) $ta_hol_arr[$i]['hol'][$ocrr_end]['j_arr'][$h] = 1;
-	// 					for ($h=$ocrr_bgn; $h<$ocrr_end; $h++){
-	// 						$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'][$h] = 1;
-	// 						if ($is_j) $ta_hol_arr[$i]['hol'][$k]['j_arr'][$h] = 1;
-	// 					}
-	// 				}
-	// 				else {
-	// 					//no se pudo determinar
-	// 				}
-	// 			}
-	// 		}
+							//si el valor solo es un agno buscar hasta donde llega ????
+							$tiny_chunks = explode('|',substr(chunk_split($ocrr_bgn,4,'|'),0,-1));
+							if (preg_match('/\w/',$tiny_chunks[2])) echo $tiny_chunks[2].EOL;
+							$ocrr_end = $ocrr_bgn;
+							$val_end = $val_bgn;
+						}
+						$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'][$ocrr_end] = 1;
+						if ($is_j) $ta_hol_arr[$i]['hol'][$ocrr_end]['j_arr'][$h] = 1;
+						for ($h=$ocrr_bgn; $h<$ocrr_end; $h++){
+							$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'][$h] = 1;
+							if ($is_j) $ta_hol_arr[$i]['hol'][$k]['j_arr'][$h] = 1;
+						}
+					}
+					else {
+						//no se pudo determinar
+					}
+				}
+			}
 			
-	// 		$ocrr_ptrn = $ta_hol_arr[$i]['hol'][$k]['ocrr_arr']; //<------------ occurrences pattern
-	// 		$j_ptrn = $ta_hol_arr[$i]['hol'][$k]['j_arr']; //<------------------ completeness pattern
+			$ocrr_ptrn = $ta_hol_arr[$i]['hol'][$k]['ocrr_arr']; //<------------ occurrences pattern
+			$j_ptrn = $ta_hol_arr[$i]['hol'][$k]['j_arr']; //<------------------ completeness pattern
 
-	// 		$hol_weight_ptrn = array_map( 
-	// 			function($w, $o, $j){
-	// 				$j_factor = .5;
-	// 				return $w*$o*(($j>0)?$j_factor:1); 
-	// 			}, 
-	// 			$weight_ptrn, $ocrr_ptrn, $j_ptrn); 
+			$hol_weight_ptrn = array_map( 
+				function($w, $o, $j){
+					$j_factor = .5;
+					return $w*$o*(($j>0)?$j_factor:1); 
+				}, 
+				$weight_ptrn, $ocrr_ptrn, $j_ptrn); 
 			
-	// 		$weight = array_sum($hol_weight_ptrn);  //<------------------------- weight
-	// 		$ocrr_nr  = array_sum($ocrr_ptrn);  //<----------------------------- number of occurrences
+			$weight = array_sum($hol_weight_ptrn);  //<------------------------- weight
+			$ocrr_nr  = array_sum($ocrr_ptrn);  //<----------------------------- number of occurrences
 			
-	// 	/******************************************************************
-	// 	 * Finding potential owners
-	// 	 ******************************************************************/
+		/******************************************************************
+		 * Finding potential owners
+		 ******************************************************************/
 
-	// 	if ($weight !== 0 ) {
-	// 		if ($weight > $mx_weight ) {
-	// 			$mx_weight = $weight;
-	// 			$posowners = array();	
-	// 			$posowners[0] = $k;
-	// 		}
-	// 		else if ($weight === $mx_weight ) {
-	// 				array_push($posowners,$k); //<---------------------------------- potential owners by weight
-	// 			}
-	// 		}
+		if ($weight !== 0 ) {
+			if ($weight > $mx_weight ) {
+				$mx_weight = $weight;
+				$posowners = array();	
+				$posowners[0] = $k;
+			}
+			else if ($weight === $mx_weight ) {
+					array_push($posowners,$k); //<---------------------------------- potential owners by weight
+				}
+			}
 			
-	// 		if ($ocrr_nr !== 0 ) {
-	// 			if ($ocrr_nr > $mx_ocrr_nr ) {
-	// 				$mx_ocrr_nr = $ocrr_nr;
-	// 				$posowners_oc = array();	
-	// 				$posowners_oc[0] = $k;
-	// 			}
-	// 			else if ($ocrr_nr === $mx_ocrr_nr ) {
-	// 				array_push($posowners_oc,$k); //<------------------------------- potential owners by occurrences
-	// 			}
-	// 		}
+			if ($ocrr_nr !== 0 ) {
+				if ($ocrr_nr > $mx_ocrr_nr ) {
+					$mx_ocrr_nr = $ocrr_nr;
+					$posowners_oc = array();	
+					$posowners_oc[0] = $k;
+				}
+				else if ($ocrr_nr === $mx_ocrr_nr ) {
+					array_push($posowners_oc,$k); //<------------------------------- potential owners by occurrences
+				}
+			}
 			
-	// 		$ta_hol_arr[$i]['hol'][$k]['ocrr_nr'] = $ocrr_nr;
-	// 		$ta_hol_arr[$i]['hol'][$k]['weight'] = $weight;
+			$ta_hol_arr[$i]['hol'][$k]['ocrr_nr'] = $ocrr_nr;
+			$ta_hol_arr[$i]['hol'][$k]['weight'] = $weight;
 
-	// 	/******************************************************************
-	// 	 * UPDATE hol_out
-	// 	 * 	ptrn
-	// 	 * 	ocrr_nr
-	// 	 * 	weight
-	// 	 * 	ocrr_ptrn
-	// 	 * 	j_ptrn
-	// 	 ******************************************************************/
+		/******************************************************************
+		 * UPDATE hol_out
+		 * 	ptrn
+		 * 	ocrr_nr
+		 * 	weight
+		 * 	ocrr_ptrn
+		 * 	j_ptrn
+		 ******************************************************************/
 
-	// 	$ta_res_arr[$ta.$hol.$g]['sys1'] 	  = $ta;
-	// 	$ta_res_arr[$ta.$hol.$g]['sys2']      = $hol;
-	// 	$ta_res_arr[$ta.$hol.$g]['g']         = $g;
-	// 	$ta_res_arr[$ta.$hol.$g]['ptrn']      = implode('|',$ptrn);
-	// 	$ta_res_arr[$ta.$hol.$g]['ocrr_nr']   = $ocrr_nr;
-	// 	$ta_res_arr[$ta.$hol.$g]['ocrr_ptrn'] = implode('',$ocrr_ptrn);
-	// 	$ta_res_arr[$ta.$hol.$g]['weight']    = $weight;
-	// 	$ta_res_arr[$ta.$hol.$g]['j_ptrn']    = implode('',$j_ptrn);
+		$ta_res_arr[$ta.$hol.$g]['sys1'] 	  = $ta;
+		$ta_res_arr[$ta.$hol.$g]['sys2']      = $hol;
+		$ta_res_arr[$ta.$hol.$g]['g']         = $g;
+		$ta_res_arr[$ta.$hol.$g]['ptrn']      = implode('|',$ptrn);
+		$ta_res_arr[$ta.$hol.$g]['ocrr_nr']   = $ocrr_nr;
+		$ta_res_arr[$ta.$hol.$g]['ocrr_ptrn'] = implode('',$ocrr_ptrn);
+		$ta_res_arr[$ta.$hol.$g]['weight']    = $weight;
+		$ta_res_arr[$ta.$hol.$g]['j_ptrn']    = implode('',$j_ptrn);
 
-	// 	$ta_res_arr[$ta.$hol.$g]['is_owner']  = 'f';
-	// 	$ta_res_arr[$ta.$hol.$g]['aux_ptrn']  = '';
-	// 	$ta_res_arr[$ta.$hol.$g]['is_aux']    = 'f';
+		$ta_res_arr[$ta.$hol.$g]['is_owner']  = 'f';
+		$ta_res_arr[$ta.$hol.$g]['aux_ptrn']  = '';
+		$ta_res_arr[$ta.$hol.$g]['is_aux']    = 'f';
 
-	// 		/*
-	// 		$query = "UPDATE hol_out 
-	// 							SET ptrn='".implode('|',$ptrn) ."' , ocrr_nr='". $ocrr_nr ."' , ocrr_ptrn='". implode('',$ocrr_ptrn) ."' , weight='". $weight ."' , j_ptrn='". implode('',$j_ptrn) ."'
-	// 							WHERE sys1 = '".$ta."' AND sys2 = '".$hol."' AND g = '".$g."'";
-	// 		$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
-	// 		*/
+			/*
+			$query = "UPDATE hol_out 
+								SET ptrn='".implode('|',$ptrn) ."' , ocrr_nr='". $ocrr_nr ."' , ocrr_ptrn='". implode('',$ocrr_ptrn) ."' , weight='". $weight ."' , j_ptrn='". implode('',$j_ptrn) ."'
+								WHERE sys1 = '".$ta."' AND sys2 = '".$hol."' AND g = '".$g."'";
+			$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
+			*/
 			
-	// 	}
+		}
 
-	// 	/******************************************************************
-	// 	 * Finding "the owner" according to the following criteria:
-	// 	 * 	preferred
-	// 	 * 	heaviest
-	// 	 * 	highest occurrences number
-	// 	 ******************************************************************/
+		/******************************************************************
+		 * Finding "the owner" according to the following criteria:
+		 * 	preferred
+		 * 	heaviest
+		 * 	highest occurrences number
+		 ******************************************************************/
 		
-	// 	if ($posowners) {
-	// 		$owners_amnt = sizeOf ($posowners);
-	// 		if ($owners_amnt>1){
-	// 			for ($o_index=0; $o_index<$owners_amnt; $o_index++){
-	// 				$is_pref = $ta_hol_arr[$i]['hol'][$o_index]['is_pref'];
-	// 				$owner_index = $posowners[$o_index];
-	// 				if ($is_pref=='t')break;
-	// 				else if (in_array($posowners[$o_index],$posowners_oc))break;
-	// 			}
-	// 		}
-	// 		else $owner_index =  $posowners[0];
-	// 	}
+		if ($posowners) {
+			$owners_amnt = sizeOf ($posowners);
+			if ($owners_amnt>1){
+				for ($o_index=0; $o_index<$owners_amnt; $o_index++){
+					$is_pref = $ta_hol_arr[$i]['hol'][$o_index]['is_pref'];
+					$owner_index = $posowners[$o_index];
+					if ($is_pref=='t')break;
+					else if (in_array($posowners[$o_index],$posowners_oc))break;
+				}
+			}
+			else $owner_index =  $posowners[0];
+		}
 
-	// 	$owner_index = ($forceowner_index != -1)  ? $forceowner_index : $owner_index;
-	// 	$ta_hol_arr[$i]['owner'] = ($forceowner_index != -1)  ? $forceowner_index : $owner_index;
-	// 	$mishols[$i]['owner'] = ($forceowner_index != -1)  ? $forceowner_index : $owner_index;
+		$owner_index = ($forceowner_index != -1)  ? $forceowner_index : $owner_index;
+		$ta_hol_arr[$i]['owner'] = ($forceowner_index != -1)  ? $forceowner_index : $owner_index;
+		$mishols[$i]['owner'] = ($forceowner_index != -1)  ? $forceowner_index : $owner_index;
 
 		
-	// 	/******************************************************************
-	// 	 * UPDATE hol_out
-	// 	 * 	is_owner
-	// 	 ******************************************************************/
+		/******************************************************************
+		 * UPDATE hol_out
+		 * 	is_owner
+		 ******************************************************************/
 
-	// 	if ($owner_index !== '') {
+		if ($owner_index !== '') {
 			
-	// 		$ta = $mishols[$owner_index]['sys1'];
-	// 		$hol = $mishols[$owner_index]['sys2'];
-	// 		$g = $mishols[$owner_index]['g'];
+			$ta = $mishols[$owner_index]['sys1'];
+			$hol = $mishols[$owner_index]['sys2'];
+			$g = $mishols[$owner_index]['g'];
 			
-	// 		$ta_res_arr[$ta.$hol.$g]['is_owner'] = 't';
-	// 		/*
-	// 		$query = "UPDATE hol_out SET is_owner='". 1 ."' 
-	// 							WHERE sys1 = '".$ta."' AND sys2 = '".$hol."' AND g = '".$g."'";
-	// 		$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
-	// 		*/
-	// 	}
-	// }
+			$ta_res_arr[$ta.$hol.$g]['is_owner'] = 't';
+			/*
+			$query = "UPDATE hol_out SET is_owner='". 1 ."' 
+								WHERE sys1 = '".$ta."' AND sys2 = '".$hol."' AND g = '".$g."'";
+			$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
+			*/
+		}
+	}
 	// die('toy aqui ahora');
 	/***********************************************************************
 	 * Aqui se encuentra la biblioteca de apoyo a partir del owner

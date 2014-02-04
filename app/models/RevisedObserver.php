@@ -10,6 +10,9 @@ class RevisedObserver {
        'object_id' => $model->holding->id,
       ]);
 
+      // $holding_id = $model->holding->id;
+      // Holdingsset::find(Holding::find($holding_id)->holdingsset_id)->update(['locked' => 1]);   
+         
     }
 
     public function deleted($model) {
