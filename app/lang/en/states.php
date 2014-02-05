@@ -23,7 +23,7 @@ return array(
 	'ok' 							=> 'HOL available',
 	'receive' 						=> 'Integrated in SPB',
 	'received'						=> 'Integrated in SPB',
-	'revised' 			=> 'Revised',
+	'revised' 						=> 'Revised',
 	'revised_annotated' 			=> 'Annotated and back to BIBUSER',
 	'revised_ok'		 			=> 'HOL can be delivered to SPB',
 	'title'							=> 'Actions executed',

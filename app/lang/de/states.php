@@ -16,7 +16,7 @@ return array(
 	'annotated' 					=> 'Von MAGUSER annotiert',
 	'blank' 						=> '(noch ohne Status)',
 	'burn' 							=> 'HOS unlösbar',
-	'commented'						=< 'Kommentar der SPB',
+	'commented'						=> 'Kommentar der SPB',
 	'confirmed' 					=> 'HOS ok',
 	'delivery' 						=> 'Zur SPB gesandt',
 	'no_result_states'				=> 'Noch keine History',

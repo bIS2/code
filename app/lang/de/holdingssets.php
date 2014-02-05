@@ -32,7 +32,7 @@ return array(
 	'ocurrence_patron'			=> 'Erscheinungsmuster',
 	'of'						=> 'von ',
 	'ok' 						=> 'Richtig',
-	'open_close_all_hos'		=> 'Alle öffnen',
+	'open_close_all_hos'		=> 'Alle HOS öffnen',
 	'order_by_field_245a'		=> 'Sortiere nach Titel (245a)',
 	'order_by_number_of_hols_inside_hos' => 'Sortiere nach Anzahl HOL pro HOS',
 	'order_by_groups_numbers_that_belong_ecah_hos' => 'Sortiere nach Anzahl Gruppenzugehörigkeiten',

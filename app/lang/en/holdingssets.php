@@ -32,7 +32,7 @@ return array(
 	'ocurrence_patron'			=> 'Ocurrence patron',
 	'of'						=> 'of ',
 	'ok' 						=> 'Confirm',
-	'open_close_all_hos'		=> 'Open all',
+	'open_close_all_hos'		=> 'Open all HOS',
 	'order_by_field_245a'		=> 'Order by title (245a)',
 	'order_by_number_of_hols_inside_hos' => 'Order by number of HOL in HOS',
 	'order_by_groups_numbers_that_belong_ecah_hos' => 'Order by number of group memberships',
