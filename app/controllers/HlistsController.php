@@ -116,6 +116,11 @@ class HlistsController extends BaseController {
 				}
 
 				if (  Input::get('type')=='unsolve' ){
+					$ids = Holding::whereIn('id',$holding_ids)->whereState('incorrect')->lists('id');
+				 	$holding_ids =  ( count($ids)>0 ) ? $ids : []; 
+				}
+
+				if (  Input::get('type')=='elimination' ){
 					$ids = Holding::whereIn('id',$holding_ids)->whereState('spare')->lists('id');
 				 	$holding_ids =  ( count($ids)>0 ) ? $ids : []; 
 				}
@@ -134,11 +139,11 @@ class HlistsController extends BaseController {
 
 				$hlist->save();
 				$hlist->holdings()->attach( $holding_ids );
-				return Redirect::route('holdings.index', ['hlist_id'=>$hlist->id]);
+				return Response::json(['created_list'=>$hlist->id]);
 
 			} else {
 
-				return Response::json( ['error' => trans('errors.list_in_blank')] );
+				return Response::json(['error' => trans('errors.list_in_blank')]);
 
 			}
 

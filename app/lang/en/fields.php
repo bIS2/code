@@ -32,9 +32,11 @@ return array(
 'f866a' => '866a' ,
 'f866z' => '866z' ,
 'has_incomplete_vols' => 'Icpl' ,
-'is_current' =>'Current' ,
-'weight' => 'Log Size' ,
-'size' =>'Phy Size' ,
-'sys2' => 'sys2',
+'is_current' 	=>'Current' ,
+'size' 			=> 'Phy Umfang' ,
+'size_large' 	=> 'Size in running meters' ,
+'sys2' 			=> 'sys2',
+'weight' 		=> 'Log Size' ,
+'weight_large' 	=> 'Size in years or volumes' ,
 
 );
