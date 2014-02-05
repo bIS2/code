@@ -32,7 +32,7 @@ return array(
 'f866z' => '866z' ,
 'has_incomplete_vols' => 'Icpl' ,
 'is_current' =>'Current' ,
-'ocrr_nr' => 'Log Size' ,
+'weight' => 'Log Size' ,
 'size' =>'Phy Size' ,
 'sys2' => 'sys2',
 
