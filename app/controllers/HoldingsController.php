@@ -57,7 +57,7 @@ class HoldingsController extends BaseController {
 			}
 
 
-		$this->data['allsearchablefields'] = ['sys2','size','022a','245a','245b','245c','246a','260a','260b','300a','300b','300c','310a','362a','500a','505a','710a','770t','772t','780t','785t','852b','852c','852h','852j','866a','866z', '008x', 'exists_online', 'is_current', 'has_incomplete_vols'];
+		$this->data['allsearchablefields'] = ['sys2','size','022a','245a','245b','245c','246a','260a','260b','300a','300b','300c','310a','362a','500a','505a','710a','770t','772t','780t','785t','852b','852c','852h','852j','866a','866z', '008x', 'exists_online', 'is_current', 'has_incomplete_vols', 'weight'];
 
 		$holdings = ( Input::has('hlist_id') ) ?	Hlist::find( Input::get('hlist_id') )->holdings() : Holding::init();
 
@@ -84,14 +84,14 @@ class HoldingsController extends BaseController {
 
 		foreach ($this->data['allsearchablefields'] as $field) {
 
-			$field = (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size') || ($field == 'sys2'))) ? 'f'.$field : $field;
+			$field = (!(($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size') || ($field == 'sys2') || ($field == 'weight'))) ? 'f'.$field : $field;
 
 			if ( Input::has($field) )  {
 
 				$is_filter 	= true;
 				$orand 			= Input::get('OrAndFilter')[$openfilter-1];
 				$format 		= Input::get( $field.'format' );
-				$compare = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != '008x') ) ? 'LOWER('.$field.')' : $field;
+				$compare = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != '008x') && ($field != 'weight') ) ? 'LOWER('.$field.')' : $field;
 
 				$holdings = ($orand == 'OR') ? 	
 					$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) ) :  
