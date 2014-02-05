@@ -23,7 +23,7 @@ return array(
 	'just_aux'					=> 'Ergänzungsbestand',
 	'just_owner'				=> 'Archivbestand',
 	'lock_hol'					=> 'Reserviere HOL',
-	'more_holdingssets'			=> 'Show more incorrect_HOS',
+	'more_holdingssets'			=> 'Füge 50 weitere HOS zur Liste',
 	'move_to_group'				=> 'Verschieben zu',
 	'move_to_other_group' 		=> 'In andere Gruppe verschieben',
 	'no_notes'					=> 'Keine Bemerkung zu dieser HOL',

@@ -23,7 +23,7 @@ return array(
 	'just_aux'					=> 'Additional',
 	'just_owner'				=> 'Owner',
 	'lock_hol'					=> 'Reserve HOL',
-	'more_holdingssets'			=> 'Show more incorrect_HOS',
+	'more_holdingssets'			=> 'Show 50 HOS more',
 	'move_to_group'				=> 'Move to',
 	'move_to_other_group'		=> 'Move to other group',
 	'no_notes'					=> 'No notes for this Holding',
