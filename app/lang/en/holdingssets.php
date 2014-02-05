@@ -47,6 +47,7 @@ return array(
 	'pending'					=> 'Pending',
 	'please_refresh_the_page'	=> 'Needs refreshing. Please press F5 to load page again',
 	'printer'					=> 'Print',
+	'recall_hos' 				=> 'Recalculate pattern',
 	'recall_hos_from_this_holding' => 'Search other HOL',
 	'receiveds'					=> 'In SPB integrated',
 	'remove_from_HOS' 			=> 'Remove from HOS',
