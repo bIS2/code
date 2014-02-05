@@ -97,6 +97,7 @@ return array(
                 $collection->add('bootstrap-editable.min.js');
                 $collection->add('jquery.ui.touch-punch.min.js');
                 $collection->add('tools.js');
+                $collection->add('d3.v3.min.js');
 
                // $collection->requireDirectory('../../../vendor/twbs/bootstrap/js');
             })->apply('JsMin');
