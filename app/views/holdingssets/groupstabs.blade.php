@@ -149,7 +149,7 @@
 						<?php
 							foreach ($fields as $field) {
 									$popover = '';
-									$field_short = $field;
+									$field_short = trans('fields.'.$field);
 									switch ($field) {
 										case 'exists_online':
 										$field_short = trans('holdings.exists_online_short');
@@ -183,7 +183,7 @@
 						<?php
 							foreach ($allfields as $field) {
 								$popover = '';
-									$field_short = $field;
+									$field_short = trans('fields.'.$field);
 									switch ($field) {
 										case 'exists_online':
 										$field_short = trans('holdings.exists_online_short');
@@ -223,7 +223,7 @@
 		</div>
 	</div>
 	</form>
-	<a id="open-all-hos" class="btn btn-xs btn-danger" data-toggle="tooltip" title="<?= trans('holdingssets.open_close_all_hos'); ?>" data-container="body" ><i class="fa fa-caret-down"></i><i class="fa fa-caret-down"></i></a>
+	<a id="open-all-hos" class="btn btn-xs btn-danger" data-toggle="tooltip" title="<?= trans('holdingssets.open_all_hos'); ?>" data-container="body" ><i class="fa fa-caret-down"></i><i class="fa fa-caret-down"></i></a>
 
 <?php } ?>
 

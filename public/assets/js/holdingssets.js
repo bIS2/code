@@ -232,20 +232,20 @@ function HOS_paginate() {
 						}
 					);
 			 	}
-			 	else {
-			 		$('#hosg').attr('infinitepagination', '0');
-			 		$('#next-page').css('visibility', 'hidden');
-			 		last_result = '';
-		 		}
+			 	// else {
+			 	// 	$('#hosg').attr('infinitepagination', '0');
+			 	// 	$('#next-page').css('visibility', 'hidden');
+			 	// 	last_result = '';
+		 		// }
 		 	}
-		 	else {
-		 		$('#hosg').attr('infinitepagination', '0');
-		 		$('#next-page').css('visibility', 'hidden');
-		 	}
+		 	// else {
+		 	// 	$('#hosg').attr('infinitepagination', '0');
+		 	// 	$('#next-page').css('visibility', 'hidden');
+		 	// }
 		}
-		else {
-			$('#next-page').css('visibility', 'hidden');
-		}
+		// else {
+		// 	$('#next-page').css('visibility', 'hidden');
+		// }
 }
 
 

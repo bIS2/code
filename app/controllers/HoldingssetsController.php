@@ -21,17 +21,15 @@ class HoldingssetsController extends BaseController {
 	public function Index()
 	{
 		
-
 		if (Input::has('holcontent')) {
 
-			$this->data['holdingssets'] = Holdingsset::whereId(Input::get('holdingsset_id'))->paginate(1);
-
+			$this->data['holdingssets'] = Holdingsset::whereId(Input::get('holdingsset_id'))->paginate(1);			
 			return View::make('holdingssets/hols', $this->data);
 		}
 		else { 
 			/* SEARCH ADVANCED FIELDS OPTIONS
 			----------------------------------------------------------------*/
-			define('ALL_SEARCHEABLESFIELDS', 'sys1;sys2;f008x;f008y;f022a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;ocrr_nr;size;exists_online;is_current;has_incomplete_vols');
+			define('ALL_SEARCHEABLESFIELDS', 'sys1;sys2;f008x;f008y;f022a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;weight;size;exists_online;is_current;has_incomplete_vols');
 
 			// Is Filter
 			$allsearchablefields = ALL_SEARCHEABLESFIELDS;
@@ -42,8 +40,8 @@ class HoldingssetsController extends BaseController {
 
 			/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
-			define('DEFAULTS_FIELDS', 'sys2;f008x;f008y;f022a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;ocrr_nr;size;exists_online;is_current;has_incomplete_vols');
-			define('ALL_FIELDS', 'sys2;f008x;f008y;f022a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;ocrr_nr;size;exists_online;is_current;has_incomplete_vols');
+			define('DEFAULTS_FIELDS', 'sys2;f008x;f008y;f022a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;weight;size;exists_online;is_current;has_incomplete_vols');
+			define('ALL_FIELDS', 'sys2;f008x;f008y;f022a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;weight;size;exists_online;is_current;has_incomplete_vols');
 
 			/* User vars */
 			$uUserName = Auth::user()->username;
@@ -125,7 +123,7 @@ class HoldingssetsController extends BaseController {
 						$format 	= Input::get($field.'format');
 
 						if ($field == 'sys1') {
-							$hos = Holdingsset::WhereRaw( sprintf( $format, $compare,'aab',  pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) )->select('id')->lists('id');
+							$hos = Holdingsset::WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) )->select('id')->lists('id');
 							$hos[] = -1;
 							$newholdings = Holding::whereIn('holdingsset_id', $hos)->select('id')->lists('id');
 							$newholdings[] = -1;
