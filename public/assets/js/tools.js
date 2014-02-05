@@ -70,6 +70,8 @@ $(function(){
 
   })
 
+  $('[data-toggle=popover]').popover()
+
   //Click in button with class .close-popover close de form to create feedback
 	$('body').on( 'click', '.close-popover', function(e){
 		e.preventDefault()
@@ -214,6 +216,7 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 
     if ( result.commented ){
     	$('#form-create-comments').modal('hide')
+    	$('#'+result.commented).hide('slow')
     }
 
     if ( result.error ){

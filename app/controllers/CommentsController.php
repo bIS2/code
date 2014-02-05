@@ -61,7 +61,10 @@ class CommentsController extends BaseController {
 		{
 			$this->comment->create($input);
 
-			return Response::json( ['commented' => $input['holding_id']] );
+			return Response::json( [
+				'commented' => $input['holding_id'],
+				'state' 		=> 'commented'
+			]);
 		}
 
 		return Redirect::route('comments.create')

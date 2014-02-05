@@ -22,6 +22,8 @@ return array(
 	'incorrect_HOS'				=> 'HOS kann nicht dedoubliert werden',
 	'just_aux'					=> 'Ergänzungsbestand',
 	'just_owner'				=> 'Archivbestand',
+	'lock_hol'					=> 'Reserviere HOL',
+	'more_holdingssets'			=> 'Show more incorrect_HOS',
 	'move_to_group'				=> 'Verschieben zu',
 	'move_to_other_group' 		=> 'In andere Gruppe verschieben',
 	'no_notes'					=> 'Keine Bemerkung zu dieser HOL',
@@ -30,6 +32,7 @@ return array(
 	'ocurrence_patron'			=> 'Erscheinungsmuster',
 	'of'						=> 'von ',
 	'ok' 						=> 'Richtig',
+	'open_close_all_hos'		=> 'Alle öffnen',
 	'order_by_field_245a'		=> 'Sortiere nach Titel (245a)',
 	'order_by_number_of_hols_inside_hos' => 'Sortiere nach Anzahl HOL pro HOS',
 	'order_by_groups_numbers_that_belong_ecah_hos' => 'Sortiere nach Anzahl Gruppenzugehörigkeiten',
@@ -44,7 +47,7 @@ return array(
 	'pending'            		=> 'Unbearbeitete',
 	'please_refresh_the_page'	=> 'Aktualisierung nötig. Bitte Seite mit F5 neu laden',
 	'printer'            		=> 'Druckansicht',
-	'recall_hos_from_this_holding' => 'Search other HOL',
+	'recall_hos_from_this_holding' => 'Suche weitere HOL (245a, )',
 	'receiveds'					=> 'In SPB integriert',
 	'remove_from_HOS' 			=> 'Aus HOS löschen',
 	'remove_hos_from_this_group' 	=> 'Aus dieser HOSG löschen',
@@ -57,5 +60,6 @@ return array(
 	'sort'						=> 'Sortieren',
 	'title'   					=> 'Holding Sets',
 	'title_create_group' 		=> 'Gruppe von HOS erstellen',
+	'unlock_hol'				=> 'Reservierung aufheben',
 
 ); 	
