@@ -1,4 +1,9 @@
 <?php
+/*
+*
+*	Controls workflow with Notes in Holding
+*
+*/
 
 class NotesController extends BaseController {
 

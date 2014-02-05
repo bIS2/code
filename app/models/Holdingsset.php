@@ -1,4 +1,7 @@
 <?php
+/*
+* Represents the table Holdinssets (HOS) in the database, relationships, methods and attributes. *
+*/
 
 class Holdingsset extends Eloquent {
 	protected $guarded = array();
@@ -78,25 +81,8 @@ class Holdingsset extends Eloquent {
   }
 
   public function scopeReceiveds($query) {
-
-    $owners = $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsOwner('t')->whereState('received')->whereLibraryId( Auth::user()->library_id ); })->lists('id'); 
-
-    $auxs 	= $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsAux('t')->whereState('received')->whereLibraryId( Auth::user()->library_id ); })->lists('id');
-
-    $result = array_intersect($owners, $auxs);
-
-    foreach ($owners as $owner) {
-      $countauxs = count(Holding::whereHoldingssetId($owner)->whereIsAux('t')->lists('id'));
-      $count_auxs_receiveds = ($countauxs > 0) ? count(Holding::whereHoldingssetId($this->id)->whereIsAux('t')->whereState('received')->lists('id')) : 0;
-      if (!(in_array($owner, $result))) {
-        if ($countauxs  == 0) $receiveds[] = $owner;
-      }
-      else {
-        if ($count_auxs_receiveds == $countauxs['owner']) $receiveds[] = $owner;
-      }
-    }
-    $receiveds = (count($receiveds) > 0) ? $receiveds : [-1];
-    return holdingsset::whereIn('id', $receiveds);
+    return $query
+    ->whereState('integrated');
   }
 
 
@@ -123,9 +109,7 @@ class Holdingsset extends Eloquent {
   }
 
   public function getIsUnconfirmableAttribute(){  
-    $ids = (count($this->holdings()->lists('id')) > 0) ? $this->holdings()->lists('id') : [-1];
-    $inhlist = DB::table('hlist_holding')->whereIn('holding_id', $ids)->exists();
-    return (($this->is_confirm) && (!($this->is_revised)) && (!($this->is_annotated)) && (!($this->is_correct)) && (!($inhlist)));
+    return ($this ->locked == 1);
   }
 
   public function getShowlistgroupAttribute($query){

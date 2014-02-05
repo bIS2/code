@@ -1,4 +1,7 @@
 <?php
+/*
+* Represents the table Incorrects in the database, relationships, methods and attributes. Represents holdings are inaccurate and can not be solved
+*/
 
 class Incorrect extends Eloquent {
 	protected $guarded = array();

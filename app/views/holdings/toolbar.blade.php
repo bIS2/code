@@ -5,21 +5,30 @@
 			<div class="col-xs-12">
 
 				<div class="btn-group">
+
 					<a href="#" class="btn btn-sm dropdown-toggle {{ (Input::has('hlist_id')) ? 'btn-default' : 'btn-default'}} {{ ($hlists->count() > 0) ? '' : ' disabled '}}" data-toggle="dropdown">
 						<i class="fa fa-list-ul"> </i> 
 						{{{ trans('holdings.lists') }}} 
 						<span class="caret"></span>
 					</a>
+
 					<!-- Show list if exists -->
 					@if ($hlists)
+
 					<ul class="dropdown-menu" role="menu">
+
 						@foreach ($hlists as $list) 
+
 						<li <?= ($list->id == Input::get('hlist_id')) ? 'class="active"' : '' ; ?>>
 							<a href="{{ route('holdings.index',Input::except(['hlist_id']) + ['hlist_id' => $list->id ]) }}"> {{ $list->name }} <span class="badge">{{ $list->holdings()->count() }} </span></a>
 						</li>
+
 						@endforeach
+
 					</ul>
+
 					@endif
+
 				</div>
 
 				  <div class="btn-group">
@@ -81,7 +90,7 @@
 				  	@endif
 
 				  	<!-- COMMENTED WITH PROBLEMS RECEIVE -->
-				  	@if ( $user->hasRole('postuser') || $user->hasRole('speichuser') )
+				  	@if ( $user->hasRole('postuser') || $user->hasRole('speichuser') || $user->hasRole('magvuser') )
 
 					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'commented'] ) }}" class="btn btn-default <?= ( Input::get('state')=='commented' ) ? 'active' : '' ?> btn-sm" >
 					  		<span class="fa fa-comments"></span> {{{ trans('holdings.commenteds') }}}
@@ -128,7 +137,7 @@
 				</div>
 
 				@if ( !Auth::user()->hasRole('bibuser') )
-				
+
 					<div class="btn-group">
 
 						<a href="{{ route('holdings.index', Input::except(['owner', 'aux'])) }}" class="btn <?= ( !Input::has('owner') && !Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">

@@ -1,5 +1,9 @@
 <?php
-
+/*
+*
+*	Controls the workflow lists Holding when received.
+*
+*/
 class ReceivedsController extends BaseController {
 
 	/**

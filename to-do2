@@ -1,7 +1,0 @@
--mostrar las tablas en la vista de los tracert.
--cuantos holdings están: total, pendientes, rojos, blue, reservados.
--mostrar estadisticas por periodos: diario, semanal, mensual
-
-biblioteca 852b
-
-solo se puede crear un sysuser por biblioteca.

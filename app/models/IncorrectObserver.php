@@ -16,8 +16,9 @@ class IncorrectObserver {
       ]);
 
       // change to incorrected state
-      foreach ($model->holdingsset->holdings()->lists('id') as $id) {
-	      State::create( [ 'holding_id' => $id, 'user_id' => $user_id, 'state'=>'incorrrected' ] );
+      $ids = $model->holdingsset->holdings()->lists('id');
+      foreach ($ids as $id) {
+	      State::create( [ 'holding_id' => $id, 'user_id' => $user_id, 'state'=>'incorrected' ] );
       }
 
       Holdingsset::find($holdingsset_id)
@@ -39,13 +40,10 @@ class IncorrectObserver {
        'object_id' => $holdingsset_id
       ]);
 
-      // change to the previus state
-      foreach ($model->holdingsset->holdings()->lists('id') as $id) {
-        // var_Holding::find($id)->states()->count() > 0
-        // if (Holding::find($id)->states()->count() > 0) {
-        // 	$prev_state = Holding::find($id)->states()->last()->state;
-  	      State::create( [ 'holding_id' => $id, 'user_id' => $user_id, 'state'=>'incorrect' ] );
-        // }
+      // change to the blank state
+      $ids = $model->holdingsset->holdings()->lists('id');
+      foreach ($ids as $id) {
+  	      State::create( [ 'holding_id' => $id, 'user_id' => $user_id, 'state'=>'blank' ] );
       }  
 
       Holdingsset::find($holdingsset_id)

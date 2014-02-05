@@ -1,4 +1,8 @@
 <?php
+/*
+* Observer events (created, deleted) that occur on the model Comment
+*
+*/
 
 class CommentObserver {
 

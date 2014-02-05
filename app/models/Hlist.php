@@ -1,5 +1,8 @@
 <?php
-
+/*
+* Represents the table Hlists in the database, relationships, methods and attributes. Represents a list of holdings
+*
+*/
 class Hlist extends Eloquent {
 	protected $guarded = array();
 
@@ -49,6 +52,17 @@ class Hlist extends Eloquent {
   
   public function getReadyToReviseAttribute(){
   	$this->is_finish;
+  }
+
+  public function getStateAttribute(){
+
+  	$state = 'pending';
+
+  	if (($this->type=='control') && $this->revised) 					$state = 'revised';
+  	if ($this->type=='delivery' && $this->delivery->exists)  	$state = 'delivery';
+
+  	return $state;
+  	
   }
 
   public function getTypeIconAttribute(){

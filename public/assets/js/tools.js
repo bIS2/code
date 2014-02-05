@@ -1,12 +1,16 @@
+// Contains all the logic on the client
+
 $(function(){
 
   typeList()
 
+  //Cuando se cambio el tipo de lista que se quiere crear se actualiza los usuarios a los que se les puede asignar ese tipo de lista
   $('#form_list :radio').on('click',function(){
     $('#form_list select#worker_id').val([])
     typeList()
   })
 
+  //manipulates the elements marked with the css class .draggable
   $( ".draggable" ).draggable({   
     handle: ".move",
     appendTo: 'body',
@@ -15,6 +19,7 @@ $(function(){
     revert: "invalid"
   });   
 
+  //manipulates the elements <LI> marked with the css class .draggable
   $( "li.droppable" ).droppable({   
     accept: "tr.draggable",
     tolerance: "pointer", 
@@ -24,12 +29,20 @@ $(function(){
       $from = $(ui.draggable)
       // alert($from.attr('id'))
       var call = $.post( $to.data('attach-url'), { holding_id: $from.attr('id') } )
-      call.done(function(result) { if ( result.error ) alert( result.error ) } )
+      call.done(function(result) { 
+      	if ( result.error ) {
+      		alert( result.error ) 
+      	} else{
+      		$('.counter').text( result.counter )
+      		alert( 'OK'  )
+      	}
+      })
 
     }
 
   });  
 
+  // Manipulate tooltip. Use the bootstrap plugin
   $('[data-toggle=tooltip]').tooltip()
 
   $('.stats .label-default').hover(
@@ -43,10 +56,12 @@ $(function(){
     }
   )
 
+
   $(document).on('keypress', function(event) {
     if (event.keyCode == 27) $('.modal .close').click();
   }) 
 
+  // Show form to create feedback
   $('#btn_create_feedback').popover({
   	html: true,
   	content: function(){ return $('#wrap_create_feedback').html() },
@@ -55,6 +70,7 @@ $(function(){
 
   })
 
+  //Click in button with class .close-popover close de form to create feedback
 	$('body').on( 'click', '.close-popover', function(e){
 		e.preventDefault()
   	$('#btn_create_feedback').popover('hide')
@@ -71,7 +87,6 @@ $(function(){
   $('.datatable').dataTable({
     "bFilter": false,
     "bPaginate": false , 
-    // "aoColumnDefs": [	{ "sWidth": "3px", "aTargets": [ 0,1 ] },{ "sWidth": "20px", "aTargets": [ 2 ] } ]
   });
 
   bulkActions();
@@ -111,12 +126,10 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
   }); 
 
 
-
+  // Manipula all reponse ajax json
   $('body').on( 'ajax:success', 'form,a', function(data, result, status){
-
     if($(this).attr('id') == 'recalled') window.location.reload()
 
-    /* Holdings Tags */
     if ( result.tag ){
       $('tr#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger');
       $('#form-create-tags').modal('hide')
@@ -136,7 +149,9 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     } 
 
     if ( result.list_revised ){
-      $('#'+result.list_revised).addClass('revised'); 
+      $('#'+result.list_revised).addClass('revised');
+      $('.state-list').text( result.state );
+      $('.btn-revise').hide();
     } 
 
     if ( result.blank ){
@@ -166,8 +181,12 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
       	.text(result.state_title ); 
     }
 
-    if ( result.remove )
+    if ( result.remove ){
       $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
+      if (result.counter)
+      	$('.counter').text(result.counter)
+    	
+    }
 
     if ( result.received )
       $('#'+result.receive).hide('slow', function(){ $(this).remove() }); 
@@ -213,7 +232,7 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 
 function getAsuccess() {
     $('a').on({
-    'ajax:success': function(data, result, status) {
+    'ajax:success': function(data, result, status) {        
         set = $(this).attr('set')
         if ($(this).attr('ajaxsuccess') != 1) {
           $(this).attr('ajaxsuccess', 1)          
@@ -362,7 +381,7 @@ function reload_set(set, data, open) {
         $('.pop-over').popover();
         doEditable()
         getAsuccess()
-        bulkActions()
+        bulkActions()       
         if (open == 1) { $(accordion).click() }
       })
     })

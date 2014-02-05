@@ -1,4 +1,9 @@
 <?php
+/*
+*
+*	Controls workflow with Holdings
+*
+*/
 
 class HoldingsController extends BaseController {
 
@@ -13,7 +18,7 @@ class HoldingsController extends BaseController {
     }
 
 	/**
-	 * Display a listing of the resource.
+	 * Display a listing of the Holding.
 	 *
 	 * @return Response
 	 */
@@ -62,6 +67,7 @@ class HoldingsController extends BaseController {
     $this->data['is_all'] = !(Input::has('corrects') || Input::has('tagged') || Input::has('pendings') || Input::has('unlist') || Input::has('owner') || Input::has('aux')|| Input::has('deliveries') );
 
 		if ( Input::has('pendings') )		$holdings = $holdings->pendings();
+		
 		if ( Input::has('unlist') )			$holdings = $holdings->orphans();
 		if ( Input::has('owner') )			$holdings = $holdings->owner();
 		if ( Input::has('aux') )			$holdings = $holdings->aux();
@@ -98,8 +104,8 @@ class HoldingsController extends BaseController {
 		$this->data['is_filter'] 	= $is_filter;
 		$this->data['sql'] 			= sprintf( $format, $compare, $value );
 		$this->data['holdings'] 	= $holdings->paginate(25);
-		$queries = DB::getQueryLog();
-		$this->data['last_query'] = $queries;			
+		// $queries = DB::getQueryLog();
+		// $this->data['last_query'] = $queries;			
 
 		// CONDITIONS
 		// filter by holdingsset ok
@@ -111,7 +117,7 @@ class HoldingsController extends BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Show the form for creating a new Holding.
 	 *
 	 * @return Response
 	 */
@@ -121,7 +127,7 @@ class HoldingsController extends BaseController {
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Store a newly created Holding in storage.
 	 *
 	 * @return Response
 	 */
@@ -153,7 +159,7 @@ class HoldingsController extends BaseController {
 	}
 
 	/**
-	 * Display the specified resource.
+	 * Display the specified Holding.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -165,7 +171,7 @@ class HoldingsController extends BaseController {
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
+	 * Show the form for editing the specified Holding.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -176,7 +182,7 @@ class HoldingsController extends BaseController {
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Update the specified Holding in storage.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -188,31 +194,6 @@ class HoldingsController extends BaseController {
 		$holding->save();
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-
-	// Custom method
-
-	public function postOK($id){
-		$holding = Holding::find($id);
-		$ok = Ok::whereHoldingId($id);
-
-		if ( $ok->count()>0 ){
-			$ok->delete();
-			$return = [ 'ko'=>$id  ];
-		}
-		else {
-			$ok = new Ok( ['user_id' =>Auth::user()->id ] );
-			$holding->ok()->save($ok);
-			$return = [ 'ok'=>$id ];
-		}
-
-		return  Response::json( $return ) ;
-	}
 
 /* ---------------------------------------------------------------------------------
 	Del Hlist Tab from HOLS View

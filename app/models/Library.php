@@ -1,4 +1,7 @@
 <?php
+/*
+* Represents the table Library in the database, relationships, methods and attributes. *
+*/
 
 class Library extends Eloquent {
 	protected $guarded = array();

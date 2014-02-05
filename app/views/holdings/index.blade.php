@@ -63,7 +63,6 @@
 						<span class="label label-primary">
 							{{ trans('states.'.$holding->state) }}
 						</span>	
-						{{ $holding->state }}
 					</td>
 
 					<?php $k = 0; ?>

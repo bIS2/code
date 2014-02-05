@@ -1,4 +1,7 @@
 <?php
+/*
+* Represents the Role State in the database, relationships, methods and attributes.
+*/
 
 use Zizaco\Entrust\EntrustRole;
 use Robbo\Presenter\PresentableInterface;

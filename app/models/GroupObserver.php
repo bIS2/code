@@ -1,4 +1,8 @@
 <?php
+/*
+* Observer events (created, deleted) occur Group model. Perform necessary actions after a specific event occurs on the model.
+*
+*/
 
 class GroupObserver {
 

@@ -1,5 +1,8 @@
 <?php
-
+/*
+* Observer events (created, deleted) occur Holdinsset model. Perform necessary actions after a specific event occurs on the model.
+*
+*/
 class HoldingssetObserver {
 
     public function created($model) {
@@ -8,11 +11,6 @@ class HoldingssetObserver {
 
     public function updated($model, $query)
     {
-    	// var_dump($model);
-    	// var_dump($model['attributes']);
-    	// var_dump($model['original']);
-    	// die();
-    	// die(var_dump(array_diff($model['attributes'], $model['original'])));
   		Trace::create([ 
   			'user_id'	=> Auth::user()->id,
   			'action'	=> trans("logs.algo",['name'=>$model->sys1]),

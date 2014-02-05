@@ -1,5 +1,9 @@
 <?php
-
+/*
+*
+*	Controls workflow with Library
+*
+*/
 class LibrariesController extends BaseController {
 
 	/**
@@ -16,7 +20,7 @@ class LibrariesController extends BaseController {
 	}
 
 	/**
-	 * Display a listing of the resource.
+	 * Display a listing of the Library.
 	 *
 	 * @return Response
 	 */
@@ -28,7 +32,7 @@ class LibrariesController extends BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Show the form for creating a new Library.
 	 *
 	 * @return Response
 	 */
@@ -38,7 +42,7 @@ class LibrariesController extends BaseController {
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Store a newly created Library in storage.
 	 *
 	 * @return Response
 	 */
@@ -61,7 +65,7 @@ class LibrariesController extends BaseController {
 	}
 
 	/**
-	 * Display the specified resource.
+	 * Display the specified Library.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -74,7 +78,7 @@ class LibrariesController extends BaseController {
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
+	 * Show the form for editing the specified Library.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -92,7 +96,7 @@ class LibrariesController extends BaseController {
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Update the specified Library in storage.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -117,7 +121,7 @@ class LibrariesController extends BaseController {
 	}
 
 	/**
-	 * Remove the specified resource from storage.
+	 * Remove the specified Library from storage.
 	 *
 	 * @param  int  $id
 	 * @return Response

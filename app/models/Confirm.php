@@ -1,4 +1,8 @@
 <?php
+/*
+* Represents the table Confirm in the database, relationships, methods and attributes.
+*
+*/
 
 class Confirm extends Eloquent {
 	protected $guarded = array();

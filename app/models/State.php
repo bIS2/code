@@ -1,4 +1,7 @@
 <?php
+/*
+* Represents the table State in the database, relationships, methods and attributes.
+*/
 
 class State extends Eloquent {
 	protected $guarded = array();

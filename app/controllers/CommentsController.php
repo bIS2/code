@@ -1,5 +1,13 @@
 <?php
 
+/*
+*
+*	Controls workflow comments in Holdings. 
+* 	A Holding can be commented by Speichuser receiving lists in case you have a problem
+*
+*/
+
+
 class CommentsController extends BaseController {
 
 	/**
@@ -15,7 +23,7 @@ class CommentsController extends BaseController {
 	}
 
 	/**
-	 * Display a listing of the resource.
+	 * Display a listing of the comments.
 	 *
 	 * @return Response
 	 */
@@ -27,7 +35,7 @@ class CommentsController extends BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Show the form for creating a new comment.
 	 *
 	 * @return Response
 	 */
@@ -40,7 +48,7 @@ class CommentsController extends BaseController {
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Store a newly created comment in storage.
 	 *
 	 * @return Response
 	 */
@@ -63,7 +71,7 @@ class CommentsController extends BaseController {
 	}
 
 	/**
-	 * Display the specified resource.
+	 * Display the specified comment.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -76,7 +84,7 @@ class CommentsController extends BaseController {
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
+	 * Show the form for editing the specified comment.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -94,7 +102,7 @@ class CommentsController extends BaseController {
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Update the specified comment in storage.
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -119,7 +127,7 @@ class CommentsController extends BaseController {
 	}
 
 	/**
-	 * Remove the specified resource from storage.
+	 * Remove the specified comment from storage.
 	 *
 	 * @param  int  $id
 	 * @return Response

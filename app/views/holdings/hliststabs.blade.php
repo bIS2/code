@@ -1,4 +1,6 @@
 <?php
+
+
 	// $total = $holdingssets -> getTotal();
 	// $init = $holdingssets -> getTo();
 	$hlistsids = '';
@@ -60,6 +62,7 @@
 	$hlistsids = explode(';', $hlistsids);
  	// var_dump($hlistsids);
 ?>
+
 <ul id="lists-tabs" class="nav nav-tabs">
 
 	@if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('bibuser'))
@@ -89,7 +92,7 @@
 			<a <?php if ($hlist_id != $hlist->id) { echo 'href="'.route('holdings.index',Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]).'"'; } ?> class="">
 				{{ $hlist->type_icon }}
 				<?= $hlist->name  ?> 
-				<span class="badge">{{ $hlist->holdings -> count() }} </span>
+				<span class="badge counter">{{ $hlist->holdings -> count() }} </span>
 			</a>
 
 			<?php if ($hlist_id != $hlist->id) { ?>
@@ -103,27 +106,41 @@
 <form method="post" action="{{ route('holdings.index', Input::except(['noexists'])) }}">
 <div id="hos_actions_and_filters" class="row">
 
+	<!-- Information about pagination-->
 	<div class="col-xs-2">
 		{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} 
 	</div>
 
-	<div class="col-xs-7">
+	<!-- Pages -->
+	<div class="col-xs-6">
+
 		{{ $holdings->appends(Input::except('page'))->links()  }}
+
 	</div>
 
-	<div class="col-xs-3">
+	<!-- Actions -->
+	<div class="col-xs-4">
+		<div class="pull-right">
 
-  	@if (Authority::can('revise',$list))
+			@if (Input::has('hlist_id'))
+				<?php $list = Hlist::find(Input::get('hlist_id')); ?>
+				<span class="label label-primary state-list"> {{ $list->state }}</span>
+			@endif
 
-    	<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
-    		<span class="fa fa-check" ></span> {{trans('holdings.revised')}}
-    	</a>
+	  	@if ( Authority::can('revise',$list) )
 
-  	@endif
+	    	<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs btn-revise" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
+	    		<span class="fa fa-check" ></span> {{ trans('holdings.revised')}}
+	    	</a>
 
-	  <a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-xs btn-default dropdown-toggle pull-right collapsed text-warning" data-toggle="collapse">
-  		<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
-		</a>
+	  	@endif
+
+		  <a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-xs btn-default dropdown-toggle collapsed text-warning" data-toggle="collapse">
+	  		<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
+			</a>
+
+
+		</div>
 	</div>
 <!-- 	<div id="hos-pagination" class="pull-right text-center text-success">
 		<p>{{ trans('holdingssets.showing') }} </p>
