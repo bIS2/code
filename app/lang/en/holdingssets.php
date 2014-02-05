@@ -22,6 +22,7 @@ return array(
 	'incorrect_HOS'				=> 'HOS cannot be deduplicated',
 	'just_aux'					=> 'Additional',
 	'just_owner'				=> 'Owner',
+	'lock_hol'					=> 'Reserve HOL',
 	'move_to_group'				=> 'Move to',
 	'move_to_other_group'		=> 'Move to other group',
 	'no_notes'					=> 'No notes for this Holding',
@@ -30,6 +31,7 @@ return array(
 	'ocurrence_patron'			=> 'Ocurrence patron',
 	'of'						=> 'of ',
 	'ok' 						=> 'Confirm',
+	'open_close_all_hos'		=> 'Open all',
 	'order_by_field_245a'		=> 'Order by title (245a)',
 	'order_by_number_of_hols_inside_hos' => 'Order by number of HOL in HOS',
 	'order_by_groups_numbers_that_belong_ecah_hos' => 'Order by number of group memberships',
@@ -56,5 +58,6 @@ return array(
 	'sort'						=> 'Sort',
 	'title'   					=> 'Holdings Sets',
 	'title_create_group' 		=> 'Create a Group of Holdings Set',
+	'unlock_hol'				=> 'Reverse Reservation of HOL',
 	
 );

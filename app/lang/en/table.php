@@ -36,6 +36,7 @@ return array(
 	'users'      		=> '# of Users',
 
 	//titles
-	'title_edit_user'=> 'Edit User'
+	'state'				=> 'State of list',
+	'title_edit_user'=> 'Edit User',
 
 );

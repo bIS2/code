@@ -24,4 +24,9 @@ return array(
 	'user'			=> 'Benutzer',
 	'users'			=> '# Benutzer',
 
+
+	//titles
+	'state'				=> 'State of list',
+	'title_edit_user'=> 'Edit User',
+
 );
