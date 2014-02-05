@@ -57,9 +57,6 @@ class ConfirmsController extends BaseController {
 
 		  	Confirm::find($confirm_id[0])->delete();
 			// Holdingsset::find($holdingsset_id)->update(['state' => 'blank']);
-
-			Revised::whereIn('holding_id', Holdingsset::find($holdingsset_id)->holdings()->lists('id'))->delete();
-
 			$ret = ['ko' => $holdingsset_id];
 		} else {
 
@@ -72,7 +69,7 @@ class ConfirmsController extends BaseController {
 		$ids = Holdingsset::find($holdingsset_id)->holdings()->select('id')->lists('id');
 		// $affectedRows = Note::whereIn('holding_id', $ids)->delete();
 		$holdingssets[] = Holdingsset::find($holdingsset_id);
-		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets, 'no_force_lock' => '1']);
 		return $newset;
 		// return Response::json( $ret );
 	}

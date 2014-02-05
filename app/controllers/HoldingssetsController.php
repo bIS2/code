@@ -21,11 +21,9 @@ class HoldingssetsController extends BaseController {
 	public function Index()
 	{
 		
-
 		if (Input::has('holcontent')) {
 
-			$this->data['holdingssets'] = Holdingsset::whereId(Input::get('holdingsset_id'))->paginate(1);
-
+			$this->data['holdingssets'] = Holdingsset::whereId(Input::get('holdingsset_id'))->paginate(1);			
 			return View::make('holdingssets/hols', $this->data);
 		}
 		else { 
@@ -125,7 +123,7 @@ class HoldingssetsController extends BaseController {
 						$format 	= Input::get($field.'format');
 
 						if ($field == 'sys1') {
-							$hos = Holdingsset::WhereRaw( sprintf( $format, $compare,'aab',  pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) )->select('id')->lists('id');
+							$hos = Holdingsset::WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) )->select('id')->lists('id');
 							$hos[] = -1;
 							$newholdings = Holding::whereIn('holdingsset_id', $hos)->select('id')->lists('id');
 							$newholdings[] = -1;

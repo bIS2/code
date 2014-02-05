@@ -96,7 +96,7 @@
 													$checked 			= "checked = checked";
 													$checkactive 	= " active";
 												}
-												$field_short = $field;
+												$field_short = trans('fields.'.$field);
 												$popover = '';
 												switch ($field) {
 													case 'exists_online':
