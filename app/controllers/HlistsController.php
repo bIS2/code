@@ -116,6 +116,11 @@ class HlistsController extends BaseController {
 				}
 
 				if (  Input::get('type')=='unsolve' ){
+					$ids = Holding::whereIn('id',$holding_ids)->whereState('incorrect')->lists('id');
+				 	$holding_ids =  ( count($ids)>0 ) ? $ids : []; 
+				}
+
+				if (  Input::get('type')=='elimination' ){
 					$ids = Holding::whereIn('id',$holding_ids)->whereState('spare')->lists('id');
 				 	$holding_ids =  ( count($ids)>0 ) ? $ids : []; 
 				}
