@@ -214,6 +214,7 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 
     if ( result.commented ){
     	$('#form-create-comments').modal('hide')
+    	$('#'+result.commented).hide('slow')
     }
 
     if ( result.error ){
