@@ -22,7 +22,8 @@ class HlistsController extends BaseController {
 		$this->data['types'] = $types = [ 
 			'control'=>	'<i class="fa fa-tachometer"></i> '.trans('lists.type-control'), 
 			'unsolve'=>	'<i class="fa fa-fire"></i> '.trans('lists.type-unsolve'), 
-			'delivery'=>'<i class="fa fa-truck"></i> '.trans('lists.type-delivery')  
+			'delivery'=>'<i class="fa fa-truck"></i> '.trans('lists.type-delivery'),
+			'elimination'=>'<i class="fa fa-trash-o"></i> '.trans('lists.type-elimination') ,
 		];
 	}
 
