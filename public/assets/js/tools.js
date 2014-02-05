@@ -2,10 +2,9 @@
 
 $(function(){
 
-  typeList()
 
   //Cuando se cambio el tipo de lista que se quiere crear se actualiza los usuarios a los que se les puede asignar ese tipo de lista
-  $('#form_list :radio').on('click',function(){
+  $('body').on( 'click', '#form_list :radio', function(){
     $('#form_list select#worker_id').val([])
     typeList()
   })
@@ -127,9 +126,19 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
       $(this).removeData('bs.modal').empty();
   }); 
 
+  $('body').on('submit', '#form-create-list form', function() {
+	 
+	  // typeList()
+	  $('#form_list').append( $('#holdings-items :checkbox:checked').clone().attr('type','hidden') )
+
+  	console.log( $('#holdings-items :checkbox:checked').clone().length  )
+      
+  }); 
+
 
   // Manipula all reponse ajax json
   $('body').on( 'ajax:success', 'form,a', function(data, result, status){
+
     if($(this).attr('id') == 'recalled') window.location.reload()
 
     if ( result.tag ){
@@ -176,10 +185,6 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 	      // $('#slider').carousel('next')
     	}
 
-    	if (result.created_list ){
-	      $('#form-create-list').modal('hide')
-	      $('#form-create-list form').reset()
-    	}
 
       $('#'+result.id)
       	.addClass(result.state)
@@ -187,6 +192,10 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
       	.text(result.state_title ); 
     }
 
+  	if (result.created_list ){
+      $('#form-create-list').modal('hide')
+  	}
+  	
     if ( result.remove ){
       $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
       if (result.counter)
@@ -236,6 +245,23 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
   countThs();
 	getAsuccess()
 })
+
+function typeList(){
+
+	$select = $('#form_list select#worker_id')
+
+  $('#form_list select#worker_id option').hide()
+
+  if ($('#form_list :radio:checked').val()=='delivery'){
+    $('#form_list select#worker_id option[data-role=postuser]').show()
+  } else {
+    $('#form_list select#worker_id option[data-role=maguser]').show()
+  }
+
+  // alert($select.find('option:visible:first').attr('value'))
+  $select.val( $select.find('option:visible:first').attr('value') )
+}	
+
 
 function getAsuccess() {
     $('a').on({
@@ -455,18 +481,3 @@ function bulkActions() {
 }
 
 
-function typeList(){
-
-	$select = $('#form_list select#worker_id')
-
-  $('#form_list select#worker_id option').hide()
-
-  if ($('#form_list :radio:checked').val()=='delivery'){
-    $('#form_list select#worker_id option[data-role=postuser]').show()
-  } else {
-    $('#form_list select#worker_id option[data-role=maguser]').show()
-  }
-
-  // alert($select.find('option:visible:first').attr('value'))
-  $select.val( $select.find('option:visible:first').attr('value') )
-}

@@ -30,7 +30,7 @@ $types = [
 
 ?>
 
-<div class="modal fade" id="form-create-list">
+<!-- <div class="modal fade" id="form-create-list"> -->
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -87,5 +87,37 @@ $types = [
 			</form>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+<!-- </div>/.modal -->
+
+<script type="text/javascript">
+
+$(function(){
+
+	typeList()
+
+	$('#form_list radio').on('click', function(){
+		alert('hola')
+		$('#form_list select#worker_id').val([])
+		typeList()	
+	})
+
+	function typeList(){
+
+		$select = $('#form_list select#worker_id')
+
+	  $('#form_list select#worker_id option').hide()
+
+	  if ($('#form_list :radio:checked').val()=='delivery'){
+	    $('#form_list select#worker_id option[data-role=postuser]').show()
+	  } else {
+	    $('#form_list select#worker_id option[data-role=maguser]').show()
+	  }
+
+	  // alert($select.find('option:visible:first').attr('value'))
+	  $select.val( $select.find('option:visible:first').attr('value') )
+	}	
+
+})
+
+</script>
 

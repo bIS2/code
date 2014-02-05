@@ -115,10 +115,10 @@
 		<div class="remote">
 		 <div class="modal" id="form-create-notes"></div><!-- /.modal -->
 		 <div class="modal" id="form-create-comments"></div><!-- /.modal -->
+		 <div class="modal" id="form-create-list"></div><!-- /.modal -->
 		 <div class="modal" id="modal-show"></div><!-- /.modal -->
 		</div>
 
-	@include('hlists.create')
 
 @stop
 

@@ -78,7 +78,7 @@
   @if ( Authority::can('create','Hlist') ) 
 
 	  <li>
-		  <a data-toggle="modal" class='btn btn-default link_bulk_action disabled' data-target="#form-create-list" style="padding: 6px 11px;">
+		  <a href="{{route('lists.create')}}" id="link_create_list" data-toggle="modal" class='btn btn-default link_bulk_action disabled' data-target="#form-create-list" style="padding: 6px 11px;">
 		  	<i class="fa fa-plus-circle" style="font-size: 26px; padding: 0px;"></i>
 		  </a>
 	  </li>
