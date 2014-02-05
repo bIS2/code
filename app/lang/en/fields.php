@@ -7,6 +7,7 @@ return array(
 'f022a' => '022a' ,
 'f245a' => '245a' ,
 'f245b' => '245b' ,
+'f245c' => '245c' ,
 'f246a' => '246a' ,
 'f260a' => '260a' ,
 'f260b' => '260b' ,
@@ -32,7 +33,7 @@ return array(
 'f866z' => '866z' ,
 'has_incomplete_vols' => 'Icpl' ,
 'is_current' =>'Current' ,
-'ocrr_nr' => 'Log Size' ,
+'weight' => 'Log Size' ,
 'size' =>'Phy Size' ,
 'sys2' => 'sys2',
 

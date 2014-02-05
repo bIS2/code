@@ -18,7 +18,7 @@
 		      </div>
 				<div class="form-group">
 					{{ Form::submit(trans('general.update'), array('class' => 'btn btn-info')) }}
-					<a href="http://bis.trialog.ch/groups"><input type="button" value="{{ trans('general.cancel') }}" class="btn btn-danger"></a>
+					<a href="/groups"><input type="button" value="{{ trans('general.cancel') }}" class="btn btn-danger"></a>
 				</div>
 			</div>
 		{{ Form::close() }}

@@ -115,6 +115,18 @@
 													$field_short = trans('holdings.has_incomplete_vols_short');
 													$field_large = ' data-content="<strong>'.trans('holdings.has_incomplete_vols_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
 													$popover = " pop-over ";
+													break;	
+													
+													case 'size':
+													$field_short = trans('fields.size_short');
+													$field_large = ' data-content="<strong>'.trans('holdings.has_incomplete_vols_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+													$popover = " pop-over ";
+													break;	
+													
+													case 'weight':
+													$field_short = trans('fields.weight_short');
+													$field_large = ' data-content="<strong>'.trans('holdings.has_incomplete_vols_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+													$popover = " pop-over ";
 													break;										
 												} ?>
 												<label class="btn btn-primary btn-xs{{ $checkactive }}{{ $popover }}" href="#ff<?= $field; ?>" {{ $field_large }}>

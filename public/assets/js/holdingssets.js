@@ -103,7 +103,7 @@ function setDatatable() {
 												newptrn = newptrn + '0'
 											}
 										})
-										dataparam = 'http://bis.trialog.ch/sets/force-aux/' + hol;
+										dataparam = '/sets/force-aux/' + hol;
 										dataparam = dataparam + "?holdingsset_id=" + $(this).parents('tr').find(' a.forceaux').attr('set')
 										dataparam = dataparam + "&newptrn=" + newptrn
 										dataparam = dataparam + "&newauxptrn=" + newauxptrn
