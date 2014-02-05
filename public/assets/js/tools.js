@@ -70,6 +70,8 @@ $(function(){
 
   })
 
+  $('[data-toggle=popover]').popover()
+
   //Click in button with class .close-popover close de form to create feedback
 	$('body').on( 'click', '.close-popover', function(e){
 		e.preventDefault()
