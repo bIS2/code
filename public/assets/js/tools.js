@@ -174,7 +174,11 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 	      $('#form-create-notes').modal('hide')
         $('a[data-slide="next"]').click();
 	      // $('#slider').carousel('next')
-    		
+    	}
+
+    	if (result.created_list ){
+	      $('#form-create-list').modal('hide')
+	      $('#form-create-list form').reset()
     	}
 
       $('#'+result.id)
@@ -453,14 +457,16 @@ function bulkActions() {
 
 function typeList(){
 
+	$select = $('#form_list select#worker_id')
+
+  $('#form_list select#worker_id option').hide()
 
   if ($('#form_list :radio:checked').val()=='delivery'){
-    $('#form_list select#worker_id option').hide()
     $('#form_list select#worker_id option[data-role=postuser]').show()
-  }
-
-  if ($('#form_list :radio:checked').val()!='delivery'){
-    $('#form_list select#worker_id option').hide()
+  } else {
     $('#form_list select#worker_id option[data-role=maguser]').show()
   }
+
+  // alert($select.find('option:visible:first').attr('value'))
+  $select.val( $select.find('option:visible:first').attr('value') )
 }

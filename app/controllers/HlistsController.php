@@ -139,11 +139,11 @@ class HlistsController extends BaseController {
 
 				$hlist->save();
 				$hlist->holdings()->attach( $holding_ids );
-				return Redirect::route('holdings.index', ['hlist_id'=>$hlist->id]);
+				return Response::json(['created_list'=>$hlist->id]);
 
 			} else {
 
-				return Response::json( ['error' => trans('errors.list_in_blank')] );
+				return Response::json(['error' => trans('errors.list_in_blank')]);
 
 			}
 
