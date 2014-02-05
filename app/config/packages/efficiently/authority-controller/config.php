@@ -18,6 +18,10 @@ return [
           return  ( (!$holding->was_delivery && Auth::user()->hasRole('postuser')) || Auth::user()->hasRole('speichuser') ) ;
         });
 
+        $authority->allow('view_comment', 'Holding', function($self,$holding) {
+          return  ( Auth::user()->hasRole('magvuser') && $holding->whereState('commented') ) ;
+        });
+
 
         $authority->allow('revise', 'Hlist', function($self, $hlist) {
           return ( $hlist->is_finish && Auth::user()->hasRole('maguser') && !$hlist->revised  );

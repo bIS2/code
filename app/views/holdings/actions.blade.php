@@ -81,6 +81,14 @@
 			
 	  @endif
 	  
+		@if (Authority::can('view_comment',$holding))
+
+			<span data-content="{{$holding->comment->content}}" data-placement="top" data-toggle="popover" data-container="body" class="btn btn-xs" data-original-title="" data-trigger="hover">
+		  	<i class="fa fa-comment"></i> 
+      </span>
+
+		@endif
+		
 		@if (Authority::can('comment',$holding))
 
 			<span class="btn btn-xs" data-toggle="tooltip" title="{{trans('holdings.tooltip_comment')}}">
