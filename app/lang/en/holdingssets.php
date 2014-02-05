@@ -29,7 +29,7 @@ return array(
 	'no_notes'					=> 'No notes for this Holding',
 	'no_results_to_show'		=> 'There are no other HOL to show',
 	'notes_made_by'				=> 'Written by',
-	'ocurrence_patron'			=> 'Ocurrence patron',
+	'ocurrence_patron'			=> 'Occurrence pattern',
 	'of'						=> 'of ',
 	'ok' 						=> 'Confirm',
 	'open_close_all_hos'		=> 'Open all HOS',
