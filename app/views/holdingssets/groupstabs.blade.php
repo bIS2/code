@@ -150,6 +150,7 @@
 							foreach ($fields as $field) {
 									$popover = '';
 									$field_short = trans('fields.'.$field);
+									$field_large  = '';
 									switch ($field) {
 										case 'exists_online':
 										$field_short = trans('holdings.exists_online_short');
@@ -166,6 +167,18 @@
 										case 'has_incomplete_vols':
 										$field_short = trans('holdings.has_incomplete_vols_short');
 										$field_large = ' data-content="<strong>'.trans('holdings.has_incomplete_vols_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+										$popover = " pop-over ";
+										break;	
+										
+										case 'size':
+										$field_short = trans('fields.size');
+										$field_large = ' data-content="<strong>'.trans('fields.size_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+										$popover = " pop-over ";
+										break;	
+										
+										case 'weight':
+										$field_short = trans('fields.weight');
+										$field_large = ' data-content="<strong>'.trans('fields.weight_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
 										$popover = " pop-over ";
 										break;										
 									}
@@ -201,7 +214,19 @@
 										$field_short = trans('holdings.has_incomplete_vols_short');
 										$field_large = ' data-content="<strong>'.trans('holdings.has_incomplete_vols_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
 										$popover = " pop-over ";
-										break;										
+										break;
+										
+										case 'size':
+										$field_short = trans('fields.size');
+										$field_large = ' data-content="<strong>'.trans('fields.size_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+										$popover = " pop-over ";
+										break;	
+										
+										case 'weight':
+										$field_short = trans('fields.weight');
+										$field_large = ' data-content="<strong>'.trans('fields.weight_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+										$popover = " pop-over ";
+										break;											
 									}
 
 								$checked 				= '';

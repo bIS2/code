@@ -235,7 +235,20 @@
 													$field_short = trans('holdings.has_incomplete_vols_short');
 													$field_large = ' data-content="<strong>'.trans('holdings.has_incomplete_vols_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
 													$popover = " pop-over ";
-													break;										
+													break;
+
+													case 'size':
+													$field_short = trans('fields.size_short');
+													$field_large = ' data-content="<strong>'.trans('fields.size_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+													$popover = " pop-over ";
+													break;	
+
+													case 'weight':
+													$field_short = trans('fields.weight');
+													$field_large = ' data-content="<strong>'.trans('fields.weight_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+													$popover = " pop-over ";
+													break;
+																							
 													?>
 													<label class="btn btn-primary btn-xs{{ $checkactive }}{{ $popover }}" href="#ff<?= $field; ?>" {{ $field_large }}>
 														<input type="checkbox" <?= $checked; ?> value="<?= $field; ?>"><?= $field_short; ?>
