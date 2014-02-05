@@ -26,7 +26,9 @@
 					<th>
 						<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets" {{ ( Authority::can('create','Hlist') ) ? '' : 'disabled' }}>
 					</th>
-					<th class="actions" style="width:10px !important">{{trans('general.actions')}}</th>
+					<th class="actions" style="width:10px !important">
+						{{trans('general.actions')}}
+					</th>
 					<th>{{trans('general.state')}}</th>
 					<?php	$k = 0; ?>
 					@foreach ($fieldstoshow as $field) 
