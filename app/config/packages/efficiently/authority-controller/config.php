@@ -19,7 +19,7 @@ return [
         });
 
         $authority->allow('view_comment', 'Holding', function($self,$holding) {
-          return  ( Auth::user()->hasRole('magvuser') && $holding->whereState('commented') ) ;
+          return  ( Auth::user()->hasRole('magvuser') && ($holding->state=='commented') ) ;
         });
 
 
