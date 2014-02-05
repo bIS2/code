@@ -14,6 +14,7 @@ return array(
 	'begin_with'		=> 'Starts with',
 	'cancel'  			=> 'Cancel',
 	'close'  			=> 'Close',
+	'comment'			=> 'Comment',
 	'config'			=> 'Configuration',
 	'confirm'           => 'Confirm',
 	'contains'			=> 'Contains',
