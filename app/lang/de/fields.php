@@ -60,5 +60,3 @@ return array(
 'sys2' => 'sys2',
 
 );
-
-);
