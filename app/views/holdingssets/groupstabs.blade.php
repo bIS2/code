@@ -81,6 +81,8 @@
 <?php if (count($holdingssets) > 0) { ?>
 <form method="post" action="{{ route('sets.index', Input::except(['noexists'])) }}">
 <div id="hos_actions_and_filters" class="clearfix">
+	<a id="open-all-hos" class="btn btn-xs btn-danger pull-left" data-toggle="tooltip" title="<?= trans('holdingssets.open_all_hos'); ?>" data-container="body" ><i class="fa fa-caret-down"></i><i class="fa fa-caret-down"></i></a>
+
 	<div class="pull-left select-all">
 		<label>
 	    <input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#hos-targets">
@@ -215,7 +217,7 @@
 										$field_large = ' data-content="<strong>'.trans('holdings.has_incomplete_vols_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
 										$popover = " pop-over ";
 										break;
-										
+
 										case 'size':
 										$field_short = trans('fields.size');
 										$field_large = ' data-content="<strong>'.trans('fields.size_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
@@ -248,8 +250,7 @@
 		</div>
 	</div>
 	</form>
-	<a id="open-all-hos" class="btn btn-xs btn-danger" data-toggle="tooltip" title="<?= trans('holdingssets.open_all_hos'); ?>" data-container="body" ><i class="fa fa-caret-down"></i><i class="fa fa-caret-down"></i></a>
-
+	
 <?php } ?>
 
 </section>
