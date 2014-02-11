@@ -30,11 +30,11 @@ class Pages extends BaseController {
 							->get()->toArray();
 
 		$holdings_confirmed 	=  Holding::countState('confirmed')->get()->toArray();
-		$holdings_sent 				=  Holding::countState('sent')->get()->toArray();
+		$holdings_sent 			=  Holding::countState('sent')->get()->toArray();
 		$holdings_integreted 	=  Holding::countState('integrated')->get()->toArray();
 		$holdings_revised		=  Holding::countState('revised')->get()->toArray();
-		$holdings_trashed 		=  Holding::countState('trashed')->get()->toArray();
-		$holdings_eliminated 	=  Holding::countState('eliminated')->get()->toArray();
+		$holdings_trashed 		=  Holding::countState('trash')->get()->toArray();
+		$holdings_eliminated 	=  Holding::countState('burn')->get()->toArray();
 
 		$data['holdings_confirmed'] = Holding::countState('confirmed')->get()->toArray();
 
@@ -47,8 +47,8 @@ class Pages extends BaseController {
 				$this->search_by_state($holdings_total, 'sent'),	
 				$this->search_by_state($holdings_total, 'integrated'),	
 				$this->search_by_state($holdings_total, 'revised_ok') + $this->search_by_state($holdings_total, 'revised_annotated'),	
-				$this->search_by_state($holdings_total, 'trashed'),	
-				$this->search_by_state($holdings_total, 'eliminated'),	
+				$this->search_by_state($holdings_total, 'trash'),	
+				$this->search_by_state($holdings_total, 'burn'),	
 
 			],
 
