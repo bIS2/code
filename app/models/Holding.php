@@ -7,6 +7,11 @@ class Holding extends Eloquent {
 	public static $rules = array();
 	public $timestamps = false;
 
+  public static function boot() {
+    parent::boot();
+		Holding::observe(new HoldingObserver);
+  }	
+
   // Relations
   public function holdingsset() {
     return $this->belongsTo('Holdingsset');
@@ -177,7 +182,19 @@ class Holding extends Eloquent {
       $query->select('holding_id')->from('hlist_holding'); 
     });
   }
-  
+
+  // Return the counter states in holding by library. Is used to plot stats 
+  public function scopeCountState($query,$state=''){
+
+		$result = $query->select(DB::raw('libraries.code as library, count(*) as count'))
+							->join('states','holdings.id','=','states.holding_id')
+							->join('libraries','holdings.library_id','=','libraries.id')
+							->where('holdings.state','like',$state.'%')->orWhere('states.state','like',$state.'%')
+							->groupBy('libraries.code');
+
+		return $result;
+  }
+
   // Attrubutes States
   public function getIsConfirmedAttribute(){
     return ( $this->state == 'confirmed' );
@@ -193,7 +210,7 @@ class Holding extends Eloquent {
   }
 
   public function getIsRevisedAttribute(){
-    return (substr($this->state,0,8) == 'revised_');
+    return ( substr($this->state,0,8)=='revised_' );
   }
 
   public function getWasRevisedAttribute(){

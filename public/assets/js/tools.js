@@ -3,6 +3,12 @@
 $(function(){
 
 
+	$('input#size').on('change',function(){
+		console.log($(this).serialize())
+		data = $('a.btn-ok').data('params')
+		$('a.btn-ok').attr('data-params', data + '&' + $(this).serialize() )
+	})
+
   //Cuando se cambio el tipo de lista que se quiere crear se actualiza los usuarios a los que se les puede asignar ese tipo de lista
   $('body').on( 'click', '#form_list :radio', function(){
     $('#form_list select#worker_id').val([])
@@ -141,19 +147,25 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 
     if($(this).attr('id') == 'recalled') window.location.reload()
 
+    // Response for annotate action over holding
     if ( result.tag ){
       $('tr#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger');
       $('#form-create-tags').modal('hide')
     }
+
+    // Response for delete annotate action over holding
     if ( result.untag ){
       $('#'+result.untag).find('.btn-tag').removeClass('btn-danger').addClass('btn-default'); 
     } 
+
+    // Response for annotate action over holding. Change class, hide modal form and change slide
     if ( result.annotated ){
       $('#'+result.annotated).addClass('danger').removeClass('success'); 
       $('#form-create-notes').modal('hide')
       $('#slider').carousel('next')
     } 
 
+    // Response for mark correct a Holding: Change class, 
     if ( result.correct ){
       $('#'+result.correct).removeClass('danger').addClass('success'); 
       $('#slider').carousel('next');
@@ -175,6 +187,12 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 
     	if (result.state=='ok') {
     		obj.addClass( 'success' ).removeClass('danger')
+
+        $('form#create-note-'+result.id+' input[name^="notes"]').val("")
+        $('form#create-note-'+result.id)
+          .find(':checkbox:checked').prop('checked',false).end()
+          .find('label.active').removeClass('active')
+
         $('a[data-slide="next"]').click();
       }
     	
