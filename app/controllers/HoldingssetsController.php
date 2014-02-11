@@ -529,7 +529,8 @@ class HoldingssetsController extends BaseController {
 			$new866a = normalize866a($new866a);
 
 			$holding = Holding::find($id)->update(['f866aupdated'=>$new866a, 'hol_nrm' => $new866a]);
-			holdingsset_recall($holding->holdingsset_id);
+
+			//holdingsset_recall($holding->holdingsset_id);
 
 			return Response::json( ['save866afield' => [$id]] );
 
@@ -1551,7 +1552,7 @@ function get_ptrn_position ($ocrr,$ptrn){
 }
 
 
-function normalize866a() {
+function normalize866a($new866a) {
 
-	return true;
+	return $new866a;
 }

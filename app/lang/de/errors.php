@@ -2,6 +2,8 @@
 
 return array(
 
-	'attach_list_control'    	=> "In Control List only attach holding with state Confirm, Correct o Annotated",
-	'attach_list_delivery'     	=> "In Delivery List only attach holding revised and correct",
+	'attach_list_control'    	=> "In Liste sind nur Holdings möglich mit dem Status Bestätigt, Korrekt o Annotiert.",
+	'attach_list_delivery'     	=> "In der Liefer-Liste nur Holdings mit Status Revidiert und korrekten möglich.",
+	'list_in_blank'     		=> "Uch!!, Keine Liste ohne gültige Holding möglich.",
+	'attach_holding_in_list'	=> "Holding bereits in Liste",
 );
