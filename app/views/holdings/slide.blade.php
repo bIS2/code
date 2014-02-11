@@ -59,9 +59,7 @@
 											<div class="row">	
 											  <label> {{trans('holdings.size')}}</label >
 											  	@if ( Authority::can('set_size', $holding) )
-												  	<input type='text' value="{{$holding->size }}" name="size" class="" id="size" />
-
-	  											<a href="#" class="editable" data-type="text" data-pk="{{$holding->id}}" data-url="{{ route('holdings.update',[$holding->id]) }}" >{{ $holding->size }} </a>
+												  	<input type="text" value="{{ $holding->size }}" name="size" class="" id="size" size="7" >
 	  											@else
 	  												{{ $holding->size }}
 	  											@endif

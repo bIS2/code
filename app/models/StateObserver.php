@@ -18,7 +18,15 @@ class StateObserver {
   		DB::table('hlist_holding')->whereHoldingId($model->holding_id)->delete();	
   	}
 
-  	
+	if  ( $model->state=='ok' ){
+		State::whereState('annotated')->delete();
+		Note::whereHoldingId($model->holding_id)->delete();
+	}
+
+	if  ( $model->state=='annotated' ){
+		State::whereState('ok')->delete();
+	}
+
 	if ( $model->state=='received' ) {
 
 		//find holdings with in same holdingsset 

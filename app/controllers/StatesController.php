@@ -71,13 +71,13 @@ class StatesController extends BaseController {
 				// Create State for holding
 				$this->state->create([ 
 					'holding_id'	=> $input['holding_id'], 
-					'state'				=> $input['state'], 
-					'user_id'			=> $input['user_id'] 
+					'state'			=> $input['state'], 
+					'user_id'		=> $input['user_id'] 
 				]);
 
 				// Save holding size if exist 
 				if ( ($input['state']=='ok') && Input::has('size') )
-					Holding::find($input['holding_id'])->update(['size'=>$input['size']]);
+					Holding::find( $input['holding_id'])->update(['size'=>$input['size']] );
 
 			}
 

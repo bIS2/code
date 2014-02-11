@@ -1,6 +1,6 @@
 $(function(){
 
-	$('body').on('keypress','form#create-note input[type="text"]',function(){ 
+	$('body').on('keypress','form[id^="create-note"] input[type="text"]',function(){ 
 		$(this)
 			.addClass('focused')
 			.parent('div')

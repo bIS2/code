@@ -10,9 +10,7 @@ class HoldingObserver {
     }
 
     public function updated($model) {
-    	if  ( $model->isDirty('state') && $model->state=='ok' ){
-    		Note::whereHoldingId($model->id)->delete();
-    	}
+
     }
 
 }

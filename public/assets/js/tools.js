@@ -3,7 +3,7 @@
 $(function(){
 
 
-	$('input#size').blur('change',function(){
+	$('input#size').on('change',function(){
 		console.log($(this).serialize())
 		data = $('a.btn-ok').data('params')
 		$('a.btn-ok').attr('data-params', data + '&' + $(this).serialize() )
@@ -187,14 +187,19 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 
     	if (result.state=='ok') {
     		obj.addClass( 'success' ).removeClass('danger')
+
+        $('form#create-note-'+result.id+' input[name^="notes"]').val("")
         $('form#create-note-'+result.id)
+          .find(':checkbox:checked').prop('checked',false).end()
+          .find('label.active').removeClass('active')
+
         $('a[data-slide="next"]').click();
       }
     	
     	if (result.state=='annotated'){
     		obj.addClass( 'danger' ).removeClass('success')
 	      $('#form-create-notes').modal('hide')
-        $('a[data-slide="next"]').clear;
+        $('a[data-slide="next"]').click();
 	      // $('#slider').carousel('next')
     	}
 
