@@ -141,9 +141,14 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
       
   }); 
 
+  handleAjaxSucces('body');
+  countThs();
+	getAsuccess()
+})
 
-  // Manipula all reponse ajax json
-  $('body').on( 'ajax:success', 'form,a', function(data, result, status){
+function handleAjaxSucces(parent) {
+    // Manipula all reponse ajax json
+  $(parent).on( 'ajax:success', 'form,a', function(data, result, status){
 
     if($(this).attr('id') == 'recalled') window.location.reload()
 
@@ -183,10 +188,10 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 
     if ( result.state ){
 
-    	obj = $('#'+result.id)
+      obj = $('#'+result.id)
 
-    	if (result.state=='ok') {
-    		obj.addClass( 'success' ).removeClass('danger')
+      if (result.state=='ok') {
+        obj.addClass( 'success' ).removeClass('danger')
 
         $('form#create-note-'+result.id+' input[name^="notes"]').val("")
         $('form#create-note-'+result.id)
@@ -195,30 +200,30 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 
         $('a[data-slide="next"]').click();
       }
-    	
-    	if (result.state=='annotated'){
-    		obj.addClass( 'danger' ).removeClass('success')
-	      $('#form-create-notes').modal('hide')
+      
+      if (result.state=='annotated'){
+        obj.addClass( 'danger' ).removeClass('success')
+        $('#form-create-notes').modal('hide')
         $('a[data-slide="next"]').click();
-	      // $('#slider').carousel('next')
-    	}
+        // $('#slider').carousel('next')
+      }
 
 
       $('#'+result.id)
-      	.addClass(result.state)
-      	.find('.state span.label')
-      	.text(result.state_title ); 
+        .addClass(result.state)
+        .find('.state span.label')
+        .text(result.state_title ); 
     }
 
-  	if (result.created_list ){
+    if (result.created_list ){
       $('#form-create-list').modal('hide')
-  	}
-  	
+    }
+    
     if ( result.remove ){
       $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
       if (result.counter)
-      	$('.counter').text(result.counter)
-    	
+        $('.counter').text(result.counter)
+      
     }
 
     if ( result.received )
@@ -246,12 +251,12 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     }
 
     if ( result.commented ){
-    	$('#form-create-comments').modal('hide')
-    	$('#'+result.commented).hide('slow')
+      $('#form-create-comments').modal('hide')
+      $('#'+result.commented).hide('slow')
     }
 
     if ( result.error ){
-    	alert(result.error)
+      alert(result.error)
     }
 
     if ( result.hide_feedback )
@@ -260,9 +265,7 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     if ( result.remove_by_holdingsset )
       $('tr[data-holdingsset='+ result.remove_by_holdingsset +']').hide('slow', function(){ $(this).remove() }); 
   })
-  countThs();
-	getAsuccess()
-})
+}
 
 function typeList(){
 
@@ -280,11 +283,12 @@ function typeList(){
   $select.val( $select.find('option:visible:first').attr('value') )
 }	
 
-
 function getAsuccess() {
-    $('a').on({
-    'ajax:success': function(data, result, status) {        
-        set = $(this).attr('set')
+    $('a, #modal-show').on({
+    'ajax:success': function(data, result, status) {      
+        set = ($(this).hasClass('modal')) ? $('#f866aeditablesave').attr('set') : $(this).attr('set')
+        // console.log($(this));        
+        // console.log(set);        
         if ($(this).attr('ajaxsuccess') != 1) {
           $(this).attr('ajaxsuccess', 1)          
           if (set > 0) {          
