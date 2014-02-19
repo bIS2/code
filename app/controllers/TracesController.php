@@ -1,5 +1,12 @@
 <?php
 
+/*
+*
+*	Controls workflow Traces. 
+*
+*/
+
+
 class TracesController extends BaseController {
 
 	/**

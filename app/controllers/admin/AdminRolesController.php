@@ -1,5 +1,11 @@
 <?php
 
+/*
+*
+*   Controls workflow User Roles. 
+*
+*/
+
 class AdminRolesController extends AdminController {
 
 

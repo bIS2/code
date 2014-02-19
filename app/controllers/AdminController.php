@@ -1,5 +1,11 @@
 <?php
 
+/*
+*
+*   Controls workflow in Admin Section. 
+*
+*/
+
 class AdminController extends BaseController {
 
     /**

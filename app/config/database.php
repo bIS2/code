@@ -1,5 +1,12 @@
 <?php
 
+/*
+*
+*	DataBase configuration File 
+*
+*/
+
+
 return array(
 
 	/*
@@ -67,8 +74,6 @@ return array(
 			'driver'   => 'pgsql',
 			'host'     => '127.0.0.1',
 			'database' => 'bis',
-			// 'username' => 'bismusic',
-			// 'password' => '!34*54%*/-',
 			'username' => 'postgres',
 			'password' => 'postgres+bis',
 			'charset'  => 'utf8',

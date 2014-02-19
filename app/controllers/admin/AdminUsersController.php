@@ -1,5 +1,11 @@
 <?php
 
+/*
+*
+*   Controls workflow Users administration 
+*
+*/
+
 class AdminUsersController extends AdminController {
 
 

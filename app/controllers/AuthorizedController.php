@@ -1,5 +1,11 @@
 <?php
 
+/*
+*
+*	Controls authorized user access. 
+*
+*/
+
 class AuthorizedController extends BaseController
 {
 	protected $whitelist = array();

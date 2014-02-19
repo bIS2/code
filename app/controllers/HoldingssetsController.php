@@ -4,6 +4,27 @@
 *	Controls workflow with Holdings Set (HOS)
 *
 */
+$hop_no           	= 0;         // number of parts
+$hol_nrm          	= '';        // saved hol f866a result normalized
+$fld_list         	= array();   // All names of Knowledge Groups
+$know_gr          	= '';        // knowledge group
+$know             	= array();   // contains all knowledgeable elements for recognizing HOP
+$hol_info          	= array();   // collect info about holding string
+$hop_info         	= array();   // collect info about holding part
+$hol_info['proc']  	= '';        // collects info about processing hol
+$starttime        	= sprintf("%s", date("Y-m-d H:i:s"));
+$stat             	= array();   // statistical info
+$con              	= '';   // statistical info
+$do_show_pattern	= '';   // statistical info
+$do_give_info		= '';   // statistical info
+$ho_val_prev		= '';   // statistical info
+$con				= '';   // statistical info
+$do_control			= '';   // statistical info
+$do_show_know		= '';   // statistical info
+$fld				= '';   // statistical info
+$repl				= '';   // statistical info
+$upper				= '';   // statistical info
+$write_val			= '';   // statistical info
 
 class HoldingssetsController extends BaseController {
 	protected $layout = 'layouts.default';
@@ -527,9 +548,10 @@ class HoldingssetsController extends BaseController {
 			$new866a = Input::get('new866a');
 			$holdingsset_id = Holding::find($id)->holdingsset_id;
 
-			// $new866a = normalize866a($new866a, Holding::find($id)->sys2);
-			
-			$holding = Holding::find($id)->update(['f866aupdated'=>$new866a, 'hol_nrm' => $new866a]);
+			$newhol_nrm = normalize866a($new866a, Holding::find($id)->sys2);
+			// echo 'Y el resultado es: <br>';
+			// die(var_dump($new866a));
+			$holding = Holding::find($id)->update(['f866aupdated'=>$new866a, 'hol_nrm' => $newhol_nrm]);
 
 			holdingsset_recall($holdingsset_id);
 			
@@ -1646,7 +1668,7 @@ $know['pN'] = acquire_knowledge('p', 'N', '');// strings at HOP level to elimina
 // extract $ta de $res_list
 $recno = 0;
 $stat['A Record retrieved'] = 1; // !! we are looking ony at 1 HOL
-$hol_str      = $f866a;       // get holding string. This string we will changed
+$hol_str      = $new866a;       // get holding string. This string we will changed
 $hol_sys      = $sys2;
 
 // <--------------------------------- JUMP HEAR
@@ -1661,6 +1683,8 @@ $hol_info['proc'] = '';            // init
 * ================================================================== */
 // for each knowledge element
 $know_gr = 'hG'; $uses = sizeof($know[$know_gr]['uses']); for ($c=0; $c < $uses; $c++) $hol_str = val_replace($hol_str);
+// var_dump($hol_str);
+// die('siguiendo holstr');
 
 /* ======================================================================== *
 * modify entire hol_str
@@ -2119,9 +2143,12 @@ function normalize_result($hop_info) {
 			substr('    '.(isset($hop_info[$i]['voE2'])?$hop_info[$i]['voE2']:'    '),-4,4),
 			substr('    '.(isset($hop_info[$i]['yeE1'])?$hop_info[$i]['yeE1']:'    '),-4,4),
 			substr('    '.(isset($hop_info[$i]['yeE2'])?$hop_info[$i]['yeE2']:'    '),-4,4),
-			substr(   ' '.(isset($hop_info[$i]['ICPL'])?$hop_info[$i]['ICPL']:'    '),-1,1));
-			substr(   ' '.(isset($hop_info[$i]['ONLINE'])?$hop_info[$i]['ONLINE']:'  '),-1,1);
+			substr(   ' '.(isset($hop_info[$i]['ICPL'])?$hop_info[$i]['ICPL']:'    '),-1,1),
+			substr(   ' '.(isset($hop_info[$i]['ONLINE'])?$hop_info[$i]['ONLINE']:'  '),-1,1));
 	}
+	// var_dump(substr('    '.(isset($hop_info[0]['voB1'])?$hop_info[0]['voB1']:'    '),-4,4));
+	// var_dump($hop_info);
+	// var_dump($hol_nrm);
 	return implode(';',$hol_nrm);
 }
 

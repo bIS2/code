@@ -1,5 +1,11 @@
 <?php
 
+/*
+*
+*	Controls workflow Tags. 
+*
+*/
+
 class TagsController extends BaseController {
 
 	/**
