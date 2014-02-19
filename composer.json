@@ -22,10 +22,10 @@
 	    "efficiently/authority-controller":"dev-master"
 	},
 	"require-dev": {
-    "way/generators": "dev-master",
-    "mockery/mockery": "dev-master@dev",
-    "summerstreet/woodling": "0.1.*",
-    "barryvdh/laravel-ide-helper": "dev-master",
+    //"way/generators": "dev-master",
+    //"mockery/mockery": "dev-master@dev",
+    //"summerstreet/woodling": "0.1.*",
+    //"barryvdh/laravel-ide-helper": "dev-master",
     "leafo/lessphp": "v0.4.0",
     "natxet/CssMin": "dev-master",
     "lmammino/jsmin4assetic": "1.0.*"
