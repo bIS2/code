@@ -1,5 +1,11 @@
 <?php
 
+/*
+*
+*	Controls workflow Holdings when reserve by Resuser 
+*
+*/
+
 class ReservesController extends BaseController {
 
 	/**

@@ -1,5 +1,11 @@
 <?php
 
+/*
+*
+*   Controls workflow Users. 
+*
+*/
+
 class UserController extends BaseController {
 
     /**

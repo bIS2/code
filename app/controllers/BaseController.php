@@ -1,5 +1,11 @@
 <?php
 
+/*
+*
+*	Laravel Base Controller.
+*
+*/
+
 class BaseController extends Controller {
 
 	 use Efficiently\AuthorityController\ControllerAdditions;

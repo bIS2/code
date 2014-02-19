@@ -1,5 +1,11 @@
 <?php
 
+/*
+*
+*	Controls workflow to show external hols information from original libraries. 
+*
+*/
+
 class ExternalController extends BaseController {
 
 	/**

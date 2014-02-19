@@ -35,6 +35,7 @@ $(function() {
 			}
 		}
 	})
+
 	setDraggoption()
 	$( "#FieldsShow .btn-group" ).sortable()
 	$( "#FieldsShow .btn-group" ).disableSelection()

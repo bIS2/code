@@ -54,7 +54,7 @@
 							<div id="f866aeditablecontainer" class="input-group">
 								<?php $editable866a = ($holding->f866aupdated == '') ?  $holding->f866a : $holding->f866aupdated ?>
 					      <input type="text" value="<?= $editable866a; ?>" name="f866a" id="f866aeditable" class="form-control">
-					      <a id="f866aeditablesave" class="btn btn-primary input-group-btn" href="{{ action('HoldingssetsController@putUpdateField866aHolding',[$holding->id]) }}" data-params="new866a={{ $holding->f866a }}" data-remote="true" data-method="put" data-disable-with="..."><i class="fa fa-save"></i></a>
+					      <a id="f866aeditablesave" class="btn btn-primary input-group-btn" set="<?= $holding->holdingsset_id ?>" href="{{ action('HoldingssetsController@putUpdateField866aHolding',[$holding->id]) }}" data-params="new866a={{ $holding->f866a }}" data-remote="true" data-method="put" data-disable-with="..."><i class="fa fa-save"></i></a>
 					    </div><!-- /input-group -->
 							</td>
 						</tr>

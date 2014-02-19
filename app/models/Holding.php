@@ -353,7 +353,15 @@ class Holding extends Eloquent {
 
   }
 
-  public function show($field, $len = 30){
+  public function show($field, $len = 30) {
+    if ($field == 'f866a') {
+      if ($this->f866aupdated == '') { 
+        $field = 'f866a';
+      }
+      else {
+        $field = 'f866aupdated';
+      }
+    }
   	$str = $this->clean($this->$field);
     return (strlen($str) > $len) ? '<span class="pop-over" data-content="<strong>'.$str.'</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover">'.truncate($str, 30).'</span>' : $str;
   }
