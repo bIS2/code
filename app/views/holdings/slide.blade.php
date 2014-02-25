@@ -1,4 +1,5 @@
 @extends('layouts.default')
+{{-- Show holding index in slideshow way--}}
 
 @section('toolbar')
 	@include('holdings.toolbar')
@@ -15,7 +16,7 @@
 						<div class="carousel-inner">
 							@foreach ($holdings as $holding)
 							<div class="row item <?= ($i==0) ? 'active' : '' ?>">
-											<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note'>
+											<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note-{{$holding->id}}'>
 								<div class="row ">
 
 									<?php $i=1 ?>
@@ -55,10 +56,13 @@
 											  <label> 866z</label >
 											  {{ $holding->f866z }}
 											</div>
-											<div class="row">
+											<div class="row">	
 											  <label> {{trans('holdings.size')}}</label >
-											  
-	  											<a href="#" class="editable" data-type="text" data-pk="{{$holding->id}}" data-url="{{ route('holdings.update',[$holding->id]) }}" >{{ $holding->size }} </a>
+											  	@if ( Authority::can('set_size', $holding) )
+												  	<input type="text" value="{{ $holding->size }}" name="size" class="" id="size" size="7" >
+	  											@else
+	  												{{ $holding->size }}
+	  											@endif
 											</div>
 										</div>
 									</div> <!-- /.col-xs-8 -->
@@ -87,13 +91,15 @@
 								</div> <!-- /.row -->
 
 								<div class="row">
+
 									<?php $disabled = (Authority::can('touch', $holding)) ? '' : 'disabled'  ?>
+
 									<div class="col-xs-5 col-md-offset-1">
 									  <a href="{{ route('states.store') }}" action="click-and-slide" class="btn btn-success btn-ok col-sm-12" data-method="post" data-remote="true" data-params="state=ok&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
 									  	<span class="fa fa-thumbs-up"></span> {{trans('general.confirm')}}
 									  </a>
-
 									</div>
+
 									<div class="col-xs-5">
 									  <button href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" type="submit" class="btn btn-danger btn-tag col-sm-12" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
 									  	<span class="fa fa-tags"></span> {{trans('holdings.annotate')}}

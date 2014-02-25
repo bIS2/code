@@ -3,6 +3,12 @@
 $(function(){
 
 
+	$('input#size').on('change',function(){
+		console.log($(this).serialize())
+		data = $('a.btn-ok').data('params')
+		$('a.btn-ok').attr('data-params', data + '&' + $(this).serialize() )
+	})
+
   //Cuando se cambio el tipo de lista que se quiere crear se actualiza los usuarios a los que se les puede asignar ese tipo de lista
   $('body').on( 'click', '#form_list :radio', function(){
     $('#form_list select#worker_id').val([])
@@ -135,25 +141,36 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
       
   }); 
 
+  handleAjaxSucces('body');
+  countThs();
+	getAsuccess()
+})
 
-  // Manipula all reponse ajax json
-  $('body').on( 'ajax:success', 'form,a', function(data, result, status){
+function handleAjaxSucces(parent) {
+    // Manipula all reponse ajax json
+  $(parent).on( 'ajax:success', 'form,a', function(data, result, status){
 
     if($(this).attr('id') == 'recalled') window.location.reload()
 
+    // Response for annotate action over holding
     if ( result.tag ){
       $('tr#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger');
       $('#form-create-tags').modal('hide')
     }
+
+    // Response for delete annotate action over holding
     if ( result.untag ){
       $('#'+result.untag).find('.btn-tag').removeClass('btn-danger').addClass('btn-default'); 
     } 
+
+    // Response for annotate action over holding. Change class, hide modal form and change slide
     if ( result.annotated ){
       $('#'+result.annotated).addClass('danger').removeClass('success'); 
       $('#form-create-notes').modal('hide')
       $('#slider').carousel('next')
     } 
 
+    // Response for mark correct a Holding: Change class, 
     if ( result.correct ){
       $('#'+result.correct).removeClass('danger').addClass('success'); 
       $('#slider').carousel('next');
@@ -171,36 +188,42 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 
     if ( result.state ){
 
-    	obj = $('#'+result.id)
+      obj = $('#'+result.id)
 
-    	if (result.state=='ok') {
-    		obj.addClass( 'success' ).removeClass('danger')
+      if (result.state=='ok') {
+        obj.addClass( 'success' ).removeClass('danger')
+
+        $('form#create-note-'+result.id+' input[name^="notes"]').val("")
+        $('form#create-note-'+result.id)
+          .find(':checkbox:checked').prop('checked',false).end()
+          .find('label.active').removeClass('active')
+
         $('a[data-slide="next"]').click();
       }
-    	
-    	if (result.state=='annotated'){
-    		obj.addClass( 'danger' ).removeClass('success')
-	      $('#form-create-notes').modal('hide')
+      
+      if (result.state=='annotated'){
+        obj.addClass( 'danger' ).removeClass('success')
+        $('#form-create-notes').modal('hide')
         $('a[data-slide="next"]').click();
-	      // $('#slider').carousel('next')
-    	}
+        // $('#slider').carousel('next')
+      }
 
 
       $('#'+result.id)
-      	.addClass(result.state)
-      	.find('.state span.label')
-      	.text(result.state_title ); 
+        .addClass(result.state)
+        .find('.state span.label')
+        .text(result.state_title ); 
     }
 
-  	if (result.created_list ){
+    if (result.created_list ){
       $('#form-create-list').modal('hide')
-  	}
-  	
+    }
+    
     if ( result.remove ){
       $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
       if (result.counter)
-      	$('.counter').text(result.counter)
-    	
+        $('.counter').text(result.counter)
+      
     }
 
     if ( result.received )
@@ -228,12 +251,12 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     }
 
     if ( result.commented ){
-    	$('#form-create-comments').modal('hide')
-    	$('#'+result.commented).hide('slow')
+      $('#form-create-comments').modal('hide')
+      $('#'+result.commented).hide('slow')
     }
 
     if ( result.error ){
-    	alert(result.error)
+      alert(result.error)
     }
 
     if ( result.hide_feedback )
@@ -242,9 +265,7 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
     if ( result.remove_by_holdingsset )
       $('tr[data-holdingsset='+ result.remove_by_holdingsset +']').hide('slow', function(){ $(this).remove() }); 
   })
-  countThs();
-	getAsuccess()
-})
+}
 
 function typeList(){
 
@@ -262,11 +283,12 @@ function typeList(){
   $select.val( $select.find('option:visible:first').attr('value') )
 }	
 
-
 function getAsuccess() {
-    $('a').on({
-    'ajax:success': function(data, result, status) {        
-        set = $(this).attr('set')
+    $('a, #modal-show').on({
+    'ajax:success': function(data, result, status) {      
+        set = ($(this).hasClass('modal')) ? $('#f866aeditablesave').attr('set') : $(this).attr('set')
+        // console.log($(this));        
+        // console.log(set);        
         if ($(this).attr('ajaxsuccess') != 1) {
           $(this).attr('ajaxsuccess', 1)          
           if (set > 0) {          

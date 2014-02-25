@@ -46,7 +46,7 @@ return [
         }
 
         $authority->allow('set_size', 'Holding', function($self, $holding) {
-          return ( ( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') )  && !$holding->is_revised );
+          return ( ( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') )  && ($holding->is_confirmed || $holding->is_correct || $holding->is_annotated) && Input::has('hlist_id') );
         });
 
         $authority->allow('work', 'Holding', function($self, $holding) {

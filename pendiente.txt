@@ -1,4 +1,0 @@
--filtros en los logs por fecha (semana, mes)
--ultimas acciones del usuario logueado.
--implementar progress bar en los logs.
-

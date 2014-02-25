@@ -1,5 +1,12 @@
 <?php
 
+/*
+*
+*	Controls workflow User Dashboard. 
+*
+*/
+
+
 class AdminDashboardController extends AdminController {
 
 	/**

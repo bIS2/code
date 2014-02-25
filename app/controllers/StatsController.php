@@ -1,5 +1,12 @@
 <?php
 
+/*
+*
+*	Controls workflow stats. 
+*
+*/
+
+
 class StatsController extends BaseController {
 
 	/**

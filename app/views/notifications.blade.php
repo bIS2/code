@@ -6,7 +6,7 @@
     <ul>
         {{ implode('', $errors->all('<li class="error">:message</li>')) }}
     </ul>
-</div>
+</div>	
 @endif
 
 @if ($message = Session::get('success'))
