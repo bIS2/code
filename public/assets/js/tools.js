@@ -92,8 +92,9 @@ $(function(){
   doEditable();
 	
   $('.datatable').dataTable({
-    "bFilter": false,
-    "bPaginate": false , 
+    bFilter: false,
+    bPaginate: false , 
+    bStateSave: true
   });
 
   bulkActions();
