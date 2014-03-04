@@ -10,6 +10,25 @@
 						<div class="row">
 							<div class="col-xs-10 col-md-offset-1">
 								<h1>bIS :: {{ trans('titles.holdings') }}</h1>
+								<h2>
+									{{ $hlist->name}}
+									<small>
+										<ul class="pull-right list-inline">
+											<li>
+												<i class="fa fa-calendar"></i>
+												{{$hlist->created_at->toDateString()}}
+											</li>
+											<li>
+												<i class="fa fa-user"></i>
+												{{ $hlist->worker->username }}
+											</li>
+											<li>
+												<i class="fa fa-th"></i>
+												{{ $hlist->holdings->count() }}
+											</li>
+										</ul>
+									</small>
+								</h2>
 								<hr>
 							</div>
 							@foreach ($holdings as $holding)
