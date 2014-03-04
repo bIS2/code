@@ -46,19 +46,24 @@ class Hlist extends Eloquent {
 
   public function getIsFinishAttribute(){
     $total = $this->holdings()->count();
-    $reviseds = $this->holdings()->whereState('ok')->orWhere('state', '=', 'annotated')->count();
+    $reviseds = $this->holdings_reviseds;
     return ( ($total == $reviseds) && !$this->revised );
   }  
   
   public function getReadyToReviseAttribute(){
-  	$this->is_finish;
+  	return $this->is_finish;
   }
+
+  public function getHoldingsRevisedsAttribute(){
+    return $this->holdings()->where( function($query) { $query->whereState('annotated')->orWhere('state','=','ok'); } )->count();
+  }
+
 
   public function getStateAttribute(){
 
   	$state = 'pending';
 
-  	if (($this->type=='control') && $this->revised) 					$state = 'revised';
+  	if (($this->type=='control') && $this->revised ) 					$state = 'revised';
   	if ($this->type=='delivery' && $this->delivery->exists)  	$state = 'delivery';
 
   	return $state;
@@ -96,7 +101,7 @@ class Hlist extends Eloquent {
       $query = $query->deliveries();
 
     if (Auth::user()->hasRole('magvuser') && Auth::user()->hasRole('bibuser') )
-	    $query = Auth::user()->hlists();
+	    $query = $query->inLibrary();
 
     return $query;
   }
