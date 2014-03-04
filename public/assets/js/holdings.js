@@ -18,6 +18,7 @@ $(function(){
     "bLengthChange": true,
     "bInfo": true,
     "bAutoWidth": true,
+    bStateSave: true
     // "aoColumns": aoColumns,
     // "aoColumnDefs": [	{ "sWidth": "3px", "aTargets": [ 0,1 ] },{ "sWidth": "10px", "aTargets": [ 2 ] } ]
   });
