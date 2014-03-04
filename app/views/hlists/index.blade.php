@@ -31,7 +31,7 @@
 	</div> <!-- /.page-header -->
 	<div class="row">
 		<div class="col-xs-12">
-			<?php //echo var_dump( $users ) ?>
+
 			@if ($hlists->count())
 				<table class="table table-bordered table-condensed datatable">
 					<thead>
@@ -68,6 +68,9 @@
 								</td>
 								<td>
 									{{ link_to( route('holdings.index',['hlist'=>$list->id]), $total = $list->holdings->count() ) }}
+									@if ($list->type=='control')
+										<span class="label label-success"><i class="fa fa-check"></i> {{ $list->holdings_reviseds }}</span>  
+									@endif
 								</td>
 
 <!-- 								<td>

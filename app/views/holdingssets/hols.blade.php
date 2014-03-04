@@ -69,7 +69,16 @@
 							@if ($k == 1)
 								<td class="ocrr_ptrn">
 									{{ $holding -> patrn }}
-									<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>{{ htmlspecialchars($holding -> f866a) }}</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
+									<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>
+									<?php 
+									if ($holding->f866aupdated == '') { 
+										echo $holding->clean($holding->f866a);
+									}
+									else {
+										echo $holding->clean($holding->f866aupdated);
+										}
+									?>
+									</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
 								</td>
 								<td>{{ $holding->library->code }}</td>
 							@endif

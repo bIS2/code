@@ -54,6 +54,7 @@ class HlistsController extends BaseController {
 						->lists('username','id'); 
 
 		$this->data['users'] = 	json_encode($postuser+$maguser);
+		
 		return View::make('hlists.index', $this->data);
 	}
 
