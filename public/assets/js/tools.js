@@ -36,10 +36,11 @@ $(function(){
       var call = $.post( $to.data('attach-url'), { holding_id: $from.attr('id') } )
       call.done(function(result) { 
       	if ( result.error ) {
-      		alert( result.error ) 
+          bootbox.alert( result.error )
+      		// alert( result.error ) 
       	} else{
       		$('.counter').text( result.counter )
-      		alert( 'OK'  )
+      		// alert( 'OK'  )
       	}
       })
 
@@ -257,7 +258,8 @@ function handleAjaxSucces(parent) {
     }
 
     if ( result.error ){
-      alert(result.error)
+      bootbox.alert(result.error)
+      // alert(result.error)/
     }
 
     if ( result.hide_feedback )

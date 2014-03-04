@@ -102,6 +102,7 @@ return array(
                 $collection->add('laravel-ujs.js');
                 $collection->add('bootstrap-editable.min.js');
                 $collection->add('jquery.ui.touch-punch.min.js');
+                $collection->add('bootbox.min.js');
                 $collection->add('tools.js');
                 $collection->add('d3.v3.min.js');
 
