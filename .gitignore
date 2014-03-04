@@ -3,6 +3,7 @@
 /vendor
 */logs/*
 
+
 # Configuration
 /app/config/local
 /app/config/staging
@@ -12,6 +13,7 @@
 
 # Basset development collections
 /public/assets/compiled/*
+/public/*.csv
 
 # Composer
 composer.phar
