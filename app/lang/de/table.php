@@ -1,3 +1,4 @@
+
 <?php
 
 return array(
@@ -5,6 +6,7 @@ return array(
 	// commons
 	'actions' 		=> 'Aktion',
 	'asigned'		=> 'Zugewiesen an',
+	'code'			=> 'Code',
 	'content' 		=> 'Inhalt',
 	'created_at' 	=> 'Erstellt am',
 	'date' 			=> 'Datum',
@@ -26,7 +28,13 @@ return array(
 
 
 	//titles
-	'state'				=> 'State of list',
+	'externalurl'	=> 'Externe URL',
+	'no-users'		=> 'Anz of users',
+	'state'			=> 'Status der Liste',
+	'sublibraries'	=> 'Sub-Bibliotheken',
 	'title_edit_user'=> 'Edit User',
 
+	// here??
+	'pending'		=> 'In Arbeit',
+	'revised'		=> 'Erledigt',
 );
