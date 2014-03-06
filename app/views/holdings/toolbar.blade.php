@@ -189,13 +189,16 @@
 						<span class="fa fa-table"></span> 
 					</a>
 
-					<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn btn-default <?= (Input::get('view')=='slide') ? 'btn-primary' : '' ?> btn-sm" >
-						<span class="fa fa-desktop"></span> 
-					</a>
+					@if ( Input::has('hlist_id') )
+						<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn btn-default <?= (Input::get('view')=='slide') ? 'btn-primary' : '' ?> btn-sm" >
+							<span class="fa fa-desktop"></span> 
+						</a>
 
-					<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'print'] ) }}" target="_blank" class="btn btn-default <?= (Input::get('view')=='print') ? ' btn-primary' : '' ?> btn-sm" >
-						<span class="fa fa-print"></span> 
-					</a>
+						<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'print'] ) }}" target="_blank" class="btn btn-default <?= (Input::get('view')=='print') ? ' btn-primary' : '' ?> btn-sm" >
+							<span class="fa fa-print"></span> 
+						</a>
+					@endif
+					
 				</div>
 			</div>
 		</div> <!-- /.row -->
