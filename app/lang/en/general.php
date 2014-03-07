@@ -1,4 +1,4 @@
-	<?php
+<?php
 
 return array(
 
@@ -29,8 +29,10 @@ return array(
 	'edit'  			=> 'Edit',
 	'email'				=> 'Email',
 	'end_with'			=> 'Ends with',
+	'equal'				=> 'equal',
 	'error'				=> 'Error',
 	'feedback'			=> 'Give Feedback',
+	'greater_than'		=> 'greater than',
 	'groups'			=> 'Groups',
 	'included_in' 		=> 'Included in',
 	'incorrects'        => 'Incorrects',
@@ -38,6 +40,7 @@ return array(
 	'lang_en'           => 'English',
 	'lastname'			=> 'Lastname',
 	'library'			=> 'Library',
+	'less_than'			=> 'less than',
 	'logout'			=> 'Logout',
 	'must_login'        => 'Please log in',
 	'name'				=> 'Name',
@@ -73,4 +76,5 @@ return array(
 	'update'			=> 'Update',
 	'username'			=> 'Username',
 	'yes' 				=> 'Yes',
+
 );
