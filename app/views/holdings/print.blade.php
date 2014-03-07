@@ -52,6 +52,14 @@
 										  {{ $holding->f245a }}
 										</div>
 										<div >
+										  <label >245n: </label >
+										  {{ $holding->f245n }}
+										</div>
+										<div >
+										  <label >245p: </label >
+										  {{ $holding->f245p }}
+										</div>
+										<div >
 										  <label >362a: </label >
 										  {{ $holding->f362a }}
 										</div>

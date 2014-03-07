@@ -41,8 +41,20 @@ $(function() {
 	$( "#FieldsShow .btn-group" ).disableSelection()
 
 	$('#open-all-hos').on('click', function() {
-		lis = $('#hosg ul.hol-sets li .accordion-toggle.collapsed');
-		openAll(lis, 0);
+		lis = $('#hosg ul.hol-sets li .accordion-toggle');
+		if ($('#open-all-hos .fa').hasClass('fa-folder-o')) {
+			$('#hosg ul.hol-sets li .accordion-toggle').click();
+			$('#open-all-hos .fa').removeClass('fa-folder-o')
+			$('#open-all-hos .fa').addClass('fa-folder-open-o')
+			$('#open-all-hos').removeClass('disabled')
+			console.log('pa cerrar');
+		}
+		else {
+			lis = $('#hosg ul.hol-sets li .accordion-toggle');
+			$('#open-all-hos').addClass('disabled');
+			openAll(lis, 0);
+			console.log('pa abrir');
+		}
 	});
 })
 
@@ -130,6 +142,10 @@ function setDatatable() {
 							}
 						}
 					);
+				}
+				else {
+					if (openallindex != 0) openAll(lis, openallindex);
+					$('#open-all-hos').removeClass('disabled');
 				}
 			})
 		}
@@ -251,12 +267,18 @@ function HOS_paginate() {
 
 
 function openAll(lis, index) {
-	if ($(lis).length > index) {  
+	console.log($(lis).length);
+	console.log('aaaaa');
+	console.log(index);
+	if ($(lis).length > index) {
 		openallindex = index + 1;
-		console.log(lis[index]);
-		$(lis[index]).click();
+		console.log(index);
+		$(lis[index]).click();		
+		$('#open-all-hos .fa').addClass('fa-folder-o')
+		$('#open-all-hos .fa').removeClass('fa-folder-open-o')
 	}
 	else {
+		$('#open-all-hos').removeClass('disabled');
 		openallindex = 0;
 	}
 }

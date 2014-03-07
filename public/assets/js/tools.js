@@ -2,6 +2,17 @@
 
 $(function(){
 
+	$('.btn-ok, .btn-tag').on('click',function(e){
+		size_in_form = $(this).parents('form').find('input#size').val()
+		size_in_a = parseFloat($(this).parents('tr').find('.editable').text() )
+		
+		size = (size_in_form) ? size_in_form : size_in_a
+
+		if ( size==0 ){
+			bootbox.alert( $('#field_size_in_blank').text() )
+			return false
+		} 
+	})
 
 	$('input#size').on('change',function(){
 		console.log($(this).serialize())
