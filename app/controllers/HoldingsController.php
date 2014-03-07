@@ -27,8 +27,8 @@ class HoldingsController extends BaseController {
 
 		/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
-			define('DEFAULTS_FIELDS', 'sys2;size;852b;852h;866a;ocrr_ptrn;245a;245b;022a;362a;866z;008x;exists_online;is_current;has_incomplete_vols');
-			define('ALL_FIELDS',      'sys2;size;852b;852h;866a;ocrr_ptrn;245a;245b;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j;866z;008x;exists_online;is_current;has_incomplete_vols');
+			define('DEFAULTS_FIELDS', 'sys2;size;852b;852h;866a;ocrr_ptrn;245a;245b;022a;362a;866z;008x;245p;245n;exists_online;is_current;has_incomplete_vols');
+			define('ALL_FIELDS',      'sys2;size;852b;852h;866a;ocrr_ptrn;245a;245b;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j;866z;008x;245p;245n;exists_online;is_current;has_incomplete_vols');
 
 			/* User vars */
 			$uUserName = Auth::user()->username;
@@ -57,7 +57,7 @@ class HoldingsController extends BaseController {
 			}
 
 
-		$this->data['allsearchablefields'] = ['sys2','size','022a','245a','245b','245c','246a','260a','260b','300a','300b','300c','310a','362a','500a','505a','710a','770t','772t','780t','785t','852b','852c','852h','852j','866a','866z', '008x', 'exists_online', 'is_current', 'has_incomplete_vols', 'weight'];
+		$this->data['allsearchablefields'] = ['sys2','size','022a','245a','245b','245c','246a','245p','245n','260a','260b','300a','300b','300c','310a','362a','500a','505a','710a','770t','772t','780t','785t','852b','852c','852h','852j','866a','866z', '008x', 'exists_online', 'is_current', 'has_incomplete_vols', 'weight'];
 
 		$holdings = ( Input::has('hlist_id') ) ?	Hlist::find( Input::get('hlist_id') )->holdings() : Holding::init();
 
