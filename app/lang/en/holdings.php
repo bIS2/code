@@ -52,7 +52,7 @@ return array(
 	'tooltip_to_trash'		=> 'HOL that can be eliminated',
 	'tooltip_view'			=> 'Show details',
 	'trasheds'				=> 'Trashed',
-	'ungroup'				=> 'Unlist',
+	'ungroup'				=> 'Unlisted',
 	'value'					=> 'Value',
 
 );
