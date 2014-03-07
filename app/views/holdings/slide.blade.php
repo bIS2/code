@@ -131,5 +131,6 @@
 			
 	</div>
 </div>
+<div id="field_size_in_blank">{{ trans('errors.field_size_in_blank') }}</div>
 @stop
 

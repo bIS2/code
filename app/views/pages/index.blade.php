@@ -112,6 +112,7 @@ var svg = d3.select("body").append("svg")
 });
 
 </script>
+
 <div class="row">
 	<div class="col-xs-9 overfloaded-x">
 
@@ -231,15 +232,47 @@ var svg = d3.select("body").append("svg")
 	</div>
 
 	<div class="col-xs-3">
-	<h3>{{ Auth::user()->library->code }} {{ trans('stats.stats') }}</h3>
-		<dl class="dl-horizontal">
-		  <dt>{{trans('stats.total_holding')}}</dt>
-		  <dd>{{$total}}</dd>
-		  <dt>{{trans('stats.total_ok')}}</dt>
-		  <dd>{{$total_ok}}</dd>
-		  <dt>{{trans('stats.total_anottated')}}</dt>
-		  <dd>{{ $total_anottated}}</dd>
-		</dl>
+		<form class="form-inline" >
+			<div class="form-group">
+				<select name="month" class="form-control">
+				  <option value="1">1</option>
+				  <option value="2">2</option>
+				  <option value="3">3</option>
+				  <option value="4">4</option>
+				  <option value="5">5</option>
+				  <option value="6">6</option>
+				  <option value="7">7</option>
+				  <option value="8">8</option>
+				  <option value="9">9</option>
+				  <option value="10">10</option>
+				  <option value="11">11</option>
+				  <option value="12">12</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<select name="year" class="form-control">
+					<option value="2014">2014</option>
+					<option value="2015">2015</option>
+					<option value="2016">2016</option>
+					<option value="2017">2017</option>
+				</select>
+			</div>
+			<button type="submit" class="btn btn-primary"> <i class="fa fa-search"></i> {{trans('general.search')}}</button>
+		</form>
+		<br><br>	
+		<div class="well">
+			<div class="text-center text-muted lead">
+				<strong >{{ Auth::user()->library->code }} {{ trans('stats.stats') }}</strong >
+			</div>
+			<dl class="dl-horizontal">
+			  <dt>{{trans('stats.total_holding')}}</dt>
+			  <dd>{{$total}}</dd>
+			  <dt>{{trans('stats.total_ok')}}</dt>
+			  <dd>{{$total_ok}}</dd>
+			  <dt>{{trans('stats.total_anottated')}}</dt>
+			  <dd>{{ $total_anottated}}</dd>
+			</dl>
+		</div>	
 	</div>
 </div>	
 <h3>

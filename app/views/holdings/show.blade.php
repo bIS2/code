@@ -36,6 +36,14 @@
 							<td><?= $holding->f245c; ?></td>
 						</tr>
 						<tr>
+						  <td>245n</td>
+							<td><?= $holding->f245n; ?></td>
+						</tr>
+						<tr>
+						  <td>245p</td>
+							<td><?= $holding->f245p; ?></td>
+						</tr>
+						<tr>
 						  <td>246a</td>
 							<td><?= $holding->f246a; ?></td>
 						</tr>						
