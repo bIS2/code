@@ -51,7 +51,7 @@ return array(
 	'tooltip_show_external_link'	=> 'Lookup data in original library system',
 	'tooltip_to_trash'		=> 'HOL location in catalog changed',
 	'tooltip_view'			=> 'Show details',
-	'trasheds'				=> 'Trashed',
+	'trasheds'				=> 'To eliminate',
 	'ungroup'				=> 'Unlisted',
 	'value'					=> 'Value',
 
