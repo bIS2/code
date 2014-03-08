@@ -191,8 +191,8 @@ function handleAjaxSucces(parent) {
 
     if ( result.list_revised ){
       $('#'+result.list_revised).addClass('revised').hide('slow');
-      //$('.state-list').text( result.state );
-      //$('.btn-revise').hide();
+      $('.state-list').text( result.state );
+      $('.btn-revise').hide();
     } 
 
     if ( result.blank ){

@@ -215,7 +215,10 @@ class HlistsController extends BaseController {
 			if (Request::ajax()){
 
 				if ( $input['revised']==1 )
-					return Response::json([ 'list_revised' => $id, 'state' => trans( 'states.'.$hlist->state ) ]);
+					return Response::json([ 
+						'list_revised' => $id, 
+						'state' => trans( 'states.'.$hlist->state ) 
+					]);
 
 			} else {
 				return Redirect::route('lists.index', $id);
