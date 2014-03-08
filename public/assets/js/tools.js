@@ -190,9 +190,9 @@ function handleAjaxSucces(parent) {
     } 
 
     if ( result.list_revised ){
-      $('#'+result.list_revised).addClass('revised');
-      $('.state-list').text( result.state );
-      $('.btn-revise').hide();
+      $('#'+result.list_revised).addClass('revised').hide('slow');
+      //$('.state-list').text( result.state );
+      //$('.btn-revise').hide();
     } 
 
     if ( result.blank ){
@@ -203,7 +203,7 @@ function handleAjaxSucces(parent) {
 
       obj = $('#'+result.id)
 
-      if ( result.state=='trash' && result.state=='received' ) {
+      if ( result.state=='trash' || result.state=='received' || result.state=='commented' ) {
       	obj.hide('slow')
       }
 

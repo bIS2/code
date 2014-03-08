@@ -123,7 +123,7 @@ class HlistsController extends BaseController {
 				}
 
 				if (  Input::get('type')=='elimination' ){
-					$ids = Holding::whereIn('id',$holding_ids)->whereState('spare')->lists('id');
+					$ids = Holding::whereIn('id',$holding_ids)->withState('spare')->lists('id');
 				 	$holding_ids =  ( count($ids)>0 ) ? $ids : []; 
 				}
 
