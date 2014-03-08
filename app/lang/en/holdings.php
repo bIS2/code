@@ -49,7 +49,7 @@ return array(
 	'tooltip_receive'		=> 'HOL integrated',
 	'tooltip_remove_from_list'	=> 'Elimininate from list',
 	'tooltip_show_external_link'	=> 'Lookup data in original library system',
-	'tooltip_to_trash'		=> 'HOL that can be eliminated',
+	'tooltip_to_trash'		=> 'HOL location in catalog changed',
 	'tooltip_view'			=> 'Show details',
 	'trasheds'				=> 'Trashed',
 	'ungroup'				=> 'Unlisted',

@@ -49,7 +49,7 @@ return array(
 	'tooltip_receive'		=> 'HOL erhalten und integriert',
 	'tooltip_remove_from_list'	=> 'Aus Liste eliminieren',
 	'tooltip_show_external_link'	=> 'Daten im Ursprungskatalog sehen',
-	'tooltip_to_trash'		=> 'HOL-Standort angepasst',
+	'tooltip_to_trash'		=> 'HOL-Standort in Katalog angepasst',
 	'tooltip_view'			=> 'Zeige die Details',
 	'trasheds'				=> 'Zu Eliminieren',
 	'ungroup'				=> 'N gruppierte',
