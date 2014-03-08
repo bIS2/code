@@ -203,7 +203,11 @@ function handleAjaxSucces(parent) {
 
       obj = $('#'+result.id)
 
-      if (result.state=='ok') {
+      if ( result.state=='trash' && result.state=='received' ) {
+      	obj.hide('slow')
+      }
+
+      if (result.state=='ok' ) {
         obj.addClass( 'success' ).removeClass('danger')
 
         $('form#create-note-'+result.id+' input[name^="notes"]').val("")
