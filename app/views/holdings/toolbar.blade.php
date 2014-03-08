@@ -251,7 +251,11 @@
 													$field_large = ' data-content="<strong>'.trans('fields.weight_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
 													$popover = " pop-over ";
 													break;
-																							
+													default:
+														$field_short = trans('fields.'.$field);
+														$field_large = '';
+														$popover = '';
+													break;									
 													?>
 													<label class="btn btn-primary btn-xs{{ $checkactive }}{{ $popover }}" href="#ff<?= $field; ?>" {{ $field_large }}>
 														<input type="checkbox" <?= $checked; ?> value="<?= $field; ?>"><?= $field_short; ?>
@@ -272,7 +276,7 @@
 														if (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))  { ?>
 														<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 															<div class="input-group inline input-group-sm">
-																<label class="input-group-addon">{{ trans('holdings.'.$field.'_short') }}</label>
+																<label class="input-group-addon">{{ trans('holdings.'.$field) }}</label>
 																<span class="input-group-addon  search-check">
 																	<input type="hidden" name="<?= $field; ?>" value="0">
 																	<input type="hidden" name="<?= $field; ?>format" value="%s = %s">
@@ -288,15 +292,14 @@
 														else { ?>
 														<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 															<div class="input-group inline input-group-sm">
-																<label class="input-group-addon"><?= $field; ?></label>
-																<?php if (($field == '008x') || ($field == 'size')) { 
+																<label class="input-group-addon"><?= trans('fields.'.$field); ?></label>
+																<?php if (($field == 'size')) { 
 																	$field = ($field == 'size') ? $field : 'f'.$field;
 																	?>
 																	<select id="<?= $field; ?>Filter" name="<?= $field; ?>format" class="form-control">
 																		<option value="%s = %s" <?= (Input::get($field.'format') == "%s = %s") ? 'selected' : ''; ?>>{{ trans('general.equal') }}</option>
 																		<option value="%s < %s" <?= (Input::get($field.'format') == "%s < %s") ? 'selected' : ''; ?>>{{ trans('general.less_than') }}</option>
 																		<option value="%s > %s" <?= (Input::get($field.'format') == "%s > %s") ? 'selected' : ''; ?>>{{ trans('general.greater_than') }}</option>
-																		<option value="%s LIKE '%%%s%%'" <?= (Input::get($field.'format') == "%s LIKE '%%%s%%'") ? 'selected' : ''; ?> >{{ trans('general.contains') }}-Fix to 008x</option>
 																	</select>
 																	<?php } else { 
 																		$field = ($field == 'sys2') ? $field : 'f'.$field;
@@ -333,7 +336,7 @@
 								if (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))  { ?>
 								<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 									<div class="input-group inline input-group-sm">
-										<label class="input-group-addon">{{ trans('holdings.'.$field.'_short') }}</label>
+										<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
 										<span class="input-group-addon search-check">
 											<input type="hidden" name="<?= $field; ?>" value="0">
 											<input type="checkbox" class="form-control" name="<?= $field; ?>" value="1" checked="checked">
@@ -350,14 +353,13 @@
 									?>
 									<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 										<div class="input-group inline input-group-sm">
-											<label class="input-group-addon"><?= $field; ?></label>
-											<?php if (($field == '008x') || ($field == 'size')) { 
+											<label class="input-group-addon"><?= trans('fields.'.$field) ?></label>
+											<?php if (($field == 'size')) { 
 												$field = ($field == 'size') ? $field : 'f'.$field;												?>
 												<select id="<?= $field; ?>Filter" name="<?= $field; ?>format" class="form-control">
 													<option value="%s = %s" selected>{{ trans('general.equal') }}</option>
 													<option value="%s < %s">{{ trans('general.less_than') }}</option>
 													<option value="%s > %s">{{ trans('general.greater_than') }}</option>
-													<option value="%s LIKE '%%%s%%'" <?= (Input::get('f'.$field.'format') == "%s LIKE '%%%s%%'") ? 'selected' : ''; ?> >{{ trans('general.contains') }}-Fix to 008x</option>
 												</select>
 											<?php }  else { 
 													$field = ($field == 'sys2') ? $field : 'f'.$field;
