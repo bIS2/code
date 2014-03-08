@@ -16,9 +16,9 @@ class Pages extends BaseController {
 		$data['holdingsset_confirm'] 	= Confirm::take(10)->get();
 		$ids = Holding::inLibrary()->lists('holdings.id');
 		$ids[] = -1;
-		$data['holdings_ok'] 			= State::whereState('ok')->whereIn('holding_id', $ids);
-		$data['holdings_annotated'] 	= Note::take(10)->get();
-		$data['holdings_revised'] 		= Holding::inLibrary()->reviseds()->get();
+		$data['holdings_ok'] 			= State::orderby('id', 'desc')->whereState('ok')->whereIn('holding_id', $ids);
+		$data['holdings_annotated'] 	= Note::orderby('id', 'desc')->take(10)->get();
+		$data['holdings_revised'] 		= Holding::orderby('id', 'desc')->inLibrary()->reviseds()->get();
 
 		$data['total'] 					= Holding::inLibrary()->count();
 		$data['total_ok'] 				= Holding::inLibrary()->corrects()->count();
