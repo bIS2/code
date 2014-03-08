@@ -19,6 +19,7 @@ return array(
 	'commented'						=> 'Kommentar der SPB',
 	'confirmed' 					=> 'HOS ok',
 	'delivery' 						=> 'Zur SPB gesandt',
+	'integrated'					=> 'Integriert',
 	'no_result_states'				=> 'Noch keine History',
 	'ok' 							=> 'HOL vorhanden',
 	'receive' 						=> 'In SPB integriert',

@@ -17,7 +17,7 @@ return array(
 	'comment'			=> 'Comment',
 	'config'			=> 'Configuration',
 	'confirm'           => 'Confirm',
-	'contains'			=> 'Contains',
+ 	'contains'			=> 'Contains',
 	'correct'			=> 'Correct',
 	'dashboard'			=> 'Overview',
 	'Date'				=> 'Date',
