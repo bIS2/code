@@ -80,10 +80,11 @@ class Hlist extends Eloquent {
   	return $icon;
   }
 
-
   // SCOPES
   public function scopeInLibrary($query){
-    return $query->whereIn( 'user_id', function($query){ $query->select('id')->from('users')->whereLibraryId( Auth::user()->library_id ); });
+    return $query->whereIn( 'user_id', function($query){ 
+    	$query->select('id')->from('users')->whereLibraryId( Auth::user()->library_id ); 
+    });
   }
 
   public function scopeDeliveries($query){

@@ -29,5 +29,4 @@ return array(
 	'revised_ok'		 			=> 'HOL can be delivered to SPB',
 	'title'							=> 'Actions executed',
 	'trash' 						=> 'To eliminate',
-
 );
