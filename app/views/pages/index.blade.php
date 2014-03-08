@@ -149,7 +149,7 @@ var svg = d3.select("body").append("svg")
 						{{ $confirm->holdingsset->sys1 }}
 					</td>
 					<td class="tag col-xs-4">
-						{{ htmlspecialchars($confirm->holdingsset->f245a) }} 
+						{{ truncate(htmlspecialchars($confirm->holdingsset->f245a), 60, ' ...') }} 
 					</td>
 				</tr>
 			@endforeach
@@ -186,7 +186,7 @@ var svg = d3.select("body").append("svg")
 							{{ $ok->holding->sys2 }}
 						</td>
 						<td class="tag col-xs-4">
-							{{ htmlspecialchars($ok->holding->f245a) }}
+							{{ truncate(htmlspecialchars($ok->holding->f245a), 60, ' ...') }}
 						</td>
 					</tr>
 				@endforeach
