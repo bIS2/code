@@ -56,11 +56,6 @@ class StatesController extends BaseController {
 			$state = $this->state->whereHoldingId($input['holding_id'])->where('state','=', $input['state'] );
 
 			// if hlist_id exist get the list and verify if finish tu 
-			$list_finish = false;
-			if ( Input::has('hlist_id') && ($input['state']=='ok') ) {
-				$hlist = Hlist::find(Input::get('hlist_id'));
-				$list_finish = $hlist->ready_to_revise;
-			}
 
 			if ($state->exists()) {
 
@@ -81,6 +76,12 @@ class StatesController extends BaseController {
 
 			}
 
+			$list_finish = false;
+			if ( Input::has('hlist_id') && ($input['state']=='ok') ) {
+				$hlist = Hlist::find(Input::get('hlist_id'));
+				$list_finish = $hlist->ready_to_revise;
+			}
+			
 			return Response::json([ 
 				'state' 					=> $input['state'],
 				'state_title' 		=> trans( 'states.'.$input['state']), 

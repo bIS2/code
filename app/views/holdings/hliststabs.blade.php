@@ -127,13 +127,14 @@
 				<span class="label label-primary state-list"> {{ $list->state }}</span>
 			@endif
 
-	  	@if ( Authority::can('revise',$list) )
+			<?php if ( !Authority::can('revise',$list) )  { ?>
+				<?php $hide_btn_revise_list = 'hide' ?>
+			<?php } ?>
 
-	    	<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs btn-revise" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
+	    	<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs btn-revise {{ $hide_btn_revise_list }}" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
 	    		<span class="fa fa-check" ></span> {{ trans('holdings.revised')}}
 	    	</a>
 
-	  	@endif
 
 		  <a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-xs btn-default dropdown-toggle collapsed text-warning" data-toggle="collapse">
 	  		<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
