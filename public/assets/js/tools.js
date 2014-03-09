@@ -199,6 +199,10 @@ function handleAjaxSucces(parent) {
       $('#'+result.blank).removeClass('danger').removeClass('success'); 
     } 
 
+    // show btn to revise list if completed
+    if ( result.list_completed )
+    	$('.btn-revise').removeClass('hide')
+
     if ( result.state ){
 
       obj = $('#'+result.id)
