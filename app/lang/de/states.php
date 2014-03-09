@@ -26,6 +26,7 @@ return array(
 	'received'						=> 'In SPB integriert',
 	'revised_annotated' 			=> 'Mit Annotation zurück an BIBUSER',
 	'revised_ok'		 			=> 'HOL kann an SPB abgegeben werden',
+	'spare'							=> 'Überschüssige',
 	'title'							=> 'Durchgeführte Aktionen',
 	'trash' 						=> 'Zu löschen',
 
