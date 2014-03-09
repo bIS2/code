@@ -156,7 +156,7 @@
 
 				@endif
 
-				@if (!Auth::user()->hasRole('postuser'))
+				@if (Authority::can('create', 'Hlist'))
 
 					<div class="btn-group">
 
@@ -171,7 +171,13 @@
 						<a href="?unlist=true" class="btn <?= ( Input::has('unlist')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 							<span class="fa fa-chain-broken"></span> {{{ trans('holdings.ungroup') }}}
 						</a>
+						
 					</div>
+
+				@endif
+
+				@if (!Auth::user()->hasRole('postuser'))
+
 					<div class="btn-group">
 						<a id="filter_all" href="{{ route('holdings.index', Input::only(['state', 'owner', 'aux', 'pending', 'unlist', 'hlist_id'])) }}" class="btn <?= (Input::get('filtered') == '1') ? 'btn-default' : 'btn-primary'; ?> btn-sm" >
 							<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}
@@ -189,10 +195,15 @@
 						<span class="fa fa-table"></span> 
 					</a>
 
-					@if ( Input::has('hlist_id') )
-						<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn btn-default <?= (Input::get('view')=='slide') ? 'btn-primary' : '' ?> btn-sm" >
-							<span class="fa fa-desktop"></span> 
-						</a>
+					@if ( Input::has('hlist_id')  )
+
+						@if ( Auth::user()->hasRole('maguser') )
+
+							<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn btn-default <?= (Input::get('view')=='slide') ? 'btn-primary' : '' ?> btn-sm" >
+								<span class="fa fa-desktop"></span> 
+							</a>
+							
+						@endif
 
 						<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'print'] ) }}" target="_blank" class="btn btn-default <?= (Input::get('view')=='print') ? ' btn-primary' : '' ?> btn-sm" >
 							<span class="fa fa-print"></span> 

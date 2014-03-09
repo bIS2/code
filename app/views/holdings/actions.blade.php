@@ -15,7 +15,7 @@
 
 
 		<span class="btn btn-xs" data-toggle="tooltip" title="{{trans('holdings.tooltip_show_external_link')}}">
-			<a href="{{ $holding->library->externalurl }}" target="_blank" set="{{$holdingsset->id}}"  title="{{ trans('holdingssets.see_information_from_original_system') }}" >
+			<a href="{{ $holding->library->externalurl.substr($holding->sys2, 4, 9) }}" target="_blank" set="{{$holdingsset->id}}"  title="{{ trans('holdingssets.see_information_from_original_system') }}" >
 				<span class="fa fa-external-link"></span>
 			</a>
 

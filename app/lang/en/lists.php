@@ -10,5 +10,6 @@ return array(
 	'type-elimination'	=> 'Elimination',
 	'type-unsolve'   	=> 'Unsolved',
 	'worker'			=> 'Assign to',
+	'all-lists'			=> 'All Lists',
 	
 );
