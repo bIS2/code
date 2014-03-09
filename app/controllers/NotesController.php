@@ -62,10 +62,19 @@ class NotesController extends BaseController {
 				$holding->notes()->save( $new_note );
 			}
 		}
+
+		$list_finish = false;
+		if ( Input::has('hlist_id') ) {
+			$hlist = Hlist::find(Input::get('hlist_id'));
+			$list_finish = $hlist->ready_to_revise;
+		}
+
 		return Response::json([
-			'state'				=> 'annotated', 
-			'state_title'	=> trans('states.annotated'),
-			'id' 					=> $holding->id
+			'state'						=> 'annotated', 
+			'state_title'			=> trans('states.annotated'),
+			'id' 							=> $holding->id,
+			'list_completed' 	=> $list_finish
+
 		]);
 
 	}
