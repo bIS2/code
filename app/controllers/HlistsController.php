@@ -144,7 +144,7 @@ class HlistsController extends BaseController {
 				if (  Input::get('type')=='elimination' ){
 
 					$ids = Holding::whereIn('id',$holding_ids)->where( function($query){ 
-						$query->withState('spare')->orWhere('state','=','commented');
+						$query->whereState('spare')->orWhere('state','=','commented');
 					})->lists('id');
 
 				 	$holding_ids =  ( count($ids)>0 ) ? $ids : []; 
