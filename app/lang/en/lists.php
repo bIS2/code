@@ -2,6 +2,7 @@
 
 return array(
 
+	'all-lists'			=> 'All Lists',
 	'name'				=> 'Name of list',
 	'title'   			=> 'Overview',
 	'type-control'   	=> 'Control',

@@ -195,10 +195,15 @@
 						<span class="fa fa-table"></span> 
 					</a>
 
-					@if ( Input::has('hlist_id') )
-						<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn btn-default <?= (Input::get('view')=='slide') ? 'btn-primary' : '' ?> btn-sm" >
-							<span class="fa fa-desktop"></span> 
-						</a>
+					@if ( Input::has('hlist_id')  )
+
+						@if ( Auth::user()->hasRole('maguser') )
+
+							<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn btn-default <?= (Input::get('view')=='slide') ? 'btn-primary' : '' ?> btn-sm" >
+								<span class="fa fa-desktop"></span> 
+							</a>
+							
+						@endif
 
 						<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'print'] ) }}" target="_blank" class="btn btn-default <?= (Input::get('view')=='print') ? ' btn-primary' : '' ?> btn-sm" >
 							<span class="fa fa-print"></span> 

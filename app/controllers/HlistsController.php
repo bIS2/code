@@ -37,6 +37,7 @@ class HlistsController extends BaseController {
 		if (Input::has('q')) 
 			$this->hlist = $this->hlist->where('name','like', '%'.Input::get('q').'%');		
 
+
 		if (Input::has('type')) 
 			$this->hlist = $this->hlist->whereType(Input::get('type'));
 
@@ -44,6 +45,10 @@ class HlistsController extends BaseController {
 			$this->hlist = $this->hlist->whereRevised(Input::get('state') == 'revised');
 
 		$this->data['hlists'] = $this->hlist->my()->paginate(20);
+
+		// $queries = DB::getQueryLog();
+		
+		// $this->data['query'] = $queries;			
 
 		$maguser = Role::whereName('maguser')
 						->first()
@@ -103,7 +108,10 @@ class HlistsController extends BaseController {
 			// if worker is postuser then attad to list only revised_ok holdings
 			if ( $worker->hasRole('postuser') ){
 
-				$ids = Holding::whereIn('id',$holding_ids)->whereState('revised_ok')->lists('id');
+				$ids = Holding::whereIn('id',$holding_ids)->where( function($query){ 
+					$query->whereState('revised_ok')->orWhere('state','=','commented'); 
+				})->lists('id');
+
 			 	$holding_ids =  (count($ids)>0) ? $ids : []; 
 
 			}
@@ -117,19 +125,28 @@ class HlistsController extends BaseController {
 						$query
 							->whereState('ok')
 							->orWhere('state','=','annotated')
-							->orWhere('state','=','confirmed'); 
+							->orWhere('state','=','confirmed')
+							->orWhere('state','=','commented'); 
 						})->lists('id');
 
 				 	$holding_ids =  (count($ids)>0) ? $ids : []; 
 				}
 
 				if (  Input::get('type')=='unsolve' ){
-					$ids = Holding::whereIn('id',$holding_ids)->whereState('incorrect')->lists('id');
+
+					$ids = Holding::whereIn('id',$holding_ids)->where( function($query){ 
+							$query->whereState('incorrect')->orWhere('state','=','commented');
+					})->lists('id');
+
 				 	$holding_ids =  ( count($ids)>0 ) ? $ids : []; 
 				}
 
 				if (  Input::get('type')=='elimination' ){
-					$ids = Holding::whereIn('id',$holding_ids)->withState('spare')->lists('id');
+
+					$ids = Holding::whereIn('id',$holding_ids)->where( function($query){ 
+						$query->withState('spare')->orWhere('state','=','commented');
+					})->lists('id');
+
 				 	$holding_ids =  ( count($ids)>0 ) ? $ids : []; 
 				}
 

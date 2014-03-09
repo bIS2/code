@@ -2,6 +2,7 @@
 
 return array(
 
+	'all-lists'			=> 'Alle Listen',
 	'name'				=> 'Bezeichnung der Liste',
 	'title'				=> 'Übersicht',
 	'type-control'   	=> 'Bestandskontrolle',
