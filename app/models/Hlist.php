@@ -45,7 +45,7 @@ class Hlist extends Eloquent {
   }
 
   public function getIsFinishAttribute(){
-    $total = $this->holdings()->count();
+    $total 		= $this->holdings()->count();
     $reviseds = $this->holdings_reviseds;
     return ( ($total == $reviseds) && !$this->revised );
   }  
@@ -55,7 +55,9 @@ class Hlist extends Eloquent {
   }
 
   public function getHoldingsRevisedsAttribute(){
-    return $this->holdings()->where( function($query) { $query->whereState('annotated')->orWhere('state','=','ok'); } )->count();
+    return $this->holdings()->where( function($query) { 
+    	$query->whereState('annotated')->orWhere('state','=','ok'); 
+    })->count();
   }
 
 
@@ -80,10 +82,11 @@ class Hlist extends Eloquent {
   	return $icon;
   }
 
-
   // SCOPES
   public function scopeInLibrary($query){
-    return $query->whereIn( 'user_id', function($query){ $query->select('id')->from('users')->whereLibraryId( Auth::user()->library_id ); });
+    return $query->whereIn( 'user_id', function($query){ 
+    	$query->select('id')->from('users')->whereLibraryId( Auth::user()->library_id ); 
+    });
   }
 
   public function scopeDeliveries($query){

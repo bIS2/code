@@ -190,7 +190,7 @@ function handleAjaxSucces(parent) {
     } 
 
     if ( result.list_revised ){
-      $('#'+result.list_revised).addClass('revised');
+      $('#'+result.list_revised).addClass('revised').hide('slow');
       $('.state-list').text( result.state );
       $('.btn-revise').hide();
     } 
@@ -199,11 +199,19 @@ function handleAjaxSucces(parent) {
       $('#'+result.blank).removeClass('danger').removeClass('success'); 
     } 
 
+    // show btn to revise list if completed
+    if ( result.list_completed )
+    	$('.btn-revise').removeClass('hide')
+
     if ( result.state ){
 
       obj = $('#'+result.id)
 
-      if (result.state=='ok') {
+      if ( result.state=='trash' || result.state=='received' || result.state=='commented' ) {
+      	obj.hide('slow')
+      }
+
+      if (result.state=='ok' ) {
         obj.addClass( 'success' ).removeClass('danger')
 
         $('form#create-note-'+result.id+' input[name^="notes"]').val("")

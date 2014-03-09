@@ -70,11 +70,6 @@
 								</td>
 								<td>
 									{{ link_to( route('holdings.index',['hlist'=>$list->id]), $total = $list->holdings->count() ) }}
-									@if ($list->type=='control')
-										<span class="pull-right">
-											<span class="label label-success"><i class="fa fa-check"></i> {{ $list->holdings_reviseds }}</span>  
-										</span>
-									@endif
 								</td>
 
 <!-- 								<td>
@@ -84,6 +79,12 @@
 								</td>
  -->			       
  								<td>
+									@if ($list->type=='control')
+										<span class="">
+											<span class="label label-default"><i class="fa fa-check"></i> {{ $list->holdings_reviseds }}</span>  
+										</span>
+									@endif
+
 
 			          	@if (Authority::can('delivery','Hlist'))
 

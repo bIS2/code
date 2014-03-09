@@ -23,6 +23,7 @@
 						
 
 		@if ( Input::has('hlist_id') && (Auth::user()->id == $hlist->user->id ))
+		
 	    <span class="btn btn-xs" data-toggle="tooltip" title="{{trans('holdings.tooltip_remove_from_list')}}">
 				<a href="{{ action('HlistsController@postDetach', [ Input::get('hlist_id') ] ) }}" data-remote="true"  data-method="post" data-params="holding_id={{$holding->id}}" >
 					<i class="fa fa-times" ></i>
