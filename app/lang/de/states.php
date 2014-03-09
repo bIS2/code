@@ -28,6 +28,6 @@ return array(
 	'revised_ok'		 			=> 'HOL kann an SPB abgegeben werden',
 	'spare'							=> 'Überschüssige',
 	'title'							=> 'Durchgeführte Aktionen',
-	'trash' 						=> 'Zu löschen',
+	'trash' 						=> 'Zu eliminieren',
 
 );
