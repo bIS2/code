@@ -118,7 +118,7 @@
 		 <div class="modal" id="form-create-list"></div><!-- /.modal -->
 		 <div class="modal" id="modal-show"></div><!-- /.modal -->
 		</div>
-		<div id="field_size_in_blank">{{ trans('errors.field_size_in_blank') }}</div>
+		<div id="field_size_in_blank" class="hide">{{ trans('errors.field_size_in_blank') }}</div>
 
 
 @stop

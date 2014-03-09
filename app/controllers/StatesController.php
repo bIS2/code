@@ -57,7 +57,7 @@ class StatesController extends BaseController {
 
 			// if hlist_id exist get the list and verify if finish tu 
 			$list_finish = false;
-			if (Input::has('hlist_id')) {
+			if ( Input::has('hlist_id') && ($input['state']=='ok') ) {
 				$hlist = Hlist::find(Input::get('hlist_id'));
 				$list_finish = $hlist->ready_to_revise;
 			}
@@ -86,7 +86,7 @@ class StatesController extends BaseController {
 				'state_title' 		=> trans( 'states.'.$input['state']), 
 				'id' 							=> $input['holding_id'],
 				'list_completed' 	=> $list_finish
-				]);
+			]);
 		}
 
 		return Redirect::route('states.create')

@@ -123,7 +123,7 @@ class HlistsController extends BaseController {
 				}
 
 				if (  Input::get('type')=='elimination' ){
-					$ids = Holding::whereIn('id',$holding_ids)->whereState('spare')->lists('id');
+					$ids = Holding::whereIn('id',$holding_ids)->withState('spare')->lists('id');
 				 	$holding_ids =  ( count($ids)>0 ) ? $ids : []; 
 				}
 
@@ -215,7 +215,10 @@ class HlistsController extends BaseController {
 			if (Request::ajax()){
 
 				if ( $input['revised']==1 )
-					return Response::json([ 'list_revised' => $id, 'state' => trans( 'states.'.$hlist->state ) ]);
+					return Response::json([ 
+						'list_revised' => $id, 
+						'state' => trans( 'states.'.$hlist->state ) 
+					]);
 
 			} else {
 				return Redirect::route('lists.index', $id);
