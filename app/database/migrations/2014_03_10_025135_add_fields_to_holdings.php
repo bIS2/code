@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Blueprint;	
 
 class AddFieldsToHoldings extends Migration {
 
@@ -13,9 +13,11 @@ class AddFieldsToHoldings extends Migration {
 	public function up()
 	{
 		Schema::table('holdings', function(Blueprint $table) {
-			$table->string('245p')->nullable();
-			$table->string('245n')->nullable();
-			$table->string('852h_e')->nullable();
+			$table->string('f245p')->nullable();
+			$table->string('f245n')->nullable();
+			$table->string('f852h_e')->nullable();
+			$table->string('years')->nullable();
+			$table->string('f072a')->nullable();
 		});
 	}
 
