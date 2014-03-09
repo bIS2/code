@@ -27,6 +27,7 @@ return array(
 	'revised' 						=> 'Revised',
 	'revised_annotated' 			=> 'Annotated and back to BIBUSER',
 	'revised_ok'		 			=> 'HOL can be delivered to SPB',
+	'spare'							=> 'Spare HOL',
 	'title'							=> 'Actions executed',
 	'trash' 						=> 'To eliminate',
 );
