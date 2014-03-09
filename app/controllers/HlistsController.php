@@ -114,19 +114,32 @@ class HlistsController extends BaseController {
 						$query
 							->whereState('ok')
 							->orWhere('state','=','annotated')
-							->orWhere('state','=','confirmed'); 
+							->orWhere('state','=','confirmed')
+							->orWhere('state','=','commented'); 
 						})->lists('id');
 
 				 	$holding_ids =  (count($ids)>0) ? $ids : []; 
 				}
 
 				if (  Input::get('type')=='unsolve' ){
-					$ids = Holding::whereIn('id',$holding_ids)->whereState('incorrect')->lists('id');
+
+					$ids = Holding::whereIn('id',$holding_ids)->where( function($query){ 
+
+							$query->whereState('incorrect')->orWhere('state','=','commented');
+
+					})->lists('id');
+
 				 	$holding_ids =  ( count($ids)>0 ) ? $ids : []; 
 				}
 
 				if (  Input::get('type')=='elimination' ){
-					$ids = Holding::whereIn('id',$holding_ids)->withState('spare')->lists('id');
+
+					$ids = Holding::whereIn('id',$holding_ids)->where( function($query){ 
+
+						$query->withState('spare')->orWhere('state','=','commented');
+
+					})->lists('id');
+
 				 	$holding_ids =  ( count($ids)>0 ) ? $ids : []; 
 				}
 
