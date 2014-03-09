@@ -7,7 +7,7 @@
 
 <div class="panel panel-info">
 	<div class="panel-heading">
-		{{ $query }}
+<!-- 		{{ $query }} -->
 		<div class="row">
 
 			<div class="col-xs-8">
@@ -53,7 +53,7 @@
 					<tbody id="hlists-targets">
 						@foreach ($hlists as $list)
 							<tr id="{{ $list->id }}" class="{{ $list->revised ? 'revised' : '' }} {{ $list->is_delivery ? 'delivered' : '' }}">
-								<td>{{ $list->user->library->code }}</td>
+								<!-- <td>{{ $list->user->library->code }}</td> -->
 								<td>
 									<a href="{{ route('holdings.index', [ 'hlist_id' => $list->id ] ) }}" >{{ $list->name }} </a>
 								</td>
@@ -128,7 +128,9 @@
 
 
 @else
-	There are no hlists
+	<h2 class="text-info  text-center">
+		<span class="fa fa-info-circle text-danger"></span> {{ trans('lists.nolists') }}
+	</h2>
 @endif
 
 @stop

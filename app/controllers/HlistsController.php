@@ -37,10 +37,18 @@ class HlistsController extends BaseController {
 		if (Input::has('q')) 
 			$this->hlist = $this->hlist->where('name','like', '%'.Input::get('q').'%');		
 
+
+		if (Input::has('type')) 
+			$this->hlist = $this->hlist->whereType(Input::get('type'));
+
+		if (Input::has('state')) 
+			$this->hlist = $this->hlist->whereRevised(Input::get('state') == 'revised');
+
 		$this->data['hlists'] = $this->hlist->my()->paginate(20);
 
-		$queries = DB::getQueryLog();
-		$this->data['query'] = $queries;			
+		// $queries = DB::getQueryLog();
+		
+		// $this->data['query'] = $queries;			
 
 		$maguser = Role::whereName('maguser')
 						->first()
