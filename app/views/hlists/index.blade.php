@@ -7,6 +7,7 @@
 
 <div class="panel panel-info">
 	<div class="panel-heading">
+		{{ $query }}
 		<div class="row">
 
 			<div class="col-xs-8">
