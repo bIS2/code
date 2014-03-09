@@ -3,6 +3,8 @@
 {{-- Content --}}
 @section('content')
 
+@include('hlists.filters')
+
 <div class="panel panel-info">
 	<div class="panel-heading">
 		<div class="row">

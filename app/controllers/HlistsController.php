@@ -35,7 +35,13 @@ class HlistsController extends BaseController {
 	public function index()
 	{
 		if (Input::has('q')) 
-			$this->hlist = $this->hlist->where('name','like', '%'.Input::get('q').'%');
+			$this->hlist = $this->hlist->where('name','like', '%'.Input::get('q').'%');		
+
+		// if (Input::has('type')) 
+		// 	$this->hlist = $this->hlist->whereType(Input::has('type'));
+		
+		// if (Input::has('type')) 
+		// 	$this->hlist = $this->hlist->whereType(Input::has('type'));
 
 		$this->data['hlists'] = $this->hlist->my()->paginate(20);
 
