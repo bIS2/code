@@ -52,6 +52,7 @@
 					<tbody id="hlists-targets">
 						@foreach ($hlists as $list)
 							<tr id="{{ $list->id }}" class="{{ $list->revised ? 'revised' : '' }} {{ $list->is_delivery ? 'delivered' : '' }}">
+								<td>{{ $list->user->library->code }}</td>
 								<td>
 									<a href="{{ route('holdings.index', [ 'hlist_id' => $list->id ] ) }}" >{{ $list->name }} </a>
 								</td>
