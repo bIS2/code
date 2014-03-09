@@ -282,10 +282,10 @@
 														if (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))  { ?>
 														<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 															<div class="input-group inline input-group-sm">
-																<label class="input-group-addon">{{ trans('holdings.'.$field) }}</label>
+																<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
 																<span class="input-group-addon  search-check">
 																	<input type="hidden" name="<?= $field; ?>" value="0">
-																	<input type="hidden" name="<?= $field; ?>format" value="%s = %s">
+																	<input type="hidden" name="<?= $field; ?>format" value="%s = '%s'">
 																	<input type="checkbox" class="form-control" name="<?= $field; ?>" value="1" checked="checked">
 																</span>
 																<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">
@@ -346,7 +346,7 @@
 										<span class="input-group-addon search-check">
 											<input type="hidden" name="<?= $field; ?>" value="0">
 											<input type="checkbox" class="form-control" name="<?= $field; ?>" value="1" checked="checked">
-											<input type="hidden" name="<?= $field; ?>format" value="%s = %s">
+											<input type="hidden" name="<?= $field; ?>format" value="%s = '%s'">
 										</span>
 										<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">	
 											<option value="AND" selected>{{ trans('general.AND') }}</option>

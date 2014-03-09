@@ -126,7 +126,9 @@
 
 
 @else
-	There are no hlists
+	<h2 class="text-info  text-center">
+		<span class="fa fa-info-circle text-danger"></span> {{ trans('lists.nolists') }}
+	</h2>
 @endif
 
 @stop

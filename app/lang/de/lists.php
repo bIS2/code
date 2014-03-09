@@ -9,5 +9,7 @@ return array(
 	'type-elimination'	=> 'Eliminierung',
 	'type-unsolve'   	=> 'Nicht ablieferbar',
 	'worker'			=> 'Geht an',
+	'all-lists'			=> 'Alle Listen',
+	'nolists'			=> 'Es gibt keine Listen, um zu zeigen',
 	
 );

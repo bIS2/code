@@ -10,5 +10,6 @@ return array(
 	'type-unsolve'   	=> 'Unsolved',
 	'worker'			=> 'Assign to',
 	'all-lists'			=> 'All Lists',
+	'nolists'			=> 'There are no lists to show',
 	
 );
