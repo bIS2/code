@@ -52,6 +52,7 @@
 					<tbody id="hlists-targets">
 						@foreach ($hlists as $list)
 							<tr id="{{ $list->id }}" class="{{ $list->revised ? 'revised' : '' }} {{ $list->is_delivery ? 'delivered' : '' }}">
+								<td>{{ $list->user->library->code }}</td>
 								<td>
 									<a href="{{ route('holdings.index', [ 'hlist_id' => $list->id ] ) }}" >{{ $list->name }} </a>
 								</td>
@@ -79,7 +80,7 @@
 								</td>
  -->			       
  								<td>
-									@if ($list->type=='control')
+									@if (($list->type=='control') && ( !$list->revised ))
 										<span class="">
 											<span class="label label-default"><i class="fa fa-check"></i> {{ $list->holdings_reviseds }}</span>  
 										</span>
