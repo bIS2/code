@@ -153,7 +153,7 @@
 																<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
 																<span class="input-group-addon  search-check">
 																	<input type="hidden" name="<?= $field; ?>" value="0">
-																	<input type="hidden" name="<?= $field; ?>format" value="%s = %s">
+																	<input type="hidden" name="<?= $field; ?>format" value="%s = '%s'">
 																	<input type="hidden" name="<?= $field; ?>compare" value="<?= $field; ?>">
 																	<input type="checkbox" class="form-control" name="<?= $field; ?>" value="1" checked="checked">
 																</span>
@@ -212,7 +212,7 @@
 													<span class="input-group-addon search-check">
 														<input type="hidden" name="<?= $field; ?>" value="0">
 														<input type="checkbox" class="form-control" name="<?= $field; ?>" value="1" checked="checked">
-														<input type="hidden" name="<?= $field; ?>format" value="%s = %s">
+														<input type="hidden" name="<?= $field; ?>format" value="%s = '%s'">
 														<input type="hidden" name="<?= $field; ?>compare" value="<?= $field; ?>">
 													</span>
 													<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">	

@@ -37,10 +37,18 @@ class HlistsController extends BaseController {
 		if (Input::has('q')) 
 			$this->hlist = $this->hlist->where('name','like', '%'.Input::get('q').'%');		
 
+
+		if (Input::has('type')) 
+			$this->hlist = $this->hlist->whereType(Input::get('type'));
+
+		if (Input::has('state')) 
+			$this->hlist = $this->hlist->whereRevised(Input::get('state') == 'revised');
+
 		$this->data['hlists'] = $this->hlist->my()->paginate(20);
 
-		$queries = DB::getQueryLog();
-		$this->data['query'] = $queries;			
+		// $queries = DB::getQueryLog();
+		
+		// $this->data['query'] = $queries;			
 
 		$maguser = Role::whereName('maguser')
 						->first()
@@ -136,7 +144,7 @@ class HlistsController extends BaseController {
 				if (  Input::get('type')=='elimination' ){
 
 					$ids = Holding::whereIn('id',$holding_ids)->where( function($query){ 
-						$query->withState('spare')->orWhere('state','=','commented');
+						$query->whereState('spare')->orWhere('state','=','commented');
 					})->lists('id');
 
 				 	$holding_ids =  ( count($ids)>0 ) ? $ids : []; 

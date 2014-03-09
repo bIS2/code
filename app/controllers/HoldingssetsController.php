@@ -152,11 +152,11 @@ class HoldingssetsController extends BaseController {
 							$holdings = ($orand == 'OR') ? $holdings->orWhereIn('id', $newholdings) : $holdings->whereIn('id', $newholdings);
 							$openfilter++; 
 						}
-						else {		
-							// die(var_dump(sprintf( $format, $compare,'aab',  pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) )));			
-							$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) ) :  
-							$holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) );  
-							$openfilter++;
+						else {	
+								// var_dump(sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ));die();
+								$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) ) :  
+								$holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) );  
+								$openfilter++;						
 						}
 					}
 				}

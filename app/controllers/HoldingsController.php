@@ -27,8 +27,8 @@ class HoldingsController extends BaseController {
 
 		/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
-			define('DEFAULTS_FIELDS', 'sys2;008x;size;852b;852h;866a;ocrr_ptrn;245a;245b;022a;362a;866z;245p;245n;exists_online;is_current;has_incomplete_vols');
-			define('ALL_FIELDS',      'sys2;008x;size;852b;852h;866a;ocrr_ptrn;245a;245b;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j;866z;245p;245n;exists_online;is_current;has_incomplete_vols');
+			define('DEFAULTS_FIELDS', 'sys2;008x;size;ocrr_ptrn;022a;245a;245b;245n;245p;362a;852b;852h;866a;866z;exists_online;is_current;has_incomplete_vols');
+			define('ALL_FIELDS',      'sys2;008x;size;ocrr_ptrn;022a;245a;245b;245n;245p;246a;260a;260b;310a;362a;505a;710a;770t;772t;780t;785t;852b;852c;852h;852j;866a;866z;exists_online;is_current;has_incomplete_vols');
 
 			/* User vars */
 			$uUserName = Auth::user()->username;

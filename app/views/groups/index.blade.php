@@ -49,7 +49,9 @@
 				</tbody>
 			</table>
 		@else
-			<h2 class="text-info"><span class="fa fa-info-circle text-danger"></span> {{ trans('groups.nogroups') }}</h2>
+			<h2 class="text-info">
+				<span class="fa fa-info-circle text-danger"></span> {{ trans('groups.nogroups') }}
+			</h2>
 		@endif
 	</div>
 </div>
