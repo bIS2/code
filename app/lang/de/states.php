@@ -24,6 +24,7 @@ return array(
 	'ok' 							=> 'HOL vorhanden',
 	'receive' 						=> 'In SPB integriert',
 	'received'						=> 'In SPB integriert',
+	'revised'			 			=> 'Kontrolliert',
 	'revised_annotated' 			=> 'Mit Annotation zurück an BIBUSER',
 	'revised_ok'		 			=> 'HOL kann an SPB abgegeben werden',
 	'spare'							=> 'Überschüssige',
