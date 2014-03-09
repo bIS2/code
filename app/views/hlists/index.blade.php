@@ -79,7 +79,7 @@
 								</td>
  -->			       
  								<td>
-									@if ($list->type=='control')
+									@if (($list->type=='control') && ( !$list->revised ))
 										<span class="">
 											<span class="label label-default"><i class="fa fa-check"></i> {{ $list->holdings_reviseds }}</span>  
 										</span>
