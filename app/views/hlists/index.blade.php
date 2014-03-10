@@ -71,7 +71,7 @@
 									{{ $list->worker->username }} 	
 								</td>
 								<td>
-									{{ link_to( route('holdings.index',['hlist'=>$list->id]), $total = $list->holdings->count() ) }}
+									{{ $list->holdings->count() }}
 								</td>
 
 <!-- 								<td>
@@ -84,6 +84,12 @@
 									@if (($list->type=='control') && ( !$list->revised ))
 										<span class="">
 											<span class="label label-default"><i class="fa fa-check"></i> {{ $list->holdings_reviseds }}</span>  
+										</span>
+									@endif
+
+									@if (($list->type=='delivery') && ( !$list->received ))
+										<span class="">
+											<span class="label label-default"><i class="fa fa-download"></i> {{ $list->holdings_receiveds }}</span>  
 										</span>
 									@endif
 

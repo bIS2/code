@@ -50,6 +50,7 @@ return array(
 	'tooltip_remove_from_list'	=> 'Elimininate from list',
 	'tooltip_show_external_link'	=> 'Lookup data in original library system',
 	'tooltip_to_trash'		=> 'HOL location in catalog changed',
+	'tooltip_unsolve'		=> 'Delivery not posible',
 	'tooltip_view'			=> 'Show details',
 	'trasheds'				=> 'To eliminate',
 	'ungroup'				=> 'Unlisted',

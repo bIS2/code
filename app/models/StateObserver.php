@@ -19,12 +19,18 @@ class StateObserver {
   	}
 
 	if  ( $model->state=='ok' ){
-		State::whereState('annotated')->delete();
+		State::whereState('annotated')->whereHoldingId($model->holding_id)->delete();
 		Note::whereHoldingId($model->holding_id)->delete();
 	}
 
 	if  ( $model->state=='annotated' ){
-		State::whereState('ok')->delete();
+		State::whereState('ok')->whereHoldingId($model->holding_id)->delete();
+	}
+
+	if ( $model->state=='received' || $model->state=='commented' ) {
+		$model->holding->hlists->each( function($list) {
+			$list->check_received();
+		});
 	}
 
 	if ( $model->state=='received' ) {

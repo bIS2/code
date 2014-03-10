@@ -80,8 +80,9 @@ class Holding extends Eloquent {
     return $query;
   }
 
-  public function scopeInLibrary($query){
-  	return $query->whereLibraryId( Auth::user()->library_id );
+  public function scopeInLibrary($query,$library_id=false){
+    $library_id = ($library_id) ? $library_id : Auth::user()->library_id;
+  	return $query->whereLibraryId( $library_id );
   }
 
   public function scopeOwnerOrAux($query){
@@ -120,6 +121,12 @@ class Holding extends Eloquent {
 
   public function scopeRevisedsCorrects($query){
     return $query->whereState('revised_ok');
+  }
+
+  public function scopeWasState($query,$state){
+    return $query->whereIn('holdings.id', function($query) use ($state) {
+    	$query->select('holding_id')->from('states')->whereState($state);
+    });
   }
 
   public function scopeWasConfirmed($query) {
@@ -232,6 +239,10 @@ class Holding extends Eloquent {
 
   public function getWasReceivedyAttribute(){
     return $this->states()->whereState('receive')->exists();
+  }
+
+  public function getWasSpareAttribute(){
+    return $this->states()->whereState('spare')->exists();
   }
 
   public function getIsReceivedAttribute(){

@@ -58,8 +58,7 @@
 
 		<!-- Javascripts
 		================================================== -->
-        {{ Basset::show('public.js') }}
-        {{ Basset::show('holdingssets.js') }}
-        {{ Basset::show('holdings.js') }}
+        {{ Basset::show('pages.js') }}
+
 	</body>
 </html>
