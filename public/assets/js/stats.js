@@ -34,15 +34,15 @@ $(function(){
                     data: b6,
                     label: 'Serie 6'
                 }], {
-                    xaxis: {
-                        noTicks: 5,
-                        tickFormatter: function(x) {
-                            var
-                                x = parseInt(x),
-                                libraries = ['ABKB','BSUB','LUZB','ZHUB','ZHZB'];
-                            return libraries[x-1];
-                        }
-                    },                    
+                    // xaxis: {
+                    //     noTicks: 5,
+                    //     tickFormatter: function(x) {
+                    //         var
+                    //             x = parseInt(x),
+                    //             libraries = ['ABKB','BSUB','LUZB','ZHUB','ZHZB'];
+                    //         return libraries[x-1];
+                    //     }
+                    // },                    
                     legend: {
                         backgroundColor: '#D2E8FF' // Light blue 
                     },
