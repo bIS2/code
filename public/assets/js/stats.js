@@ -17,32 +17,32 @@ $(function(){
                graph = Flotr.draw(container, [
                {
                     data: b1,
-                    label: 'confirmeds'
+                    label: 'Confirmeds'
                 }, {
                     data: b2,
                     label: 'Sents'
                 }, {
                     data: b3,
-                    label: 'integrateds'
+                    label: 'Integrateds'
                 }, {
                     data: b4,
-                    label: 'Serie 4'
+                    label: 'Reviseds'
                 }, {              
                     data: b5,
-                    label: 'Serie 5'
+                    label: 'Trasheds'
                 }, {
                     data: b6,
-                    label: 'Serie 6'
+                    label: 'Eliminateds'
                 }], {
-                    // xaxis: {
-                    //     noTicks: 5,
-                    //     tickFormatter: function(x) {
-                    //         var
-                    //             x = parseInt(x),
-                    //             libraries = ['ABKB','BSUB','LUZB','ZHUB','ZHZB'];
-                    //         return libraries[x-1];
-                    //     }
-                    // },                    
+                    xaxis: {
+                        noTicks: 5,
+                        tickFormatter: function(x) {
+                            var
+                                x = parseInt(x),
+                                libraries = ['ABKB','BSUB','LUZB','ZHUB','ZHZB'];
+                            return libraries[x-1];
+                        }
+                    },                    
                     legend: {
                         backgroundColor: '#D2E8FF' // Light blue 
                     },
@@ -64,8 +64,11 @@ $(function(){
                     },                    
                     spreadsheet: {
                         show: true,
-                        tickFormatter: function(e) {
-                            return e + '';
+                     tickFormatter: function(x) {
+                            var
+                                x = parseInt(x),
+                                libraries = ['ABKB','BSUB','LUZB','ZHUB','ZHZB'];
+                            return libraries[x-1];
                         }
                     }                    
                 });

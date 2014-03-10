@@ -50,7 +50,8 @@ return array(
     	'pages' => function($collection) {
             $collection->directory('assets/css', function($collection)
             {
-	            $collection->add('bootstrap.min.css');
+                $collection->add('bootstrap.min.css');
+	            $collection->add('flotr.css');
 	            $collection->add('bootstrap-responsive.min.css');   
                 $collection->add('less/master.less')->apply('Less');
                 $collection->add('less/pages.less')->apply('Less');

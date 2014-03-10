@@ -145,7 +145,7 @@ class Pages extends BaseController {
 		$holdings_revised		=  Holding::countState('revised')->get()->toArray();
 		$holdings_trashed 		=  Holding::countState('trash')->get()->toArray();
 		$holdings_eliminated 	=  Holding::countState('burn')->get()->toArray();
-
+		// echo var_dump($holdings_confirmed );
 
 		$confirmeds = [ 
 					[1,$this->search_by_library($holdings_confirmed, 'ABKB')],	
