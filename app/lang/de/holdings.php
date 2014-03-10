@@ -50,6 +50,7 @@ return array(
 	'tooltip_remove_from_list'	=> 'Aus Liste eliminieren',
 	'tooltip_show_external_link'	=> 'Daten im Ursprungskatalog sehen',
 	'tooltip_to_trash'		=> 'HOL-Standort in Katalog angepasst',
+	'tooltip_unsolve'		=> 'Ablieferung nicht möglich',
 	'tooltip_view'			=> 'Zeige die Details',
 	'trasheds'				=> 'Zu Eliminieren',
 	'ungroup'				=> 'N gruppierte',
