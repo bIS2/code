@@ -119,9 +119,9 @@ class Hlist extends Eloquent {
 
   // SCOPES
   public function scopeInLibrary($query){
-  	$user_id = Auth::user()->library_id; 
-    return $query->whereIn( 'user_id', function($query) use ($user_id) { 
-    	$query->select('id')->from('users')->whereLibraryId( $user_id ); 
+  	$library_id = Auth::user()->library_id; 
+    return $query->whereIn( 'user_id', function($query) use ($library_id) { 
+    	$query->select('id')->from('users')->whereLibraryId( $library_id ); 
     });
   }
 

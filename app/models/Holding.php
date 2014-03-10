@@ -80,8 +80,9 @@ class Holding extends Eloquent {
     return $query;
   }
 
-  public function scopeInLibrary($query){
-  	return $query->whereLibraryId( Auth::user()->library_id );
+  public function scopeInLibrary($query,$library_id=false){
+    $library_id = ($library_id) ? $library_id : Auth::user()->library_id;
+  	return $query->whereLibraryId( $library_id );
   }
 
   public function scopeOwnerOrAux($query){

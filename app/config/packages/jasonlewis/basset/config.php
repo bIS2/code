@@ -60,6 +60,8 @@ return array(
                 $collection->add('jquery-1.10.2.min.js');
                 $collection->add('laravel-ujs.js');
                 $collection->add('bootstrap/bootstrap.js');
+                $collection->add('flotr2.min.js');
+                $collection->add('stats.js');
 
             })->apply('JsMin');;
     	},
