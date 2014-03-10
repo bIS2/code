@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'annotated' 					=> 'Annotaded by MAGUSER',
+	'annotated' 					=> 'Annotated by MAGUSER',
 	'blank' 						=> '(still without status)',
 	'burn' 							=> 'Not solvable',
 	'commented'						=> 'Commented by SPB',

@@ -32,11 +32,11 @@ return [
         });
 
         $authority->allow('trash', 'Holding', function($self, $holding) {
-          return ( $holding->whereState('spare') && Auth::user()->hasRole('bibuser') );
+          return ( $holding->was_state && Auth::user()->hasRole('bibuser') );
         });
 
         $authority->allow('burn', 'Holding', function($self, $holding) {
-          return (  $holding->is_trashed && Auth::user()->hasRole('magvuser') && !$holding->is_burned );
+          return (  $holding->was_state && Auth::user()->hasRole('magvuser') && !$holding->is_burned );
         });
 
         if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser')){
