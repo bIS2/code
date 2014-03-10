@@ -45,18 +45,53 @@ class Hlist extends Eloquent {
   }
 
   public function getIsFinishAttribute(){
-    $total 		= $this->holdings()->count();
-    $reviseds = $this->holdings_reviseds;
-    return ( ($total == $reviseds) && !$this->revised );
+  	$finish = false;
+  	if ($this->type=='control') {
+	    $total 		= $this->holdings()->count();
+	    $reviseds = $this->holdings_reviseds;
+	    $finish =  ( ($total == $reviseds) && !$this->revised );
+  	}
+
+  	return $finish;
   }  
   
   public function getReadyToReviseAttribute(){
   	return $this->is_finish;
+  }  
+
+  public function getIsReceivedAttribute(){
+  	return ( !$this->is_delivery ) ? false : $this->delivery->received;
+  	
   }
+
+  public function check_received(){
+
+  	$received = false;
+  	if ( $this->type=='delivery' && !$this->delivery->received ) {
+
+	    $total 		= $this->holdings()->count();
+	    $receiveds = $this->holdings()->where( function($query) { 
+	    	$query->whereState('received')->orWhere('state','=','commented'); 
+	    })->count();
+
+	   	if ( $total == $receiveds ) $this->delivery->update(['received'=>1]);
+	   	$received = $this->delivery->received;
+
+  	}
+
+    return $received;
+  }  
+
 
   public function getHoldingsRevisedsAttribute(){
     return $this->holdings()->where( function($query) { 
     	$query->whereState('annotated')->orWhere('state','=','ok'); 
+    })->count();
+  }
+
+  public function getHoldingsReceivedsAttribute(){
+    return $this->holdings()->where( function($query) { 
+    	$query->whereState('received')->orWhere('state','=','commented'); 
     })->count();
   }
 
@@ -91,7 +126,11 @@ class Hlist extends Eloquent {
   }
 
   public function scopeDeliveries($query){
-    return $query->whereIn( 'hlists.id', function($query){ $query->select('hlist_id')->from('deliveries'); });
+
+     return $query->whereIn( 'hlists.id', function($query) { 
+    	$query->select('hlist_id')->from('deliveries')->whereReceived(false);
+    });
+
   }
 
   public function scopeMy($query){
@@ -102,7 +141,7 @@ class Hlist extends Eloquent {
       $query = $query->whereWorkerId(Auth::user()->id);
 
     if ( Auth::user()->hasRole('speichuser') ) 
-      $query = $query->deliveries();
+      $query = $query->inlibrary()->deliveries();
 
     if (Auth::user()->hasRole('magvuser') && Auth::user()->hasRole('bibuser') )
 	    $query = $query->inLibrary();

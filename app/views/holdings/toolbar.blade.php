@@ -20,7 +20,10 @@
 						@foreach ($hlists as $list) 
 
 						<li <?= ($list->id == Input::get('hlist_id')) ? 'class="active"' : '' ; ?>>
-							<a href="{{ route('holdings.index',Input::except(['hlist_id']) + ['hlist_id' => $list->id ]) }}"> {{ $list->name }} <span class="badge">{{ $list->holdings()->count() }} </span></a>
+							<a href="{{ route('holdings.index',Input::except(['hlist_id']) + ['hlist_id' => $list->id ]) }}"> 
+								{{ $list->name }} 
+								<span class="badge">{{ $list->holdings()->count() }} </span>
+							</a>
 						</li>
 
 						@endforeach
@@ -40,6 +43,10 @@
 
 				  	<!-- CORRECT AND ANNOTATED -->
 				  	@if ( $user->hasRole('magvuser') || $user->hasRole('maguser') )
+
+					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'confirm'] ) }}" class="btn btn-default <?= ( Input::get('state')=='confirm' ) ? 'active' : '' ?> btn-sm btn-success" >
+					  		<div class=""><span class="fa fa-thumbs-up"></span> {{{ trans('holdings.ok2') }}}</div>
+					  	</a>
 
 					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'ok'] ) }}" class="btn btn-default <?= ( Input::get('state')=='ok' ) ? 'active' : '' ?> btn-sm" >
 					  		<div class="text-success"><span class="fa fa-thumbs-up"></span> {{{ trans('holdings.ok2') }}}</div>

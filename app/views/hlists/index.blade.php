@@ -87,6 +87,12 @@
 										</span>
 									@endif
 
+									@if (($list->type=='delivery') && ( !$list->received ))
+										<span class="">
+											<span class="label label-default"><i class="fa fa-download"></i> {{ $list->holdings_receiveds }}</span>  
+										</span>
+									@endif
+
 
 			          	@if (Authority::can('delivery','Hlist'))
 
