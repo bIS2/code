@@ -71,7 +71,7 @@
 									{{ $list->worker->username }} 	
 								</td>
 								<td>
-									{{ link_to( route('holdings.index',['hlist'=>$list->id]), $total = $list->holdings->count() ) }}
+									{{ $list->holdings->count() }}
 								</td>
 
 <!-- 								<td>
