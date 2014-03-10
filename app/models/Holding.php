@@ -123,7 +123,12 @@ class Holding extends Eloquent {
   }
 
   public function scopeWasConfirmed($query) {
-    return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('states')->whereState('confirmed'); })->where('state', '<>', 'blank')->where('state', '<>', 'revised_annotated')->where('state', '<>', 'incorrected');
+    return $query->whereIn( 'holdings.id', function($query){ 
+    	$query->select('holding_id')->from('states')->whereState('confirmed'); 
+    })
+    ->where('state', '<>', 'blank')
+    ->where('state', '<>', 'revised_annotated')
+    ->where('state', '<>', 'incorrected');
   }
 
   public function scopeRevisedsAnnotated($query){
