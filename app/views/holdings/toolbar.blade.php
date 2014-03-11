@@ -44,8 +44,8 @@
 				  	<!-- CORRECT AND ANNOTATED -->
 				  	@if ( $user->hasRole('magvuser') || $user->hasRole('maguser') )
 
-					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'confirm'] ) }}" class="btn btn-default <?= ( Input::get('state')=='confirm' ) ? 'active' : '' ?> btn-sm btn-success" >
-					  		<div class=""><span class="fa fa-thumbs-up"></span> {{{ trans('holdings.ok2') }}}</div>
+					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'confirmed'] ) }}" class="btn btn-default <?= ( Input::get('state')=='confirmed' ) ? 'active' : '' ?> btn-sm btn-success" >
+					  		<div class=""><span class="fa fa-thumbs-up"></span> {{{ trans('holdings.confirmed') }}}</div>
 					  	</a>
 
 					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'ok'] ) }}" class="btn btn-default <?= ( Input::get('state')=='ok' ) ? 'active' : '' ?> btn-sm" >

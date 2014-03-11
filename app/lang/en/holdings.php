@@ -12,6 +12,7 @@ return array(
 	'burneds'				=> 'Unsolved',
 	'comment' 				=> 'Comment',
 	'commenteds'			=> 'Commented',
+	'confirmed' 				=> 'Confirmed',
 	'corrects' 				=> 'Corrects',
 	'create_list'			=> 'Create List',
 	'deliveries'			=> 'Sent',
