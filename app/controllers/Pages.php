@@ -130,7 +130,7 @@ class Pages extends BaseController {
 		fclose($fp);
 
 
-		return View::make('pages.index2', $data);
+		return View::make('pages.index', $data);
 	}
 
 	public function getHelp(){
@@ -205,7 +205,7 @@ class Pages extends BaseController {
 			if ($holding['library']==$library) 
 				$count = $holding['count'];
 		}
-		return $count;
+		return (int) $count;
 	}
 
 	private function search_by_state($holdings, $state){
