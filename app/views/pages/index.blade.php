@@ -176,7 +176,19 @@
 			{{ trans('stats.graph') }}
 		</h3>
 		<div id="graph" style="width:800px;height:400px" data-url="{{ action('Pages@getStats') }}" ></div>
+		<h3>
+			{{ trans('stats.graph-size') }}
+		</h3>
+		<div id="graph-by-size" style="width:800px;height:400px" data-url="{{ action('Pages@getStats') }}" ></div>
 	</div>
 	<div class="data"></div>
+	<div id="lang" class="hide">
+    <span class="confirm">{{ trans('states.confirm') }}</span>
+    <span class="sent">{{ trans('states.sent') }}</span>
+    <span class="integrated">{{ trans('states.integrated') }}</span>
+    <span class="revised">{{ trans('states.revised') }}</span>
+    <span class="trashed">{{ trans('states.trashed') }}</span>
+    <span class="burned">{{ trans('states.burned') }}</span>
+	</div>
 </div>
 @stop
