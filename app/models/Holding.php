@@ -52,7 +52,7 @@ class Holding extends Eloquent {
   // Scopes
 
   public function scopeDefaults($query){
-  	return $query->with('notes', 'states', 'comment')->orderBy('f852j','f852c')->wasConfirmed()->inLibrary();
+  	return $query->with('notes', 'states', 'comment')->orderBy('f852j')->wasConfirmed()->inLibrary();
   }
 
   public function scopeInit ($query){
@@ -164,15 +164,12 @@ class Holding extends Eloquent {
 	    ->whereState('confirmed');
   }
 
-  public function scopeAnnotated($query,$tag_id='%'){
+  public function scopeAnnotated($query,$tag_id){
 
-    if ($tag_id=='%') 
-      $tag_ids = DB::table('notes')->lists('holding_id') ;
-    else
-      $tag_ids = DB::table('notes')->whereTagId($tag_id)->lists('holding_id');
+    $tag_ids = Note::whereTagId($tag_id)->lists('holding_id');
+    $tag_ids = (count($tag_ids)>0) ? $tag_ids : [-1];
 
-    $tag_ids = (count($tag_ids) > 0) ? $tag_ids : [-1];
-    return $query->whereIn('holdings.id', $tag_ids);
+    return $query->defaults()->whereIn('holdings.id', $tag_ids);
   } 
 
   public function scopeOrphans($query){
@@ -196,13 +193,13 @@ class Holding extends Eloquent {
   }
 
   // Return the counter states in holding by library. Is used to plot stats 
-  public function scopeCountState($query,$state='', $month=false, $year=false){
+  public function scopeStats($query, $month=false, $year=false){
 
-		$query = $query->select(DB::raw('libraries.code as library, count(*) as count, sum(holdings.size) as large'))
-							->join('states','holdings.id','=','states.holding_id')
+		$query = $query->select(DB::raw('libraries.code as library,holdings.state as state , count(*) as count, sum(holdings.size) as size'))
+              ->from('holdings')
+							->join('states', function($join){ $join->on('holdings.id','=','states.holding_id')->on('states.state','=','holdings.state'); })
 							->join('libraries','holdings.library_id','=','libraries.id')
-							->where('states.state','like',$state.'%')
-							->groupBy('libraries.code');
+							->groupBy('libraries.code', 'holdings.state');
 
 		if ($month && $month!='*') $query = $query->where('month(created_at)',$month);
 		if ($year && $year!='*') 	$query = $query->where('year(created_at)',$year);
@@ -219,7 +216,7 @@ class Holding extends Eloquent {
     return ( $this->state == 'ok' );
   }
 
-  public function getIsComenttedAttribute(){
+  public function getIsCommentedAttribute(){
     return ( $this->state == 'commented' );
   }
 

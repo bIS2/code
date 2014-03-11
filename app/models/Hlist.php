@@ -135,10 +135,10 @@ class Hlist extends Eloquent {
 
   public function scopeMy($query){
 
-  	$query = $query->with('user','holdings');
+  	$query = $query->with('user','holdings')->orderBy('created_at', 'desc');
 
     if ( Auth::user()->hasRole('maguser') || Auth::user()->hasRole('postuser') ) 
-      $query = $query->whereWorkerId(Auth::user()->id);
+      $query = $query->whereIn('revised',[false,0,'f'])->whereWorkerId(Auth::user()->id);
 
     if ( Auth::user()->hasRole('speichuser') ) 
       $query = $query->deliveries();
