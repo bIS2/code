@@ -12,6 +12,7 @@ return array(
 	'burneds'				=> 'Eliminierte',
 	'comment'				=> 'Kommentar',
 	'commenteds'			=> 'Kommentiert',
+	'confirmed' 			=> 'HOL ok',
 	'corrects' 				=> 'Kontrollierte',
 	'create_list'			=> 'Liste erstellen',
 	'deliveries'			=> 'Abgeschickte',
