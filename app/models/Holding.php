@@ -166,7 +166,7 @@ class Holding extends Eloquent {
 
   public function scopeAnnotated($query,$tag_id){
 
-    $tag_ids = array_merge([-1],Note::whereTagId($tag_id)->lists('holding_id') );
+    $tag_ids = Note::whereTagId($tag_id)->lists('holding_id') ;
 
     return $query->defaults()->whereIn('holdings.id', $tag_ids);
   } 
