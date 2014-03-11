@@ -9,6 +9,7 @@ return array(
 	'correct'					=> 'Kontrolliert',
 	'deliveries'                => 'Abgeliefert',
 	'global_log'  				=> 'Letzte Aktivitäten (alle Bibliotheken)',
+	'graph'						=> 'Grafik der HOL Status',
 	'grouped' 					=> 'Gruppiert',
 	'holding_annotated'			=> 'HOL mit Annotationen',
 	'holding_annotated_datails' => '(Details)',

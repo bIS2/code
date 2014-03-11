@@ -19,10 +19,16 @@ return array(
 	'commented'						=> 'Commented by SPB',
 	'confirmed' 					=> 'HOS correct',
 	'delivery' 						=> 'Sent to SPB',
+<<<<<<< HEAD
+	'integrated'					=> 'Integration terminated',
+	'no_result_states'				=> 'No actions until now',
+	'ok' 							=> 'HOL available',
+=======
 	'integrated'					=> 'Integrated',
 	'no_result_states'		=> 'No actions until now',
 	'ok' 									=> 'HOL available',
 	'receive' 						=> 'Integrated in SPB',
+>>>>>>> 3ac0d6d4a0e4cf281d8c0265140590cf8a76f837
 	'received'						=> 'Integrated in SPB',
 	'revised' 						=> 'Revised',
 	'revised_annotated' 	=> 'Annotated and back to BIBUSER',

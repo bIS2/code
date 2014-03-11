@@ -9,6 +9,7 @@ return array(
 	'correct'					=> 'Correct',
 	'deliveries'				=> 'Deliveries',
 	'global_log'  				=> 'Global Log',
+	'graph'						=> 'Graphical view of HOL status',
 	'grouped' 					=> 'HOS in groups',
 	'holding_annotated'			=> 'HOL annotated',
 	'holding_annotated_datails' => '(Details)',
