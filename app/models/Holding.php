@@ -167,6 +167,7 @@ class Holding extends Eloquent {
   public function scopeAnnotated($query,$tag_id){
 
     $tag_ids = Note::whereTagId($tag_id)->lists('holding_id');
+    $tag_ids = (count($tag_ids)>0) ? $tag_ids : [-1];
 
     return $query->defaults()->whereIn('holdings.id', $tag_ids);
   } 
