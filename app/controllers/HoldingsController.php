@@ -64,7 +64,7 @@ class HoldingsController extends BaseController {
     $this->data['hlists'] = Hlist::my()->get();
     $this->data['hlist'] = (Input::has('hlist_id')) ? Hlist::find(Input::get('hlist_id')) : false;
 
-    $this->data['is_all'] = !(Input::has('corrects') || Input::has('tagged') || Input::has('pendings') || Input::has('unlist') || Input::has('owner') || Input::has('aux')|| Input::has('deliveries') );
+    $this->data['is_all'] = !(Input::has('corrects') || Input::has('tagged') || Input::has('pendings') || Input::has('unlist') || Input::has('owner') || Input::has('aux') || Input::has('deliveries') || Input::has('state') );
 
 		if ( Input::has('pendings') )		$holdings = $holdings->pendings();
 		
