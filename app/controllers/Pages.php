@@ -34,7 +34,7 @@ class Pages extends BaseController {
 			$holdingsset_confirm 	= $holdingsset_confirm->where('year(created_at)','=',Input::get('year'));
 		}
 
-		// $data['holdingsset_confirm'] 	= $holdingsset_confirm;
+		$data['holdingsset_confirm'] 	= $holdingsset_confirm;
 		$data['holdings_ok'] 			= $holdings_ok->take(10)->get();
 		$data['holdings_annotated'] 	= $holdings_annotated->take(10)->get();
 
