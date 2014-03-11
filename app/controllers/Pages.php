@@ -187,7 +187,7 @@ class Pages extends BaseController {
 					[5,$this->search_by_library($holdings_trashed, 'ZHZB')],	
 				];
 
-		$eliminateds = [ 
+		$burned = [ 
 					[1,$this->search_by_library($holdings_eliminated, 'ABKB')],	
 					[2,$this->search_by_library($holdings_eliminated, 'LUZB')],	
 					[3,$this->search_by_library($holdings_eliminated, 'BSUB')],	
@@ -242,7 +242,7 @@ class Pages extends BaseController {
 					[4,$this->size_by_library($holdings_trashed, 'ZHUB')],	
 					[5,$this->size_by_library($holdings_trashed, 'ZHZB')],	
 				],
-		//$eliminateds = 
+		//$burned = 
 				[ 
 					[1,$this->size_by_library($holdings_eliminated, 'ABKB')],	
 					[2,$this->size_by_library($holdings_eliminated, 'LUZB')],	
