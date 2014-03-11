@@ -1,54 +1,80 @@
+$(function(){
 
-(function() {
 
-    var
-    container = document.getElementById('graph'),
-    horizontal = false,
-        // Show horizontal bars
-        d1 = [],
-        // First data series
-        d2 = [],
-        // Second data series
-        point, // Data point variable declaration
-        i;
 
-    for (i = 0; i < 4; i++) {
+        url_data = $('#graph').data('url');
 
-        if (horizontal) {
-            point = [Math.ceil(Math.random() * 10), i];
-        } else {
-            point = [i, Math.ceil(Math.random() * 10)];
-        }
+        $.getJSON(url_data, function(data){
 
-        d1.push(point);
+            var
+                container = document.getElementById('graph'),
+                horizontal = false,
+                b1 = data[0], b2 = data[1],b3 = data[2],b4 = data[3], b5 = data[4], b6 = data[5];
 
-        if (horizontal) {
-            point = [Math.ceil(Math.random() * 10), i + 0.5];
-        } else {
-            point = [i + 0.5, Math.ceil(Math.random() * 10)];
-        }
+            // alert(data[1])
+            (function() {
+                // Draw the graph
+               graph = Flotr.draw(container, [
+               {
+                    data: b1,
+                    label: 'confirmeds'
+                }, {
+                    data: b2,
+                    label: 'Sents'
+                }, {
+                    data: b3,
+                    label: 'integrateds'
+                }, {
+                    data: b4,
+                    label: 'Serie 4'
+                }, {              
+                    data: b5,
+                    label: 'Serie 5'
+                }, {
+                    data: b6,
+                    label: 'Serie 6'
+                }], {
+                    xaxis: {
+                        noTicks: 5,
+                        tickFormatter: function(x) {
+                            var
+                                x = parseInt(x),
+                                libraries = ['ABKB','BSUB','LUZB','ZHUB','ZHZB'];
+                            return libraries[x-1];
+                        }
+                    },                    
+                    legend: {
+                        backgroundColor: '#D2E8FF' // Light blue 
+                    },
+                    bars: {
+                        show: true,
+                        stacked: true,
+                        horizontal: horizontal,
+                        barWidth: 0.3,
+                        lineWidth: 1,
+                        shadowSize: 0
+                    },
+                    grid: {
+                        verticalLines: horizontal,
+                        horizontalLines: !horizontal
+                    },
+                    mouse: {
+                        track: true,
+                        relative: true
+                    },                    
+                    spreadsheet: {
+                        show: true,
+                        tickFormatter: function(e) {
+                            return e + '';
+                        }
+                    }                    
+                });
+            })();
+            $('.data').text(data[1])
 
-        d2.push(point);
-    };
 
-    // Draw the graph
-    Flotr.draw(
-    container, 
-    [d1, d2], 
-    {
-        bars: {
-            show: true,
-            horizontal: horizontal,
-            shadowSize: 0,
-            barWidth: 0.5
-        },
-        mouse: {
-            track: true,
-            relative: true
-        },
-        yaxis: {
-            min: 0,
-            autoscaleMargin: 1
-        }
-    });
-})();
+        })
+
+    
+
+})

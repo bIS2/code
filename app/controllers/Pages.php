@@ -129,6 +129,24 @@ class Pages extends BaseController {
 
 		fclose($fp);
 
+
+		return View::make('pages.index2', $data);
+	}
+
+	public function getHelp(){
+		return View::make('pages.help');
+	}
+
+	public function getStats(){
+
+		$holdings_confirmed 	=  Holding::countState('confirmed')->get()->toArray();
+		$holdings_sent 			=  Holding::countState('sent')->get()->toArray();
+		$holdings_integreted 	=  Holding::countState('integrated')->get()->toArray();
+		$holdings_revised		=  Holding::countState('revised')->get()->toArray();
+		$holdings_trashed 		=  Holding::countState('trash')->get()->toArray();
+		$holdings_eliminated 	=  Holding::countState('burn')->get()->toArray();
+
+
 		$confirmeds = [ 
 					[1,$this->search_by_library($holdings_confirmed, 'ABKB')],	
 					[2,$this->search_by_library($holdings_confirmed, 'LUZB')],	
@@ -177,15 +195,8 @@ class Pages extends BaseController {
 					[5,$this->search_by_library($holdings_eliminated, 'ZHZB')],	
 				];
 
+		return Response::json([$confirmeds,$sents,$integrateds,$reviseds, $trasheds, $eliminateds]);
 
-
-		$data['csv'] = json_encode([$confirmeds,$sents,$integrateds,$reviseds, $trasheds, $eliminateds]);
-
-		return View::make('pages.index2', $data);
-	}
-
-	public function getHelp(){
-		return View::make('pages.help');
 	}
 
 	private function search_by_library($holdings, $library){
@@ -204,6 +215,6 @@ class Pages extends BaseController {
 				$count = $holding['count'];
 		}
 		return $count;
-	}
+	}	
 
 }

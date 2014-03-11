@@ -175,8 +175,8 @@
 		<h3>
 			{{ trans('stats.graph') }}
 		</h3>
-		<div id="graph" style="width:800px;height:400px" ></div>
-		<div class="data">{{ $csv }}</div>
+		<div id="graph" style="width:800px;height:400px" data-url="{{ action('Pages@getStats') }}" ></div>
 	</div>
+	<div class="data"></div>
 </div>
 @stop
