@@ -57,7 +57,7 @@
 				</tr>
 			</thead>
 			<tbody>
-			@foreach ($holdingsset_confirmed as $confirm) 
+			@foreach ($holdingsset_confirm as $confirm) 
 				<tr>
 					<td class="date col-xs-2 text-muted">
 						<?php 
