@@ -219,6 +219,10 @@ class Holding extends Eloquent {
     return ( $this->state == 'ok' );
   }
 
+  public function getIsComenttedAttribute(){
+    return ( $this->state == 'commented' );
+  }
+
   public function getIsAnnotatedAttribute(){
     $state =  $this->state;
     return (( $state == 'revised_annotated') || ($state == 'annotated'));
