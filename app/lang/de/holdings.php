@@ -9,7 +9,7 @@ return array(
 	'annotated_by'			=> 'Annotiert von',
 	'aux'					=> 'Erg.bestand',
 	'both'					=> 'Beides',
-	'burneds'				=> 'N ablieferbare',
+	'burneds'				=> 'Eliminierte',
 	'comment'				=> 'Kommentar',
 	'commenteds'			=> 'Kommentiert',
 	'corrects' 				=> 'Kontrollierte',
