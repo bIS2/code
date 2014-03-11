@@ -77,5 +77,6 @@ return array(
 'weight' 		=> 'Log Umfang' ,
 'weight_large' 	=> 'Umfang in Jahren od. Volumen',
 'weight_short'	=> 'Log Umfang',
+'years'			=> 'Zeitl Umfang',
 
 );

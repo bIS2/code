@@ -76,5 +76,6 @@ return array(
 'weight' 		=> 'Log Size' ,
 'weight_large' 	=> 'Size in years or volumes' ,
 'weight_short'	=> 'Log Size',
+'years'			=> 'Time Size',
 
 );
