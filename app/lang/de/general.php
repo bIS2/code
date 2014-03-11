@@ -34,6 +34,7 @@ return array (
 	'feedback'			=> 'Feedback geben',
 	'greater_than'		=> 'grösser als',
 	'groups'			=> 'Gruppen',
+	'history'			=> 'Zeigt alle durchgeführten Aktionen',
 	'included_in'		=> 'Enthalten in',
 	'incorrects'		=> 'Unlösbare',
 	'lang_de'			=> 'Deutsch',
