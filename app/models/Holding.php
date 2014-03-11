@@ -196,15 +196,18 @@ class Holding extends Eloquent {
   }
 
   // Return the counter states in holding by library. Is used to plot stats 
-  public function scopeCountState($query,$state=''){
+  public function scopeCountState($query,$state='', $month=false, $year=false){
 
-		$result = $query->select(DB::raw('libraries.code as library, count(*) as count, sum(holdings.size) as large'))
+		$query = $query->select(DB::raw('libraries.code as library, count(*) as count, sum(holdings.size) as large'))
 							->join('states','holdings.id','=','states.holding_id')
 							->join('libraries','holdings.library_id','=','libraries.id')
 							->where('holdings.state','like',$state.'%')->orWhere('states.state','like',$state.'%')
 							->groupBy('libraries.code');
 
-		return $result;
+		if ($month && $month!='*') $query = $query->where('month(created_at)',$month);
+		if ($year && $year!='*') 	$query = $query->where('year(created_at)',$year);
+
+		return $query;
   }
 
   // Attrubutes States
