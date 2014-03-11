@@ -18,9 +18,9 @@ class Pages extends BaseController {
 		$library_id = (Input::has('library_id')) ? Input::get('library_id') : null;
 
 		$holdings 				= Holding::inLibrary($library_id);
-		$holdings_ok 			= State::inLibrary($library_id)->orderby('created_at', 'desc')->whereState('ok');
-		$holdings_annotated 	= State::inLibrary($library_id)->orderby('created_at', 'desc')->whereState('annotated');
-		$holdingsset_confirm 	= Confirm::orderby('created_at', 'desc');
+		$holdings_ok 			= State::inLibrary($library_id)->orderby('id', 'desc')->whereState('ok');
+		$holdings_annotated 	= State::inLibrary($library_id)->orderby('id', 'desc')->whereState('annotated');
+		$holdingsset_confirm 	= Confirm::orderby('id', 'desc');
 
 		if ( Input::has('month') && (Input::get('month')!='*') ) {
 			$holdings_ok 			= $holdings_ok->where('month(created_at)','=',Input::get('month'));
