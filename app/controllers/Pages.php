@@ -23,18 +23,18 @@ class Pages extends BaseController {
 		$holdingsset_confirm 	= Confirm::orderby('created_at', 'desc')->take(10);
 
 		if ( Input::has('month') && (Input::get('month')!='*') ) {
-			$holdings_ok 			= $holdings_ok->where('month(created_at)','=',Input::get('month'));
+			$holdings_ok 					= $holdings_ok->where('month(created_at)','=',Input::get('month'));
 			$holdings_annotated 	= $holdings_annotated->where('month(created_at)','=',Input::get('month'));
 			$holdingsset_confirm	= $holdingsset_confirm->where('month(created_at)','=',Input::get('month'));
 		}
 
 		if (Input::has('year') && (Input::get('year')!='*')) {
-			$holdings_ok 			= $holdings_ok->where('year(created_at)','=',Input::get('year'));
+			$holdings_ok 					= $holdings_ok->where('year(created_at)','=',Input::get('year'));
 			$holdings_annotated 	= $holdings_annotated->where('year(created_at)','=',Input::get('year'));
 			$holdingsset_confirm 	= $holdingsset_confirm->where('year(created_at)','=',Input::get('year'));
 		}
 
-		$data['holdingsset_confirm'] 	= $holdingsset_confirm;
+		$data['holdingsset_confirm'] 	= $holdingsset_confirm->get();
 		$data['holdings_ok'] 			= $holdings_ok->take(10)->get();
 		$data['holdings_annotated'] 	= $holdings_annotated->take(10)->get();
 
