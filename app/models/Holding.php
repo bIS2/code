@@ -201,7 +201,7 @@ class Holding extends Eloquent {
 		$query = $query->select(DB::raw('libraries.code as library, count(*) as count, sum(holdings.size) as large'))
 							->join('states','holdings.id','=','states.holding_id')
 							->join('libraries','holdings.library_id','=','libraries.id')
-							->where('holdings.state','like',$state.'%')->orWhere('states.state','like',$state.'%')
+							->where('states.state','like',$state.'%')
 							->groupBy('libraries.code');
 
 		if ($month && $month!='*') $query = $query->where('month(created_at)',$month);

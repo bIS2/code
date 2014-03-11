@@ -15,7 +15,7 @@ return array(
 
 	'annotated' 					=> 'Annotated by MAGUSER',
 	'blank' 						=> '(still without status)',
-	'burn' 							=> 'Not solvable',
+	'burn' 							=> 'HOL eliminated',
 	'commented'						=> 'Commented by SPB',
 	'confirmed' 					=> 'HOS correct',
 	'delivery' 						=> 'Sent to SPB',
