@@ -9,7 +9,10 @@ $(function(){
             var
                 container = document.getElementById('graph'),
                 horizontal = false,
-                b1 = data[0], b2 = data[1],b3 = data[2],b4 = data[3], b5 = data[4], b6 = data[5];
+                counter = data['counter'],
+                large = data['large'],
+                b1 = counter[0], b2 = counter[1],b3 = counter[2],b4 = counter[3], b5 = counter[4], b6 = counter[5],
+                l1 = large[0], l2 = large[1],l3 = large[2],l4 = large[3], l5 = large[4], l6 = large[5];
 
             // alert(data[1])
             (function() {

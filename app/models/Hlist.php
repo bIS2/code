@@ -141,7 +141,7 @@ class Hlist extends Eloquent {
       $query = $query->whereWorkerId(Auth::user()->id);
 
     if ( Auth::user()->hasRole('speichuser') ) 
-      $query = $query->inlibrary()->deliveries();
+      $query = $query->deliveries();
 
     if (Auth::user()->hasRole('magvuser') && Auth::user()->hasRole('bibuser') )
 	    $query = $query->inLibrary();
