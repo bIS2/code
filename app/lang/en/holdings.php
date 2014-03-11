@@ -9,7 +9,7 @@ return array(
 	'annotated_by'			=> 'Annotated By',
 	'aux'					=> 'Auxiliar',
 	'both'					=> 'Both',
-	'burneds'				=> 'Unsolved',
+	'burneds'				=> 'Eliminated',
 	'comment' 				=> 'Comment',
 	'commenteds'			=> 'Commented',
 	'confirmed' 				=> 'Confirmed',
