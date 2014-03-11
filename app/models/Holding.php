@@ -219,7 +219,7 @@ class Holding extends Eloquent {
     return ( $this->state == 'ok' );
   }
 
-  public function getIsComenttedAttribute(){
+  public function getIsCommentedAttribute(){
     return ( $this->state == 'commented' );
   }
 
