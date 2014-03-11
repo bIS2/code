@@ -12,7 +12,6 @@
 			<div class="col-xs-8">
 				<div class="lead"> 
 					{{ trans('lists.title') }} 
-					{{$query}}
 				</div >
 			</div> <!-- /.col-xs-12 -->
 

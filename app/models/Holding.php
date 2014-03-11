@@ -196,13 +196,13 @@ class Holding extends Eloquent {
   }
 
   // Return the counter states in holding by library. Is used to plot stats 
-  public function scopeCountState($query,$state='', $month=false, $year=false){
+  public function scopeStats($query, $month=false, $year=false){
 
-		$query = $query->select(DB::raw('libraries.code as library, count(*) as count, sum(holdings.size) as large'))
-							->join('states','holdings.id','=','states.holding_id')
+		$query = $query->select(DB::raw('libraries.code as library,holdings.state as state , count(*) as count, sum(holdings.size) as size'))
+              ->from('holdings')
+							->join('states', function($join){ $join->on('holdings.id','=','states.holding_id')->on('states.state','=','holdings.state'); })
 							->join('libraries','holdings.library_id','=','libraries.id')
-							->where('states.state','like',$state.'%')
-							->groupBy('libraries.code');
+							->groupBy('libraries.code', 'holdings.state');
 
 		if ($month && $month!='*') $query = $query->where('month(created_at)',$month);
 		if ($year && $year!='*') 	$query = $query->where('year(created_at)',$year);
@@ -217,6 +217,10 @@ class Holding extends Eloquent {
 
   public function getIsCorrectAttribute(){
     return ( $this->state == 'ok' );
+  }
+
+  public function getIsComenttedAttribute(){
+    return ( $this->state == 'commented' );
   }
 
   public function getIsAnnotatedAttribute(){
