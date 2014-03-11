@@ -4,8 +4,8 @@ $(function(){
 
         url_data = $('#graph').data('url');
 
-        $.getJSON(url_data, function(data){
-        	
+        $.getJSON(url_data, $('.form-inline').serialize() , function(data){
+
             str_confirm 		= jQuery('.confirm').html()
             str_delivery 		= jQuery('.delivery').html()
             str_integrated 	= jQuery('.integrated').html()
