@@ -195,7 +195,69 @@ class Pages extends BaseController {
 					[5,$this->search_by_library($holdings_eliminated, 'ZHZB')],	
 				];
 
-		return Response::json([$confirmeds,$sents,$integrateds,$reviseds, $trasheds, $eliminateds]);
+
+		$stats_size = [
+		
+		// confirmeds
+			[ 
+				[1,$this->size_by_library($holdings_confirmed, 'ABKB')],	
+				[2,$this->size_by_library($holdings_confirmed, 'LUZB')],	
+				[3,$this->size_by_library($holdings_confirmed, 'BSUB')],	
+				[4,$this->size_by_library($holdings_confirmed, 'ZHUB')],	
+				[5,$this->size_by_library($holdings_confirmed, 'ZHZB')],	
+			],
+
+		 //sents
+			[ 
+					[1,$this->size_by_library($holdings_sent, 'ABKB')],	
+					[2,$this->size_by_library($holdings_sent, 'LUZB')],	
+					[3,$this->size_by_library($holdings_sent, 'BSUB')],	
+					[4,$this->size_by_library($holdings_sent, 'ZHUB')],	
+					[5,$this->size_by_library($holdings_sent, 'ZHZB')],	
+			],
+
+			// integrateds
+			[ 
+					[1,$this->size_by_library($holdings_integrated, 'ABKB')],	
+					[2,$this->size_by_library($holdings_integrated, 'LUZB')],	
+					[3,$this->size_by_library($holdings_integrated, 'BSUB')],	
+					[4,$this->size_by_library($holdings_integrated, 'ZHUB')],	
+					[5,$this->size_by_library($holdings_integrated, 'ZHZB')],	
+				],
+
+		//$reviseds = 
+			[ 
+					[1,$this->size_by_library($holdings_revised, 'ABKB')],	
+					[2,$this->size_by_library($holdings_revised, 'LUZB')],	
+					[3,$this->size_by_library($holdings_revised, 'BSUB')],	
+					[4,$this->size_by_library($holdings_revised, 'ZHUB')],	
+					[5,$this->size_by_library($holdings_revised, 'ZHZB')],	
+				],
+
+		//$trasheds = 
+			[ 
+					[1,$this->size_by_library($holdings_trashed, 'ABKB')],	
+					[2,$this->size_by_library($holdings_trashed, 'LUZB')],	
+					[3,$this->size_by_library($holdings_trashed, 'BSUB')],	
+					[4,$this->size_by_library($holdings_trashed, 'ZHUB')],	
+					[5,$this->size_by_library($holdings_trashed, 'ZHZB')],	
+				],
+		//$eliminateds = 
+				[ 
+					[1,$this->size_by_library($holdings_eliminated, 'ABKB')],	
+					[2,$this->size_by_library($holdings_eliminated, 'LUZB')],	
+					[3,$this->size_by_library($holdings_eliminated, 'BSUB')],	
+					[4,$this->size_by_library($holdings_eliminated, 'ZHUB')],	
+					[5,$this->size_by_library($holdings_eliminated, 'ZHZB')],	
+				]
+		];
+
+
+		return Response::json([
+				'counter' => [$confirmeds,$sents,$integrateds,$reviseds, $trasheds, $eliminateds],
+				'large'		=> $stats_size
+			]
+		);
 
 	}
 
@@ -206,6 +268,15 @@ class Pages extends BaseController {
 				$count = $holding['count'];
 		}
 		return (int) $count;
+	}
+
+	private function size_by_library($holdings, $library){
+		$count = 0;
+		foreach ($holdings as $holding){
+			if ($holding['library']==$library) 
+				$large = $holding['large'];
+		}
+		return (float) $large;
 	}
 
 	private function search_by_state($holdings, $state){
