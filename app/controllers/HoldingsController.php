@@ -75,7 +75,7 @@ class HoldingsController extends BaseController {
 
 		if ( Input::has('tagged') )			$holdings = $holdings->annotated(Input::get('tagged'));	
 		if ( Input::has('commenteds') )		$holdings = $holdings->defaults()->commenteds();
-		if ( Input::has('state') )		$holdings = Holding::inLibrary()->ownerOrAux()->withState( Input::get('state') );
+		if ( Input::has('state') )			$holdings = Holding::inLibrary()->ownerOrAux()->withState( Input::get('state') );
 
 		// $holdings = ( Input::has('reviseds') || (Auth::user()->hasRole('postuser'))) ? $holdings->reviseds()->corrects() : $holdings->noreviseds();
 

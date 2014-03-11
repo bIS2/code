@@ -164,15 +164,11 @@ class Holding extends Eloquent {
 	    ->whereState('confirmed');
   }
 
-  public function scopeAnnotated($query,$tag_id='%'){
+  public function scopeAnnotated($query,$tag_id){
 
-    if ($tag_id=='%') 
-      $tag_ids = DB::table('notes')->lists('holding_id') ;
-    else
-      $tag_ids = DB::table('notes')->whereTagId($tag_id)->lists('holding_id');
+    $tag_ids = array_merge([-1],Note::whereTagId($tag_id)->lists('holding_id') );
 
-    $tag_ids = (count($tag_ids) > 0) ? $tag_ids : [-1];
-    return $query->whereIn('holdings.id', $tag_ids);
+    return $query->defaults()->whereIn('holdings.id', $tag_ids);
   } 
 
   public function scopeOrphans($query){

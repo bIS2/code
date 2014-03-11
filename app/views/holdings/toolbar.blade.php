@@ -53,16 +53,16 @@
 					  	</a>
 
 					  	<div class="btn-group">
-						  	<a href="?tagged=true" class="btn btn-default <?= ( Input::has('tagged' )) ? 'active' : '' ?> btn-sm" data-toggle="dropdown">
+						  	<a href="?tagged=true" class="btn btn-default <?= ( Input::has('tagged' ) ||  Input::get('state')=='annotated' ) ? 'active' : '' ?> btn-sm" data-toggle="dropdown">
 						  		<div class="text-danger"><span class="fa fa-tags"></span>
 						  		<?= (!Input::has('tagged') || Input::get('tagged')=='%' ) ? trans('holdings.annotated') : Tag::find( Input::get('tagged') )->name ?>  
 						  		<span class="caret"></span></div>
 						  	</a>
 						  	<ul class="dropdown-menu" role="menu">
-						  		<li><a href="?tagged=%">{{ trans('general.all') }}</a></li>
+						  		<li class="<?= ( Input::get('state')=='annotated' ) ? 'active' : '' ?>"><a href="{{ route('holdings.index', Input::only('view') + ['state'=>'annotated'] ) }}">{{ trans('general.all') }}</a></li>
 						  		<li class="divider"></li>
 						  		@foreach (Tag::all() as $tag)
-						  			<li> <a href="?tagged={{ $tag->id }}">{{ $tag->name }}</a> </li>
+						  			<li class="<?= ( Input::get('tagged')== $tag->id ) ? 'active' : '' ?>"> <a href="{{ route('holdings.index', Input::only('view') + ['tagged'=>$tag->id] ) }}">{{ $tag->name }}</a> </li>
 						  		@endforeach
 						  	</ul>
 					  	</div>
