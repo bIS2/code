@@ -17,8 +17,8 @@ class Pages extends BaseController {
 		$data['libraries'] 				= Library::all();
 		$library_id = (Input::has('library_id')) ? Input::get('library_id') : null;
 
-		$holdings 				= Holding::inLibrary($library_id);
-		$holdings_ok 			= State::inLibrary($library_id)->whereState('ok');
+		$holdings 						= Holding::inLibrary($library_id);
+		$holdings_ok 					= State::inLibrary($library_id)->whereState('ok');
 		$holdings_annotated 	= State::inLibrary($library_id)->whereState('annotated');
 		$holdingsset_confirm 	= Confirm::take(10);
 
