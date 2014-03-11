@@ -77,9 +77,11 @@ class StatesController extends BaseController {
 			}
 
 			$list_finish = false;
+			$list_received = false;
 			if ( Input::has('hlist_id') && ($input['state']=='ok') ) {
 				$hlist = Hlist::find(Input::get('hlist_id'));
 				$list_finish = $hlist->ready_to_revise;
+				$list_received = $hlist->received;
 			}
 			
 			return Response::json([ 

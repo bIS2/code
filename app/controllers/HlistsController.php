@@ -44,7 +44,7 @@ class HlistsController extends BaseController {
 		if (Input::has('state')) 
 			$this->hlist = $this->hlist->whereRevised(Input::get('state') == 'revised');
 
-		$this->data['hlists'] = $this->hlist->my()->paginate(20);
+		$this->data['hlists'] = $this->hlist->my()->paginate(50);
 
 		// $queries = DB::getQueryLog();
 		
@@ -93,13 +93,16 @@ class HlistsController extends BaseController {
 	public function store()
 	{
 		$holding_ids = Input::get('holding_id');
-
+		$error = '';
 
 		//echo var_dump($holding_ids);
 		$hlist = new Hlist([ 'name' => Input::get('name'), 'user_id' => Auth::user()->id ]);
+		$name_list_exists = Hlist::where('name', '=', Input::get('name') )->exists();
 
-
-		if ( Input::has('worker_id') ) {
+/*		echo var_dump($name_list_exists);
+		die();
+*/
+		if ( Input::has('worker_id') && !$name_list_exists ) {
 
 			$hlist->worker_id = Input::get('worker_id');
 			if ( Input::has('type') ) $hlist->type = Input::get('type');
@@ -112,7 +115,7 @@ class HlistsController extends BaseController {
 					$query->whereState('revised_ok')->orWhere('state','=','commented'); 
 				})->lists('id');
 
-			 	$holding_ids =  (count($ids)>0) ? $ids : []; 
+			 	$holding_ids =  ( count($ids)>0) ? $ids : []; 
 
 			}
 
@@ -126,7 +129,7 @@ class HlistsController extends BaseController {
 							->whereState('ok')
 							->orWhere('state','=','annotated')
 							->orWhere('state','=','confirmed')
-							->orWhere('state','=','commented'); 
+							->orWhere('state','=','commented');  
 						})->lists('id');
 
 				 	$holding_ids =  (count($ids)>0) ? $ids : []; 
@@ -144,7 +147,7 @@ class HlistsController extends BaseController {
 				if (  Input::get('type')=='elimination' ){
 
 					$ids = Holding::whereIn('id',$holding_ids)->where( function($query){ 
-						$query->whereState('spare')->orWhere('state','=','commented');
+						$query->wasState('spare')->orWhere('state','=','commented');
 					})->lists('id');
 
 				 	$holding_ids =  ( count($ids)>0 ) ? $ids : []; 
@@ -155,12 +158,16 @@ class HlistsController extends BaseController {
 			//die( var_dump( User::find(Input::get('worker_id')) ) );
 	
 		}
+
+		if ( count($holding_ids)==0 ) 	$error = trans('errors.list_in_blank');
+		if ($name_list_exists) 				$error = trans('errors.list_name_is_duplicate');
+
 		$validation = Validator::make( $hlist->toArray(), Hlist::$rules );
 
 		if ($validation->passes()) {
 
 
-			if ( count($holding_ids)>0) {
+			if ( $error == '' ) {
 
 				$hlist->save();
 				$hlist->holdings()->attach( $holding_ids );
@@ -168,7 +175,7 @@ class HlistsController extends BaseController {
 
 			} else {
 
-				return Response::json(['error' => trans('errors.list_in_blank')]);
+				return Response::json(['error' => $error ]);
 
 			}
 

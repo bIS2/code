@@ -80,8 +80,9 @@ class Holding extends Eloquent {
     return $query;
   }
 
-  public function scopeInLibrary($query){
-  	return $query->whereLibraryId( Auth::user()->library_id );
+  public function scopeInLibrary($query,$library_id=false){
+    $library_id = ($library_id) ? $library_id : Auth::user()->library_id;
+  	return $query->whereLibraryId( $library_id );
   }
 
   public function scopeOwnerOrAux($query){
@@ -120,6 +121,12 @@ class Holding extends Eloquent {
 
   public function scopeRevisedsCorrects($query){
     return $query->whereState('revised_ok');
+  }
+
+  public function scopeWasState($query,$state){
+    return $query->whereIn('holdings.id', function($query) use ($state) {
+    	$query->select('holding_id')->from('states')->whereState($state);
+    });
   }
 
   public function scopeWasConfirmed($query) {
@@ -191,7 +198,7 @@ class Holding extends Eloquent {
   // Return the counter states in holding by library. Is used to plot stats 
   public function scopeCountState($query,$state=''){
 
-		$result = $query->select(DB::raw('libraries.code as library, count(*) as count'))
+		$result = $query->select(DB::raw('libraries.code as library, count(*) as count, sum(size) as large'))
 							->join('states','holdings.id','=','states.holding_id')
 							->join('libraries','holdings.library_id','=','libraries.id')
 							->where('holdings.state','like',$state.'%')->orWhere('states.state','like',$state.'%')
@@ -234,12 +241,20 @@ class Holding extends Eloquent {
     return $this->states()->whereState('receive')->exists();
   }
 
+  public function getWasSpareAttribute(){
+    return $this->states()->whereState('spare')->exists();
+  }
+
   public function getIsReceivedAttribute(){
     return ( $this->state == 'received' );
   }
 
   public function getIsTrashedAttribute(){
     return ( $this->state == 'trash' );
+  }
+
+  public function getIsSpareAttribute(){
+    return ( $this->state == 'spare' );
   }
 
   public function getIsBurnedAttribute(){

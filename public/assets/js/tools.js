@@ -273,7 +273,7 @@ function handleAjaxSucces(parent) {
 
     if ( result.commented ){
       $('#form-create-comments').modal('hide')
-      $('#'+result.commented).hide('slow')
+      $('#'+result.commented).hide('slow', function(){ $(this).remove() });
     }
 
     if ( result.error ){
