@@ -73,8 +73,6 @@ $(function(){
                     }                    
                 });
             })();
-            $('.data').text(data[1])
-
 
         })
 

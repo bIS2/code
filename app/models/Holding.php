@@ -198,7 +198,7 @@ class Holding extends Eloquent {
   // Return the counter states in holding by library. Is used to plot stats 
   public function scopeCountState($query,$state=''){
 
-		$result = $query->select(DB::raw('libraries.code as library, count(*) as count'))
+		$result = $query->select(DB::raw('libraries.code as library, count(*) as count, sum(size) as large'))
 							->join('states','holdings.id','=','states.holding_id')
 							->join('libraries','holdings.library_id','=','libraries.id')
 							->where('holdings.state','like',$state.'%')->orWhere('states.state','like',$state.'%')
@@ -251,6 +251,10 @@ class Holding extends Eloquent {
 
   public function getIsTrashedAttribute(){
     return ( $this->state == 'trash' );
+  }
+
+  public function getIsSpareAttribute(){
+    return ( $this->state == 'spare' );
   }
 
   public function getIsBurnedAttribute(){
