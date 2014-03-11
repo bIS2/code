@@ -5,6 +5,7 @@ return array(
 'f008x' => '008x' ,
 'f008y' => '008y' ,
 'f022a' => '022a' ,
+'f022a' => '072a' ,
 'f245a' => '245a' ,
 'f245b' => '245b' ,
 'f245c' => '245c' ,
@@ -76,5 +77,6 @@ return array(
 'weight' 		=> 'Log Umfang' ,
 'weight_large' 	=> 'Umfang in Jahren od. Volumen',
 'weight_short'	=> 'Log Umfang',
+'years'			=> 'Zeitl Umfang',
 
 );
