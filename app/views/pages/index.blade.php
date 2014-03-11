@@ -183,12 +183,12 @@
 	</div>
 	<div class="data"></div>
 	<div id="lang" class="hide">
-    <span class="confirm">{{ trans('states.confirm') }}</span>
-    <span class="sent">{{ trans('states.sent') }}</span>
+    <span class="confirm">{{ trans('states.confirmed') }}</span>
+    <span class="delivery">{{ trans('states.delivery') }}</span>
     <span class="integrated">{{ trans('states.integrated') }}</span>
     <span class="revised">{{ trans('states.revised') }}</span>
-    <span class="trashed">{{ trans('states.trashed') }}</span>
-    <span class="burned">{{ trans('states.burned') }}</span>
+    <span class="trashed">{{ trans('states.trash') }}</span>
+    <span class="burned">{{ trans('states.burn') }}</span>
 	</div>
 </div>
 @stop

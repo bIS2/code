@@ -139,12 +139,15 @@ class Pages extends BaseController {
 
 	public function getStats(){
 
-		$holdings_confirmed 		=  Holding::countState('confirmed')->get()->toArray();
-		$holdings_sent 					=  Holding::countState('sent')->get()->toArray();
-		$holdings_integreted 		=  Holding::countState('integrated')->get()->toArray();
-		$holdings_revised				=  Holding::countState('revised')->get()->toArray();
-		$holdings_trashed 			=  Holding::countState('trash')->get()->toArray();
-		$holdings_eliminated 		=  Holding::countState('burn')->get()->toArray();
+		$month = (Input::has('month')) ? Input::get('month') : false;
+		$year = (Input::has('year')) ? Input::get('year') : false;
+
+		$holdings_confirmed 		=  Holding::countState('confirmed', $month, $year)->get()->toArray();
+		$holdings_sent 					=  Holding::countState('sent', $month, $year)->get()->toArray();
+		$holdings_integreted 		=  Holding::countState('integrated', $month, $year)->get()->toArray();
+		$holdings_revised				=  Holding::countState('revised', $month, $year)->get()->toArray();
+		$holdings_trashed 			=  Holding::countState('trash', $month, $year)->get()->toArray();
+		$holdings_eliminated 		=  Holding::countState('burn', $month, $year)->get()->toArray();
 		// echo var_dump($holdings_confirmed );
 
 		$confirmeds = [ 
