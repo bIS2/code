@@ -52,7 +52,7 @@ class Holding extends Eloquent {
   // Scopes
 
   public function scopeDefaults($query){
-  	return $query->with('notes', 'states', 'comment')->orderBy('f852j')->orderBy('f852c')->wasConfirmed()->inLibrary();
+  	return $query->with('notes', 'states', 'comment')->orderBy('f852j')->wasConfirmed()->inLibrary();
   }
 
   public function scopeInit ($query){
