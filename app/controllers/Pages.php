@@ -42,11 +42,11 @@ class Pages extends BaseController {
 		$data['total_ok'] 				= $holdings_ok->count();
 		$data['total_anottated'] 		= $holdings_annotated->count();
 
+/*
 		$holdings_total = Holding::select(DB::raw('states.state as state, count(*) as count'))
 							->join('states','holdings.id','=','states.holding_id')
 							->groupBy('states.state')
 							->get()->toArray();
-
 		$holdings_confirmed 	=  Holding::countState('confirmed')->get()->toArray();
 		$holdings_sent 			=  Holding::countState('sent')->get()->toArray();
 		$holdings_integreted 	=  Holding::countState('integrated')->get()->toArray();
@@ -129,7 +129,7 @@ class Pages extends BaseController {
 
 		fclose($fp);
 
-
+*/
 		return View::make('pages.index', $data);
 	}
 
@@ -139,12 +139,12 @@ class Pages extends BaseController {
 
 	public function getStats(){
 
-		$holdings_confirmed 	=  Holding::countState('confirmed')->get()->toArray();
-		$holdings_sent 			=  Holding::countState('sent')->get()->toArray();
-		$holdings_integreted 	=  Holding::countState('integrated')->get()->toArray();
-		$holdings_revised		=  Holding::countState('revised')->get()->toArray();
-		$holdings_trashed 		=  Holding::countState('trash')->get()->toArray();
-		$holdings_eliminated 	=  Holding::countState('burn')->get()->toArray();
+		$holdings_confirmed 		=  Holding::countState('confirmed')->get()->toArray();
+		$holdings_sent 					=  Holding::countState('sent')->get()->toArray();
+		$holdings_integreted 		=  Holding::countState('integrated')->get()->toArray();
+		$holdings_revised				=  Holding::countState('revised')->get()->toArray();
+		$holdings_trashed 			=  Holding::countState('trash')->get()->toArray();
+		$holdings_eliminated 		=  Holding::countState('burn')->get()->toArray();
 		// echo var_dump($holdings_confirmed );
 
 		$confirmeds = [ 
