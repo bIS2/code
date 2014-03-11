@@ -44,7 +44,7 @@ class HlistsController extends BaseController {
 		if (Input::has('state')) 
 			$this->hlist = $this->hlist->whereRevised(Input::get('state') == 'revised');
 
-		$this->data['hlists'] = Hlist::my()->paginate(50);
+		$this->data['hlists'] = $this->hlist->my()->paginate(50);
 
 		$queries = DB::getQueryLog();
 		
