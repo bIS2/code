@@ -46,10 +46,6 @@ class HlistsController extends BaseController {
 
 		$this->data['hlists'] = $this->hlist->my()->paginate(50);
 
-		$queries = DB::getQueryLog();
-		
-		$this->data['query'] = $queries;			
-
 		$maguser = Role::whereName('maguser')
 						->first()
 						->users()
