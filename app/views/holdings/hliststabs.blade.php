@@ -32,7 +32,9 @@
 
 	// var_dump($restarcookie);
 
-	if ($restarcookie) Session::put(Auth::user()->username.'_hlists_to_show', ';');
+	//if ($restarcookie) 
+		Session::put(Auth::user()->username.'_hlists_to_show', ';');
+		setcookie(Auth::user()->username.'_hlists_to_show', ';', time() + (86400 * 30));
 
 	if (!isset($_COOKIE[Auth::user()->username.'_hlists_to_show']) || (Session::get(Auth::user()->username.'_hlists_to_show') == ';')) {
 	  setcookie(Auth::user()->username.'_hlists_to_show', DEFAULTS_HLISTS, time() + (86400 * 30));
@@ -107,7 +109,7 @@
 <div id="hos_actions_and_filters" class="row">
 
 	<!-- Information about pagination-->
-	<div class="col-xs-2">
+	<div class="col-xs-3">
 		{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} 
 	</div>
 
@@ -119,7 +121,7 @@
 	</div>
 
 	<!-- Actions -->
-	<div class="col-xs-4">
+	<div class="col-xs-3">
 		<div class="pull-right">
 
 			@if (Input::has('hlist_id'))
