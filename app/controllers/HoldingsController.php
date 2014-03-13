@@ -57,14 +57,14 @@ class HoldingsController extends BaseController {
 			}
 
 
-		$this->data['allsearchablefields'] = ['sys2','008x','022a','245a','245b','245c','246a','245n','245p','260a','260b','300a','300b','300c','310a','362a','500a','505a','710a','770t','772t','780t','785t','852b','852c','852h','852h_e','852j','866a','866z','size' , 'weight', 'exists_online', 'is_current', 'has_incomplete_vols'];
+		$this->data['allsearchablefields'] = ['sys2','008x','022a','245a','245b','245c','246a','245n','245p','260a','260b','300a','300b','300c','310a','362a','500a','505a','710a','770t','772t','780t','785t','852b','852c','852h','852j','866a','866z','size' , 'weight', 'exists_online', 'is_current', 'has_incomplete_vols'];
 
 		$holdings = ( Input::has('hlist_id') ) ?	Hlist::find( Input::get('hlist_id') )->holdings() : Holding::init();
 
     $this->data['hlists'] = Hlist::my()->get();
     $this->data['hlist'] = (Input::has('hlist_id')) ? Hlist::find(Input::get('hlist_id')) : false;
 
-    $this->data['is_all'] = !(Input::has('corrects') || Input::has('tagged') || Input::has('pendings') || Input::has('unlist') || Input::has('owner') || Input::has('aux')|| Input::has('deliveries') );
+    $this->data['is_all'] = !(Input::has('corrects') || Input::has('tagged') || Input::has('pendings') || Input::has('unlist') || Input::has('owner') || Input::has('aux') || Input::has('deliveries') || Input::has('state') );
 
 		if ( Input::has('pendings') )		$holdings = $holdings->pendings();
 		

@@ -37,6 +37,28 @@
 </div>
 <hr>
 <div class="row">
+	<div class="col-xs-12">
+		<h3>
+			{{ trans('stats.graph') }}
+		</h3>
+		<div id="graph" style="width:800px;height:400px" data-url="{{ action('Pages@getStats') }}" ></div>
+		<h3>
+			{{ trans('stats.graph-size') }}
+		</h3>
+		<div id="graph-by-size" style="width:800px;height:400px" data-url="{{ action('Pages@getStats') }}" ></div>
+	</div>
+	<div class="data"></div>
+	<div id="lang" class="hide">
+    <span class="confirm">{{ trans('states.confirmed') }}</span>
+    <span class="delivery">{{ trans('states.delivery') }}</span>
+    <span class="integrated">{{ trans('states.integrated') }}</span>
+    <span class="revised">{{ trans('states.revised') }}</span>
+    <span class="trashed">{{ trans('states.trash') }}</span>
+    <span class="burned">{{ trans('states.burn') }}</span>
+	</div>
+</div>
+<hr>
+<div class="row">
 	<div class="col-xs-9 overfloaded-x">
 
 		<h2>
@@ -170,25 +192,5 @@
 		</div>	
 	</div>
 </div>	
-<div class="row">
-	<div class="col-xs-12">
-		<h3>
-			{{ trans('stats.graph') }}
-		</h3>
-		<div id="graph" style="width:800px;height:400px" data-url="{{ action('Pages@getStats') }}" ></div>
-		<h3>
-			{{ trans('stats.graph-size') }}
-		</h3>
-		<div id="graph-by-size" style="width:800px;height:400px" data-url="{{ action('Pages@getStats') }}" ></div>
-	</div>
-	<div class="data"></div>
-	<div id="lang" class="hide">
-    <span class="confirm">{{ trans('states.confirmed') }}</span>
-    <span class="delivery">{{ trans('states.delivery') }}</span>
-    <span class="integrated">{{ trans('states.integrated') }}</span>
-    <span class="revised">{{ trans('states.revised') }}</span>
-    <span class="trashed">{{ trans('states.trash') }}</span>
-    <span class="burned">{{ trans('states.burn') }}</span>
-	</div>
-</div>
+
 @stop

@@ -52,7 +52,7 @@ class Holding extends Eloquent {
   // Scopes
 
   public function scopeDefaults($query){
-  	return $query->with('notes', 'states', 'comment')->orderBy('f852j')->wasConfirmed()->inLibrary();
+  	return $query->with('notes', 'states', 'comment')->wasConfirmed()->inLibrary();
   }
 
   public function scopeInit ($query){
@@ -169,7 +169,7 @@ class Holding extends Eloquent {
     $tag_ids = Note::whereTagId($tag_id)->lists('holding_id');
     $tag_ids = (count($tag_ids)>0) ? $tag_ids : [-1];
 
-    return $query->defaults()->whereIn('holdings.id', $tag_ids);
+    return $query->defaults()->whereState('annotated')->whereIn('holdings.id', $tag_ids);
   } 
 
   public function scopeOrphans($query){

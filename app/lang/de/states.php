@@ -29,5 +29,6 @@ return array(
 	'spare'							=> 'Überschüssige',
 	'title'							=> 'Durchgeführte Aktionen',
 	'trash' 						=> 'Zu eliminieren',
+	'pending' 						=> 'Anstehend',
 
 );

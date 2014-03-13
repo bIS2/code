@@ -58,7 +58,7 @@
 								</td>
 								<td>
 									<span class="label label-primary state-list">
-										{{ $list->state }}
+										{{ trans('states.'.$list->state) }}
 									</span>
 								</td>
 								<td>

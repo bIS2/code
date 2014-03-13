@@ -29,4 +29,5 @@ return array(
 	'spare'							=> 'Spare HOL',
 	'title'							=> 'Actions executed',
 	'trash' 						=> 'To eliminate',
+	'pending' 						=> 'Anstehend',
 );
