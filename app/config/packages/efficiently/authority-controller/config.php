@@ -28,7 +28,7 @@ return [
         });
 
         $authority->allow('receive', 'Holding', function($self, $holding) {
-          return ( $holding->was_delivery && !$holding->is_received && Auth::user()->hasRole('speichuser') );
+          return ( $holding->is_delivery && !$holding->is_received && Auth::user()->hasRole('speichuser') );
         });
 
         $authority->allow('trash', 'Holding', function($self, $holding) {
