@@ -10,7 +10,7 @@
 				<select name="library_id" class="form-control">
 					@foreach ($libraries as $library) {
 						<option value="{{ $library->id }}" <?= ($library->id==Input::get('library_id')) ? 'selected' : '' ?>>
-							{{ $library->code.":".$library->name }}
+							{{ $library->code." &raquo; ".$library->name }}
 						</option>
 					@endforeach
 				</select>

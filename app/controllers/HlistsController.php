@@ -37,7 +37,6 @@ class HlistsController extends BaseController {
 		if (Input::has('q')) 
 			$this->hlist = $this->hlist->where('name','like', '%'.Input::get('q').'%');		
 
-
 		if (Input::has('type')) 
 			$this->hlist = $this->hlist->whereType(Input::get('type'));
 
@@ -94,11 +93,12 @@ class HlistsController extends BaseController {
 		//echo var_dump($holding_ids);
 		$hlist = new Hlist([ 'name' => Input::get('name'), 'user_id' => Auth::user()->id ]);
 		$name_list_exists = Hlist::where('name', '=', Input::get('name') )->exists();
+		$empty_name = !Input::has('name');
 
 /*		echo var_dump($name_list_exists);
 		die();
 */
-		if ( Input::has('worker_id') && !$name_list_exists ) {
+		if ( Input::has('worker_id') && !$name_list_exists && !$empty_name ) {
 
 			$hlist->worker_id = Input::get('worker_id');
 			if ( Input::has('type') ) $hlist->type = Input::get('type');
@@ -156,7 +156,8 @@ class HlistsController extends BaseController {
 		}
 
 		if ( count($holding_ids)==0 ) 	$error = trans('errors.list_in_blank');
-		if ($name_list_exists) 				$error = trans('errors.list_name_is_duplicate');
+		if ($name_list_exists) 			$error = trans('errors.list_name_is_duplicate');
+		if ($empty_name) 				$error = trans('errors.list_name_is_blank');
 
 		$validation = Validator::make( $hlist->toArray(), Hlist::$rules );
 
