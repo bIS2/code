@@ -90,9 +90,10 @@ class Pages extends BaseController {
 
 	private function find_stat( $state, $value ){
 		$stats 	=  Holding::stats($month, $year)->get()->toArray();
+		$libraries = [ 1=>'AGK', 2=>'HBZ', 3=>'UBB', 4=>'ZBZ', 5=>'ZHB' ];
 		$arr = [];
 
-		foreach ( [ 1=>'AGKB', 2=>'BSUB', 3=>'LUZB', 4=>'ZHUB', 5=>'ZHZB' ] as $key => $library ) {
+		foreach ( $libraries as $key => $library ) {
 			$a = [$key,0];
 			foreach ($stats as $stat){
 				if (($stat['library']==$library) && ($stat['state']==$state) )

@@ -44,7 +44,7 @@ $(function(){
                         tickFormatter: function(x) {
                             var
                                 x = parseInt(x),
-                                libraries = ['ABKB','BSUB','LUZB','ZHUB','ZHZB'];
+                                libraries = [ 'AGK', 'HBZ', 'UBB', 'ZBZ', 'ZHB' ];
                             return libraries[x-1];
                         }
                     },                    
@@ -72,7 +72,7 @@ $(function(){
                      tickFormatter: function(x) {
                             var
                                 x = parseInt(x),
-                                libraries = ['ABKB','BSUB','LUZB','ZHUB','ZHZB'];
+                                libraries = [ 'AGK', 'HBZ', 'UBB', 'ZBZ', 'ZHB' ];
                             return libraries[x-1];
                         }
                     }                    
@@ -106,7 +106,7 @@ $(function(){
                       tickFormatter: function(x) {
                           var
                               x = parseInt(x),
-                              libraries = ['ABKB','BSUB','LUZB','ZHUB','ZHZB'];
+                              libraries = [ 'AGK', 'HBZ', 'UBB', 'ZBZ', 'ZHB' ];
                           return libraries[x-1];
                       }
                     },                    
@@ -134,7 +134,7 @@ $(function(){
                      tickFormatter: function(x) {
                             var
                                 x = parseInt(x),
-                                libraries = ['ABKB','BSUB','LUZB','ZHUB','ZHZB'];
+                                libraries = [ 'AGK', 'HBZ', 'UBB', 'ZBZ', 'ZHB' ];
                             return libraries[x-1];
                         }
                     }                    
