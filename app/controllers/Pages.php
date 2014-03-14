@@ -24,9 +24,9 @@ class Pages extends BaseController {
 
 		if ( Input::has('month') && (Input::get('month')!='*') ) {
 			$month = Input::get('month');
-			$holdings_ok 			= $holdings_ok->where( DB::raw('MONTH(created_at)'),'=',$month );
-			$holdings_annotated 	= $holdings_annotated->where( DB::raw('MONTH(created_at)'),'=',$month );
-			$holdingsset_confirm	= $holdingsset_confirm->where( DB::raw('MONTH(created_at)'),'=',$month );
+			$holdings_ok 			= $holdings_ok->where( DB::raw('extract(month from created_at)'),'=',$month );
+			$holdings_annotated 	= $holdings_annotated->where( DB::raw('extract(month from created_at)'),'=',$month );
+			$holdingsset_confirm	= $holdingsset_confirm->where( DB::raw('extract(month from created_at)'),'=',$month );
 		}
 
 		if (Input::has('year') && (Input::get('year')!='*')) {
