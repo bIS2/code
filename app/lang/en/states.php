@@ -19,7 +19,7 @@ return array(
 	'commented'						=> 'Commented by SPB',
 	'confirmed' 					=> 'HOS correct',
 	'delivery' 						=> 'Sent to SPB',
-	'integrated'					=> 'Integration terminated',
+	'integrated'					=> 'Completely integrated',
 	'no_result_states'				=> 'No actions until now',
 	'ok' 							=> 'HOL available',
 	'received'						=> 'Integrated in SPB',

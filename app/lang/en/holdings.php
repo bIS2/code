@@ -12,7 +12,7 @@ return array(
 	'burneds'				=> 'Eliminated',
 	'comment' 				=> 'Comment',
 	'commenteds'			=> 'Commented',
-	'confirmed' 				=> 'Confirmed',
+	'confirmed' 			=> 'Confirmed',
 	'corrects' 				=> 'Corrects',
 	'create_list'			=> 'Create List',
 	'deliveries'			=> 'Sent',

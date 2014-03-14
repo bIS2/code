@@ -20,18 +20,20 @@ class Pages extends BaseController {
 		$holdings 						= Holding::inLibrary($library_id);
 		$holdings_ok 					= State::inLibrary($library_id)->whereState('ok');
 		$holdings_annotated 	= State::inLibrary($library_id)->whereState('annotated');
-		$holdingsset_confirm 	= Confirm::orderby('created_at', 'desc')->take(10);
+		$holdingsset_confirm 	= Confirm::take(10);
 
 		if ( Input::has('month') && (Input::get('month')!='*') ) {
-			$holdings_ok 					= $holdings_ok->where('month(created_at)','=',Input::get('month'));
-			$holdings_annotated 	= $holdings_annotated->where('month(created_at)','=',Input::get('month'));
-			$holdingsset_confirm	= $holdingsset_confirm->where('month(created_at)','=',Input::get('month'));
+			$month = Input::get('month');
+			$holdings_ok 			= $holdings_ok->where( DB::raw('MONTH(created_at)'),'=',$month );
+			$holdings_annotated 	= $holdings_annotated->where( DB::raw('MONTH(created_at)'),'=',$month );
+			$holdingsset_confirm	= $holdingsset_confirm->where( DB::raw('MONTH(created_at)'),'=',$month );
 		}
 
 		if (Input::has('year') && (Input::get('year')!='*')) {
-			$holdings_ok 					= $holdings_ok->where('year(created_at)','=',Input::get('year'));
-			$holdings_annotated 	= $holdings_annotated->where('year(created_at)','=',Input::get('year'));
-			$holdingsset_confirm 	= $holdingsset_confirm->where('year(created_at)','=',Input::get('year'));
+			$year = Input::get('year');
+			$holdings_ok 			= $holdings_ok->where( DB::raw('YEAR(created_at)'),'=',$year );
+			$holdings_annotated 	= $holdings_annotated->where( DB::raw('YEAR(created_at)'),'=',$year );
+			$holdingsset_confirm 	= $holdingsset_confirm->whereCreatedAt( DB::raw('YEAR(created_at)'),'=',$year );
 		}
 
 		$data['holdingsset_confirm'] 	= $holdingsset_confirm->get();
