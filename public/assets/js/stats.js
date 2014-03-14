@@ -55,7 +55,7 @@ $(function(){
                         show: true,
                         stacked: true,
                         horizontal: horizontal,
-                        barWidth: 0.3,
+                        barWidth: 0.5,
                         lineWidth: 1,
                         shadowSize: 0
                     },
@@ -117,7 +117,7 @@ $(function(){
                         show: true,
                         stacked: true,
                         horizontal: horizontal,
-                        barWidth: 0.3,
+                        barWidth: 0.5,
                         lineWidth: 1,
                         shadowSize: 0
                     },
@@ -127,7 +127,7 @@ $(function(){
                     },
                     mouse: {
                         track: true,
-                        relative: true
+                        //relative: true
                     },                    
                     spreadsheet: {
                         show: true,

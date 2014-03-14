@@ -32,13 +32,7 @@
 					<th>{{trans('general.state')}}</th>
 					<?php	$k = 0; ?>
 					@foreach ($fieldstoshow as $field) 
-						@if ($field != 'ocrr_ptrn') <?php $k++; ?>										
-							<th>{{ $field; }} <span class="fa fa-info-circle"></span></th> 
-								@if ($k == 2)
-								<th class="hocrr_ptrn">{{ trans('holdingssets.ocurrence_patron') }}
-								</th>
-							@endif
-						@endif
+						<th>{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span></th> 
 					@endforeach	
 				</tr>
 			</thead>
