@@ -201,8 +201,8 @@ class Holding extends Eloquent {
 							->join('libraries','holdings.library_id','=','libraries.id')
 							->groupBy('libraries.code', 'holdings.state');
 
-		if ($month && $month!='*') $query = $query->where('extract(month from created_at)',$month);
-		if ($year && $year!='*') 	$query = $query->where('extract(year from created_at)',$year);
+		if ($month && $month!='*') $query = $query->where(DB::raw('extract(month from created_at)'),$month);
+		if ($year && $year!='*') 	$query = $query->where(DB::raw('extract(year from created_at)'),$year);
 
 		return $query;
   }
