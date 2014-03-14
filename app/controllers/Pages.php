@@ -24,16 +24,16 @@ class Pages extends BaseController {
 
 		if ( Input::has('month') && (Input::get('month')!='*') ) {
 			$month = Input::get('month');
-			$holdings_ok 			= $holdings_ok->where( DB::raw('extract(month from created_at)'),'=',$month );
-			$holdings_annotated 	= $holdings_annotated->where( DB::raw('extract(month from created_at)'),'=',$month );
-			$holdingsset_confirm	= $holdingsset_confirm->where( DB::raw('extract(month from created_at)'),'=',$month );
+			$holdings_ok 			= $holdings_ok->where( DB::raw('extract(month from created_at)'),$month );
+			$holdings_annotated 	= $holdings_annotated->where( DB::raw('extract(month from created_at)'),$month );
+			$holdingsset_confirm	= $holdingsset_confirm->where( DB::raw('extract(month from created_at)'),$month );
 		}
 
 		if (Input::has('year') && (Input::get('year')!='*')) {
 			$year = Input::get('year');
-			$holdings_ok 			= $holdings_ok->where( DB::raw('extract(year from created_at)'),'=',$year );
-			$holdings_annotated 	= $holdings_annotated->where( DB::raw('extract(year from created_at)'),'=',$year );
-			$holdingsset_confirm 	= $holdingsset_confirm->where( DB::raw('extract(year from created_at)'),'=',$year );
+			$holdings_ok 			= $holdings_ok->where( DB::raw('extract(year from created_at)'),$year );
+			$holdings_annotated 	= $holdings_annotated->where( DB::raw('extract(year from created_at)'),$year );
+			$holdingsset_confirm 	= $holdingsset_confirm->where( DB::raw('extract(year from created_at)'),$year );
 		}
 
 		$data['holdingsset_confirm'] 	= $holdingsset_confirm->get();
@@ -81,7 +81,8 @@ class Pages extends BaseController {
 		return Response::json([
 				'titles'	=> [ trans('states.ok'),trans('states.delivery'), trans('states.integrated	'),trans('states.revised'),trans('states.trash'),trans('states.burn') ],
 				'count' 	=> $stats_count,
-				'size'		=> $stats_size
+				'size'		=> $stats_size,	
+				'query'		=> Holding::stats($month, $year)->get()->toArray()
 			]
 		);
 
