@@ -38,6 +38,7 @@
 <hr>
 <div class="row">
 	<div class="col-xs-12">
+		
 		<h3>
 			{{ trans('stats.graph') }}
 		</h3>
@@ -82,10 +83,7 @@
 			@foreach ($holdingsset_confirm as $confirm) 
 				<tr>
 					<td class="date col-xs-2 text-muted">
-						<?php 
-							$fecha = new DateTime($confirm->created_at->toDayDateTimeString());
-							echo $fecha->format('d-m-Y H:i');
-						?>
+						{{ $confirm->created_at->toDateString() }}
 					</td>
 					<td class="user col-xs-2">
 						{{ $confirm->user->username }}
@@ -119,10 +117,7 @@
 				@foreach ($holdings_ok as $ok) 
 					<tr>
 						<td class="date col-xs-2 text-muted">
-							<?php 
-								$fecha = new DateTime($ok->created_at->toDayDateTimeString());
-								echo $fecha->format('d-m-Y H:i');
-							?>
+							{{ $ok->created_at->toDateString() }}
 						</td>
 						<td class="user col-xs-2">
 							{{ $ok->user->username }}
@@ -155,10 +150,7 @@
 			@foreach ($holdings_annotated as $ok) 
 				<tr>
 					<td class="date col-xs-2">
-					<?php 
-						$fecha = new DateTime($ok->created_at->toDayDateTimeString());
-						echo $fecha->format('d-m-Y H:i');
-					?>
+						{{ $ok->created_at->toDateString() }}
 					</td>
 					<td class="user col-xs-2">
 						{{ $ok->user->username }}
