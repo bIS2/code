@@ -31,9 +31,9 @@ class Pages extends BaseController {
 
 		if (Input::has('year') && (Input::get('year')!='*')) {
 			$year = Input::get('year');
-			$holdings_ok 			= $holdings_ok->where( DB::raw('YEAR(created_at)'),'=',$year );
-			$holdings_annotated 	= $holdings_annotated->where( DB::raw('YEAR(created_at)'),'=',$year );
-			$holdingsset_confirm 	= $holdingsset_confirm->whereCreatedAt( DB::raw('YEAR(created_at)'),'=',$year );
+			$holdings_ok 			= $holdings_ok->where( DB::raw('extract(year from created_at)'),'=',$year );
+			$holdings_annotated 	= $holdings_annotated->where( DB::raw('extract(year from created_at)'),'=',$year );
+			$holdingsset_confirm 	= $holdingsset_confirm->whereCreatedAt( DB::raw('extract(year from created_at)'),'=',$year );
 		}
 
 		$data['holdingsset_confirm'] 	= $holdingsset_confirm->get();
