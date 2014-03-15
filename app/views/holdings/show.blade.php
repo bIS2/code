@@ -21,33 +21,33 @@
 						</tr>
 						<tr>
 						  <td>022a</td>
-							<td><?= $holding->f022a; ?></td>
+							<td><?= $holding->show('f022a'); ?></td>
 						</tr>
 						<tr>
 						  <td>245a</td>
-							<td><?= htmlspecialchars($holding->f245a,ENT_QUOTES); ?></td>
+							<td><?= $holding->show('f245a'); ?></td>
 						</tr>					
 						<tr>
 						  <td>245b</td>
-							<td><?= $holding->f245b; ?></td>
+							<td><?= $holding->show('f245b'); ?></td>
 						</tr>
 						<tr>
 						  <td>245c</td>
-							<td><?= $holding->f245c; ?></td>
+							<td><?= $holding->show('f245c'); ?></td>
 						</tr>
 						<tr>
 						  <td>245n</td>
-							<td><?= $holding->f245n; ?></td>
+							<td><?= $holding->show('f245n'); ?></td>
 						</tr>
 						<tr>
 						  <td>245p</td>
-							<td><?= $holding->f245p; ?></td>
+							<td><?= $holding->show('f245p'); ?></td>
 						</tr>
 						<tr>
 						  <td>246a</td>
-							<td><?= $holding->f246a; ?></td>
+							<td><?= $holding->show('f246a'); ?></td>
 						</tr>						
-						<tr><?php $ownertrclass 	= ($holding->is_owner == 't') ? ' is_owner' : '';  ?>
+						<tr><?php $ownertrclass = ($holding->is_owner == 't') ? ' is_owner' : '';  ?>
 						  <td>{{ trans('holdingssets.ocurrence_patron') }}</td>
 							<td class="ocrr_ptrn {{$ownertrclass}}"><?= $holding->patrn_no_btn; ?></td>
 						</tr>
@@ -101,74 +101,74 @@
 						@endif	
 						<tr>
 						  <td>260a</td>
-							<td><?= $holding->f260a; ?></td>
+							<td><?= $holding->show('f260a'); ?></td>
 						</tr>
 						<tr>
 						  <td>300a</td>
-							<td><?= $holding->f300a; ?></td>
+							<td><?= $holding->show('f300a'); ?></td>
 						</tr>
 						<tr>
 						  <td>300b</td>
-							<td><?= $holding->f300b; ?></td>
+							<td><?= $holding->show('f300b'); ?></td>
 						</tr>
 						<tr>
 						  <td>300c</td>
-							<td><?= $holding->f300c; ?></td>
+							<td><?= $holding->show('f300c'); ?></td>
 						</tr>
 						<tr>
 						  <td>310a</td>
-							<td><?= $holding->f310a; ?></td>
+							<td><?= $holding->show('f310a'); ?></td>
 						</tr>
 						<tr>
 						  <td>710a</td>
-							<td><?= $holding->f710a; ?></td>
+							<td><?= $holding->show('f710a'); ?></td>
 						<tr>
 						  <td>362a</td>
-							<td><?= $holding->f362a; ?></td>
+							<td><?= $holding->show('f362a'); ?></td>
 						</tr>
 						<tr>
 						  <td>500a</td>
-							<td><?= $holding->f500a; ?></td>
+							<td><?= $holding->show('f500a'); ?></td>
 						</tr>
 						<tr>
 						  <td>505a</td>
-							<td><?= $holding->f505a; ?></td>
+							<td><?= $holding->show('f505a'); ?></td>
 						</tr>
 						<tr>
 						  <td>770t</td>
-							<td><?= $holding->f770t; ?></td>
+							<td><?= $holding->show('f770t'); ?></td>
 						</tr>
 						<tr>
 						  <td>772t</td>
-							<td><?= $holding->f772t; ?></td>
+							<td><?= $holding->show('f772t'); ?></td>
 						</tr>
 						<tr>
 						  <td>780t</td>
-							<td><?= $holding->f780t; ?></td>
+							<td><?= $holding->show('f780t'); ?></td>
 						</tr>
 						<tr>
 						  <td>785t</td>
-							<td><?= $holding->f785t; ?></td>
+							<td><?= $holding->show('f785t'); ?></td>
 						</tr>				
 						<tr>
 						  <td>852b</td>
-							<td><?= $holding->f852b; ?></td>
+							<td><?= $holding->show('f852b'); ?></td>
 						</tr>
 						<tr>
 						  <td>852c</td>
-							<td><?= $holding->f852c; ?></td>
+							<td><?= $holding->show('f852c'); ?></td>
 						</tr>
 						<tr>
 						  <td>852h</td>
-							<td><?= $holding->f852h; ?></td>
+							<td><?= $holding->show('f852h'); ?></td>
 						</tr>
 						<tr>
 						  <td>852j</td>
-							<td><?= $holding->f852j; ?></td>
+							<td><?= $holding->show('f852j'); ?></td>
 						</tr>
 						<tr>
 						  <td>866z</td>
-							<td><?= $holding->f866z; ?></td>
+							<td><?= $holding->show('f866z'); ?></td>
 						</tr>
 					</tbody>
 				</table>

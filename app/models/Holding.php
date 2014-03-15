@@ -393,7 +393,7 @@ class Holding extends Eloquent {
   }
 
   public function clean($value){
-    return htmlspecialchars($value);
+    return htmlspecialchars(stripslashes($value));
   }
 
 

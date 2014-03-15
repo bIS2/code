@@ -44,7 +44,7 @@ else { ?>
 
 			<input id="holdingsset_id" name="holdingsset_id[]" type="checkbox" value="{{ $holdingsset->id }}" class="hl sel pull-left">
 
-			<a href="#{{ $holdingsset -> sys1; }}{{$holdingsset -> id;}}" id="{{ $holdingsset->id }}" data-parent="#group-xx" title="{{ $holdingsset->f245a ;}}" data-toggle="collapse" class="accordion-toggle collapsed " opened="0" anchored="0" ajaxsuccess="0"><div>{{ $holdingsset->sys1 }}</div><i class="fa fa-caret-up"></i></a>
+			<a href="#{{ $holdingsset -> sys1; }}{{$holdingsset -> id;}}" id="{{ $holdingsset->id }}" data-parent="#group-xx" title="{{ $holdingsset->show('f245a') }}" data-toggle="collapse" class="accordion-toggle collapsed " opened="0" anchored="0" ajaxsuccess="0"><div>{{ $holdingsset->sys1 }}</div><i class="fa fa-caret-up"></i></a>
 
 			<span opened="0">
 				<?php 
@@ -52,15 +52,7 @@ else { ?>
 				if ($holdings_number != $holdingsset -> holdings_number ) { $holdingsset->update(['holdings_number' => $holdings_number]); $need_refresh = 1; }
 				?>
 				<span class="badge"><i class="fa fa-files-o"></i> {{ $holdingsset -> holdings -> count() }}</span>
-				<?php 
-				$str = htmlspecialchars($holdingsset->f245a);
-				if (strlen($str) > 100) { ?>
-				<span class="pop-over" data-content="<strong>{{ $str }}</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover">{{ truncate($str, 100) }}</span>
-				<?php }
-				else {
-					echo $str;
-				}
-				?>
+				{{ $holdingsset->show('f245a'); }}
 				<?php 
 				$groups_number = $holdingsset -> groups -> count();
 				if ($groups_number  != $holdingsset -> groups_number ) { $holdingsset->update(['groups_number' => $groups_number]); $need_refresh = 1; }

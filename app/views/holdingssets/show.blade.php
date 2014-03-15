@@ -2,7 +2,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3 class="modal-title"><?= $holdingsset->sys1.' :: '.htmlspecialchars($holdingsset->f245a,ENT_QUOTES); ?></h3>
+        <h3 class="modal-title"><?= $holdingsset->sys1.' :: '.$holdingsset->show('f245a'); ?></h3>
       </div>
       <div class="modal-body">
       	<table class="table table-bordered">
@@ -34,15 +34,15 @@
 						<?php $preftrclass 	= ($holding->is_pref == 't') ? ' is_pref' : '';  ?>	
 						<?php $librarianclass = ' '.substr($holding->sys2, 0, 4);  ?>	
 							<tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}{{ $librarianclass }}{{ ($holding->is_annotated) ? ' text-warning' : '' }}">			
-								<td>{{ htmlspecialchars($holding->sys2,ENT_QUOTES) }}</td>				
-								<td>{{ htmlspecialchars($holding->library->code,ENT_QUOTES) }}</td>				
+								<td>{{ $holding->show('sys2') }}</td>				
+								<td>{{ $holding->library->show('code') }}</td>				
 								<td class="ocrr_ptrn">
 									{{ $holding -> patrn_no_btn }}
 								</td>				
-								<td>{{ htmlspecialchars($holding->f866a,ENT_QUOTES) }}</td>				
-								<td>{{ htmlspecialchars($holding->f245a,ENT_QUOTES) }} :: {{ htmlspecialchars($holding->f245b,ENT_QUOTES) }}</td>				
-								<td>{{ htmlspecialchars($holding->f852b,ENT_QUOTES) }}</td>				
-								<td>{{ htmlspecialchars($holding->f852h,ENT_QUOTES) }}</td>	
+								<td>{{ $holding->show('f866a') }}</td>				
+								<td>{{ $holding->show('f245a') }} :: {{ $holding->show('f245b') }}</td>				
+								<td>{{ $holding->show('f852b') }}</td>				
+								<td>{{ $holding->show('f852h') }}</td>	
 							</tr>
 						@endforeach
 					</tbody>

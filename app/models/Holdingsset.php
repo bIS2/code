@@ -126,4 +126,13 @@ class Holdingsset extends Eloquent {
     }
     return $ret;
   }
+
+  public function show($field, $len = 30) {
+    $str = $this->clean($this->$field);
+    return (strlen($str) > $len) ? '<span class="pop-over" data-content="<strong>'.$str.'</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover">'.truncate($str, 30).'</span>' : $str;
+  }
+
+  public function clean($value){
+    return htmlspecialchars(stripslashes($value));
+  }
 }
