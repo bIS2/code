@@ -6,7 +6,7 @@
 	<div class="col-xs-12">
 		<form class="form-inline" >
 			<?php $library_id = (Input::has('library_id')) ? Input::get('library_id') : Auth::user()->library_id ?>
-			<h3 class="inline">{{ trans('general.title-filter') }}</h3 class="inline">
+			<strong>{{ trans('general.title_filter') }}</strong>
 			<div class="form-group">
 				<select name="library_id" class="form-control">
 					@foreach ($libraries as $library) {

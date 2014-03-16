@@ -78,6 +78,8 @@ return array(
 	'username'			=> 'Username',
 	'yes' 				=> 'Yes',
 	'filter'	=> 'Filter',
-	'help'	=>'Help'
+	'help'	=>'Help',
+	'title_filter'	=>'Select to filter',
+
 
 );
