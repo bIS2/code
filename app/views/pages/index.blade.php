@@ -9,6 +9,7 @@
 			<strong>{{ trans('general.title_filter') }}</strong>
 			<div class="form-group">
 				<select name="library_id" class="form-control">
+					<option value="*" >{{trans('general.all')}}</option>
 					@foreach ($libraries as $library) {
 						<option value="{{ $library->id }}" <?= ( $library->id==$library_id ) ? 'selected' : '' ?>>
 							{{ $library->code." &raquo; ".$library->name }}
