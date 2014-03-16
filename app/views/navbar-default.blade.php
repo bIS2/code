@@ -51,11 +51,11 @@
 			@else
     		<li {{ (Request::is('user/login') ? ' class="active"' : '') }}><a href="{{{ URL::to('user/login') }}}">Login</a></li>
     	@endif
-  		<li {{ (Request::is('help') ? ' class="active"' : '') }}>
+<!--   		<li {{ (Request::is('help') ? ' class="active"' : '') }}>
 
   			<a href="{{{ URL::to('help') }}}"><i class="fa fa-question-circle"></i> {{ trans('general.help') }}</a>
   		</li>
-    </ul>
+ -->    </ul>
 			<!-- ./ nav-collapse -->
 	</div>
 </div>
