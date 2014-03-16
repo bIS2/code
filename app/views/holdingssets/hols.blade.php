@@ -31,7 +31,7 @@
 	<tbody>
 	</tbody>
 </table>
-<table class="table table-hover flexme table-bordered draggable <?= ($HOSconfirm) ? 'confirm' : ''; ?>">
+<table class="table table-hover flexme full-hos table-bordered draggable <?= ($HOSconfirm) ? 'confirm' : ''; ?>">
 	<thead>
 		<tr>
 			<th></th>
@@ -118,8 +118,8 @@
 
 <script type="text/javascript">
 	$(function() {
-		if ($('li#' + <?php echo $holdingsset-> id ?> + ' table.draggable tbody tr').length > 10) {
-		ths = $('li#' + <?php echo $holdingsset-> id ?> + ' table.draggable th');
+		if ($('li#' + <?php echo $holdingsset-> id ?> + ' table.full-hos tbody tr').length > 10) {
+		ths = $('li#' + <?php echo $holdingsset-> id ?> + ' table.full-hos th');
 		ths1 = $('li#' + <?php echo $holdingsset-> id ?> + ' table.header-only th');
 		    for (var i = 0; i < $(ths).length; i++) {
 		    	$(ths1[i]).css('min-width', $(ths[i]).css('width'))
