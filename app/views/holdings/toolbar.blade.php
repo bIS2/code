@@ -21,6 +21,7 @@
 
 						<li <?= ($list->id == Input::get('hlist_id')) ? 'class="active"' : '' ; ?>>
 							<a href="{{ route('holdings.index',Input::except(['hlist_id']) + ['hlist_id' => $list->id ]) }}"> 
+								{{ $list->type_icon }}
 								{{ $list->name }} 
 								<span class="badge">{{ $list->holdings()->count() }} </span>
 							</a>
@@ -123,10 +124,10 @@
 				  	@endif
 				  	
 				  	<!-- (TRASH) MARK IT TO ELIMINATE -->
-				  	@if ( $user->hasRole('bibuser') )
+				  	@if ( $user->hasRole('bibuser') || $user->hasRole('magvuser')  )
 
 					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'trash'] ) }}" class="btn btn-default <?= ( Input::get('state')=='trash' ) ? 'active' : '' ?> btn-sm" >
-					  		<span class="fa fa-trash-o"></span> {{{ trans('holdings.trasheds') }}}
+					  		<span class="fa fa-times"></span> {{{ trans('holdings.trasheds') }}}
 					  	</a>
 					  	
 				  	@endif

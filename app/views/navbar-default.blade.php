@@ -28,6 +28,7 @@
 			@if (Auth::check())
 	       <li>
 	       		<div class="navbar-text" data-toggle="tooltip" data-placement="bottom" data-original-title="{{ 'Sublibraries: '.Auth::user()->library->sublibraries}}">
+	       			<i class="fa fa-book"></i>
 							{{Auth::user()->library->code}} 
 							&raquo;
 							{{{ Auth::user()->library->name }}}
@@ -42,25 +43,20 @@
 	       </li>
 	      <?php if (Session::get('locale') == 'de') { ?>
 
-	      	<li><a href="{{{ URL::to('?lang=en') }}}">{{{ trans('general.lang_en') }}}</a></li>
+	      	<li><a href="{{{ URL::to('?lang=en') }}}"><i class="fa fa-chevron-circle-down"></i> {{{ trans('general.lang_en') }}}</a></li>
 	      <?php } else { ?>
-	      	<li><a href="{{{ URL::to('?lang=de') }}}">{{{ trans('general.lang_de') }}}</a></li>
+	      	<li><a href="{{{ URL::to('?lang=de') }}}"><i class="fa fa-chevron-circle-down"></i> {{{ trans('general.lang_de') }}}</a></li>
 
 	      <?php } ?>
 	      <li><a href="{{{ URL::to('user/logout') }}}"><span class="fa fa-sign-out"></span>{{{ trans('general.logout') }}}</a></li>
 			@else
     		<li {{ (Request::is('user/login') ? ' class="active"' : '') }}><a href="{{{ URL::to('user/login') }}}">Login</a></li>
     	@endif
-<!-- 	    	<li><a href="#" class="dropdown-toggle" data-toggle="dropdown" ><i class="fa fa-cog fa-lg"></i></a>
-		    	<ul class="dropdown-menu" role="menu">
-						<li><a href="#"><i class="fa fa-camera-retro"></i> my Groups</a></li>
-						<li><a href="#"><i class="fa fa-camera-retro"></i> my Languaje</a></li>
-						<li><a href="#"><i class="fa fa-camera-retro"></i> Something else here</a></li>
-						<li class="divider"></li>
-						<li><a href="{{{ URL::to('user/logout') }}}">{{{ trans('general.logout') }}}</a></li>
-					</ul>
-				</li> -->
-    </ul>
+<!--   		<li {{ (Request::is('help') ? ' class="active"' : '') }}>
+
+  			<a href="{{{ URL::to('help') }}}"><i class="fa fa-question-circle"></i> {{ trans('general.help') }}</a>
+  		</li>
+ -->    </ul>
 			<!-- ./ nav-collapse -->
 	</div>
 </div>
