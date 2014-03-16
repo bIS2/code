@@ -77,5 +77,7 @@ return array(
 	'update'			=> 'Update',
 	'username'			=> 'Username',
 	'yes' 				=> 'Yes',
+	'filter'	=> 'Filter',
+	'help'	=>'Help'
 
 );

@@ -5,11 +5,12 @@
 <div class="row">
 	<div class="col-xs-12">
 		<form class="form-inline" >
-
+			<?php $library_id = (Input::has('library_id')) ? Input::get('library_id') : Auth::user()->library_id ?>
+			<h3 class="inline">{{ trans('general.title-filter') }}</h3 class="inline">
 			<div class="form-group">
 				<select name="library_id" class="form-control">
 					@foreach ($libraries as $library) {
-						<option value="{{ $library->id }}" <?= ($library->id==Input::get('library_id')) ? 'selected' : '' ?>>
+						<option value="{{ $library->id }}" <?= ( $library->id==$library_id ) ? 'selected' : '' ?>>
 							{{ $library->code." &raquo; ".$library->name }}
 						</option>
 					@endforeach
@@ -31,7 +32,7 @@
 					@endfor
 				</select>
 			</div>
-			<button type="submit" class="btn btn-primary"> <i class="fa fa-search"></i> {{trans('general.search')}}</button>
+			<button type="submit" class="btn btn-primary"> <i class="fa fa-search"></i> {{trans('general.filter')}}</button>
 		</form>		
 	</div>
 </div>

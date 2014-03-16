@@ -71,7 +71,7 @@ class Pages extends BaseController {
 
 			$this->find_stat( 'ok', 'count'),
 			$this->find_stat( 'confirmed', 'count'),
-			$this->find_stat( 'integrate', 'count'),
+			$this->find_stat( 'integrated', 'count'),
 			$this->find_stat( 'revised', 'count'),
 			$this->find_stat( 'trash', 'count'),
 			$this->find_stat( 'burn', 'count'),
@@ -79,7 +79,7 @@ class Pages extends BaseController {
 		];
 
 		return Response::json([
-				'titles'	=> [ trans('states.ok'),trans('states.delivery'), trans('states.integrated	'),trans('states.revised'),trans('states.trash'),trans('states.burn') ],
+				'titles'	=> [ trans('states.ok'),trans('states.delivery'), trans('states.integrated'),trans('states.revised'),trans('states.trash'),trans('states.burn') ],
 				'count' 	=> $stats_count,
 				'size'		=> $stats_size	
 				// 'query'		=> Holding::stats($month, $year)->get()->toArray()

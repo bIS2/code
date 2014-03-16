@@ -32,6 +32,7 @@
 
 		# Index Page - Last route, no matches
 		Route::get('/', ['uses' => 'Pages@getIndex']);
+		Route::get('help', ['uses' => 'Pages@getHelp']);
 		
 		Route::controller('pages','Pages');
 
