@@ -21,6 +21,7 @@
 
 						<li <?= ($list->id == Input::get('hlist_id')) ? 'class="active"' : '' ; ?>>
 							<a href="{{ route('holdings.index',Input::except(['hlist_id']) + ['hlist_id' => $list->id ]) }}"> 
+								{{ $list->type_icon }}
 								{{ $list->name }} 
 								<span class="badge">{{ $list->holdings()->count() }} </span>
 							</a>
