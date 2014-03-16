@@ -36,7 +36,7 @@ return [
         });
 
         $authority->allow('burn', 'Holding', function($self, $holding) {
-          return (  $holding->is_trashed && Auth::user()->hasRole('magvuser') );
+          return (  $holding->is_trashed && Auth::user()->hasRole('maguser') );
         });
 
         if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser')){
