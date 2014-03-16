@@ -60,35 +60,58 @@ class Pages extends BaseController {
 		$stats_size = [
 
 			$this->find_stat( 'ok', 'size'),
-			$this->find_stat( 'delivery', 'size'),
-			$this->find_stat( 'integrate', 'size'),
 			$this->find_stat( 'revised', 'size'),
+			$this->find_stat( 'delivery', 'size'),
+			$this->find_stat( 'integrated', 'size'),
 			$this->find_stat( 'trash', 'size'),
 			$this->find_stat( 'burn', 'size'),
 
 		];
 		$stats_count = [
 
-			$this->find_stat( 'ok', 'count'),
 			$this->find_stat( 'confirmed', 'count'),
-			$this->find_stat( 'integrate', 'count'),
+			$this->find_stat( 'ok', 'count'),
 			$this->find_stat( 'revised', 'count'),
+			$this->find_stat( 'integrated', 'count'),
 			$this->find_stat( 'trash', 'count'),
 			$this->find_stat( 'burn', 'count'),
 
 		];
 
 		return Response::json([
-				'titles'	=> [ trans('states.ok'),trans('states.delivery'), trans('states.integrated	'),trans('states.revised'),trans('states.trash'),trans('states.burn') ],
+				'titles'	=> [ 
+					'size' =>[
+						trans('states.ok'),
+						trans('states.revised'),
+						trans('states.delivery'), 
+						trans('states.integrated'),
+						trans('states.trash'),
+						trans('states.burn') 
+					],
+					'count' =>[
+						trans('states.confirmed'), 
+						trans('states.ok'),
+						trans('states.revised'),
+						trans('states.integrated'),
+						trans('states.trash'),
+						trans('states.burn') 
+					]
+				],
 				'count' 	=> $stats_count,
-				'size'		=> $stats_size,	
-				'query'		=> Holding::stats($month, $year)->get()->toArray()
+				'size'		=> $stats_size	
+				// 'query'		=> Holding::stats($month, $year)->get()->toArray()
 			]
 		);
 
 	}
 
+	// Build array by state in each library
+	// $state = string state
+	// $value = stat type: size or count
+	// return = array [ [library number 1, value of stat],[library number 2, value of stat] ... ]
+	
 	private function find_stat( $state, $value ){
+
 		$stats 	=  Holding::stats($month, $year)->get()->toArray();
 		$libraries = [ 1=>'AGK', 2=>'HBZ', 3=>'UBB', 4=>'ZBZ', 5=>'ZHB' ];
 		$arr = [];
@@ -101,10 +124,9 @@ class Pages extends BaseController {
 			}
 			$arr[] = $a;
 		}
-		// 		echo json_encode($arr);
-		// die();
-		// echo json_encode($arr);
+
 		return $arr;
+
 	}
 
 
