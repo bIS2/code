@@ -123,10 +123,10 @@
 				  	@endif
 				  	
 				  	<!-- (TRASH) MARK IT TO ELIMINATE -->
-				  	@if ( $user->hasRole('bibuser') )
+				  	@if ( $user->hasRole('bibuser') || $user->hasRole('magvuser')  )
 
 					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'trash'] ) }}" class="btn btn-default <?= ( Input::get('state')=='trash' ) ? 'active' : '' ?> btn-sm" >
-					  		<span class="fa fa-trash-o"></span> {{{ trans('holdings.trasheds') }}}
+					  		<span class="fa fa-times"></span> {{{ trans('holdings.trasheds') }}}
 					  	</a>
 					  	
 				  	@endif

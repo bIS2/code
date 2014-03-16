@@ -15,7 +15,7 @@ class Pages extends BaseController {
 		if  (Input::has('lang')) return Redirect::to(Request::header('referer'));
 
 		$data['libraries'] 				= Library::all();
-		$library_id = (Input::has('library_id')) ? Input::get('library_id') : null;
+		$library_id = ( Input::has('library_id') && (Input::get('library_id')!='*') ) ? Input::get('library_id') : null;
 
 		$holdings 						= Holding::inLibrary($library_id);
 		$holdings_ok 					= State::inLibrary($library_id)->whereState('ok');
