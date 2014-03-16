@@ -339,7 +339,7 @@ class Holding extends Eloquent {
         $pptrn = explode('    ',$pptrn1);
         $ppptrn = $pptrn[0];
         if (count($pptrn) > 1) $ppptrn .= ' ('.$pptrn[1].')';
-        $ret .= '<i class="fa fa-square pop-over btn btn-xs btn-default '.$classj.$classaux.'" data-content="<strong>'.$ppptrn.' | '.$this->f852b.' :: '.$this->f852h.'</strong>" data-html="true" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>';
+        $ret .= '<i class="fa fa-square pop-over btn btn-xs btn-default '.$classj.$classaux.'" data-content="<strong>'.$this->f852b.' | '.$this->f852h.' | '.$ptrn[$i].'</strong>" data-html="true" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>';
         break;
       }
       $i++; 

@@ -479,7 +479,8 @@ section.container {
         }
     }
 }
-.flexme {
+.flexme,
+.header-only {
     font-size: 11px;
 
     thead th {
@@ -622,6 +623,7 @@ table.table thead th:first-child {
             // z-index: 9;
             //left: 5px;
             //border-bottom: none !important; 
+            height: 24px;
             a, i, span {
                 margin: 0 3px;
                 font-size: 14px;
@@ -646,7 +648,8 @@ table.table thead th:first-child {
     }
 }
 
-table.flexme {
+table.flexme,
+table.header-only {
         .table_order {
             display: none;
         }
@@ -656,6 +659,7 @@ table.flexme {
         }
     }
     table.flexme > thead > tr > th.actions + th,
+    table.header-only > thead > tr > th.actions + th,
     table.flexme > tbody > tr > td.actions + td {
         padding-left: 115px;
         border-left: none;
@@ -1086,4 +1090,13 @@ fa.fa-careft-left.dropdown-menu:hover {
 
 #open-all-hos {
     margin-top: 10px;
+}
+
+.header-only {
+    th {
+        font-size :  11px !important;
+        color:   #333333 !important;
+        line-height :15.7167px !important;
+        text-align:  left !important;
+    }
 }
