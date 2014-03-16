@@ -32,7 +32,11 @@
 					<th>{{trans('general.state')}}</th>
 					<?php	$k = 0; ?>
 					@foreach ($fieldstoshow as $field) 
-						<th>{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span></th> 
+						@if ( !($field=='size') )
+							<th>{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span></th> 
+						@elseif (Authority::can('set_size', $holding))
+							<th>{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span></th> 
+						@endif
 					@endforeach	
 				</tr>
 			</thead>
