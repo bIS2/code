@@ -164,7 +164,7 @@
 					<?php									
 						$allfields 	= explode(';', ALL_FIELDS);
 
-						$tmpfields 	= Session::get(Auth::user()->username.'_fields_to_show_ok');
+						$tmpfields 	= Session::get(Auth::user()->username.'_fields_to_show_ok_hols');
 						
 						$fields 		= '';
 						if (isset($allfields)) {

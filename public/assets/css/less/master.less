@@ -217,6 +217,10 @@ table.table {
     h1 {
         margin: 0;        
     }
+    .lang {
+        position: absolute;
+        right: 10%;
+    }
 }
 
 body {
@@ -247,6 +251,8 @@ footer {
 }
 
 .form-signin {
+    width: 400px;
+    .center-block();
     margin-top: @jumbotron-padding;
     p {
        text-align: center;
@@ -783,7 +789,6 @@ table.header-only {
 
 #currentfiltersoption {
     display: block;
-    float: left;
     text-align: center;
     &.btn-group > .btn, .btn-group-vertical > .btn {
         margin-bottom: 5px;

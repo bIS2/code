@@ -43,9 +43,9 @@
 	       </li>
 	      <?php if (Session::get('locale') == 'de') { ?>
 
-	      	<li><a href="{{{ URL::to('?lang=en') }}}"><i class="fa fa-chevron-circle-down"></i> {{{ trans('general.lang_en') }}}</a></li>
+	      	<li><a href="{{{ URL::to('?lang=en') }}}"><i class="fa fa-flag"></i> {{{ trans('general.lang_en') }}}</a></li>
 	      <?php } else { ?>
-	      	<li><a href="{{{ URL::to('?lang=de') }}}"><i class="fa fa-chevron-circle-down"></i> {{{ trans('general.lang_de') }}}</a></li>
+	      	<li><a href="{{{ URL::to('?lang=de') }}}"><i class="fa fa-flag"></i> {{{ trans('general.lang_de') }}}</a></li>
 
 	      <?php } ?>
 	      <li><a href="{{{ URL::to('user/logout') }}}"><span class="fa fa-sign-out"></span>{{{ trans('general.logout') }}}</a></li>

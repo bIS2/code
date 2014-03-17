@@ -146,8 +146,7 @@
 					<input type="hidden" name="urltoredirect" value="<?= route('sets.index', Input::except(['noexists'])); ?>">
 					<?php									
 						$allfields 	= explode(';', ALL_FIELDS);
-						$tmpfields 	= Session::get(Auth::user()->username.'_fields_to_show_ok');
-						
+						$tmpfields 	= Session::get(Auth::user()->username.'_fields_to_show_ok_hos');					
 						$fields 		= '';
 						if (isset($tmpfields)) {
 							$fields 		= explode(';', $tmpfields);

@@ -2,7 +2,7 @@
 <?php 
 	$HOSconfirm   = $holdingsset->confirm()->exists();
 	$HOSannotated = $holdingsset->is_annotated;
-	$fieldstoshow = Session::get(Auth::user()->username.'_fields_to_show_ok');
+	$fieldstoshow = Session::get(Auth::user()->username.'_fields_to_show_ok_hos');
 	$fieldstoshow = explode(';',$fieldstoshow);
 ?>
 <table class="table table-hover header-only table-bordered" style="position:fixed">
@@ -12,9 +12,10 @@
 			<th class="table_order" style="border-left:4px solid #ffffff">No.</th>
 			<th class="actions">Actions</th>
 			<?php	$k = 0; ?>
+
 			@foreach ($fieldstoshow as $field) 
 				@if ($field != 'ocrr_ptrn') <?php $k++; ?>										
-					<th>{{ $field; }} <span class="fa fa-info-circle"></span></th> 
+					<th>{{ str_replace('f', '', $field); }} <span class="fa fa-info-circle"></span></th> 
 						@if ($k == 1)
 						<th class="hocrr_ptrn">{{ trans('holdingssets.ocurrence_patron') }}
 							<a href="{{ route('sets.show', $holdingsset->id) }}" data-target="#set-show" data-toggle="modal"><span class="glyphicon glyphicon-question-sign" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
@@ -40,7 +41,7 @@
 			<?php	$k = 0; ?>
 			@foreach ($fieldstoshow as $field) 
 				@if ($field != 'ocrr_ptrn') <?php $k++; ?>										
-					<th>{{ $field; }} <span class="fa fa-info-circle"></span></th> 
+					<th>{{ str_replace('f', '', $field); }} <span class="fa fa-info-circle"></span></th> 
 						@if ($k == 1)
 						<th class="hocrr_ptrn">{{ trans('holdingssets.ocurrence_patron') }}
 							<a href="{{ route('sets.show', $holdingsset->id) }}" data-target="#set-show" data-toggle="modal"><span class="glyphicon glyphicon-question-sign" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
@@ -95,7 +96,7 @@
 							@if ($k == 1)
 								<td class="ocrr_ptrn">
 									{{ $holding -> patrn }}
-									<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>
+									<i class="fa fa-question-circle pop-over" data-content="<strong>
 									<?php 
 									if ($holding->f866aupdated == '') { 
 										echo $holding->clean($holding->f866a);
@@ -143,10 +144,12 @@
 		    	jQuery(a).offset({ left: jQuery(b).offset().left-1 });
 
 		    	if ( jQuery(b).offset().top >  jQuery('.page-header').offset().top +  parseInt(jQuery('.page-header').height()) ) {
-		    		jQuery(a).offset({ top: jQuery(b).offset().top });
+		    		jQuery(a).offset({ top: jQuery(b).offset().top});		    		
+		    		jQuery(a).fadeOut();
 		    	}
 		    	else {
-		    		jQuery(a).offset({ top: jQuery('.page-header').offset().top +  parseInt(jQuery('.page-header').height()) + 3 });
+		    		jQuery(a).offset({ top: jQuery('.page-header').offset().top +  parseInt(jQuery('.page-header').height()) + 10 });
+		    		jQuery(a).fadeIn();
 		    	}
 		    	// gettogether(a, b);
 		    })
