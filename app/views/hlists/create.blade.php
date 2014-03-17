@@ -103,7 +103,7 @@ $(function(){
 
 	function typeList(){
 
-		$select = $('#form_list select#worker_id')
+	  $select = $('#form_list select#worker_id')
 
 	  $('#form_list select#worker_id option').hide()
 	  console.log($('#form_list :radio:checked').val())

@@ -12,15 +12,16 @@ $(function(){
   for (var i = 0; i < $(ths).length; i++) {
   	(($(ths[i]).hasClass('hocrr_ptrn')) || ($(ths[i]).hasClass('actions')) || ($(ths[i]).hasClass('size'))) ? aoColumns.push({ "asSorting": [ "" ] }) : aoColumns.push(null) 
   }
+
 	$('#holdings-items').dataTable({
-    "bFilter": false,
-    "bPaginate": false,  
-    "bLengthChange": true,
-    "bInfo": true,
-    "bAutoWidth": true,
-    bStateSave: true
+    bFilter:        false,
+    bPaginate:      false,  
+    bLengthChange:  true,
+    bInfo:          true,
+    bAutoWidth:     true,
+    bStateSave:     true
   });
-  
+
   tds = $('#holdings-items tbody > tr:first-child td');
   ths = $('#holdings-items th');
   for (var i = 0; i < $(ths).length; i++) {
@@ -32,7 +33,7 @@ $(function(){
   tds = $('#holdings-items thead > tr th:first-child').css('min-width', '25px').css('max-width', '25px').css('padding-right', '5px');
   $('#new-table').append($('#holdings-items thead').clone());
   $('#holdings-items_wrapper').prepend($('#new-table'));
-  console.log($('#new-table').attr('id'));
+
   if ($('#new-table').attr('id') != undefined) yy = setInterval(moveTogether, 10);
   $('pop-over').popover();
 })

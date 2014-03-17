@@ -265,6 +265,10 @@ class Holding extends Eloquent {
     return ( $this->state == 'burn' );
   }
 
+  public function getIsIntegratedAttribute(){
+    return ( $this->state == 'integrated' );
+  }
+
   public function getIsBlankAttribute(){
     return ( $this->state == 'blank' );
   }
@@ -313,6 +317,16 @@ class Holding extends Eloquent {
 
   public function getClassReceivedAttribute(){
   	return ( $this->is_received && Auth::user()->hasRole('speichuser') )   ? 'received' : '';
+  }
+
+  public function getDeleteAttribute(){
+
+  	$ret = false;
+  	if ( $this->is_spare ) 			$ret = 'trash';
+  	if ( $this->is_integrated ) $ret = 'deleted';
+
+  	return $ret;
+
   }
 
   public function getPatrnAttribute($buttons){
