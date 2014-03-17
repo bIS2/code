@@ -38,6 +38,6 @@ $(function(){
 })
 
 function moveTogether() {
-  $('#new-table').offset({ left: $('#holdings-items').offset().left + 2});
+  $('#new-table').offset({ left: $('#holdings-items').offset().left});
 	if ($('#holdings-items').offset().top < $('#toolbar > .container').offset().top + parseInt($('#toolbar > .container').height()) + 30) { $('#new-table').css('display', 'block') } else { $('#new-table').css('display', 'none') }
 }
