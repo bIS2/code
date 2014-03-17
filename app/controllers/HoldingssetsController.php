@@ -69,19 +69,19 @@ class HoldingssetsController extends BaseController {
 			$uUserLibrary = Auth::user()->library;
 			$uUserLibraryId = Auth::user()->library->id;
 			// $uGroupname
-			if (!isset($_COOKIE[$uUserName.'_fields_to_show_ok'])) {
-				if (Session::get($uUserName.'_fields_to_show_ok') == 'ocrr_ptrn') {
-					setcookie($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
-					Session::put($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS);
+			if (!isset($_COOKIE[$uUserName.'_fields_to_show_ok_hos'])) {
+				if (Session::get($uUserName.'_fields_to_show_ok_hos') == 'ocrr_ptrn') {
+					setcookie($uUserName.'_fields_to_show_ok_hos', DEFAULTS_FIELDS, time() + (86400 * 30));
+					Session::put($uUserName.'_fields_to_show_ok_hos', DEFAULTS_FIELDS);
 				}
 				else {
-					setcookie($uUserName.'_fields_to_show_ok', Session::get($uUserName.'_fields_to_show_ok'), time() + (86400 * 30));
+					setcookie($uUserName.'_fields_to_show_ok_hos', Session::get($uUserName.'_fields_to_show_ok_hos'), time() + (86400 * 30));
 				}
 			}
 
-			if ((Session::get($uUserName.'_fields_to_show_ok') == 'ocrr_ptrn') || (Session::get($uUserName.'_fields_to_show_ok') == '')) {
-				setcookie($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
-				Session::put($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS);
+			if ((Session::get($uUserName.'_fields_to_show_ok_hos') == 'ocrr_ptrn') || (Session::get($uUserName.'_fields_to_show_ok_hos') == '')) {
+				setcookie($uUserName.'_fields_to_show_ok_hos', DEFAULTS_FIELDS, time() + (86400 * 30));
+				Session::put($uUserName.'_fields_to_show_ok_hos', DEFAULTS_FIELDS);
 			}
 			if (Input::get('clearorderfilter') == 1) {
 				Session::put($uUserName.'_sortinghos_by', null);
@@ -214,8 +214,8 @@ class HoldingssetsController extends BaseController {
 			// var_dump(Input::get('sortinghos_by'));
 			// var_dump(Input::get('sortinghos'));die();
 			$uUserName = Auth::user()->username;
-			setcookie($uUserName.'_fields_to_show_ok', $fieldlist, time() + (86400 * 30));
-			Session::put($uUserName.'_fields_to_show_ok', $fieldlist);
+			setcookie($uUserName.'_fields_to_show_ok_hos', $fieldlist, time() + (86400 * 30));
+			Session::put($uUserName.'_fields_to_show_ok_hos', $fieldlist);
 			Session::put($uUserName.'_sortinghos_by', Input::get('sortinghos_by'));
 			Session::put($uUserName.'_sortinghos', Input::get('sortinghos'));
 			return Redirect::to(Input::get('urltoredirect'));

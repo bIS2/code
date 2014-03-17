@@ -217,6 +217,10 @@ table.table {
     h1 {
         margin: 0;        
     }
+    .lang {
+        position: absolute;
+        right: 10%;
+    }
 }
 
 body {
@@ -247,6 +251,8 @@ footer {
 }
 
 .form-signin {
+    width: 400px;
+    .center-block();
     margin-top: @jumbotron-padding;
     p {
        text-align: center;
@@ -529,20 +535,24 @@ table.table thead th:first-child {
 } 
 #holdings-items_wrapper {
     #new-table {
-        // margin-top: -27px !important;
+        margin-top: -4px !important;
         position: fixed;
         left: 14px;
         z-index: 9;
-        display: none;     
+        display: none;   
         th {
+            background: #ffffff !important;  
             // border: none !important;
             // text-align: center;
             padding-top: 2px;
             padding-bottom: 2px;
             padding-left: 7px;
-            border: none !important;
+            border: 1px solid #ccc !important;
             .fa {
                 visibility: hidden;
+            }
+            &:first-child {
+                border-left: none !important;
             }
         }
     }
@@ -783,7 +793,6 @@ table.header-only {
 
 #currentfiltersoption {
     display: block;
-    float: left;
     text-align: center;
     &.btn-group > .btn, .btn-group-vertical > .btn {
         margin-bottom: 5px;
