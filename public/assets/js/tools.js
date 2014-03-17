@@ -209,7 +209,7 @@ function handleAjaxSucces(parent) {
 
       obj = $('#'+result.id)
 
-      if ( result.state=='trash' || result.state=='received' || result.state=='commented' ) {
+      if ( result.state=='trash' || result.state=='received' || result.state=='commented' || result.state=='deleted' ) {
       	obj.hide('slow')
       }
 

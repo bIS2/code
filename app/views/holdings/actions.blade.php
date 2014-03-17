@@ -49,10 +49,10 @@
 
 		@endif
 
-		@if (Authority::can('delete', $holding))
+		@if (Authority::can('finish', $holding))
 
 			<span class="btn btn-xs" data-toggle="tooltip" title="{{trans('holdings.tooltip_to_trash')}}">
-			  <a href="{{ route('states.store') }}" class="btn-trash" data-params="state={{ $holding->delete }}&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
+			  <a href="{{ route('states.store') }}" class="btn-trash" data-params="state={{ $holding->to_delete }}&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
 			  	<span class="fa fa-times"></span> 
 			  </a>
 			</span>
