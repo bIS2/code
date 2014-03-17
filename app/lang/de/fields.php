@@ -70,6 +70,7 @@ return array(
 '866z' => '866z' ,
 'has_incomplete_vols' => 'Icpl' ,
 'is_current' 	=> 'Laufend' ,
+'ocrr_ptrn' 	=> 'Vorkommen',
 'size' 			=> 'Phy Umfang' ,
 'size_large' 	=> 'Umfang in lfm' ,
 'size_short'	=> 'Lfm',
