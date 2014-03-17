@@ -56,5 +56,6 @@ return array(
 	'trasheds'				=> 'To eliminate',
 	'ungroup'				=> 'Unlisted',
 	'value'					=> 'Value',
+	'deleted'					=> 'Deleted',
 
 );
