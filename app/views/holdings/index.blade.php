@@ -13,13 +13,10 @@
 
 	<div class="row">
 		<div class="col-xs-12">
-			<?php 
 
-				//echo var_dump($last_query)
-			 ?>
 		  <table id="new-table" class="table table-bordered table-condensed flexme">
 		  </table>
-			<table id="holdings-items" class="table table-bordered table-condensed flexme">
+			<table id="holdings-items" class="table table-bordered table-condensed">
 			<thead>
 				<tr>
 					<th></th>

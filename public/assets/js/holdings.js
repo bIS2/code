@@ -20,6 +20,7 @@ $(function(){
     "bAutoWidth": true,
     bStateSave: true
   });
+  
   tds = $('#holdings-items tbody > tr:first-child td');
   ths = $('#holdings-items th');
   for (var i = 0; i < $(ths).length; i++) {
