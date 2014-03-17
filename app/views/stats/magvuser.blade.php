@@ -3,7 +3,6 @@
 <?php $annotated = Holding::inLibrary()->confirms()->annotated()->count() ?>
 <?php $corrects = Holding::inLibrary()->confirms()->corrects()->count() ?>
 <?php $to_post = Holding::inLibrary()->reviseds()->corrects()->count() ?>
-<?php //$delivery = Holding::inLibrary()->deliveries()->count() ?>
 
 <div class="col-xs-1">
 	<span class="label label-default" data-toggle="tooltip" data-placement="top" data-original-title="{{ trans('stats.corrects') }}">
@@ -19,7 +18,7 @@
 
 <div class="col-xs-1">
 	<span class="label label-default" data-toggle="tooltip" data-placement="top" data-original-title="{{ trans('stats.to_post') }}">
-		<i class="fa fa-mail-forward text-primary"></i> {{$to_post}} [{{ round(($to_post/$total)*100,2) }}%]
+		<i class="fa fa-check"></i> {{$to_post}} [{{ round(($to_post/$total)*100,2) }}%]
 	</span>
 </div>
 
