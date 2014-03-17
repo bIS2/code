@@ -12,14 +12,16 @@ $(function(){
   for (var i = 0; i < $(ths).length; i++) {
   	(($(ths[i]).hasClass('hocrr_ptrn')) || ($(ths[i]).hasClass('actions')) || ($(ths[i]).hasClass('size'))) ? aoColumns.push({ "asSorting": [ "" ] }) : aoColumns.push(null) 
   }
+
 	$('#holdings-items').dataTable({
-    "bFilter": false,
-    "bPaginate": false,  
-    "bLengthChange": true,
-    "bInfo": true,
-    "bAutoWidth": true,
-    bStateSave: true
+    bFilter:        false,
+    bPaginate:      false,  
+    bLengthChange:  true,
+    bInfo:          true,
+    bAutoWidth:     true,
+    bStateSave:     true
   });
+
   tds = $('#holdings-items tbody > tr:first-child td');
   ths = $('#holdings-items th');
   for (var i = 0; i < $(ths).length; i++) {

@@ -147,13 +147,15 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 
   $('body').on('submit', '#form-create-list form', function() {
 	 
-	  // typeList()
+	  typeList()
 	  $('#form_list').append( $('#holdings-items :checkbox:checked').clone().attr('type','hidden') )
 
-  	console.log( $('#holdings-items :checkbox:checked').clone().length  )
+  	//console.log( $('#holdings-items :checkbox:checked').clone().length  )
       
   }); 
 
+  $('body').on('show.bs.modal', '#form-create-list', function(){ typeList() })
+  
   handleAjaxSucces('body');
   countThs();
 	getAsuccess()
