@@ -22,22 +22,22 @@ $(function(){
                graph = Flotr.draw(container, [
                {
                     data: b1,
-                    label: data['titles'][0]
+                    label: data['titles']['count'][0]
                 }, {
                     data: b2,
-                    label: data['titles'][1]
+                    label: data['titles']['count'][1]
                 }, {
                     data: b3,
-                    label: data['titles'][2]
+                    label: data['titles']['count'][2]
                 }, {
                     data: b4,
-                    label: data['titles'][3]
+                    label: data['titles']['count'][3]
                 }, {              
                     data: b5,
-                    label: data['titles'][4]
+                    label: data['titles']['count'][4]
                 }, {
                     data: b6,
-                    label: data['titles'][5]
+                    label: data['titles']['count'][5]
                 }], {
                     xaxis: {
                         noTicks: 5,
@@ -84,22 +84,22 @@ $(function(){
                graph = Flotr.draw(container2, [
                {
                     data: l1,
-                    label: data['titles'][0]
+                    label: data['titles']['size'][0]
                 }, {
                     data: l2,
-                    label: data['titles'][1]
+                    label: data['titles']['size'][1]
                 }, {
                     data: l3,
-                    label: data['titles'][2]
+                    label: data['titles']['size'][2]
                 }, {
                     data: l4,
-                    label: data['titles'][3]
+                    label: data['titles']['size'][3]
                 }, {              
                     data: l5,
-                    label: data['titles'][4]
+                    label: data['titles']['size'][4]
                 }, {
                     data: l6,
-                    label: data['titles'][5]
+                    label: data['titles']['size'][5]
                 }], {
                     xaxis: {
                       noTicks: 5,

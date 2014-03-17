@@ -53,7 +53,7 @@
 
 			<span class="btn btn-xs" data-toggle="tooltip" title="{{trans('holdings.tooltip_to_trash')}}">
 			  <a href="{{ route('states.store') }}" class="btn-trash" data-params="state=trash&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
-			  	<span class="fa fa-trash-o"></span> 
+			  	<span class="fa fa-times"></span> 
 			  </a>
 			</span>
 

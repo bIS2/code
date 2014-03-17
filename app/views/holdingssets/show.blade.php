@@ -35,7 +35,7 @@
 						<?php $librarianclass = ' '.substr($holding->sys2, 0, 4);  ?>	
 							<tr id="holding{{ $holding -> id; }}" class="{{ $trclass }}{{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}{{ $librarianclass }}{{ ($holding->is_annotated) ? ' text-warning' : '' }}">			
 								<td>{{ $holding->show('sys2') }}</td>				
-								<td>{{ $holding->library->show('code') }}</td>				
+								<td>{{ $holding->library->code }}</td>				
 								<td class="ocrr_ptrn">
 									{{ $holding -> patrn_no_btn }}
 								</td>				

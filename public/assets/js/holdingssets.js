@@ -4,9 +4,7 @@ var openallindex = 0;
 var lis;
 
 $(function() {
-	
 	$('.pop-over').popover();
-
 	setDatatable();
 	page = 1;
   	xx = setInterval(adjustPaddingTop, 10);
@@ -47,13 +45,13 @@ $(function() {
 			$('#open-all-hos .fa').removeClass('fa-folder-o')
 			$('#open-all-hos .fa').addClass('fa-folder-open-o')
 			$('#open-all-hos').removeClass('disabled')
-			console.log('pa cerrar');
+			// console.log('pa cerrar');
 		}
 		else {
 			lis = $('#hosg ul.hol-sets li .accordion-toggle');
 			$('#open-all-hos').addClass('disabled');
 			openAll(lis, 0);
-			console.log('pa abrir');
+			// console.log('pa abrir');
 		}
 	});
 })
@@ -88,14 +86,21 @@ function setDatatable() {
 						    for (var i = 0; i < $(ths).length; i++) {
 						    	(($(ths[i]).hasClass('hocrr_ptrn')) || ($(ths[i]).hasClass('actions')) || ($(ths[i]).hasClass('table_order'))) ? aoColumns.push({ "asSorting": [ "" ] }) : aoColumns.push(null) 
 						    }
-								$($(This).attr('href') + ' .flexme').dataTable({
-							    "bFilter": false,
-							    "bPaginate": false,  
-					        "bLengthChange": true,
-					        "bInfo": true,
-					        "bAutoWidth": true,
-					        "aoColumns": aoColumns,
+							$($(This).attr('href') + ' .flexme').dataTable({
+								"bFilter": false,
+								"bPaginate": false,  
+						        "bLengthChange": true,
+						        "bInfo": true,
+						        "bAutoWidth": true,
+						        "aoColumns": aoColumns,
 							  });
+								// $($(This).attr('href') + ' .panel-body .dataTables_wrapper').niceScroll();
+								$($(This).attr('href') + ' .panel-body table.flexme .ocrr_ptrn > div:first-child').niceScroll({
+									cursorwidth: "10px",
+									cursorcolor: "#FFF",
+									cursoropacitymax: '0.5',
+								});
+
 								$($(This).attr('href') + ' i.fa').each(function() {
 									$(this).on('mouseout', function() {
 										current = $(this)
