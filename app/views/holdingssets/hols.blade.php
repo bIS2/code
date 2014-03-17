@@ -20,7 +20,7 @@
 						<th class="hocrr_ptrn">{{ trans('holdingssets.ocurrence_patron') }}
 							<a href="{{ route('sets.show', $holdingsset->id) }}" data-target="#set-show" data-toggle="modal"><span class="glyphicon glyphicon-question-sign" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
 							@if (!$HOSconfirm)
-								<a set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putRecallHoldingsset',[$holdingsset->id]); ?>" data-remote="true" data-method="put" data-disable-with="..." data-disable-with="..." class="forceblue pop-over" data-content="<?= trans('holdingssets.recall_HOS'); ?>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-refresh text-danger"></i></a>
+								<a set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putRecallHoldingsset',[$holdingsset->id]); ?>" data-remote="true" data-method="put" data-disable-with="..." data-disable-with="..." class="forceblue pop-over" data-content="<?= trans('holdingssets.recall_HOS'); ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-refresh text-danger"></i></a>
 							@endif
 						</th>
 						<th>hbib <span class="fa fa-info-circle"></span></th>

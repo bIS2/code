@@ -535,20 +535,24 @@ table.table thead th:first-child {
 } 
 #holdings-items_wrapper {
     #new-table {
-        // margin-top: -27px !important;
+        margin-top: -4px !important;
         position: fixed;
         left: 14px;
         z-index: 9;
-        display: none;     
+        display: none;   
         th {
+            background: #ffffff !important;  
             // border: none !important;
             // text-align: center;
             padding-top: 2px;
             padding-bottom: 2px;
             padding-left: 7px;
-            border: none !important;
+            border: 1px solid #ccc !important;
             .fa {
                 visibility: hidden;
+            }
+            &:first-child {
+                border-left: none !important;
             }
         }
     }

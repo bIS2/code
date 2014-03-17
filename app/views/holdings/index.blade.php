@@ -17,11 +17,12 @@
 
 				//echo var_dump($last_query)
 			 ?>
-<!-- 		  <table id="new-table" class="table table-bordered table-condensed flexme">
-		  </table> -->
+		  <table id="new-table" class="table table-bordered table-condensed flexme">
+		  </table>
 			<table id="holdings-items" class="table table-bordered table-condensed flexme">
 			<thead>
 				<tr>
+					<th></th>
 					<th></th>
 					<th>
 						<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets" {{ ( Authority::can('create','Hlist') ) ? '' : 'disabled' }}>
@@ -58,7 +59,7 @@
 					<td id="{{ $holding->id }}" class="actions" >
 						@include('holdings.actions')
 					</td>
-						</td>
+
 					<td class="state">
 						<span class="label label-primary">
 							{{ trans('states.'.$holding->state) }}
@@ -74,7 +75,6 @@
 							$field = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != 'sys2')) ? $field = 'f'.$field : $field; 
 						?>						
 							<td>
-
 								@if ($field == 'size') 
 
 									@if (Authority::can('set_size', $holding))
@@ -92,7 +92,6 @@
 
 							@if ($k == 2)
 								<td class="ocrr_ptrn">
-
 									{{ $holding->patrn_no_btn }}
 									{{ $this->ocrr_ptrn }}
 									<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>{{ $holding -> f866a }}</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
