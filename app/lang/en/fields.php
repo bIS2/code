@@ -71,6 +71,7 @@ return array(
 	'866z' => '866z' ,
 	'has_incomplete_vols' 	=> 'Icpl',
 	'is_current' 			=>'Current',
+	'ocrr_ptrn' 			=> 'Occurrence',
 	'size' 					=> 'Phy Size' ,
 	'size_large' 			=> 'Size in running meters' ,
 	'size_short'			=> 'RM',
