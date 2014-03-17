@@ -25,7 +25,7 @@ $types = [
 	'control'=>	'<i class="fa fa-tachometer"></i> '.trans('lists.type-control'), 
 	'delivery'=>'<i class="fa fa-truck"></i> '.trans('lists.type-delivery'),  
 	'unsolve'=>	'<i class="fa fa-fire"></i> '.trans('lists.type-unsolve'), 
-	'elimination'=>'<i class="fa fa-trash-o"></i> '.trans('lists.type-elimination') ,
+	'elimination'=>'<i class="fa fa-times"></i> '.trans('lists.type-elimination') ,
 ];
 
 ?>
@@ -103,10 +103,10 @@ $(function(){
 
 	function typeList(){
 
-		$select = $('#form_list select#worker_id')
+	  $select = $('#form_list select#worker_id')
 
 	  $('#form_list select#worker_id option').hide()
-
+	  console.log($('#form_list :radio:checked').val())
 	  if ($('#form_list :radio:checked').val()=='delivery'){
 	    $('#form_list select#worker_id option[data-role=postuser]').show()
 	  } else {

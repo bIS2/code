@@ -265,6 +265,10 @@ class Holding extends Eloquent {
     return ( $this->state == 'burn' );
   }
 
+  public function getIsIntegratedAttribute(){
+    return ( $this->state == 'integrated' );
+  }
+
   public function getIsBlankAttribute(){
     return ( $this->state == 'blank' );
   }
@@ -313,6 +317,16 @@ class Holding extends Eloquent {
 
   public function getClassReceivedAttribute(){
   	return ( $this->is_received && Auth::user()->hasRole('speichuser') )   ? 'received' : '';
+  }
+
+  public function getDeleteAttribute(){
+
+  	$ret = false;
+  	if ( $this->is_spare ) 			$ret = 'trash';
+  	if ( $this->is_integrated ) $ret = 'deleted';
+
+  	return $ret;
+
   }
 
   public function getPatrnAttribute($buttons){
@@ -387,6 +401,16 @@ class Holding extends Eloquent {
         $field = 'f866aupdated';
       }
     }
+
+    if ($field=='size'){
+			if ( Authority::can('set_size', $this) ){
+				$field = '<a href="#" class="editable" data-type="text" data-pk="'.$this->id.'" data-url="'.route('holdings.update',[$this->id]).'" >'.$this->size.'</a>';
+				
+			}	else{
+
+				$field = 'size';
+			}
+    } 
 
   	$str = $this->clean($this->$field);
     return (strlen($str) > $len) ? '<span class="pop-over" data-content="<strong>'.$str.'</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover">'.truncate($str, 30).'</span>' : $str;

@@ -35,6 +35,10 @@ return [
           return ( $holding->is_spare && Auth::user()->hasRole('bibuser') );
         });
 
+        $authority->allow('delete', 'Holding', function($self, $holding) {
+          return ( ($holding->is_spare || $holding->is_integrated) && Auth::user()->hasRole('bibuser') );
+        });
+
         $authority->allow('burn', 'Holding', function($self, $holding) {
           return (  $holding->is_trashed && Auth::user()->hasRole('maguser') );
         });
