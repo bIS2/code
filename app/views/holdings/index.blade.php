@@ -27,14 +27,18 @@
 						{{trans('general.actions')}}
 					</th>
 					<th>{{trans('general.state')}}</th>
-					<?php	$k = 0; ?>
+					<?php	$k = 1; ?>
+
 					@foreach ($fieldstoshow as $field) 
-						@if ( !($field=='size') )
-							<th>{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span></th> 
-						@elseif (Authority::can('set_size', $holding))
-							<th>{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span></th> 
+						<?php $k++; ?>
+						@if ($k == 2) 
+						<th>{{ trans('fields.ocrr_ptrn') }} <span class="fa fa-info-circle"></span></th> 
+						@else										
+						<th>{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span></th> 
 						@endif
+
 					@endforeach	
+
 				</tr>
 			</thead>
 			<tbody id="holdings-targets" class="selectable">
@@ -55,48 +59,34 @@
 					<td id="{{ $holding->id }}" class="actions" >
 						@include('holdings.actions')
 					</td>
-						</td>
 					<td class="state">
 						<span class="label label-primary">
 							{{ trans('states.'.$holding->state) }}
 						</span>	
 					</td>
 
-					<?php $k = 0; ?>
+					<?php $k = 1; ?>
 					@foreach ($fieldstoshow as $field)
+						<?php $k++ ?>
+						@if ($k == 2)
+							<td class="ocrr_ptrn">
 
-						@if ($field != 'ocrr_ptrn')  
-
-						<?php $k++;
+								{{ $holding->patrn_no_btn }}
+								{{ $this->ocrr_ptrn }}
+								<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>{{ $holding -> f866a }}</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
+							</td>
+						@else 
+						<?php 
+							$k++;
 							$field = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != 'sys2')) ? $field = 'f'.$field : $field; 
 						?>						
-							<td>
+						<td>
 
-								@if ($field == 'size') 
+							{{ $holding->show( $field ) }}
 
-									@if (Authority::can('set_size', $holding))
-										<a href="#" class="editable" data-type="text" data-pk="{{$holding->id}}" data-url="{{ route('holdings.update',[$holding->id]) }}" >{{ $holding->size }} </a>
-									@else
-										{{ $holding->size }}
-									@endif
-
-								@else 
-
-									{{ $holding->show( $field ) }}
-
-								@endif
-							</td>
-
-							@if ($k == 2)
-								<td class="ocrr_ptrn">
-
-									{{ $holding->patrn_no_btn }}
-									{{ $this->ocrr_ptrn }}
-									<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>{{ $holding -> f866a }}</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
-								</td>
-							@endif
-
+						</td>
 						@endif
+
 
 					@endforeach
 				</tr>
