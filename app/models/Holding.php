@@ -319,7 +319,7 @@ class Holding extends Eloquent {
   	return ( $this->is_received && Auth::user()->hasRole('speichuser') )   ? 'received' : '';
   }
 
-  public function getDeleteAttribute(){
+  public function getToDeleteAttribute(){
 
   	$ret = false;
   	if ( $this->is_spare ) 			$ret = 'trash';

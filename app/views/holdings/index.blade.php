@@ -1,6 +1,6 @@
 @extends('layouts.default')
 <?php 
-	$fieldstoshow = Session::get(Auth::user()->username.'_fields_to_show_ok');
+	$fieldstoshow = Session::get(Auth::user()->username.'_fields_to_show_ok_hols');
 	$fieldstoshow = explode(';',$fieldstoshow);
 ?>
 {{-- Content --}}

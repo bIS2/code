@@ -30,4 +30,5 @@ return array(
 	'title'							=> 'Actions executed',
 	'trash' 						=> 'To eliminate',
 	'pending' 						=> 'Anstehend',
+	'deleted' 						=> 'Deleted',
 );

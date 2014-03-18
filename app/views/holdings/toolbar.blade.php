@@ -112,6 +112,7 @@
 					  		<span class="fa fa-flag-checkered"></span> {{{ trans('holdings.integrated') }}}
 					  	</a>
 
+
 					  @endif
 
 				  	<!-- HOLDING SPARE -->
@@ -141,6 +142,14 @@
 					</a>
 
 					@endif
+
+					@if ( $user->hasRole('magvuser') || $user->hasRole('bibuser') )
+
+					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'deleted'] ) }}" class="btn btn-default <?= ( Input::get('state')=='deleted' ) ? 'active' : '' ?> btn-sm" >
+					  		<span class="fa fa-strikethrough"></span> {{{ trans('holdings.deleted') }}}
+					  	</a>
+					@endif
+
 
 				</div>
 
