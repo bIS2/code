@@ -35,7 +35,7 @@ return array(
 	'filter'			=> 'Filter',
 	'greater_than'		=> 'greater than',
 	'groups'			=> 'Groups',
-	'help'				=>'Help',
+	'help'				=> 'Help',
 	'history'			=> 'Lists all actions',
 	'included_in' 		=> 'Included in',
 	'incorrects'        => 'Incorrects',

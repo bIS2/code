@@ -16,6 +16,7 @@ return array(
 	'corrects' 				=> 'Kontrollierte',
 	'create_list'			=> 'Liste erstellen',
 	'deliveries'			=> 'Abgeschickte',
+	'deleted'				=> 'Eliminierte',
 	'delivery'				=> 'Losschicken',
 	'exists_online_short'	=> 'Auch online',
 	'exists_online_large'	=> 'Existiert auch online',
