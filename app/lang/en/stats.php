@@ -9,7 +9,7 @@ return array(
 	'correct'					=> 'Correct',
 	'corrects'					=> 'HOS controlled by BIBUSER',
 	'deliveries'				=> 'Deliveries',
-	'global_log'  				=> 'Global Log',
+	'global_log'  				=> 'Last activities',
 	'graph'						=> 'How many HOL have been processed until now?',
 	'graph-size'				=> 'How many RM have been processed until now?',
 	'grouped' 					=> 'HOS in groups',
