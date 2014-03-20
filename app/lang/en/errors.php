@@ -8,7 +8,6 @@ return array(
 	'field_size_in_blank' 		=> "Please type size",
 	'list_in_blank'     	    => "Uch!!, Don't create list with 0 valid holdings.",
 	'list_name_is_blank'		=> 'Bitte Namen für die Liste eingeben.',
-	'list_name_is_duplicate'	=> "The name list must be unique",
-
+	'list_name_is_duplicate'	=> "The list name must be unique",
 
 );
