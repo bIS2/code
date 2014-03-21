@@ -3,6 +3,9 @@
 	<div class="container">
 		<a class="navbar-brand" href="/" title="Begleitendes Informationssystem">bIS</a>
 		<ul class="nav navbar-nav">
+			<li data-toggle="tooltip" data-placement="bottom" data-original-title="{{ trans('titles.help')}}"> 
+				<a href="/help" ><span class="fa fa-question"></span> </a>
+			</li>
 			<li data-toggle="tooltip" data-placement="bottom" data-original-title="{{ trans('titles.home')}}"> 
 				<a href="/" ><span class="fa fa-home"></span> </a>
 			</li>

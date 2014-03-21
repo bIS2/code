@@ -80,5 +80,8 @@ return array(
 	'update'			=> 'Update',
 	'username'			=> 'Username',
 	'yes' 				=> 'Yes',
+	'clear_cookies_title' 	=> 'Clear Cookies',
+	'to_clear_cookies' 		=> 'To clear cookies and clear all your preferences',
+	'click_here' 			=> 'click here',
 
 );

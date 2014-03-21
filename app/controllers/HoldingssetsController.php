@@ -132,7 +132,7 @@ class HoldingssetsController extends BaseController {
 				$openfilter = 0;
 				$OrAndFilter = Input::get('OrAndFilter');
 				// Verify if some value for advanced search exists.
-				if ($holdings == -1) $holdings = DB::table('holdings')->orderBy('is_owner', 'DESC');
+				if ($holdings == -1) $holdings = DB::table('holdings');//->orderBy('is_owner', 'DESC');
 
 				foreach ($allsearchablefields as $field) {
 
@@ -344,7 +344,11 @@ class HoldingssetsController extends BaseController {
 		-----------------------------------------------------------------------------------*/
 		public function putNewHOS($id) {
 			$holdingsset_id = Input::get('holdingsset_id');
+			
 			if (Input::has('holding_id')) {
+				$ids = implode(';',Input::get('holding_id'));
+				$idsAux = explode('?',$ids);
+				$ids = explode(';',$idsAux);
 				$ids = Input::get('holding_id');
 				if (Input::has('update_hos') && (Input::get('update_hos') == 1)) {
 					Holding::whereIn('id', $ids)->update(['holdingsset_id'=>$holdingsset_id]);
@@ -359,6 +363,7 @@ class HoldingssetsController extends BaseController {
 							$recalled[] = $hol_id;
 						}
 					}
+					die();
 					holdingsset_recall($holdingsset_id);
 					$holdingssets[] = Holdingsset::find($holdingsset_id);
 				}

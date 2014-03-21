@@ -16,7 +16,7 @@ return array(
 	'corrects' 				=> 'Corrects',
 	'create_list'			=> 'Create List',
 	'deliveries'			=> 'Sent',
-	'deleted'				=> 'Eliminated',
+	'deleted'				=> 'Deleted',
 	'delivery'				=> 'Delivery',
 	'exists_online_short'	=> 'Online',
 	'exists_online_large'	=> 'Exists also online',

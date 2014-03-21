@@ -12,4 +12,5 @@ return array(
 	'tags' 		=> 'Tags',
 	'traces' 	=> 'Traces',
 	'users'     => 'Users',
+	'help'     	=> 'Help',
 );
