@@ -32,10 +32,9 @@
 					@foreach ($fieldstoshow as $field) 
 						<?php $k++; ?>
 						@if ($k == 2) 
-						<th>{{ trans('fields.ocrr_ptrn') }} <span class="fa fa-info-circle"></span></th> 
-						@else										
-						<th>{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span></th> 
+						<th>{{ trans('fields.ocrr_ptrn') }} <span class="fa fa-info-circle"></span></th>		
 						@endif
+						<th>{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span></th> 
 
 					@endforeach	
 
@@ -75,7 +74,7 @@
 								{{ $this->ocrr_ptrn }}
 								<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>{{ $holding -> f866a }}</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
 							</td>
-						@else 
+						@endif
 						<?php 
 							$k++;
 							$field = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != 'sys2')) ? $field = 'f'.$field : $field; 
@@ -85,7 +84,6 @@
 							{{ $holding->show( $field ) }}
 
 						</td>
-						@endif
 
 
 					@endforeach

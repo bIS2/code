@@ -80,5 +80,7 @@ return array (
 	'update' 			=> 'Merken',
 	'username'			=> 'Benutzername',
 	'yes'				=> 'Ja',
-
+	'clear_cookies_title' 	=> 'Cookies löschen',
+	'to_clear_cookies' 		=> 'So löschen Sie Cookies und deaktivieren Sie alle Ihre Einstellungen',
+	'click_here' 			=> 'Klicken Sie hier',
 );
