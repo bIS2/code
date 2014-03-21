@@ -122,30 +122,30 @@
 
 	<!-- Actions -->
 	<div class="col-xs-3">
-		<div class="pull-right">
-
+		<div class="col-xs-5">
 			@if (Input::has('hlist_id'))
-				<?php $list = Hlist::find(Input::get('hlist_id')); ?>
-				<span class="label label-primary state-list"> {{ $list->state }}</span>
+			<?php $list = Hlist::find(Input::get('hlist_id')); ?>
+			@endif
+			<?php 
+				$hide_btn_revise_list = '';
+				if ( !Authority::can('revise',$list) )  { 
+					$hide_btn_revise_list = 'hide';
+				} 
+			?>
+			@if ( Input::has('hlist_id'))
+			<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs btn-revise {{ $hide_btn_revise_list }}" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
+				<span class="fa fa-check" ></span> {{ trans('holdings.revised')}}
+			</a>
 			@endif
 
-			<?php $hide_btn_revise_list = '' ?>
-			<?php if ( !Authority::can('revise',$list) )  { ?>
-				<?php $hide_btn_revise_list = 'hide' ?>
-			<?php } ?>
-
-			@if ( Input::has('hlist_id'))
-	    	<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs btn-revise {{ $hide_btn_revise_list }}" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
-	    		<span class="fa fa-check" ></span> {{ trans('holdings.revised')}}
-	    	</a>
-	    @endif
-
-
-		  <a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-xs btn-default dropdown-toggle collapsed text-warning" data-toggle="collapse">
-	  		<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
+			@if (Input::has('hlist_id'))
+			<span class="label label-primary state-list"> {{ $list->state }}</span>
+			@endif
+		</div>
+		<div class="col-xs-7">
+			<a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-xs btn-default dropdown-toggle collapsed text-warning pull-right" data-toggle="collapse">
+				<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
 			</a>
-
-
 		</div>
 	</div>
 <!-- 	<div id="hos-pagination" class="pull-right text-center text-success">
@@ -175,6 +175,7 @@
 						<?php
 							foreach ($fields as $field) {
 								$popover = '';
+								$field_large = '';
 								$field_short = trans('fields.'.$field);
 								switch ($field) {
 									case 'exists_online':

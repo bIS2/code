@@ -66,7 +66,7 @@ class Holdingsset extends Eloquent {
   }
 
   public function scopeAnnotated($query){
-    $ids = Holding::annotated()->select('holdingsset_id')->lists('holdingsset_id');
+    $ids = Holding::RevisedsAnnotated()->select('holdingsset_id')->lists('holdingsset_id');
     if (count($ids) == 0 ) $ids = [-1];
     return $query
     ->whereIn('holdingssets.id', $ids);

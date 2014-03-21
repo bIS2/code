@@ -60,6 +60,12 @@ class StatesController extends BaseController {
 			if ($state->exists()) {
 
 				$state->delete();
+				return Response::json([ 
+				'state' 				=> 'not_'.$input['state'],
+				'state_title' 			=> trans( 'states.'.$input['state']), 
+				'id' 					=> $input['holding_id'],
+				'list_completed' 		=> false
+			]);
 
 			}	else {
 
@@ -78,7 +84,7 @@ class StatesController extends BaseController {
 
 			$list_finish = false;
 			$list_received = false;
-			if ( Input::has('hlist_id') && ($input['state']=='ok') ) {
+			if ( Input::has('hlist_id') && (($input['state']=='ok') || ($input['state']=='annotated'))) {
 				$hlist = Hlist::find(Input::get('hlist_id'));
 				$list_finish = $hlist->ready_to_revise;
 				$list_received = $hlist->received;

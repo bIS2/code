@@ -15,7 +15,7 @@ return array(
 
 	'annotated' 					=> 'Von MAGUSER annotiert',
 	'blank' 						=> '(noch ohne Status)',
-	'burn' 							=> 'HOL eliminiert',
+	'burn' 							=> 'HOL eliminiert physically',
 	'commented'						=> 'Kommentar der SPB',
 	'confirmed' 					=> 'HOS ok',
 	'delivery' 						=> 'Zur SPB gesandt',
@@ -30,5 +30,6 @@ return array(
 	'title'							=> 'Durchgeführte Aktionen',
 	'trash' 						=> 'Zu eliminieren',
 	'pending' 						=> 'Anstehend',
+	'deleted' 						=> 'Integrated in SPB & Deleted from Original system',
 
 );

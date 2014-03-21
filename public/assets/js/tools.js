@@ -202,8 +202,16 @@ function handleAjaxSucces(parent) {
     } 
 
     // show btn to revise list if completed
-    if ( result.list_completed )
-    	$('.btn-revise').removeClass('hide')
+    if ( result.list_completed ) {
+      $('.btn-revise').removeClass('hide') 
+    	$('.label.label-primary.state-list').addClass('hide') 
+
+    }
+
+    if ( result.list_completed == false) {
+      $('.btn-revise').addClass('hide')
+      $('.label.label-primary.state-list').removeClass('hide') 
+    }
 
     if ( result.state ){
 
@@ -212,6 +220,9 @@ function handleAjaxSucces(parent) {
       if ( result.state=='trash' || result.state=='received' || result.state=='commented' || result.state=='deleted' ) {
       	obj.hide('slow')
       }
+
+      if (result.state=='not_ok' )
+        obj.removeClass('success')
 
       if (result.state=='ok' ) {
         obj.addClass( 'success' ).removeClass('danger')

@@ -23,7 +23,7 @@
           </div>
         <?php else : ?>
           <div class="btn btn-default btn-xs">
-            <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="#" class="editable  pull-right" data-type="text" data-pk="<?=$holdingsset->id; ?>" data-url="<?= route('lockeds.update',[$holding->id]); ?>" title="<?php if ($btn != 'btn-success disabled') : ?> <?= trans('holdinssets.lock_hol'); ?> @else <?= trans('holdingssets.unlock_hol'); ?><?php endif ?>"><span class="glyphicon glyphicon-lock"></span></a>
+            <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="#" class="editable  pull-right" data-type="text" data-pk="<?=$holdingsset->id; ?>" data-url="<?= route('lockeds.update',[$holding->id]); ?>" title="<?php if ($btn != 'btn-success disabled') : ?> <?= trans('holdingssets.lock_hol'); ?> @else <?= trans('holdingssets.unlock_hol'); ?><?php endif ?>"><span class="glyphicon glyphicon-lock"></span></a>
           </div>
         <?php endif ?>
       <?php elseif($holding->locked) : ?>

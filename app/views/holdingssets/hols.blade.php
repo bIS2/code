@@ -15,7 +15,7 @@
 
 			@foreach ($fieldstoshow as $field) 
 				@if ($field != 'ocrr_ptrn') <?php $k++; ?>										
-					<th>{{ str_replace('f', '', $field); }} <span class="fa fa-info-circle"></span></th> 
+					<th>{{ trans('fields.'.str_replace('f', '', $field)); }} <span class="fa fa-info-circle"></span></th> 
 						@if ($k == 1)
 						<th class="hocrr_ptrn">{{ trans('holdingssets.ocurrence_patron') }}
 							<a href="{{ route('sets.show', $holdingsset->id) }}" data-target="#set-show" data-toggle="modal"><span class="glyphicon glyphicon-question-sign" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
@@ -41,7 +41,7 @@
 			<?php	$k = 0; ?>
 			@foreach ($fieldstoshow as $field) 
 				@if ($field != 'ocrr_ptrn') <?php $k++; ?>										
-					<th>{{ str_replace('f', '', $field); }} <span class="fa fa-info-circle"></span></th> 
+					<th>{{ trans('fields.'.str_replace('f', '', $field)); }} <span class="fa fa-info-circle"></span></th> 
 						@if ($k == 1)
 						<th class="hocrr_ptrn">{{ trans('holdingssets.ocurrence_patron') }}
 							<a href="{{ route('sets.show', $holdingsset->id) }}" data-target="#set-show" data-toggle="modal"><span class="glyphicon glyphicon-question-sign" title="{{ trans('holdingssets.see_more_information') }}"></span></a>

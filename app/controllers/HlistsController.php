@@ -43,7 +43,7 @@ class HlistsController extends BaseController {
 		if (Input::has('state')) 
 			$this->hlist = $this->hlist->whereRevised(Input::get('state') == 'revised');
 
-		$this->data['hlists'] = $this->hlist->my()->paginate(50);
+		$this->data['hlists'] = $this->hlist->my()->orderBy('created_at', 'DESC')->paginate(50);
 
 		$maguser = Role::whereName('maguser')
 						->first()

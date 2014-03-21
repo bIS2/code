@@ -109,7 +109,7 @@ function setDatatable() {
 										count = 0;
 										actives = 0;
 										hol = $(this).parents('tr').attr('holding');
-										$('tr#holding'+hol + ' td.ocrr_ptrn i.fa').each(function() {
+										$('tr#holding'+hol + ' td.ocrr_ptrn > div i.fa').each(function() {
 											if ($(this).hasClass('active') || $(this).hasClass('fa-square')) {												
 												newauxptrn = ($(this).hasClass('aux') || $(this).hasClass('active')) ? newauxptrn + '1' : newauxptrn + '0'
 												newptrn = newptrn + '1'
