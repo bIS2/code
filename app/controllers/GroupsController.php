@@ -144,7 +144,7 @@ class GroupsController extends BaseController {
 			$group = $this->group->find($id);
 			$group->update($input);
 
-			return Redirect::route('groups.edit', $id)
+			return Redirect::route('groups.index')
 				->with('success', trans('groups.group_update_successfully'));;
 		}
 

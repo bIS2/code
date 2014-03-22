@@ -94,7 +94,7 @@
 						{{ $confirm->holdingsset->sys1 }}
 					</td>
 					<td class="tag col-xs-4">
-						{{ truncate(htmlspecialchars($confirm->holdingsset->f245a), 60, ' ...') }} 
+						{{ $confirm->holdingsset->show('f245a') }} 
 					</td>
 				</tr>
 			@endforeach
@@ -128,7 +128,7 @@
 							{{ $ok->holding->sys2 }}
 						</td>
 						<td class="tag col-xs-4">
-							{{ truncate(htmlspecialchars($ok->holding->f245a), 60, ' ...') }}
+							{{ $ok->holding->show('f245a') }}
 						</td>
 					</tr>
 				@endforeach

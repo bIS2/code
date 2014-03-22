@@ -57,7 +57,7 @@ class Holdingsset extends Eloquent {
 
   public function scopeIncorrects($query){
     return $query
-    ->whereState('incorrect');
+    ->whereState('incorrected');
   }
 
   public function scopeCorrects($query){
