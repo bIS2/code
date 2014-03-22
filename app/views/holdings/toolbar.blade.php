@@ -135,19 +135,19 @@
 
 
 					<!-- DELETE -->
-					@if ( $user->hasRole('magvuser') )
+					@if ( $user->hasRole('magvuser')  || $user->hasRole('bibuser'))
 
 					<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'burn'] ) }}" class="btn btn-default <?= ( Input::get('state')=='burn' ) ? 'active' : '' ?> btn-sm" >
-						<span class="fa fa-fire"></span> {{{ trans('holdings.burneds') }}}
+						<span class="fa fa-strikethrough"></span><span class="fa fa-fire"></span> {{{ trans('holdings.burneds') }}}
 					</a>
 
 					@endif
 
 					@if ( $user->hasRole('magvuser') || $user->hasRole('bibuser') )
-
+<!-- 
 					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'deleted'] ) }}" class="btn btn-default <?= ( Input::get('state')=='deleted' ) ? 'active' : '' ?> btn-sm" >
-					  		<span class="fa fa-strikethrough"></span> {{{ trans('holdings.deleted') }}}
-					  	</a>
+					  		 {{{ trans('holdings.deleted') }}}
+					  	</a> -->
 					@endif
 
 

@@ -33,6 +33,11 @@ class State extends Eloquent {
       $query->select('id')->from('holdings')->whereLibraryId( $library_id ); 
     });
     
+
+    // return $query->orderBy('created_at', 'DESC')->whereIn( 'holding_id', function($query) use ($library_id) { 
+    //   $query->select('id')->from('holdings')->whereLibraryId( $library_id ); 
+    // });
+    
   }
 
 

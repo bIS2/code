@@ -43,7 +43,7 @@ class HlistsController extends BaseController {
 		if (Input::has('state')) 
 			$this->hlist = $this->hlist->whereRevised(Input::get('state') == 'revised');
 
-		$this->data['hlists'] = $this->hlist->my()->orderBy('created_at', 'DESC')->paginate(50);
+		$this->data['hlists'] = $this->hlist->orderBy('created_at', 'desc')->my()->paginate(50);
 
 		$maguser = Role::whereName('maguser')
 						->first()
@@ -134,7 +134,7 @@ class HlistsController extends BaseController {
 				if (  Input::get('type')=='unsolve' ){
 
 					$ids = Holding::whereIn('id',$holding_ids)->where( function($query){ 
-							$query->whereState('incorrect')->orWhere('state','=','commented');
+							$query->whereState('incorrected')->orWhere('state','=','commented');
 					})->lists('id');
 
 				 	$holding_ids =  ( count($ids)>0 ) ? $ids : []; 
