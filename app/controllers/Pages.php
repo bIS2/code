@@ -50,7 +50,7 @@ class Pages extends BaseController {
 		$data['total_anottated'] 		= 3;
 
 
-		return View::make('pages.index', $data);
+		// return View::make('pages.index', $data);
 	}
 
 	public function getHelp(){
