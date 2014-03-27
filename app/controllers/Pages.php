@@ -38,7 +38,7 @@ class Pages extends BaseController {
 		}
 
 		// $data['holdingsset_confirm'] 	= $holdingsset_confirm->get();
-		// $data['holdings_ok'] 			= $holdings_ok->take(10)->get();
+		$data['holdings_ok'] 			= $holdings_ok->take(10)->get();
 		// $data['holdings_annotated'] 	= $holdings_annotated->take(10)->get();
 
 		// $data['total'] 					= $holdings->count();
