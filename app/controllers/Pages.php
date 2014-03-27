@@ -12,7 +12,7 @@ class Pages extends BaseController {
 	 * @return Response
 	 */
 	public function getIndex(){
-		return 'Home Bis'
+		return 'Home Bis';
 		// if  (Input::has('lang')) return Redirect::to(Request::header('referer'));
 
 		// $data['libraries'] 				= Library::all();
