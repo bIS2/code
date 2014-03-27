@@ -20,7 +20,7 @@ class Pages extends BaseController {
 
 		$holdings 				= Holding::inLibrary($library_id);
 		$holdings_ok 			= State::inLibrary($library_id)->whereState('ok');
-		$holdings_annotated 	= State::inLibrary($library_id)->whereState('annotated')->orWhere('state', '=', 'revised_annotated');
+		$holdings_annotated 	= State::inLibrary($library_id)->whereState('annotated');
 		$holdingsset_confirm 	= Confirm::take(10); 
 
 		if ( Input::has('month') && (Input::get('month')!='*') ) {
@@ -39,7 +39,7 @@ class Pages extends BaseController {
 
 		$data['holdingsset_confirm'] 	= $holdingsset_confirm->get();
 		$data['holdings_ok'] 			= $holdings_ok->take(10)->get();
-		// $data['holdings_annotated'] 	= $holdings_annotated->take(10)->get();
+		$data['holdings_annotated'] 	= $holdings_annotated->take(10)->get();
 
 		// $data['total'] 					= $holdings->count();
 		// $data['total_ok'] 				= $holdings_ok->count();
