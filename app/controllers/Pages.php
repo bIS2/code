@@ -41,13 +41,13 @@ class Pages extends BaseController {
 		$data['holdings_ok'] 			= $holdings_ok->take(10)->get();
 		$data['holdings_annotated'] 	= $holdings_annotated->take(10)->get();
 
-		// $data['total'] 					= $holdings->count();
-		// $data['total_ok'] 				= $holdings_ok->count();
-		// $data['total_anottated'] 		= $holdings_annotated->count();
+		$data['total'] 					= $holdings->count();
+		$data['total_ok'] 				= $holdings_ok->count();
+		$data['total_anottated'] 		= $holdings_annotated->count();
 
-		$data['total'] 					= 1;
-		$data['total_ok'] 				= 2;
-		$data['total_anottated'] 		= 3;
+		// $data['total'] 					= 1;
+		// $data['total_ok'] 				= 2;
+		// $data['total_anottated'] 		= 3;
 
 
 		return View::make('pages.index', $data);
