@@ -37,7 +37,7 @@ class Pages extends BaseController {
 			$holdingsset_confirm 	= $holdingsset_confirm->where( DB::raw('extract(year from created_at)'),$year );
 		}
 
-		// $data['holdingsset_confirm'] 	= $holdingsset_confirm->get();
+		$data['holdingsset_confirm'] 	= $holdingsset_confirm->get();
 		$data['holdings_ok'] 			= $holdings_ok->take(10)->get();
 		// $data['holdings_annotated'] 	= $holdings_annotated->take(10)->get();
 
@@ -50,7 +50,7 @@ class Pages extends BaseController {
 		$data['total_anottated'] 		= 3;
 
 
-		// return View::make('pages.index', $data);
+		return View::make('pages.index', $data);
 	}
 
 	public function getHelp(){
