@@ -17,7 +17,7 @@
 
 # Composer
 composer.phar
-composer.lock
+#composer.lock
 
 #Database
 /app/database/*.sqlite
