@@ -123,9 +123,9 @@
 													$popover = " pop-over ";
 													break;	
 													
-													case 'weight':
-													$field_short = trans('fields.weight_short');
-													$field_large = ' data-content="<strong>'.trans('holdings.weight_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+													case 'years':
+													$field_short = trans('fields.years_short');
+													$field_large = ' data-content="<strong>'.trans('holdings.years_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
 													$popover = " pop-over ";
 													break;										
 												} ?>
@@ -167,7 +167,7 @@
 														<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 															<div class="input-group inline input-group-sm">
 																<label class="input-group-addon"><?= trans('fields.'.$field); ?></label>
-																<?php if (($field == 'size') || ($field == 'weight') || ($field == 'ocrr_nr')) {	
+																<?php if (($field == 'size') || ($field == 'years') || ($field == 'ocrr_nr')) {	
 																?>
 																	<select id="<?= $field; ?>Filter" name="<?= $field; ?>format" class="form-control">
 																		<option value="%s = %s" <?= (Input::get($field.'format') == "%s = %s") ? 'selected' : ''; ?>>{{ trans('general.equal') }}</option>
@@ -227,7 +227,7 @@
 												<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 													<div class="input-group inline input-group-sm">
 														<label class="input-group-addon"><?= trans('fields.'.$field); ?></label>
-														<?php if (($field == 'size')|| ($field == 'weight') || ($field == 'ocrr_nr')) { 
+														<?php if (($field == 'size')|| ($field == 'years') || ($field == 'ocrr_nr')) { 
 															?>
 															<select id="<?= $field; ?>Filter" name="<?= $field; ?>format" class="form-control">
 																<option value="%s = %s" selected>{{ trans('general.equal') }}</option>

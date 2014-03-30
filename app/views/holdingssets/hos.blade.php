@@ -10,6 +10,7 @@ $HOSincorrect = $holdingsset->is_incorrect;
 if (($holdingsset->holdings_number == 1) && (!$HOSconfirm) && (!$HOSincorrect) && (!$HOSannotated) && ($no_force_lock != 1)) {
 	Confirm::create([ 'holdingsset_id' => $holdingsset -> id, 'user_id' => Auth::user()->id ]);
 	Holdingsset::find($holdingsset -> id)->update(['state' => 'ok']);
+	holdingsset_recall($holdingsset -> id);
 	$HOSconfirm = true;
 	$need_refresh = 1;
 }

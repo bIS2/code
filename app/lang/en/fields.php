@@ -77,10 +77,10 @@ return array(
 	'size_short'			=> 'RM',
 	'sys1' 					=> 'sys1',
 	'sys2' 					=> 'sys2',
-	'weight' 				=> 'Log Size' ,
-	'weight_large' 			=> 'Size in years or volumes' ,
-	'weight_short'			=> 'Log Size',
-	'years'					=>  'Time Size',
+	'years' 				=> 'Log Size' ,
+	'years_large' 			=> 'Size in years or volumes' ,
+	'years_short'			=> 'Log Size',
+	'years'					=> 'Log Size',
 	'ocrr_ptrn'				=> 'Occurrence patron'
 
 );

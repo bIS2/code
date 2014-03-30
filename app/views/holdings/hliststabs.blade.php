@@ -202,9 +202,9 @@
 										$popover = " pop-over ";
 									break;	
 										
-									case 'weight':
-										$field_short = trans('fields.weight');
-										$field_large = ' data-content="<strong>'.trans('fields.weight_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+									case 'years':
+										$field_short = trans('fields.years');
+										$field_large = ' data-content="<strong>'.trans('fields.years_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
 										$popover = " pop-over ";
 									break;											
 								}

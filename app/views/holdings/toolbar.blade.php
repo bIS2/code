@@ -243,7 +243,7 @@
 											foreach ($allsearchablefields as $field) {
 												$checked 				= '';
 												$checkactive 		= '';
-												$value = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != 'sys2')) ? Input::get('f'.$field) : Input::get($field);
+												$value = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != 'years') && ($field != 'sys2')) ? Input::get('f'.$field) : Input::get($field);
 												if ($value != '') {
 													$checked 			= "checked = checked";
 													$checkactive 	= " active";
@@ -274,9 +274,9 @@
 													$popover = " pop-over ";
 													break;	
 
-													case 'weight':
-													$field_short = trans('fields.weight');
-													$field_large = ' data-content="<strong>'.trans('fields.weight_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+													case 'years':
+													$field_short = trans('fields.years');
+													$field_large = ' data-content="<strong>'.trans('fields.years_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
 													$popover = " pop-over ";
 													break;
 													default:
@@ -299,7 +299,7 @@
 											<div id="currentfilters" class="row clearfix text-center">
 												<?= (Input::has('state')) ? '<input type="hidden" name="state" value="'.Input::get('state').'">': '' ?>
 												<?php foreach ($allsearchablefields as $field) { 
-													$value = (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size') || ($field == 'sys2')) ? Input::get($field) : Input::get('f'.$field);
+													$value = (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size') || ($field == 'years') || ($field == 'sys2')) ? Input::get($field) : Input::get('f'.$field);
 													if ($value != '') { 
 														if (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))  { ?>
 														<div id="ff<?= $field; ?>" class="form-group col-xs-2">
@@ -321,9 +321,7 @@
 														<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 															<div class="input-group inline input-group-sm">
 																<label class="input-group-addon"><?= trans('fields.'.$field); ?></label>
-																<?php if (($field == 'size')) { 
-																	$field = ($field == 'size') ? $field : 'f'.$field;
-																	?>
+																<?php if (($field == 'size') || ($field == 'years')) { ?>
 																	<select id="<?= $field; ?>Filter" name="<?= $field; ?>format" class="form-control">
 																		<option value="%s = %s" <?= (Input::get($field.'format') == "%s = %s") ? 'selected' : ''; ?>>{{ trans('general.equal') }}</option>
 																		<option value="%s < %s" <?= (Input::get($field.'format') == "%s < %s") ? 'selected' : ''; ?>>{{ trans('general.less_than') }}</option>
@@ -359,7 +357,7 @@
 										</form>
 										<div id="fieldstosearchhidden" style="display: none;">
 						<?php foreach ($allsearchablefields as $field) { 
-							$value = (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size') || ($field == 'sys2')) ? Input::get($field) : Input::get('f'.$field);
+							$value = (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size') || ($field == 'years') || ($field == 'sys2')) ? Input::get($field) : Input::get('f'.$field);
 							if (($value == null) || ($value == '')) {
 								if (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))  { ?>
 								<div id="ff<?= $field; ?>" class="form-group col-xs-2">
@@ -382,8 +380,8 @@
 									<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 										<div class="input-group inline input-group-sm">
 											<label class="input-group-addon"><?= trans('fields.'.$field) ?></label>
-											<?php if (($field == 'size')) { 
-												$field = ($field == 'size') ? $field : 'f'.$field;												?>
+											<?php if (($field == 'size') || ($field == 'years')) { 
+												$field = (($field == 'size') || ($field == 'years')) ? $field : 'f'.$field;												?>
 												<select id="<?= $field; ?>Filter" name="<?= $field; ?>format" class="form-control">
 													<option value="%s = %s" selected>{{ trans('general.equal') }}</option>
 													<option value="%s < %s">{{ trans('general.less_than') }}</option>
