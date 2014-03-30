@@ -38,8 +38,8 @@
 				'".pg_escape_string(addslashes($bi['ptrn']))."',
 				'".pg_escape_string(addslashes($bi['f008x']))."',
 				".$cero.",
-				".$cero."
-				".$blank."
+				".$cero.",
+				'".$blank."',
 				'".pg_escape_string(addslashes($bi['f852h_e']))."',
 				)";
 			$result = pg_query($conn, $query) or die(pg_last_error().$query);
@@ -212,7 +212,7 @@
 			'".pg_escape_string(addslashes($bi['f710a_e']))."',
 			'".pg_escape_string(addslashes($bi['f780t_e']))."',
 			'".pg_escape_string(addslashes($bi['f785t_e']))."',			
-			".$blank.",
+			'".$blank."',
 			'f',
 			'".pg_escape_string(addslashes($bi['f245p']))."',
 			'".pg_escape_string(addslashes($bi['f245n']))."',
