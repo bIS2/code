@@ -316,11 +316,11 @@ class HoldingssetsController extends BaseController {
 			$holding  = Holding::find($id);
 			$ids = Holdingsset::pendings()->select('id')->lists('id');
 			$ids[] = -1;
-			die('antes de los holdings');
 			$data['holdings'] = Holding::whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
 				$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
 				$query = ($holding->f245b != '') ? $query->orWhere('f245b', 'like', '%'.$holding->f245b. '%') : $query;
 			})->take(100)->get();
+			die('despues de los holdings');
 
 
 			$data['holdingsset_id']  = $holding->holdingsset_id;
