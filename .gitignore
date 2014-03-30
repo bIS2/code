@@ -1,6 +1,7 @@
 # Laravel
 /bootstrap/compiled.php
-/vendor
+#/vendor
+/vendor/autoload.php
 */logs/*
 
 
