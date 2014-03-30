@@ -115,7 +115,11 @@ class Holding extends Eloquent {
   }
 
   public function scopeReviseds($query){
-  	return $query->where('state','like','revised_%');
+    return $query->where('state','like','revised_%');
+  }
+
+  public function scopeCanrecalled($query){
+  	return $query->where('state','=','blank')->orWhere('state','=','revised_annotated')->orWhere('state','=','incorrected');
   }
 
 

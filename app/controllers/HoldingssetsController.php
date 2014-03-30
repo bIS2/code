@@ -314,19 +314,14 @@ class HoldingssetsController extends BaseController {
 		public function getRecallHoldings($id) {
 
 			$holding  = Holding::find($id);
-			$ids = Holdingsset::pendings()->select('id')->lists('id');
-			$ids[] = -1;
-			$data['holdings'] = Holding::whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
-				$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
-				$query = ($holding->f245b != '') ? $query->orWhere('f245b', 'like', '%'.$holding->f245b. '%') : $query;
-			})->take(100)->get();
-			die('despues de los holdings');
+			$data['holdings'] = Holding::Canrecalled()->where('f245a', 'like', '%'.$holding->f245a. '%')->orWhere('f245b', 'like', '%'.$holding->f245b. '%')->take(100)->get();
+			// die('despues de los holdings');
 
 
 			$data['holdingsset_id']  = $holding->holdingsset_id;
-			$data['hosholsid']  = Holdingsset::find($this -> data['holdingsset_id'])->holdings()->select('id')->lists('id');
+			$data['hosholsid']  = Holdingsset::find($data['holdingsset_id'])->holdings()->select('id')->lists('id');
 			$data['hol']  = $holding;
-			die(var_dump($this -> data['holdings']->count()));
+			// die(var_dump($this -> data['holdings']->count()));
 			return View::make('holdingssets.recallingholdings', $data);
 		}
 
