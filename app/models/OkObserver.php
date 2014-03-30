@@ -1,6 +1,6 @@
 <?php
 
-class StateObserver {
+class OkObserver {
 
   public function created($model) {
 
