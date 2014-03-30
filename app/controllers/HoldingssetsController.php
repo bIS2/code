@@ -1567,7 +1567,7 @@ function create_table($tab_name) {
 
 	$query  = "DROP TABLE IF EXISTS $tab_name; ";
 	$query .= "CREATE TABLE $tab_name (sys1 char(10), sys2 char(10), score integer, flag char(1), upd timestamp)";
-	$result = pg_query($con, $query); if (!$result) { echo "Error executing".$query."\n"; exit; }
+	$result = pg_query($con, $query); if (!$result) { echo pg_last_error(); exit; }
 }
 
 
