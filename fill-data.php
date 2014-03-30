@@ -172,7 +172,7 @@
 			'".$bi['ocrr_ptrn']."',
 			'".$bi['aux_ptrn']."',
 			'".$bi['j_ptrn']."',
-			'.$bi['weight'].',
+			".$bi['weight'].",
 			'".$bi['ocrr_nr']."',
 			'".$is_aux."',			
 			'".$pot_owner."',
