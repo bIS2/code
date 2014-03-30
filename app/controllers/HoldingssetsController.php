@@ -314,7 +314,6 @@ class HoldingssetsController extends BaseController {
 		public function getRecallHoldings($id) {
 
 			$holding  = Holding::find($id);
-			die(var_dump($id));
 			$ids = Holdingsset::pendings()->select('id')->lists('id');
 			$ids[] = -1;
 			$data['holdings'] = Holding::whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
