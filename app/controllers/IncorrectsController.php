@@ -63,7 +63,7 @@ class IncorrectsController extends BaseController {
 			Incorrect::create([ 'holdingsset_id' => $holdingsset_id, 'user_id' => Auth::user()->id ]);
 			// Holdingsset::find($holdingsset_id)->update(['state' => 'incorrect']);
 			
-			$ret = ['incorrect' => $holdingsset_id];
+			$ret = ['incorrected' => $holdingsset_id];
 		}
 		$holdingssets[] = Holdingsset::find($holdingsset_id);
 		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
@@ -81,7 +81,7 @@ class IncorrectsController extends BaseController {
 	{
 		$incorrect = $this->incorrect->findOrFail($id);
 
-		return View::make('incorrects.show', compact('incorrect'));
+		return View::make('incorrects.show', compact('incorrected'));
 	}
 
 	/**
@@ -99,7 +99,7 @@ class IncorrectsController extends BaseController {
 			return Redirect::route('incorrects.index');
 		}
 
-		return View::make('incorrects.edit', compact('incorrect'));
+		return View::make('incorrects.edit', compact('incorrected'));
 	}
 
 	/**

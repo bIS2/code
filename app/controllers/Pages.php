@@ -12,6 +12,7 @@ class Pages extends BaseController {
 	 * @return Response
 	 */
 	public function getIndex(){
+
 		if  (Input::has('lang')) return Redirect::to(Request::header('referer'));
 
 		$data['libraries'] 				= Library::all();
@@ -20,7 +21,7 @@ class Pages extends BaseController {
 		$holdings 				= Holding::inLibrary($library_id);
 		$holdings_ok 			= State::inLibrary($library_id)->whereState('ok');
 		$holdings_annotated 	= State::inLibrary($library_id)->whereState('annotated');
-		$holdingsset_confirm 	= Confirm::take(10);
+		$holdingsset_confirm 	= Confirm::orderBy('created_at', 'DESC')->take(10); 
 
 		if ( Input::has('month') && (Input::get('month')!='*') ) {
 			$month = Input::get('month');
@@ -43,6 +44,10 @@ class Pages extends BaseController {
 		$data['total'] 					= $holdings->count();
 		$data['total_ok'] 				= $holdings_ok->count();
 		$data['total_anottated'] 		= $holdings_annotated->count();
+
+		// $data['total'] 					= 1;
+		// $data['total_ok'] 				= 2;
+		// $data['total_anottated'] 		= 3;
 
 
 		return View::make('pages.index', $data);

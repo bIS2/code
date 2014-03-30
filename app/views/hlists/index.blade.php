@@ -39,6 +39,7 @@
 				<table class="table table-bordered table-condensed datatable">
 					<thead>
 						<tr>
+							<th>No.</th>
 							<th>{{ trans('table.name') }}</th>
 							<th>{{ trans('table.state') }}</th>
 							<th>{{ trans('table.type') }}</th>
@@ -51,9 +52,12 @@
 					</thead>
 
 					<tbody id="hlists-targets">
-						@foreach ($hlists as $list)
+					<?php $ll = 0; ?>
+						@foreach ($hlists as $list) <?php $ll++; ?>
 							<tr id="{{ $list->id }}" class="{{ $list->revised ? 'revised' : '' }} {{ $list->is_delivery ? 'delivered' : '' }}">
 								<!-- <td>{{ $list->user->library->code }}</td> -->
+								<td>{{ $ll }}</td>
+								<td>{{ $list->created_at }}</td>
 								<td>
 									<a href="{{ route('holdings.index', [ 'hlist_id' => $list->id ] ) }}" >{{ $list->name }} </a>
 								</td>
@@ -66,7 +70,6 @@
 									{{ $list->type_icon }}
 									{{ trans('lists.type-'.$list->type) }}
 								</td>
-								<td>{{ $list->created_at }}</td>
 								<td>
 									{{ $list->worker->username }} 	
 								</td>

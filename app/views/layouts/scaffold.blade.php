@@ -20,7 +20,9 @@
 
 		<!-- CSS
 		================================================== -->
-        {{ Basset::show('public.css') }}
+
+    {{ Basset::show('public.css') }}
+		<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
 		<style>
 		@section('styles')

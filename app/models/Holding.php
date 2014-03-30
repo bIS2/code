@@ -154,8 +154,12 @@ class Holding extends Eloquent {
     return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('lockeds'); });
   }
   
-  public function scopeWithState( $query, $state ){
-    return $query->defaults()->where('state','like',$state."%");
+  public function scopeWithState( $query, $state ) {
+    if ($state == 'burn') {
+      return $query->defaults()->where('state','like',"burn%")->orWhere('state','like',"deleted%");
+    } else {
+      return $query->defaults()->where('state','like',$state."%");
+    }
   }
 
   public function scopePendings($query){
@@ -322,9 +326,14 @@ class Holding extends Eloquent {
   public function getToDeleteAttribute(){
 
   	$ret = false;
-  	if ( $this->is_spare ) 			$ret = 'trash';
-  	if ( $this->is_integrated ) $ret = 'deleted';
 
+    $false = ['0', 'f', false];
+    $true = ['1', 't', true];
+    if ( $this->is_spare )     $ret = 'trash';
+
+    if ( $this->is_integrated ) {
+      $ret = (in_array($this->is_aux, $true) == false) ? 'deleted' : 'trash';
+    }
   	return $ret;
 
   }

@@ -43,7 +43,12 @@ class HoldingssetsController extends BaseController {
 	{
 		
 		if (Input::has('holcontent')) {
-
+			$holdingsset = Holdingsset::find(Input::get('holdingsset_id'));
+			if ($holdingsset->recalled == 0)  {
+				holdingsset_recall(Input::get('holdingsset_id'));
+				$holdingsset->recalled = 1;
+				$holdingsset->save();
+			}
 			$this->data['holdingssets'] = Holdingsset::whereId(Input::get('holdingsset_id'))->paginate(1);			
 			return View::make('holdingssets/hols', $this->data);
 		}
