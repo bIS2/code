@@ -173,7 +173,7 @@
 			'".$bi['aux_ptrn']."',
 			'".$bi['j_ptrn']."',
 			0,
-			'".$bi['ocrr_nr']."',
+			0,
 			'".$is_aux."',			
 			'".$pot_owner."',
 			'".$is_pref."',			
@@ -217,7 +217,7 @@
 			'".pg_escape_string(addslashes($bi['f245p']))."',
 			'".pg_escape_string(addslashes($bi['f245n']))."',
 			'".pg_escape_string(addslashes($bi['f852h_e']))."',
-			'".pg_escape_string(addslashes($bi['years']))."',
+			0,
 			'".pg_escape_string(addslashes($bi['f072a']))."'
 			)";
 
