@@ -40,7 +40,7 @@
 				".$cero.",
 				".$cero.",
 				'".$blank."',
-				'".pg_escape_string(addslashes($bi['f852h_e']))."',
+				'".pg_escape_string(addslashes($bi['f852h_e']))."'
 				)";
 			$result = pg_query($conn, $query) or die(pg_last_error().$query);
 			$holdingsset_id = pg_last_oid($result);
@@ -218,7 +218,7 @@
 			'".pg_escape_string(addslashes($bi['f245n']))."',
 			'".pg_escape_string(addslashes($bi['f852h_e']))."',
 			'".pg_escape_string(addslashes($bi['years']))."',
-			'".pg_escape_string(addslashes($bi['f072a']))."',
+			'".pg_escape_string(addslashes($bi['f072a']))."'
 			)";
 
 		$result = pg_query($conn, $query) or die(pg_last_error().$query);
