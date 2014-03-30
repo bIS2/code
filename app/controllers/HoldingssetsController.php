@@ -45,7 +45,7 @@ class HoldingssetsController extends BaseController {
 		if (Input::has('holcontent')) {
 			$holdingsset = Holdingsset::find(Input::get('holdingsset_id'));
 			if ($holdingsset->recalled == 0)  {
-				holdingsset_recall($Input::get('holdingsset_id'));
+				holdingsset_recall(Input::get('holdingsset_id'));
 				$holdingsset->recalled = 1;
 				$holdingsset->save();
 			}
