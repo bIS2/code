@@ -312,8 +312,17 @@ class HoldingssetsController extends BaseController {
 		$id: Holding id
 		-----------------------------------------------------------------------------------*/
 		public function getRecallHoldings($id) {
-			$holding = Holding::find($id);
-			$data['holdings']  = recall_holdings($id);
+
+			$holding  = Holding::find($id);
+			die(var_dump($id));
+			$ids = Holdingsset::pendings()->select('id')->lists('id');
+			$ids[] = -1;
+			$data['holdings'] = Holding::whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
+				$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
+				$query = ($holding->f245b != '') ? $query->orWhere('f245b', 'like', '%'.$holding->f245b. '%') : $query;
+			})->take(100)->get();
+
+
 			$data['holdingsset_id']  = $holding->holdingsset_id;
 			$data['hosholsid']  = Holdingsset::find($this -> data['holdingsset_id'])->holdings()->select('id')->lists('id');
 			$data['hol']  = $holding;
@@ -594,14 +603,7 @@ class HoldingssetsController extends BaseController {
 	}
 
 	function recall_holdings($id) {
-		$holding  = Holding::find($id);
-		die(var_dump($id));
-		$ids  = Holdingsset::pendings()->select('id')->lists('id');
-		$ids[] = -1;
-		return Holding::whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
-			$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
-			$query = ($holding->f245b != '') ? $query->orWhere('f245b', 'like', '%'.$holding->f245b. '%') : $query;
-		})->take(100)->get();
+
 	// $queries = DB::getQueryLog();
 	// die(var_dump(end($queries)));
 	}
