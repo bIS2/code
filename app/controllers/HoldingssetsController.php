@@ -601,7 +601,7 @@ class HoldingssetsController extends BaseController {
 	// die();
 		return Holding::whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
 			$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
-			$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.$holding->f245b. '%') : $query;
+			$query = ($holding->f245b != '') ? $query->orWhere('f245b', 'like', '%'.$holding->f245b. '%') : $query;
 		})->take(100)->get();
 	// $queries = DB::getQueryLog();
 	// die(var_dump(end($queries)));
