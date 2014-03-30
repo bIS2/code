@@ -217,7 +217,7 @@
 			'".pg_escape_string(addslashes($bi['f245p']))."',
 			'".pg_escape_string(addslashes($bi['f245n']))."',
 			'".pg_escape_string(addslashes($bi['f852h_e']))."',
-			'""',
+			'',
 			'".pg_escape_string(addslashes($bi['f072a']))."'
 			)";
 
