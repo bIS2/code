@@ -232,7 +232,7 @@
 			'".pg_escape_string(addslashes($bi['f072a']))."'
 			)";
 
-		$result = pg_query($conn, $query) or echo pg_last_error().$query;
+		$result = pg_query($conn, $query);// or echo(pg_last_error().$query);
 	}
 	// $kkk = 0;
 	// for ($yyy=1; $yyy <=  $iii; $yyy++) { 
