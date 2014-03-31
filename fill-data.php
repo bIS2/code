@@ -14,20 +14,27 @@
 	$count 	= 0;
 	$syskey = '';
 	$jjj = 0;
+	$kkk = 0;
 	$blank = 'blank';
 	$hdsid = -1;
 	while ($bi = pg_fetch_assoc($resultbis)) {		
 		$jjj++;
+		$kkk++;
 		// var_dump($bi);
 		if ($syskey != $bi['sys1']) {
 			if ($syskey != '')  {
 				$query = "UPDATE holdingssets SET holdings_number=".$count." WHERE sys1 = '".$syskey."'";
 				$result = pg_query($conn, $query) or die(pg_last_error().'couting');
 				// echo 'VOY A RECALCULAR EL: '.$hdsid.' - '.$count."\n"; 
-				$a = holdingsset_recall($hdsid); 
+				// $a = holdingsset_recall($hdsid); 
+			}
+			
+			$iii++;
+			if ($kkk == 100) {
+				sprintf('HOS->'.$iii." \n ");
+				$kkk = 0;
 			}
 
-			$iii++;
 			$syskey = $bi['sys1'];
 			$cero = 0;
 			// CREO UN NUEVO GRUPO E INSERTO
@@ -227,7 +234,15 @@
 
 		$result = pg_query($conn, $query) or die(pg_last_error().$query);
 	}
-	holdingsset_recall($iii);
+	// $kkk = 0;
+	// for ($yyy=1; $yyy <=  $iii; $yyy++) { 
+	// 	if ($kkk == 50) {
+	// 		sprintf('HOS->'.$iii." \n ");
+	// 		$kkk = 0;
+	// 	}
+	// 	holdingsset_recall($iii);
+	// }
+
 /*
 *
 *	Controls workflow with Holdings Set (HOS)
