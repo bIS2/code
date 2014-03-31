@@ -21,10 +21,8 @@
 		// Incremento el id del HOL 	
 		$holdindexasley++;
 
-
 		// Si el sys1 actual es diferente del sys1 de los datos... Actualizo el HOS anterior si existe ya
 		if ($syskey != $bi['sys1']) {
-
 			// Si el HOS ya existe, actualizo
 			if ($syskey != '')  {
 				$query = "UPDATE holdingssets SET holdings_number=".$count." WHERE sys1 = '".$syskey."'";
@@ -32,17 +30,14 @@
 				// echo 'VOY A RECALCULAR EL: '.$hdsid.' - '.$count."\n"; 
 				// $a = holdingsset_recall($hdsid); 
 			}
-			
 			// Actualizo el ID de los HOS.
-
-			$hosindexasley = $hosindexasley + 1;
-			echo $holdindexasley." ";
+			echo $holdindexasley."->".$syskey.'-'.$count." \n ";
+			$hosindexasley++;
+			
 			// Tomo el nuevo sys1 y se lo asigno a $syskey.
 			$syskey = $bi['sys1'];
 
-
 			// CREO UN NUEVO GRUPO E INSERTO
-		
 			$query = "INSERT INTO holdingssets (id, sys1, f245a, ptrn, f008x, holdings_number, groups_number, state, f852h_e) VALUES 
 			(
 				".$hosindexasley.",
