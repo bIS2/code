@@ -106,7 +106,7 @@ class HlistsController extends BaseController {
 
 			// if worker is postuser then attad to list only revised_ok holdings
 			if ( $worker->hasRole('postuser') ){
-
+				$holding_ids[] = -1;
 				$ids = Holding::whereIn('id',$holding_ids)->where( function($query){ 
 					$query->whereState('revised_ok')->orWhere('state','=','commented'); 
 				})->lists('id');
@@ -118,7 +118,7 @@ class HlistsController extends BaseController {
 			if ( $worker->hasRole('maguser') ){
 
 				if (  Input::get('type') =='control' ){
-
+					$holding_ids[] = -1;
 					$ids = Holding::whereIn('id',$holding_ids)->where( function($query){ 
 
 						$query
@@ -132,7 +132,7 @@ class HlistsController extends BaseController {
 				}
 
 				if (  Input::get('type')=='unsolve' ){
-
+					$holding_ids[] = -1;
 					$ids = Holding::whereIn('id',$holding_ids)->where( function($query){ 
 							$query->whereState('incorrected')->orWhere('state','=','commented');
 					})->lists('id');
@@ -141,7 +141,7 @@ class HlistsController extends BaseController {
 				}
 
 				if (  Input::get('type')=='elimination' ){
-
+					$holding_ids[] = -1;
 					$ids = Holding::whereIn('id',$holding_ids)->where( function($query){ 
 						$query->whereState('trash')->orWhere('state','=','commented');
 					})->lists('id');
