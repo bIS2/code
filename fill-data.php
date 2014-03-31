@@ -20,7 +20,7 @@
 	while ($bi = pg_fetch_assoc($resultbis)) {	
 		// Incremento el id del HOL 	
 		$holdindexasley++;
-		echo $holdindexasley."  ";
+
 
 		// Si el sys1 actual es diferente del sys1 de los datos... Actualizo el HOS anterior si existe ya
 		if ($syskey != $bi['sys1']) {
@@ -35,8 +35,8 @@
 			
 			// Actualizo el ID de los HOS.
 
-			$hosindexasley++;
-
+			$hosindexasley = $hosindexasley + 1;
+			echo $holdindexasley." ";
 			// Tomo el nuevo sys1 y se lo asigno a $syskey.
 			$syskey = $bi['sys1'];
 
