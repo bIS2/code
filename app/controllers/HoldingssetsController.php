@@ -599,10 +599,11 @@ class HoldingssetsController extends BaseController {
 		$ids[] = -1;	
 		// echo count($ids);
 	// die();
-		return Holding::whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
-			$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
-			$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.$holding->f245b. '%') : $query;
-		})->take(100)->get();
+		// return Holding::whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
+		// 	$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
+		// 	$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.$holding->f245b. '%') : $query;
+		// })->take(100)->get();
+		return Holding::whereIn('holdingsset_id', $ids)->where('f245a', 'like', '%'.$holding->f245a. '%')->take(100)->get();
 	// $queries = DB::getQueryLog();
 	// die(var_dump(end($queries)));
 	}
@@ -1173,6 +1174,8 @@ function holdingsset_recall($id) {
 						}
 						$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'][$ocrr_end] = 1;
 						if ($is_j) $ta_hol_arr[$i]['hol'][$ocrr_end]['j_arr'][$h] = 1;
+						$ocrr_bgn = ($ocrr_bgn == '?') ? 0 : $ocrr_bgn;
+						$ocrr_end = ($ocrr_end == '?') ? 0 : $ocrr_end;
 						for ($h=$ocrr_bgn; $h<$ocrr_end; $h++){
 							$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'][$h] = 1;
 							if ($is_j) $ta_hol_arr[$i]['hol'][$k]['j_arr'][$h] = 1;
