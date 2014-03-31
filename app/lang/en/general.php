@@ -80,6 +80,14 @@ return array(
 	'update'			=> 'Update',
 	'username'			=> 'Username',
 	'yes' 				=> 'Yes',
+// Help
+	// Handbook
+	'handbook_title' 	=> 'bIS Handbook',
+	'to_find_handbook1' => 'Here you find the current version of the "',
+	'to_find_handbook_link' => '/bIS_Kleines_Handbuch.pdf',
+	'to_find_handbook_link_text' => 'Kleine Handbuch (PDF)',
+	'to_find_handbook2' => '" (0.5 MB)',
+	// Cookies
 	'clear_cookies_title' 	=> 'Clear Cookies',
 	'to_clear_cookies' 		=> 'To clear cookies and clear all your preferences',
 	'click_here' 			=> 'click here',
