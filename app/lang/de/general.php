@@ -80,7 +80,15 @@ return array (
 	'update' 			=> 'Merken',
 	'username'			=> 'Benutzername',
 	'yes'				=> 'Ja',
+// Help
+	// Handbook
+	'handbook_title' 	=> 'Handbuch',
+	'to_find_handbook1' => 'Hier finden Sie die aktuelle Version des "',
+	'to_find_handbook_link' => '/bIS_Kleines_Handbuch.pdf',
+	'to_find_handbook_link_text' => 'Kleinen Handbuchs (PDF)',
+	'to_find_handbook2' => '" (0.5 MB)',
+	// Cookies
 	'clear_cookies_title' 	=> 'Cookies löschen',
-	'to_clear_cookies' 		=> 'So löschen Sie Cookies und deaktivieren Sie alle Ihre Einstellungen',
-	'click_here' 			=> 'Klicken Sie hier',
+	'to_clear_cookies' 		=> 'Damit setzen Sie die Werte in den Cookies auf den Anfangszustand.',
+	'click_here' 			=> 'Klicken Sie hier.',
 );
