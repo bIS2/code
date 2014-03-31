@@ -19,7 +19,7 @@
 	$hdsid = -1;
 	while ($bi = pg_fetch_assoc($resultbis)) {		
 		$jjj++;
-		$kkk++;
+		// $kkk++;
 		// var_dump($bi);
 		if ($syskey != $bi['sys1']) {
 			if ($syskey != '')  {
@@ -30,10 +30,10 @@
 			}
 			
 			$iii++;
-			if ($kkk == 100) {
-				sprintf('HOS->'.$iii." \n ");
-				$kkk = 0;
-			}
+			// if ($kkk == 100) {
+			// 	sprintf('HOS->'.$iii." \n ");
+			// 	$kkk = 0;
+			// }
 
 			$syskey = $bi['sys1'];
 			$cero = 0;
