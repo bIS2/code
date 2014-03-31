@@ -57,5 +57,6 @@ return array(
 	'trasheds'				=> 'Zu Eliminieren',
 	'ungroup'				=> 'N gruppierte',
 	'value'			  		=> 'Wert',
+	'years_large'			=> 'Umfang in Jahren (ca.)',
 
 );

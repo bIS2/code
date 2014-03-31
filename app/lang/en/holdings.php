@@ -58,5 +58,6 @@ return array(
 	'trasheds'				=> 'To eliminate',
 	'ungroup'				=> 'Unlisted',
 	'value'					=> 'Value',
+	'years_large'			=> 'Number of years (aprox.)',
 
 );
