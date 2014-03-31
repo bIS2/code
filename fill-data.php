@@ -38,21 +38,25 @@
 			$syskey = $bi['sys1'];
 
 			// CREO UN NUEVO GRUPO E INSERTO
-			$query = "INSERT INTO holdingssets (id, sys1, f245a, ptrn, f008x, holdings_number, groups_number, state, f852h_e) VALUES 
-			(
-				".$hosindexasley.",
-				'".pg_escape_string(addslashes($bi['sys1']))."',
-				'".pg_escape_string(addslashes($bi['f245a']))."',
-				'".pg_escape_string(addslashes($bi['ptrn']))."',
-				'".pg_escape_string(addslashes($bi['f008x']))."',
-				".$cero.",
-				".$cero.",
-				'".$blank."',
-				'".pg_escape_string(addslashes($bi['f852h_e']))."'
-				)";
-			$result = pg_query($conn, $query) or die(pg_last_error().$query);			
-			// $holdingsset_id = pg_last_oid($result);
-			$count = 0;
+			$a = "SELECT sys1 from holdingssets where id = ".$hosindexasley;
+			$r = pg_query($conn, $a) or die(pg_last_error().'couting');
+			if (pg_num_rows($r) == 0) { 
+				$query = "INSERT INTO holdingssets (id, sys1, f245a, ptrn, f008x, holdings_number, groups_number, state, f852h_e) VALUES 
+				(
+					".$hosindexasley.",
+					'".pg_escape_string(addslashes($bi['sys1']))."',
+					'".pg_escape_string(addslashes($bi['f245a']))."',
+					'".pg_escape_string(addslashes($bi['ptrn']))."',
+					'".pg_escape_string(addslashes($bi['f008x']))."',
+					".$cero.",
+					".$cero.",
+					'".$blank."',
+					'".pg_escape_string(addslashes($bi['f852h_e']))."'
+					)";
+				$result = pg_query($conn, $query) or die(pg_last_error().$query);			
+				// $holdingsset_id = pg_last_oid($result);
+				$count = 0;
+			}
 		}
 
 		$count++;
