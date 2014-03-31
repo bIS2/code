@@ -82,6 +82,7 @@
 				</tr>
 			</thead>
 			<tbody>
+			@if (count($holdingsset_confirm)>0)
 			@foreach ($holdingsset_confirm as $confirm) 
 				<tr>
 					<td class="date col-xs-2 text-muted">
@@ -98,6 +99,7 @@
 					</td>
 				</tr>
 			@endforeach
+			@endif
 			</tbody>
 		</table>		
 
