@@ -43,14 +43,19 @@ class HoldingssetsController extends BaseController {
 	{
 		
 		if (Input::has('holcontent')) {
-
+			$holdingsset = Holdingsset::find(Input::get('holdingsset_id'));
+			if ($holdingsset->recalled == 0)  {
+				holdingsset_recall(Input::get('holdingsset_id'));
+				$holdingsset->recalled = 1;
+				$holdingsset->save();
+			}
 			$this->data['holdingssets'] = Holdingsset::whereId(Input::get('holdingsset_id'))->paginate(1);			
 			return View::make('holdingssets/hols', $this->data);
 		}
 		else { 
 			/* SEARCH ADVANCED FIELDS OPTIONS
 			----------------------------------------------------------------*/
-			define('ALL_SEARCHEABLESFIELDS', 'sys1;sys2;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;years;weight;size;exists_online;is_current;has_incomplete_vols');
+			define('ALL_SEARCHEABLESFIELDS', 'sys1;sys2;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;years;size;exists_online;is_current;has_incomplete_vols');
 
 			// Is Filter
 			$allsearchablefields = ALL_SEARCHEABLESFIELDS;
@@ -61,8 +66,8 @@ class HoldingssetsController extends BaseController {
 
 			/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
-			define('DEFAULTS_FIELDS', 'sys2;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;years;weight;size;exists_online;is_current;has_incomplete_vols');
-			define('ALL_FIELDS', 'sys2;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;years;weight;size;exists_online;is_current;has_incomplete_vols');
+			define('DEFAULTS_FIELDS', 'sys2;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;years;size;exists_online;is_current;has_incomplete_vols');
+			define('ALL_FIELDS', 'sys2;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852c;f852h;f852j;f866a;f866z;years;size;exists_online;is_current;has_incomplete_vols');
 
 			/* User vars */
 			$uUserName = Auth::user()->username;
@@ -312,6 +317,7 @@ class HoldingssetsController extends BaseController {
 			$this -> data['holdingsset_id']  = $holding->holdingsset_id;
 			$this -> data['hosholsid']  = Holdingsset::find($this -> data['holdingsset_id'])->holdings()->select('id')->lists('id');
 			$this -> data['hol']  = $holding;
+			
 			return View::make('holdingssets.recallingholdings', $this -> data);
 		}
 
@@ -337,7 +343,7 @@ class HoldingssetsController extends BaseController {
 		}
 
 /* ---------------------------------------------------------------------------------
-	Create a new HOS from only from a Holding
+	Create a new HOS from a Holding
 	------------------------------------------
 	Params:
 		$id: Holding id
@@ -348,8 +354,9 @@ class HoldingssetsController extends BaseController {
 			if (Input::has('holding_id')) {
 				$ids = implode(';',Input::get('holding_id'));
 				$idsAux = explode('?',$ids);
-				$ids = explode(';',$idsAux);
-				$ids = Input::get('holding_id');
+				$idsA = $idsAux[0];
+				$ids = explode(';',$idsA);
+				// $ids = Input::get('holding_id');
 				if (Input::has('update_hos') && (Input::get('update_hos') == 1)) {
 					Holding::whereIn('id', $ids)->update(['holdingsset_id'=>$holdingsset_id]);
 					Holdingsset::find($holdingsset_id)->increment('holdings_number', count($ids));
@@ -363,7 +370,6 @@ class HoldingssetsController extends BaseController {
 							$recalled[] = $hol_id;
 						}
 					}
-					die();
 					holdingsset_recall($holdingsset_id);
 					$holdingssets[] = Holdingsset::find($holdingsset_id);
 				}
@@ -374,14 +380,15 @@ class HoldingssetsController extends BaseController {
 					Holdingsset::find($newhos_id)->update(['holdings_number' => count($ids), 'groups_number'=>0]);
 					holdingsset_recall($holdingsset_id);
 					if (Holdingsset::find($holdingsset_id)->holdings()->count() == 1) {
-
 						Confirm::create([ 'holdingsset_id' => $holdingsset_id, 'user_id' => Auth::user()->id ]);
 						// Holdingsset::find($holdingsset_id)->update(['state' => 'ok']);
-
 					}
 					holdingsset_recall($newhos_id);
-
-					Confirm::create([ 'holdingsset_id' => $newhos_id, 'user_id' => Auth::user()->id ]);
+					if (Holdingsset::find($newhos_id)->holdings()->count() == 1) {
+						Confirm::create([ 'holdingsset_id' => $newhos_id, 'user_id' => Auth::user()->id ]);
+						// Holdingsset::find($holdingsset_id)->update(['state' => 'ok']);
+					}
+					// Confirm::create([ 'holdingsset_id' => $newhos_id, 'user_id' => Auth::user()->id ]);
 					// Holdingsset::find($newhos_id)->update(['state' => 'ok']);
 					
 					$holdingssets[] = Holdingsset::find($holdingsset_id);
@@ -391,7 +398,7 @@ class HoldingssetsController extends BaseController {
 			else {
 				Holdingsset::find($holdingsset_id)->decrement('holdings_number');
 				$newhos_id = createNewHos($id);
-				Holdingsset::find($newhos_id)->update(['holdings_number' => 1, 'groups_number'=>0]);
+				Holdingsset::find($newhos_id)->update(['holdings_number' => 1, 'groups_number' => 0]);
 				holdingsset_recall($holdingsset_id);
 				holdingsset_recall($newhos_id);
 				$holdingssets[] = Holdingsset::find($holdingsset_id);
@@ -592,10 +599,11 @@ class HoldingssetsController extends BaseController {
 		$ids[] = -1;	
 		// echo count($ids);
 	// die();
-		return Holding::whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
-			$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
-			$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.$holding->f245b. '%') : $query;
-		})->take(100)->get();
+		// return Holding::whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
+		// 	$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
+		// 	$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.$holding->f245b. '%') : $query;
+		// })->take(100)->get();
+		return Holding::whereIn('holdingsset_id', $ids)->where('f245a', 'like', '%'.$holding->f245a. '%')->take(100)->get();
 	// $queries = DB::getQueryLog();
 	// die(var_dump(end($queries)));
 	}
@@ -610,9 +618,8 @@ class HoldingssetsController extends BaseController {
 
 	function similarity_search($sys2) {
 
-		$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
-		$conn_string1 = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
-		$con = pg_connect($conn_string) or ($con = pg_connect($conn_string1));
+		$conn_string = "host=localhost port=5432 dbname=bis user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+		$con = pg_connect($conn_string);
 
 		date_default_timezone_set('America/New_York');
 		define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
@@ -928,9 +935,8 @@ class HoldingssetsController extends BaseController {
 						-----------------------------------------------------------------------------------*/
 function holdingsset_recall($id) {
 
-	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
-	$conn_string1 = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
-	$con = pg_connect($conn_string) or ($con = pg_connect($conn_string1));
+	$conn_string = "host=localhost port=5432 dbname=bis user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+	$con = pg_connect($conn_string);
 
 	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 100";
 	$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
@@ -1168,6 +1174,8 @@ function holdingsset_recall($id) {
 						}
 						$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'][$ocrr_end] = 1;
 						if ($is_j) $ta_hol_arr[$i]['hol'][$ocrr_end]['j_arr'][$h] = 1;
+						$ocrr_bgn = ($ocrr_bgn == '?') ? 0 : $ocrr_bgn;
+						$ocrr_end = ($ocrr_end == '?') ? 0 : $ocrr_end;
 						for ($h=$ocrr_bgn; $h<$ocrr_end; $h++){
 							$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'][$h] = 1;
 							if ($is_j) $ta_hol_arr[$i]['hol'][$k]['j_arr'][$h] = 1;
@@ -1558,13 +1566,12 @@ function cmp_flag_score($a, $b) {
 
 function create_table($tab_name) {
 
-	$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
-	$conn_string1 = "host=localhost port=5432 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
-	$con = pg_connect($conn_string) or ($con = pg_connect($conn_string1));
+	$conn_string = "host=localhost port=5432 dbname=bis user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+	$con = pg_connect($conn_string);
 
 	$query  = "DROP TABLE IF EXISTS $tab_name; ";
 	$query .= "CREATE TABLE $tab_name (sys1 char(10), sys2 char(10), score integer, flag char(1), upd timestamp)";
-	$result = pg_query($con, $query); if (!$result) { echo "Error executing".$query."\n"; exit; }
+	$result = pg_query($con, $query); if (!$result) { echo pg_last_error(); exit; }
 }
 
 
@@ -1655,7 +1662,7 @@ $hol_info['proc']  = '';        // collects info about processing hol
 $starttime        = sprintf("%s", date("Y-m-d H:i:s"));
 $stat             = array();   // statistical info
 
-$conn_string = "host=localhost port=5433 dbname=bis user=postgres password=postgres+bis options='--client_encoding=UTF8'";
+$conn_string = "host=localhost port=5432 dbname=bis user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
 $con = pg_connect($conn_string) or die('ERROR!!!');
 
 // collect knowledge

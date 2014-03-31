@@ -30,6 +30,6 @@ return array(
 	'title'							=> 'Durchgeführte Aktionen',
 	'trash' 						=> 'Zu eliminieren',
 	'pending' 						=> 'Anstehend',
-	'deleted' 						=> 'In SPB erhältlich',
+	'deleted' 						=> 'In SPB (Ende)',
 
 );

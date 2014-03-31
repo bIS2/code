@@ -30,5 +30,5 @@ return array(
 	'title'							=> 'Actions executed',
 	'trash' 						=> 'To eliminate',
 	'pending' 						=> 'Pending',
-	'deleted' 						=> 'Available in SPB',
+	'deleted' 						=> 'In SPB (end)',
 );

@@ -77,9 +77,9 @@ return array(
 'size_short'	=> 'Lfm',
 'sys1' 			=> 'sys1',
 'sys2' 			=> 'sys2',
-'weight' 		=> 'Log Umfang' ,
-'weight_large' 	=> 'Umfang in Jahren od. Volumen',
-'weight_short'	=> 'Log Umfang',
-'years'			=> 'Zeitl Umfang',
+'years' 		=> 'Log Umfang' ,
+'years_large' 	=> 'Umfang in Jahren od. Volumen',
+'years_short'	=> 'Log Umfang',
+'years'			=> 'Log Umfang',
 
 );
