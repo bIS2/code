@@ -14,8 +14,7 @@
 <h3>{{ trans('general.error_title') }}</h3>
 <p>{{ trans('general.error_handling') }}</p>
 
-
 <h3>{{ trans('general.workflow_title') }}</h3>
-<br><img src="{{ trans('general.workflow_image') }}" alt="{{ trans('general.workflow_image_png') }}">
+<img src="{{ trans('general.workflow_image') }}" alt="{{ trans('general.workflow_image_alt') }}">
 
 @stop
