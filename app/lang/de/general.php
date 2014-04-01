@@ -95,7 +95,7 @@ return array (
 	'error_title' 	=> 'Fehlermeldungen',
 	'error_handling' => 'Das bIS wurde ausführlich getestet. Da das System ist komplex, weil es mit vielen 
 	kontextorientierten Funktionen ausgestattet. Es ist deshalb möglich, dass Sie einen Fehler antreffen.
-	Bitte notieren Sie ihn und machen eine Bildschirmkopien (Alt-PtrSc), kopieren Sie diese in einem Bildeditor.
+	Bitte notieren Sie ihn und machen eine Bildschirmkopien (Alt-PrtSc), kopieren Sie diese in einem Bildeditor.
 	Schreiben sie ein Feedback (unten rechts) mit der genauen Angabe, wann der Fehler passiert (Ihre Rolle, 
 	Menupunkt, Aktion). Bei Bedarf würde das bIS die Bildschirmkopie anfordern.',
 	// Workflow

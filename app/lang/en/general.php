@@ -95,7 +95,7 @@ return array(
 	'error_title' 	=> 'Error messages',
 	'error_handling' => 'The bIS has been thoroughly tested. But the system is komplex, because it contains a 
 	lot of context-oriented functions. May be you find a special situation, thas produces an error.
-	Please note the details and make a screen shoot (Alt-PtrSc).
+	Please note the details and make a screen shoot (Alt-PrtSc).
 	Please write a feedback (on the lower right) giving all the details (your role, 
 	menu used, acion executed). If necessary the screen shot will be asked.',
 	// Workflow
