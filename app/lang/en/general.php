@@ -91,5 +91,8 @@ return array(
 	'clear_cookies_title' 	=> 'Clear Cookies',
 	'to_clear_cookies' 		=> 'To clear cookies and clear all your preferences',
 	'click_here' 			=> 'click here',
-
+	// Workflow
+	'workflow_title'		=> 'bIS Workflow',
+	'workflow_image'		=> '/bIS_Workflow.png',
+	'workflow_image_alt'	=> 'bIS Workflow',
 );

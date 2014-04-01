@@ -91,4 +91,8 @@ return array (
 	'clear_cookies_title' 	=> 'Cookies löschen',
 	'to_clear_cookies' 		=> 'Damit setzen Sie die Werte in den Cookies auf den Anfangszustand.',
 	'click_here' 			=> 'Klicken Sie hier.',
+	// Workflow
+	'workflow_title'		=> 'bIS Workflow',
+	'workflow_image'		=> '/bIS_Workflow.png',
+	'workflow_image_alt'	=> 'bIS Workflow',
 );
