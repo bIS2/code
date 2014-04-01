@@ -358,6 +358,7 @@ class HoldingssetsController extends BaseController {
 				$ids = explode(';',$idsA);
 				// $ids = Input::get('holding_id');
 				if (Input::has('update_hos') && (Input::get('update_hos') == 1)) {
+					$ids[] = -1;
 					Holding::whereIn('id', $ids)->update(['holdingsset_id'=>$holdingsset_id]);
 					Holdingsset::find($holdingsset_id)->increment('holdings_number', count($ids));
 					$recalled = array();
@@ -375,6 +376,7 @@ class HoldingssetsController extends BaseController {
 				}
 				else {
 					$newhos_id = createNewHos($ids[0]);
+					$ids[] = -1;
 					Holding::whereIn('id', $ids)->update(['holdingsset_id'=>$newhos_id]);
 					Holdingsset::find($holdingsset_id)->decrement('holdings_number', count($ids));
 					Holdingsset::find($newhos_id)->update(['holdings_number' => count($ids), 'groups_number'=>0]);

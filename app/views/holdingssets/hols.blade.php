@@ -23,7 +23,7 @@
 								<a set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putRecallHoldingsset',[$holdingsset->id]); ?>" data-remote="true" data-method="put" data-disable-with="..." data-disable-with="..." class="forceblue pop-over" data-content="<?= trans('holdingssets.recall_HOS'); ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-refresh text-danger"></i></a>
 							@endif
 						</th>
-						<th>hbib <span class="fa fa-info-circle"></span></th>
+						<!-- <th>hbib <span class="fa fa-info-circle"></span></th> -->
 					@endif
 				@endif
 			@endforeach						
@@ -49,7 +49,7 @@
 								<a set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putRecallHoldingsset',[$holdingsset->id]); ?>" data-remote="true" data-method="put" data-disable-with="..." data-disable-with="..." class="forceblue pop-over" data-content="<?= trans('holdingssets.recall_HOS'); ?>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-refresh text-danger"></i></a>
 							@endif
 						</th>
-						<th>hbib <span class="fa fa-info-circle"></span></th>
+						<!-- <th>hbib <span class="fa fa-info-circle"></span></th> -->
 					@endif
 				@endif
 			@endforeach						
