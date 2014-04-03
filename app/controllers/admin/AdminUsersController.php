@@ -63,11 +63,11 @@ class AdminUsersController extends AdminController {
         // Title
         $title = Lang::get('admin/users/title.user_management');
 
+        $users = User::with('library')->whereDisable(0);
+
         // Show all users for de admin or only the user by library for de librarian
-        if ( $this->current_user->hasRole('sysadmin') )
-			    $users = User::with('library');
-			  elseif ( $this->current_user->hasRole('superuser') )
-			    $users = User::with('library')->where( 'library_id','=', $this->current_user->library_id );
+		if ( $this->current_user->hasRole('superuser') )
+		    $users = $users->where( 'library_id','=', $this->current_user->library_id );
 
         // Show the page
         if ($q = Input::has('buscar')) {
