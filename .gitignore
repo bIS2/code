@@ -1,8 +1,6 @@
 # Laravel
 /bootstrap/compiled.php
-#/vendor
-/vendor/autoload.php
-/vendor/composer/*
+/vendor
 */logs/*
 
 
@@ -10,7 +8,7 @@
 /app/config/local
 /app/config/staging
 /app/config/production
-/app/storage/logs
+/app/storage
 /app/config/database.php
 
 # Basset development collections
