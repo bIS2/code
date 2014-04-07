@@ -2,13 +2,18 @@
 
 return array(
 
-    'default' => 'sqlite',
+    'default' => 'pgsql',
 
     'connections' => array(
-        'sqlite' => array(
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => ''
-        ),
+		'pgsql' => array(
+			'driver'   => 'pgsql',
+			'host'     => '127.0.0.1',
+			'database' => 'bistest',
+			'username' => 'bispgadmin',
+			'password' => '%^$-*/-bIS-2014*-%',
+			'charset'  => 'utf8',
+			'prefix'   => '',
+            'schema'   => 'public',
+		),
     )
 );

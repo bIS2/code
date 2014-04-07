@@ -107,7 +107,7 @@
 									?>
 									</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
 								</td>
-								<td>{{ $holding->library->code }}</td>
+								<!-- <td>{{ $holding->library->code }}</td> -->
 							@endif
 						@endif
 					@endforeach
