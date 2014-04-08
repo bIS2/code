@@ -1146,7 +1146,8 @@ function holdingsset_recall($id) {
 						$ocrr_piece = $ocrr[$l];
 						
 						$is_j = preg_match('/[j]/',$ocrr_piece);
-						$ocrr_piece[16] = '-'; //<------------------------------------ fixes the 16th char (patch)...			
+						// 2014-04-08 18:40 pgt -- commented out
+						//$ocrr_piece[16] = '-'; //<------------------------------------ fixes the 16th char (patch)...			
 						$ocrr_piece = preg_replace('/[j]/', ' ', $ocrr_piece);
 						$ocrr_piece = preg_replace('/\s$/', '',$ocrr_piece);
 						
