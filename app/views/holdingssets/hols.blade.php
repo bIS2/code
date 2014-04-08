@@ -67,7 +67,7 @@
 				$btnlock 	= ($holding->locked()->exists()) ? 'btn-warning ' : '';	
 				$trclass 	= ($holding->locked()->exists()) ? 'locked' : '';
 				$ownertrclass = (($holding->is_owner == 't') || ($holding->is_owner == '1')) ? ' is_owner' : '';
-				$auxtrclass 	= (($holding->is_aux == 't') || ($holding->is_aux == '1')) ? ' is_aux' : ''; 
+				$auxtrclass   = (($holding->is_aux == 't') || ($holding->is_aux == '1')) ? ' is_aux' : ''; 
 				// var_dump($holding->is_aux);
 				if (isset($aux_ptrn[$i]))  $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
 				$preftrclass 	= ($holding->is_pref == 't') ? ' is_pref' : '';
@@ -80,11 +80,12 @@
 	          		<?php endif ?>
 				</td>
 
-			<td class="table_order">{{ $hol_order }}</td>
+				<td class="table_order">{{ $hol_order }}</td>
 				<td class="actions" holding="{{ $holding -> id }}">
 					{{ $holding -> bibuser_actions($holdingsset, $hol_order) }}
 				</td>
 				<?php $k = 0; ?>
+
 					@foreach ($fieldstoshow as $field)
 
 						@if ($field != 'ocrr_ptrn')  
@@ -107,10 +108,11 @@
 									?>
 									</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
 								</td>
-								<td>{{ $holding->library->code }}</td>
+<!-- 							<td>{{ $holding->library->code }}</td> -->
 							@endif
 						@endif
 					@endforeach
+					<td></td>
 			</tr>
 		@endforeach
 	</tbody>
