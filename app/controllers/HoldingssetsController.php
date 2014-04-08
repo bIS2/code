@@ -990,7 +990,8 @@ function holdingsset_recall($id) {
 				
 				$ptrn_piece = preg_replace('/[n]/', '',$ptrn_piece); //<---------- parche!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				
-				$ptrn_piece[16] = '-'; //esto es un parche pa poner el - que faltaba en el hol_nrm
+				// 2014-04-08 18:40 pgt -- commented out
+				// $ptrn_piece[16] = '-'; //esto es un parche pa poner el - que faltaba en el hol_nrm
 				
 				if (!preg_match('/\w/',$ptrn_piece)){
 					//si el pedacito viene en blanco se borra
