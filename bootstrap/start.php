@@ -26,8 +26,8 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-    'local' => array('bis.trialog.ch'), // Change this to your local machine hostname.
-    'staging' => array('bis.trialog.ch'),
+    'local' => array('localhost'), // Change this to your local machine hostname.
+    'testing' => array('bistest.trialog.ch'),
     'production' => array('bis.trialog.ch','bistest.trialog.ch'),
 
 ));
