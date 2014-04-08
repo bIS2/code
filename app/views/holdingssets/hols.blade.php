@@ -112,6 +112,7 @@
 							@endif
 						@endif
 					@endforeach
+					<td></td>
 			</tr>
 		@endforeach
 	</tbody>
