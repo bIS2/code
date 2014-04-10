@@ -1,8 +1,8 @@
 <!-- navbar for Holdings Set (HOS): includes the brand and commun functions -->
 
-<div class="navbar navbar-default navbar-fixed-top">
+<div class="navbar navbar-default navbar-fixed-top" style="background: blue">
 	 <div class="container">
-	 	<a class="navbar-brand" href="#">bIS</a>
+	 	<a class="navbar-brand" href="/" title="Begleitendes Informationssystem">bIStest</a>
 	  <ul class="nav navbar-nav">
 		  <li>
 			  	<a href="#form-create-group" data-toggle="modal" class='link_bulk_action'><?= trans('holdingssets.create_group')  ?></a>
