@@ -114,14 +114,14 @@
 	</div>
 
 	<!-- Pages -->
-	<div class="col-xs-6">
+	<div class="col-xs-5">
 
 		{{ $holdings->appends(Input::except('page'))->links()  }}
 
 	</div>
 
 	<!-- Actions -->
-	<div class="col-xs-3">
+	<div class="col-xs-4">
 		<div class="col-xs-5">
 			@if (Input::has('hlist_id'))
 			<?php $list = Hlist::find(Input::get('hlist_id')); ?>
