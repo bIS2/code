@@ -10,6 +10,7 @@
 /app/config/production
 /app/storage
 /app/config/database.php
+/bootstrap/start.php
 
 # Basset development collections
 /public/assets/compiled/*

@@ -406,7 +406,7 @@ class Holding extends Eloquent {
   }
 
   public function show($field, $len = 30) {
-    
+
     if ($field == 'f866a') {
       if ($this->f866aupdated == '') { 
         $field = 'f866a';
