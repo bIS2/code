@@ -30,7 +30,7 @@ return array(
 	'move_to_other_group'		=> 'Move to other group',
 	'new_hos_from_these_hol'	=> 'Create new HOS with marked HOL',
 	'no_notes'					=> 'No notes for this Holding',
-	'no_results_to_show'		=> 'There are no other HOL to show',
+	'no_results_to_show'		=> 'Nothing found',
 	'notes_made_by'				=> 'Written by',
 	'ocurrence_patron'			=> 'Occurrence pattern',
 	'of'						=> 'of ',

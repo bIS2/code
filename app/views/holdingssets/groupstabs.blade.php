@@ -109,9 +109,6 @@
 		  <label data-toggle="tooltip" title="<?= trans('holdingssets.order_by_field_008x'); ?>" data-container="body"  class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'f008x') ? ' active' : '' }}" name="sortinghos_by">
 		    <input type="radio"{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'f008x') ? ' checked = checked' : '' }} name="sortinghos_by" value="f008x" id="option4"> 008x
 		  </label>
-		  <label data-toggle="tooltip" title="<?= trans('holdingssets.order_by_field_852h_e'); ?>" data-container="body"  class="btn btn-default btn-xs{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'f852h_e') ? ' active' : '' }}" name="sortinghos_by">
-		    <input type="radio"{{ (Session::get(Auth::user()->username.'_sortinghos_by') == 'f852h_e') ? ' checked = checked' : '' }} name="sortinghos_by" value="f852h_e" id="option5"> 852h_e
-		  </label>
 		</div>
 		<div class="btn-group" data-toggle="buttons">
 		  <label data-toggle="tooltip" title="<?= trans('holdingssets.order_asc_using_order_criteria'); ?>" data-container="body"  class="btn btn-default btn-xs{{ ((Session::get(Auth::user()->username.'_sortinghos') == null) || (Session::get(Auth::user()->username.'_sortinghos') == trans('general.asc'))) ? ' active' : '' }}">
