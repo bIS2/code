@@ -91,7 +91,7 @@ class HlistsController extends BaseController {
 		$error = '';
 
 		//echo var_dump($holding_ids);
-		$hlist = new Hlist([ 'name' => Input::get('name'), 'user_id' => Auth::user()->id ]);
+		$hlist = new Hlist([ 'name' => Input::get('name'), 'user_id' => Auth::user()->id, 'worker_id' => Input::get('worker_id') ]);
 		$name_list_exists = Hlist::where('name', '=', Input::get('name') )->exists();
 		$empty_name = !Input::has('name');
 
@@ -101,6 +101,7 @@ class HlistsController extends BaseController {
 		if ( Input::has('worker_id') && !$name_list_exists && !$empty_name ) {
 
 			$hlist->worker_id = Input::get('worker_id');
+
 			if ( Input::has('type') ) $hlist->type = Input::get('type');
 			$worker = User::whereId( Input::get('worker_id') )->first();
 

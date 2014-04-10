@@ -106,7 +106,6 @@ $(function(){
 	  $select = $('#form_list select#worker_id')
 
 	  $('#form_list select#worker_id option').hide()
-	  console.log($('#form_list :radio:checked').val())
 	  if ($('#form_list :radio:checked').val()=='delivery'){
 	    $('#form_list select#worker_id option[data-role=postuser]').show()
 	  } else {
