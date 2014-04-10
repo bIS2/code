@@ -520,6 +520,8 @@ function bulkActions() {
 
   $(':checkbox:checked.sel').parents('tr').addClass("warning")
   $(':checkbox:checked.sel').parents('li').addClass("warning")
+
+  // if exists holdings selected then ative button to create list
   if ( $(':checkbox:checked.sel').size()>0 )
     $('a.link_bulk_action').removeClass('disabled')
 
