@@ -13,9 +13,10 @@ class SetLibraryIdToHoldingsSeeder extends Seeder {
 				$holding->save();
 			}
 */
-			$libraries = Library::all();
-			foreach ($libraries as $library) {
-				DB::table('holdings')->whereIn('f852b', explode(',', $library->sublibraries))->update( ['library_id' => $library->id] );
-			}
+    $libraries = Library::all();
+    foreach ($libraries as $library) {
+            DB::table('holdings')->whereIn('f852b', explode(',', $library->sublibraries))->update( ['library_id' => $library->id] );
     }
+
 }
+}	

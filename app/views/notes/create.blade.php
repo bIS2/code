@@ -7,6 +7,7 @@
           <h4 class="modal-title">{{{ trans('notes.title-create') }}}</h4>
         </div>
         	<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note'>
+						{{ Form::hidden('hlist_id',$hlist_id) }}
 
 		        <div class="modal-body">
 
