@@ -10,7 +10,7 @@ return array(
                 'pgsql' => array(
                         'driver'   => 'pgsql',
                         'host'     => '127.0.0.1',
-                        'database' => 'bistest',
+                        'database' => 'bis',
                         'username' => 'bispgadmin',
                         'password' => '%^$-*/-bIS-2014*-%',
                         'charset'  => 'utf8',
