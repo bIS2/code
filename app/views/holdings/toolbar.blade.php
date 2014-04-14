@@ -43,7 +43,7 @@
 				  	</a>
 
 				  	<!-- CORRECT AND ANNOTATED -->
-				  	@if ( $user->hasRole('magvuser') || $user->hasRole('maguser') )
+				  	@if ( $user->hasRole('magvuser') || $user->hasRole('maguser') || $user->hasRole('bibuser')  )
 
 					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'confirmed'] ) }}" class="btn btn-default <?= ( Input::get('state')=='confirmed' ) ? 'active' : '' ?> btn-sm btn-success" >
 					  		<div class=""><span class="fa fa-thumbs-up"></span> {{{ trans('holdings.confirmed') }}}</div>
