@@ -173,10 +173,11 @@ $(function(){
     }
 	})
   
-$('a.link_bulk_action').on('click', function(){
-  $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden').appendTo('form.bulk_action')
+// $('a.link_bulk_action').on('click', function(){
+//   alert( $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden') )
+//   $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden').appendTo('form.bulk_action')
 
-})
+// })
 
 $('a.link_bulk_action[data-remote]').on('click',function(){
   $(this).attr( 'data-params', $('.table input.hl:checkbox:checked').serialize() )
@@ -192,10 +193,9 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
       $(this).removeData('bs.modal').empty();
   }); 
 
-  $('body').on('submit', '#form-create-list form', function() {
+  $('.remote').on('click', '#submit_create_list', function() {
 	 
-	  typeList()
-	  $('#form_list').append( $('#holdings-items :checkbox:checked').clone().attr('type','hidden') )
+    $('form#form_list').append( $('<div>').addClass('hide').append( $('#holdings-items :checkbox:checked').clone(true) ) )
 
   }); 
 
