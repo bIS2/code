@@ -67,15 +67,15 @@
 							</td>
 						</tr>
 						<?php }
-						else {  
-							if ($holding->f866aupdated != $holding->f866a)  {
+						//else { 
+							//if ($holding->f866aupdated != $holding->f866a)  {
 							?>
 							<tr>
 							  <td class="text-danger">{{ trans('general.edited') }} 866a</td>
 								<td><?= $holding->f866aupdated; ?></td>
 							</tr>	
-							<?php }  ?>
-						<?php }  ?>
+							<?php //}  ?>
+						<?php //}  ?>
 						@if ($holding -> notes()-> exists())
 							<tr>
 								<td>{{ trans('holdings.notes') }}</td>
