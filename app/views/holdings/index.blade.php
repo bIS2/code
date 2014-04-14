@@ -21,7 +21,7 @@
 				<tr>
 					<th></th>
 					<th>
-						<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets" {{ ( Authority::can('create','Hlist') ) ? '' : 'disabled' }}>
+						<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets" {{ ( Authority::can('create','Hlist') ) ? '' : 'disabled' }} />
 					</th>
 					<th class="actions" style="width:10px !important">
 						{{trans('general.actions')}}

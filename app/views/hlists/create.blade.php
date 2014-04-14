@@ -77,7 +77,7 @@ $types = [
 
 	      </div>
 	      <div class="modal-footer">
-	        <button class="btn btn-success" type="submit" data-disable-with="<?= trans('general.disable_with')  ?>">
+	        <button id="submit_create_list" class="btn btn-success" type="submit" data-disable-with="<?= trans('general.disable_with')  ?>">
 	        	<i class="fa fa-check"></i>
 	        	<?= trans('general.save') ?>
 	        </button>
