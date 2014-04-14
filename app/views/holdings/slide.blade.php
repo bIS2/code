@@ -53,7 +53,7 @@
 											  {{ $holding->f866a }}
 											</div>
 											<div class="row">
-											  <label> 866a</label >
+											  <label> f866aupdated</label >
 											  {{ $holding->f866aupdated }}
 											</div>
 											
