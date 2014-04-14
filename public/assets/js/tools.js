@@ -4,21 +4,25 @@ $(function(){
 
   $('body').on('click','#submit-create-notes', function(e){
 
-    $('form#create-note :checkbox:checked').each(function(){
+    $('form.create-note :checkbox:checked').each(function(){
       var content = $(this).parents('.input-group').find('input.content').val();
       if (content.length==0){
         $(this).parents('.form-group')
           .addClass('has-error')
-          .find('.error').text( $('.msgs').text() )
+          .find('.error').text( $('#field_note_in_blank').text() )
         e.preventDefault()
       }
 
     })
   })
 
-  $('body').on('keypress','form#create-note .content', function(e){
+  $('body').on('keypress','form.create-note .content', function(e){
     if ( $(this).val() )
       $(this).parents('.form-group').removeClass('has-error').find('.error').text('')
+    else
+      $(this).parents('.form-group')
+        .addClass('has-error')
+        .find('.error').text( $('#field_note_in_blank').text() )
   })
 
 
