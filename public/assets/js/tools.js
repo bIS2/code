@@ -12,7 +12,7 @@ $(function(){
 
     $select = $('select#worker_id').empty()
     $.each(o, function(k,v){
-      $select.append( $('<option></option>').val(k).html(v).css('display','block') )
+      $select.append( $('<option></option>').val(k).html(v) )
     })    
 
   })
