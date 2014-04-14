@@ -53,6 +53,11 @@
 											  {{ $holding->f866a }}
 											</div>
 											<div class="row">
+											  <label> 866a</label >
+											  {{ $holding->f866aupdated }}
+											</div>
+											
+											<div class="row">
 											  <label> 866z</label >
 											  {{ $holding->f866z }}
 											</div>
