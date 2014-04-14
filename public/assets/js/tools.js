@@ -174,7 +174,7 @@ $(function(){
 	})
   
 $('a.link_bulk_action').on('click', function(){
-  $('.table input.hl:checkbox:checked').clone().attr('type','hidden').appendTo('form.bulk_action')
+  $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden').appendTo('form.bulk_action')
 
 })
 
