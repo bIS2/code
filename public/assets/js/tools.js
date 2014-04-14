@@ -3,10 +3,10 @@
 $(function(){
 
 
+  // update related user for selected list type
   $('body').on('click','#form_list :radio', function(){
 
     var options = $.parseJSON( $('.options').text() ), 
-        html="";  
 
     o = ($('#form_list :radio:checked').val()=='delivery') ? options.postuser : options.maguser;
 
@@ -14,11 +14,11 @@ $(function(){
     $.each(o, function(k,v){
       $select.append( $('<option></option>').val(k).html(v).css('display','block') )
     })    
-    // alert(html)
-    // $('#form_list select#worker_id').val([])
-    // typeList() 
+
   })
 
+
+  // validatio off create annotates holding 
   $('body').on('click','#submit-create-notes', function(e){
 
     var check_notes = $('form.create-note :checkbox:checked');
@@ -72,12 +72,6 @@ $(function(){
 		data = $('a.btn-ok').data('params')
 		$('a.btn-ok').attr('data-params', data + '&' + $(this).serialize() )
 	})
-
-  // //Cuando se cambio el tipo de lista que se quiere crear se actualiza los usuarios a los que se les puede asignar ese tipo de lista
-  // $('body').on( 'click', '#form_list :radio', function(){
-  //   $('#form_list select#worker_id').val([])
-  //   typeList()
-  // })
 
   //manipulates the elements marked with the css class .draggable
   $( ".draggable" ).draggable({   
@@ -203,8 +197,6 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 	  typeList()
 	  $('#form_list').append( $('#holdings-items :checkbox:checked').clone().attr('type','hidden') )
 
-  	//console.log( $('#holdings-items :checkbox:checked').clone().length  )
-      
   }); 
 
   // $('body').on('show.bs.modal', '#form-create-list', function(){ typeList() })
