@@ -2,6 +2,23 @@
 
 $(function(){
 
+
+  $('body').on('click','#form_list :radio', function(){
+
+    var options = $.parseJSON( $('.options').text() ), 
+        html="";  
+
+    o = ($('#form_list :radio:checked').val()=='delivery') ? options.postuser : options.maguser;
+
+    $select = $('select#worker_id').empty()
+    $.each(o, function(k,v){
+      $select.append( $('<option></option>').val(k).html(v).css('display','block') )
+    })    
+    // alert(html)
+    // $('#form_list select#worker_id').val([])
+    // typeList() 
+  })
+
   $('body').on('click','#submit-create-notes', function(e){
 
     var check_notes = $('form.create-note :checkbox:checked');
@@ -56,11 +73,11 @@ $(function(){
 		$('a.btn-ok').attr('data-params', data + '&' + $(this).serialize() )
 	})
 
-  //Cuando se cambio el tipo de lista que se quiere crear se actualiza los usuarios a los que se les puede asignar ese tipo de lista
-  $('body').on( 'click', '#form_list :radio', function(){
-    $('#form_list select#worker_id').val([])
-    typeList()
-  })
+  // //Cuando se cambio el tipo de lista que se quiere crear se actualiza los usuarios a los que se les puede asignar ese tipo de lista
+  // $('body').on( 'click', '#form_list :radio', function(){
+  //   $('#form_list select#worker_id').val([])
+  //   typeList()
+  // })
 
   //manipulates the elements marked with the css class .draggable
   $( ".draggable" ).draggable({   
@@ -190,7 +207,7 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
       
   }); 
 
-  $('body').on('show.bs.modal', '#form-create-list', function(){ typeList() })
+  // $('body').on('show.bs.modal', '#form-create-list', function(){ typeList() })
   
   handleAjaxSucces('body');
   countThs();
@@ -340,18 +357,18 @@ function handleAjaxSucces(parent) {
 
 function typeList(){
 
-	$select = $('#form_list select#worker_id')
+	// $select = $('#form_list select#worker_id')
 
-  $('#form_list select#worker_id option').hide()
+ //  $('#form_list select#worker_id option').hide()
 
-  if ($('#form_list :radio:checked').val()=='delivery'){
-    $('#form_list select#worker_id option[data-role=postuser]').show()
-  } else {
-    $('#form_list select#worker_id option[data-role=maguser]').show()
-  }
+ //  if ($('#form_list :radio:checked').val()=='delivery'){
+ //    $('#form_list select#worker_id option[data-role=postuser]').show()
+ //  } else {
+ //    $('#form_list select#worker_id option[data-role=maguser]').show()
+ //  }
 
-  // alert($select.find('option:visible:first').attr('value'))
-  $select.val( $select.find('option:visible:first').attr('value') )
+ //  // alert($select.find('option:visible:first').attr('value'))
+ //  $select.val( $select.find('option:visible:first').attr('value') )
 }	
 
 function getAsuccess() {
