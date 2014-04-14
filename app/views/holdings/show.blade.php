@@ -68,7 +68,7 @@
 						</tr>
 						<?php }
 						else {  
-							if (($holding->f866aupdated != $holding->f866a) && ($holding->f866aupdated != '') ) {
+							if ($holding->f866aupdated != $holding->f866a)  {
 							?>
 							<tr>
 							  <td class="text-danger">{{ trans('general.edited') }} 866a</td>
