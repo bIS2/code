@@ -18,4 +18,5 @@ class SetLibraryIdToHoldingsSeeder extends Seeder {
             DB::table('holdings')->whereIn('f852b', explode(',', $library->sublibraries))->update( ['library_id' => $library->id] );
     }
 
+}
 }	
