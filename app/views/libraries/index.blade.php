@@ -2,9 +2,7 @@
 
 @section('content')
 
-<h1>All Libraries</h1>
-
-<p>{{ link_to('#myModal', 'Add new library',['data-toggle'=>"modal" ] ) }}</p>
+<h1>{{ trans('titles.libraries') }}</h1>
 
 @if ($libraries->count())
 	<table class="table table-striped table-hover table-condensed">
