@@ -4,16 +4,28 @@ $(function(){
 
   $('body').on('click','#submit-create-notes', function(e){
 
-    $('form.create-note :checkbox:checked').each(function(){
-      var content = $(this).parents('.input-group').find('input.content').val();
-      if (content.length==0){
-        $(this).parents('.form-group')
-          .addClass('has-error')
-          .find('.error').text( $('#field_note_in_blank').text() )
-        e.preventDefault()
-      }
+    var check_notes = $('form.create-note :checkbox:checked');
 
-    })
+    if (check_notes.size()==0){
+
+      bootbox.alert( $('#select_notes_is_0').text() )
+      e.preventDefault()
+
+    } else {
+
+      check_notes.each(function(){
+        var content = $(this).parents('.input-group').find('input.content').val();
+        if (content.length==0){
+          $(this).parents('.form-group')
+            .addClass('has-error')
+            .find('.error').text( $('#field_note_in_blank').text() )
+          e.preventDefault()
+        }
+
+      })
+
+    }
+
   })
 
   $('body').on('keypress','form.create-note .content', function(e){

@@ -135,6 +135,7 @@
 <div class="hide">
 	<div id="field_size_in_blank">{{ trans('errors.field_size_in_blank') }}</div>
 	<div id="field_note_in_blank">{{ trans('errors.field_note_in_blank') }} </div>
+	<div id="select_notes_is_0">{{ trans('errors.select_notes_is_0') }} </div>
 </div>
 @stop
 
