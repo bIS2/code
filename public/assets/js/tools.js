@@ -2,6 +2,26 @@
 
 $(function(){
 
+  $('body').on('click','#submit-create-notes', function(e){
+
+    $('form#create-note :checkbox:checked').each(function(){
+      var content = $(this).parents('.input-group').find('input.content').val();
+      if (content.length==0){
+        $(this).parents('.form-group')
+          .addClass('has-error')
+          .find('.error').text( $('.msgs').text() )
+        e.preventDefault()
+      }
+
+    })
+  })
+
+  $('body').on('keypress','form#create-note .content', function(e){
+    if ( $(this).val() )
+      $(this).parents('.form-group').removeClass('has-error').find('.error').text('')
+  })
+
+
 	$('.btn-ok, .btn-tag').on('click',function(e){
 		size_in_form = $(this).parents('form').find('input#size').val()
 		size_in_a = parseFloat($(this).parents('tr').find('.editable').text() )
