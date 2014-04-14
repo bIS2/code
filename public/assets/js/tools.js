@@ -6,7 +6,7 @@ $(function(){
   // update related user for selected list type
   $('body').on('click','#form_list :radio', function(){
 
-    var options = $.parseJSON( $('.options').text() ), 
+    var options = $.parseJSON( $('.options').text() )
 
     o = ($('#form_list :radio:checked').val()=='delivery') ? options.postuser : options.maguser;
 
