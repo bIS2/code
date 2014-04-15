@@ -48,7 +48,7 @@ class Hlist extends Eloquent {
   	$finish = false;
   	if ($this->type=='control') {
 	    $total 		= $this->holdings()->count();
-	    $reviseds = $this->holdings_reviseds;
+	    $reviseds = $this->holdings_was_reviseds;
 	    $finish =  ( ($total == $reviseds) && !$this->revised );
   	}
 
@@ -85,7 +85,14 @@ class Hlist extends Eloquent {
 
   public function getHoldingsRevisedsAttribute(){
     return $this->holdings()->where( function($query) { 
-    	$query->whereState('annotated')->orWhere('state','=','ok'); 
+      $query->whereState('annotated')->orWhere('state','=','ok'); 
+    })->count();
+  }
+
+  //return the counter of holdings in list was annotated or ok state
+  public function getHoldingsWasRevisedsAttribute(){
+    return $this->holdings()->whereIn('holdings.id', function($query) { 
+    	$query->select('holding_id')->from('states')->whereState('annotated')->orWhere('state','=','ok'); 
     })->count();
   }
 

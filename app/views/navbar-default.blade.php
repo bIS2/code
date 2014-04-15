@@ -1,7 +1,7 @@
 <!-- navbar by default: includes the brand and commun functions -->
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation"  style="background: blue">
 	<div class="container">
-		<a class="navbar-brand" href="/" title="Begleitendes Informationssystem">bIS</a>
+		<a class="navbar-brand" href="/" title="Begleitendes Informationssystem">bIStest</a>
 		<ul class="nav navbar-nav">
 			<li data-toggle="tooltip" data-placement="bottom" data-original-title="{{ trans('titles.help')}}"> 
 				<a href="/help" ><span class="fa fa-question"></span> </a>

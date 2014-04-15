@@ -42,7 +42,7 @@
 			</span>
 
 			<span class="btn btn-xs btn-notes" data-toggle="tooltip" title="{{trans('holdings.tooltip_notes')}}">
-			  <a href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-notes" class="btn-tag">
+			  <a href="{{ route('notes.create',['holding_id'=>$holding->id,'hlist_id'=>$hlist->id ]) }}" data-toggle="modal" data-target="#form-create-notes" class="btn-tag">
 			  	<span class="fa fa-tags"></span> 
 			  </a>
 			</span>

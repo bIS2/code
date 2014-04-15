@@ -2,6 +2,59 @@
 
 $(function(){
 
+
+  // update related user for selected list type
+  $('body').on('click','#form_list :radio', function(){
+
+    var options = $.parseJSON( $('.options').text() )
+
+    o = ($('#form_list :radio:checked').val()=='delivery') ? options.postuser : options.maguser;
+
+    $select = $('select#worker_id').empty()
+    $.each(o, function(k,v){
+      $select.append( $('<option></option>').val(k).html(v) )
+    })    
+
+  })
+
+
+  // validatio off create annotates holding 
+  $('body').on('click','#submit-create-notes', function(e){
+
+    var check_notes = $('form.create-note :checkbox:checked');
+
+    if (check_notes.size()==0){
+
+      bootbox.alert( $('#select_notes_is_0').text() )
+      e.preventDefault()
+
+    } else {
+
+      check_notes.each(function(){
+        var content = $(this).parents('.input-group').find('input.content').val();
+        if (content.length==0){
+          $(this).parents('.form-group')
+            .addClass('has-error')
+            .find('.error').text( $('#field_note_in_blank').text() )
+          e.preventDefault()
+        }
+
+      })
+
+    }
+
+  })
+
+  $('body').on('keypress','form.create-note .content', function(e){
+    if ( $(this).val() )
+      $(this).parents('.form-group').removeClass('has-error').find('.error').text('')
+    else
+      $(this).parents('.form-group')
+        .addClass('has-error')
+        .find('.error').text( $('#field_note_in_blank').text() )
+  })
+
+
 	$('.btn-ok, .btn-tag').on('click',function(e){
 		size_in_form = $(this).parents('form').find('input#size').val()
 		size_in_a = parseFloat($(this).parents('tr').find('.editable').text() )
@@ -19,12 +72,6 @@ $(function(){
 		data = $('a.btn-ok').data('params')
 		$('a.btn-ok').attr('data-params', data + '&' + $(this).serialize() )
 	})
-
-  //Cuando se cambio el tipo de lista que se quiere crear se actualiza los usuarios a los que se les puede asignar ese tipo de lista
-  $('body').on( 'click', '#form_list :radio', function(){
-    $('#form_list select#worker_id').val([])
-    typeList()
-  })
 
   //manipulates the elements marked with the css class .draggable
   $( ".draggable" ).draggable({   
@@ -126,10 +173,11 @@ $(function(){
     }
 	})
   
-$('a.link_bulk_action').on('click', function(){
-  $('.table input.hl:checkbox:checked').clone().attr('type','hidden').appendTo('form.bulk_action')
+// $('a.link_bulk_action').on('click', function(){
+//   alert( $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden') )
+//   $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden').appendTo('form.bulk_action')
 
-})
+// })
 
 $('a.link_bulk_action[data-remote]').on('click',function(){
   $(this).attr( 'data-params', $('.table input.hl:checkbox:checked').serialize() )
@@ -145,16 +193,13 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
       $(this).removeData('bs.modal').empty();
   }); 
 
-  $('body').on('submit', '#form-create-list form', function() {
+  $('.remote').on('click', '#submit_create_list', function() {
 	 
-	  typeList()
-	  $('#form_list').append( $('#holdings-items :checkbox:checked').clone().attr('type','hidden') )
+    $('form#form_list').append( $('<div>').addClass('hide').append( $('#holdings-items :checkbox:checked').clone(true) ) )
 
-  	//console.log( $('#holdings-items :checkbox:checked').clone().length  )
-      
   }); 
 
-  $('body').on('show.bs.modal', '#form-create-list', function(){ typeList() })
+  // $('body').on('show.bs.modal', '#form-create-list', function(){ typeList() })
   
   handleAjaxSucces('body');
   countThs();
@@ -304,18 +349,18 @@ function handleAjaxSucces(parent) {
 
 function typeList(){
 
-	$select = $('#form_list select#worker_id')
+	// $select = $('#form_list select#worker_id')
 
-  $('#form_list select#worker_id option').hide()
+ //  $('#form_list select#worker_id option').hide()
 
-  if ($('#form_list :radio:checked').val()=='delivery'){
-    $('#form_list select#worker_id option[data-role=postuser]').show()
-  } else {
-    $('#form_list select#worker_id option[data-role=maguser]').show()
-  }
+ //  if ($('#form_list :radio:checked').val()=='delivery'){
+ //    $('#form_list select#worker_id option[data-role=postuser]').show()
+ //  } else {
+ //    $('#form_list select#worker_id option[data-role=maguser]').show()
+ //  }
 
-  // alert($select.find('option:visible:first').attr('value'))
-  $select.val( $select.find('option:visible:first').attr('value') )
+ //  // alert($select.find('option:visible:first').attr('value'))
+ //  $select.val( $select.find('option:visible:first').attr('value') )
 }	
 
 function getAsuccess() {
@@ -520,6 +565,10 @@ function bulkActions() {
 
   $(':checkbox:checked.sel').parents('tr').addClass("warning")
   $(':checkbox:checked.sel').parents('li').addClass("warning")
+
+  // if exists holdings selected then ative button to create list
+  if ( $(':checkbox:checked.sel').size()>0 )
+    $('a.link_bulk_action').removeClass('disabled')
 
   $(':checkbox.sel').click( function(){
     if (this.checked) {

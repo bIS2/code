@@ -16,7 +16,7 @@
 						<div class="carousel-inner">
 							@foreach ($holdings as $holding)
 							<div class="row item <?= ($i==0) ? 'active' : '' ?>">
-											<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note-{{$holding->id}}'>
+											<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note-{{$holding->id}}' class="create-note">
 								<div class="row ">
 
 									<?php $i=1 ?>
@@ -53,6 +53,11 @@
 											  {{ $holding->f866a }}
 											</div>
 											<div class="row">
+											  <label> f866aupdated</label >
+											  {{ $holding->f866aupdated }}
+											</div>
+											
+											<div class="row">
 											  <label> 866z</label >
 											  {{ $holding->f866z }}
 											</div>
@@ -80,8 +85,9 @@
 										      <label class="input-group-addon btn btn-primary btn-sm {{ ($note->tag_id) ? 'active' : '' }}">
 										        <input type="checkbox" name="notes[{{ $tag->id }}][tag_id]" value="{{ $tag->id }}">{{ trans('tags.'.$tag->name) }}
 										      </label>
-										      <input type="text"  name="notes[{{ $tag->id }}][content]" value="{{ $note->content }}" class="form-control input-sm" placeholder="{{ trans('placeholders.notes_'.$tag->name) }}">
+										      <input type="text"  name="notes[{{ $tag->id }}][content]" value="{{ $note->content }}" class="form-control input-sm content" placeholder="{{ trans('placeholders.notes_'.$tag->name) }}">
 										    </div><!-- /input-group -->
+										    <div  class="text-danger error"></div>
 										  </div><!-- /input-group -->
 
 										@endforeach
@@ -101,7 +107,7 @@
 									</div>
 
 									<div class="col-xs-5">
-									  <button href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" type="submit" class="btn btn-danger btn-tag col-sm-12" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
+									  <button id="submit-create-notes" href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" type="submit" class="btn btn-danger btn-tag col-sm-12" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
 									  	<span class="fa fa-tags"></span> {{trans('holdings.annotate')}}
 									  </button>
 									</div>
@@ -131,6 +137,10 @@
 			
 	</div>
 </div>
-<div id="field_size_in_blank" class="hide">{{ trans('errors.field_size_in_blank') }}</div>
+<div class="hide">
+	<div id="field_size_in_blank">{{ trans('errors.field_size_in_blank') }}</div>
+	<div id="field_note_in_blank">{{ trans('errors.field_note_in_blank') }} </div>
+	<div id="select_notes_is_0">{{ trans('errors.select_notes_is_0') }} </div>
+</div>
 @stop
 

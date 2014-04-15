@@ -43,7 +43,7 @@
 				  	</a>
 
 				  	<!-- CORRECT AND ANNOTATED -->
-				  	@if ( $user->hasRole('magvuser') || $user->hasRole('maguser') )
+				  	@if ( $user->hasRole('magvuser') || $user->hasRole('maguser') || $user->hasRole('bibuser')  )
 
 					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'confirmed'] ) }}" class="btn btn-default <?= ( Input::get('state')=='confirmed' ) ? 'active' : '' ?> btn-sm btn-success" >
 					  		<div class=""><span class="fa fa-thumbs-up"></span> {{{ trans('holdings.confirmed') }}}</div>
@@ -161,11 +161,11 @@
 							<i class="fa fa-list"></i> {{{ trans('holdings.all') }}}
 						</a>
 
-						<a href="?owner=true" class="btn <?= ( Input::has('owner')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+						<a href="{{ route('holdings.index', Input::except('owner') +['owner'=>'true'] ) }}" class="btn <?= ( Input::has('owner')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 							<i class="fa fa-square text-danger"></i> {{{ trans('holdings.owner') }}}
 						</a>
 
-						<a href="?aux=true" class="btn <?= ( Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+						<a href="{{ route('holdings.index', Input::except([	'aux'])+['aux'=>'true'] ) }}" class="btn <?= ( Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 							<i class="fa fa-square text-warning"></i> {{{ trans('holdings.aux') }}}
 						</a>
 

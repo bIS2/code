@@ -21,7 +21,7 @@
 				<tr>
 					<th></th>
 					<th>
-						<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets" {{ ( Authority::can('create','Hlist') ) ? '' : 'disabled' }}>
+						<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets" {{ ( Authority::can('create','Hlist') ) ? '' : 'disabled' }} />
 					</th>
 					<th class="actions" style="width:10px !important">
 						{{trans('general.actions')}}
@@ -66,7 +66,9 @@
 
 					<?php $k = 1; ?>
 					@foreach ($fieldstoshow as $field)
+					
 						<?php $k++ ?>
+
 						@if ($k == 2)
 							<td class="ocrr_ptrn">
 
@@ -75,10 +77,12 @@
 								<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>{{ $holding -> f866a }}</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
 							</td>
 						@endif
+
 						<?php 
 							$k++;
-							$field = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != 'sys2')) ? $field = 'f'.$field : $field; 
+						$field = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != 'sys2')) ? $field = 'f'.$field : $field; 
 						?>						
+
 						<td>
 
 							{{ $holding->show( $field ) }}

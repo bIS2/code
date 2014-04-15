@@ -36,6 +36,10 @@
 								<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1" >
 									<div class="well well-sm">
 										<div>
+												<label  >852: </label>
+									  		{{ $holding->f852 }}
+										</div>
+										<div>
 												<label  >852b: </label>
 									  		{{ $holding->f852b }}
 										</div>

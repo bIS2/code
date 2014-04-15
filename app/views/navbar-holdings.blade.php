@@ -1,8 +1,8 @@
 <!-- navbar for holding: includes the brand and commun functions -->
 
-<div class="navbar navbar-default navbar-fixed-top">
+<div class="navbar navbar-default navbar-fixed-top"  style="background: blue">
 	 <div class="container">
-	 	<a class="navbar-brand" href="#">BIS</a>
+	 	<a class="navbar-brand" href="/" title="Begleitendes Informationssystem">bIStest</a>
 	  <ul class="nav navbar-nav">
 		  <li>
 			  	<a href="#form-create-list" data-toggle="modal" class='link_bulk_action'><?= trans('holdings.create_list')  ?></a>
