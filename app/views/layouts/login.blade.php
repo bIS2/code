@@ -2,7 +2,7 @@
 {{-- main --}}
 @section('main')
 		
-	<div class="jumbotron">
+	<div class="jumbotron" <?php if (strpos(Request::url(),'bistest.trialog.ch') !== false) { echo ' style="background-color: blue; border-color:blue;"'; } ?>>
 		<div class="container">
 			<div class="lang">
 				<?php if (Session::get('locale') == 'de') { ?>

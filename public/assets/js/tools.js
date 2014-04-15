@@ -45,7 +45,7 @@ $(function(){
 
   })
 
-  $('body').on('keypress','form.create-note .content', function(e){
+  $('body').on('keyup','form.create-note .content', function(e){
     if ( $(this).val() )
       $(this).parents('.form-group').removeClass('has-error').find('.error').text('')
     else
