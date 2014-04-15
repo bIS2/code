@@ -234,7 +234,7 @@ footer {
     left: 0;
     margin-top: -@footer-height;
     height: @footer-height;
-    background: @gray-lighter;
+    background: #FFECBE;
     padding-top: @font-size-base;
     color: @gray-light;
     .affix;
@@ -1111,5 +1111,24 @@ fa.fa-careft-left.dropdown-menu:hover {
         color:   #333333 !important;
         line-height :15.7167px !important;
         text-align:  left !important;
+    }
+}
+
+.test {
+    .navbar-default .navbar-nav > .active > a, 
+    .navbar-default .navbar-nav > .active > a:hover, 
+    .navbar-default .navbar-nav > .active > a:focus{
+        background-color: #0000B3;
+    }
+    div.navbar {
+        background-color: blue;
+        border-color: blue;
+        .text-warning {
+            color: white;
+        }
+    }
+
+    footer {
+        background-color: #B0E0E6; 
     }
 }
