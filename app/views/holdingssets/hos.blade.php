@@ -7,14 +7,13 @@ $HOSconfirm = $holdingsset->confirm()->exists();
 $HOSannotated = $holdingsset->is_annotated;
 $HOSincorrect = $holdingsset->is_incorrect;
 // var_dump($no_force_lock);
-if (($holdingsset->holdings_number == 1) && (!$HOSconfirm) && (!$HOSincorrect) && (!$HOSannotated) && ($no_force_lock != 1)) {
+if (($holdingsset->holdings_number == 1) && (!$HOSconfirm) && (!$HOSincorrect) && (!$HOSannotated) && ($no_force_lock != 1) && ($holdingsset->autoconfirm != 1)) {
 	Confirm::create([ 'holdingsset_id' => $holdingsset -> id, 'user_id' => Auth::user()->id ]);
-	Holdingsset::find($holdingsset -> id)->update(['state' => 'ok']);
+	Holdingsset::find($holdingsset -> id)->update(['state' => 'ok', 'autoconfirm' => 1]);
 	holdingsset_recall($holdingsset -> id);
 	$HOSconfirm = true;
 	$need_refresh = 1;
 }
-
 
 $btn 	= 'btn-default';
 $route = ($HOSincorrect) ? 'incorrects' : 'confirms';
