@@ -10,4 +10,5 @@ return array(
 	'list_in_blank'     		=> "Es wurden keine gültigen HOL für diesen Listentyp ausgewählt.",
 	'list_name_is_blank'		=> "Please, type the name List",
 	'list_name_is_duplicate'	=> 'Namen schon vergeben.',
+	'field_note_in_blank'		=> 'Ein Feld muss etwas enthalten',
 );

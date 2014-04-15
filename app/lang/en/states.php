@@ -14,7 +14,7 @@ return array(
 	*/
 
 	'annotated' 					=> 'Annotated by MAGUSER',
-	'blank' 						=> '(still without status)',
+	'blank' 						=> 'HOL not confirmed (white)',
 	'burn' 							=> 'HOL eliminated physically',
 	'commented'						=> 'Commented by SPB',
 	'confirmed' 					=> 'HOS correct',
