@@ -310,7 +310,7 @@ class Holding extends Eloquent {
   }
 
   public function getClassCorrectAttribute(){
-  	return ($this->is_correct) ? 'success' : '';
+  	return ($this->is_correct) ? 'success' : 'not_ok';
   }
 
   public function getClassAnnotatedAttribute(){

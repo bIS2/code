@@ -48,29 +48,42 @@ $(function(){
   $('body').on('keyup','form.create-note .content', function(e){
     if ( $(this).val() )
       $(this).parents('.form-group').removeClass('has-error').find('.error').text('')
-    else
+    else {
       $(this).parents('.form-group')
         .addClass('has-error')
         .find('.error').text( $('#field_note_in_blank').text() )
+    }
   })
 
+  $('.form-group .input-group-addon.btn.btn-primary.btn-sm' ).each(function() {
+    $(this).on('mousedown', function() {
+      if ($(this).hasClass('active')) {
+        $(this).parents('.form-group').removeClass('has-error')
+        $(this).parents('.form-group').find('.error').text('')
 
-	$('.btn-ok, .btn-tag').on('click',function(e){
-		size_in_form = $(this).parents('form').find('input#size').val()
-		size_in_a = parseFloat($(this).parents('tr').find('.editable').text() )
-		
-		size = (size_in_form) ? size_in_form : size_in_a
+      }
+    })
+  })
 
-		if ( size==0 ){
-			bootbox.alert( $('#field_size_in_blank').text() )
-			return false
-		} 
-	})
+  $('.btn-ok, .btn-tag').each(function() {
+    $(this).on('click',function(e){
+      size_in_form = $(this).parents('form').find('input#size').val()
 
-	$('input#size').on('change',function(){
+      size_in_a = parseFloat($(this).parents('tr').find('.editable').text() )
+
+      size = (size_in_form) ? size_in_form : size_in_a
+
+      if (!( size > 0 )) {
+       bootbox.alert( $('#field_size_in_blank').text() )
+       return false
+     } 
+   })
+  })
+  var originhref = $('a.btn-ok').attr('href');
+	$('input#size').on('keyup',function(){
 		console.log($(this).serialize())
 		data = $('a.btn-ok').data('params')
-		$('a.btn-ok').attr('data-params', data + '&' + $(this).serialize() )
+		$('a.btn-ok').attr('href', originhref  + '?' + $(this).serialize() )
 	})
 
   //manipulates the elements marked with the css class .draggable
