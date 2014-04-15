@@ -16,6 +16,9 @@
 /public/assets/compiled/*
 /public/*.csv
 
+# Others
+fill-data.php
+
 # Composer
 composer.phar
 composer.lock

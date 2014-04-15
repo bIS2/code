@@ -52,7 +52,7 @@ class NotesController extends BaseController {
 	{
 
 		$notes = Input::get('notes');
-		$holding = Holding::find(Input::get('holding_id'));
+		$holding = (is_array(Input::get('holding_id'))) ?  Holding::find(Input::get('holding_id')[0]) : Holding::find(Input::get('holding_id'));
 		
 		// delete all notes to insert new
 		if ( $holding->notes()->exists() ) $holding->notes()->delete();
