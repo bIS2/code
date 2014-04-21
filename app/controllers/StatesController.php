@@ -61,6 +61,9 @@ class StatesController extends BaseController {
 
 				// return to previus state holding
 				if ($input['state']=='ok') Holding::find($input['holding_id'])->update(['state'=>'confirmed']);
+				if ($input['state']=='received') Holding::find($input['holding_id'])->update(['state'=>'delivery']);
+				if ($input['state']=='ok') Holding::find($input['holding_id'])->update(['state'=>'confirmed']);
+
 
 				$state->delete();
 				return Response::json([ 

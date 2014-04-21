@@ -104,7 +104,7 @@
 					</div>
 
 				<!-- Groups -->
-				<div class="form-group {{{ $errors->has('roles') ? 'error' : '' }}}">
+<!-- 				<div class="form-group {{{ $errors->has('roles') ? 'error' : '' }}}">
             <label class="col-md-2 control-label" for="roles">{{ trans('general.role') }}</label>
             <div class="col-md-6">
 	            <select class="form-control" name="roles[]" id="roles[]" >
@@ -115,6 +115,24 @@
 										{{{ $role->description }}}
 									</option>
 	              @endforeach
+							</select>
+
+							<span class="help-block">
+							</span>
+	          </div>
+				</div>
+ -->				<!-- ./ groups -->
+
+				<!-- Groups -->
+				<div class="form-group {{{ $errors->has('roles') ? 'error' : '' }}}">
+            <label class="col-md-2 control-label" for="roles">{{ trans('general.role') }}</label>
+            <div class="col-md-6 ">
+	              @foreach ($roles as $role)
+		              <label>
+			              <input type="checkbox" name="roles[]" value="{{$role->id}}" {{ $user->hasRole($role->name) ? 'checked="checked"' : ''}}>
+			              {{ $role->name }}
+		              </label>
+		            @endforeach
 							</select>
 
 							<span class="help-block">
