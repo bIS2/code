@@ -50,6 +50,7 @@ class ConfirmsController extends BaseController {
 	{
 		$holdingsset_id = Input::get('holdingsset_id');
 		$confirm_id = Confirm::whereHoldingssetId($holdingsset_id)->lists('id');
+		Holdingsset::find($holdingsset_id)->update(['autoconfirm' => 1]);
 
 		if ( count($confirm_id) > 0 ){
 			// Confirm::whereHoldingssetId($holdingsset_id)->delete();

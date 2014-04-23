@@ -133,7 +133,7 @@
 				} 
 			?>
 			@if ( Input::has('hlist_id'))
-			<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs btn-revise {{ $hide_btn_revise_list }}" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
+			<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs btn-revise {{ $hide_btn_revise_list }}" data-method="put" data-params="revised=1" data-disabled-with="...">
 				<span class="fa fa-check" ></span> {{ trans('holdings.revised')}}
 			</a>
 			@endif
