@@ -1,7 +1,13 @@
 <!-- navbar by default: includes the brand and commun functions -->
+<<<<<<< HEAD
+<div class="navbar navbar-default navbar-fixed-top" role="navigation"  style="background: blue">
+	<div class="container">
+		<a class="navbar-brand" href="/" title="Begleitendes Informationssystem">bIStest</a>
+=======
 <div class="navbar navbar-default navbar-fixed-top" role="navigation"<?php if (strpos(Request::url(),'bistest.trialog.ch') !== false) { echo ' style="background-color: blue; border-color:blue;"'; } ?>>
 	<div class="container">
 		<a class="navbar-brand" href="/" title="Begleitendes Informationssystem"><?php if (strpos(Request::url(),'bistest.trialog.ch') !== false) { echo 'bIStest'; } else { echo 'bIS'; } ?></a>
+>>>>>>> ed03ca73ac71c1c0d2a6b682906f63ea73be049f
 		<ul class="nav navbar-nav">
 			<li data-toggle="tooltip" data-placement="bottom" data-original-title="{{ trans('titles.help')}}"> 
 				<a href="/help" ><span class="fa fa-question"></span> </a>

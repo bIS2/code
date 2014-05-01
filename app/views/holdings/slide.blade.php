@@ -73,12 +73,12 @@
 									</div> <!-- /.col-xs-8 -->
 									<div class="col-xs-5">
 
+										{{ Form::hidden('holding_id',$holding->id) }}
 										@foreach ( Tag::all() as $tag)
 
 											<?php $note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note ?>
 
 
-											{{ Form::hidden('holding_id',$holding->id) }}
 
 											<div class="form-group">
 										    <div class="input-group" data-toggle="buttons">
