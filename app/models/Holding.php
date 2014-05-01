@@ -6,7 +6,7 @@ class Holding extends Eloquent {
 	protected $guarded = array();
 	public static $rules = array();
 	public $timestamps = false;
-
+s
   public static function boot() {
     parent::boot();
 		Holding::observe(new HoldingObserver);

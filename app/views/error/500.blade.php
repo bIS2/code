@@ -1,105 +1,134 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>Error 500 - Internal Server Error</title>
-	<meta name="viewport" content="width=device-width">
-	<style type="text/css">
-		@import url(http://fonts.googleapis.com/css?family=Droid+Sans);
+	<head>
+		<!-- Basic Page Needs
+		================================================== -->
+		<meta charset="utf-8" />
+		<title>
+				bIS Project - Error 500: Internal Server Error
+		</title>
+		<meta name="keywords" content="" />
+		<meta name="author" content="" />
+		<meta name="description" content="" />
 
-		article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
-		audio, canvas, video { display: inline-block; *display: inline; *zoom: 1; }
-		audio:not([controls]) { display: none; }
-		[hidden] { display: none; }
-		html { font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
-		html, button, input, select, textarea { font-family: sans-serif; color: #222; }
-		body { margin: 0; font-size: 1em; line-height: 1.4; }
-		::-moz-selection { background: #E37B52; color: #fff; text-shadow: none; }
-		::selection { background: #E37B52; color: #fff; text-shadow: none; }
-		a { color: #00e; }
-		a:visited { color: #551a8b; }
-		a:hover { color: #06e; }
-		a:focus { outline: thin dotted; }
-		a:hover, a:active { outline: 0; }
-		abbr[title] { border-bottom: 1px dotted; }
-		b, strong { font-weight: bold; }
-		blockquote { margin: 1em 40px; }
-		dfn { font-style: italic; }
-		hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
-		ins { background: #ff9; color: #000; text-decoration: none; }
-		mark { background: #ff0; color: #000; font-style: italic; font-weight: bold; }
-		pre, code, kbd, samp { font-family: monospace, serif; _font-family: 'courier new', monospace; font-size: 1em; }
-		pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; }
-		q { quotes: none; }
-		q:before, q:after { content: ""; content: none; }
-		small { font-size: 85%; }
-		sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
-		sup { top: -0.5em; }
-		sub { bottom: -0.25em; }
-		ul, ol { margin: 1em 0; padding: 0 0 0 40px; }
-		dd { margin: 0 0 0 40px; }
-		nav ul, nav ol { list-style: none; list-style-image: none; margin: 0; padding: 0; }
-		img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; }
-		svg:not(:root) { overflow: hidden; }
-		figure { margin: 0; }
-		form { margin: 0; }
-		fieldset { border: 0; margin: 0; padding: 0; }
-		label { cursor: pointer; }
-		legend { border: 0; *margin-left: -7px; padding: 0; white-space: normal; }
-		button, input, select, textarea { font-size: 100%; margin: 0; vertical-align: baseline; *vertical-align: middle; }
-		button, input { line-height: normal; }
-		button, input[type="button"], input[type="reset"], input[type="submit"] { cursor: pointer; -webkit-appearance: button; *overflow: visible; }
-		button[disabled], input[disabled] { cursor: default; }
-		input[type="checkbox"], input[type="radio"] { box-sizing: border-box; padding: 0; *width: 13px; *height: 13px; }
-		input[type="search"] { -webkit-appearance: textfield; -moz-box-sizing: content-box; -webkit-box-sizing: content-box; box-sizing: content-box; }
-		input[type="search"]::-webkit-search-decoration, input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; }
-		button::-moz-focus-inner, input::-moz-focus-inner { border: 0; padding: 0; }
-		textarea { overflow: auto; vertical-align: top; resize: vertical; }
-		input:valid, textarea:valid {  }
-		input:invalid, textarea:invalid { background-color: #f0dddd; }
-		table { border-collapse: collapse; border-spacing: 0; }
-		td { vertical-align: top; }
+		<!-- Mobile Specific Metas
+		================================================== -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		body
-		{
-			font-family:'Droid Sans', sans-serif;
-			font-size:10pt;
-			color:#555;
-			line-height: 25px;
-		}
+		<!-- CSS
+		================================================== -->
 
-		.wrapper
-		{
-			width:760px;
-			margin:0 auto 5em auto;
-		}
+		<style>
+			body {
+				padding: 0;
+				margin: 0;
+				font-family: arial;
+			}
+			.jumbotron {
+			  padding: 0;
+			  margin-bottom: 30px;
+			  font-size: 21px;
+			  font-weight: 200;
+			  line-height: 2.1428571435;
+			  color: #fff;
+			  background-color: #cc0000;
+			}
+			.jumbotron h1 {
+			  line-height: 1;
+			  color: inherit;
+			}
+			.jumbotron p {
+			  line-height: 1.4;
+			}
+			.container .jumbotron {
+			  border-radius: 6px;
+			}
+			@media screen and (min-width: 768px) {
+			  .jumbotron {
+			    padding-top: 48px;
+			    padding-bottom: 48px;
+			  }
+			  .container .jumbotron {
+			    padding-left: 60px;
+			    padding-right: 60px;
+			  }
+			  .jumbotron h1 {
+			    font-size: 63px;
+			  }
+			}
+			
+			.jumbotron {
+			  text-align: center;
+			  -webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.1), 0 0 8px rgba(0,0,0,0.6);
+			  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1), 0 0 8px rgba(0,0,0,0.6);
+			  background-image: url("/assets/img/vaquitas07s.png");
+			  padding: 30px;
+			  letter-spacing: .05em;
+			  text-shadow: 1px 1px 2px rgba(0,0,0,0.45);
+			}
+			.jumbotron h1 {
+			  margin: 0;
+			}
+			.jumbotron .lang {
+			  position: absolute;
+			  right: 10%;
+			}
+			body {
+			  padding-bottom: 70px;
+			}
+			.container.body {
+				width: 600px;
+				margin: 0 auto;
+			}
+			footer {
+			  position: absolute;
+			  width: 100%;
+			  top: 100%;
+			  left: 0;
+			  margin-top: -50px;
+			  height: 50px;
+			  background: #FFECBE;
+			  padding-top: 14px;
+			  color: #999999;
+			  position: fixed;
+			  z-index: 10;
+			}
+			footer .stats > div {
+			  margin-right: 20px;
+			}
+			footer .stats > div .label:hover {
+			  background-color: #999999 !important;
+			}
+			footer .stats > div .label-success:hover {
+			  background-color: #5CB85C !important;
+			}
+		</style>
 
-		.main
-		{
-			overflow:hidden;
-		}
+		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
 
-		.error-spacer
-		{
-			height:4em;
-		}
+		<!-- Favicons
+		================================================== -->
+		<!-- <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://bis.trialog.ch/assets/ico/apple-touch-icon-144-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://bis.trialog.ch/assets/ico/apple-touch-icon-114-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://bis.trialog.ch/assets/ico/apple-touch-icon-72-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" href="http://bis.trialog.ch/assets/ico/apple-touch-icon-57-precomposed.png"> -->
+		<link rel="shortcut icon" href="http://bis.trialog.ch/assets/ico/favicon.ico">
+	</head>
+	<body>
+		<!-- Main -->
+					
+	<div class="jumbotron" >
+		<div class="container">
+			<h1>bIS</h1>
+			<big>Begleitendes Informationssystem</big></div>
+    </div>
 
-		a, a:visited
-		{
-			color:#2972A3;
-		}
-
-		a:hover
-		{
-			color:#72ADD4;
-		}
-	</style>
-</head>
-<body>
-	<div class="wrapper">
-		<div class="error-spacer"></div>
-		<div role="main" class="main">
+	<div class="container">
+		<div class="row">
+			<div class="container body">			
 			<?php $messages = array('Ouch.', 'Oh no!', 'Whoops!'); ?>
 
 			<h1><?php echo $messages[mt_rand(0, 2)]; ?></h1>
@@ -118,8 +147,14 @@
 
 			<p>
 				Perhaps you would like to go to our <a href="{{{ URL::to('/') }}}">home page</a>?
-			</p>
+			</p>	
+			</div>
 		</div>
 	</div>
+
+<footer id="footer">
+	<div class="container">
+	</div>
+</footer>
 </body>
 </html>
