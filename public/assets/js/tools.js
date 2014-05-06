@@ -2,8 +2,6 @@
 
 $(function(){
 
-<<<<<<< HEAD
-
   // update related user for selected list type
   $('body').on('click','#form_list :radio', function(){
 
@@ -67,8 +65,6 @@ $(function(){
 			return false
 		} 
 	})
-=======
->>>>>>> ed03ca73ac71c1c0d2a6b682906f63ea73be049f
 
   // update related user for selected list type
   $('body').on('click','#form_list :radio', function(){

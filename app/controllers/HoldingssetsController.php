@@ -619,8 +619,9 @@ class HoldingssetsController extends BaseController {
 		-----------------------------------------------------------------------------------*/
 
 	function similarity_search($sys2) {
-
-		$conn_string = "host=localhost port=5432 dbname=bistest user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+		$db_config = Config::get('database');
+		$database = $db_config['connections']['pgsql']['database'];
+		$conn_string = "host=localhost port=5432 dbname=".$database." user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
 		$con = pg_connect($conn_string);
 
 		date_default_timezone_set('America/New_York');
@@ -936,8 +937,9 @@ class HoldingssetsController extends BaseController {
 
 						-----------------------------------------------------------------------------------*/
 function holdingsset_recall($id) {
-
-	$conn_string = "host=localhost port=5432 dbname=bistest user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+	$db_config = Config::get('database');
+	$database = $db_config['connections']['pgsql']['database'];
+	$conn_string = "host=localhost port=5432 dbname=".$database." user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string);
 
 	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 100";
@@ -1569,8 +1571,9 @@ function cmp_flag_score($a, $b) {
 }
 
 function create_table($tab_name) {
-
-	$conn_string = "host=localhost port=5432 dbname=bistest user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+	$db_config = Config::get('database');
+	$database = $db_config['connections']['pgsql']['database'];
+	$conn_string = "host=localhost port=5432 dbname=".$database." user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string);
 
 	$query  = "DROP TABLE IF EXISTS $tab_name; ";
@@ -1666,7 +1669,9 @@ $hol_info['proc']  = '';        // collects info about processing hol
 $starttime        = sprintf("%s", date("Y-m-d H:i:s"));
 $stat             = array();   // statistical info
 
-$conn_string = "host=localhost port=5432 dbname=bistest user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+$db_config = Config::get('database');
+$database = $db_config['connections']['pgsql']['database'];
+$conn_string = "host=localhost port=5432 dbname=".$database." user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
 $con = pg_connect($conn_string) or die('ERROR!!!');
 
 // collect knowledge

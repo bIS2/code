@@ -1,6 +1,6 @@
 <?php
 /*
-* Observer events (created, deleted) occur Holdinsset model. Perform necessary actions after a specific event occurs on the model.
+* Observer events (created, deleted) occur Holdingsset model. Perform necessary actions after a specific event occurs on the model.
 *
 */
 class HoldingssetObserver {

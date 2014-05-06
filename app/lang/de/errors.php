@@ -10,9 +10,6 @@ return array(
 	'list_in_blank'     		=> "Es wurden keine gültigen HOL für diesen Listentyp ausgewählt.",
 	'list_name_is_blank'		=> "Please, type the name List",
 	'list_name_is_duplicate'	=> 'Namen schon vergeben.',
-<<<<<<< HEAD
 	'field_note_in_blank'		=> 'Ein Feld muss etwas enthalten',
-=======
-	'notes_in_blank'					=> "Notes can't not blank",
->>>>>>> ed03ca73ac71c1c0d2a6b682906f63ea73be049f
+	'notes_in_blank'			=> "Notes can't not blank",
 );
