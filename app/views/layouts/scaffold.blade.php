@@ -20,10 +20,14 @@
 
 		<!-- CSS
 		================================================== -->
-
     {{ Basset::show('public.css') }}
 		<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
+		<style type="text/css">
+			#hosg ul.hol-sets tr.locked td .fa-times:before {
+				content: "\f00d" !important;
+			}
+		</style>
 		<style>
 		@section('styles')
 		@show
