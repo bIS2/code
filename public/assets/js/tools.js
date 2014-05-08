@@ -2,6 +2,69 @@
 
 $(function(){
 
+  // update related user for selected list type
+  $('body').on('click','#form_list :radio', function(){
+
+    var options = $.parseJSON( $('.options').text() )
+
+    o = ($('#form_list :radio:checked').val()=='delivery') ? options.postuser : options.maguser;
+
+    $select = $('select#worker_id').empty()
+    $.each(o, function(k,v){
+      $select.append( $('<option></option>').val(k).html(v) )
+    })    
+
+  })
+
+
+  // validatio off create annotates holding 
+  $('body').on('click','#submit-create-notes', function(e){
+
+    var check_notes = $('form.create-note :checkbox:checked');
+
+    if (check_notes.size()==0){
+
+      bootbox.alert( $('#select_notes_is_0').text() )
+      e.preventDefault()
+
+    } else {
+
+      check_notes.each(function(){
+        var content = $(this).parents('.input-group').find('input.content').val();
+        if (content.length==0){
+          $(this).parents('.form-group')
+            .addClass('has-error')
+            .find('.error').text( $('#field_note_in_blank').text() )
+          e.preventDefault()
+        }
+
+      })
+
+    }
+
+  })
+
+  $('body').on('keypress','form.create-note .content', function(e){
+    if ( $(this).val() )
+      $(this).parents('.form-group').removeClass('has-error').find('.error').text('')
+    else
+      $(this).parents('.form-group')
+        .addClass('has-error')
+        .find('.error').text( $('#field_note_in_blank').text() )
+  })
+
+
+	$('.btn-ok, .btn-tag').on('click',function(e){
+		size_in_form = $(this).parents('form').find('input#size').val()
+		size_in_a = parseFloat($(this).parents('tr').find('.editable').text() )
+		
+		size = (size_in_form) ? size_in_form : size_in_a
+
+		if ( size==0 ){
+			bootbox.alert( $('#field_size_in_blank').text() )
+			return false
+		} 
+	})
 
   // update related user for selected list type
   $('body').on('click','#form_list :radio', function(){
@@ -81,7 +144,7 @@ $(function(){
   })
   var originhref = $('a.btn-ok').attr('href');
 	$('input#size').on('keyup',function(){
-		console.log($(this).serialize())
+		// console.log($(this).serialize())
 		data = $('a.btn-ok').data('params')
 		$('a.btn-ok').attr('href', originhref  + '?' + $(this).serialize() )
 	})
@@ -380,14 +443,14 @@ function getAsuccess() {
     $('a, #modal-show').on({
     'ajax:success': function(data, result, status) {      
         set = ($(this).hasClass('modal')) ? $('#f866aeditablesave').attr('set') : $(this).attr('set')
-        // console.log($(this));        
-        // console.log(set);        
+        // // console.log($(this));        
+        // // console.log(set);        
         if ($(this).attr('ajaxsuccess') != 1) {
           $(this).attr('ajaxsuccess', 1)          
           if (set > 0) {          
             accordion = $('#hosg .hol-sets li#'+set).find('a.accordion-toggle');
             open = ($(accordion).hasClass('collapsed') == true) ? 0 : 1
-            // console.log(open);
+            // // console.log(open);
             reload_set(set, result, open);          
           }
           if ( result.remove )
@@ -554,15 +617,15 @@ function removedangerclass(value) {
 }
 
 function makehosdivisibles(table) {
-  console.log(table);
+  // console.log(table);
     $(table + ' :checkbox.selhld').click( function(){
-    // console.log('click');
+    // // console.log('click');
     if (this.checked) {
-      // console.log('CHECKED');
+      // // console.log('CHECKED');
       if ( $(this).parents('li').find(':checkbox:checked.selhld').length>=2)
         $(this).parents('li').find('.newhos').css('display','block')
     } else {
-      // console.log('NO-CHECKED');
+      // // console.log('NO-CHECKED');
       if ( $(this).parents('li').find(':checkbox:checked.selhld').length<2)
       $(this).parents('li').find('.newhos').css('display','none')
     }

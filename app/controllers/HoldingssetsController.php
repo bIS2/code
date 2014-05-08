@@ -124,11 +124,11 @@ class HoldingssetsController extends BaseController {
 				$holdings = -1;
 				// If filter by owner or aux
 				if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) {
-					if ((Input::has('owner')) && (!(Input::has('aux')))) $holdings = $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsOwner('t');
-					if (!(Input::has('owner')) && ((Input::has('aux')))) $holdings = $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsAux('t');
+					if ((Input::has('owner')) && (!(Input::has('aux')))) $holdings = $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsOwner('t') -> whereNotIn('id', Locked::orderBy('id')->lists('holding_id'));
+					if (!(Input::has('owner')) && ((Input::has('aux')))) $holdings = $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsAux('t') -> whereNotIn('id', Locked::orderBy('id')->lists('holding_id'));
 					if ((Input::has('owner')) && ((Input::has('aux'))))  {
 						$holdings = $uUserLibrary->holdings()->where('library_id','=',$uUserLibraryId)->where(function($query) {
-							$query->where('is_owner', '=', 't')
+							$query->where('is_owner', '=', 't') -> whereNotIn('id', Locked::orderBy('id')->lists('holding_id'))
 							->orWhere('is_aux', '=', 't');
 						});
 					}		
@@ -450,16 +450,20 @@ class HoldingssetsController extends BaseController {
 		// ocrr_nr Cantidad de ocurrencias
 
 			$holdingsset_id = Input::get('holdingsset_id');
+			$holding = Holding::find($id);
+			$was_oner = (($holding->is_owner == '1') || ($holding->is_owner == 't')) ? true : false;
 			if (Input::get('unique_aux') == 1) {
 				$holdingsset = Holdingsset::find($holdingsset_id);
 				$ptrn = Input::get('ptrn');
 				$empty_ptrn = str_replace('1', '0', $ptrn);
-				$holdingsset->holdings()->where('id', '!=', $id)->update(['is_aux' => 'f', 'is_owner'=>'f', 'aux_ptrn' => $empty_ptrn ]);
-				$holdingsset->holdings()->where('id', '=', $id)->update(['is_aux' => 't', 'aux_ptrn' => $ptrn]);
+				$holdingsset->holdings()->where('id', '!=', $id)->update(['is_aux' => 'f', 'aux_ptrn' => $empty_ptrn ]);
+				$holdingsset->holdings()->where('id', '=', $id)->update(['is_aux' => 't', 'is_owner' => 'f', 'aux_ptrn' => $ptrn]);
 			}
 			else {
+
 				Holding::find($id)->update(['is_aux'=>'t', 'is_owner'=>'f', 'ocrr_ptrn'=> Input::get('newptrn'), 'aux_ptrn'=> Input::get('newauxptrn'), 'ocrr_nr' => Input::get('count'), 'force_aux' => 't', 'force_owner' => 'f']);
 			}
+			if ($was_oner) holdingsset_recall($holdingsset_id);
 			$holdingssets[] = Holdingsset::find($holdingsset_id);
 			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
 			return $newset;
@@ -619,8 +623,9 @@ class HoldingssetsController extends BaseController {
 		-----------------------------------------------------------------------------------*/
 
 	function similarity_search($sys2) {
-
-		$conn_string = "host=localhost port=5432 dbname=bistest user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+		$db_config = Config::get('database');
+		$database = $db_config['connections']['pgsql']['database'];
+		$conn_string = "host=localhost port=5432 dbname=".$database." user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
 		$con = pg_connect($conn_string);
 
 		date_default_timezone_set('America/New_York');
@@ -936,8 +941,9 @@ class HoldingssetsController extends BaseController {
 
 						-----------------------------------------------------------------------------------*/
 function holdingsset_recall($id) {
-
-	$conn_string = "host=localhost port=5432 dbname=bistest user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+	$db_config = Config::get('database');
+	$database = $db_config['connections']['pgsql']['database'];
+	$conn_string = "host=localhost port=5432 dbname=".$database." user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string);
 
 	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 100";
@@ -1569,8 +1575,9 @@ function cmp_flag_score($a, $b) {
 }
 
 function create_table($tab_name) {
-
-	$conn_string = "host=localhost port=5432 dbname=bistest user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+	$db_config = Config::get('database');
+	$database = $db_config['connections']['pgsql']['database'];
+	$conn_string = "host=localhost port=5432 dbname=".$database." user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string);
 
 	$query  = "DROP TABLE IF EXISTS $tab_name; ";
@@ -1666,7 +1673,9 @@ $hol_info['proc']  = '';        // collects info about processing hol
 $starttime        = sprintf("%s", date("Y-m-d H:i:s"));
 $stat             = array();   // statistical info
 
-$conn_string = "host=localhost port=5432 dbname=bistest user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+$db_config = Config::get('database');
+$database = $db_config['connections']['pgsql']['database'];
+$conn_string = "host=localhost port=5432 dbname=".$database." user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
 $con = pg_connect($conn_string) or die('ERROR!!!');
 
 // collect knowledge
