@@ -74,7 +74,16 @@
 
 								{{ $holding->patrn_no_btn }}
 								{{ $this->ocrr_ptrn }}
-								<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>{{ $holding -> f866a }}</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
+								<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>
+									<?php 
+									if ($holding->f866aupdated == '') { 
+										echo $holding->clean($holding->f866a);
+									}
+									else {
+										echo $holding->clean($holding->f866aupdated);
+										}
+									?>
+									</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
 							</td>
 						@endif
 
