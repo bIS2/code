@@ -454,7 +454,7 @@ class HoldingssetsController extends BaseController {
 				$holdingsset = Holdingsset::find($holdingsset_id);
 				$ptrn = Input::get('ptrn');
 				$empty_ptrn = str_replace('1', '0', $ptrn);
-				$holdingsset->holdings()->where('id', '!=', $id)->update(['is_aux' => 'f', 'aux_ptrn' => $empty_ptrn ]);
+				$holdingsset->holdings()->where('id', '!=', $id)->update(['is_aux' => 'f', 'is_owner'=>'f', 'aux_ptrn' => $empty_ptrn ]);
 				$holdingsset->holdings()->where('id', '=', $id)->update(['is_aux' => 't', 'aux_ptrn' => $ptrn]);
 			}
 			else {
