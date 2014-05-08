@@ -483,7 +483,7 @@ class Holding extends Eloquent {
                 </span>
               </a>
               |
-              <?php endif ?>
+
               <?php if ($ownertrclass == '') : ?>
 
                 <a id="holding<?=$holding -> id; ?>forceowner" set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putForceOwner',[$holding->id]); ?>" data-remote="true" data-method="put" data-params="holdingsset_id=<?=$holdingsset->id; ?>" data-disable-with="..."><span class="fa fa-stop text-danger pop-over" data-content="<strong><?= trans('holdingssets.force_owner'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
@@ -493,7 +493,7 @@ class Holding extends Eloquent {
               <a id="holding<?=$holding -> id; ?>forceaux" set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putForceAux',[$holding->id]); ?>?unique_aux=1&holdingsset_id=<?= $holdingsset->id; ?>&ptrn=<?= $holding->aux_ptrn; ?>" data-remote="true" data-method="put" data-params="holdingsset_id=<?=$holdingsset->id; ?>" data-disable-with="..." class="forceaux"><span class="fa fa-stop text-warning pop-over" data-content="<strong><?= trans('holdingssets.force_aux'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
 
               <a id="holding<?=$holding -> id; ?>forceblue" set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putForceBlue',[$holding->id]); ?>" data-remote="true" data-method="put" data-params="holdingsset_id=<?=$holdingsset->id; ?>" data-disable-with="..." data-disable-with="..." class="forceblue"><span class="fa fa-stop text-primary pop-over" data-content="<strong><?= trans('holdingssets.force_blue'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>           
-
+            <?php endif ?>
           <?php endif ?>
 
           <?php if ($holding->is_annotated) : ?>
