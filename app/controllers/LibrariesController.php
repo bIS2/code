@@ -55,10 +55,10 @@ class LibrariesController extends BaseController {
 		{
 			$this->library->create($input);
 
-			return Redirect::route('libraries.index');
+			return Redirect::route('admin.libraries.index');
 		}
 
-		return Redirect::route('libraries.create')
+		return Redirect::route('admin.libraries.create')
 			->withInput()
 			->withErrors($validation)
 			->with('message', 'There were validation errors.');
@@ -89,7 +89,7 @@ class LibrariesController extends BaseController {
 
 		if (is_null($library))
 		{
-			return Redirect::route('libraries.index');
+			return Redirect::route('admin.libraries.index');
 		}
 
 		return View::make('libraries.edit', compact('library'));
@@ -111,26 +111,15 @@ class LibrariesController extends BaseController {
 			$library = $this->library->find($id);
 			$library->update($input);
 
-			return Redirect::route('libraries.show', $id);
+			return Redirect::route('admin.libraries.index', $id);
 		}
 
-		return Redirect::route('libraries.edit', $id)
+		return Redirect::route('admin.libraries.edit', $id)
 			->withInput()
 			->withErrors($validation)
 			->with('message', 'There were validation errors.');
 	}
 
-	/**
-	 * Remove the specified Library from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		$this->library->find($id)->delete();
 
-		return Redirect::route('libraries.index');
-	}
 
 }

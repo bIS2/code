@@ -4,7 +4,7 @@
 <div class="row">
 	<div class="col-sm-8">
 
-		<h1>{{trans('libraries.title')}}</h1>
+		<h1>{{trans('titles.edit_libraries')}}</h1>
 		{{ Form::model($library, array('method' => 'PUT', 'route' => array('admin.libraries.update', $library->id), 'class'=>'form-horizontal')) }}
 
 			<div class="form-group {{{ $errors->has('username') ? 'error' : '' }}} ">

@@ -66,7 +66,7 @@
 @import "../../../../vendor/twbs/bootstrap/less/responsive-utilities.less";
 
 // Font-awesome-4.0.3
-@import "font-awesome/font-awesome.less";
+//@import "font-awesome/font-awesome.less";
 
 
 // Components w/ JavaScript
@@ -217,6 +217,10 @@ table.table {
     h1 {
         margin: 0;        
     }
+    .lang {
+        position: absolute;
+        right: 10%;
+    }
 }
 
 body {
@@ -230,7 +234,7 @@ footer {
     left: 0;
     margin-top: -@footer-height;
     height: @footer-height;
-    background: @gray-lighter;
+    background: #FFECBE;
     padding-top: @font-size-base;
     color: @gray-light;
     .affix;
@@ -247,6 +251,8 @@ footer {
 }
 
 .form-signin {
+    width: 400px;
+    .center-block();
     margin-top: @jumbotron-padding;
     p {
        text-align: center;
@@ -479,7 +485,8 @@ section.container {
         }
     }
 }
-.flexme {
+.flexme,
+.header-only {
     font-size: 11px;
 
     thead th {
@@ -528,20 +535,24 @@ table.table thead th:first-child {
 } 
 #holdings-items_wrapper {
     #new-table {
-        // margin-top: -27px !important;
+        margin-top: -4px !important;
         position: fixed;
         left: 14px;
         z-index: 9;
-        display: none;     
+        display: none;   
         th {
+            background: #ffffff !important;  
             // border: none !important;
             // text-align: center;
             padding-top: 2px;
             padding-bottom: 2px;
             padding-left: 7px;
-            border: none !important;
+            border: 1px solid #ccc !important;
             .fa {
                 visibility: hidden;
+            }
+            &:first-child {
+                border-left: none !important;
             }
         }
     }
@@ -622,6 +633,7 @@ table.table thead th:first-child {
             // z-index: 9;
             //left: 5px;
             //border-bottom: none !important; 
+            height: 24px;
             a, i, span {
                 margin: 0 3px;
                 font-size: 14px;
@@ -646,7 +658,8 @@ table.table thead th:first-child {
     }
 }
 
-table.flexme {
+table.flexme,
+table.header-only {
         .table_order {
             display: none;
         }
@@ -656,6 +669,7 @@ table.flexme {
         }
     }
     table.flexme > thead > tr > th.actions + th,
+    table.header-only > thead > tr > th.actions + th,
     table.flexme > tbody > tr > td.actions + td {
         padding-left: 115px;
         border-left: none;
@@ -779,7 +793,6 @@ table.flexme {
 
 #currentfiltersoption {
     display: block;
-    float: left;
     text-align: center;
     &.btn-group > .btn, .btn-group-vertical > .btn {
         margin-bottom: 5px;
@@ -937,6 +950,10 @@ a.btn-danger {
     #hos-pagination {
         margin-right: 0;
     } 
+    .state-list {
+        width: 80%;
+        display: block;
+    }
 }
 .dl-horizontal > dd {
     text-align: right;
@@ -1048,7 +1065,7 @@ tr.draggable{ background-color: #fff; }
 }
 
 #holding-slide{
-	label{ width: 50px; text-align: right; margin-right: 3px;}
+	label{ width: 97px; text-align: right; margin-right: 3px;}
 }
 
 #recalled .similarity-table-container table thead tr th:first-child,
@@ -1086,4 +1103,32 @@ fa.fa-careft-left.dropdown-menu:hover {
 
 #open-all-hos {
     margin-top: 10px;
+}
+
+.header-only {
+    th {
+        font-size :  11px !important;
+        color:   #333333 !important;
+        line-height :15.7167px !important;
+        text-align:  left !important;
+    }
+}
+
+.test {
+    .navbar-default .navbar-nav > .active > a, 
+    .navbar-default .navbar-nav > .active > a:hover, 
+    .navbar-default .navbar-nav > .active > a:focus {
+        background-color: #0000B3 !important;
+    }
+    > div.navbar {
+        background-color: blue !important;
+        border-color: blue !important;
+        .text-warning {
+            color: white !important;
+        }
+    }
+
+    footer {
+        background-color: #B0E0E6 !important; 
+    }
 }

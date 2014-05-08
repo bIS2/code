@@ -16,11 +16,11 @@
 						<div class="carousel-inner">
 							@foreach ($holdings as $holding)
 							<div class="row item <?= ($i==0) ? 'active' : '' ?>">
-											<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note-{{$holding->id}}'>
+											<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note-{{$holding->id}}' class="create-note">
 								<div class="row ">
 
 									<?php $i=1 ?>
-									<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1 {{ $holding->css }} {{ ($holding->is_correct) ? 'success' : '' }} {{ ($holding->is_annotated) ? 'danger' : '' }}" >
+									<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1 {{ $holding->css }} {{ ($holding->is_correct) ? 'success' : 'not_ok' }} {{ ($holding->is_annotated) ? 'danger' : '' }}" >
 										<div class="well" id="holding-slide">
 											<div class="row state">
 												<label >{{ trans('general.state') }}</label>
@@ -53,6 +53,11 @@
 											  {{ $holding->f866a }}
 											</div>
 											<div class="row">
+											  <label> f866aupdated</label >
+											  {{ $holding->f866aupdated }}
+											</div>
+											
+											<div class="row">
 											  <label> 866z</label >
 											  {{ $holding->f866z }}
 											</div>
@@ -68,20 +73,21 @@
 									</div> <!-- /.col-xs-8 -->
 									<div class="col-xs-5">
 
+										{{ Form::hidden('holding_id',$holding->id) }}
 										@foreach ( Tag::all() as $tag)
 
 											<?php $note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note ?>
 
 
-											{{ Form::hidden('holding_id',$holding->id) }}
 
 											<div class="form-group">
 										    <div class="input-group" data-toggle="buttons">
 										      <label class="input-group-addon btn btn-primary btn-sm {{ ($note->tag_id) ? 'active' : '' }}">
-										        <input type="checkbox" name="notes[{{ $tag->id }}][tag_id]" value="{{ $tag->id }}">{{ trans('tags.'.$tag->name) }}
+										        <input type="checkbox" name="notes[{{ $tag->id }}][tag_id]" value="{{ $tag->id }}" data-tagid="{{ $tag->id }}">{{ trans('tags.'.$tag->name) }}
 										      </label>
-										      <input type="text"  name="notes[{{ $tag->id }}][content]" value="{{ $note->content }}" class="form-control input-sm" placeholder="{{ trans('placeholders.notes_'.$tag->name) }}">
+										      <input type="text"  name="notes[{{ $tag->id }}][content]" value="{{ $note->content }}" class="form-control input-sm content" placeholder="{{ trans('placeholders.notes_'.$tag->name) }}">
 										    </div><!-- /input-group -->
+										    <div  class="text-danger error"></div>
 										  </div><!-- /input-group -->
 
 										@endforeach
@@ -101,7 +107,7 @@
 									</div>
 
 									<div class="col-xs-5">
-									  <button href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" type="submit" class="btn btn-danger btn-tag col-sm-12" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
+									  <button id="submit-create-notes" href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" type="submit" class="btn btn-danger btn-tag col-sm-12" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
 									  	<span class="fa fa-tags"></span> {{trans('holdings.annotate')}}
 									  </button>
 									</div>
@@ -130,6 +136,11 @@
 
 			
 	</div>
+</div>
+<div class="hide">
+	<div id="field_size_in_blank">{{ trans('errors.field_size_in_blank') }}</div>
+	<div id="field_note_in_blank">{{ trans('errors.field_note_in_blank') }} </div>
+	<div id="select_notes_is_0">{{ trans('errors.select_notes_is_0') }} </div>
 </div>
 @stop
 

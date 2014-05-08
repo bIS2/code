@@ -23,8 +23,10 @@ class Note extends Eloquent {
       return $this->belongsTo('Tag');
   }
 
-  public function scopeInLibrary($query){
-  	return $query->whereIn('holding_id', function($query){ $query->select('id')->from('holdings')->whereLibraryId(Auth::user()->id); });
+  public function scopeInLibrary($query,$library_id=false){
+
+    $library_id = ($library_id) ? $library_id : Auth::user()->library_id;
+  	return $query->whereIn('holding_id', function($query) use ($library_id) { $query->select('id')->from('holdings')->whereLibraryId($library_id); });
   }
 
 

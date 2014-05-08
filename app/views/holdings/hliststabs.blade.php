@@ -32,7 +32,9 @@
 
 	// var_dump($restarcookie);
 
-	if ($restarcookie) Session::put(Auth::user()->username.'_hlists_to_show', ';');
+	//if ($restarcookie) 
+		Session::put(Auth::user()->username.'_hlists_to_show', ';');
+		setcookie(Auth::user()->username.'_hlists_to_show', ';', time() + (86400 * 30));
 
 	if (!isset($_COOKIE[Auth::user()->username.'_hlists_to_show']) || (Session::get(Auth::user()->username.'_hlists_to_show') == ';')) {
 	  setcookie(Auth::user()->username.'_hlists_to_show', DEFAULTS_HLISTS, time() + (86400 * 30));
@@ -107,12 +109,12 @@
 <div id="hos_actions_and_filters" class="row">
 
 	<!-- Information about pagination-->
-	<div class="col-xs-2">
+	<div class="col-xs-3">
 		{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} 
 	</div>
 
 	<!-- Pages -->
-	<div class="col-xs-6">
+	<div class="col-xs-5">
 
 		{{ $holdings->appends(Input::except('page'))->links()  }}
 
@@ -120,26 +122,30 @@
 
 	<!-- Actions -->
 	<div class="col-xs-4">
-		<div class="pull-right">
-
+		<div class="col-xs-5">
 			@if (Input::has('hlist_id'))
-				<?php $list = Hlist::find(Input::get('hlist_id')); ?>
-				<span class="label label-primary state-list"> {{ $list->state }}</span>
+			<?php $list = Hlist::find(Input::get('hlist_id')); ?>
+			@endif
+			<?php 
+				$hide_btn_revise_list = '';
+				if ( !Authority::can('revise',$list) )  { 
+					$hide_btn_revise_list = 'hide';
+				} 
+			?>
+			@if ( Input::has('hlist_id'))
+			<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs btn-revise {{ $hide_btn_revise_list }}" data-method="put" data-params="revised=1" data-disabled-with="...">
+				<span class="fa fa-check" ></span> {{ trans('holdings.revised')}}
+			</a>
 			@endif
 
-	  	@if ( Authority::can('revise',$list) )
-
-	    	<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs btn-revise" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
-	    		<span class="fa fa-check" ></span> {{ trans('holdings.revised')}}
-	    	</a>
-
-	  	@endif
-
-		  <a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-xs btn-default dropdown-toggle collapsed text-warning" data-toggle="collapse">
-	  		<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
+			@if (Input::has('hlist_id'))
+			<span class="label label-primary state-list"> {{ $list->state }}</span>
+			@endif
+		</div>
+		<div class="col-xs-7">
+			<a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-xs btn-default dropdown-toggle collapsed text-warning pull-right" data-toggle="collapse">
+				<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
 			</a>
-
-
 		</div>
 	</div>
 <!-- 	<div id="hos-pagination" class="pull-right text-center text-success">
@@ -158,7 +164,7 @@
 					<?php									
 						$allfields 	= explode(';', ALL_FIELDS);
 
-						$tmpfields 	= Session::get(Auth::user()->username.'_fields_to_show_ok');
+						$tmpfields 	= Session::get(Auth::user()->username.'_fields_to_show_ok_hols');
 						
 						$fields 		= '';
 						if (isset($allfields)) {
@@ -169,6 +175,7 @@
 						<?php
 							foreach ($fields as $field) {
 								$popover = '';
+								$field_large = '';
 								$field_short = trans('fields.'.$field);
 								switch ($field) {
 									case 'exists_online':
@@ -195,9 +202,9 @@
 										$popover = " pop-over ";
 									break;	
 										
-									case 'weight':
-										$field_short = trans('fields.weight');
-										$field_large = ' data-content="<strong>'.trans('fields.weight_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+									case 'years':
+										$field_short = trans('fields.years');
+										$field_large = ' data-content="<strong>'.trans('fields.years_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
 										$popover = " pop-over ";
 									break;											
 								}

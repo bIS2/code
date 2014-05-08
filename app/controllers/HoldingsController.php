@@ -27,8 +27,8 @@ class HoldingsController extends BaseController {
 
 		/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
-			define('DEFAULTS_FIELDS', 'sys2;size;852b;852h;866a;ocrr_ptrn;245a;245b;022a;362a;866z;008x;exists_online;is_current;has_incomplete_vols');
-			define('ALL_FIELDS',      'sys2;size;852b;852h;866a;ocrr_ptrn;245a;245b;022a;260a;260b;362a;710a;310a;246a;505a;770t;772t;780t;785t;852c;852j;866z;008x;exists_online;is_current;has_incomplete_vols');
+			define('DEFAULTS_FIELDS', 'sys2;008x;size;022a;072a;245a;245b;245n;245p;362a;852b;852h;866a;866z;years;exists_online;is_current;has_incomplete_vols');
+			define('ALL_FIELDS',      'sys2;008x;size;022a;072a;245a;245b;245n;245p;246a;260a;260b;310a;362a;505a;710a;770t;772t;780t;785t;852b;852c;852h;852j;866a;866z;years;exists_online;is_current;has_incomplete_vols');
 
 			/* User vars */
 			$uUserName = Auth::user()->username;
@@ -36,19 +36,19 @@ class HoldingsController extends BaseController {
 			$uUserLibraryId = Auth::user()->library->id;
 			// $uGroupname
 
-			if (!isset($_COOKIE[$uUserName.'_fields_to_show_ok'])) {
-				if (Session::get($uUserName.'_fields_to_show_ok') == 'ocrr_ptrn') {
-				  setcookie($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
-				  Session::put($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS);
+			if (!isset($_COOKIE[$uUserName.'_fields_to_show_ok_hols'])) {
+				if (Session::get($uUserName.'_fields_to_show_ok_hols') == 'ocrr_ptrn') {
+				  setcookie($uUserName.'_fields_to_show_ok_hols', DEFAULTS_FIELDS, time() + (86400 * 30));
+				  Session::put($uUserName.'_fields_to_show_ok_hols', DEFAULTS_FIELDS);
 				}
 				else {
-					setcookie($uUserName.'_fields_to_show_ok', Session::get($uUserName.'_fields_to_show_ok'), time() + (86400 * 30));
+					setcookie($uUserName.'_fields_to_show_ok_hols', Session::get($uUserName.'_fields_to_show_ok_hols'), time() + (86400 * 30));
 				}
 			}
 
-			if ((Session::get($uUserName.'_fields_to_show_ok') == 'ocrr_ptrn') || (Session::get($uUserName.'_fields_to_show_ok') == '')) {
-			  setcookie($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS, time() + (86400 * 30));
-			  Session::put($uUserName.'_fields_to_show_ok', DEFAULTS_FIELDS);
+			if ((Session::get($uUserName.'_fields_to_show_ok_hols') == 'ocrr_ptrn') || (Session::get($uUserName.'_fields_to_show_ok_hols') == '')) {
+			  setcookie($uUserName.'_fields_to_show_ok_hols', DEFAULTS_FIELDS, time() + (86400 * 30));
+			  Session::put($uUserName.'_fields_to_show_ok_hols', DEFAULTS_FIELDS);
 			}
 
 			if (Input::get('clearorderfilter') == 1) {
@@ -57,14 +57,14 @@ class HoldingsController extends BaseController {
 			}
 
 
-		$this->data['allsearchablefields'] = ['sys2','size','022a','245a','245b','245c','246a','260a','260b','300a','300b','300c','310a','362a','500a','505a','710a','770t','772t','780t','785t','852b','852c','852h','852j','866a','866z', '008x', 'exists_online', 'is_current', 'has_incomplete_vols', 'weight'];
+		$this->data['allsearchablefields'] = ['sys2','008x','022a','245a','245b','245c','246a','245n','245p','260a','260b','300a','300b','300c','310a','362a','500a','505a','710a','770t','772t','780t','785t','852b','852c','852h','852j','866a','866z','size' , 'years', 'exists_online', 'is_current', 'has_incomplete_vols'];
 
-		$holdings = ( Input::has('hlist_id') ) ?	Hlist::find( Input::get('hlist_id') )->holdings() : Holding::init();
+	$holdings = ( Input::has('hlist_id') ) ? Hlist::find( Input::get('hlist_id') )->holdings()->orderBy('f852h', 'ASC') : Holding::init();
 
     $this->data['hlists'] = Hlist::my()->get();
     $this->data['hlist'] = (Input::has('hlist_id')) ? Hlist::find(Input::get('hlist_id')) : false;
 
-    $this->data['is_all'] = !(Input::has('corrects') || Input::has('tagged') || Input::has('pendings') || Input::has('unlist') || Input::has('owner') || Input::has('aux')|| Input::has('deliveries') );
+    $this->data['is_all'] = !(Input::has('corrects') || Input::has('tagged') || Input::has('pendings') || Input::has('unlist') || Input::has('owner') || Input::has('aux') || Input::has('deliveries') || Input::has('state') );
 
 		if ( Input::has('pendings') )		$holdings = $holdings->pendings();
 		
@@ -75,7 +75,7 @@ class HoldingsController extends BaseController {
 
 		if ( Input::has('tagged') )			$holdings = $holdings->annotated(Input::get('tagged'));	
 		if ( Input::has('commenteds') )		$holdings = $holdings->defaults()->commenteds();
-		if ( Input::has('state') )		$holdings = Holding::withState( Input::get('state') );
+		if ( Input::has('state') )			$holdings = Holding::inLibrary()->withState( Input::get('state') );
 
 		// $holdings = ( Input::has('reviseds') || (Auth::user()->hasRole('postuser'))) ? $holdings->reviseds()->corrects() : $holdings->noreviseds();
 
@@ -103,7 +103,7 @@ class HoldingsController extends BaseController {
 
 		$this->data['is_filter'] 	= $is_filter;
 		$this->data['sql'] 			= sprintf( $format, $compare, $value );
-		$this->data['holdings'] 	= $holdings->paginate(25);
+		$this->data['holdings'] 	= $holdings->orderby('f852h_e', 'ASC')->paginate(25);
 		// $queries = DB::getQueryLog();
 		// $this->data['last_query'] = $queries;			
 
@@ -147,8 +147,8 @@ class HoldingsController extends BaseController {
 			// var_dump(Input::get('sortinghos_by'));
 			// var_dump(Input::get('sortinghos'));die();
 			$uUserName = Auth::user()->username;
-			setcookie($uUserName.'_fields_to_show_ok', $fieldlist, time() + (86400 * 30));
-			Session::put($uUserName.'_fields_to_show_ok', $fieldlist);
+			setcookie($uUserName.'_fields_to_show_ok_hols', $fieldlist, time() + (86400 * 30));
+			Session::put($uUserName.'_fields_to_show_ok_hols', $fieldlist);
 			// Session::put($uUserName.'_sortinghos_by', Input::get('sortinghos_by'));
 			// Session::put($uUserName.'_sortinghos', Input::get('sortinghos'));
 			return Redirect::to(Input::get('urltoredirect'));

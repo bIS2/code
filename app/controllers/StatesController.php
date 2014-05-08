@@ -56,15 +56,22 @@ class StatesController extends BaseController {
 			$state = $this->state->whereHoldingId($input['holding_id'])->where('state','=', $input['state'] );
 
 			// if hlist_id exist get the list and verify if finish tu 
-			$list_finish = false;
-			if (Input::has('hlist_id')) {
-				$hlist = Hlist::find(Input::get('hlist_id'));
-				$list_finish = $hlist->ready_to_revise;
-			}
 
 			if ($state->exists()) {
 
+				// return to previus state holding
+				if ($input['state']=='ok') Holding::find($input['holding_id'])->update(['state'=>'confirmed']);
+				if ($input['state']=='received') Holding::find($input['holding_id'])->update(['state'=>'delivery']);
+				if ($input['state']=='ok') Holding::find($input['holding_id'])->update(['state'=>'confirmed']);
+
+
 				$state->delete();
+				return Response::json([ 
+				'state' 				=> 'not_'.$input['state'],
+				'state_title' 			=> trans( 'states.'.$input['state']), 
+				'id' 					=> $input['holding_id'],
+				'list_completed' 		=> false
+			]);
 
 			}	else {
 
@@ -81,12 +88,20 @@ class StatesController extends BaseController {
 
 			}
 
+			$list_finish = false;
+			$list_received = false;
+			if ( Input::has('hlist_id') && (($input['state']=='ok') || ($input['state']=='annotated'))) {
+				$hlist = Hlist::find(Input::get('hlist_id'));
+				$list_finish = $hlist->ready_to_revise;
+				$list_received = $hlist->received;
+			}
+			
 			return Response::json([ 
 				'state' 					=> $input['state'],
 				'state_title' 		=> trans( 'states.'.$input['state']), 
 				'id' 							=> $input['holding_id'],
 				'list_completed' 	=> $list_finish
-				]);
+			]);
 		}
 
 		return Redirect::route('states.create')

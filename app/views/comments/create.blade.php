@@ -18,7 +18,7 @@
 
 				<div class="col-xs-12">
 					<div class="form-group">
-				    <label for="content">Comment</label>
+				    <label for="content">{{ trans('comments.comment')}}</label>
 				    {{ Form::textarea('content',null,['class'=>"form-control",'placeholder'=>trans('comments.placeholder'), 'rows'=>4 ]) }}
 				  </div>
 					@if ($errors->any())

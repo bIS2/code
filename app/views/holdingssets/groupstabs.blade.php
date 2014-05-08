@@ -24,7 +24,10 @@
 		}
 	}
 	// var_dump($restarcookie);
-	if ($restarcookie) Session::put(Auth::user()->username.'_groups_to_show', ';');
+	//if ($restarcookie) 
+	Session::put(Auth::user()->username.'_groups_to_show', ';');
+	setcookie(Auth::user()->username.'_groups_to_show', ';', time() + (86400 * 30));
+	
 	if (!isset($_COOKIE[Auth::user()->username.'_groups_to_show']) || (Session::get(Auth::user()->username.'_groups_to_show') == ';')) {
 	  setcookie(Auth::user()->username.'_groups_to_show', DEFAULTS_GROUPS, time() + (86400 * 30));
 	  Session::put(Auth::user()->username.'_groups_to_show', DEFAULTS_GROUPS);
@@ -81,7 +84,7 @@
 <?php if (count($holdingssets) > 0) { ?>
 <form method="post" action="{{ route('sets.index', Input::except(['noexists'])) }}">
 <div id="hos_actions_and_filters" class="clearfix">
-	<a id="open-all-hos" class="btn btn-xs btn-danger pull-left" data-toggle="tooltip" title="<?= trans('holdingssets.open_all_hos'); ?>" data-container="body" ><i class="fa fa-caret-down"></i><i class="fa fa-caret-down"></i></a>
+	<a id="open-all-hos" class="btn btn-md btn-danger pull-left" data-toggle="tooltip" title="<?= trans('holdingssets.open_all_hos'); ?>" data-container="body" ><i class="fa fa-folder-open-o"></i></a>
 
 	<div class="pull-left select-all">
 		<label>
@@ -140,8 +143,7 @@
 					<input type="hidden" name="urltoredirect" value="<?= route('sets.index', Input::except(['noexists'])); ?>">
 					<?php									
 						$allfields 	= explode(';', ALL_FIELDS);
-						$tmpfields 	= Session::get(Auth::user()->username.'_fields_to_show_ok');
-						
+						$tmpfields 	= Session::get(Auth::user()->username.'_fields_to_show_ok_hos');					
 						$fields 		= '';
 						if (isset($tmpfields)) {
 							$fields 		= explode(';', $tmpfields);
@@ -178,9 +180,9 @@
 										$popover = " pop-over ";
 										break;	
 										
-										case 'weight':
-										$field_short = trans('fields.weight');
-										$field_large = ' data-content="<strong>'.trans('fields.weight_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+										case 'years':
+										$field_short = trans('fields.years');
+										$field_large = ' data-content="<strong>'.trans('fields.years_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
 										$popover = " pop-over ";
 										break;										
 									}
@@ -224,9 +226,9 @@
 										$popover = " pop-over ";
 										break;	
 										
-										case 'weight':
-										$field_short = trans('fields.weight');
-										$field_large = ' data-content="<strong>'.trans('fields.weight_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+										case 'years':
+										$field_short = trans('fields.years');
+										$field_large = ' data-content="<strong>'.trans('fields.years_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
 										$popover = " pop-over ";
 										break;											
 									}

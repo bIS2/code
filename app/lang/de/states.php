@@ -14,18 +14,22 @@ return array(
 	*/
 
 	'annotated' 					=> 'Von MAGUSER annotiert',
-	'blank' 						=> '(noch ohne Status)',
-	'burn' 							=> 'HOS unlösbar',
+	'blank' 						=> 'HOL nicht bestätigt (weiss)',
+	'burn' 							=> 'HOL eliminiert physically',
 	'commented'						=> 'Kommentar der SPB',
 	'confirmed' 					=> 'HOS ok',
 	'delivery' 						=> 'Zur SPB gesandt',
+	'integrated'					=> 'Komplett integriert',
 	'no_result_states'				=> 'Noch keine History',
 	'ok' 							=> 'HOL vorhanden',
-	'receive' 						=> 'In SPB integriert',
 	'received'						=> 'In SPB integriert',
+	'revised'			 			=> 'Kontrolliert',
 	'revised_annotated' 			=> 'Mit Annotation zurück an BIBUSER',
 	'revised_ok'		 			=> 'HOL kann an SPB abgegeben werden',
+	'spare'							=> 'Überschüssige',
 	'title'							=> 'Durchgeführte Aktionen',
-	'trash' 						=> 'Zu löschen',
+	'trash' 						=> 'Zu eliminieren',
+	'pending' 						=> 'Anstehend',
+	'deleted' 						=> 'In SPB (Ende)',
 
 );

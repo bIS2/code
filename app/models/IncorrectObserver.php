@@ -23,7 +23,7 @@ class IncorrectObserver {
 
       Holdingsset::find($holdingsset_id)
       ->update([ 
-       'state' => 'incorrect'
+       'state' => 'incorrected'
       ]);
 
     }

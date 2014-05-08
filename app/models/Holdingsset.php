@@ -1,6 +1,6 @@
 <?php
 /*
-* Represents the table Holdinssets (HOS) in the database, relationships, methods and attributes. *
+* Represents the table Holdingssets (HOS) in the database, relationships, methods and attributes. *
 */
 
 class Holdingsset extends Eloquent {
@@ -15,7 +15,7 @@ class Holdingsset extends Eloquent {
   }
 
   public function holdings() {
-      return $this->hasMany('Holding')->orderBy('is_owner','DESC')->orderBy('is_aux','DESC');
+      return $this->hasMany('Holding');
   }
 
   public function confirm() {
@@ -57,7 +57,7 @@ class Holdingsset extends Eloquent {
 
   public function scopeIncorrects($query){
     return $query
-    ->whereState('incorrect');
+    ->whereState('incorrected');
   }
 
   public function scopeCorrects($query){
@@ -66,7 +66,7 @@ class Holdingsset extends Eloquent {
   }
 
   public function scopeAnnotated($query){
-    $ids = Holding::annotated()->select('holdingsset_id')->lists('holdingsset_id');
+    $ids = Holding::RevisedsAnnotated()->select('holdingsset_id')->lists('holdingsset_id');
     if (count($ids) == 0 ) $ids = [-1];
     return $query
     ->whereIn('holdingssets.id', $ids);
@@ -125,5 +125,14 @@ class Holdingsset extends Eloquent {
       if ($i < $count) $ret .= ';';
     }
     return $ret;
+  }
+
+  public function show($field, $len = 30) {
+    $str = $this->clean($this->$field);
+    return (strlen($str) > $len) ? '<span class="pop-over" data-content="<strong>'.$str.'</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover">'.truncate($str, $len).'</span>' : $str;
+  }
+
+  public function clean($value){
+    return htmlspecialchars(stripslashes($value));
   }
 }

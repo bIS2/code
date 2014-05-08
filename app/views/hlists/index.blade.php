@@ -3,10 +3,12 @@
 {{-- Content --}}
 @section('content')
 
+@include('hlists.filters')
+
 <div class="panel panel-info">
 	<div class="panel-heading">
+<!-- 		{{ $query }} -->
 		<div class="row">
-
 			<div class="col-xs-8">
 				<div class="lead"> 
 					{{ trans('lists.title') }} 
@@ -30,12 +32,14 @@
 		</div> <!-- /.row -->
 	</div> <!-- /.page-header -->
 	<div class="row">
-		<div class="col-xs-12">
-			<?php //echo var_dump( $users ) ?>
+		<div class="col-xs-12">	
+			
+
 			@if ($hlists->count())
 				<table class="table table-bordered table-condensed datatable">
 					<thead>
 						<tr>
+							<th>No.</th>
 							<th>{{ trans('table.name') }}</th>
 							<th>{{ trans('table.state') }}</th>
 							<th>{{ trans('table.type') }}</th>
@@ -48,26 +52,29 @@
 					</thead>
 
 					<tbody id="hlists-targets">
-						@foreach ($hlists as $list)
+					<?php $ll = 0; ?>
+						@foreach ($hlists as $list) <?php $ll++; ?>
 							<tr id="{{ $list->id }}" class="{{ $list->revised ? 'revised' : '' }} {{ $list->is_delivery ? 'delivered' : '' }}">
+								<!-- <td>{{ $list->user->library->code }}</td> -->
+								<td>{{ $ll }}</td>
+								<td>{{ $list->created_at }}</td>
 								<td>
 									<a href="{{ route('holdings.index', [ 'hlist_id' => $list->id ] ) }}" >{{ $list->name }} </a>
 								</td>
 								<td>
 									<span class="label label-primary state-list">
-										{{ $list->state }}
+										{{ trans('states.'.$list->state) }}
 									</span>
 								</td>
 								<td>
 									{{ $list->type_icon }}
 									{{ trans('lists.type-'.$list->type) }}
 								</td>
-								<td>{{ $list->created_at }}</td>
 								<td>
 									{{ $list->worker->username }} 	
 								</td>
 								<td>
-									{{ link_to( route('holdings.index',['hlist'=>$list->id]), $total = $list->holdings->count() ) }}
+									{{ $list->holdings->count() }}
 								</td>
 
 <!-- 								<td>
@@ -77,6 +84,18 @@
 								</td>
  -->			       
  								<td>
+									@if (($list->type=='control') && ( !$list->revised ))
+										<span class="">
+											<span class="label label-default"><i class="fa fa-check"></i> {{ $list->holdings_reviseds }}</span>  
+										</span>
+									@endif
+
+									@if (($list->type=='delivery') && ( !$list->received ))
+										<span class="">
+											<span class="label label-default"><i class="fa fa-download"></i> {{ $list->holdings_receiveds }}</span>  
+										</span>
+									@endif
+
 
 			          	@if (Authority::can('delivery','Hlist'))
 
@@ -118,7 +137,9 @@
 
 
 @else
-	There are no hlists
+	<h2 class="text-info  text-center">
+		<span class="fa fa-info-circle text-danger"></span> {{ trans('lists.nolists') }}
+	</h2>
 @endif
 
 @stop

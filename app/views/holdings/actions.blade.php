@@ -15,7 +15,7 @@
 
 
 		<span class="btn btn-xs" data-toggle="tooltip" title="{{trans('holdings.tooltip_show_external_link')}}">
-			<a href="{{ $holding->library->externalurl }}" target="_blank" set="{{$holdingsset->id}}"  title="{{ trans('holdingssets.see_information_from_original_system') }}" >
+			<a href="{{ $holding->library->externalurl.substr($holding->sys2, 4, 9) }}" target="_blank" set="{{$holdingsset->id}}"  title="{{ trans('holdingssets.see_information_from_original_system') }}" >
 				<span class="fa fa-external-link"></span>
 			</a>
 
@@ -23,6 +23,7 @@
 						
 
 		@if ( Input::has('hlist_id') && (Auth::user()->id == $hlist->user->id ))
+		
 	    <span class="btn btn-xs" data-toggle="tooltip" title="{{trans('holdings.tooltip_remove_from_list')}}">
 				<a href="{{ action('HlistsController@postDetach', [ Input::get('hlist_id') ] ) }}" data-remote="true"  data-method="post" data-params="holding_id={{$holding->id}}" >
 					<i class="fa fa-times" ></i>
@@ -40,19 +41,19 @@
 			  </a>
 			</span>
 
-			<span class="btn btn-xs" data-toggle="tooltip" title="{{trans('holdings.tooltip_notes')}}">
-			  <a href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" data-toggle="modal" data-target="#form-create-notes" class="btn-tag">
+			<span class="btn btn-xs btn-notes" data-toggle="tooltip" title="{{trans('holdings.tooltip_notes')}}">
+			  <a href="{{ route('notes.create',['holding_id'=>$holding->id,'hlist_id'=>$hlist->id ]) }}" data-toggle="modal" data-target="#form-create-notes" class="btn-tag">
 			  	<span class="fa fa-tags"></span> 
 			  </a>
 			</span>
 
 		@endif
 
-		@if (Authority::can('trash', $holding))
+		@if (Authority::can('finish', $holding))
 
 			<span class="btn btn-xs" data-toggle="tooltip" title="{{trans('holdings.tooltip_to_trash')}}">
-			  <a href="{{ route('states.store') }}" class="btn-trash" data-params="state=trash&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
-			  	<span class="fa fa-trash-o"></span> 
+			  <a href="{{ route('states.store') }}" class="btn-trash" data-params="state={{ $holding->to_delete }}&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-method="post" data-remote="true">
+			  	<span class="fa fa-times"></span> 
 			  </a>
 			</span>
 
@@ -65,11 +66,9 @@
 			  	<span class="fa fa-fire"></span> 
 			  </a>
 			</span>
-
 			
 		@endif
 
-		
 		@if (Authority::can('receive',$holding))
 
 			<span class="btn btn-xs" data-toggle="tooltip" title="{{trans('holdings.tooltip_receive')}}">
@@ -96,7 +95,6 @@
 			  	<span class="fa fa-comment"></span> 
 			  </a>
 			</span>
-
 
 	  @endif
 

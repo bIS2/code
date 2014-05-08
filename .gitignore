@@ -3,15 +3,21 @@
 /vendor
 */logs/*
 
+
 # Configuration
 /app/config/local
 /app/config/staging
 /app/config/production
-/app/storage/logs
+/app/storage
 /app/config/database.php
+/bootstrap/start.php
 
 # Basset development collections
 /public/assets/compiled/*
+/public/*.csv
+
+# Others
+fill-data.php
 
 # Composer
 composer.phar

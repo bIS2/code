@@ -123,9 +123,9 @@
 													$popover = " pop-over ";
 													break;	
 													
-													case 'weight':
-													$field_short = trans('fields.weight_short');
-													$field_large = ' data-content="<strong>'.trans('holdings.has_incomplete_vols_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+													case 'years':
+													$field_short = trans('fields.years_short');
+													$field_large = ' data-content="<strong>'.trans('holdings.years_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
 													$popover = " pop-over ";
 													break;										
 												} ?>
@@ -150,10 +150,10 @@
 													if (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))  { ?>
 														<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 															<div class="input-group inline input-group-sm">
-																<label class="input-group-addon">{{ trans('holdings.'.$field.'_short') }}</label>
+																<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
 																<span class="input-group-addon  search-check">
 																	<input type="hidden" name="<?= $field; ?>" value="0">
-																	<input type="hidden" name="<?= $field; ?>format" value="%s = %s">
+																	<input type="hidden" name="<?= $field; ?>format" value="%s = '%s'">
 																	<input type="hidden" name="<?= $field; ?>compare" value="<?= $field; ?>">
 																	<input type="checkbox" class="form-control" name="<?= $field; ?>" value="1" checked="checked">
 																</span>
@@ -166,14 +166,13 @@
 													<?php }	else { ?>
 														<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 															<div class="input-group inline input-group-sm">
-																<label class="input-group-addon"><?= $field; ?></label>
-																<?php if (($field == '008x') || ($field == 'size') || ($field == 'ocrr_nr')) {	
+																<label class="input-group-addon"><?= trans('fields.'.$field); ?></label>
+																<?php if (($field == 'size') || ($field == 'years') || ($field == 'ocrr_nr')) {	
 																?>
 																	<select id="<?= $field; ?>Filter" name="<?= $field; ?>format" class="form-control">
 																		<option value="%s = %s" <?= (Input::get($field.'format') == "%s = %s") ? 'selected' : ''; ?>>{{ trans('general.equal') }}</option>
 																		<option value="%s < %s" <?= (Input::get($field.'format') == "%s < %s") ? 'selected' : ''; ?>>{{ trans('general.less_than') }}</option>
 																		<option value="%s > %s" <?= (Input::get($field.'format') == "%s > %s") ? 'selected' : ''; ?>>{{ trans('general.greater_than') }}</option>
-																		<option value="%s LIKE '%%%s%%'" <?= (Input::get($field.'format') == "%s LIKE '%%%s%%'") ? 'selected' : ''; ?> >{{ trans('general.contains') }}-Fix to 008x</option>
 																	</select>	
 																	<input type="hidden" name="<?= $field; ?>compare" value="<?= $field; ?>">									
 																<?php } else { 
@@ -209,11 +208,11 @@
 											if (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))  { ?>
 											<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 												<div class="input-group inline input-group-sm">
-													<label class="input-group-addon">{{ trans('holdings.'.$field.'_short') }}</label>
+													<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
 													<span class="input-group-addon search-check">
 														<input type="hidden" name="<?= $field; ?>" value="0">
 														<input type="checkbox" class="form-control" name="<?= $field; ?>" value="1" checked="checked">
-														<input type="hidden" name="<?= $field; ?>format" value="%s = %s">
+														<input type="hidden" name="<?= $field; ?>format" value="%s = '%s'">
 														<input type="hidden" name="<?= $field; ?>compare" value="<?= $field; ?>">
 													</span>
 													<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">	
@@ -227,14 +226,13 @@
 												?>
 												<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 													<div class="input-group inline input-group-sm">
-														<label class="input-group-addon"><?= $field; ?></label>
-														<?php if (($field == '008x') || ($field == 'size') || ($field == 'ocrr_nr')) { 
+														<label class="input-group-addon"><?= trans('fields.'.$field); ?></label>
+														<?php if (($field == 'size')|| ($field == 'years') || ($field == 'ocrr_nr')) { 
 															?>
 															<select id="<?= $field; ?>Filter" name="<?= $field; ?>format" class="form-control">
 																<option value="%s = %s" selected>{{ trans('general.equal') }}</option>
 																<option value="%s < %s">{{ trans('general.less_than') }}</option>
 																<option value="%s > %s">{{ trans('general.greater_than') }}</option>
-																<option value="%s LIKE '%%%s%%'" <?= (Input::get($field.'format') == "%s LIKE '%%%s%%'") ? 'selected' : ''; ?> >{{ trans('general.contains') }}-Fix to 008x</option>
 															</select>
 															<input type="hidden" name="<?= $field; ?>compare" value="<?= $field; ?>">
 														<?php }  else {

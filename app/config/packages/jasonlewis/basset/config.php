@@ -50,7 +50,8 @@ return array(
     	'pages' => function($collection) {
             $collection->directory('assets/css', function($collection)
             {
-	            $collection->add('bootstrap.min.css');
+                $collection->add('bootstrap.min.css');
+	            $collection->add('flotr.css');
 	            $collection->add('bootstrap-responsive.min.css');   
                 $collection->add('less/master.less')->apply('Less');
                 $collection->add('less/pages.less')->apply('Less');
@@ -60,6 +61,8 @@ return array(
                 $collection->add('jquery-1.10.2.min.js');
                 $collection->add('laravel-ujs.js');
                 $collection->add('bootstrap/bootstrap.js');
+                $collection->add('flotr2.min.js');
+                $collection->add('stats.js');
 
             })->apply('JsMin');;
     	},
@@ -88,6 +91,7 @@ return array(
                 $collection->add('ui/jquery.ui.sortable.js');
                 $collection->add('ui/jquery.ui.droppable.js');
                 $collection->add('ui/jquery.ui.draggable.js');
+                $collection->add('jquery.nicescroll.min.js');
                 $collection->add('bootstrap/bootstrap.js');
                 // $collection->requireDirectory('../../../vendor/twbs/bootstrap/js');
                 // $collection->add('wysihtml5/wysihtml5-0.3.0.js');
@@ -102,6 +106,7 @@ return array(
                 $collection->add('laravel-ujs.js');
                 $collection->add('bootstrap-editable.min.js');
                 $collection->add('jquery.ui.touch-punch.min.js');
+                $collection->add('bootbox.min.js');
                 $collection->add('tools.js');
                 $collection->add('d3.v3.min.js');
 

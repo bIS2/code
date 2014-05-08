@@ -20,7 +20,11 @@
 						@foreach ($hlists as $list) 
 
 						<li <?= ($list->id == Input::get('hlist_id')) ? 'class="active"' : '' ; ?>>
-							<a href="{{ route('holdings.index',Input::except(['hlist_id']) + ['hlist_id' => $list->id ]) }}"> {{ $list->name }} <span class="badge">{{ $list->holdings()->count() }} </span></a>
+							<a href="{{ route('holdings.index',Input::except(['hlist_id']) + ['hlist_id' => $list->id ]) }}"> 
+								{{ $list->type_icon }}
+								{{ $list->name }} 
+								<span class="badge">{{ $list->holdings()->count() }} </span>
+							</a>
 						</li>
 
 						@endforeach
@@ -39,23 +43,27 @@
 				  	</a>
 
 				  	<!-- CORRECT AND ANNOTATED -->
-				  	@if ( $user->hasRole('magvuser') || $user->hasRole('maguser') )
+				  	@if ( $user->hasRole('magvuser') || $user->hasRole('maguser') || $user->hasRole('bibuser')  )
+
+					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'confirmed'] ) }}" class="btn btn-default <?= ( Input::get('state')=='confirmed' ) ? 'active' : '' ?> btn-sm btn-success" >
+					  		<div class=""><span class="fa fa-thumbs-up"></span> {{{ trans('holdings.confirmed') }}}</div>
+					  	</a>
 
 					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'ok'] ) }}" class="btn btn-default <?= ( Input::get('state')=='ok' ) ? 'active' : '' ?> btn-sm" >
 					  		<div class="text-success"><span class="fa fa-thumbs-up"></span> {{{ trans('holdings.ok2') }}}</div>
 					  	</a>
 
 					  	<div class="btn-group">
-						  	<a href="?tagged=true" class="btn btn-default <?= ( Input::has('tagged' )) ? 'active' : '' ?> btn-sm" data-toggle="dropdown">
+						  	<a href="?tagged=true" class="btn btn-default <?= ( Input::has('tagged' ) ||  Input::get('state')=='annotated' ) ? 'active' : '' ?> btn-sm" data-toggle="dropdown">
 						  		<div class="text-danger"><span class="fa fa-tags"></span>
 						  		<?= (!Input::has('tagged') || Input::get('tagged')=='%' ) ? trans('holdings.annotated') : Tag::find( Input::get('tagged') )->name ?>  
 						  		<span class="caret"></span></div>
 						  	</a>
 						  	<ul class="dropdown-menu" role="menu">
-						  		<li><a href="?tagged=%">{{ trans('general.all') }}</a></li>
+						  		<li class="<?= ( Input::get('state')=='annotated' ) ? 'active' : '' ?>"><a href="{{ route('holdings.index', Input::only('view') + ['state'=>'annotated'] ) }}">{{ trans('general.all') }}</a></li>
 						  		<li class="divider"></li>
 						  		@foreach (Tag::all() as $tag)
-						  			<li> <a href="?tagged={{ $tag->id }}">{{ $tag->name }}</a> </li>
+						  			<li class="<?= ( Input::get('tagged')== $tag->id ) ? 'active' : '' ?>"> <a href="{{ route('holdings.index', Input::only('view') + ['tagged'=>$tag->id] ) }}">{{ $tag->name }}</a> </li>
 						  		@endforeach
 						  	</ul>
 					  	</div>
@@ -104,6 +112,7 @@
 					  		<span class="fa fa-flag-checkered"></span> {{{ trans('holdings.integrated') }}}
 					  	</a>
 
+
 					  @endif
 
 				  	<!-- HOLDING SPARE -->
@@ -116,23 +125,31 @@
 				  	@endif
 				  	
 				  	<!-- (TRASH) MARK IT TO ELIMINATE -->
-				  	@if ( $user->hasRole('bibuser') )
+				  	@if ( $user->hasRole('bibuser') || $user->hasRole('magvuser')  )
 
 					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'trash'] ) }}" class="btn btn-default <?= ( Input::get('state')=='trash' ) ? 'active' : '' ?> btn-sm" >
-					  		<span class="fa fa-trash-o"></span> {{{ trans('holdings.trasheds') }}}
+					  		<span class="fa fa-times"></span> {{{ trans('holdings.trasheds') }}}
 					  	</a>
 					  	
 				  	@endif
 
 
 					<!-- DELETE -->
-					@if ( $user->hasRole('magvuser') )
+					@if ( $user->hasRole('magvuser')  || $user->hasRole('bibuser'))
 
 					<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'burn'] ) }}" class="btn btn-default <?= ( Input::get('state')=='burn' ) ? 'active' : '' ?> btn-sm" >
-						<span class="fa fa-fire"></span> {{{ trans('holdings.burneds') }}}
+						<span class="fa fa-strikethrough"></span><span class="fa fa-fire"></span> {{{ trans('holdings.burneds') }}}
 					</a>
 
 					@endif
+
+					@if ( $user->hasRole('magvuser') || $user->hasRole('bibuser') )
+<!-- 
+					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'deleted'] ) }}" class="btn btn-default <?= ( Input::get('state')=='deleted' ) ? 'active' : '' ?> btn-sm" >
+					  		 {{{ trans('holdings.deleted') }}}
+					  	</a> -->
+					@endif
+
 
 				</div>
 
@@ -144,11 +161,11 @@
 							<i class="fa fa-list"></i> {{{ trans('holdings.all') }}}
 						</a>
 
-						<a href="?owner=true" class="btn <?= ( Input::has('owner')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+						<a href="{{ route('holdings.index', Input::except('owner') +['owner'=>'true'] ) }}" class="btn <?= ( Input::has('owner')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 							<i class="fa fa-square text-danger"></i> {{{ trans('holdings.owner') }}}
 						</a>
 
-						<a href="?aux=true" class="btn <?= ( Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+						<a href="{{ route('holdings.index', Input::except([	'aux'])+['aux'=>'true'] ) }}" class="btn <?= ( Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 							<i class="fa fa-square text-warning"></i> {{{ trans('holdings.aux') }}}
 						</a>
 
@@ -156,7 +173,7 @@
 
 				@endif
 
-				@if (!Auth::user()->hasRole('postuser'))
+				@if (Authority::can('create', 'Hlist'))
 
 					<div class="btn-group">
 
@@ -171,7 +188,13 @@
 						<a href="?unlist=true" class="btn <?= ( Input::has('unlist')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 							<span class="fa fa-chain-broken"></span> {{{ trans('holdings.ungroup') }}}
 						</a>
+						
 					</div>
+
+				@endif
+
+				@if (!Auth::user()->hasRole('postuser'))
+
 					<div class="btn-group">
 						<a id="filter_all" href="{{ route('holdings.index', Input::only(['state', 'owner', 'aux', 'pending', 'unlist', 'hlist_id'])) }}" class="btn <?= (Input::get('filtered') == '1') ? 'btn-default' : 'btn-primary'; ?> btn-sm" >
 							<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}
@@ -189,13 +212,21 @@
 						<span class="fa fa-table"></span> 
 					</a>
 
-					<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn btn-default <?= (Input::get('view')=='slide') ? 'btn-primary' : '' ?> btn-sm" >
-						<span class="fa fa-desktop"></span> 
-					</a>
+					@if ( Input::has('hlist_id')  )
 
-					<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'print'] ) }}" target="_blank" class="btn btn-default <?= (Input::get('view')=='print') ? ' btn-primary' : '' ?> btn-sm" >
-						<span class="fa fa-print"></span> 
-					</a>
+						@if ( Auth::user()->hasRole('maguser') )
+
+							<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'slide'] ) }}" class="btn btn-default <?= (Input::get('view')=='slide') ? 'btn-primary' : '' ?> btn-sm" >
+								<span class="fa fa-desktop"></span> 
+							</a>
+							
+						@endif
+
+						<a href="{{ route('holdings.index', Input::except('view') + ['view'=>'print'] ) }}" target="_blank" class="btn btn-default <?= (Input::get('view')=='print') ? ' btn-primary' : '' ?> btn-sm" >
+							<span class="fa fa-print"></span> 
+						</a>
+					@endif
+					
 				</div>
 			</div>
 		</div> <!-- /.row -->
@@ -212,7 +243,7 @@
 											foreach ($allsearchablefields as $field) {
 												$checked 				= '';
 												$checkactive 		= '';
-												$value = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != 'sys2')) ? Input::get('f'.$field) : Input::get($field);
+												$value = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size') && ($field != 'years') && ($field != 'sys2')) ? Input::get('f'.$field) : Input::get($field);
 												if ($value != '') {
 													$checked 			= "checked = checked";
 													$checkactive 	= " active";
@@ -243,12 +274,16 @@
 													$popover = " pop-over ";
 													break;	
 
-													case 'weight':
-													$field_short = trans('fields.weight');
-													$field_large = ' data-content="<strong>'.trans('fields.weight_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+													case 'years':
+													$field_short = trans('fields.years');
+													$field_large = ' data-content="<strong>'.trans('fields.years_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
 													$popover = " pop-over ";
 													break;
-																							
+													default:
+														$field_short = trans('fields.'.$field);
+														$field_large = '';
+														$popover = '';
+													break;									
 													?>
 													<label class="btn btn-primary btn-xs{{ $checkactive }}{{ $popover }}" href="#ff<?= $field; ?>" {{ $field_large }}>
 														<input type="checkbox" <?= $checked; ?> value="<?= $field; ?>"><?= $field_short; ?>
@@ -264,15 +299,15 @@
 											<div id="currentfilters" class="row clearfix text-center">
 												<?= (Input::has('state')) ? '<input type="hidden" name="state" value="'.Input::get('state').'">': '' ?>
 												<?php foreach ($allsearchablefields as $field) { 
-													$value = (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size') || ($field == 'sys2')) ? Input::get($field) : Input::get('f'.$field);
+													$value = (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size') || ($field == 'years') || ($field == 'sys2')) ? Input::get($field) : Input::get('f'.$field);
 													if ($value != '') { 
 														if (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))  { ?>
 														<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 															<div class="input-group inline input-group-sm">
-																<label class="input-group-addon">{{ trans('holdings.'.$field.'_short') }}</label>
+																<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
 																<span class="input-group-addon  search-check">
 																	<input type="hidden" name="<?= $field; ?>" value="0">
-																	<input type="hidden" name="<?= $field; ?>format" value="%s = %s">
+																	<input type="hidden" name="<?= $field; ?>format" value="%s = '%s'">
 																	<input type="checkbox" class="form-control" name="<?= $field; ?>" value="1" checked="checked">
 																</span>
 																<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">
@@ -285,15 +320,12 @@
 														else { ?>
 														<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 															<div class="input-group inline input-group-sm">
-																<label class="input-group-addon"><?= $field; ?></label>
-																<?php if (($field == '008x') || ($field == 'size')) { 
-																	$field = ($field == 'size') ? $field : 'f'.$field;
-																	?>
+																<label class="input-group-addon"><?= trans('fields.'.$field); ?></label>
+																<?php if (($field == 'size') || ($field == 'years')) { ?>
 																	<select id="<?= $field; ?>Filter" name="<?= $field; ?>format" class="form-control">
 																		<option value="%s = %s" <?= (Input::get($field.'format') == "%s = %s") ? 'selected' : ''; ?>>{{ trans('general.equal') }}</option>
 																		<option value="%s < %s" <?= (Input::get($field.'format') == "%s < %s") ? 'selected' : ''; ?>>{{ trans('general.less_than') }}</option>
 																		<option value="%s > %s" <?= (Input::get($field.'format') == "%s > %s") ? 'selected' : ''; ?>>{{ trans('general.greater_than') }}</option>
-																		<option value="%s LIKE '%%%s%%'" <?= (Input::get($field.'format') == "%s LIKE '%%%s%%'") ? 'selected' : ''; ?> >{{ trans('general.contains') }}-Fix to 008x</option>
 																	</select>
 																	<?php } else { 
 																		$field = ($field == 'sys2') ? $field : 'f'.$field;
@@ -325,16 +357,16 @@
 										</form>
 										<div id="fieldstosearchhidden" style="display: none;">
 						<?php foreach ($allsearchablefields as $field) { 
-							$value = (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size') || ($field == 'sys2')) ? Input::get($field) : Input::get('f'.$field);
+							$value = (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols') || ($field == 'size') || ($field == 'years') || ($field == 'sys2')) ? Input::get($field) : Input::get('f'.$field);
 							if (($value == null) || ($value == '')) {
 								if (($field == 'exists_online') || ($field == 'is_current') || ($field == 'has_incomplete_vols'))  { ?>
 								<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 									<div class="input-group inline input-group-sm">
-										<label class="input-group-addon">{{ trans('holdings.'.$field.'_short') }}</label>
+										<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
 										<span class="input-group-addon search-check">
 											<input type="hidden" name="<?= $field; ?>" value="0">
 											<input type="checkbox" class="form-control" name="<?= $field; ?>" value="1" checked="checked">
-											<input type="hidden" name="<?= $field; ?>format" value="%s = %s">
+											<input type="hidden" name="<?= $field; ?>format" value="%s = '%s'">
 										</span>
 										<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">	
 											<option value="AND" selected>{{ trans('general.AND') }}</option>
@@ -347,14 +379,13 @@
 									?>
 									<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 										<div class="input-group inline input-group-sm">
-											<label class="input-group-addon"><?= $field; ?></label>
-											<?php if (($field == '008x') || ($field == 'size')) { 
-												$field = ($field == 'size') ? $field : 'f'.$field;												?>
+											<label class="input-group-addon"><?= trans('fields.'.$field) ?></label>
+											<?php if (($field == 'size') || ($field == 'years')) { 
+												$field = (($field == 'size') || ($field == 'years')) ? $field : 'f'.$field;												?>
 												<select id="<?= $field; ?>Filter" name="<?= $field; ?>format" class="form-control">
 													<option value="%s = %s" selected>{{ trans('general.equal') }}</option>
 													<option value="%s < %s">{{ trans('general.less_than') }}</option>
 													<option value="%s > %s">{{ trans('general.greater_than') }}</option>
-													<option value="%s LIKE '%%%s%%'" <?= (Input::get('f'.$field.'format') == "%s LIKE '%%%s%%'") ? 'selected' : ''; ?> >{{ trans('general.contains') }}-Fix to 008x</option>
 												</select>
 											<?php }  else { 
 													$field = ($field == 'sys2') ? $field : 'f'.$field;

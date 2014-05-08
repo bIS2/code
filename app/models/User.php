@@ -53,6 +53,10 @@ class User extends ConfideUser implements PresentableInterface {
       return $this->hasMany('Feedback');
   }
 
+  public function states() {
+      return $this->hasMany('State');
+  }
+
 	/**
 	 * The database table used by the model.
 	 *

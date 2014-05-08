@@ -20,6 +20,7 @@ class CleanStatesSeeder extends Seeder {
     	DB::table('reviseds')->delete();
     	DB::table('states')->delete();
     	DB::table('traces')->delete();
+    	DB::table('states')->delete();
 
     	DB::table('holdings')->update(['state'=>'blank']);
     	DB::table('holdingssets')->update(['state'=>'blank', 'groups_number' => 0]);

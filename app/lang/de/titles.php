@@ -12,5 +12,7 @@ return array(
 	'tags' 		=> 'Tags',
 	'traces' 	=> 'Verlauf',
 	'users'     => 'Benutzer',
+	'help'      => 'Hilfe',
+	'edit_libraries'	=> 'Editing Library',
 
 );

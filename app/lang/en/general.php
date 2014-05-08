@@ -1,4 +1,4 @@
-	<?php
+<?php
 
 return array(
 
@@ -26,17 +26,24 @@ return array(
 	'desc'				=> 'DESC',
 	'disable_with'		=> 'Saving...',
 	'disable_with_del'  => 'Deleting ...', 
-	'edit'  			=> 'Edit',
+	'edit'				=> 'Edit',
+	'edited'  			=> 'Previous: ',
 	'email'				=> 'Email',
 	'end_with'			=> 'Ends with',
+	'equal'				=> 'equal',
 	'error'				=> 'Error',
 	'feedback'			=> 'Give Feedback',
+	'filter'			=> 'Filter',
+	'greater_than'		=> 'greater than',
 	'groups'			=> 'Groups',
+	'help'				=> 'Help',
+	'history'			=> 'Lists all actions',
 	'included_in' 		=> 'Included in',
 	'incorrects'        => 'Incorrects',
-	'lang_de'           => 'German',
+	'lang_de'           => 'Deutsch',
 	'lang_en'           => 'English',
 	'lastname'			=> 'Lastname',
+	'less_than'			=> 'less than',
 	'library'			=> 'Library',
 	'logout'			=> 'Logout',
 	'must_login'        => 'Please log in',
@@ -69,8 +76,31 @@ return array(
 	'size'           	=> 'Size (RM)',
 	'sort'				=> 'Sort',
 	'state'				=> 'State',
+	'title_filter'		=> 'Select filters:',
 	'type_criteria' 	=> 'Type to search',
 	'update'			=> 'Update',
 	'username'			=> 'Username',
 	'yes' 				=> 'Yes',
+// Help
+	// Handbook
+	'handbook_title' 	=> 'bIS Handbook',
+	'to_find_handbook1' => 'Here you find the current version of the "',
+	'to_find_handbook_link' => '/bIS_Kleines_Handbuch.pdf',
+	'to_find_handbook_link_text' => 'Kleine Handbuch (PDF)',
+	'to_find_handbook2' => '" (0.5 MB)',
+	// Cookies
+	'clear_cookies_title' 	=> 'Clear Cookies',
+	'to_clear_cookies' 		=> 'To clear cookies and clear all your preferences',
+	'click_here' 			=> 'click here',
+	// Error handling
+	'error_title' 	=> 'Error messages',
+	'error_handling' => 'The bIS has been thoroughly tested. But the system is komplex, because it contains a 
+	lot of context-oriented functions. May be you find a special situation, thas produces an error.
+	Please note the details and make a screen shoot (Alt-PrtSc).
+	Please write a feedback (on the lower right) giving all the details (your role, 
+	menu used, acion executed). If necessary the screen shot will be asked.',
+	// Workflow
+	'workflow_title'		=> 'bIS Workflow',
+	'workflow_image'		=> '/bIS_Workflow.png',
+	'workflow_image_alt'	=> 'bIS Workflow',
 );

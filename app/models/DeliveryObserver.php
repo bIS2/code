@@ -26,7 +26,9 @@ class DeliveryObserver {
 
   public function deleted($model){
   	// Set related holding like NOT delivered
-    State::whereIn( 'holding_id', $model->hlist->holdings()->select('holdings.id')->lists('id' ) )->delete();
+    $ids = $model->hlist->holdings()->select('holdings.id')->lists('id' );
+    $ids[] = -1;
+    State::whereIn( 'holding_id', $ids )->delete();
 
   }
 

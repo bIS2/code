@@ -27,7 +27,7 @@
 				<tr id="{{$user->id}}">
 					<td><?= $user->username ?> </td>
 					<td><?= $user->email ?> </td>
-					<td><?= $user->roles[0]->name ?> </td>
+					<td><?= implode( ',', $user->roles()->lists('name')) ?> </td>
 					<td><?= @$user->library->name ?> </td>
 					<td><?= $user->activated() ?> </td>
 					<td><?= $user->disabled ?> </td>

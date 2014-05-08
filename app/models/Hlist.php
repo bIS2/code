@@ -45,20 +45,69 @@ class Hlist extends Eloquent {
   }
 
   public function getIsFinishAttribute(){
-    $total = $this->holdings()->count();
-    $reviseds = $this->holdings()->whereState('ok')->orWhere('state', '=', 'annotated')->count();
-    return ( ($total == $reviseds) && !$this->revised );
+  	$finish = false;
+  	if ($this->type=='control') {
+	    $total 		= $this->holdings()->count();
+	    $reviseds = $this->holdings_was_reviseds;
+	    $finish =  ( ($total == $reviseds) && !$this->revised );
+  	}
+
+  	return $finish;
   }  
   
   public function getReadyToReviseAttribute(){
-  	$this->is_finish;
+  	return $this->is_finish;
+  }  
+
+  public function getIsReceivedAttribute(){
+  	return ( !$this->is_delivery ) ? false : $this->delivery->received;
+  	
   }
+
+  public function check_received(){
+
+  	$received = false;
+  	if ( $this->type=='delivery' && !$this->delivery->received ) {
+
+	    $total 		= $this->holdings()->count();
+	    $receiveds = $this->holdings()->where( function($query) { 
+	    	$query->whereState('received')->orWhere('state','=','commented'); 
+	    })->count();
+
+	   	if ( $total == $receiveds ) $this->delivery->update(['received'=>1]);
+	   	$received = $this->delivery->received;
+
+  	}
+
+    return $received;
+  }  
+
+
+  public function getHoldingsRevisedsAttribute(){
+    return $this->holdings()->where( function($query) { 
+      $query->whereState('annotated')->orWhere('state','=','ok'); 
+    })->count();
+  }
+
+  //return the counter of holdings in list was annotated or ok state
+  public function getHoldingsWasRevisedsAttribute(){
+    return $this->holdings()->whereIn('holdings.id', function($query) { 
+    	$query->select('holding_id')->from('states')->whereState('annotated')->orWhere('state','=','ok'); 
+    })->count();
+  }
+
+  public function getHoldingsReceivedsAttribute(){
+    return $this->holdings()->where( function($query) { 
+    	$query->whereState('received')->orWhere('state','=','commented'); 
+    })->count();
+  }
+
 
   public function getStateAttribute(){
 
   	$state = 'pending';
 
-  	if (($this->type=='control') && $this->revised) 					$state = 'revised';
+  	if (($this->type=='control') && $this->revised ) 					$state = 'revised';
   	if ($this->type=='delivery' && $this->delivery->exists)  	$state = 'delivery';
 
   	return $state;
@@ -75,28 +124,38 @@ class Hlist extends Eloquent {
   	return $icon;
   }
 
-
   // SCOPES
   public function scopeInLibrary($query){
-    return $query->whereIn( 'user_id', function($query){ $query->select('id')->from('users')->whereLibraryId( Auth::user()->library_id ); });
+  	$library_id = Auth::user()->library_id; 
+    return $query->whereIn( 'user_id', function($query) use ($library_id) { 
+    	$query->select('id')->from('users')->whereLibraryId( $library_id ); 
+    });
   }
 
   public function scopeDeliveries($query){
-    return $query->whereIn( 'hlists.id', function($query){ $query->select('hlist_id')->from('deliveries'); });
+
+     return $query->whereIn( 'hlists.id', function($query) { 
+    	$query->select('hlist_id')->from('deliveries')->whereReceived(false);
+    });
+
   }
 
   public function scopeMy($query){
 
-  	$query = $query->with('user','holdings');
+  	$query = $query->with('user','holdings')->orderBy('created_at', 'desc');
 
     if ( Auth::user()->hasRole('maguser') || Auth::user()->hasRole('postuser') ) 
-      $query = $query->whereWorkerId(Auth::user()->id);
+      $query = $query->whereIn('revised',[false,0,'f'])->whereWorkerId(Auth::user()->id);
 
     if ( Auth::user()->hasRole('speichuser') ) 
       $query = $query->deliveries();
 
-    if (Auth::user()->hasRole('magvuser') && Auth::user()->hasRole('bibuser') )
-	    $query = Auth::user()->hlists();
+    if ( Auth::user()->hasRole('bibuser') ) 
+      $query = $query->whereUserId(Auth::user()->id);
+
+
+    if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('bibuser') )
+	    $query = $query->inLibrary();
 
     return $query;
   }

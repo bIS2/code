@@ -7,7 +7,7 @@ $magusers = Role::whereName('maguser')
 				->select('username','users.id')
 				->lists('username','id'); 
 foreach ($magusers as $key=>$value) {
-	$options .= '<option value="'.$key.'" data-role="maguser">'.$value.'</option>';
+	$options .= '<option value="'.$key.'" data-role="maguser" class="maguser">'.$value.'</option>';
 }
 $postusers = Role::whereName('postuser')
 				->first()
@@ -17,7 +17,7 @@ $postusers = Role::whereName('postuser')
 				->lists('username','id'); 
 
 foreach ($postusers as $key=>$value) {
-	$options .= '<option value="'.$key.'" data-role="postuser">'.$value.'</option>';
+	$options .= '<option value="'.$key.'" data-role="postuser" class="postuser">'.$value.'</option>';
 }
 
 
@@ -25,11 +25,13 @@ $types = [
 	'control'=>	'<i class="fa fa-tachometer"></i> '.trans('lists.type-control'), 
 	'delivery'=>'<i class="fa fa-truck"></i> '.trans('lists.type-delivery'),  
 	'unsolve'=>	'<i class="fa fa-fire"></i> '.trans('lists.type-unsolve'), 
-	'elimination'=>'<i class="fa fa-trash-o"></i> '.trans('lists.type-elimination') ,
+	'elimination'=>'<i class="fa fa-times"></i> '.trans('lists.type-elimination') ,
 ];
 
 ?>
-
+<div class="options hide">
+		{{ json_encode( ['maguser'=> $magusers, 'postuser'=>$postusers] ) }}
+</div>
 <!-- <div class="modal fade" id="form-create-list"> -->
   <div class="modal-dialog">
     <div class="modal-content">
@@ -52,7 +54,7 @@ $types = [
 				    	<div>
 					    	@foreach ($types as $key => $value)
 								<label class="checkbox-inline">
-								  <input type="radio" value="{{$key}}" name="type" {{ ($key=='control') ? 'checked' : '' }}> {{ $value }}
+								  <input type="radio" value="{{$key}}" name="type" > {{ $value }}
 								</label>				    	
 					    	@endforeach
 				    	</div>
@@ -61,7 +63,7 @@ $types = [
 				    <div class="form-group">
 							{{ Form::label('worker_id', trans('lists.worker')) }}
 							<select id="worker_id" name="worker_id" class="form-control">
-								{{ $options }}
+								
 							</select>
 				    </div>
 
@@ -75,7 +77,7 @@ $types = [
 
 	      </div>
 	      <div class="modal-footer">
-	        <button class="btn btn-success" type="submit" data-disable-with="<?= trans('general.disable_with')  ?>">
+	        <button id="submit_create_list" class="btn btn-success" type="submit" data-disable-with="<?= trans('general.disable_with')  ?>">
 	        	<i class="fa fa-check"></i>
 	        	<?= trans('general.save') ?>
 	        </button>
@@ -89,35 +91,6 @@ $types = [
   </div><!-- /.modal-dialog -->
 <!-- </div>/.modal -->
 
-<script type="text/javascript">
 
-$(function(){
 
-	typeList()
-
-	$('#form_list radio').on('click', function(){
-		alert('hola')
-		$('#form_list select#worker_id').val([])
-		typeList()	
-	})
-
-	function typeList(){
-
-		$select = $('#form_list select#worker_id')
-
-	  $('#form_list select#worker_id option').hide()
-
-	  if ($('#form_list :radio:checked').val()=='delivery'){
-	    $('#form_list select#worker_id option[data-role=postuser]').show()
-	  } else {
-	    $('#form_list select#worker_id option[data-role=maguser]').show()
-	  }
-
-	  // alert($select.find('option:visible:first').attr('value'))
-	  $select.val( $select.find('option:visible:first').attr('value') )
-	}	
-
-})
-
-</script>
 

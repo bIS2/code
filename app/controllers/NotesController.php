@@ -38,6 +38,7 @@ class NotesController extends BaseController {
 	public function create()
 	{
 		$data['holding'] = Holding::find( Input::get('holding_id') );
+		$data['hlist_id'] = Input::get('hlist_id');
 		// echo var_dump($data['holding']->notes->find(1) );
 		return View::make('notes.create',$data);
 	}
@@ -51,7 +52,7 @@ class NotesController extends BaseController {
 	{
 
 		$notes = Input::get('notes');
-		$holding = Holding::find(Input::get('holding_id'));
+		$holding = (is_array(Input::get('holding_id'))) ?  Holding::find(Input::get('holding_id')[0]) : Holding::find(Input::get('holding_id'));
 		
 		// delete all notes to insert new
 		if ( $holding->notes()->exists() ) $holding->notes()->delete();
@@ -62,10 +63,19 @@ class NotesController extends BaseController {
 				$holding->notes()->save( $new_note );
 			}
 		}
+
+		$list_finish = false;
+		if ( Input::has('hlist_id') ) {
+			$hlist = Hlist::find(Input::get('hlist_id'));
+			$list_finish = $hlist->ready_to_revise;
+		}
+
 		return Response::json([
-			'state'				=> 'annotated', 
-			'state_title'	=> trans('states.annotated'),
-			'id' 					=> $holding->id
+			'state'						=> 'annotated', 
+			'state_title'			=> trans('states.annotated'),
+			'id' 							=> $holding->id,
+			'list_completed' 	=> $list_finish
+
 		]);
 
 	}

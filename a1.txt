@@ -1,0 +1,240 @@
+commit 7e77f666f89fcff2d0a827a1937efe991c38e9e9
+Merge: 6f060a9 ed03ca7
+Author: bIS2 <piguet@trialog.ch>
+Date:   Wed Apr 23 17:31:46 2014 -0400
+
+    Update
+
+diff --cc app/lang/de/errors.php
+index 00e6ff8,0863c16..5ae0ba7
+mode 100644,100755..100644
+--- a/app/lang/de/errors.php
++++ b/app/lang/de/errors.php
+@@@ -10,5 -10,5 +10,9 @@@ return array
+  	'list_in_blank'     		=> "Es wurden keine gültigen HOL für diesen Listentyp ausgewählt.",
+  	'list_name_is_blank'		=> "Please, type the name List",
+  	'list_name_is_duplicate'	=> 'Namen schon vergeben.',
+++<<<<<<< HEAD
+ +	'field_note_in_blank'		=> 'Ein Feld muss etwas enthalten',
+++=======
++ 	'notes_in_blank'					=> "Notes can't not blank",
+++>>>>>>> ed03ca73ac71c1c0d2a6b682906f63ea73be049f
+  );
+diff --cc app/lang/de/general.php
+index 141e69a,abe4d1e..141e69a
+mode 100644,100755..100755
+--- a/app/lang/de/general.php
++++ b/app/lang/de/general.php
+diff --cc app/lang/de/states.php
+index 25fa8cf,864e399..25fa8cf
+mode 100644,100755..100755
+--- a/app/lang/de/states.php
++++ b/app/lang/de/states.php
+diff --cc app/lang/en/errors.php
+index 118c318,4bb3773..bf6976c
+mode 100644,100755..100644
+--- a/app/lang/en/errors.php
++++ b/app/lang/en/errors.php
+@@@ -9,5 -9,6 +9,10 @@@ return array
+  	'list_in_blank'     	    => "Uch!!, Don't create list with 0 valid holdings.",
+  	'list_name_is_blank'		=> 'Bitte Namen für die Liste eingeben.',
+  	'list_name_is_duplicate'	=> "The list name must be unique",
+++<<<<<<< HEAD
+ +	'field_note_in_blank'		=> 'One field must contain something.',
+++=======
++ 	'field_note_in_blank'					=> "Notes can't not blank",
++ 
+++>>>>>>> ed03ca73ac71c1c0d2a6b682906f63ea73be049f
+  );
+diff --cc app/lang/en/general.php
+index 59b4bf7,99ff098..59b4bf7
+mode 100644,100755..100755
+--- a/app/lang/en/general.php
++++ b/app/lang/en/general.php
+diff --cc app/views/navbar-default.blade.php
+index f29e587,d0f0f7f..8e140ca
+mode 100644,100755..100644
+--- a/app/views/navbar-default.blade.php
++++ b/app/views/navbar-default.blade.php
+@@@ -1,7 -1,7 +1,13 @@@
+  <!-- navbar by default: includes the brand and commun functions -->
+++<<<<<<< HEAD
+ +<div class="navbar navbar-default navbar-fixed-top" role="navigation"  style="background: blue">
+ +	<div class="container">
+ +		<a class="navbar-brand" href="/" title="Begleitendes Informationssystem">bIStest</a>
+++=======
++ <div class="navbar navbar-default navbar-fixed-top" role="navigation"<?php if (strpos(Request::url(),'bistest.trialog.ch') !== false) { echo ' style="background-color: blue; border-color:blue;"'; } ?>>
++ 	<div class="container">
++ 		<a class="navbar-brand" href="/" title="Begleitendes Informationssystem"><?php if (strpos(Request::url(),'bistest.trialog.ch') !== false) { echo 'bIStest'; } else { echo 'bIS'; } ?></a>
+++>>>>>>> ed03ca73ac71c1c0d2a6b682906f63ea73be049f
+  		<ul class="nav navbar-nav">
+  			<li data-toggle="tooltip" data-placement="bottom" data-original-title="{{ trans('titles.help')}}"> 
+  				<a href="/help" ><span class="fa fa-question"></span> </a>
+diff --cc public/assets/js/tools.js
+index ecc52d8,ddca769..38e0739
+mode 100644,100755..100644
+--- a/public/assets/js/tools.js
++++ b/public/assets/js/tools.js
+@@@ -2,75 -2,88 +2,155 @@@
+  
+  $(function(){
+  
+++<<<<<<< HEAD
+ +
+ +  // update related user for selected list type
+ +  $('body').on('click','#form_list :radio', function(){
+ +
+ +    var options = $.parseJSON( $('.options').text() )
+ +
+ +    o = ($('#form_list :radio:checked').val()=='delivery') ? options.postuser : options.maguser;
+ +
+ +    $select = $('select#worker_id').empty()
+ +    $.each(o, function(k,v){
+ +      $select.append( $('<option></option>').val(k).html(v) )
+ +    })    
+ +
+ +  })
+ +
+ +
+ +  // validatio off create annotates holding 
+ +  $('body').on('click','#submit-create-notes', function(e){
+ +
+ +    var check_notes = $('form.create-note :checkbox:checked');
+ +
+ +    if (check_notes.size()==0){
+ +
+ +      bootbox.alert( $('#select_notes_is_0').text() )
+ +      e.preventDefault()
+ +
+ +    } else {
+ +
+ +      check_notes.each(function(){
+ +        var content = $(this).parents('.input-group').find('input.content').val();
+ +        if (content.length==0){
+ +          $(this).parents('.form-group')
+ +            .addClass('has-error')
+ +            .find('.error').text( $('#field_note_in_blank').text() )
+ +          e.preventDefault()
+ +        }
+ +
+ +      })
+ +
+ +    }
+ +
+ +  })
+ +
+ +  $('body').on('keypress','form.create-note .content', function(e){
+ +    if ( $(this).val() )
+ +      $(this).parents('.form-group').removeClass('has-error').find('.error').text('')
+ +    else
+ +      $(this).parents('.form-group')
+ +        .addClass('has-error')
+ +        .find('.error').text( $('#field_note_in_blank').text() )
+ +  })
+ +
+ +
+ +	$('.btn-ok, .btn-tag').on('click',function(e){
+ +		size_in_form = $(this).parents('form').find('input#size').val()
+ +		size_in_a = parseFloat($(this).parents('tr').find('.editable').text() )
+ +		
+ +		size = (size_in_form) ? size_in_form : size_in_a
+ +
+ +		if ( size==0 ){
+ +			bootbox.alert( $('#field_size_in_blank').text() )
+ +			return false
+ +		} 
+ +	})
+++=======
+++>>>>>>> ed03ca73ac71c1c0d2a6b682906f63ea73be049f
+  
+- 	$('input#size').on('change',function(){
++   // update related user for selected list type
++   $('body').on('click','#form_list :radio', function(){
++ 
++     var options = $.parseJSON( $('.options').text() )
++ 
++     o = ($('#form_list :radio:checked').val()=='delivery') ? options.postuser : options.maguser;
++ 
++     $select = $('select#worker_id').empty()
++     $.each(o, function(k,v){
++       $select.append( $('<option></option>').val(k).html(v) )
++     })    
++ 
++   })
++ 
++ 
++   // validatio off create annotates holding 
++   $('body').on('click','#submit-create-notes', function(e){
++ 
++     var check_notes = $('form.create-note :checkbox:checked');
++ 
++     if (check_notes.size()==0){
++ 
++       bootbox.alert( $('#select_notes_is_0').text() )
++       e.preventDefault()
++ 
++     } else {
++ 
++       check_notes.each(function(){
++         var content = $(this).parents('.input-group').find('input.content').val();
++         if (content.length==0){
++           $(this).parents('.form-group')
++             .addClass('has-error')
++             .find('.error').text( $('#field_note_in_blank').text() )
++           e.preventDefault()
++         }
++ 
++       })
++ 
++     }
++ 
++   })
++ 
++   $('body').on('keyup','form.create-note .content', function(e){
++     if ( $(this).val() )
++       $(this).parents('.form-group').removeClass('has-error').find('.error').text('')
++     else {
++       $(this).parents('.form-group')
++         .addClass('has-error')
++         .find('.error').text( $('#field_note_in_blank').text() )
++     }
++   })
++ 
++   $('.form-group .input-group-addon.btn.btn-primary.btn-sm' ).each(function() {
++     $(this).on('mousedown', function() {
++       if ($(this).hasClass('active')) {
++         $(this).parents('.form-group').removeClass('has-error')
++         $(this).parents('.form-group').find('.error').text('')
++ 
++       }
++     })
++   })
++ 
++   $('.btn-ok, .btn-tag').each(function() {
++     $(this).on('click',function(e){
++       size_in_form = $(this).parents('form').find('input#size').val()
++ 
++       size_in_a = parseFloat($(this).parents('tr').find('.editable').text() )
++ 
++       size = (size_in_form) ? size_in_form : size_in_a
++ 
++       if (!( size > 0 )) {
++        bootbox.alert( $('#field_size_in_blank').text() )
++        return false
++      } 
++    })
++   })
++   var originhref = $('a.btn-ok').attr('href');
++ 	$('input#size').on('keyup',function(){
+  		console.log($(this).serialize())
+  		data = $('a.btn-ok').data('params')
+- 		$('a.btn-ok').attr('data-params', data + '&' + $(this).serialize() )
++ 		$('a.btn-ok').attr('href', originhref  + '?' + $(this).serialize() )
+  	})
+  
+    //manipulates the elements marked with the css class .draggable
+diff --cc public/bIS_Kleines_Handbuch.pdf
+index 00b647b,260f2ed..00b647b
+mode 100644,100755..100755
+--- a/public/bIS_Kleines_Handbuch.pdf
++++ b/public/bIS_Kleines_Handbuch.pdf

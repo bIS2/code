@@ -2,18 +2,152 @@
 
 $(function(){
 
+  // update related user for selected list type
+  $('body').on('click','#form_list :radio', function(){
 
-	$('input#size').on('change',function(){
-		console.log($(this).serialize())
-		data = $('a.btn-ok').data('params')
-		$('a.btn-ok').attr('data-params', data + '&' + $(this).serialize() )
+    var options = $.parseJSON( $('.options').text() )
+
+    o = ($('#form_list :radio:checked').val()=='delivery') ? options.postuser : options.maguser;
+
+    $select = $('select#worker_id').empty()
+    $.each(o, function(k,v){
+      $select.append( $('<option></option>').val(k).html(v) )
+    })    
+
+  })
+
+
+  // validatio off create annotates holding 
+  $('body').on('click','#submit-create-notes', function(e){
+
+    var check_notes = $('form.create-note :checkbox:checked');
+
+    if (check_notes.size()==0){
+
+      bootbox.alert( $('#select_notes_is_0').text() )
+      e.preventDefault()
+
+    } else {
+
+      check_notes.each(function(){
+        var content = $(this).parents('.input-group').find('input.content').val();
+        if (content.length==0){
+          $(this).parents('.form-group')
+            .addClass('has-error')
+            .find('.error').text( $('#field_note_in_blank').text() )
+          e.preventDefault()
+        }
+
+      })
+
+    }
+
+  })
+
+  $('body').on('keypress','form.create-note .content', function(e){
+    if ( $(this).val() )
+      $(this).parents('.form-group').removeClass('has-error').find('.error').text('')
+    else
+      $(this).parents('.form-group')
+        .addClass('has-error')
+        .find('.error').text( $('#field_note_in_blank').text() )
+  })
+
+
+	$('.btn-ok, .btn-tag').on('click',function(e){
+		size_in_form = $(this).parents('form').find('input#size').val()
+		size_in_a = parseFloat($(this).parents('tr').find('.editable').text() )
+		
+		size = (size_in_form) ? size_in_form : size_in_a
+
+		if ( size==0 ){
+			bootbox.alert( $('#field_size_in_blank').text() )
+			return false
+		} 
 	})
 
-  //Cuando se cambio el tipo de lista que se quiere crear se actualiza los usuarios a los que se les puede asignar ese tipo de lista
-  $('body').on( 'click', '#form_list :radio', function(){
-    $('#form_list select#worker_id').val([])
-    typeList()
+  // update related user for selected list type
+  $('body').on('click','#form_list :radio', function(){
+
+    var options = $.parseJSON( $('.options').text() )
+
+    o = ($('#form_list :radio:checked').val()=='delivery') ? options.postuser : options.maguser;
+
+    $select = $('select#worker_id').empty()
+    $.each(o, function(k,v){
+      $select.append( $('<option></option>').val(k).html(v) )
+    })    
+
   })
+
+
+  // validatio off create annotates holding 
+  $('body').on('click','#submit-create-notes', function(e){
+
+    var check_notes = $('form.create-note :checkbox:checked');
+
+    if (check_notes.size()==0){
+
+      bootbox.alert( $('#select_notes_is_0').text() )
+      e.preventDefault()
+
+    } else {
+
+      check_notes.each(function(){
+        var content = $(this).parents('.input-group').find('input.content').val();
+        if (content.length==0){
+          $(this).parents('.form-group')
+            .addClass('has-error')
+            .find('.error').text( $('#field_note_in_blank').text() )
+          e.preventDefault()
+        }
+
+      })
+
+    }
+
+  })
+
+  $('body').on('keyup','form.create-note .content', function(e){
+    if ( $(this).val() )
+      $(this).parents('.form-group').removeClass('has-error').find('.error').text('')
+    else {
+      $(this).parents('.form-group')
+        .addClass('has-error')
+        .find('.error').text( $('#field_note_in_blank').text() )
+    }
+  })
+
+  $('.form-group .input-group-addon.btn.btn-primary.btn-sm' ).each(function() {
+    $(this).on('mousedown', function() {
+      if ($(this).hasClass('active')) {
+        $(this).parents('.form-group').removeClass('has-error')
+        $(this).parents('.form-group').find('.error').text('')
+
+      }
+    })
+  })
+
+  $('.btn-ok, .btn-tag').each(function() {
+    $(this).on('click',function(e){
+      size_in_form = $(this).parents('form').find('input#size').val()
+
+      size_in_a = parseFloat($(this).parents('tr').find('.editable').text() )
+
+      size = (size_in_form) ? size_in_form : size_in_a
+
+      if (!( size > 0 )) {
+       bootbox.alert( $('#field_size_in_blank').text() )
+       return false
+     } 
+   })
+  })
+  var originhref = $('a.btn-ok').attr('href');
+	$('input#size').on('keyup',function(){
+		// console.log($(this).serialize())
+		data = $('a.btn-ok').data('params')
+		$('a.btn-ok').attr('href', originhref  + '?' + $(this).serialize() )
+	})
 
   //manipulates the elements marked with the css class .draggable
   $( ".draggable" ).draggable({   
@@ -36,10 +170,11 @@ $(function(){
       var call = $.post( $to.data('attach-url'), { holding_id: $from.attr('id') } )
       call.done(function(result) { 
       	if ( result.error ) {
-      		alert( result.error ) 
+          bootbox.alert( result.error )
+      		// alert( result.error ) 
       	} else{
       		$('.counter').text( result.counter )
-      		alert( 'OK'  )
+      		// alert( 'OK'  )
       	}
       })
 
@@ -92,8 +227,9 @@ $(function(){
   doEditable();
 	
   $('.datatable').dataTable({
-    "bFilter": false,
-    "bPaginate": false , 
+    bFilter: false,
+    bPaginate: false , 
+    bStateSave: true
   });
 
   bulkActions();
@@ -113,10 +249,11 @@ $(function(){
     }
 	})
   
-$('a.link_bulk_action').on('click', function(){
-  $('.table input.hl:checkbox:checked').clone().attr('type','hidden').appendTo('form.bulk_action')
+// $('a.link_bulk_action').on('click', function(){
+//   alert( $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden') )
+//   $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden').appendTo('form.bulk_action')
 
-})
+// })
 
 $('a.link_bulk_action[data-remote]').on('click',function(){
   $(this).attr( 'data-params', $('.table input.hl:checkbox:checked').serialize() )
@@ -132,15 +269,14 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
       $(this).removeData('bs.modal').empty();
   }); 
 
-  $('body').on('submit', '#form-create-list form', function() {
+  $('.remote').on('click', '#submit_create_list', function() {
 	 
-	  // typeList()
-	  $('#form_list').append( $('#holdings-items :checkbox:checked').clone().attr('type','hidden') )
+    $('form#form_list').append( $('<div>').addClass('hide').append( $('#holdings-items :checkbox:checked').clone(true) ) )
 
-  	console.log( $('#holdings-items :checkbox:checked').clone().length  )
-      
   }); 
 
+  // $('body').on('show.bs.modal', '#form-create-list', function(){ typeList() })
+  
   handleAjaxSucces('body');
   countThs();
 	getAsuccess()
@@ -177,7 +313,7 @@ function handleAjaxSucces(parent) {
     } 
 
     if ( result.list_revised ){
-      $('#'+result.list_revised).addClass('revised');
+      $('#'+result.list_revised).addClass('revised').hide('slow');
       $('.state-list').text( result.state );
       $('.btn-revise').hide();
     } 
@@ -186,11 +322,30 @@ function handleAjaxSucces(parent) {
       $('#'+result.blank).removeClass('danger').removeClass('success'); 
     } 
 
+    // show btn to revise list if completed
+    if ( result.list_completed ) {
+      $('.btn-revise').removeClass('hide') 
+    	$('.label.label-primary.state-list').addClass('hide') 
+
+    }
+
+    if ( result.list_completed == false) {
+      $('.btn-revise').addClass('hide')
+      $('.label.label-primary.state-list').removeClass('hide') 
+    }
+
     if ( result.state ){
 
       obj = $('#'+result.id)
 
-      if (result.state=='ok') {
+      if ( result.state=='trash' || result.state=='received' || result.state=='commented' || result.state=='deleted' ) {
+      	obj.hide('slow')
+      }
+
+      if (result.state=='not_ok' )
+        obj.removeClass('success')
+
+      if (result.state=='ok' ) {
         obj.addClass( 'success' ).removeClass('danger')
 
         $('form#create-note-'+result.id+' input[name^="notes"]').val("")
@@ -252,11 +407,12 @@ function handleAjaxSucces(parent) {
 
     if ( result.commented ){
       $('#form-create-comments').modal('hide')
-      $('#'+result.commented).hide('slow')
+      $('#'+result.commented).hide('slow', function(){ $(this).remove() });
     }
 
     if ( result.error ){
-      alert(result.error)
+      bootbox.alert(result.error)
+      // alert(result.error)/
     }
 
     if ( result.hide_feedback )
@@ -269,32 +425,32 @@ function handleAjaxSucces(parent) {
 
 function typeList(){
 
-	$select = $('#form_list select#worker_id')
+	// $select = $('#form_list select#worker_id')
 
-  $('#form_list select#worker_id option').hide()
+ //  $('#form_list select#worker_id option').hide()
 
-  if ($('#form_list :radio:checked').val()=='delivery'){
-    $('#form_list select#worker_id option[data-role=postuser]').show()
-  } else {
-    $('#form_list select#worker_id option[data-role=maguser]').show()
-  }
+ //  if ($('#form_list :radio:checked').val()=='delivery'){
+ //    $('#form_list select#worker_id option[data-role=postuser]').show()
+ //  } else {
+ //    $('#form_list select#worker_id option[data-role=maguser]').show()
+ //  }
 
-  // alert($select.find('option:visible:first').attr('value'))
-  $select.val( $select.find('option:visible:first').attr('value') )
+ //  // alert($select.find('option:visible:first').attr('value'))
+ //  $select.val( $select.find('option:visible:first').attr('value') )
 }	
 
 function getAsuccess() {
     $('a, #modal-show').on({
     'ajax:success': function(data, result, status) {      
         set = ($(this).hasClass('modal')) ? $('#f866aeditablesave').attr('set') : $(this).attr('set')
-        // console.log($(this));        
-        // console.log(set);        
+        // // console.log($(this));        
+        // // console.log(set);        
         if ($(this).attr('ajaxsuccess') != 1) {
           $(this).attr('ajaxsuccess', 1)          
           if (set > 0) {          
             accordion = $('#hosg .hol-sets li#'+set).find('a.accordion-toggle');
             open = ($(accordion).hasClass('collapsed') == true) ? 0 : 1
-            // console.log(open);
+            // // console.log(open);
             reload_set(set, result, open);          
           }
           if ( result.remove )
@@ -461,15 +617,15 @@ function removedangerclass(value) {
 }
 
 function makehosdivisibles(table) {
-  console.log(table);
+  // console.log(table);
     $(table + ' :checkbox.selhld').click( function(){
-    // console.log('click');
+    // // console.log('click');
     if (this.checked) {
-      // console.log('CHECKED');
+      // // console.log('CHECKED');
       if ( $(this).parents('li').find(':checkbox:checked.selhld').length>=2)
         $(this).parents('li').find('.newhos').css('display','block')
     } else {
-      // console.log('NO-CHECKED');
+      // // console.log('NO-CHECKED');
       if ( $(this).parents('li').find(':checkbox:checked.selhld').length<2)
       $(this).parents('li').find('.newhos').css('display','none')
     }
@@ -485,6 +641,10 @@ function bulkActions() {
 
   $(':checkbox:checked.sel').parents('tr').addClass("warning")
   $(':checkbox:checked.sel').parents('li').addClass("warning")
+
+  // if exists holdings selected then ative button to create list
+  if ( $(':checkbox:checked.sel').size()>0 )
+    $('a.link_bulk_action').removeClass('disabled')
 
   $(':checkbox.sel').click( function(){
     if (this.checked) {

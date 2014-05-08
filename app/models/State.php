@@ -23,4 +23,22 @@ class State extends Eloquent {
   public function user() {
       return $this->belongsTo('User');
   }  
+
+  // SCOPES
+  public function scopeInLibrary($query,$library_id=null){
+
+    $library_id = ($library_id) ? $library_id : Auth::user()->library_id; 
+
+    return $query->whereIn( 'holding_id', function($query) use ($library_id) { 
+      $query->select('id')->from('holdings')->whereLibraryId( $library_id ); 
+    });
+    
+
+    // return $query->orderBy('created_at', 'DESC')->whereIn( 'holding_id', function($query) use ($library_id) { 
+    //   $query->select('id')->from('holdings')->whereLibraryId( $library_id ); 
+    // });
+    
+  }
+
+
 }

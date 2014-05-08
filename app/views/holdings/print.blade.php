@@ -10,12 +10,35 @@
 						<div class="row">
 							<div class="col-xs-10 col-md-offset-1">
 								<h1>bIS :: {{ trans('titles.holdings') }}</h1>
+								<h2>
+									{{ $hlist->name}}
+									<small>
+										<ul class="pull-right list-inline">
+											<li>
+												<i class="fa fa-calendar"></i>
+												{{$hlist->created_at->toDateString()}}
+											</li>
+											<li>
+												<i class="fa fa-user"></i>
+												{{ $hlist->worker->username }}
+											</li>
+											<li>
+												<i class="fa fa-th"></i>
+												{{ $hlist->holdings->count() }}
+											</li>
+										</ul>
+									</small>
+								</h2>
 								<hr>
 							</div>
 							@foreach ($holdings as $holding)
 							<div class="row item">
 								<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1" >
 									<div class="well well-sm">
+										<div>
+												<label  >852: </label>
+									  		{{ $holding->f852 }}
+										</div>
 										<div>
 												<label  >852b: </label>
 									  		{{ $holding->f852b }}
@@ -31,6 +54,14 @@
 										<div >
 										  <label >245a: </label >
 										  {{ $holding->f245a }}
+										</div>
+										<div >
+										  <label >245n: </label >
+										  {{ $holding->f245n }}
+										</div>
+										<div >
+										  <label >245p: </label >
+										  {{ $holding->f245p }}
 										</div>
 										<div >
 										  <label >362a: </label >

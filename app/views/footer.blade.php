@@ -31,7 +31,7 @@
 </footer>
 
 <div id="wrap_create_feedback" class="hide">
-	<div id="content_create_feedback">
+	<div id="content_create_feedback"> BIS OK
 		@include('feedbacks._create')
 	</div>
 </div>

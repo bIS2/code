@@ -20,7 +20,9 @@
 
 		<!-- CSS
 		================================================== -->
-        {{ Basset::show('public.css') }}
+
+    {{ Basset::show('public.css') }}
+		<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
 		<style>
 		@section('styles')
@@ -40,8 +42,7 @@
 		<link rel="apple-touch-icon-precomposed" href="{{{ asset('assets/ico/apple-touch-icon-57-precomposed.png') }}}"> -->
 		<link rel="shortcut icon" href="{{{ asset('assets/ico/favicon.ico') }}}">
 	</head>
-
-	<body>
+	<body<?php if (strpos(Request::url(),'bistest.trialog.ch') !== false) { echo ' class="test"'; }?>>
 		<!-- Main -->
 			@yield('main')
 		<!-- ./ Main -->

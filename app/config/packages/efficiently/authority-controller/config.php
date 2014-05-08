@@ -28,15 +28,19 @@ return [
         });
 
         $authority->allow('receive', 'Holding', function($self, $holding) {
-          return ( $holding->was_delivery && !$holding->is_received && Auth::user()->hasRole('speichuser') );
+          return ( $holding->is_delivery && !$holding->is_received && Auth::user()->hasRole('speichuser') );
         });
 
         $authority->allow('trash', 'Holding', function($self, $holding) {
-          return ( $holding->whereState('spare') && Auth::user()->hasRole('bibuser') );
+          return ( $holding->is_spare && Auth::user()->hasRole('bibuser') );
+        });
+
+        $authority->allow('finish', 'Holding', function($self, $holding) {
+          return ( ($holding->is_spare || $holding->is_integrated) && Auth::user()->hasRole('bibuser') );
         });
 
         $authority->allow('burn', 'Holding', function($self, $holding) {
-          return (  $holding->is_trashed && Auth::user()->hasRole('magvuser') && !$holding->is_burned );
+          return (  $holding->is_trashed && Auth::user()->hasRole('maguser') );
         });
 
         if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser')){
@@ -54,7 +58,11 @@ return [
         });
 
         $authority->allow('touch', 'Holding', function($self, $holding) {
-          return (( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') ) && ($holding->is_correct || $holding->is_annotated || $holding->is_confirmed) && Input::has('hlist_id'));
+            return (
+                ( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser') ) && 
+                ($holding->is_correct || $holding->is_annotated || $holding->is_confirmed || $holding->is_commented) && 
+                Input::has('hlist_id')
+            );
         });
 
         $authority->allow('manage', 'User', function($self, $user) {

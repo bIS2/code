@@ -22,6 +22,7 @@
 		================================================== -->
 	  {{ Basset::show('public.css') }}
 	  {{ Basset::show('pages.css') }}
+		<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
 		<style>
 		@section('styles')
@@ -58,8 +59,7 @@
 
 		<!-- Javascripts
 		================================================== -->
-        {{ Basset::show('public.js') }}
-        {{ Basset::show('holdingssets.js') }}
-        {{ Basset::show('holdings.js') }}
+        {{ Basset::show('pages.js') }}
+
 	</body>
 </html>

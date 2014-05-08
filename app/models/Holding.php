@@ -52,7 +52,7 @@ class Holding extends Eloquent {
   // Scopes
 
   public function scopeDefaults($query){
-  	return $query->with('notes', 'states', 'comment')->orderBy('f852j','f852c')->wasConfirmed()->inLibrary();
+  	return $query->with('notes', 'states', 'comment')->wasConfirmed()->inLibrary();
   }
 
   public function scopeInit ($query){
@@ -67,12 +67,14 @@ class Holding extends Eloquent {
 
     if ( Auth::user()->hasRole('maguser') ) {
     	$lists = Hlist::whereWorkerId(Auth::user()->id)->lists('id');
+      $lists[] = -1;
     	$query
     			->join('hlist_holding', 'hlist_holding.holding_id','=', 'holdings.id')
     			->join('hlists', 'hlist_holding.hlist_id','=', 'hlists.id')
     			->whereIn('hlists.id',$lists);
     }
-			// $query->whereIn('holdings.id', function($query){ $query->from('hlists')->holdings() } ) confirms()->ownerOrAux()->nodeliveries();
+
+		// $query->whereIn('holdings.id', function($query){ $query->from('hlists')->holdings() } ) confirms()->ownerOrAux()->nodeliveries();
 
     if ( Auth::user()->hasRole('speichuser') ) 
       $query->deliveries();
@@ -80,8 +82,9 @@ class Holding extends Eloquent {
     return $query;
   }
 
-  public function scopeInLibrary($query){
-  	return $query->whereLibraryId( Auth::user()->library_id );
+  public function scopeInLibrary($query,$library_id=false){
+    $library_id = ($library_id) ? $library_id : Auth::user()->library_id;
+  	return $query->whereLibraryId( $library_id );
   }
 
   public function scopeOwnerOrAux($query){
@@ -114,7 +117,11 @@ class Holding extends Eloquent {
   }
 
   public function scopeReviseds($query){
-  	return $query->where('state','like','revised_%');
+    return $query->where('state','like','revised_%');
+  }
+
+  public function scopeCanrecalled($query){
+  	return $query->where('state','=','blank')->orWhere('state','=','revised_annotated')->orWhere('state','=','incorrected');
   }
 
 
@@ -122,8 +129,19 @@ class Holding extends Eloquent {
     return $query->whereState('revised_ok');
   }
 
+  public function scopeWasState($query,$state){
+    return $query->whereIn('holdings.id', function($query) use ($state) {
+    	$query->select('holding_id')->from('states')->whereState($state);
+    });
+  }
+
   public function scopeWasConfirmed($query) {
-    return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('states')->whereState('confirmed'); })->where('state', '<>', 'blank')->where('state', '<>', 'revised_annotated')->where('state', '<>', 'incorrected');
+    return $query->whereIn( 'holdings.id', function($query){ 
+    	$query->select('holding_id')->from('states')->whereState('confirmed'); 
+    })
+    ->where('state', '<>', 'blank')
+    ->where('state', '<>', 'revised_annotated')
+    ->where('state', '<>', 'incorrected');
   }
 
   public function scopeRevisedsAnnotated($query){
@@ -142,8 +160,12 @@ class Holding extends Eloquent {
     return $query->whereIn( 'holdings.id', function($query){ $query->select('holding_id')->from('lockeds'); });
   }
   
-  public function scopeWithState( $query, $state ){
-    return $query->defaults()->where('state','like',$state."%");
+  public function scopeWithState( $query, $state ) {
+    if ($state == 'burn') {
+      return $query->defaults()->where('state','like',"burn%")->orWhere('state','like',"deleted%");
+    } else {
+      return $query->defaults()->where('state','like',$state."%");
+    }
   }
 
   public function scopePendings($query){
@@ -152,15 +174,12 @@ class Holding extends Eloquent {
 	    ->whereState('confirmed');
   }
 
-  public function scopeAnnotated($query,$tag_id='%'){
+  public function scopeAnnotated($query,$tag_id){
 
-    if ($tag_id=='%') 
-      $tag_ids = DB::table('notes')->lists('holding_id') ;
-    else
-      $tag_ids = DB::table('notes')->whereTagId($tag_id)->lists('holding_id');
+    $tag_ids = Note::whereTagId($tag_id)->lists('holding_id');
+    $tag_ids = (count($tag_ids)>0) ? $tag_ids : [-1];
 
-    $tag_ids = (count($tag_ids) > 0) ? $tag_ids : [-1];
-    return $query->whereIn('holdings.id', $tag_ids);
+    return $query->defaults()->whereState('annotated')->whereIn('holdings.id', $tag_ids);
   } 
 
   public function scopeOrphans($query){
@@ -184,15 +203,18 @@ class Holding extends Eloquent {
   }
 
   // Return the counter states in holding by library. Is used to plot stats 
-  public function scopeCountState($query,$state=''){
+  public function scopeStats($query, $month=false, $year=false){
 
-		$result = $query->select(DB::raw('libraries.code as library, count(*) as count'))
-							->join('states','holdings.id','=','states.holding_id')
+		$query = $query->select( DB::raw('libraries.code as library,holdings.state as state , count(*) as count, sum(holdings.size) as size') )
+              ->from('holdings')
+							->join('states', function($join){ $join->on('holdings.id','=','states.holding_id')->on('states.state','=','holdings.state'); })
 							->join('libraries','holdings.library_id','=','libraries.id')
-							->where('holdings.state','like',$state.'%')->orWhere('states.state','like',$state.'%')
-							->groupBy('libraries.code');
+							->groupBy('libraries.code', 'holdings.state');
 
-		return $result;
+		if ($month && $month!='*') $query = $query->where(DB::raw('extract(month from states.created_at)'),$month);
+		if ($year && $year!='*') 	$query = $query->where(DB::raw('extract(year from states.created_at)'),$year);
+
+		return $query;
   }
 
   // Attrubutes States
@@ -202,6 +224,10 @@ class Holding extends Eloquent {
 
   public function getIsCorrectAttribute(){
     return ( $this->state == 'ok' );
+  }
+
+  public function getIsCommentedAttribute(){
+    return ( $this->state == 'commented' );
   }
 
   public function getIsAnnotatedAttribute(){
@@ -229,6 +255,10 @@ class Holding extends Eloquent {
     return $this->states()->whereState('receive')->exists();
   }
 
+  public function getWasSpareAttribute(){
+    return $this->states()->whereState('spare')->exists();
+  }
+
   public function getIsReceivedAttribute(){
     return ( $this->state == 'received' );
   }
@@ -237,8 +267,16 @@ class Holding extends Eloquent {
     return ( $this->state == 'trash' );
   }
 
+  public function getIsSpareAttribute(){
+    return ( $this->state == 'spare' );
+  }
+
   public function getIsBurnedAttribute(){
     return ( $this->state == 'burn' );
+  }
+
+  public function getIsIntegratedAttribute(){
+    return ( $this->state == 'integrated' );
   }
 
   public function getIsBlankAttribute(){
@@ -272,7 +310,7 @@ class Holding extends Eloquent {
   }
 
   public function getClassCorrectAttribute(){
-  	return ($this->is_correct) ? 'success' : '';
+  	return ($this->is_correct) ? 'success' : 'not_ok';
   }
 
   public function getClassAnnotatedAttribute(){
@@ -289,6 +327,21 @@ class Holding extends Eloquent {
 
   public function getClassReceivedAttribute(){
   	return ( $this->is_received && Auth::user()->hasRole('speichuser') )   ? 'received' : '';
+  }
+
+  public function getToDeleteAttribute(){
+
+  	$ret = false;
+
+    $false = ['0', 'f', false];
+    $true = ['1', 't', true];
+    if ( $this->is_spare )     $ret = 'trash';
+
+    if ( $this->is_integrated ) {
+      $ret = (in_array($this->is_aux, $true) == false) ? 'deleted' : 'trash';
+    }
+  	return $ret;
+
   }
 
   public function getPatrnAttribute($buttons){
@@ -315,7 +368,7 @@ class Holding extends Eloquent {
         $pptrn = explode('    ',$pptrn1);
         $ppptrn = $pptrn[0];
         if (count($pptrn) > 1) $ppptrn .= ' ('.$pptrn[1].')';
-        $ret .= '<i class="fa fa-square pop-over btn btn-xs btn-default '.$classj.$classaux.'" data-content="<strong>'.$ppptrn.' | '.$this->f852b.' :: '.$this->f852h.'</strong>" data-html="true" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>';
+        $ret .= '<i class="fa fa-square pop-over btn btn-xs btn-default '.$classj.$classaux.'" data-content="<strong>'.$this->f852b.' | '.$this->f852h.' | '.$ptrn[$i].'</strong>" data-html="true" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>';
         break;
       }
       $i++; 
@@ -354,6 +407,7 @@ class Holding extends Eloquent {
   }
 
   public function show($field, $len = 30) {
+
     if ($field == 'f866a') {
       if ($this->f866aupdated == '') { 
         $field = 'f866a';
@@ -362,12 +416,27 @@ class Holding extends Eloquent {
         $field = 'f866aupdated';
       }
     }
-  	$str = $this->clean($this->$field);
-    return (strlen($str) > $len) ? '<span class="pop-over" data-content="<strong>'.$str.'</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover">'.truncate($str, 30).'</span>' : $str;
+
+    if ($field=='size'){
+			if ( Authority::can('set_size', $this) ){
+				$html = '<a href="#" class="editable" data-type="text" data-pk="'.$this->id.'" data-url="'.route('holdings.update',[$this->id]).'" >'.$this->size.'</a>';
+			}	else {
+				$field = 'size';
+			}
+    } 
+
+    if ($html){
+      $ret = $html;
+    } else {
+    	$str = $this->clean($this->$field);
+      $ret = (strlen($str) > $len) ? '<span class="pop-over" data-content="<strong>'.$str.'</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover">'.truncate($str, 30).'</span>' : $str;
+    }
+
+    return $ret;
   }
 
   public function clean($value){
-    return htmlspecialchars($value);
+    return htmlspecialchars(stripslashes($value));
   }
 
 
@@ -396,14 +465,22 @@ class Holding extends Eloquent {
 
               <a href="/sets/from-library/<?= $holding->id; ?>" set="<?=$holdingsset->id; ?>" data-target="#modal-show" data-toggle="modal"><span class="fa fa-external-link pop-over" data-content="<strong><?= trans('holdingssets.see_information_from_original_system'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
               |
+              <a href="<?= route('states.index', [ 'holding_id' => $holding->id]) ?>" data-target="#modal-show" data-toggle="modal" >
+                <span class="btn btn-xs" data-toggle="tooltip" title="<?= trans('holdings.tooltip_list_history') ?>">
+                    <span class="fa fa-folder" title="<?= trans('general.history') ?>" ></span>
+                </span>
+              </a>
+              |
             <?php if (!($HOSconfirm) && !($HOSincorrect) && !($holding->locked)) : ?>
               
               <a id="holding<?=$holding -> id;; ?>delete" set="<?=$holdingsset->id; ?>"  href="<?= action('HoldingssetsController@putNewHOS',[$holding->id]); ?>" data-remote="true" data-method="put" data-params="holdingsset_id=<?=$holdingsset->id; ?>" data-disable-with="..." class="pop-over" data-content="<strong><?= trans('holdingssets.remove_from_HOS'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"><span class="fa fa-times"></span></a>
               |
               <a href="/sets/recall-holdings/<?= $holding->id; ?>" set="<?=$holdingsset->id; ?>" data-target="#modal-show" data-toggle="modal"><span class="fa fa-crosshairs pop-over" data-content="<strong><?= trans('holdingssets.recall_hos_from_this_holding'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
-
-
-              <a href="/sets/similarity-search/<?= $holding->id; ?>" set="<?=$holdingsset->id; ?>" data-target="#modal-show" data-toggle="modal"><span class="fa fa-search pop-over" data-content="<strong><?= trans('holdingssets.similarity_search_from_this_holding'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
+              
+              <a href="/sets/similarity-search/<?= $holding->id; ?>" set="<?=$holdingsset->id; ?>" data-target="#modal-show" data-toggle="modal">
+                <span class="fa fa-dot-circle-o pop-over" data-content="<strong><?= trans('holdingssets.similarity_search_from_this_holding'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover">
+                </span>
+              </a>
               |
             <?php if ($ownertrclass == '') : ?>
 
@@ -428,12 +505,12 @@ class Holding extends Eloquent {
 
       <?php if ((Auth::user()->hasRole('resuser')) && (Auth::user()->library->id == $holding->library_id)) : ?>
         <?php if ($holding->locked()->exists()) : ?>         
-            <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="<?= route('lockeds.store',['holding_id' => $holding->id]); ?>" class="<?= $btnlock; ?>" data-remote="true" data-method="post" data-params="state=locked&holdingsset_id=<?=$holdingsset->id; ?>"  data-disable-with="..." ><span class="glyphicon glyphicon-lock pop-over" data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?><br><strong><?= trans('holdingssets.on_behalf_of'); ?></strong> <?= $holding->locked->comments; ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
+            <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="<?= route('lockeds.store',['holding_id' => $holding->id]); ?>" class="<?= $btnlock; ?>" data-remote="true" data-method="post" data-params="state=locked&holdingsset_id=<?=$holdingsset->id; ?>"  data-disable-with="..." ><span class="glyphicon glyphicon-lock pop-over" data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
           <?php else : ?>          
-            <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="#" class="editable" data-type="text" data-pk="<?=$holdingsset->id; ?>" data-url="<?= route('lockeds.update',[$holding->id]); ?>"><span class="glyphicon glyphicon-lock pop-over" data-content="<strong><?php if ($btn != 'btn-success disabled') { echo trans('holdinssets.lock_hol'); } else { echo trans('holdingssets.unlock_hol'); ?></strong> <?= $holding->locked->comments; ?><?php } ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>          
+            <a id="holding<?= $holding -> id; ?>lock" set="<?=$holdingsset->id; ?>" href="<?= action('LockedsController@update',[$holding->id]); ?>" data-remote="true" data-method="put" data-params="pk=<?=$holdingsset->id; ?>&" data-type="text" data-url="<?= route('lockeds.update',[$holding->id]); ?>"><span class="glyphicon glyphicon-lock pop-over" data-content="<strong><?php if ($btn != 'btn-success disabled') { echo trans('holdingssets.lock_hol'); } else { echo trans('holdingssets.lock_hol'); ?></strong> <?= $holding->locked->comments; ?><?php } ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>          
         <?php endif ?>
       <?php elseif($holding->locked) : ?>    
-          <a id="holding<?= $holding -> id; ?>lock" class="<?= $btnlock; ?>"><span class="glyphicon glyphicon-lock pop-over" data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?><br><strong><?= trans('holdingssets.on_behalf_of'); ?></strong> <?= $holding->locked->comments; ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
+          <a id="holding<?= $holding -> id; ?>lock" class="<?= $btnlock; ?>"><span class="glyphicon glyphicon-lock pop-over" data-content="<strong><?= trans('holdingssets.reserved_by'); ?> </strong><?= $holding->locked->user->name; ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
       <?php endif ?>
           <!-- </ul> -->
           <?php  ?>

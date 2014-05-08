@@ -6,7 +6,9 @@
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">{{{ trans('notes.title-create') }}}</h4>
         </div>
-        	<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note'>
+        	<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note' class="create-note">
+						{{ Form::hidden('hlist_id',$hlist_id) }}
+						{{ Form::hidden('holding_id',$holding->id) }}
 
 		        <div class="modal-body">
 
@@ -42,14 +44,15 @@
 												// var_dump($note->user->name);
 											?>
 
-											{{ Form::hidden('holding_id',$holding->id) }}
 											<div class="form-group">
 										    <div class="input-group" data-toggle="buttons">
-										      <label class="input-group-addon btn btn-primary btn-sm {{ ($note->tag_id) ? 'active' : '' }}{{ $consultnotes }}">
-										        <input type="checkbox" name="notes[{{ $tag->id }}][tag_id]" value="{{ $tag->id }}">{{ trans('tags.'.$tag->name) }}
+										      <label class="input-group-addon btn btn-primary btn-sm {{ ($note->tag_id) ? 'active' : '' }}{{ $consultnotes }}" >
+										        <input type="checkbox" name="notes[{{ $tag->id }}][tag_id]" value="{{ $tag->id }}" {{ ($note->tag_id) ? 'checked="checked"' : '' }}  />
+										        {{ trans('tags.'.$tag->name) }}
 										      </label>
-										      <input type="text"  name="notes[{{ $tag->id }}][content]" value="{{ $note->content }}" class="form-control input-sm"{{ $consultnotes }} placeholder="{{ trans('placeholders.notes_'.$tag->name) }}">
+										      <input type="text"  name="notes[{{ $tag->id }}][content]" value="{{ $note->content }}" class="form-control input-sm content"{{ $consultnotes }} placeholder="{{ trans('placeholders.notes_'.$tag->name) }}">
 										    </div><!-- /input-group -->
+									      <div  class="text-danger error"></div>
 										  </div><!-- /input-group -->
 
 										@endforeach
@@ -77,7 +80,7 @@
 
 	        <div class="modal-footer">
 	          <button type="reset" class="btn btn-default{{ $consultnotes }}" ><?= trans('general.reset') ?></button>
-	          <button type="submit" class="btn btn-success{{ $consultnotes }}" data-disabled-with="{{trans('general.disable_with')}}">
+	          <button type="submit" id="submit-create-notes" class="btn btn-success{{ $consultnotes }}" data-disabled-with="{{trans('general.disable_with')}}">
 	          	<i class="fa fa-check"></i> <?= trans('general.save') ?>
 	          </button>
 	          <a href="#" class="btn btn-danger" data-dismiss="modal" ><i class="fa fa-times"></i> <?= trans('general.close') ?></a>
@@ -87,3 +90,8 @@
 
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
+
+<div class="hide">
+	<div id="field_note_in_blank">{{ trans('errors.field_note_in_blank') }} </div>
+	<div id="select_notes_is_0">{{ trans('errors.select_notes_is_0') }} </div>
+</div>
