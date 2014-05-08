@@ -471,9 +471,10 @@ class Holding extends Eloquent {
                 </span>
               </a>
               |
-            <?php if (!($HOSconfirm) && !($HOSincorrect) && !($holding->locked)) : ?>
+            <?php if (!($HOSconfirm) && !($HOSincorrect)) : ?>
               
               <a id="holding<?=$holding -> id;; ?>delete" set="<?=$holdingsset->id; ?>"  href="<?= action('HoldingssetsController@putNewHOS',[$holding->id]); ?>" data-remote="true" data-method="put" data-params="holdingsset_id=<?=$holdingsset->id; ?>" data-disable-with="..." class="pop-over" data-content="<strong><?= trans('holdingssets.remove_from_HOS'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"><span class="fa fa-times"></span></a>
+              <?php if (!($holding->locked)) : ?>
               |
               <a href="/sets/recall-holdings/<?= $holding->id; ?>" set="<?=$holdingsset->id; ?>" data-target="#modal-show" data-toggle="modal"><span class="fa fa-crosshairs pop-over" data-content="<strong><?= trans('holdingssets.recall_hos_from_this_holding'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
               
@@ -482,11 +483,12 @@ class Holding extends Eloquent {
                 </span>
               </a>
               |
-            <?php if ($ownertrclass == '') : ?>
+              <?php endif ?>
+              <?php if ($ownertrclass == '') : ?>
 
                 <a id="holding<?=$holding -> id; ?>forceowner" set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putForceOwner',[$holding->id]); ?>" data-remote="true" data-method="put" data-params="holdingsset_id=<?=$holdingsset->id; ?>" data-disable-with="..."><span class="fa fa-stop text-danger pop-over" data-content="<strong><?= trans('holdingssets.force_owner'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
 
-            <?php endif ?>
+              <?php endif ?>
 
               <a id="holding<?=$holding -> id; ?>forceaux" set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putForceAux',[$holding->id]); ?>?unique_aux=1&holdingsset_id=<?= $holdingsset->id; ?>&ptrn=<?= $holding->aux_ptrn; ?>" data-remote="true" data-method="put" data-params="holdingsset_id=<?=$holdingsset->id; ?>" data-disable-with="..." class="forceaux"><span class="fa fa-stop text-warning pop-over" data-content="<strong><?= trans('holdingssets.force_aux'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"></span></a>
 
