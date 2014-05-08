@@ -144,7 +144,7 @@ $(function(){
   })
   var originhref = $('a.btn-ok').attr('href');
 	$('input#size').on('keyup',function(){
-		console.log($(this).serialize())
+		// console.log($(this).serialize())
 		data = $('a.btn-ok').data('params')
 		$('a.btn-ok').attr('href', originhref  + '?' + $(this).serialize() )
 	})
@@ -443,14 +443,14 @@ function getAsuccess() {
     $('a, #modal-show').on({
     'ajax:success': function(data, result, status) {      
         set = ($(this).hasClass('modal')) ? $('#f866aeditablesave').attr('set') : $(this).attr('set')
-        // console.log($(this));        
-        // console.log(set);        
+        // // console.log($(this));        
+        // // console.log(set);        
         if ($(this).attr('ajaxsuccess') != 1) {
           $(this).attr('ajaxsuccess', 1)          
           if (set > 0) {          
             accordion = $('#hosg .hol-sets li#'+set).find('a.accordion-toggle');
             open = ($(accordion).hasClass('collapsed') == true) ? 0 : 1
-            // console.log(open);
+            // // console.log(open);
             reload_set(set, result, open);          
           }
           if ( result.remove )
@@ -617,15 +617,15 @@ function removedangerclass(value) {
 }
 
 function makehosdivisibles(table) {
-  console.log(table);
+  // console.log(table);
     $(table + ' :checkbox.selhld').click( function(){
-    // console.log('click');
+    // // console.log('click');
     if (this.checked) {
-      // console.log('CHECKED');
+      // // console.log('CHECKED');
       if ( $(this).parents('li').find(':checkbox:checked.selhld').length>=2)
         $(this).parents('li').find('.newhos').css('display','block')
     } else {
-      // console.log('NO-CHECKED');
+      // // console.log('NO-CHECKED');
       if ( $(this).parents('li').find(':checkbox:checked.selhld').length<2)
       $(this).parents('li').find('.newhos').css('display','none')
     }

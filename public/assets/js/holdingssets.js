@@ -45,13 +45,13 @@ $(function() {
 			$('#open-all-hos .fa').removeClass('fa-folder-o')
 			$('#open-all-hos .fa').addClass('fa-folder-open-o')
 			$('#open-all-hos').removeClass('disabled')
-			// console.log('pa cerrar');
+			// // console.log('pa cerrar');
 		}
 		else {
 			lis = $('#hosg ul.hol-sets li .accordion-toggle');
 			$('#open-all-hos').addClass('disabled');
 			openAll(lis, 0);
-			// console.log('pa abrir');
+			// // console.log('pa abrir');
 		}
 	});
 })
@@ -68,9 +68,9 @@ function setDatatable() {
 				 	$.get(url,
 					  function(data) {
 				  		last_result = data
-					    // console.log(last_result);
+					    // // console.log(last_result);
 						  if (data != "") {						  	
-						  	// console.log(data)
+						  	// // console.log(data)
 						  	$($(This).attr('href') + ' .panel-body').html(data);
 								getAsuccess()
 								$($(This).attr('href') + ' button.dropdown-toggle').mouseenter( function() { $(this).click() });
@@ -192,7 +192,7 @@ function setDraggoption() {
 				else {
 					if (result.ingroups > 0) {
 						badge = $(ui.draggable).find('span.badge.ingroups');
-						console.log($(ui.draggable).attr('id'));
+						// console.log($(ui.draggable).attr('id'));
 						if ($(badge).hasClass('ingroups') == true) {
 							$(badge).fadeOut('slow', function() {
 								$(badge).html('<i class="fa fa-folder-o"></i> ' + result.ingroups);
@@ -233,7 +233,7 @@ function HOS_paginate() {
 				 	$.get(url,
 					  function(data) {
 				  		last_result = data
-					    // console.log(last_result);
+					    // // console.log(last_result);
 						  if (data != "") {
 						    $("#hosg ul li:last").after(data);
 				 				$('.pop-over').popover()
@@ -272,12 +272,12 @@ function HOS_paginate() {
 
 
 function openAll(lis, index) {
-	console.log($(lis).length);
-	console.log('aaaaa');
-	console.log(index);
+	// console.log($(lis).length);
+	// console.log('aaaaa');
+	// console.log(index);
 	if ($(lis).length > index) {
 		openallindex = index + 1;
-		console.log(index);
+		// console.log(index);
 		$(lis[index]).click();		
 		$('#open-all-hos .fa').addClass('fa-folder-o')
 		$('#open-all-hos .fa').removeClass('fa-folder-open-o')

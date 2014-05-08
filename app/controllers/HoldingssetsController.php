@@ -124,11 +124,11 @@ class HoldingssetsController extends BaseController {
 				$holdings = -1;
 				// If filter by owner or aux
 				if ((Input::get('owner') == 1) || (Input::get('aux') == 1)) {
-					if ((Input::has('owner')) && (!(Input::has('aux')))) $holdings = $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsOwner('t');
-					if (!(Input::has('owner')) && ((Input::has('aux')))) $holdings = $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsAux('t');
+					if ((Input::has('owner')) && (!(Input::has('aux')))) $holdings = $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsOwner('t') -> whereNotIn('id', Locked::orderBy('id')->lists('holding_id'));
+					if (!(Input::has('owner')) && ((Input::has('aux')))) $holdings = $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsAux('t') -> whereNotIn('id', Locked::orderBy('id')->lists('holding_id'));
 					if ((Input::has('owner')) && ((Input::has('aux'))))  {
 						$holdings = $uUserLibrary->holdings()->where('library_id','=',$uUserLibraryId)->where(function($query) {
-							$query->where('is_owner', '=', 't')
+							$query->where('is_owner', '=', 't') -> whereNotIn('id', Locked::orderBy('id')->lists('holding_id'))
 							->orWhere('is_aux', '=', 't');
 						});
 					}		
@@ -450,16 +450,20 @@ class HoldingssetsController extends BaseController {
 		// ocrr_nr Cantidad de ocurrencias
 
 			$holdingsset_id = Input::get('holdingsset_id');
+			$holding = Holding::find($id);
+			$was_oner = (($holding->is_owner == '1') || ($holding->is_owner == 't')) ? true : false;
 			if (Input::get('unique_aux') == 1) {
 				$holdingsset = Holdingsset::find($holdingsset_id);
 				$ptrn = Input::get('ptrn');
 				$empty_ptrn = str_replace('1', '0', $ptrn);
 				$holdingsset->holdings()->where('id', '!=', $id)->update(['is_aux' => 'f', 'aux_ptrn' => $empty_ptrn ]);
-				$holdingsset->holdings()->where('id', '=', $id)->update(['is_aux' => 't', 'aux_ptrn' => $ptrn]);
+				$holdingsset->holdings()->where('id', '=', $id)->update(['is_aux' => 't', 'is_owner' => 'f', 'aux_ptrn' => $ptrn]);
 			}
 			else {
+
 				Holding::find($id)->update(['is_aux'=>'t', 'is_owner'=>'f', 'ocrr_ptrn'=> Input::get('newptrn'), 'aux_ptrn'=> Input::get('newauxptrn'), 'ocrr_nr' => Input::get('count'), 'force_aux' => 't', 'force_owner' => 'f']);
 			}
+			if ($was_oner) holdingsset_recall($holdingsset_id);
 			$holdingssets[] = Holdingsset::find($holdingsset_id);
 			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
 			return $newset;
