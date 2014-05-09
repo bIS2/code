@@ -12,7 +12,7 @@
 	"require": {
 		"laravel/framework": "4.0.*",
 		"twbs/bootstrap":  "3.0.*",
-		"zizaco/confide": "dev-master",
+		"zizaco/confide": "3.2.x",
 		"zizaco/entrust": "dev-master",
 		"jasonlewis/basset": "dev-master",
 		"robclancy/presenter": "1.2.*",
@@ -22,10 +22,10 @@
 	    "efficiently/authority-controller":"dev-master"
 	},
 	"require-dev": {
-    //"way/generators": "dev-master",
-    //"mockery/mockery": "dev-master@dev",
-    //"summerstreet/woodling": "0.1.*",
-    //"barryvdh/laravel-ide-helper": "dev-master",
+    "way/generators": "dev-master",
+    "mockery/mockery": "dev-master@dev",
+    "summerstreet/woodling": "0.1.*",
+    "barryvdh/laravel-ide-helper": "dev-master",
     "leafo/lessphp": "v0.4.0",
     "natxet/CssMin": "dev-master",
     "lmammino/jsmin4assetic": "1.0.*"
