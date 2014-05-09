@@ -11,6 +11,7 @@
 			<th></th>
 			<th class="table_order" style="border-left:4px solid #ffffff">No.</th>
 			<th class="actions">Actions</th>
+			<th>{{ trans('holdingssets.state') }}</th>
 			<?php	$k = 0; ?>
 
 			@foreach ($fieldstoshow as $field) 
@@ -38,6 +39,7 @@
 			<th></th>
 			<th class="table_order">No.</th>
 			<th class="actions">Actions</th>
+			<th>{{ trans('holdingssets.state') }}</th>
 			<?php	$k = 0; ?>
 			@foreach ($fieldstoshow as $field) 
 				@if ($field != 'ocrr_ptrn') <?php $k++; ?>										
@@ -84,6 +86,7 @@
 				<td class="actions" holding="{{ $holding -> id }}">
 					{{ $holding -> bibuser_actions($holdingsset, $hol_order) }}
 				</td>
+				<td>{{ $holding->show( 'state' ) }}</td>
 				<?php $k = 0; ?>
 
 					@foreach ($fieldstoshow as $field)

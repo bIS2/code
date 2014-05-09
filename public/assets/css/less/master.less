@@ -207,7 +207,16 @@ table.table {
         text-shadow: none !important;
     }
 }
-
+.navbar-fixed-top {
+    ul {
+        li {
+            a {
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+            }
+        }
+    }
+}
 .jumbotron {
     text-align: center;
     .box-shadow (@bis-box-shadow);
@@ -314,7 +323,8 @@ footer {
         }
         tr.locked td {
             .bis-locked;
-            .fa:before {
+            .fa-square:before,
+            .fa-square-o:before {
                 content : "\f023";
                 color: #cccccc;
             }
