@@ -30,6 +30,8 @@
 		            <label class="col-md-4 control-label" for="username">{{trans('table.user')}}</label>
 		            <div class="col-md-8">
 		                <input class="form-control" disabled type="text" name="username" id="username" value="{{{ Input::old('username', $user->username) }}}" />
+		                <input class="form-control" type="hidden" name="username" id="username" value="{{{ Input::old('username', $user->username) }}}" />
+
 		                {{{ $errors->first('username', '<span class="help-inline">:message</span>') }}}
 		            </div>
 		        </div>
