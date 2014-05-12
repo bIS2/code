@@ -2,12 +2,12 @@
 
 {{-- Content --}}
 @section('content')
-
 	<div class="page-header">
 		<h3>{{{ trans('admin/users/title.create_a_new_user')}}} </h3>
 	</div>
+	{{ ends_with(URL::current(),'users/create') }}
 	{{-- Create User Form --}}
-	<form class="form-horizontal col-md-8" method="post" action="@if ($user->exists){{ URL::to('admin/users/' . $user->id . '/edit') }}@endif" autocomplete="off">
+	<form id="create_user" class="form-horizontal col-md-8 validate" method="post" action="@if ($user->exists){{ URL::to('admin/users/' . $user->id . '/edit') }}@endif" autocomplete="off">
 		<!-- CSRF Token -->
 		<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 		<!-- ./ csrf token -->
@@ -26,7 +26,7 @@
 				<div class="form-group {{{ $errors->has('email') ? 'error' : '' }}}">
 					<label class="col-md-2 control-label" for="email">{{ trans('general.email') }}</label>
 					<div class="col-md-6">
-						<input class="form-control" type="text" name="email" id="email" value="{{{ Input::old('email', isset($user) ? $user->email : null) }}}" />
+						<input class="form-control" type="text" name="email" id="email" value="{{{ Input::old('email', isset($user) ? $user->email : null) }}}" require />
 						{{{ $errors->first('email', '<span class="help-inline">:message</span>') }}}
 					</div>
 				</div>
@@ -129,7 +129,7 @@
             <div class="col-md-6 ">
 	              @foreach ($roles as $role)
 		              <label>
-			              <input type="checkbox" name="roles[]" value="{{$role->id}}" {{ $user->hasRole($role->name) ? 'checked="checked"' : ''}}>
+			              <input type="checkbox" name="roles[]" value="{{$role->id}}" validate="required:true" {{ ($user->hasRole($role->name) || Input::old('roles')) ? 'checked="checked"' : ($first) ? 'checked="checked"' : '' }}>
 			              {{ $role->name }}
 		              </label>
 		            @endforeach

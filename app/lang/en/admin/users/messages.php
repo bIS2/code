@@ -23,7 +23,7 @@ return array(
         'impossible' => 'You cannot delete yourself.',
         'error'      => 'There was an issue deleting the user. Please try again.',
         'success'    => 'The user was deleted successfully.'
-    )
+    ),
 
     'alerts' => array(
         'account_created' => 'Your account has been successfully created.',

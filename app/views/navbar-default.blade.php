@@ -3,28 +3,7 @@
 	<div class="container">
 		<a class="navbar-brand" href="/" title="Begleitendes Informationssystem"><?php if (strpos(Request::url(),'bistest.trialog.ch') !== false) { echo 'bIStest'; } else { echo 'bIS'; } ?></a>
 		<ul class="nav navbar-nav">
-			<li data-toggle="tooltip" data-placement="bottom" data-original-title="{{ trans('titles.help')}}"> 
-				<a href="/help" ><span class="fa fa-question"></span> </a>
-			</li>
-			<li data-toggle="tooltip" data-placement="bottom" data-original-title="{{ trans('titles.home')}}"> 
-				<a href="/" ><span class="fa fa-home"></span> </a>
-			</li>
-
-			<!-- admin menu ROLE::SYSADMIN-->
-			@if (Auth::user()->hasRole('sysadmin') || Auth::user()->hasRole('superuser') )
-				@include( 'layouts.items-menu-admin' )
-			@endif
-			
-			<!-- admin storeman -->
-			@if ( Authority::can('work','Holding') )
-				@include( 'layouts.items-menu-storeman' )
-			@endif
-
-			<!-- admin librarian -->
-			@if ((Auth::user()->hasRole('bibuser')) || (Auth::user()->hasRole('resuser'))) 		
-				@include( 'layouts.items-menu-librarian' )
-		  @endif
-		  
+			@include( 'layouts.items-menu' )
 		</ul>
 
 		<ul class="nav navbar-nav pull-right">

@@ -13,6 +13,14 @@ use Carbon\Carbon;
 class User extends ConfideUser implements PresentableInterface {
     use HasRole;
 
+    public static $rules = array(
+        'username' => 'required|alpha_dash|unique:users',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|between:4,11|confirmed',
+        'password_confirmation' => 'between:4,11',
+        'roles' => 'required',
+    );  
+
 	public function hlists(){
 		return $this->hasMany('Hlist');
 	}

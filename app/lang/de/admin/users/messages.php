@@ -23,7 +23,7 @@ return array(
         'impossible' => 'Sie können nicht sich selbst löschen.',
         'error'      => 'Das war ein Problemchen beim Löschen des Benutzers. Bitte nochmals.',
         'success'    => 'Benutzer gelöscht.'
-    )
+    ),
 
     'alerts' => array(
         'account_created' => 'Ihr Konto wurde erfolgreich angelegt. Bitte prüfen Sie Ihre E-Mails um Ihr Konto zu bestätigen.',
