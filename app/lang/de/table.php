@@ -13,6 +13,8 @@ return array(
 	'description' 	=> 'Beschreibung',
 	'email' 		=> 'Email',
 	'group_name' 	=> 'Name der Gruppe',
+	'password' 		=> 'Passwort',
+	'password_confirmation' => 'Konfirmation Passwort',
 	'name' 			=> 'Name',
 	'user' 			=> 'Benutzername',
 

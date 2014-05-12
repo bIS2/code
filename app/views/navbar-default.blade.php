@@ -12,9 +12,7 @@
 							<div class="navbar-text" data-toggle="tooltip" data-placement="bottom" data-original-title="{{ 'Sublibraries: '.Auth::user()->library->sublibraries}}">
 								<span class="text-warning">
 									<i class="fa fa-book"></i>
-									{{Auth::user()->library->code}} 
-									&raquo;
-									{{{ Auth::user()->library->name }}}
+									{{Auth::user()->library->code}}
 								</span>
 							</div>
 					</li>

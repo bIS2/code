@@ -68,5 +68,6 @@ return array(
 	'title'   					=> 'Holdings Sets',
 	'title_create_group' 		=> 'Create a Group of Holdings Set',
 	'unlock_hol'				=> 'Reverse Reservation of HOL',
+	'state'						=> 'State',
 	
 );

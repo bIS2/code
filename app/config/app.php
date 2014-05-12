@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'debug' => true,
+	'debug' => false,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -120,14 +120,13 @@ return array(
         'Basset\BassetServiceProvider', // Better Asset Management
         'Robbo\Presenter\PresenterServiceProvider', // Presenter
         'Bllim\Datatables\DatatablesServiceProvider', // Datatables
-        'Way\Generators\GeneratorsServiceProvider', // Generators
 
-     		'Efficiently\AuthorityController\AuthorityControllerServiceProvider',
-     		'Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider',
+ 		'Efficiently\AuthorityController\AuthorityControllerServiceProvider',
+ 		'Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider',
 
         /* Uncomment for use in development */
-//        'Way\Generators\GeneratorsServiceProvider', // Generators
-//        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // IDE Helpers
+        //'Way\Generators\GeneratorsServiceProvider', // Generators
+		//'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // IDE Helpers
 
     ),
 

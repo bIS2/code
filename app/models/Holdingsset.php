@@ -1,6 +1,6 @@
 <?php
 /*
-* Represents the table Holdinssets (HOS) in the database, relationships, methods and attributes. *
+* Represents the table Holdingssets (HOS) in the database, relationships, methods and attributes. *
 */
 
 class Holdingsset extends Eloquent {

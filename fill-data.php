@@ -1,6 +1,6 @@
 <?php
 	error_reporting(0);
-	$conn_string = "host=localhost port=5432 dbname=bistest user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+	$conn_string = "host=localhost port=5432 dbname=bis user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
 	
 	$conn = pg_connect($conn_string) or die('ERROR!!!');
 
