@@ -22,51 +22,36 @@
 									<?php $i=1 ?>
 									<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1 {{ $holding->css }} {{ ($holding->is_correct) ? 'success' : 'not_ok' }} {{ ($holding->is_annotated) ? 'danger' : '' }}" >
 										<div class="well" id="holding-slide">
-											<dl class="dl-horizontal state">
+											<dl class="dl-horizontal ">
 												<dt >{{ trans('general.state') }}</dt>
-												<dd >
+												<dd class="state">
 										  		{{ $holding->title_state }}
 												</dd>
 												<dt >852b</dt>
 									  		<dd>{{ $holding->f852b }}</dd>
+											  <dt> 852h</dt >
+											  <dd>{{ $holding->f852h }}</dd>
+											  <dt> Patrn</dt >
+											  <dd class="ocrr_ptrn">{{ $holding->patrn_no_btn }}</dd>
+											  <dt> 245a</dt >
+											  <dd>{{ $holding->f245a }}</dd>
+											  <dt> 362a</dt >
+											  <dd>{{ $holding->f362a }}</dd>
+											  <dt> 866a</dt >
+											  <dd>{{ $holding->f866a }}</dd>
+											  <dt> f866aupdated</dt >
+											  <dd>{{ $holding->f866aupdated }}</dd>
+											  <dt> 866z</dt >
+											  <dd>{{ $holding->f866z }}</dd>
+											  <dt> {{trans('holdings.size')}}</dt >
+											  	</dd>
+												  	@if ( Authority::can('set_size', $holding) )
+													  	<input type="text" value="{{ $holding->size }}" name="size" class="" id="size" size="7" >
+		  											@else
+		  												{{ $holding->size }}
+		  											@endif
+											  	<dd>
 											</dl>
-											<div class="row">
-											  <label> 852h</label >
-											  {{ $holding->f852h }}
-											</div>
-											<div class="row ocrr_ptrn">
-											  <label> Patrn</label >
-											  {{ $holding->patrn_no_btn }}
-											</div>
-											<div class="row">
-											  <label> 245a</label >
-											  {{ $holding->f245a }}
-											</div>
-											<div class="row">
-											  <label> 362a</label >
-											  {{ $holding->f362a }}
-											</div>
-											<div class="row">
-											  <label> 866a</label >
-											  {{ $holding->f866a }}
-											</div>
-											<div class="row">
-											  <label> f866aupdated</label >
-											  {{ $holding->f866aupdated }}
-											</div>
-											
-											<div class="row">
-											  <label> 866z</label >
-											  {{ $holding->f866z }}
-											</div>
-											<div class="row">	
-											  <label> {{trans('holdings.size')}}</label >
-											  	@if ( Authority::can('set_size', $holding) )
-												  	<input type="text" value="{{ $holding->size }}" name="size" class="" id="size" size="7" >
-	  											@else
-	  												{{ $holding->size }}
-	  											@endif
-											</div>
 										</div>
 									</div> <!-- /.col-xs-8 -->
 									<div class="col-xs-5">
