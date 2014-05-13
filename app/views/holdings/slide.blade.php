@@ -45,11 +45,13 @@
 											  <dd>{{ $holding->f866z }}</dd>
 											  <dt> {{trans('holdings.size')}}</dt >
 											  	</dd>
-												  	@if ( Authority::can('set_size', $holding) )
-													  	<input type="text" value="{{ $holding->size }}" name="size" class="" id="size" size="7" >
-		  											@else
-		  												{{ $holding->size }}
-		  											@endif
+												  	<span>
+													  	@if ( Authority::can('set_size', $holding) )
+														  	<input type="text" value="{{ $holding->size }}" name="size" class="" id="size" size="7" >
+			  											@else
+			  												{{ $holding->size }}
+			  											@endif
+												  	</span>
 											  	<dd>
 											</dl>
 										</div>
