@@ -124,7 +124,7 @@
 
 	<!-- Actions -->
 	<div class="col-xs-4">
-		<div class="col-xs-5">
+		<div class="col-xs-6">
 			@if (Input::has('hlist_id'))
 			<?php $list = Hlist::find(Input::get('hlist_id')); ?>
 			@endif
@@ -144,7 +144,7 @@
 			<span class="label label-primary state-list"> {{ $list->state }}</span>
 			@endif
 		</div>
-		<div class="col-xs-7">
+		<div class="col-xs-6">
 			<a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-xs btn-default dropdown-toggle collapsed text-warning pull-right" data-toggle="collapse">
 				<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
 			</a>
