@@ -142,20 +142,23 @@ class Hlist extends Eloquent {
 
   public function scopeMy($query){
 
+    $query1=$query2=$query3=$query4=[];
+
   	$query = $query->with('user','holdings')->orderBy('created_at', 'desc');
 
     if ( Auth::user()->hasRole('maguser') || Auth::user()->hasRole('postuser') ) 
-      $query = $query->whereIn('revised',[false,0,'f'])->whereWorkerId(Auth::user()->id);
+      $query1 = $query->whereIn('revised',[false,0,'f'])->whereWorkerId(Auth::user()->id)->lists('id');
 
     if ( Auth::user()->hasRole('speichuser') ) 
-      $query = $query->deliveries();
+      $query2 = $query->deliveries()->lists('id');
 
     if ( Auth::user()->hasRole('bibuser') ) 
-      $query = $query->whereUserId(Auth::user()->id);
-
+      $query3 = $query->whereUserId(Auth::user()->id)->lists('id');
 
     if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('bibuser') )
-	    $query = $query->inLibrary();
+	    $query4 = $query->inLibrary()->lists('id');
+
+    $query = $query->whereId( array_unique( $query1+$query2+$query3+$query4 ));
 
     return $query;
   }

@@ -87,22 +87,24 @@
 
   @endif
   
-	<?php foreach ($hlists as $hlist) {
-		if (in_array($hlist->id, $hlistsids)) {  Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]
-	 ?>
-		<li id="hlist{{ $hlist->id }}" class="<?php echo ($hlist_id == $hlist->id) ? 'active' : 'accepthos' ?> droppable" data-attach-url="{{ action('HlistsController@postAttach', [$hlist->id]) }}">
-			<a <?php if ($hlist_id != $hlist->id) { echo 'href="'.route('holdings.index',Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]).'"'; } ?> class="">
-				{{ $hlist->type_icon }}
-				<?= $hlist->name  ?> 
-				<span class="badge counter">{{ $hlist->holdings -> count() }} </span>
-			</a>
+	@foreach ($hlists as $hlist) 
+		@if (in_array($hlist->id, $hlistsids)) 
+		<!-- Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ] -->
+	 
+			<li id="hlist{{ $hlist->id }}" class="<?php echo ($hlist_id == $hlist->id) ? 'active' : 'accepthos' ?> droppable" data-attach-url="{{ action('HlistsController@postAttach', [$hlist->id]) }}">
+				<a <?php if ($hlist_id != $hlist->id) { echo 'href="'.route('holdings.index',Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]).'"'; } ?> class="">
+					{{ $hlist->type_icon }}
+					<?= $hlist->name  ?> 
+					<span class="badge counter">{{ $hlist->holdings -> count() }} </span>
+				</a>
 
-			<?php if ($hlist_id != $hlist->id) { ?>
-				<a href="{{ action('HoldingsController@putDelTabhlist',[$hlist->id]) }}" class="close" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><i class="fa fa-eye-slash"></i></a>
-			<?php } ?>
-		</li>
-	<?php }
-	} ?>
+				@if ($hlist_id != $hlist->id)
+					<a href="{{ action('HoldingsController@putDelTabhlist',[$hlist->id]) }}" class="close" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><i class="fa fa-eye-slash"></i></a>
+				@endif
+			</li>
+
+		@endif
+	@endforeach
 </ul>
 <?php if (count($holdings) > 0) { ?>
 <form method="post" action="{{ route('holdings.index', Input::except(['noexists'])) }}">
