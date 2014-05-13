@@ -25,7 +25,7 @@
 											<dl class="dl-horizontal ">
 												<dt >{{ trans('general.state') }}</dt>
 												<dd class="state">
-										  		{{ $holding->title_state }}
+													<span class="label label-primary">{{ $holding->title_state }}</span>
 												</dd>
 												<dt >852b</dt>
 									  		<dd>{{ $holding->f852b }}</dd>
