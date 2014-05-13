@@ -34,15 +34,6 @@
 	</li>
 @endif
 
-
-@if (((Session::get(Auth::user()->username.'_last_route') == '') && ($_COOKIE[Auth::user()->username.'_last_route'] != '')) && ((Auth::user()->hasRole('bibuser')) || (Auth::user()->hasRole('resuser'))))  
-	<li class="btn btn-xs btn-warning">
-		<a href="{{ $_COOKIE[Auth::user()->username.'_last_route'] }}" ><strong><span class="fa fa-repeat"></a>
-	</li>
-	<?php Session::put(Auth::user()->username.'_last_route', $_COOKIE[Auth::user()->username.'_last_route']); ?>
-@endif
-
-
 @if (Auth::user()->hasRole('sysadmin') || Auth::user()->hasRole('superuser') )
 	<li {{ (Request::is('admin/users*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/users') }}}">
 		<span class="fa fa-users"></span> {{{ trans('titles.users') }}}</a>
@@ -57,3 +48,11 @@
 
 	</li>
 @endif
+
+@if (((Session::get(Auth::user()->username.'_last_route') == '') && ($_COOKIE[Auth::user()->username.'_last_route'] != '')) && ((Auth::user()->hasRole('bibuser')) || (Auth::user()->hasRole('resuser'))))  
+	<li class="btn btn-xs btn-warning">
+		<a href="{{ $_COOKIE[Auth::user()->username.'_last_route'] }}" ><strong><span class="fa fa-repeat"></a>
+	</li>
+	<?php Session::put(Auth::user()->username.'_last_route', $_COOKIE[Auth::user()->username.'_last_route']); ?>
+@endif
+
