@@ -97,7 +97,6 @@ class UserController extends BaseController {
         // Validate the inputs
         $validator = Validator::make(Input::all(), $user->getUpdateRules());
 
-
         if ($validator->passes())
         {
             $oldUser = clone $user;
@@ -110,16 +109,13 @@ class UserController extends BaseController {
             $passwordConfirmation = Input::get( 'password_confirmation' );
 
             if(!empty($password)) {
-                if($password === $passwordConfirmation) {
-                    $user->password = $password;
-                    // The password confirmation will be removed from model
-                    // before saving. This field will be used in Ardent's
-                    // auto validation.
-                    $user->password_confirmation = $passwordConfirmation;
-                } else {
-                    // Redirect to the new user page
-                    return Redirect::to('users')->with('error', Lang::get('admin/users/messages.password_does_not_match'));
-                }
+              if($password === $passwordConfirmation) {
+
+			          $user->password = $password;
+ 			          $user->password_confirmation = $passwordConfirmation;
+
+ 			        }
+
             } else {
                 unset($user->password);
                 unset($user->password_confirmation);

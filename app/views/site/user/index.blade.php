@@ -20,9 +20,7 @@
 		</div>
 		{{ Form::model($user, [ 'url' => URL::to('user/' . $user->id . '/edit'), 'class'=>'form-horizontal' ] ) }}
 		<!-- <form class="form-horizontal" method="post" action="{{ URL::to('user/' . $user->id . '/edit') }}"  autocomplete="off"> -->	
-		    <!-- CSRF Token -->
-		    <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-		    <!-- ./ csrf token -->
+
 		    <!-- General tab -->
 		    <div class="tab-pane active" id="tab-general">
 		        <!-- username -->
@@ -30,6 +28,8 @@
 		            <label class="col-md-4 control-label" for="username">{{trans('table.user')}}</label>
 		            <div class="col-md-8">
 		                <input class="form-control" disabled type="text" name="username" id="username" value="{{{ Input::old('username', $user->username) }}}" />
+		                <input class="form-control" type="hidden" name="username" id="username" value="{{{ Input::old('username', $user->username) }}}" />
+
 		                {{{ $errors->first('username', '<span class="help-inline">:message</span>') }}}
 		            </div>
 		        </div>
@@ -99,4 +99,5 @@
 
 	</div>
 </div>
+
 @stop

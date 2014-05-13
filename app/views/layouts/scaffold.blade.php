@@ -57,8 +57,11 @@
 
 		<!-- Javascripts
 		================================================== -->
-        {{ Basset::show('public.js') }}
-        {{ Basset::show('holdingssets.js') }}
-        {{ Basset::show('holdings.js') }}
+
+    @javascripts('public')
+    @javascripts('holdingssets')
+    @javascripts('validate')
+
 	</body>
+
 </html>

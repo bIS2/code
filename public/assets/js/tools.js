@@ -2,69 +2,24 @@
 
 $(function(){
 
-  // update related user for selected list type
-  $('body').on('click','#form_list :radio', function(){
 
-    var options = $.parseJSON( $('.options').text() )
+ $('form#create_user').on('submit', function(e){
 
-    o = ($('#form_list :radio:checked').val()=='delivery') ? options.postuser : options.maguser;
-
-    $select = $('select#worker_id').empty()
-    $.each(o, function(k,v){
-      $select.append( $('<option></option>').val(k).html(v) )
-    })    
-
-  })
+ 	if ($('input[name="roles[]"]:checked').size()==0 ){
+ 			$('input[name="roles[]"]').parents('div.form-group').addClass('has-error')
+	 		e.preventDefault()
+ 		}
 
 
-  // validatio off create annotates holding 
-  $('body').on('click','#submit-create-notes', function(e){
+ })
 
-    var check_notes = $('form.create-note :checkbox:checked');
+	$('input[name="roles[]"]').on('click', function(){
 
-    if (check_notes.size()==0){
+		if ($('input[name="roles[]"]:checked').size()>0 )
+			$(this).parents('.has-error').removeClass('has-error')
 
-      bootbox.alert( $('#select_notes_is_0').text() )
-      e.preventDefault()
-
-    } else {
-
-      check_notes.each(function(){
-        var content = $(this).parents('.input-group').find('input.content').val();
-        if (content.length==0){
-          $(this).parents('.form-group')
-            .addClass('has-error')
-            .find('.error').text( $('#field_note_in_blank').text() )
-          e.preventDefault()
-        }
-
-      })
-
-    }
-
-  })
-
-  $('body').on('keypress','form.create-note .content', function(e){
-    if ( $(this).val() )
-      $(this).parents('.form-group').removeClass('has-error').find('.error').text('')
-    else
-      $(this).parents('.form-group')
-        .addClass('has-error')
-        .find('.error').text( $('#field_note_in_blank').text() )
-  })
-
-
-	$('.btn-ok, .btn-tag').on('click',function(e){
-		size_in_form = $(this).parents('form').find('input#size').val()
-		size_in_a = parseFloat($(this).parents('tr').find('.editable').text() )
-		
-		size = (size_in_form) ? size_in_form : size_in_a
-
-		if ( size==0 ){
-			bootbox.alert( $('#field_size_in_blank').text() )
-			return false
-		} 
 	})
+
 
   // update related user for selected list type
   $('body').on('click','#form_list :radio', function(){

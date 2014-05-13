@@ -22,16 +22,14 @@
 									<?php $i=1 ?>
 									<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1 {{ $holding->css }} {{ ($holding->is_correct) ? 'success' : 'not_ok' }} {{ ($holding->is_annotated) ? 'danger' : '' }}" >
 										<div class="well" id="holding-slide">
-											<div class="row state">
-												<label >{{ trans('general.state') }}</label>
-												<span class="label label-primary">
+											<dl class="dl-horizontal state">
+												<dt >{{ trans('general.state') }}</dt>
+												<dd >
 										  		{{ $holding->title_state }}
-												</span>
-												</div>
-											<div class="row">
-												<label >852b</label>
-									  		{{ $holding->f852b }}
-											</div>
+												</dd>
+												<dt >852b</dt>
+									  		<dd>{{ $holding->f852b }}</dd>
+											</dl>
 											<div class="row">
 											  <label> 852h</label >
 											  {{ $holding->f852h }}
