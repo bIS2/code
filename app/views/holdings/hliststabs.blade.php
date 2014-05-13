@@ -111,20 +111,20 @@
 <div id="hos_actions_and_filters" class="row">
 
 	<!-- Information about pagination-->
-	<div class="col-xs-3">
+	<div class="col-xs-2">
 		{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} 
 	</div>
 
 	<!-- Pages -->
-	<div class="col-xs-5">
+	<div class="col-xs-4">
 
 		{{ $holdings->appends(Input::except('page'))->links()  }}
 
 	</div>
 
 	<!-- Actions -->
-	<div class="col-xs-4">
-		<div class="col-xs-6">
+	<div class="col-xs-6">
+		<div class="col-xs-7">
 			@if (Input::has('hlist_id'))
 			<?php $list = Hlist::find(Input::get('hlist_id')); ?>
 			@endif
@@ -144,7 +144,7 @@
 			<span class="label label-primary state-list"> {{ $list->state }}</span>
 			@endif
 		</div>
-		<div class="col-xs-6">
+		<div class="col-xs-5">
 			<a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-xs btn-default dropdown-toggle collapsed text-warning pull-right" data-toggle="collapse">
 				<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
 			</a>
