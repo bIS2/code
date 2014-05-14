@@ -269,7 +269,7 @@ function handleAjaxSucces(parent) {
 
     if ( result.list_revised ){
       $('#'+result.list_revised).addClass('revised').hide('slow');
-      $('.state-list').text( result.state );
+      $('.state-list').text( result.state ).removeClass('hide');
       $('.btn-revise').hide();
     } 
 

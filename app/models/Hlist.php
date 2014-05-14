@@ -108,7 +108,7 @@ class Hlist extends Eloquent {
   	$state = 'pending';
 
   	if (($this->type=='control') && $this->revised ) 					$state = 'revised';
-  	if ($this->type=='delivery' && $this->delivery->exists)  	$state = 'delivery';
+  	if (($this->type=='delivery') && $this->delivery->exists)  	$state = 'delivery';
 
   	return $state;
   	
@@ -157,8 +157,6 @@ class Hlist extends Eloquent {
 
     if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('bibuser') )
 	    $query = $query->inLibrary();
-
-    // $query = $query->whereId( array_unique( $query1+$query2+$query3+$query4 ));
 
     return $query;
   }
