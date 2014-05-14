@@ -128,16 +128,8 @@
 			@if (Input::has('hlist_id'))
 			<?php $list = Hlist::find(Input::get('hlist_id')); ?>
 			@endif
-			<?php 
-				$hide_btn_revise_list = ($list->revised==0) ? '' : 'hide';
-
-					// $hide_btn_revise_list = 'hide';
-/*				if ( !Authority::can('revise',$list) )  { 
-					$hide_btn_revise_list = 'hide';
-				} 
-*/			?>
 			@if ( Input::has('hlist_id'))
-			<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs btn-revise {{ $hide_btn_revise_list }}" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
+			<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs btn-revise {{ ( Authority::can('revise',$list) ) ? '' : 'hide' }}" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
 				<span class="fa fa-check" ></span> {{ trans('holdings.revised')}}
 			</a>
 			@endif
