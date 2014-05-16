@@ -6,11 +6,13 @@
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">{{{ trans('notes.title-create') }}}</h4>
         </div>
+
         	<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note' class="create-note">
 						{{ Form::hidden('hlist_id',$hlist_id) }}
 						{{ Form::hidden('holding_id',$holding->id) }}
 
 		        <div class="modal-body">
+		        	<div  class="alert alert-danger alert-error hide"></div>
 
         				<div class="row">
         					<div class="col-xs-5 ">

@@ -43,14 +43,15 @@ $(function(){
 
     if (check_notes.size()==0){
 
-      bootbox.alert( $('#select_notes_is_0').text() )
+      // bootbox.alert( $('#select_notes_is_0').text() )
+      $('.alert-error').removeClass('hide').text( $('#field_note_in_blank').text())
       e.preventDefault()
 
     } else {
 
       check_notes.each(function(){
         var content = $(this).parents('.input-group').find('input.content').val();
-        if (content.length==0){
+        if ( (content.length==0) ){
           $(this).parents('.form-group')
             .addClass('has-error')
             .find('.error').text( $('#field_note_in_blank').text() )
@@ -64,13 +65,23 @@ $(function(){
   })
 
   $('body').on('keyup','form.create-note .content', function(e){
-    if ( $(this).val() )
-      $(this).parents('.form-group').removeClass('has-error').find('.error').text('')
-    else {
-      $(this).parents('.form-group')
-        .addClass('has-error')
-        .find('.error').text( $('#field_note_in_blank').text() )
+  	var $this = $(this)
+  		
+    if ( $this.val() ){
+      $this.parents('.form-group').removeClass('has-error').find('.error').text('')
+      $('.alert-error').addClass('hide')
+      if ( $this.parents('.input-group').find(':checkbox:checked').size()==0 )
+	    	$this.parents('.input-group').find('label').trigger('click')
     }
+    else {
+    	console.log( $this.parents('.input-group').find(':checkbox:checked').size() )
+	  	if ( $this.parents('.input-group').find(':checkbox:checked').size()>0 ){
+	      $this.parents('.form-group')
+	        .addClass('has-error')
+	        .find('.error').text( $('#field_note_in_blank').text() )
+	    }
+  	}	
+
   })
 
   $('.form-group .input-group-addon.btn.btn-primary.btn-sm' ).each(function() {
@@ -357,7 +368,11 @@ function handleAjaxSucces(parent) {
     }
 
     if ( result.delivered ){
-      $('#'+result.delivered).addClass('delivered'); 
+    	$this = 
+      $('#'+result.delivered)
+	      	.addClass('delivered')
+	      	.find('.state-list')
+	      	.text( result.state );
     }
 
     if ( result.commented ){

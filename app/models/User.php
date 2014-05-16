@@ -18,7 +18,6 @@ class User extends ConfideUser implements PresentableInterface {
         'email' => 'required|email|unique:users',
         'password' => 'required|between:4,11|confirmed',
         'password_confirmation' => 'between:4,11',
-        'roles' => 'required',
     );  
 
 	public function hlists(){

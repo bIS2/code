@@ -54,7 +54,10 @@ class DeliveriesController extends BaseController {
 
 		if ($validation->passes()){
 			$delivery = $this->delivery->create($input);
-			return Response::json( [ 'delivered' => $delivery->hlist_id ] );
+			return Response::json( [ 
+				'delivered' => $delivery->hlist_id,
+				'state' => trans('states.delivery')
+				] );
 		}
 
 /*		return Redirect::route('deliveries.create')

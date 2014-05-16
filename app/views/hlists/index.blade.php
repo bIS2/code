@@ -40,10 +40,10 @@
 					<thead>
 						<tr>
 							<th>No.</th>
+							<th>{{ trans('table.date') }}</th>
 							<th>{{ trans('table.name') }}</th>
 							<th>{{ trans('table.state') }}</th>
 							<th>{{ trans('table.type') }}</th>
-							<th>{{ trans('table.date') }}</th>
 							<th>{{ trans('table.asigned') }}</th>
 							<th>{{ trans('holdings.title') }}</span></th>
 							<!-- <th>{{ trans('table.details') }}</span></th> -->
