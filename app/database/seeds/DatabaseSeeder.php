@@ -23,6 +23,9 @@ class DatabaseSeeder extends Seeder {
 		$this->call('CommentsTableSeeder');
 		$this->call('JunksTableSeeder');
 		$this->call('StatesTableSeeder');
+		$this->call('StatsTableSeeder');
+		$this->call('Initialize_statsTableSeeder');
+		$this->call('InitializeStatsTableSeeder');
 	}
 
 }

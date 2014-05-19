@@ -170,8 +170,7 @@ class Holding extends Eloquent {
 
   public function scopePendings($query){
 
-  	return $query
-	    ->whereState('confirmed');
+  	return $query->whereState('confirmed');
   }
 
   public function scopeAnnotated($query,$tag_id){

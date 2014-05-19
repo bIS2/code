@@ -39,8 +39,7 @@ class Holdingsset extends Eloquent {
   }
 
   public function scopeConfirmed($query){   
-    return $query
-    ->whereState('ok');
+    return $query->where('holdingssets.state','=','ok');
   }
 
   public function scopePendings($query){
@@ -56,28 +55,44 @@ class Holdingsset extends Eloquent {
   }  
 
   public function scopeIncorrects($query){
-    return $query
-    ->whereState('incorrected');
+    return $query->where('incorrected');
   }
 
   public function scopeCorrects($query){
-    return $query
-    ->whereState('ok');
+    return $query->where('holdingssets.state','=','ok');
   }
 
   public function scopeAnnotated($query){
+    // return $query->select('*')
+    //       ->from('holdingssets')
+    //       ->join('holdings','holdingssets.id','=','holdings.holdingsset_id')
+    //       ->where('holdings.state', '=' ,'revised_annotated');
+    //       ->whereLibraryId( Auth::user()->library_id );
+
     $ids = Holding::RevisedsAnnotated()->select('holdingsset_id')->lists('holdingsset_id');
     if (count($ids) == 0 ) $ids = [-1];
-    return $query
-    ->whereIn('holdingssets.id', $ids);
+    return $query->whereIn('holdingssets.id', $ids);
   }
 
+
   public function scopeOwners($query){
-    return $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsOwner('t')->whereLibraryId( Auth::user()->library_id ); });
+    return $query->select('*')
+          ->from('holdingssets')
+          ->join('holdings','holdingssets.id','=','holdings.holdingsset_id')
+          ->whereIsOwner('t')
+          ->whereLibraryId( Auth::user()->library_id );
+
+    // return $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsOwner('t')->whereLibraryId( Auth::user()->library_id ); });
+
   }
 
   public function scopeAuxiliars($query){
-    return $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsAux('t')->whereLibraryId( Auth::user()->library_id ); });
+    return $query->select('*')
+          ->from('holdingssets')
+          ->join('holdings','holdingssets.id','=','holdings.holdingsset_id')
+          ->whereIsAux('t')
+          ->whereLibraryId( Auth::user()->library_id );
+    // return $query->whereIn('id', function($query){ $query->select('holdingsset_id')->from('holdings')->whereIsAux('t')->whereLibraryId( Auth::user()->library_id ); });
   }
 
   public function scopeReceiveds($query) {

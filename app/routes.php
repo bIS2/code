@@ -154,3 +154,4 @@ Route::resource('comments', 'CommentsController');
 Route::resource('junks', 'JunksController');
 
 Route::resource('states', 'StatesController');
+
