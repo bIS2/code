@@ -1,6 +1,6 @@
 $(function(){
 
-
+ $('[data-toggle=tooltip]').tooltip()
 
         url_data = $('#graph').data('url');
 

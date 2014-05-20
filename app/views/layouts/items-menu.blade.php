@@ -53,7 +53,7 @@
 	<?php Session::put(Auth::user()->username.'_last_route', $_COOKIE[Auth::user()->username.'_last_route']); ?>
 @endif
 
-<li {{ (Request::is('statistics*') ? ' class="active"' : '') }}>
+<li {{ (Request::is('statistics*') ? ' class="active"' : '') }} data-toggle="tooltip" data-placement="bottom" data-original-title="{{ trans('titles.statistics')}}">
 	<a href="/statistics" >
 		<strong><i class="fa fa-bar-chart-o"></i></strong>
 	</a>

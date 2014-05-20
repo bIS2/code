@@ -7,6 +7,19 @@
 class Pages extends BaseController {
 
 	public function getIndex(){
+		$user = Auth::user();
+
+		if ( ( $user->roles()->count()==1 ) ){
+
+			if ( $user->hasRole('magvuser') || $user->hasRole('maguser') || $user->hasRole('magvuser') || $user->hasRole('speichuser') )
+				return Redirect::to('holdings');
+
+			if ( $user->hasRole('postuser') ) 	return Redirect::to('lists');
+			if ( $user->hasRole('bibuser') ) 		return Redirect::to('sets');
+			if ( $user->hasRole('superuser') ) 	return Redirect::to('admin/users');
+			if ( $user->hasRole('sysadmin') ) 	return Redirect::to('admin/users');
+
+		}
 		return View::make('pages.index');
 	}
 
