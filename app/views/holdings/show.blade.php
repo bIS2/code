@@ -155,16 +155,16 @@
 							<td><?= $holding->show('f852b'); ?></td>
 						</tr>
 						<tr>
-						  <td>852c</td>
-							<td><?= $holding->show('f852c'); ?></td>
-						</tr>
-						<tr>
 						  <td>852h</td>
 							<td><?= $holding->show('f852h'); ?></td>
 						</tr>
 						<tr>
 						  <td>852j</td>
 							<td><?= $holding->show('f852j'); ?></td>
+						</tr>
+						<tr>
+						  <td>866c</td>
+							<td><?= $holding->show('f866c'); ?></td>
 						</tr>
 						<tr>
 						  <td>866z</td>
