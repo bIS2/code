@@ -14,7 +14,7 @@ return array(
 	*/
 
 	'missing' 				=> 'Missing',
-	'aditional' 			=> 'Aditional',
+	'aditional' 			=> 'Additional',
 	'bad' 					=> 'Bad Conditions',
 	'remarks' 				=> 'Remarks',
 	'title-index' 			=> 'Tags',

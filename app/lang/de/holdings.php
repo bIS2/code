@@ -26,7 +26,7 @@ return array(
 	'has_incomplete_vols_short'	=> 'Icpl',
 	'hol_details'	  		=> 'Details zu HOL',
 	'integrated'			=> 'In SPB integrierte',
-	'is_current_short'		=> 'Laufene ZS',
+	'is_current_short'		=> 'Laufende ZS',
 	'is_current_large'		=> 'Wird weiterhin publiziert',
 	'lists'			  		=> 'Listen',
 	'move_to_list'	 		=> 'Verschieben zu',
