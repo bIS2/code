@@ -15,4 +15,5 @@ return array(
 	'help'     				=> 'Help',
 	'edit_libraries'	=> 'Editing Library',
 	'statistics'			=> 'Statistics',
+	'wellcome'		=> 'Wellcome, :name. Select your option in top bar.',
 );
