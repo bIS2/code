@@ -363,12 +363,13 @@ class HoldingssetsController extends BaseController {
 					Holdingsset::find($holdingsset_id)->increment('holdings_number', count($ids));
 					$recalled = array();
 					foreach ($ids as $hol_id) {
-						$hos_ids = Holding::find($hol_id)->take(1)->lists('holdingsset_id');
-						$hos_id = $hos_ids[0];
-						Holdingsset::find($hos_id)->decrement('holdings_number');
-						if (!(in_array($hos_id, $recalled))) { 
-							holdingsset_recall($hos_id);
-							$recalled[] = $hol_id;
+						if ($hol_id != -1) {							
+							$hos_id = Holding::find($hol_id)->holdingsset_id;						 
+							Holdingsset::find($hos_id)->decrement('holdings_number');
+							if (!(in_array($hos_id, $recalled))) { 
+								holdingsset_recall($hos_id);
+								$recalled[] = $hol_id;
+							}
 						}
 					}
 					holdingsset_recall($holdingsset_id);

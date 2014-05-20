@@ -15,6 +15,18 @@
                 "bPaginate": false  
               });
             </script>
+            <style type="text/css">
+            .similarity-table {
+              width: auto !important;
+              max-width: 100% !important;              
+            }
+            .similarity-table th {
+              width: auto !important;           
+            }
+            .similarity-table td {
+              width: auto !important;           
+            }
+            </style>
             <table class="table table-striped table-condensed flexme similarity-table">
               <thead>
                 <tr>    
@@ -23,7 +35,8 @@
                   </th>        
                   <th>id</th>        
                   <th>sys</th>            
-                  <th>245a :: 245b</th>        
+                  <th>245a</th>        
+                  <th>245b</th>        
                   <th>score</th>       
                   <th>flag</th>           
                 </tr>
@@ -44,7 +57,8 @@
                       </td>
                       <td>{{ htmlspecialchars($holding['id'],ENT_QUOTES) }}</td>        
                       <td>{{ htmlspecialchars($holding['sys2'],ENT_QUOTES) }}</td>           
-                      <td>{{ htmlspecialchars($holding['f245a'],ENT_QUOTES) }} :: {{ htmlspecialchars($holding['f245b'],ENT_QUOTES) }}</td>           
+                      <td>{{ htmlspecialchars($holding['f245a'],ENT_QUOTES) }}</td>           
+                      <td>{{ htmlspecialchars($holding['f245b'],ENT_QUOTES) }}</td>           
                       <td>{{ htmlspecialchars($holding['score'],ENT_QUOTES) }}</td>       
                       <td>{{ htmlspecialchars($holding['flag'],ENT_QUOTES) }}</td>       
                     </tr>
