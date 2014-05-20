@@ -95,7 +95,7 @@
 				<a <?php if ($hlist_id != $hlist->id) { echo 'href="'.route('holdings.index',Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]).'"'; } ?> class="">
 					{{ $hlist->type_icon }}
 					<?= $hlist->name  ?> 
-					<span class="badge counter">{{ $hlist->holdings -> count() }} </span>
+					<span class="badge counter">{{ $hlist->holdings->count() }} </span>
 				</a>
 
 				@if ($hlist_id != $hlist->id)
