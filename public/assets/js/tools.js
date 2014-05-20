@@ -2,6 +2,15 @@
 
 $(function(){
 
+  var totalItems = $('.carousel .item').length;
+  var currentIndex = $('.carousel div.active').index() + 1;
+  $('.carousel #num').html(''+currentIndex+'/'+totalItems+'')
+
+  $('.carousel').on('slid.bs.carousel', function(){
+    var totalItems = $(this).find('.item').length;
+    var currentIndex = $(this).find('div.active').index() + 1;
+    $(this).find('#num').html(''+currentIndex+'/'+totalItems+'')
+  })
 
  $('form#create_user').on('submit', function(e){
 

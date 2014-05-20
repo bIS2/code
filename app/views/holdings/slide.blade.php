@@ -107,6 +107,7 @@
 								  <a class="btn btn-default " href="#slider" data-slide="prev">
 								    <span class="fa fa-chevron-left"></span>
 								  </a>
+								  <span id="num" class="btn btn-default"></span>
 								  <a class="btn btn-default " href="#slider" data-slide="next">
 								    <span class="fa fa-chevron-right"></span>
 								  </a>					
