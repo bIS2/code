@@ -20,16 +20,11 @@ class StateObserver {
 
 		if  ( $model->state=='ok' ){
 
-			$model->holding->library->increment('holding_ok')
-
 			// if holding has notes then delete state annotates and notes. Decrement couter of annotated stat
-			if ( State::whereState('annotated')->whereHoldingId($model->holding_id)->exists() ) {
+
+			State::whereState('annotated')->whereHoldingId($model->holding_id)->delete();
+			Note::whereHoldingId($model->holding_id)->delete();
 				
-				State::whereState('annotated')->whereHoldingId($model->holding_id)->delete();
-				Note::whereHoldingId($model->holding_id)->delete();
-				$model->holding->library->decrement('holding_annotated')
-				
-			}
 		}
 
 		if  ( $model->state=='annotated' ){

@@ -21,6 +21,16 @@ class ConfirmObserver {
       foreach ($ids as $id) {
 	      State::create( [ 'holding_id' => $id, 'user_id' => $user_id, 'state'=>'confirmed' ] );
       }
+
+      //Increment stat total confirmed Holdings Set
+      Stat::first()->increment('sets_confirmed');
+
+      if ($model->holdings()->whereIsOwner('t')->exists())
+	      Stat::first()->increment('sets_confirmed_owner');
+
+      if ($model->holdings()->whereIsAux('t')->exists())
+	      Stat::first()->increment('sets_confirmed_auxiliar');
+
     }
 
     public function deleted($model) {
@@ -47,5 +57,13 @@ class ConfirmObserver {
       Holding::whereHoldingsset_id($holdingsset_id)->where('state', 'NOT LIKE ', '%annotated%')->update([ 
        'state' => 'blank'
       ]);
+
+      // Decrement  stats total confirmed Holdings Set
+      Stat::first()->decrement('sets_confirmed');
+      if ($model->holdings()->whereIsOwner('t')->exists())
+	      Stat::first()->decrement('sets_confirmed_owner');
+
+      if ($model->holdings()->whereIsAux('t')->exists())
+	      Stat::first()->decrement('sets_confirmed_auxiliar');      
     }
 }

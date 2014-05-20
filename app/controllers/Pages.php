@@ -6,43 +6,47 @@
 */
 class Pages extends BaseController {
 
+	public function getIndex(){
+		return View::make('pages.index');
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
-	public function getIndex(){
+	public function getStatistics(){
 
 		if  (Input::has('lang')) return Redirect::to(Request::header('referer'));
 
 		$data['libraries'] 				= Library::all();
 		$library_id = ( Input::has('library_id') && (Input::get('library_id')!='*') ) ? Input::get('library_id') : null;
 
-		$holdings 				= Holding::inLibrary($library_id);
-		$holdings_ok 			= State::inLibrary($library_id)->whereState('ok');
+		$holdings 						= Holding::inLibrary($library_id);
+		$holdings_ok 					= State::inLibrary($library_id)->whereState('ok');
 		$holdings_annotated 	= State::inLibrary($library_id)->whereState('annotated');
 		$holdingsset_confirm 	= Confirm::orderBy('created_at', 'DESC'); 
 
 		if ( Input::has('month') && (Input::get('month')!='*') ) {
 			$month = Input::get('month');
-			$holdings_ok 			= $holdings_ok->where( DB::raw('extract(month from created_at)'),$month );
+			$holdings_ok 					= $holdings_ok->where( DB::raw('extract(month from created_at)'),$month );
 			$holdings_annotated 	= $holdings_annotated->where( DB::raw('extract(month from created_at)'),$month );
 			$holdingsset_confirm	= $holdingsset_confirm->where( DB::raw('extract(month from created_at)'),$month );
 		}
 
 		if (Input::has('year') && (Input::get('year')!='*')) {
 			$year = Input::get('year');
-			$holdings_ok 			= $holdings_ok->where( DB::raw('extract(year from created_at)'),$year );
+			$holdings_ok 					= $holdings_ok->where( DB::raw('extract(year from created_at)'),$year );
 			$holdings_annotated 	= $holdings_annotated->where( DB::raw('extract(year from created_at)'),$year );
 			$holdingsset_confirm 	= $holdingsset_confirm->where( DB::raw('extract(year from created_at)'),$year );
 		}
 
 		$data['holdingsset_confirm'] 	= $holdingsset_confirm->take(10)->get();
-		$data['holdings_ok'] 			= $holdings_ok->take(10)->get();
+		$data['holdings_ok'] 					= $holdings_ok->take(10)->get();
 		$data['holdings_annotated'] 	= $holdings_annotated->take(10)->get();
 
-		$data['total'] 					= $holdings->count();
-		$data['total_ok'] 				= $holdings_ok->count();
+		$data['total'] 							= $holdings->count();
+		$data['total_ok'] 					= $holdings_ok->count();
 		$data['total_anottated'] 		= $holdings_annotated->count();
 
 		// $data['total'] 					= 1;
@@ -50,7 +54,7 @@ class Pages extends BaseController {
 		// $data['total_anottated'] 		= 3;
 
 
-		return View::make('pages.index', $data);
+		return View::make('pages.stats', $data);
 	}
 
 	public function getHelp(){

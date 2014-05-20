@@ -1,14 +1,15 @@
+<?php $stats = Stat::first() ?>
 
-<?php $total= Holdingsset::count() ?>
+<?php $total= $stats->sets_count ?>
 
 <?php $grouped = Holdingsset::has('groups')->count() ?>
 <?php $ungrouped = Holdingsset::whereNotIn('id',function($query){ $query->select('holdingsset_id')->from('group_holdingsset'); })->count() ?>
 
-<?php $confirmed = Holdingsset::confirmed()->count() ?>
-<?php $confirmed_owners = Holdingsset::owners()->confirmed()->count() ?>
-<?php $confirmed_aux = Holdingsset::auxiliars()->confirmed()->count() ?>
+<?php $confirmed = $stats->sets_confirmed ?>
+<?php $confirmed_owners = $stats->sets_confirmed_owner //Holdingsset::owners()->confirmed()->count() ?>
+<?php $confirmed_aux = $stats->sets_confirmed_auxiliar //Holdingsset::auxiliars()->confirmed()->count() ?>
 
-<?php $annotated = Holdingsset::annotated()->count() ?>
+<?php $annotated = $stats->sets_annotated //Holdingsset::annotated()->count() ?>
 
 <div class="col-xs-1">
 	<span class="label label-success" data-toggle="tooltip" data-placement="top" data-original-title="{{ trans('stats.confirmed') }}">

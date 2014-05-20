@@ -14,4 +14,5 @@ return array(
 	'users'     			=> 'Users',
 	'help'     				=> 'Help',
 	'edit_libraries'	=> 'Editing Library',
+	'statistics'			=> 'Statistics',
 );

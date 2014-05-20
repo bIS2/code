@@ -111,13 +111,21 @@
 <div id="hos_actions_and_filters" class="row">
 
 	<!-- Information about pagination-->
-	<div class="col-xs-2">
-		{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} 
-	</div>
-
-	<!-- Pages -->
-	<div class="col-xs-5">
-
+	<div class="col-xs-7">
+		<span class="control-label">
+			{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} 
+		</span>
+	  <div class="col-xs-2">
+			<form action="{{URL::current()}}" method="get">
+				<select id="pagination-limit" class="form-control input-sm" name="pagination-limit">
+					<option>25</option>
+					<option>30</option>
+					<option>40</option>
+					<option>50</option>
+					<option>100</option>
+				</select>
+			</form>
+		</div>
 		{{ $holdings->appends(Input::except('page'))->links()  }}
 
 	</div>

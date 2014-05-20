@@ -1,7 +1,4 @@
 
-<li data-toggle="tooltip" data-placement="bottom" data-original-title="{{ trans('titles.help')}}"> 
-	<a href="/help" ><span class="fa fa-question"></span> </a>
-</li>
 <li data-toggle="tooltip" data-placement="bottom" data-original-title="{{ trans('titles.home')}}"> 
 	<a href="/" ><span class="fa fa-home"></span> </a>
 </li>
@@ -51,8 +48,16 @@
 
 @if (((Session::get(Auth::user()->username.'_last_route') == '') && ($_COOKIE[Auth::user()->username.'_last_route'] != '')) && ((Auth::user()->hasRole('bibuser')) || (Auth::user()->hasRole('resuser'))))  
 	<li class="btn btn-xs btn-warning">
-		<a href="{{ $_COOKIE[Auth::user()->username.'_last_route'] }}" ><strong><span class="fa fa-repeat"></a>
+		<a href="{{ $_COOKIE[Auth::user()->username.'_last_route'] }}" ><strong><i class="fa fa-repeat"></i></strong></a>
 	</li>
 	<?php Session::put(Auth::user()->username.'_last_route', $_COOKIE[Auth::user()->username.'_last_route']); ?>
 @endif
 
+<li {{ (Request::is('statistics*') ? ' class="active"' : '') }}>
+	<a href="/statistics" >
+		<strong><i class="fa fa-bar-chart-o"></i></strong>
+	</a>
+</li>
+<li data-toggle="tooltip" data-placement="bottom" data-original-title="{{ trans('titles.help')}}"> 
+	<a href="/help" ><i class="fa fa-question-circle"></i> </a>
+</li>
