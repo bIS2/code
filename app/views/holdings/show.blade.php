@@ -170,6 +170,16 @@
 						  <td>866z</td>
 							<td><?= $holding->show('f866z'); ?></td>
 						</tr>
+						@if ($holding->has('comment'))
+							<tr>
+							  <td>{{ trans('holdings.comment') }}</td>
+								<td>
+										{{ $holding->comment->content }}
+										<i class="fa fa-angle-double-right"></i>
+										<i>{{ $holding->comment->user->username }}</i>
+								</td>
+							</tr>
+						@endif
 					</tbody>
 				</table>
 			</div>
