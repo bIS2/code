@@ -12,6 +12,11 @@
 		<div class="credit text-center row stats">
 			@include('stats.index')
   	</div>
+  	<div class="row">
+  		<div class="col-sm-12">
+  			{{ $git_log }}
+  		</div>
+  	</div>
 	</div>
 </footer>
 

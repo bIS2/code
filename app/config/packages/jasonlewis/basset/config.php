@@ -97,7 +97,7 @@ return array(
                 // $collection->add('wysihtml5/wysihtml5-0.3.0.js');
                 // $collection->add('wysihtml5/bootstrap-wysihtml5.js');
   //              $collection->javascript('http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js');
-                $collection->add('jquery.dataTables.js');
+                $collection->add('jquery.dataTables.min.js');
                 $collection->add('datatables-bootstrap.js');
                 $collection->add('datatables.fnReloadAjax.js');
                 $collection->add('jquery.colorbox.js');

@@ -215,6 +215,7 @@ $(function(){
   doEditable();
 	
   $('.datatable').dataTable({
+    order:[],
     bFilter: false,
     bPaginate: false , 
     bStateSave: true

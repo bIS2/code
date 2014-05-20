@@ -102,3 +102,4 @@ App::down(function()
 
 require __DIR__.'/../filters.php';
 
+$git_log = shell_exec("git log -1 --abbrev-commit --format='%ci %s'");
