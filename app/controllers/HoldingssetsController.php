@@ -116,7 +116,9 @@ class HoldingssetsController extends BaseController {
 				if ($state == 'receiveds') 
 					$holdingssets = $holdingssets->receiveds();					
 				if ($state == 'reserveds') 
-					$holdingssets = $holdingssets->reserveds();
+					$holdingssets = $holdingssets->reserveds();				
+				if ($state == 'noreserveds') 
+					$holdingssets = $holdingssets->noreserveds();
 			}
 
 			if ($this->data['is_filter']) {

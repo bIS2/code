@@ -63,6 +63,7 @@ return array (
 	'prev'				=> 'Vorhergehender',
 	'profile'			=> 'Profil',
 	'reserveds'			=> 'Reservierte',
+	'noreserveds'		=> 'Unreservierte',
 	'reset'				=> 'Zurücksetzen',
 	'role'				=> 'Rolle',
 	'save'			 	=> 'Speichern',

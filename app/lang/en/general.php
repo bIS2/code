@@ -63,6 +63,7 @@ return array(
 	'prev'              => 'Previous',
 	'profile'			=> 'Profile',
 	'reserveds'			=> 'Reserved',
+	'noreserveds'		=> 'No reserved',
 	'reset'  			=> 'Reset',
 	'role'				=> 'Role',
 	'save'  			=> 'Save',
