@@ -92,7 +92,7 @@ class Hlist extends Eloquent {
   //return the counter of holdings in list was annotated or ok state
   public function getHoldingsWasRevisedsAttribute(){
     return $this->holdings()->whereIn('holdings.id', function($query) { 
-    	$query->select('holding_id')->from('states')->whereState('holdings.annotated')->orWhere('holdings.state','=','ok'); 
+    	$query->select('holding_id')->from('states')->whereState('states.annotated')->orWhere('states.state','=','ok'); 
     })->count();
   }
 

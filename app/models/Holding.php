@@ -68,10 +68,10 @@ class Holding extends Eloquent {
     if ( Auth::user()->hasRole('maguser') ) {
     	$lists = Hlist::whereWorkerId(Auth::user()->id)->lists('id');
       $lists[] = -1;
-    	$query
-    			->join('hlist_holding', 'hlist_holding.holding_id','=', 'holdings.id')
-    			->join('hlists', 'hlist_holding.hlist_id','=', 'hlists.id')
-    			->whereIn('hlists.id',$lists);
+    	$ids = Hlist::join('hlist_holding', 'hlist_holding.hlist_id','=', 'hlists.id')
+        			->whereIn('hlists.id',$lists)
+              ->lists('hlist_holding.holding_id');
+      $query->whereIn('id',$ids);
     }
 
 		// $query->whereIn('holdings.id', function($query){ $query->from('hlists')->holdings() } ) confirms()->ownerOrAux()->nodeliveries();
