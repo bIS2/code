@@ -24,8 +24,8 @@ class HlistObserver {
 
   	if ($model->isDirty('state')){
       if ( $model->state=='received' ){
-        $ids = $model->holdings()->whereState('delivery')->lists('holdings.id');//select('holdings.id')->lists('id');
-        echo var_dump('ids'.$ids);
+        $ids = $model->holdings()->where('holdings.state','=','delivery')->get();//select('holdings.id')->lists('id');
+        echo var_dump($ids);
         die();
         //Holding::where('holdings.id','in', $ids)->update(['state'=>'received']);
       }
