@@ -55,7 +55,7 @@ class HoldingssetsController extends BaseController {
 		else { 
 			/* SEARCH ADVANCED FIELDS OPTIONS
 			----------------------------------------------------------------*/
-			define('ALL_SEARCHEABLESFIELDS', 'sys1;sys2;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
+			define('ALL_SEARCHEABLESFIELDS', 'sys1;sys2;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
 
 			// Is Filter
 			$allsearchablefields = ALL_SEARCHEABLESFIELDS;
@@ -66,8 +66,8 @@ class HoldingssetsController extends BaseController {
 
 			/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
-			define('DEFAULTS_FIELDS', 'sys2;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
-			define('ALL_FIELDS', 'sys2;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
+			define('DEFAULTS_FIELDS', 'sys2;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
+			define('ALL_FIELDS', 'sys2;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
 
 			/* User vars */
 			$uUserName = Auth::user()->username;
