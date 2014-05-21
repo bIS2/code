@@ -38,6 +38,7 @@ return array(
 	'pending'				=> 'Pending',
 	'printer'				=> 'Print',
 	'receiveds'				=> 'Received',
+	'receive'				=> 'Receive',
 	'revised'				=> 'List revised',
 	'reviseds'				=> 'Revised',
 	'size'					=> 'Size',

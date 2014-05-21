@@ -90,24 +90,25 @@
 										</span>
 									@endif
 
-									@if (($list->type=='delivery') && ( !$list->received ))
-										<span class="">
-											<span class="label label-default"><i class="fa fa-download"></i> {{ $list->holdings_receiveds }}</span>  
-										</span>
-									@endif
-
-
 			          	@if (Authority::can('delivery','Hlist'))
 
-				          	<a href="{{ route('deliveries.store') }}" class="btn btn-success btn-xs" data-remote="true" data-method="post" data-params="hlist_id={{$list->id}}&user_id={{Auth::user()->id}}" {{ $list->is_delivery ? 'disabled' : '' }}>
+				          	<a href="{{ route('deliveries.store') }}" class="btn btn-success btn-xs btn-delivery" data-remote="true" data-method="post" data-params="hlist_id={{$list->id}}&user_id={{Auth::user()->id}}" {{ $list->is_delivery ? 'disabled' : '' }}>
 				          		<span class="fa  fa-truck fa-flip-horizontal" ></span> {{trans('holdings.delivery')}}
 				          	</a>
 
 			          	@endif
 
+								@if (Authority::can('receive_list',$list))
+
+								  <a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-receive btn-xs" data-params="state=received" data-method="put" data-remote="true">
+								  	<span class="fa fa-download"></span> {{trans('holdings.receive')}}
+								  </a>
+									
+							  @endif
+
 			          	@if (Authority::can('revise',$list))
 
-				          	<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
+				          	<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs btn-revise" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
 				          		<span class="fa fa-check" ></span> {{trans('holdings.revised')}}
 				          	</a>
 

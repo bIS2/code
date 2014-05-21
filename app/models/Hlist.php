@@ -103,14 +103,9 @@ class Hlist extends Eloquent {
   }
 
 
-  public function getStateAttribute(){
+  public function getStateAttribute($value){
 
-  	$state = 'pending';
-
-  	if (($this->type=='control') && $this->revised ) 					$state = 'revised';
-  	if (($this->type=='delivery') && $this->delivery->exists)  	$state = 'delivery';
-
-  	return $state;
+  	return (($this->type=='control') && $this->revised )? 'revised' : $value;
   	
   }
 
@@ -133,7 +128,6 @@ class Hlist extends Eloquent {
   }
 
   public function scopeDeliveries($query){
-
      return $query->whereIn( 'hlists.id', function($query) { 
     	$query->select('hlist_id')->from('deliveries')->whereReceived(false);
     });

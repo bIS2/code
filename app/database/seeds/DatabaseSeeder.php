@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder {
 		$this->call('StatsTableSeeder');
 		$this->call('Initialize_statsTableSeeder');
 		$this->call('InitializeStatsTableSeeder');
+		$this->call('Update_state_hlistsTableSeeder');
+		$this->call('UpdateStateHlistsTableSeeder');
 	}
 
 }
