@@ -71,7 +71,7 @@ class Hlist extends Eloquent {
 
 	    $total 		= $this->holdings()->count();
 	    $receiveds = $this->holdings()->where( function($query) { 
-	    	$query->whereState('received')->orWhere('state','=','commented'); 
+	    	$query->whereState('holdings.received')->orWhere('holdings.state','=','commented'); 
 	    })->count();
 
 	   	if ( $total == $receiveds ) $this->delivery->update(['received'=>1]);
@@ -85,20 +85,20 @@ class Hlist extends Eloquent {
 
   public function getHoldingsRevisedsAttribute(){
     return $this->holdings()->where( function($query) { 
-      $query->whereState('annotated')->orWhere('state','=','ok'); 
+      $query->whereState('holdings.annotated')->orWhere('holdings.state','=','ok'); 
     })->count();
   }
 
   //return the counter of holdings in list was annotated or ok state
   public function getHoldingsWasRevisedsAttribute(){
     return $this->holdings()->whereIn('holdings.id', function($query) { 
-    	$query->select('holding_id')->from('states')->whereState('annotated')->orWhere('state','=','ok'); 
+    	$query->select('holding_id')->from('states')->whereState('holdings.annotated')->orWhere('holdings.state','=','ok'); 
     })->count();
   }
 
   public function getHoldingsReceivedsAttribute(){
     return $this->holdings()->where( function($query) { 
-    	$query->whereState('received')->orWhere('state','=','commented'); 
+    	$query->whereState('holdings.received')->orWhere('holdings.state','=','commented'); 
     })->count();
   }
 
