@@ -17,6 +17,4 @@
 <h3>{{ trans('general.workflow_title') }}</h3>
 <img src="{{ trans('general.workflow_image') }}" alt="{{ trans('general.workflow_image_alt') }}">
 
-<br><img src="/bIS_Workflow.png">
-
 @stop

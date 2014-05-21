@@ -25,10 +25,10 @@ class ConfirmObserver {
       //Increment stat total confirmed Holdings Set
       Stat::first()->increment('sets_confirmed');
 
-      if ($model->holdings()->whereIsOwner('t')->exists())
+      if ($model->holdingsset->holdings()->whereIsOwner('t')->exists())
 	      Stat::first()->increment('sets_confirmed_owner');
 
-      if ($model->holdings()->whereIsAux('t')->exists())
+      if ($model->holdingsset->holdings()->whereIsAux('t')->exists())
 	      Stat::first()->increment('sets_confirmed_auxiliar');
 
     }
@@ -60,10 +60,10 @@ class ConfirmObserver {
 
       // Decrement  stats total confirmed Holdings Set
       Stat::first()->decrement('sets_confirmed');
-      if ($model->holdings()->whereIsOwner('t')->exists())
+      if ($model->holdingsset->holdings()->whereIsOwner('t')->exists())
 	      Stat::first()->decrement('sets_confirmed_owner');
 
-      if ($model->holdings()->whereIsAux('t')->exists())
+      if ($model->holdingsset->holdings()->whereIsAux('t')->exists())
 	      Stat::first()->decrement('sets_confirmed_auxiliar');      
     }
 }

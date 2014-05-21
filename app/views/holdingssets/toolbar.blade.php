@@ -56,6 +56,9 @@
 							<a id="filter_incorrect" href="{{ route('sets.index', Input::except('state') + ['state'=>'reserveds']) }}" class="btn btn-info  <?= (Input::get('state') == 'reserveds') ? 'active' : '' ?> btn-sm">
 								<span class="fa fa-lock"></span> <span class="">{{{ trans('general.reserveds') }}}</span>
 							</a>
+							<a id="filter_incorrect" href="{{ route('sets.index', Input::except('state') + ['state'=>'noreserveds']) }}" class="btn btn-default  <?= (Input::get('state') == 'noreserveds') ? 'active' : '' ?> btn-sm">
+								<span class="fa fa-unlock"></span> <span class="">{{{ trans('general.noreserveds') }}}</span>
+							</a>
 							<a id="filter_incorrect" href="{{ route('sets.index', Input::except('state') + ['state'=>'incorrects']) }}" class="btn btn-danger <?= (Input::get('state') == 'incorrects') ? 'active' : '' ?> btn-sm">
 								<span class="fa fa-thumbs-down"></span> {{{ trans('general.incorrects') }}}
 							</a>

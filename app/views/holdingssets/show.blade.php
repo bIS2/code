@@ -25,7 +25,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						@foreach ($holdingsset -> holdings as $holding)
+						<?php $holdings = $holdingsset -> holdings()->orderBy('is_owner', 'DESC')->orderBy('is_aux', 'DESC')->get(); ?>
+						@foreach ($holdings as $holding)
 						<?php $btnlock 	= ($holding->locked()->exists()) ? 'btn-warning ' : ''; ?>	
 						<?php $trclass 	= ($holding->locked()->exists()) ? 'locked' : ''  ?>	
 						<?php $ownertrclass = ($holding->is_owner == 't') ? ' is_owner' : '';  ?>	
