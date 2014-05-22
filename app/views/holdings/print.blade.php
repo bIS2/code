@@ -9,8 +9,7 @@
 					<div class="" >
 						<div class="row">
 							<div class="col-xs-10 col-md-offset-1">
-								<h1>bIS :: {{ trans('titles.holdings') }}</h1>
-								<h2>
+								<h3>
 									{{ $hlist->name}}
 									<small>
 										<ul class="pull-right list-inline">
@@ -28,7 +27,7 @@
 											</li>
 										</ul>
 									</small>
-								</h2>
+								</h3>
 								<hr>
 							</div>
 							@foreach ($holdings as $holding)

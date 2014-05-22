@@ -2,6 +2,8 @@
 
 $(function(){
 
+
+
   var totalItems = $('.carousel .item').length;
   var currentIndex = $('.carousel div.active').index() + 1;
   $('.carousel #num').html(''+currentIndex+'/'+totalItems+'')
@@ -138,7 +140,7 @@ $(function(){
 	})
 
   //manipulates the elements marked with the css class .draggable
-  $( ".draggable" ).draggable({   
+  $( ".draggable:has(:checkbox:checked)" ).multidraggable({   
     handle: ".move",
     appendTo: 'body',
     zIndex: 100,
@@ -280,6 +282,11 @@ $(function(){
 function handleAjaxSucces(parent) {
     // Manipula all reponse ajax json
   $(parent).on( 'ajax:success', 'form,a', function(data, result, status){
+
+    if (result.location) {
+        window.location.href = result.location;
+        return false;
+    }      
 
     if($(this).attr('id') == 'recalled') window.location.reload()
 

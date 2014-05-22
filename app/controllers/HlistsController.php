@@ -169,7 +169,10 @@ class HlistsController extends BaseController {
 
 				$hlist->save();
 				$hlist->holdings()->attach( $holding_ids );
-				return Response::json(['created_list'=>$hlist->id]);
+				
+
+				return Response::json(['location'=>route('holdings.index', ['hlist_id'=>$hlist->id])]);
+				// return Response::json(['created_list'=>$hlist->id]);
 
 			} else {
 
