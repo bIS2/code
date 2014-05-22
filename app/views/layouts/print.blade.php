@@ -23,8 +23,11 @@
 		<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
 		<style>
-		@section('styles')
-		@show
+	    @page {
+	       @bottom-left {
+	            content: counter(page) "/" counter(pages);
+	        }
+	     }
 		</style>
 
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
