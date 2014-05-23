@@ -60,7 +60,7 @@ return array(
 	'reserved_by'				=> 'Reserved by: ',
 	'see_information_from_original_system' => 'See original information (external)',
 	'see_more_information' 		=> 'Click to see more information',
-	'see_storeman_annotations'	=> 'Show annotations from MAGVUSER',
+	'see_storeman_annotations'	=> 'Show annotations from MAGUSER',
 	'select_all_hos'			=> 'Select All Holdings Sets',
 	'showing'					=> 'Showing ',
 	'similarity_search_from_this_holding' => 'Build new HOS with this HOL',

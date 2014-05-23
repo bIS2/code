@@ -17,7 +17,7 @@ return array(
 	'blank' 						=> '(still without status)',
 	'blank_reserved' 				=> 'Reserved',
 	'burn' 							=> 'HOL eliminated physically',
-	'commented'						=> 'Commented by SPB',
+	'commented'						=> 'Delivery problem',
 	'confirmed' 					=> 'HOS correct',
 	'confirmed_reserved' 			=> 'Reserved',
 	'delivery' 						=> 'Sent to SPB',
