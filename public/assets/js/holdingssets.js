@@ -84,7 +84,7 @@ function setDatatable() {
 								var aoColumns = []
 						    ths = $($(This).attr('href') + ' .flexme th');
 						    for (var i = 0; i < $(ths).length; i++) {
-						    	(($(ths[i]).hasClass('hocrr_ptrn')) || ($(ths[i]).hasClass('actions')) || ($(ths[i]).hasClass('table_order'))) ? aoColumns.push({ "asSorting": [ "" ], "deSorting": [ "" ]}) : aoColumns.push(null) 
+						    	(($(ths[i]).hasClass('hocrr_ptrn')) || ($(ths[i]).hasClass('actions')) || ($(ths[i]).hasClass('table_order'))) ? aoColumns.push({ "asSorting": [ "" ]}) : aoColumns.push(null) 
 						    }
 							$($(This).attr('href') + ' .flexme').dataTable({
 								"bFilter": false,

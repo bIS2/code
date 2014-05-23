@@ -239,7 +239,7 @@ $(function(){
 	})
   
 $('a.link_bulk_action_groups').on('click', function(){
-  alert( $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden') )
+  // alert( $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden') )
   $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden').appendTo('form.bulk_action')
 
 })
