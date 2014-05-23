@@ -9,7 +9,7 @@ class HlistObserver {
 
     // When a list is saved in the database and has the Revisend field 1 then forming the holding list was revised to change the state
   	if ($model->revised==1){
-  		foreach ( $model->holdings()->select('holdings.id','holdings.state')->whereState('ok')->orWhere( 'state','=','annotated')->get() as $holding ) {
+  		foreach ( $model->holdings()->select('holdings.id','holdings.state')->where('holdings.state','=','ok')->orWhere( 'holdings.state','=','annotated')->get() as $holding ) {
    			$state = State::create([ 
   				'holding_id'	=> $holding->id, 
   				'state' 			=> 'revised_'.$holding->state, 
