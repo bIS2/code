@@ -17,7 +17,7 @@ return array(
 	'blank' 						 => 'HOL nicht bestätigt (weiss)',
 	'blank_reserved' 				=> 'Reserviert',
 	'burn' 							=> 'HOL eliminiert physically',
-	'commented'						=> 'Kommentar der SPB',
+	'commented'						=> 'Versandproblem',
 	'confirmed' 					=> 'HOS ok',
 	'confirmed_reserved' 			=> 'Reserviert',
 	'delivery' 						=> 'Zur SPB gesandt',
