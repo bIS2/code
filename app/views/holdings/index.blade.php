@@ -21,7 +21,21 @@
 				<tr>
 					<th></th>
 					<th>
-						<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets" {{ ( Authority::can('create','Hlist') ) ? '' : 'disabled' }} />
+<!-- 						<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#holdings-targets" {{ ( Authority::can('create','Hlist') ) ? '' : 'disabled' }} />
+ -->					<div class="btn-group">
+						  <a class="dropdown-toggle btn-xs" data-toggle="dropdown" {{ ( Authority::can('create','Hlist') ) ? '' : 'disabled' }}>
+						    <i class="fa fa-check-square" ></i> <span class="caret"></span>
+						  </a>
+						  <ul class="dropdown-menu" role="menu">
+						    <li><a href="#" class="select" data-check="false" data-target="-">{{ trans('general.clear') }}</a></li>
+						    <li role="presentation" class="divider"></li>
+						    <li><a href="#" class="select" data-check="false" data-target="">{{ trans('general.all') }}</a></li>
+						    <li><a href="#" class="select" data-check="false" data-target=".confirmed"> {{ trans('general.select').' '.trans('states.confirmed') }}</a></li>
+						    <li><a href="#" class="select" data-check="false" data-target=".revised_ok"> {{ trans('general.select').' '. trans('states.revised_ok') }}</a></li>
+						    <li><a href="#" class="select" data-check="false" data-target=".delivery"> {{ trans('general.select').' '. trans('states.delivery') }}</a></li>
+						  </ul>
+						</div>
+
 					</th>
 					<th class="actions" style="width:10px !important">
 						{{trans('general.actions')}}
@@ -43,7 +57,7 @@
 			<tbody id="holdings-targets" class="selectable">
 			@foreach ($holdings as $holding)
 
-				<tr id="<?= $holding->id ?>" class="{{ $holding->css }} draggable ui-selected" data-holdingsset="{{$holding->holdingsset_id}}" >
+				<tr id="<?= $holding->id ?>" class="{{ $holding->css }} draggable ui-selected selectable {{ $holding->state}}" data-holdingsset="{{$holding->holdingsset_id}}" >
 						<td>
 							@if (Authority::can('create','Hlist')) 
 								<span class="move">
@@ -112,6 +126,7 @@
 		 <div class="modal" id="form-create-notes"></div><!-- /.modal -->
 		 <div class="modal" id="form-create-comments"></div><!-- /.modal -->
 		 <div class="modal" id="form-create-list"></div><!-- /.modal -->
+		 <div class="modal" id="form-to-list"></div><!-- /.modal -->
 		 <div class="modal" id="modal-show"></div><!-- /.modal -->
 		</div>
 		<div id="field_size_in_blank" class="hide">{{ trans('errors.field_size_in_blank') }}</div>

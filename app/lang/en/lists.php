@@ -8,8 +8,8 @@ return array(
 	'type-control'   	=> 'Control',
 	'type-delivery'		=> 'Delivery',
 	'type-elimination'	=> 'Elimination',
-	'type-unsolve'   	=> 'Unsolved',
-	'worker'			=> 'Assign to',
+	'type-unsolve'   		=> 'Unsolved',
+	'worker'					=> 'Assign to',
 	'all-lists'			=> 'All Lists',
 	'nolists'			=> 'There are no lists to show',
 	

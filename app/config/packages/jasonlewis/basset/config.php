@@ -91,7 +91,6 @@ return array(
                 $collection->add('ui/jquery.ui.sortable.js');
                 $collection->add('ui/jquery.ui.droppable.js');
                 $collection->add('ui/jquery.ui.draggable.js');
-                $collection->add('ui.multidraggable.js');
                 $collection->add('jquery.nicescroll.min.js');
                 $collection->add('bootstrap/bootstrap.js');
                 // $collection->requireDirectory('../../../vendor/twbs/bootstrap/js');

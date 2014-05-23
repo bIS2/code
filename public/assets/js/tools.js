@@ -142,7 +142,7 @@ $(function(){
 	})
 
   //manipulates the elements marked with the css class .draggable
-  $( ".draggable:has(:checkbox:checked)" ).multidraggable({   
+  $( ".draggable" ).draggable({   
     handle: ".move",
     appendTo: 'body',
     zIndex: 100,
@@ -150,6 +150,7 @@ $(function(){
     revert: "invalid"
   });   
 
+  $('.selectable').selectable()
   //manipulates the elements <LI> marked with the css class .draggable
   $( "li.droppable" ).droppable({   
     accept: "tr.draggable",
@@ -159,14 +160,12 @@ $(function(){
       $to= $(this)
       $from = $(ui.draggable)
       // alert($from.attr('id'))
-      var call = $.post( $to.data('attach-url'), { holding_id: $from.attr('id') } )
+      var call = $.post( $to.data('attach-url'), { 'holding_id[]': $from.attr('id'), hlist_id: $to.data('id') } )
       call.done(function(result) { 
       	if ( result.error ) {
           bootbox.alert( result.error )
-      		// alert( result.error ) 
       	} else{
-      		$('.counter').text( result.counter )
-      		// alert( 'OK'  )
+      		$to.find('.counter').text( result.counter )
       	}
       })
 
@@ -219,6 +218,7 @@ $(function(){
   doEditable();
 	
   $('.datatable').dataTable({
+    columnDefs: [ { targets: 0, orderable: false },{ targets: 1, orderable: false } ],
     order:[],
     bFilter: false,
     bPaginate: false , 
@@ -228,6 +228,7 @@ $(function(){
   bulkActions();
 
   $('body').on('click', '#select-all',function() {
+
     $($(this).data('target')).find('input.hl:checkbox').prop('checked',this.checked)
     $('div.select-all p').toggleClass('active')
     if (this.checked) {
@@ -240,6 +241,29 @@ $(function(){
       $(':checkbox.sel').parents('li').removeClass("warning")
       $('a.link_bulk_action').addClass('disabled')
     }
+  })
+
+  $('body').on('click', '.select',function(e) {
+    e.preventDefault()
+    var $elements = $( 'tr'+$(this).data('target')+' :checkbox.sel' )
+    var value = ($(this).attr('data-check')=='true') ? true : false
+    console.log($(this).attr('data-check'))
+
+    $('#holdings-targets :checkbox.sel')
+      .prop('checked',false)
+      .parents('tr')
+      .removeClass("warning")  
+    $('a.link_bulk_action').addClass('disabled')
+
+    $(this).attr('data-check', (!value) ? 'true' : 'false' )
+
+    // $('div.select-all p').toggleClass('active')
+    if ( !value ) {
+      $elements.prop('checked',!value)                              // marck holdings selected
+      $elements.parents('tr').addClass("warning")
+      $('a.link_bulk_action').removeClass('disabled')
+    }
+
 	})
   
 

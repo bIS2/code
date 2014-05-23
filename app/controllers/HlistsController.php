@@ -277,36 +277,78 @@ class HlistsController extends BaseController {
 		return Response::json( ['remove' => [$id]] );
 	}
 
+
+	public function getAttach($id) {
+		
+		return View::make('hlists.to',[ 'lists' => Hlist::my()->orderBy('name')->get() ]);
+	}
+ 
 	/**
 	 * Attach exists Holdings to List.
 	 *
 	 * @param  int  $id
 	 * @return Response JSON
 	 */
-	public function postAttach($id){
-		$holding = Holding::find(Input::get('holding_id'));
+	public function postAttach(){
+		$id = Input::get('hlist_id');
 		$list = $this->hlist->find($id);
+		$holdings_in_list = $list->holdings()->select('holdings.id')->lists('holdings.id');
+		$holdings = Holding::whereIn('id',Input::get('holding_id'))->whereNotIn('id',$holdings_in_list);
 
 		$error = '';
-		if ( ($list->type=='control') && !( ($holding->state=='confirmed') || ($holding->state=='ok') || ($holding->state=='annotated') ) )
-			$error = 'attach_list_control';
+		$inserted = 0;
 
-		if ( ($list->type=='delivery') && !$holding->is_revised )
-			$error = 'attach_list_delivery';
+		if ($holdings->exists()){
 
-		if ( in_array( $holding->id, $list->holdings()->select('holdings.id')->lists('holdings.id') ))
-			$error = 'attach_holding_in_list';
+			if ( $list->type=='control' ) {
+				$controls = $holdings->whereState('confirmed')->orwhere('state','ok')->orWhere('state','annotated')->lists('id');
+				if ( count($controls)==0) {
+					$error = 'attach_list_control';
+				} else{
+					$list->holdings()->sync( $controls );	
+					$inserted = count($controls);
+				}
+			}
 
-		if ($error==''){
+			if ( $list->type=='delivery' ) {
+				$deliveries = $holdings->where( 'state','like','revised_%' )->lists('id');
+				if ( count($deliveries)==0 ){
+					$error = 'attach_list_delivery';
+				} else {
+					$list->holdings()->sync($deliveries);
+					$inserted = count($deliveries);
+				}
+			}
 
-			$list->holdings()->attach($holding->id);			
-			return Response::json(['attach' => $id,'counter' => $list->holdings()->count() ] );
+			if (  $list->type=='elimination' ){
+				$eliminations = $holdings->whereState('commented')->orwhere('state','trash')->lists('id');
+				if ( count($eliminations)==0 ){
+					$error = 'attach_list_elimination';
+				}	else {
+					$list->holdings()->sync($eliminations);
+					$inserted = count($eliminations);
+				}
+			}
 
-		} else {
-
-			return Response::json( [ 'error' => trans('errors.'.$error), 'type'=> $holding->state ] );
-
+			if (  $list->type=='unsolve' ){
+				$unsolves = $holdings->whereState('incorrected')->orwhere('state','commented')->lists('id');
+				if ( count($unsolves)==0 ){
+					$error = 'attach_list_elimination';
+				}	else {
+					$list->holdings()->sync( $unsolves );
+					$inserted = count($unsolves);
+				}
+				
+			}
 		}
+
+		if ( $error=='' && $inserted==0 ) $error = 'attach_holding_in_list';
+
+		if ($error=='')
+			return Response::json([ 'location'=> route('holdings.index', ['hlist_id'=>$id]) , 'attach' => $id,'counter' => $list->holdings()->count(), 'inserted'=>$inserted ] );
+		else 
+			return Response::json( [ 'error' => trans('errors.'.$error), 'type'=> $holdings->state ] );
+
 	}
 
 	/**
