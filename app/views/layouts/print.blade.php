@@ -24,7 +24,7 @@
 
 		<style>
 	    @page {
-	       @bottom-left {
+	       @bottom {
 	            content: counter(page) "/" counter(pages);
 	        }
 	     }

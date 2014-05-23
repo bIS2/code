@@ -2,7 +2,9 @@
 
 $(function(){
 
-
+  $('#per-page').on('change',function(){
+    $(this).parents('form').submit()
+  })
 
   var totalItems = $('.carousel .item').length;
   var currentIndex = $('.carousel div.active').index() + 1;

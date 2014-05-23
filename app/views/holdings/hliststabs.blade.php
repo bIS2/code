@@ -107,7 +107,6 @@
 	@endforeach
 </ul>
 <?php if (count($holdings) > 0) { ?>
-<form method="post" action="{{ route('holdings.index', Input::except(['noexists'])) }}">
 <div id="hos_actions_and_filters" class="row">
 
 	<!-- Information about pagination-->
@@ -115,21 +114,24 @@
 		<span class="control-label">
 			{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} 
 		</span>
-	  <div class="col-xs-2">
-			<form action="{{URL::current()}}" method="get">
-				<select id="pagination-limit" class="form-control input-sm" name="pagination-limit">
-					<option>25</option>
-					<option>30</option>
-					<option>40</option>
-					<option>50</option>
-					<option>100</option>
-				</select>
-			</form>
-		</div>
+		@if ( count($holdings) > Cookie::get('holdings-display') )
+		  <div class="col-xs-2">
+				<form action="{{URL::current()}}" method="get">
+					<select id="per-page" class="form-control input-sm" name="per-page">
+						<option {{ (Cookie::get('per_page')==25) ? 'selected' : ''  }}>25</option>
+						<option {{ (Cookie::get('per_page')==35) ? 'selected' : ''  }}>35</option>
+						<option {{ (Cookie::get('per_page')==50) ? 'selected' : ''  }}>50</option>
+						<option {{ (Cookie::get('per_page')==100) ? 'selected' : ''  }}>100</option>
+						<option {{ (Cookie::get('per_page')==200) ? 'selected' : ''  }}>200</option>
+					</select>
+				</form>
+			</div>
+		@endif
 		{{ $holdings->appends(Input::except('page'))->links()  }}
 
 	</div>
 
+	<form method="post" action="{{ route('holdings.index', Input::except(['noexists'])) }}">
 	<!-- Actions -->
 	<div class="col-xs-5">
 		<div class="col-xs-7">

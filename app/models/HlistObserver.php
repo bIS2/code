@@ -29,7 +29,7 @@ class HlistObserver {
           ->where('holdings.state','=','delivery')
           ->lists('holdings.id');
 
-        Holding::whereIn('id',$ids)->update(['state'=>'received']);
+        Holding::whereIn('id',$ids)->select('state')->update(['state'=>'received']);
       }
   	}
 
