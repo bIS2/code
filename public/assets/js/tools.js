@@ -232,11 +232,13 @@ $(function(){
       $(':checkbox.sel').parents('tr').addClass("warning")
       $(':checkbox.sel').parents('li').addClass("warning")
       $('a.link_bulk_action').removeClass('disabled')
+      $('a.link_bulk_action_groups').removeClass('disabled')
     }
     else {
       $(':checkbox.sel').parents('tr').removeClass("warning")
       $(':checkbox.sel').parents('li').removeClass("warning")
       $('a.link_bulk_action').addClass('disabled')
+      $('a.link_bulk_action_groups').addClass('disabled')
     }
 	})
   
