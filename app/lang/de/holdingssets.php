@@ -61,7 +61,7 @@ return array(
 	'reserved_by'				=> 'Reserviert von: ',
 	'see_information_from_original_system' => 'Information aus Ursprungssystem',
 	'see_more_information' 		=> 'Für mehr Informationen draufklicken',
-	'see_storeman_annotations'	=> 'Zeige Annotationen des MAGVUSER',
+	'see_storeman_annotations'	=> 'Zeige Annotationen des MAGUSER',
 	'select_all_hos'			=> 'Selektiere alle HOS',
 	'showing'					=> 'Zeigt ',
 	'similarity_search_from_this_holding' => 'Ähnliche HOS wie diese finden (similarity)',
