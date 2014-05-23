@@ -253,12 +253,13 @@ $(function(){
       .prop('checked',false)
       .parents('tr')
       .removeClass("warning")  
+
     $('a.link_bulk_action').addClass('disabled')
 
     $(this).attr('data-check', (!value) ? 'true' : 'false' )
 
     // $('div.select-all p').toggleClass('active')
-    if ( !value ) {
+    if ( !value && ($elements.length>0) ) {
       $elements.prop('checked',!value)                              // marck holdings selected
       $elements.parents('tr').addClass("warning")
       $('a.link_bulk_action').removeClass('disabled')
