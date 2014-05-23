@@ -232,13 +232,11 @@ $(function(){
       $(':checkbox.sel').parents('tr').addClass("warning")
       $(':checkbox.sel').parents('li').addClass("warning")
       $('a.link_bulk_action').removeClass('disabled')
-      $('a.link_bulk_action_groups').removeClass('disabled')
     }
     else {
       $(':checkbox.sel').parents('tr').removeClass("warning")
       $(':checkbox.sel').parents('li').removeClass("warning")
       $('a.link_bulk_action').addClass('disabled')
-      $('a.link_bulk_action_groups').addClass('disabled')
     }
 	})
   
@@ -252,11 +250,6 @@ $(function(){
     $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden').appendTo('form.bulk_action')
   })
 
-  $('a.link_bulk_action_groups').on('click', function(){
-    // alert( $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden') )
-    $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden').appendTo('form.bulk_action')
-
-  })
 
 
 	$('#filter-btn').click(function(){
@@ -662,21 +655,17 @@ function bulkActions() {
   // if exists holdings selected then ative button to create list
   if ( $(':checkbox:checked.sel').size()>0 )
     $('a.link_bulk_action').removeClass('disabled')
-    $('a.link_bulk_action_groups').removeClass('disabled')
 
   $(':checkbox.sel').click( function(){
     if (this.checked) {
       $('a.link_bulk_action').removeClass('disabled')
-      $('a.link_bulk_action_groups').removeClass('disabled')
       $(this).parents('tr').addClass("warning")
       $(this).parents('li').addClass("warning")
     } else {
       $(this).parents('li').removeClass("warning")
       $(this).parents('tr').removeClass("warning")
-      if ( $(':checkbox:checked.sel').length==0) {
+      if ( $(':checkbox:checked.sel').length==0)
         $('a.link_bulk_action').addClass('disabled')
-        $('a.link_bulk_action_groups').addClass('disabled')
-      }
     }
   })
 
