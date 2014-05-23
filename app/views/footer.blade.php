@@ -1,5 +1,5 @@
 <!-- the footer includes credits and something else... -->
-<footer id="footer">
+<footer id="footer" class="affix-bottom" data-spy="affix" data-offset-bottom="0">
 	<div class="container">
 
 
@@ -10,23 +10,13 @@
 			  </button>
 			</div>
 		<div class="credit text-center row stats">
-			@if (!Auth::guest())
-
-				@if (Auth::user()->hasRole('bibuser') || Auth::user()->hasRole('resuser'))
-					@include('stats.bibuser')
-				@endif
-
-				@if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('maguser'))
-					@include('stats.magvuser')
-				@endif
-
-				@if (Auth::user()->hasRole('postuser'))
-					@include('stats.postuser')
-				@endif
-
-			@endif
-
-	   </div>
+			@include('stats.index')
+  	</div>
+  	<div class="row">
+  		<div class="col-sm-12 text-center">
+  			<small><strong>{{trans('titles.updated')}}</strong> <?php echo shell_exec('git log -1 --abbrev-commit --format="%ci %s"');  ?></small>
+  		</div>
+  	</div>
 	</div>
 </footer>
 

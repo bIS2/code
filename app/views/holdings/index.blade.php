@@ -43,7 +43,7 @@
 			<tbody id="holdings-targets" class="selectable">
 			@foreach ($holdings as $holding)
 
-				<tr id="<?= $holding->id ?>" class="{{ $holding->css }} draggable" data-holdingsset="{{$holding->holdingsset_id}}" >
+				<tr id="<?= $holding->id ?>" class="{{ $holding->css }} draggable ui-selected" data-holdingsset="{{$holding->holdingsset_id}}" >
 						<td>
 							@if (Authority::can('create','Hlist')) 
 								<span class="move">

@@ -15,4 +15,8 @@ class Library extends Eloquent {
   public function scopeLibraryperholding($query, $code) {
   	return $this->whereCode($code)->paginate(1);
   }	
+
+  public function getHoldingsRevisedAttribute(){
+  	return ($this->holdings_revised_annotated + $this->holdings_revised_ok);
+  }
 }

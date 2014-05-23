@@ -13,6 +13,7 @@ class GroupObserver {
        'object_type' => 'holdingsset',
        'object_id' => $model->id,
       ]);
+
     }
 
   public function deleted($model) {
@@ -22,6 +23,7 @@ class GroupObserver {
        'object_type' => 'holdingsset',
        'object_id' => $model->id,
       ]);
+
     }
 
 }

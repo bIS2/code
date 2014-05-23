@@ -95,7 +95,7 @@
 				<a <?php if ($hlist_id != $hlist->id) { echo 'href="'.route('holdings.index',Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]).'"'; } ?> class="">
 					{{ $hlist->type_icon }}
 					<?= $hlist->name  ?> 
-					<span class="badge counter">{{ $hlist->holdings -> count() }} </span>
+					<span class="badge counter">{{ $hlist->holdings->count() }} </span>
 				</a>
 
 				@if ($hlist_id != $hlist->id)
@@ -107,21 +107,31 @@
 	@endforeach
 </ul>
 <?php if (count($holdings) > 0) { ?>
-<form method="post" action="{{ route('holdings.index', Input::except(['noexists'])) }}">
 <div id="hos_actions_and_filters" class="row">
 
 	<!-- Information about pagination-->
-	<div class="col-xs-2">
-		{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} 
-	</div>
-
-	<!-- Pages -->
-	<div class="col-xs-5">
-
+	<div class="col-xs-7">
+		<span class="control-label">
+			{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} 
+		</span>
+		@if ( count($holdings) > Cookie::get('holdings-display') )
+		  <div class="col-xs-2">
+				<form action="{{URL::current()}}" method="get">
+					<select id="per-page" class="form-control input-sm" name="per-page">
+						<option {{ (Cookie::get('per_page')==25) ? 'selected' : ''  }}>25</option>
+						<option {{ (Cookie::get('per_page')==35) ? 'selected' : ''  }}>35</option>
+						<option {{ (Cookie::get('per_page')==50) ? 'selected' : ''  }}>50</option>
+						<option {{ (Cookie::get('per_page')==100) ? 'selected' : ''  }}>100</option>
+						<option {{ (Cookie::get('per_page')==200) ? 'selected' : ''  }}>200</option>
+					</select>
+				</form>
+			</div>
+		@endif
 		{{ $holdings->appends(Input::except('page'))->links()  }}
 
 	</div>
 
+	<form method="post" action="{{ route('holdings.index', Input::except(['noexists'])) }}">
 	<!-- Actions -->
 	<div class="col-xs-5">
 		<div class="col-xs-7">

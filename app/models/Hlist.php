@@ -85,32 +85,27 @@ class Hlist extends Eloquent {
 
   public function getHoldingsRevisedsAttribute(){
     return $this->holdings()->where( function($query) { 
-      $query->whereState('annotated')->orWhere('state','=','ok'); 
+      $query->whereState('annotated')->orWhere('holdings.state','=','ok'); 
     })->count();
   }
 
   //return the counter of holdings in list was annotated or ok state
   public function getHoldingsWasRevisedsAttribute(){
     return $this->holdings()->whereIn('holdings.id', function($query) { 
-    	$query->select('holding_id')->from('states')->whereState('annotated')->orWhere('state','=','ok'); 
+    	$query->select('holding_id')->from('states')->whereState('annotated')->orWhere('states.state','=','ok'); 
     })->count();
   }
 
   public function getHoldingsReceivedsAttribute(){
     return $this->holdings()->where( function($query) { 
-    	$query->whereState('received')->orWhere('state','=','commented'); 
+    	$query->whereState('received')->orWhere('holdings.state','=','commented'); 
     })->count();
   }
 
 
-  public function getStateAttribute(){
+  public function getStateAttribute($value){
 
-  	$state = 'pending';
-
-  	if (($this->type=='control') && $this->revised ) 					$state = 'revised';
-  	if (($this->type=='delivery') && $this->delivery->exists)  	$state = 'delivery';
-
-  	return $state;
+  	return (($this->type=='control') && $this->revised )? 'revised' : $value;
   	
   }
 
@@ -133,7 +128,6 @@ class Hlist extends Eloquent {
   }
 
   public function scopeDeliveries($query){
-
      return $query->whereIn( 'hlists.id', function($query) { 
     	$query->select('hlist_id')->from('deliveries')->whereReceived(false);
     });

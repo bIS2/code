@@ -11,7 +11,7 @@
 		<div class="row">
 
 				<div class="col-xs-12 h" >
-					<div id="slider" class="carousel slide" data-ride="carousel" data-interval="false">
+					<div id="slider" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
 						<?php $i=0  ?>
 						<div class="carousel-inner">
 							@foreach ($holdings as $holding)
@@ -107,6 +107,7 @@
 								  <a class="btn btn-default " href="#slider" data-slide="prev">
 								    <span class="fa fa-chevron-left"></span>
 								  </a>
+								  <span id="num" class="btn btn-default"></span>
 								  <a class="btn btn-default " href="#slider" data-slide="next">
 								    <span class="fa fa-chevron-right"></span>
 								  </a>					

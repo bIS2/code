@@ -68,10 +68,10 @@ class Holding extends Eloquent {
     if ( Auth::user()->hasRole('maguser') ) {
     	$lists = Hlist::whereWorkerId(Auth::user()->id)->lists('id');
       $lists[] = -1;
-    	$query
-    			->join('hlist_holding', 'hlist_holding.holding_id','=', 'holdings.id')
-    			->join('hlists', 'hlist_holding.hlist_id','=', 'hlists.id')
-    			->whereIn('hlists.id',$lists);
+    	$ids = Hlist::join('hlist_holding', 'hlist_holding.hlist_id','=', 'hlists.id')
+        			->whereIn('hlists.id',$lists)
+              ->lists('hlist_holding.holding_id');
+      $query->whereIn('id',$ids);
     }
 
 		// $query->whereIn('holdings.id', function($query){ $query->from('hlists')->holdings() } ) confirms()->ownerOrAux()->nodeliveries();
@@ -170,8 +170,7 @@ class Holding extends Eloquent {
 
   public function scopePendings($query){
 
-  	return $query
-	    ->whereState('confirmed');
+  	return $query->whereState('confirmed');
   }
 
   public function scopeAnnotated($query,$tag_id){
@@ -431,7 +430,7 @@ class Holding extends Eloquent {
     	$str = $this->clean($this->$field);
       $ret = (strlen($str) > $len) ? '<span class="pop-over" data-content="<strong>'.$str.'</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover">'.truncate($str, 30).'</span>' : $str;
     }
-
+    if ($field == 'state') { $ret = '<span class="label label-primary">'.trans('states.'.$ret).'</label>'; }
     return $ret;
   }
 

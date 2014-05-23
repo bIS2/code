@@ -2,6 +2,32 @@
 
 $(function(){
 
+  $('#per-page').on('change',function(){
+    $(this).parents('form').submit()
+  })
+
+  var totalItems = $('.carousel .item').length;
+  var currentIndex = $('.carousel div.active').index() + 1;
+  $('.carousel #num').html(''+currentIndex+'/'+totalItems+'')
+  if (currentIndex==1)
+    $(this).find('[data-slide="prev"]').attr('disabled',"disabled")
+  else
+    $(this).find('[data-slide="prev"]').removeAttr('disabled')
+
+  $('.carousel').on('slid.bs.carousel', function(){
+    var totalItems = $(this).find('.item').length;
+    var currentIndex = $(this).find('div.active').index() + 1;
+    $(this).find('#num').html(''+currentIndex+'/'+totalItems+'')
+    if (currentIndex==totalItems)
+      $(this).find('[data-slide="next"]').attr('disabled',"disabled")
+    else
+      $(this).find('[data-slide="next"]').removeAttr('disabled')
+
+    if (currentIndex==1)
+      $(this).find('[data-slide="prev"]').attr('disabled',"disabled")
+    else
+      $(this).find('[data-slide="prev"]').removeAttr('disabled')
+  })
 
  $('form#create_user').on('submit', function(e){
 
@@ -116,7 +142,7 @@ $(function(){
 	})
 
   //manipulates the elements marked with the css class .draggable
-  $( ".draggable" ).draggable({   
+  $( ".draggable:has(:checkbox:checked)" ).multidraggable({   
     handle: ".move",
     appendTo: 'body',
     zIndex: 100,
@@ -193,6 +219,7 @@ $(function(){
   doEditable();
 	
   $('.datatable').dataTable({
+    order:[],
     bFilter: false,
     bPaginate: false , 
     bStateSave: true
@@ -215,15 +242,17 @@ $(function(){
     }
 	})
   
-// $('a.link_bulk_action').on('click', function(){
-//   alert( $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden') )
-//   $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden').appendTo('form.bulk_action')
 
-// })
+  $('a.link_bulk_action[data-remote]').on('click',function(){
+    $(this).attr( 'data-params', $('.table input.hl:checkbox:checked').serialize() )
+  })
 
-$('a.link_bulk_action[data-remote]').on('click',function(){
-  $(this).attr( 'data-params', $('.table input.hl:checkbox:checked').serialize() )
-})
+  $('a.link_bulk_action').on('click', function(){
+    // alert( $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden') )
+    $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden').appendTo('form.bulk_action')
+  })
+
+
 
 	$('#filter-btn').click(function(){
 		$('#filter-well').toggle('fast')
@@ -251,6 +280,11 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 function handleAjaxSucces(parent) {
     // Manipula all reponse ajax json
   $(parent).on( 'ajax:success', 'form,a', function(data, result, status){
+
+    if (result.location) {
+        window.location.href = result.location;
+        return false;
+    }      
 
     if($(this).attr('id') == 'recalled') window.location.reload()
 
@@ -293,6 +327,14 @@ function handleAjaxSucces(parent) {
       $('.btn-revise').removeClass('hide') 
     	$('.label.label-primary.state-list').addClass('hide') 
 
+    }
+    // show btn to revise list if completed
+    if ( result.list_received  ) {
+      $('#'+result.list_received )
+      	// .hide('slow') 
+      	.find('.state-list').text(result.state)
+      	.end()
+      	.find('.btn-receive').hide()
     }
 
     if ( result.list_completed == false) {

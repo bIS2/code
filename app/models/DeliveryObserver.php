@@ -22,6 +22,8 @@ class DeliveryObserver {
       $lockeds[] = $id;
     }
 
+    $model->hlist->update(['state'=>'delivery']);
+
   }
 
   public function deleted($model){

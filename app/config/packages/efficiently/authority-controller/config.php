@@ -31,6 +31,12 @@ return [
           return ( $holding->is_delivery && !$holding->is_received && Auth::user()->hasRole('speichuser') );
         });
 
+        if ( Auth::user()->hasRole('speichuser') ){
+	        $authority->allow('receive_list', 'Hlist', function($self, $hlist) {
+	          return ( ($hlist->state=='delivery') && ($hlist->type=='delivery') );
+	        });
+        }
+
         $authority->allow('trash', 'Holding', function($self, $holding) {
           return ( $holding->is_spare && Auth::user()->hasRole('bibuser') );
         });

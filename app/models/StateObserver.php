@@ -19,8 +19,12 @@ class StateObserver {
   	}
 
 		if  ( $model->state=='ok' ){
+
+			// if holding has notes then delete state annotates and notes. Decrement couter of annotated stat
+
 			State::whereState('annotated')->whereHoldingId($model->holding_id)->delete();
 			Note::whereHoldingId($model->holding_id)->delete();
+				
 		}
 
 		if  ( $model->state=='annotated' ){

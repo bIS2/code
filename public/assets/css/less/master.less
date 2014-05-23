@@ -66,7 +66,7 @@
 @import "../../../../vendor/twbs/bootstrap/less/responsive-utilities.less";
 
 // Font-awesome-4.0.3
-//@import "font-awesome/font-awesome.less";
+// @import "font-awesome/font-awesome.less";
 
 
 // Components w/ JavaScript
@@ -85,6 +85,10 @@
  * Semantics based on Twitter Bootstrap
  *
  */
+
+.carousel .carousel-inner{
+    height: 400px;
+}
 section.container {
     padding-top: 60px;
 }
@@ -154,7 +158,7 @@ table.table {
 
 @bis-box-shadow:        inset 0 1px 3px rgba(0,0,0,.1), 0 0 8px rgba(0,0,0,.6);
 @bis-box-shadow-lite:   0 0 5px rgba(0,0,0,.1);
-@footer-height:         50px;
+@footer-height:         60px;
 @jumbotron-padding:     20px;
 @images-url:            "../../img/";
 @bis-monkey-shit-color: #fffff5;
@@ -245,7 +249,7 @@ footer {
     height: @footer-height;
     background: #FFECBE;
     padding-top: @font-size-base;
-    color: @gray-light;
+    color: @gray;
     .affix;
     z-index: 10; 
     .stats > div {
@@ -988,7 +992,7 @@ a.btn-danger {
 // to fix buttons for german language
 #toolbar {
     .pagination > li > a, .pagination > li > span {
-        padding: 0 12px !important;
+        padding: 5px 10px !important;
     }
     .btn-sm, .btn-xs {
         padding-right: 5px;
@@ -1066,7 +1070,7 @@ form.clear-search {
 
     .revised,.delivered{ 
         background-color: #efefef;
-        .btn{ display: none; }
+        .btn-revise, .btn-delivery{ display: none; }
     }
 } 
 

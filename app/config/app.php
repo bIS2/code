@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'debug' => false,
+	'debug' => true,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -125,7 +125,7 @@ return array(
  		'Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider',
 
         /* Uncomment for use in development */
-        //'Way\Generators\GeneratorsServiceProvider', // Generators
+        'Way\Generators\GeneratorsServiceProvider', // Generators
 		//'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // IDE Helpers
 
     ),

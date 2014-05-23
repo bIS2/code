@@ -169,7 +169,10 @@ class HlistsController extends BaseController {
 
 				$hlist->save();
 				$hlist->holdings()->attach( $holding_ids );
-				return Response::json(['created_list'=>$hlist->id]);
+				
+
+				return Response::json(['location'=>route('holdings.index', ['hlist_id'=>$hlist->id])]);
+				// return Response::json(['created_list'=>$hlist->id]);
 
 			} else {
 
@@ -242,21 +245,25 @@ class HlistsController extends BaseController {
 
 			if (Request::ajax()){
 
-				if ( $input['revised']==1 )
+				if ( $input['revised']==1 ){
 					return Response::json([ 
 						'list_revised' => $id, 
 						'state' => trans( 'states.'.$hlist->state ) 
 					]);
+				} else {
+					return Response::json([ 
+						'list_received' => $id, 
+						'state' => trans( 'states.'.$hlist->state ) 
+					]);
+
+				}
+
 
 			} else {
 				return Redirect::route('lists.index', $id);
 			}
 
-/*		return Redirect::route('hlists.edit', $id)
-			->withInput()
-			->withErrors($validation)
-			->with('message', 'There were validation errors.');
-*/	}
+		}
 
 	/**
 	 * Remove the specified resource from storage.

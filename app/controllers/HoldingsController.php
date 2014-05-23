@@ -24,6 +24,7 @@ class HoldingsController extends BaseController {
 	 */
 	public function Index()
 	{
+			$holdings_per_page =  ( (Cookie::get('per_page') < 25)  || Input::get('per_page')) ? 25 : $perpage;
 
 		/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
@@ -59,7 +60,7 @@ class HoldingsController extends BaseController {
 
 		$this->data['allsearchablefields'] = ['sys2','008x','022a','245a','245b','245c','246a','245n','245p','260a','260b','300a','300b','300c','310a','362a','500a','505a','710a','770t','772t','780t','785t','852b','852c','852h','852j','866a','866z','size' , 'years', 'exists_online', 'is_current', 'has_incomplete_vols'];
 
-	$holdings = ( Input::has('hlist_id') ) ? Hlist::find( Input::get('hlist_id') )->holdings()->orderBy('f852h', 'ASC') : Holding::init();
+		$holdings = ( Input::has('hlist_id') ) ? Hlist::find( Input::get('hlist_id') )->holdings()->orderBy('f852h', 'ASC') : Holding::init();
 
     $this->data['hlists'] = Hlist::my()->get();
     $this->data['hlist'] = (Input::has('hlist_id')) ? Hlist::find(Input::get('hlist_id')) : false;
@@ -74,8 +75,8 @@ class HoldingsController extends BaseController {
 
 
 		if ( Input::has('tagged') )			$holdings = $holdings->annotated(Input::get('tagged'));	
-		if ( Input::has('commenteds') )		$holdings = $holdings->defaults()->commenteds();
-		if ( Input::has('state') )			$holdings = Holding::inLibrary()->withState( Input::get('state') );
+		if ( Input::has('commenteds') )	$holdings = $holdings->defaults()->commenteds();
+		if ( Input::has('state') )			$holdings = $holdings->withState( Input::get('state') );//Holding::inLibrary()->withState( Input::get('state') );
 
 		// $holdings = ( Input::has('reviseds') || (Auth::user()->hasRole('postuser'))) ? $holdings->reviseds()->corrects() : $holdings->noreviseds();
 
@@ -103,7 +104,7 @@ class HoldingsController extends BaseController {
 
 		$this->data['is_filter'] 	= $is_filter;
 		$this->data['sql'] 			= sprintf( $format, $compare, $value );
-		$this->data['holdings'] 	= $holdings->orderby('f852h_e', 'ASC')->paginate(25);
+		$this->data['holdings'] 	= $holdings->orderby('f852h_e', 'ASC')->paginate($holdings_per_page);
 		// $queries = DB::getQueryLog();
 		// $this->data['last_query'] = $queries;			
 
@@ -112,7 +113,7 @@ class HoldingsController extends BaseController {
 		//  and holdings in their library
 		$view = (Input::has('view')) ? Input::get('view') : 'index';
 		// var_dump($this->data);die();
-		return View::make('holdings/'.$view, $this->data);
+		return View::make('holdings/'.$view, $this->data)->withCookie(Cookie::make('per_page', $perpage, time() + (86400 * 30)));
 
 	}
 
