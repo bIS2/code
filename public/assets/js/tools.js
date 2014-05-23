@@ -2,6 +2,8 @@
 
 $(function(){
 
+
+
   var totalItems = $('.carousel .item').length;
   var currentIndex = $('.carousel div.active').index() + 1;
   $('.carousel #num').html(''+currentIndex+'/'+totalItems+'')
@@ -138,7 +140,7 @@ $(function(){
 	})
 
   //manipulates the elements marked with the css class .draggable
-  $( ".draggable" ).draggable({   
+  $( ".draggable:has(:checkbox:checked)" ).multidraggable({   
     handle: ".move",
     appendTo: 'body',
     zIndex: 100,
@@ -238,15 +240,27 @@ $(function(){
     }
 	})
   
-$('a.link_bulk_action_groups').on('click', function(){
+
+  $('a.link_bulk_action_groups').on('click', function(){
   // alert( $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden') )
   $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden').appendTo('form.bulk_action')
+  })
 
-})
+  $('a.link_bulk_action[data-remote]').on('click',function(){
+    $(this).attr( 'data-params', $('.table input.hl:checkbox:checked').serialize() )
+  })
 
-$('a.link_bulk_action[data-remote]').on('click',function(){
-  $(this).attr( 'data-params', $('.table input.hl:checkbox:checked').serialize() )
-})
+  $('a.link_bulk_action').on('click', function(){
+    // alert( $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden') )
+    $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden').appendTo('form.bulk_action')
+  })
+
+  $('a.link_bulk_action_groups').on('click', function(){
+    alert( $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden') )
+    $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden').appendTo('form.bulk_action')
+
+  })
+
 
 	$('#filter-btn').click(function(){
 		$('#filter-well').toggle('fast')
@@ -274,6 +288,11 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
 function handleAjaxSucces(parent) {
     // Manipula all reponse ajax json
   $(parent).on( 'ajax:success', 'form,a', function(data, result, status){
+
+    if (result.location) {
+        window.location.href = result.location;
+        return false;
+    }      
 
     if($(this).attr('id') == 'recalled') window.location.reload()
 
@@ -316,6 +335,14 @@ function handleAjaxSucces(parent) {
       $('.btn-revise').removeClass('hide') 
     	$('.label.label-primary.state-list').addClass('hide') 
 
+    }
+    // show btn to revise list if completed
+    if ( result.list_received  ) {
+      $('#'+result.list_received )
+      	// .hide('slow') 
+      	.find('.state-list').text(result.state)
+      	.end()
+      	.find('.btn-receive').hide()
     }
 
     if ( result.list_completed == false) {

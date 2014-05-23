@@ -17,7 +17,21 @@ class HlistObserver {
   			]);
   		}
   	}
-
   }
 
+  public function updated($model){
+
+  	if ($model->isDirty('state')){
+      if ( $model->state=='received' ){
+
+        $ids = $model->holdings()
+          ->select('holdings.id','holdings.state')
+          ->where('holdings.state','=','delivery')
+          ->lists('holdings.id');
+
+        Holding::whereIn('id',$ids)->update(['state'=>'received']);
+      }
+  	}
+
+  }
 }

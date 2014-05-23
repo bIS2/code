@@ -1,5 +1,5 @@
 <!-- the footer includes credits and something else... -->
-<footer id="footer">
+<footer id="footer" class="affix-bottom" data-spy="affix" data-offset-bottom="0">
 	<div class="container">
 
 
@@ -13,8 +13,8 @@
 			@include('stats.index')
   	</div>
   	<div class="row">
-  		<div class="col-sm-12">
-  			{{ $git_log }}
+  		<div class="col-sm-12 text-center">
+  			<small><strong>{{trans('titles.updated')}}</strong> <?php echo shell_exec('git log -1 --abbrev-commit --format="%ci %s"');  ?></small>
   		</div>
   	</div>
 	</div>

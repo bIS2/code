@@ -126,12 +126,10 @@ Route::get('user/reset/{token}', 'UserController@getReset')
     ->where('token', '[0-9a-z]+');
 
 // User password reset
-Route::post('user/reset/{token}', 'UserController@postReset')
-    ->where('token', '[0-9a-z]+');
+Route::post('user/reset/{token}', 'UserController@postReset')->where('token', '[0-9a-z]+');
 
 //:: User Account Routes ::
-Route::post('user/{user}/edit', 'UserController@postEdit')
-    ->where('user', '[0-9]+');
+Route::post('user/{user}/edit', 'UserController@postEdit')->where('user', '[0-9]+');
 
 //:: User Account Routes ::
 Route::post('user/login', 'UserController@postLogin');
