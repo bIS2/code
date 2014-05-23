@@ -662,17 +662,21 @@ function bulkActions() {
   // if exists holdings selected then ative button to create list
   if ( $(':checkbox:checked.sel').size()>0 )
     $('a.link_bulk_action').removeClass('disabled')
+    $('a.link_bulk_action_groups').removeClass('disabled')
 
   $(':checkbox.sel').click( function(){
     if (this.checked) {
       $('a.link_bulk_action').removeClass('disabled')
+      $('a.link_bulk_action_groups').removeClass('disabled')
       $(this).parents('tr').addClass("warning")
       $(this).parents('li').addClass("warning")
     } else {
       $(this).parents('li').removeClass("warning")
       $(this).parents('tr').removeClass("warning")
-      if ( $(':checkbox:checked.sel').length==0)
+      if ( $(':checkbox:checked.sel').length==0) {
         $('a.link_bulk_action').addClass('disabled')
+        $('a.link_bulk_action_groups').addClass('disabled')
+      }
     }
   })
 
