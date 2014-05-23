@@ -242,6 +242,7 @@ $(function(){
     }
 	})
   
+
   $('a.link_bulk_action[data-remote]').on('click',function(){
     $(this).attr( 'data-params', $('.table input.hl:checkbox:checked').serialize() )
   })
@@ -251,11 +252,6 @@ $(function(){
     $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden').appendTo('form.bulk_action')
   })
 
-  $('a.link_bulk_action_groups').on('click', function(){
-    alert( $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden') )
-    $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden').appendTo('form.bulk_action')
-
-  })
 
 
 	$('#filter-btn').click(function(){

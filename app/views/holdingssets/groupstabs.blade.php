@@ -63,7 +63,7 @@
   	</a>
   </li>
   <li>
-	  <a href="#form-create-group" data-toggle="modal" class='btn btn-default link_bulk_action disabled link_bulk_action_groups'  style="padding: 6px 11px;">
+	  <a href="#form-create-group" data-toggle="modal" class='btn btn-default disabled link_bulk_action'  style="padding: 6px 11px;">
 	  	<i class="fa fa-folder-o" style="font-size: 26px; padding: 0px;"></i>
 	  	<span class="fa fa-plus-circle" style="position: absolute; font-size: 12px; top: 14px; left: 18px;"></span>
 	  </a>
