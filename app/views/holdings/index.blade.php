@@ -123,7 +123,7 @@
 		</div>
 		</div>
 		<div>
-			{{ var_dump($queries) }}
+		
 		</div>
 		<div class="remote">
 		 <div class="modal" id="form-create-notes"></div><!-- /.modal -->
