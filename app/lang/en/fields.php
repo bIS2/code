@@ -68,6 +68,7 @@ return array(
 	'852h_e' => '852h_e' ,
 	'852j' => '852j' ,
 	'866a' => '866a' ,
+	'866c' => '866c' ,
 	'866z' => '866z' ,
 	'has_incomplete_vols' 	=> 'Icpl',
 	'is_current' 			=>'Current',
