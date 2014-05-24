@@ -26,7 +26,7 @@ $btn 	.= ($holdingsset->is_unconfirmable) ? ' disabled' : '';
 	$holdingsset -> delete();
 }
 else { ?>
-<li id="{{ $holdingsset -> id; }}" class="list-group-item">
+<li id="{{ $holdingsset -> id; }}" class="list-group-item<?php if ((isset($group_id)) && ($group_id > 0)) { echo 'nogroups'; }">
 	<div class="panel-heading row">
 		<div class="col-sm-12">
 			@if ((isset($group_id)) && ($group_id > 0))

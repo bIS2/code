@@ -13,6 +13,13 @@
 	$init = $holdingssets -> getTo();
 	// die('Before load hos');
 ?>
+<?php if ((isset($group_id)) && ($group_id > 0)) { ?>
+		<style type="text/css">
+			#hosg #hos-targets > li.nogroups {
+				display: none !important;
+			}
+		</style>
+<?php } ?>
 <section id="hosg" infinitepagination="1" group_id = "<?php echo $group_id;  ?>" @if ($init == $total) {{ 'class="nopaginate"' }} @endif >
 	<ul id="hos-targets" class="hol-sets table list-group">
 		<?php if (count($holdingssets) > 0) { ?>
