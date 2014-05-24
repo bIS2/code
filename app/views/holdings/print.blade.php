@@ -37,14 +37,16 @@
 								<div id="<?= $holding->id ?>" class="col-xs-10 col-md-offset-1" >
 									<p class="">
 										<span class="text-muted">
-											{{ $holding->f852h }}
-											@if ($holding->f852b)
-												[{{ $holding->f852b }}]
+											{{ $holding->f852b }} 
+											@if ($holding->f852h)
+												- {{ $holding->f852h }}
 											@endif
 										</span>
 										<span class="">
+											-
 											<strong>
 												{{ $holding->f245a }}
+												{{ $holding->f866aupdated }}
 												{{ $holding->f245b }}
 												{{ $holding->f245c }}
 												{{ $holding->f245d }}
@@ -67,20 +69,16 @@
 												@foreach ( $tags = Tag::all() as $tag)
 													<?php $note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note ?>
 													<li>
-														<h5>
 														<?= ($note->tag_id) ? '<span class="fa fa-check-square-o"></span>' : '<span class="fa fa-square-o"></span>' ?> {{ trans('tags.'.$tag->name) }}
-														</h5>
 													</li>
 												@endforeach
 												<li> 
 													{{ trans('fields.size')}}: ____________
 												</li>
 											</ul>
-											<ul>
-												@foreach ( $holding->notes as $note)
-													<li>{{ $note->content }}</li>
-												@endforeach
-											</ul>
+											@if ($holding->notes()->exists())
+												{{ trans('holdings.notes').': '.implode( ',', $holding->notes->lists('content')) }}
+											@endif
 									</p>
 									<div style="border-bottom: 1px dotted;margin-bottom: 30px;margin-top: 20px;"></div>
 									<div style="border-bottom: 1px dotted;margin-bottom: 30px;margin-top: 20px;"></div>

@@ -64,6 +64,9 @@ class NotesController extends BaseController {
 			}
 		}
 
+		if ( Input::has('size') )
+			$holding->update(['size'=>Input::get('size')] );
+
 		$list_finish = false;
 		if ( Input::has('hlist_id') ) {
 			$hlist = Hlist::find(Input::get('hlist_id'));

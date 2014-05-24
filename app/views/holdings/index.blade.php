@@ -57,7 +57,7 @@
 			<tbody id="holdings-targets" class="selectable">
 			@foreach ($holdings as $holding)
 
-				<tr id="<?= $holding->id ?>" class="{{ $holding->css }} draggable ui-selected selectable {{ $holding->state}}" data-holdingsset="{{$holding->holdingsset_id}}" >
+				<tr id="<?= $holding->id ?>" class="{{ $holding->css }} draggable ui-selected {{ $holding->state}}" data-holdingsset="{{$holding->holdingsset_id}}" >
 						<td>
 							@if (Authority::can('create','Hlist')) 
 								<span class="move">
@@ -121,9 +121,6 @@
 			</tbody>
 		</table>
 		</div>
-		</div>
-		<div>
-		
 		</div>
 		<div class="remote">
 		 <div class="modal" id="form-create-notes"></div><!-- /.modal -->

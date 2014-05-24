@@ -150,7 +150,6 @@ $(function(){
     revert: "invalid"
   });   
 
-  $('.selectable').selectable()
   //manipulates the elements <LI> marked with the css class .draggable
   $( "li.droppable" ).droppable({   
     accept: "tr.draggable",
@@ -459,22 +458,6 @@ function handleAjaxSucces(parent) {
       $('tr[data-holdingsset='+ result.remove_by_holdingsset +']').hide('slow', function(){ $(this).remove() }); 
   })
 }
-
-function typeList(){
-
-	// $select = $('#form_list select#worker_id')
-
- //  $('#form_list select#worker_id option').hide()
-
- //  if ($('#form_list :radio:checked').val()=='delivery'){
- //    $('#form_list select#worker_id option[data-role=postuser]').show()
- //  } else {
- //    $('#form_list select#worker_id option[data-role=maguser]').show()
- //  }
-
- //  // alert($select.find('option:visible:first').attr('value'))
- //  $select.val( $select.find('option:visible:first').attr('value') )
-}	
 
 function getAsuccess() {
     $('a, #modal-show').on({

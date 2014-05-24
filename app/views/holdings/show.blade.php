@@ -80,23 +80,15 @@
 							<tr>
 								<td>{{ trans('holdings.notes') }}</td>
 								<td>
-									@foreach ( Tag::all() as $tag)
-										<?php
-											$note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note;
-											if ($username == '') $username = $note->user->username;
-											if ($uname == '') $uname = $note->user->name;
-											// var_dump($note->user->name);
-										?>
-										{{ Form::hidden('holding_id',$holding->id) }}
-									    <div class="input-group" data-toggle="buttons">
-									      <label class="input-group-addon btn btn-primary btn-sm {{ ($note->tag_id) ? 'active' : '' }}{{ $consultnotes }} disabled">
-									      	<span class="glyphicon glyphicon-ok-sign"></span>
-									        <input type="checkbox" name="notes[{{ $tag->id }}][tag_id]" disabled value="{{ $tag->id }}">{{ $tag->name }}
-									      </label>
-									      <input type="text" disabled name="notes[{{ $tag->id }}][content]" value="{{ $note->content }}" class="form-control input-sm"{{ $consultnotes }} placeholder="{{ trans('placeholders.notes_'.$tag->name) }}">
-									    </div>
-									@endforeach
-									<strong>{{ trans('holdings.annotated_by') }}: </strong>{{ $username }}
+									<ul class="list-unstyled">
+										@foreach ( $holding->notes()->get() as $note)
+											<li>
+												<span class="label label-primary">{{ $note->tag->name }}</span>
+												{{ $note->content }}
+												<i>{{ trans('holdings.annotated_by') }} {{ $note->user->username }}</i>
+											</li>
+										@endforeach
+									</ul>
 								</td>
 							</tr>
 						@endif	

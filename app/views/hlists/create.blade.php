@@ -58,6 +58,7 @@ $types = [
 								</label>				    	
 					    	@endforeach
 				    	</div>
+				    	<label for="type" class="error"></label>
 				    </div>				
 				    
 				    <div class="form-group">
@@ -91,6 +92,23 @@ $types = [
   </div><!-- /.modal-dialog -->
 <!-- </div>/.modal -->
 
+<script type="text/javascript">
 
+$(function(){
+
+	$('form#form_list').validate({
+		rules: {
+			name: {
+				required: true,
+				minlength: 3
+			},
+			type: {required: true},
+			worker_id: {required: true}
+		}
+	})
+
+})
+
+</script>
 
 
