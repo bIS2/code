@@ -46,6 +46,7 @@
 											-
 											<strong>
 												{{ $holding->f245a }}
+												{{ $holding->f866aupdated }}
 												{{ $holding->f245b }}
 												{{ $holding->f245c }}
 												{{ $holding->f245d }}
