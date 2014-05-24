@@ -24,7 +24,6 @@ class HoldingsController extends BaseController {
 	 */
 	public function Index()
 	{
-			$holdings_per_page =  ( (Cookie::get('per_page') < 25)  || Input::get('per_page')) ? 25 : $perpage;
 
 		/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
@@ -104,16 +103,17 @@ class HoldingsController extends BaseController {
 
 		$this->data['is_filter'] 	= $is_filter;
 		$this->data['sql'] 			= sprintf( $format, $compare, $value );
-		$this->data['holdings'] 	= $holdings->orderby('f852h_e', 'ASC')->paginate($holdings_per_page);
+		$this->data['holdings'] 	= $holdings->orderby('f852h_e', 'ASC')->paginate(50);
 		// $queries = DB::getQueryLog();
 		// $this->data['last_query'] = $queries;			
+		$this->data['queries'] = DB::getQueryLog();			
 
 		// CONDITIONS
 		// filter by holdingsset ok
 		//  and holdings in their library
 		$view = (Input::has('view')) ? Input::get('view') : 'index';
 		// var_dump($this->data);die();
-		return View::make('holdings/'.$view, $this->data)->withCookie(Cookie::make('per_page', $perpage, time() + (86400 * 30)));
+		return View::make('holdings/'.$view, $this->data);
 
 	}
 

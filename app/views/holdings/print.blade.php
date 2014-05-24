@@ -37,8 +37,10 @@
 								<div id="<?= $holding->id ?>" class="col-xs-10 col-md-offset-1" >
 									<p class="">
 										<span class="text-muted">
-											{{ $holding->f852b }}
 											{{ $holding->f852h }}
+											@if ($holding->f852b)
+												[{{ $holding->f852b }}]
+											@endif
 										</span>
 										<span class="">
 											<strong>
@@ -51,9 +53,10 @@
 										<span>
 											<em>
 												{{ $holding->f866a }}
-												{{ $holding->f866c }}
+												@if ($holding->f866c || $holding->f866z)
+													( {{ implode('-',[$holding->f866c, $holding->f866z]) }} )
+												@endif
 											</em>
-
 										</span>
 											<ul class="list-inline">
 												<li>
@@ -79,7 +82,8 @@
 												@endforeach
 											</ul>
 									</p>
-									<hr>
+									<div style="border-bottom: 1px dotted;margin-bottom: 30px;margin-top: 20px;"></div>
+									<div style="border-bottom: 1px dotted;margin-bottom: 30px;margin-top: 20px;"></div>
 								</div> <!-- /.col-xs-8 -->
 
 							</div> <!-- /.row -->

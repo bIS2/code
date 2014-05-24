@@ -54,8 +54,9 @@
 		Route::resource('sets', 'HoldingssetsController');
 		Route::controller('sets', 'HoldingssetsController');
 
-		Route::resource('lists', 'HlistsController');
-		Route::controller('lists', 'HlistsController');
+        Route::get('lists/attach','HlistsController@getAttach');
+        Route::resource('lists', 'HlistsController');
+        Route::controller('lists', 'HlistsController');
 
 		Route::resource('notes', 'NotesController');
 		Route::resource('reserves', 'ReservesController');

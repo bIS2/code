@@ -127,14 +127,16 @@
 				<div class="form-group {{{ $errors->has('roles') ? 'error' : '' }}}">
             <label class="col-md-2 control-label" for="roles">{{ trans('general.role') }}</label>
             <div class="col-md-6 ">
+            	<fieldset id="roles_user">
 	              @foreach ($roles as $role)
 		              <label>
-			              <input type="checkbox" name="roles[]" value="{{$role->id}}" validate="required:true" {{ ($user->hasRole($role->name) || Input::old('roles')) ? 'checked="checked"' : ($first) ? 'checked="checked"' : '' }}>
+			              <input type="checkbox" name="roles[]" value="{{$role->id}}" {{ ($user->hasRole($role->name) || Input::old('roles')) ? 'checked="checked"' : ($first) ? 'checked="checked"' : '' }}>
 			              {{ $role->name }}
 		              </label>
 		            @endforeach
 							</select>
-
+							</fieldset>
+							<label for="roles[]" class="error"></label>
 							<span class="help-block">
 								<!-- Select a group to assign to the user, remember that a user takes on the permissions of the group they are assigned. -->
 							</span>

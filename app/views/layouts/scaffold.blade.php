@@ -57,10 +57,12 @@
 
 		<!-- Javascripts
 		================================================== -->
-
     @javascripts('public')
     @javascripts('holdingssets')
     @javascripts('validate')
+		@if (App::getLocale()=='de')
+			{{HTML::script('assets/js/locale/messages_de.js')}}
+		@endif
 
 	</body>
 

@@ -1,8 +1,8 @@
-<?php $total= $stats_libraries->holdings_confirmed; // Holding::confirms()->inLibrary()->count() ?>
+<?php $total= Holding::confirms()->inLibrary()->count(); // $stats_libraries->holdings_confirmed;  ?>
 
-<?php $annotated = $stats_libraries->holdings_annotated; 	// Holding::inLibrary()->confirms()->annotated()->count() ?>
-<?php $corrects = $stats_libraries->holdings_ok;					// Holding::inLibrary()->confirms()->corrects()->count() ?>
-<?php $to_post = $stats_libraries->holdings_revised; 		// Holding::inLibrary()->reviseds()->corrects()->count() ?>
+<?php $annotated = Holding::inLibrary()->confirms()->annotated()->count(); //$stats_libraries->holdings_annotated; 	//  ?>
+<?php $corrects = Holding::inLibrary()->confirms()->corrects()->count(); //$stats_libraries->holdings_ok;					//  ?>
+<?php $to_post = Holding::inLibrary()->reviseds()->corrects()->count(); //$stats_libraries->holdings_revised; 		//  ?>
 
 <div class="col-xs-1">
 	<span class="label label-default" data-toggle="tooltip" data-placement="top" data-original-title="{{ trans('stats.corrects') }}">

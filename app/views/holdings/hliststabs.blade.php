@@ -65,47 +65,59 @@
  	// var_dump($hlistsids);
 ?>
 
-<ul id="lists-tabs" class="nav nav-tabs">
-
-	@if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('bibuser'))
-
-  <li <?php if (!($hlist_id > 0)) { echo 'class="active"'; } ?>>
-  	<a href="<?= route('holdings.index', Input::except(['hlist_id', 'page']));  ?>">
-  		<?= trans('holdings.all') ?> <?= trans('holdings.title') ?>
-  	</a>
-  </li>
-
-  @endif
-
-  @if ( Authority::can('create','Hlist') ) 
-
-	  <li>
-		  <a href="{{route('lists.create')}}" id="link_create_list" data-toggle="modal" class='btn btn-default link_bulk_action disabled' data-target="#form-create-list" style="padding: 6px 11px;">
-		  	<i class="fa fa-plus-circle" style="font-size: 26px; padding: 0px;"></i>
-		  </a>
-	  </li>
-
-  @endif
-  
-	@foreach ($hlists as $hlist) 
-		@if (in_array($hlist->id, $hlistsids)) 
-		<!-- Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ] -->
-	 
-			<li id="hlist{{ $hlist->id }}" class="<?php echo ($hlist_id == $hlist->id) ? 'active' : 'accepthos' ?> droppable" data-attach-url="{{ action('HlistsController@postAttach', [$hlist->id]) }}">
-				<a <?php if ($hlist_id != $hlist->id) { echo 'href="'.route('holdings.index',Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]).'"'; } ?> class="">
-					{{ $hlist->type_icon }}
-					<?= $hlist->name  ?> 
-					<span class="badge counter">{{ $hlist->holdings->count() }} </span>
-				</a>
-
-				@if ($hlist_id != $hlist->id)
-					<a href="{{ action('HoldingsController@putDelTabhlist',[$hlist->id]) }}" class="close" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><i class="fa fa-eye-slash"></i></a>
-				@endif
-			</li>
-
+<div class="row">
+	<div class="col-sm-1">
+		@if ( Authority::can('create','Hlist') ) 
+			<div class="btn-group">
+			  <a href="{{route('lists.create')}}" id="link_create_list" data-toggle="modal" class='btn btn-default link_bulk_action disabled' data-target="#form-create-list" >
+			  	<i class="fa fa-plus-circle" ></i>
+			  </a>
+			  <a href="{{action('HlistsController@getAttach')}}" id="link_to_list" data-toggle="modal" class='btn btn-default link_bulk_action disabled' data-target="#form-to-list" >
+			  	<i class="fa fa-indent" ></i>
+			  </a>
+			</div>
 		@endif
-	@endforeach
-</ul>
+	</div> <!-- /.col-sm-1 -->
+
+	<div class="col-sm-11">
+
+		<ul id="lists-tabs" class="nav nav-tabs">
+
+			@if (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('bibuser'))
+
+		  <li <?php if (!($hlist_id > 0)) { echo 'class="active"'; } ?>>
+		  	<a href="<?= route('holdings.index', Input::except(['hlist_id', 'page']));  ?>">
+		  		<?= trans('holdings.all') ?> <?= trans('holdings.title') ?>
+		  	</a>
+
+		  </li>
+
+		  @endif
+
+			@foreach ($hlists as $hlist) 
+				@if (in_array($hlist->id, $hlistsids)) 
+				<!-- Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ] -->
+			 
+					<li id="hlist{{ $hlist->id }}" data-id="{{$hlist->id}}" class="<?php echo ($hlist_id == $hlist->id) ? 'active' : 'accepthos' ?> droppable" data-attach-url="{{ action('HlistsController@postAttach') }}">
+						<a <?php if ($hlist_id != $hlist->id) { echo 'href="'.route('holdings.index',Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]).'"'; } ?> class="">
+							{{ $hlist->type_icon }}
+							<?= $hlist->name  ?> 
+							<span class="badge counter">{{ $hlist->holdings->count() }} </span>
+						</a>
+
+						@if ($hlist_id != $hlist->id)
+							<a href="{{ action('HoldingsController@putDelTabhlist',[$hlist->id]) }}" class="close" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><i class="fa fa-eye-slash"></i></a>
+						@endif
+					</li>
+
+				@endif
+			@endforeach
+		</ul>
+
+	</div>
+</div>
+
+
 <?php if (count($holdings) > 0) { ?>
 <div id="hos_actions_and_filters" class="row">
 
@@ -114,24 +126,10 @@
 		<span class="control-label">
 			{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} 
 		</span>
-		@if ( count($holdings) > Cookie::get('holdings-display') )
-		  <div class="col-xs-2">
-				<form action="{{URL::current()}}" method="get">
-					<select id="per-page" class="form-control input-sm" name="per-page">
-						<option {{ (Cookie::get('per_page')==25) ? 'selected' : ''  }}>25</option>
-						<option {{ (Cookie::get('per_page')==35) ? 'selected' : ''  }}>35</option>
-						<option {{ (Cookie::get('per_page')==50) ? 'selected' : ''  }}>50</option>
-						<option {{ (Cookie::get('per_page')==100) ? 'selected' : ''  }}>100</option>
-						<option {{ (Cookie::get('per_page')==200) ? 'selected' : ''  }}>200</option>
-					</select>
-				</form>
-			</div>
-		@endif
 		{{ $holdings->appends(Input::except('page'))->links()  }}
 
 	</div>
 
-	<form method="post" action="{{ route('holdings.index', Input::except(['noexists'])) }}">
 	<!-- Actions -->
 	<div class="col-xs-5">
 		<div class="col-xs-7">
@@ -139,7 +137,7 @@
 			<?php $list = Hlist::find(Input::get('hlist_id')); ?>
 			@endif
 			@if ( Input::has('hlist_id'))
-			<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs btn-revise {{ ( Authority::can('revise',$list) ) ? '' : 'hide' }}" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
+			<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-sm btn-revise {{ ( Authority::can('revise',$list) ) ? '' : 'hide' }}" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
 				<span class="fa fa-check" ></span> {{ trans('holdings.revised')}}
 			</a>
 			@endif
@@ -149,7 +147,8 @@
 			@endif
 		</div>
 		<div class="col-xs-5">
-			<a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-xs btn-default dropdown-toggle collapsed text-warning pull-right" data-toggle="collapse">
+			<form method="post" action="{{ route('holdings.index', Input::except(['noexists'])) }}">
+			<a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-sm btn-default dropdown-toggle collapsed text-warning pull-right" data-toggle="collapse">
 				<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
 			</a>
 		</div>

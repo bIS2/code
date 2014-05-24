@@ -104,4 +104,8 @@ return array(
 	'workflow_title'		=> 'bIS Workflow',
 	'workflow_image'		=> '/bIS_Workflow.png',
 	'workflow_image_alt'	=> 'bIS Workflow',
+		'select'=>'Select',
+	'new_list'=>'New List',
+	'move_to_list'=>'Add to List',
+	'clear'=>'Clear',
 );
