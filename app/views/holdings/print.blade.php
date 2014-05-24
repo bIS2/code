@@ -37,12 +37,13 @@
 								<div id="<?= $holding->id ?>" class="col-xs-10 col-md-offset-1" >
 									<p class="">
 										<span class="text-muted">
-											{{ $holding->f852h }}
-											@if ($holding->f852b)
-												[{{ $holding->f852b }}]
+											{{ $holding->f852b }} 
+											@if ($holding->f852h)
+												- {{ $holding->f852h }}
 											@endif
 										</span>
 										<span class="">
+											-
 											<strong>
 												{{ $holding->f245a }}
 												{{ $holding->f245b }}
