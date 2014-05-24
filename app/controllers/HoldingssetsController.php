@@ -315,9 +315,9 @@ class HoldingssetsController extends BaseController {
 		-----------------------------------------------------------------------------------*/
 		public function getRecallHoldings($id) {
 			$holding = Holding::find($id);
-			die($id);
 			// $this -> data['holdings']  = recall_holdings($id);
 			$ids  = Holdingsset::pendings()->select('id')->lists('id');
+			die(var_dump($ids));
 			$ids[] = -1;
 			$this -> data['holdings']  = Holding::whereIn('holdingsset_id', $ids)->where('f245a', 'like', '%'.$holding->f245a. '%')->take(100)->get();
 			$this -> data['holdingsset_id']  = $holding->holdingsset_id;
