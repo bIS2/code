@@ -6,10 +6,10 @@
 <?php $ungrouped = Holdingsset::whereNotIn('id',function($query){ $query->select('holdingsset_id')->from('group_holdingsset'); })->count() ?>
 
 <?php $confirmed = $stats->sets_confirmed ?>
-<?php $confirmed_owners = $stats->sets_confirmed_owner //Holdingsset::owners()->confirmed()->count() ?>
-<?php $confirmed_aux = $stats->sets_confirmed_auxiliar //Holdingsset::auxiliars()->confirmed()->count() ?>
+<?php $confirmed_owners = Holdingsset::owners()->confirmed()->count() //$stats->sets_confirmed_owner // ?>
+<?php $confirmed_aux = Holdingsset::auxiliars()->confirmed()->count() //$stats->sets_confirmed_auxiliar // ?>
 
-<?php $annotated = $stats->sets_annotated //Holdingsset::annotated()->count() ?>
+<?php $annotated = Holdingsset::annotated()->count() // $stats->sets_annotated // ?>
 
 <div class="col-xs-1">
 	<span class="label label-success" data-toggle="tooltip" data-placement="top" data-original-title="{{ trans('stats.confirmed') }}">
