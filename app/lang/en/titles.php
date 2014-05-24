@@ -16,5 +16,5 @@ return array(
 	'edit_libraries'	=> 'Editing Library',
 	'statistics'			=> 'Statistics',
 	'wellcome'		=> 'Wellcome, :name. Select your option in top bar.',
-	'updated'		=> 'Updated at:',
+	'updated'		=> 'Code Updated at:',
 );
