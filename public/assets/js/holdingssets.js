@@ -96,9 +96,10 @@ function setDatatable() {
 						        "bLengthChange": true,
 						        "bInfo": true,
 						        "bAutoWidth": true,
-						        "aoColumns": aoColumns,
-						        "columnDefs": [ { targets: 0, orderable: false },{ targets: 1, orderable: false },{ targets: Orderptrn, orderable: false }],
+						        // "aoColumns": aoColumns,
+						        "columnDefs": [ { targets: 0, orderable: false },{ targets: 1, orderable: false },{ targets: 2, orderable: false },{ targets: Orderptrn, orderable: false }],
 							  });
+							console.log(Orderptrn);
 								// $($(This).attr('href') + ' .panel-body .dataTables_wrapper').niceScroll();
 								$($(This).attr('href') + ' .panel-body table.flexme .ocrr_ptrn > div:first-child').niceScroll({
 									cursorwidth: "10px",
