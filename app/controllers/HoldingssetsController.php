@@ -317,7 +317,7 @@ class HoldingssetsController extends BaseController {
 			$holding = Holding::find($id);
 			$this -> data['holdings']  = recall_holdings($id);
 			$this -> data['holdingsset_id']  = $holding->holdingsset_id;
-			$this -> data['hosholsid']  = Holdingsset::find($this -> $holding->holdingsset_id)->holdings()->select('id')->lists('id');
+			$this -> data['hosholsid']  = Holdingsset::find($holding->holdingsset_id)->holdings()->select('id')->lists('id');
 			$this -> data['hol']  = $holding;
 			
 			return View::make('holdingssets.recallingholdings', $this -> data);
