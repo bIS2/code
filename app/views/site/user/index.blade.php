@@ -18,7 +18,7 @@
 			</h3>
 			<hr>
 		</div>
-		{{ Form::model($user, [ 'url' => URL::to('user/' . $user->id . '/edit'), 'class'=>'form-horizontal' ] ) }}
+		{{ Form::model($user, [ 'url' => URL::to('user/' . $user->id . '/edit'), 'class'=>'form-horizontal', 'id'=>'edit_user' ] ) }}
 		<!-- <form class="form-horizontal" method="post" action="{{ URL::to('user/' . $user->id . '/edit') }}"  autocomplete="off"> -->	
 
 		    <!-- General tab -->
@@ -69,7 +69,7 @@
 		        <div class="form-group {{{ $errors->has('password') ? 'error' : '' }}}">
 		            <label class="col-md-4 control-label" for="password">{{trans('table.password')}}</label>
 		            <div class="col-md-8">
-		            	{{Form::password('password',['class'=>"form-control"])}}
+		            	{{Form::password('password',['class'=>"form-control",'id'=>'password'])}}
 	                {{{ $errors->first('password', '<span class="help-inline">:message</span>') }}}
 		            </div>
 		        </div>

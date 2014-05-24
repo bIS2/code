@@ -1,4 +1,5 @@
 $(function(){
+
 	$('form.validate').validate({
 		rules: {
 			username: {
@@ -24,4 +25,25 @@ $(function(){
 			},
 		}		
 	})
+
+	$('form#edit_user').validate({
+		rules: {
+			username: {
+				required: true,
+				minlength: 2
+			},
+			password: {
+				minlength: 5
+			},
+			password_confirmation: {
+				minlength: 5,
+				equalTo: "#password"
+			},
+			email: {
+				required: true,
+				email: true
+			}
+		}
+	})	
+
 })
