@@ -1608,6 +1608,7 @@ $know_gr          	= '';        // knowledge group
 $know             	= array();   // contains all knowledgeable elements for recognizing HOP
 $hol_info          	= array();   // collect info about holding string
 $hop_info         	= array();   // collect info about holding part
+$current_year     = '2014';
 $hol_info['proc']  	= '';        // collects info about processing hol
 $starttime        	= sprintf("%s", date("Y-m-d H:i:s"));
 $stat             	= array();   // statistical info
@@ -1840,6 +1841,16 @@ for ($hop_no = 0; $hop_no < count($ho_part); $hop_no++) {
 	if ((strcmp($hop,'==RECOGNIZED==') == 0) and (!strcmp(substr($hop_info[$hop_no]['type'],0,4),'MDL ') == 0)) // if $hop has not been recognized ...
 		$hop_info[$hop_no]['type'] = '==RECOGNIZED=+';
 
+		// add "2014" into yeE1 when ta is ongoing
+		if ($hop_no == count($ho_part) -1) {
+			if (   isset($hop_info[$hop_no]['HY']) 
+	    		&& isset($hop_info[$hop_no]['yeB1'])  // not only volumes, but also a year
+	    		&& ! isset($hop_info[$hop_no]['yeE1'])
+				)
+				$hop_info[$hop_no]['yeE1'] = $current_year;
+		        do_control('vCY', '', $hop, '=>', $hop_info[$hop_no]['type']);
+		}
+
 } // <- end of hop loop
 
 $hol_nrm = normalize_result($hop_info);
@@ -1917,33 +1928,35 @@ function val_replace($ho_val) {
 					// do_control('vRV', $var, $hop_info[$hop_no][$var], '', '**');
 			  }
 			}
-			if (substr($know[$know_gr]['mode'][$c],0,3) == 'MDL') {  // recognize data in MDL
-			  $mdl = substr($know[$know_gr]['mode'][$c],4);  // ex: MDL V(JJJJ)
-			  $mdl = str_replace('-','(HY)', $mdl); // for better handling of "-"
-			  $pom = preg_split("/[^A-Z0-9]+/", $mdl.' X');  // split model into it's parts
-			  if ($pom[0] == '') array_shift($pom);
+			if (substr($know[$know_gr]['mode'][$c],0,3) == 'MDL') {  // We have an MDL (= model)
+			  $mdl = substr($know[$know_gr]['mode'][$c],4);          // cut pattern. Ex: MDL V(JJJJ)
+			  $mdl = str_replace('-','(HY)', $mdl);                  // for better handling of "-"
+			  $mdl = str_replace('m','M', $mdl);                     // handling of month m
+			  $pom = preg_split("/[^A-Z0-9]+/", $mdl.' X');         // split model into it's parts. Add a recognizable last elem
+			  if ($pom[0] == '') array_shift($pom);                  // cut empty one
 			  array_pop($pom); // remove last element X
-			  if (count($elem) > 1) array_shift($elem);  // remove hop entry at [0] (is whole string)
+			  if (count($elem) > 1) array_shift($elem);              // remove hop entry at [0] (is whole string)
 			  // prepare output  volB1 volB2 yearE1 yearE2 etc.
 				$count['B'] = array ('vo' => 1, 'ye' => 1, 'he' => 1, 'mo' => 1, 'xx' => 1 );  // init B counter for every element
 				$count['E'] = array ('vo' => 1, 'ye' => 1, 'he' => 1, 'mo' => 1, 'xx' => 1 );  // init E counter for every element
 			  $phase = 'B'; // Format receiving field variables. Set B for begin
 			  for($c2=0; $c2<count($pom); $c2++) {
 			    switch ($pom[$c2]) {
+			      case 'MM'  : $pom[$c2] = sprintf("%s%s%d", 'mo', $phase, $count[$phase]['mo']++);	break;
+			      case 'M'   : $pom[$c2] = sprintf("%s%s%d", 'mo', $phase, $count[$phase]['mo']++);	break;
 			      case 'V'   : $pom[$c2] = sprintf("%s%s%d", 'vo', $phase, $count[$phase]['vo']++); break;
 			      case 'VE1' : $pom[$c2] = sprintf("%s%s%d", 'vo', 'E',    '1'                   ); break;
 			      case 'N'   : $pom[$c2] = sprintf("%s%s%d", 'he', $phase, $count[$phase]['he']++); break;
 			      case 'JJJJ': $pom[$c2] = sprintf("%s%s%d", 'ye', $phase, $count[$phase]['ye']++);	break;
 			      case 'JJ'  : $pom[$c2] = sprintf("%s%s%d", 'ye', $phase, $count[$phase]['ye']++);	break;
 			      case 'TT'  : $pom[$c2] = sprintf("%s%s%d", 'da', $phase, $count[$phase]['ta']++);	break; // ### Field not exists. Ok?
-			      case 'MM'  : $pom[$c2] = sprintf("%s%s%d", 'mo', $phase, $count[$phase]['mo']++);	break;
-			      case 'm'   : $pom[$c2] = sprintf("%s%s%d", 'mo', $phase, $count[$phase]['mo']++);	break;
 			      case 'HY'  : 
 						  $elem_hy = array('-'); array_splice($elem, $c2, 0, $elem_hy); // insert - at HY position
 							$phase = 'E';  // Set E for End after reaching HY
 							break;
 						default    : $pom[$c2] = sprintf("%s%s%d", $pom[$c2], '_', '0'); break;
 					}
+					if ($proc_flag['debug']) printf("(%d)   =: %-6s = %-20s\n", $hop_no, $pom[$c2], $elem[$c2]);
 					if ($pom[$c2] > '') $hop_info[$hop_no][$pom[$c2]] =	$elem[$c2];
 			  }
 				// do_control('MDL', $mdl, implode('|', $pom), '', implode('|', $elem));
