@@ -68,20 +68,16 @@
 												@foreach ( $tags = Tag::all() as $tag)
 													<?php $note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note ?>
 													<li>
-														<h5>
 														<?= ($note->tag_id) ? '<span class="fa fa-check-square-o"></span>' : '<span class="fa fa-square-o"></span>' ?> {{ trans('tags.'.$tag->name) }}
-														</h5>
 													</li>
 												@endforeach
 												<li> 
 													{{ trans('fields.size')}}: ____________
 												</li>
 											</ul>
-											<ul>
-												@foreach ( $holding->notes as $note)
-													<li>{{ $note->content }}</li>
-												@endforeach
-											</ul>
+											@if ($holding->notes()->exists())
+												{{ trans('holdings.notes').': '.implode( ',', $holding->notes->lists('content')) }}
+											@endif
 									</p>
 									<div style="border-bottom: 1px dotted;margin-bottom: 30px;margin-top: 20px;"></div>
 									<div style="border-bottom: 1px dotted;margin-bottom: 30px;margin-top: 20px;"></div>
