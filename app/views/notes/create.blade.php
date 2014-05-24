@@ -43,7 +43,7 @@
 											<?php
 												$note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note;
 												if ($username == '') $username = $note->user->name;
-												// var_dump($note->user->name);
+												var_dump($note->user->name);
 											?>
 
 											<div class="form-group">
