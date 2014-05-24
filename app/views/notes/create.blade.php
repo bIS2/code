@@ -43,7 +43,8 @@
 											<?php
 												$note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note;
 												if ($username == '') $username = $note->user->username;
-												var_dump($username);
+												if ($uname == '') $uname = $note->user->name;
+												// var_dump($username);
 											?>
 
 											<div class="form-group">
@@ -74,7 +75,7 @@
 	        						{{ trans('holdingssets.notes_made_by') }}
 	        					</div>
 	        					<div class="col-xs-5 text-left">
-	        						{{ $username }}
+	        						{{ $uname }} ({{ $username }})
 	        					</div>
 	        				</div>
 	        			@endif
