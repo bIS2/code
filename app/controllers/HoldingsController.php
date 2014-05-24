@@ -106,13 +106,14 @@ class HoldingsController extends BaseController {
 		$this->data['holdings'] 	= $holdings->orderby('f852h_e', 'ASC')->paginate(50);
 		// $queries = DB::getQueryLog();
 		// $this->data['last_query'] = $queries;			
+		$this->data['queries'] = DB::getQueryLog();			
 
 		// CONDITIONS
 		// filter by holdingsset ok
 		//  and holdings in their library
 		$view = (Input::has('view')) ? Input::get('view') : 'index';
 		// var_dump($this->data);die();
-		return View::make('holdings/'.$view, $this->data)->withCookie(Cookie::make('per_page', $perpage, time() + (86400 * 30)));
+		return View::make('holdings/'.$view, $this->data);
 
 	}
 

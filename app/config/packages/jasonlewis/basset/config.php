@@ -92,6 +92,7 @@ return array(
                 $collection->add('ui/jquery.ui.droppable.js');
                 $collection->add('ui/jquery.ui.draggable.js');
                 $collection->add('jquery.nicescroll.min.js');
+                // $collection->add('jquery.validate.min.js');
                 $collection->add('bootstrap/bootstrap.js');
                 // $collection->requireDirectory('../../../vendor/twbs/bootstrap/js');
                 // $collection->add('wysihtml5/wysihtml5-0.3.0.js');
@@ -135,6 +136,7 @@ return array(
             $collection->directory('assets/js', function($collection)
             {
                 $collection->add('jquery.validate.min.js');
+                $collection->add('val.js');
             })->apply('JsMin');
         },
 

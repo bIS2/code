@@ -29,7 +29,7 @@ $(function(){
       $(this).find('[data-slide="prev"]').removeAttr('disabled')
   })
 
- $('form#create_user').on('submit', function(e){
+/* $('form#create_user').on('submit', function(e){
 
  	if ($('input[name="roles[]"]:checked').size()==0 ){
  			$('input[name="roles[]"]').parents('div.form-group').addClass('has-error')
@@ -37,14 +37,14 @@ $(function(){
  		}
 
 
- })
+ })*/
 
-	$('input[name="roles[]"]').on('click', function(){
+/*	$('input[name="roles[]"]').on('click', function(){
 
 		if ($('input[name="roles[]"]:checked').size()>0 )
 			$(this).parents('.has-error').removeClass('has-error')
 
-	})
+	})*/
 
 
   // update related user for selected list type
