@@ -607,16 +607,14 @@ class HoldingssetsController extends BaseController {
 	}
 
 	function recall_holdings($id) {
-		$holding  = Holding::find($id);
-		$ids  = Holdingsset::pendings()->select('id')->lists('id');
-		$ids[] = -1;	
+		$holding  	= Holding::find($id);
 		// echo count($ids);
 	// die();
 		// return Holding::whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
 		// 	$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
 		// 	$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.$holding->f245b. '%') : $query;
 		// })->take(100)->get();
-		return Holding::whereIn('holdingsset_id', $ids)->where('f245a', 'like', '%'.$holding->f245a. '%')->take(100)->get();
+		return Holding::where('state','=' 'blank')->orWhere('state','=' 'revised_annotated')->where('f245a', 'like', '%'.$holding->f245a. '%')->take(100)->get();
 	// $queries = DB::getQueryLog();
 	// die(var_dump(end($queries)));
 	}
