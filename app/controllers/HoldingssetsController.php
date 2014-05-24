@@ -614,7 +614,7 @@ class HoldingssetsController extends BaseController {
 		// 	$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
 		// 	$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.$holding->f245b. '%') : $query;
 		// })->take(100)->get();
-		return Holding::where('state','=' 'blank')->orWhere('state','=' 'revised_annotated')->where('f245a', 'like', '%'.$holding->f245a. '%')->take(100)->get();
+		return Holding::where('state','=','blank')->orWhere('state','=','revised_annotated')->where('f245a', 'like', '%'.$holding->f245a. '%')->take(100)->get();
 	// $queries = DB::getQueryLog();
 	// die(var_dump(end($queries)));
 	}
