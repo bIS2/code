@@ -2183,8 +2183,7 @@ function normalize_result($hop_info) {
 			substr('    '.(isset($hop_info[$i]['voE2'])?$hop_info[$i]['voE2']:'    '),-4,4),
 			substr('    '.(isset($hop_info[$i]['yeE1'])?$hop_info[$i]['yeE1']:'    '),-4,4),
 			substr('    '.(isset($hop_info[$i]['yeE2'])?$hop_info[$i]['yeE2']:'    '),-4,4),
-			substr(   ' '.(isset($hop_info[$i]['ICPL'])?$hop_info[$i]['ICPL']:'    '),-1,1),
-			substr(   ' '.(isset($hop_info[$i]['ONLINE'])?$hop_info[$i]['ONLINE']:'  '),-1,1));
+			substr(   ' '.(isset($hop_info[$i]['ICPL'])?$hop_info[$i]['ICPL']:'    '),-1,1));
 	}
 	// var_dump(substr('    '.(isset($hop_info[0]['voB1'])?$hop_info[0]['voB1']:'    '),-4,4));
 	// var_dump($hop_info);
