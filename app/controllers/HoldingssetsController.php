@@ -1846,7 +1846,7 @@ for ($hop_no = 0; $hop_no < count($ho_part); $hop_no++) {
 	    		&& ! isset($hop_info[$hop_no]['yeE1'])
 				)
 				$hop_info[$hop_no]['yeE1'] = $current_year;
-		        do_control('vCY', '', $hop, '=>', $hop_info[$hop_no]['type']);
+		        //do_control('vCY', '', $hop, '=>', $hop_info[$hop_no]['type']);
 		}
 
 } // <- end of hop loop
