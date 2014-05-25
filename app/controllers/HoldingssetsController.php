@@ -1740,8 +1740,6 @@ if (preg_match("/ *; */", $hol_str, $elem)) {  // check if we have something to 
 	$hop_no = 0; // init parts counter
 } else $ho_part[0] = $hol_str;
 
-var_dump($ho_part);
-die();
 /* ---------------------------------------------
 * Loop through every HOP
 * --------------------------------------------- */
@@ -1861,6 +1859,8 @@ for ($hop_no = 0; $hop_no < count($ho_part); $hop_no++) {
 
 } // <- end of hop loop
 
+var_dump($hop_info);
+die();
 $hol_nrm = normalize_result($hop_info);
 
 // The End
