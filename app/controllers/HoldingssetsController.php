@@ -315,13 +315,9 @@ class HoldingssetsController extends BaseController {
 		-----------------------------------------------------------------------------------*/
 		public function getRecallHoldings($id) {
 			$holding = Holding::find($id);
-			// $this -> data['holdings']  = recall_holdings($id);
-			$ids  = Holdingsset::pendings()->select('id')->lists('id');
-			$ids[] = -1;
-			// die(var_dump($ids));
-			$this -> data['holdings']  = Holding::whereIn('holdingsset_id', $ids)->where('f245a', 'like', '%'.$holding->f245a.'%')->take(100)->get();
+			$this -> data['holdings']  = recall_holdings($id);
 			$this -> data['holdingsset_id']  = $holding->holdingsset_id;
-			$this -> data['hosholsid']  = Holdingsset::find($this -> $holding->holdingsset_id)->holdings()->select('id')->lists('id');
+			$this -> data['hosholsid']  = Holdingsset::find($holding->holdingsset_id)->holdings()->select('id')->lists('id');
 			$this -> data['hol']  = $holding;
 			
 			return View::make('holdingssets.recallingholdings', $this -> data);
@@ -607,16 +603,14 @@ class HoldingssetsController extends BaseController {
 	}
 
 	function recall_holdings($id) {
-		$holding  = Holding::find($id);
-		$ids  = Holdingsset::pendings()->select('id')->lists('id');
-		$ids[] = -1;	
+		$holding  	= Holding::find($id);
 		// echo count($ids);
 	// die();
 		// return Holding::whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
 		// 	$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
 		// 	$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.$holding->f245b. '%') : $query;
 		// })->take(100)->get();
-		return Holding::whereIn('holdingsset_id', $ids)->where('f245a', 'like', '%'.$holding->f245a. '%')->take(100)->get();
+		return Holding::where('state','=','blank')->orWhere('state','=','revised_annotated')->where('f245a', 'like', '%'.$holding->f245a. '%')->take(100)->get();
 	// $queries = DB::getQueryLog();
 	// die(var_dump(end($queries)));
 	}
@@ -632,7 +626,9 @@ class HoldingssetsController extends BaseController {
 	function similarity_search($sys2) {
 		$db_config = Config::get('database');
 		$database = $db_config['connections']['pgsql']['database'];
-		$conn_string = "host=localhost port=5432 dbname=".$database." user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+		$username = $db_config['connections']['pgsql']['username'];
+		$password = $db_config['connections']['pgsql']['password'];
+		$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
 		$con = pg_connect($conn_string);
 
 		date_default_timezone_set('America/New_York');
@@ -950,7 +946,9 @@ class HoldingssetsController extends BaseController {
 function holdingsset_recall($id) {
 	$db_config = Config::get('database');
 	$database = $db_config['connections']['pgsql']['database'];
-	$conn_string = "host=localhost port=5432 dbname=".$database." user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+	$username = $db_config['connections']['pgsql']['username'];
+	$password = $db_config['connections']['pgsql']['password'];
+	$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string);
 
 	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 100";
@@ -1584,7 +1582,9 @@ function cmp_flag_score($a, $b) {
 function create_table($tab_name) {
 	$db_config = Config::get('database');
 	$database = $db_config['connections']['pgsql']['database'];
-	$conn_string = "host=localhost port=5432 dbname=".$database." user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+	$username = $db_config['connections']['pgsql']['username'];
+	$password = $db_config['connections']['pgsql']['password'];
+	$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string);
 
 	$query  = "DROP TABLE IF EXISTS $tab_name; ";
@@ -1682,9 +1682,11 @@ $starttime        = sprintf("%s", date("Y-m-d H:i:s"));
 $stat             = array();   // statistical info
 
 $db_config = Config::get('database');
-$database = $db_config['connections']['pgsql']['database'];
-$conn_string = "host=localhost port=5432 dbname=".$database." user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
-$con = pg_connect($conn_string) or die('ERROR!!!');
+	$database = $db_config['connections']['pgsql']['database'];
+	$username = $db_config['connections']['pgsql']['username'];
+	$password = $db_config['connections']['pgsql']['password'];
+	$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
+	$con = pg_connect($conn_string);
 
 // collect knowledge
 $know['hG'] = acquire_knowledge('h', 'G', '');  // clearly recognizable strings at HOL level
@@ -1852,13 +1854,16 @@ for ($hop_no = 0; $hop_no < count($ho_part); $hop_no++) {
 	    		&& ! isset($hop_info[$hop_no]['yeE1'])
 				)
 				$hop_info[$hop_no]['yeE1'] = $current_year;
-		        do_control('vCY', '', $hop, '=>', $hop_info[$hop_no]['type']);
+		        //do_control('vCY', '', $hop, '=>', $hop_info[$hop_no]['type']);
 		}
 
 } // <- end of hop loop
 
+// var_dump($hop_info);
 $hol_nrm = normalize_result($hop_info);
+// var_dump($hol_nrm);
 
+// die();
 // The End
 return $hol_nrm;
 }
@@ -2177,9 +2182,10 @@ function normalize_result($hop_info) {
   // normalize every hop. Pattern: VVVVvvvvYYYYyyyyVVVVvvvvYYYYyyyyIO
   $hol_nrm = array();
   $size = sizeof($hop_info);
+
   for ($i=0; $i < $size; $i++) {
 		// write normalized string
-		$hol_nrm[$i] = sprintf("%4s%4s%4s%4s%1s%4s%4s%4s%4s%1s%1s",
+		$hol_nrm[$i] = sprintf("%4s%4s%4s%4s%1s%4s%4s%4s%4s%1s",
 			substr('    '.(isset($hop_info[$i]['voB1'])?$hop_info[$i]['voB1']:'    '),-4,4),
 			substr('    '.(isset($hop_info[$i]['voB2'])?$hop_info[$i]['voB2']:'    '),-4,4),
 			substr('    '.(isset($hop_info[$i]['yeB1'])?$hop_info[$i]['yeB1']:'    '),-4,4),
@@ -2189,8 +2195,7 @@ function normalize_result($hop_info) {
 			substr('    '.(isset($hop_info[$i]['voE2'])?$hop_info[$i]['voE2']:'    '),-4,4),
 			substr('    '.(isset($hop_info[$i]['yeE1'])?$hop_info[$i]['yeE1']:'    '),-4,4),
 			substr('    '.(isset($hop_info[$i]['yeE2'])?$hop_info[$i]['yeE2']:'    '),-4,4),
-			substr(   ' '.(isset($hop_info[$i]['ICPL'])?$hop_info[$i]['ICPL']:'    '),-1,1),
-			substr(   ' '.(isset($hop_info[$i]['ONLINE'])?$hop_info[$i]['ONLINE']:'  '),-1,1));
+			substr(   ' '.(isset($hop_info[$i]['ICPL'])?$hop_info[$i]['ICPL']:'    '),-1,1));
 	}
 	// var_dump(substr('    '.(isset($hop_info[0]['voB1'])?$hop_info[0]['voB1']:'    '),-4,4));
 	// var_dump($hop_info);

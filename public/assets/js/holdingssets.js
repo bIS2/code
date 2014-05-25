@@ -82,9 +82,13 @@ function setDatatable() {
 								$('[data-toggle=tooltip]').tooltip()
 								$('[data-toggle=popover]').popover()
 								var aoColumns = []
+								var Orderptrn
 						    ths = $($(This).attr('href') + ' .flexme th');
 						    for (var i = 0; i < $(ths).length; i++) {
-						    	(($(ths[i]).hasClass('hocrr_ptrn')) || ($(ths[i]).hasClass('actions')) || ($(ths[i]).hasClass('table_order'))) ? aoColumns.push({ "asSorting": [ "" ]}) : aoColumns.push(null) 
+						    	(($(ths[i]).hasClass('hocrr_ptrn')) || ($(ths[i]).hasClass('actions')) || ($(ths[i]).hasClass('table_order'))) ? aoColumns.push({ "asSorting": [ "" ]}) : aoColumns.push(null)
+						    	if ($(ths[i]).hasClass('hocrr_ptrn')) {
+						    		Orderptrn = i;
+						    	}
 						    }
 							$($(This).attr('href') + ' .flexme').dataTable({
 								"bFilter": false,
@@ -92,8 +96,10 @@ function setDatatable() {
 						        "bLengthChange": true,
 						        "bInfo": true,
 						        "bAutoWidth": true,
-						        "aoColumns": aoColumns,
+						        // "aoColumns": aoColumns,
+						        "columnDefs": [ { targets: 0, orderable: false },{ targets: 1, orderable: false },{ targets: 2, orderable: false },{ targets: Orderptrn, orderable: false }],
 							  });
+							// console.log(Orderptrn);
 								// $($(This).attr('href') + ' .panel-body .dataTables_wrapper').niceScroll();
 								$($(This).attr('href') + ' .panel-body table.flexme .ocrr_ptrn > div:first-child').niceScroll({
 									cursorwidth: "10px",
