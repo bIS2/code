@@ -1859,11 +1859,11 @@ for ($hop_no = 0; $hop_no < count($ho_part); $hop_no++) {
 
 } // <- end of hop loop
 
-var_dump($hop_info);
+// var_dump($hop_info);
 $hol_nrm = normalize_result($hop_info);
-var_dump($hol_nrm);
+// var_dump($hol_nrm);
 
-die();
+// die();
 // The End
 return $hol_nrm;
 }
