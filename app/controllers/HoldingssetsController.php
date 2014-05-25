@@ -2182,10 +2182,10 @@ function normalize_result($hop_info) {
   // normalize every hop. Pattern: VVVVvvvvYYYYyyyyVVVVvvvvYYYYyyyyIO
   $hol_nrm = array();
   $size = sizeof($hop_info);
-  
+
   for ($i=0; $i < $size; $i++) {
 		// write normalized string
-		$hol_nrm[$i] = sprintf("%4s%4s%4s%4s%1s%4s%4s%4s%4s%1s%1s",
+		$hol_nrm[$i] = sprintf("%4s%4s%4s%4s%1s%4s%4s%4s%4s%1s",
 			substr('    '.(isset($hop_info[$i]['voB1'])?$hop_info[$i]['voB1']:'    '),-4,4),
 			substr('    '.(isset($hop_info[$i]['voB2'])?$hop_info[$i]['voB2']:'    '),-4,4),
 			substr('    '.(isset($hop_info[$i]['yeB1'])?$hop_info[$i]['yeB1']:'    '),-4,4),
@@ -2199,7 +2199,7 @@ function normalize_result($hop_info) {
 	}
 	// var_dump(substr('    '.(isset($hop_info[0]['voB1'])?$hop_info[0]['voB1']:'    '),-4,4));
 	// var_dump($hop_info);
-	var_dump($hol_nrm);
+	// var_dump($hol_nrm);
 	return implode(';',$hol_nrm);
 }
 
