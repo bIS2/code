@@ -2182,6 +2182,7 @@ function normalize_result($hop_info) {
   // normalize every hop. Pattern: VVVVvvvvYYYYyyyyVVVVvvvvYYYYyyyyIO
   $hol_nrm = array();
   $size = sizeof($hop_info);
+  var_dump($hop_info);
   for ($i=0; $i < $size; $i++) {
 		// write normalized string
 		$hol_nrm[$i] = sprintf("%4s%4s%4s%4s%1s%4s%4s%4s%4s%1s%1s",
