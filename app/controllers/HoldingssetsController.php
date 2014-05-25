@@ -237,7 +237,7 @@ class HoldingssetsController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$this->data['holdingsset'] = Holdingsset::find($id)->orderby('is_owner', 'DESC')->orderby('is_aux', 'DESC');
+		$this->data['holdingsset'] = Holdingsset::find($id);
 		return View::make('holdingssets.show', $this->data);
 	}
 
