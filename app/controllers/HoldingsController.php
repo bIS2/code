@@ -102,7 +102,7 @@ class HoldingsController extends BaseController {
 		}
 
 		$first_word = "regexp_replace( SUBSTRING(f852h_e from '^\D+' ),'\s','','g')"; 
-		$number = "left(regexp_replace(f852h_e, '\D', '', 'g'),9)::bigint";
+		$number = "left(0+regexp_replace(f852h_e, '\D', '', 'g'),10)::bigint";
 
 		$this->data['is_filter'] 	= $is_filter;
 		$this->data['sql'] 			= sprintf( $format, $compare, $value );
