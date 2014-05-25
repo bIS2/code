@@ -101,9 +101,12 @@ class HoldingsController extends BaseController {
 
 		}
 
+		$first_word = "regexp_replace( SUBSTRING(f852h_e from '^\D+' ),'\s','','g')"; 
+		$number = "left(concat('0',regexp_replace(f852h_e, '\D', '', 'g')),10)::bigint";
+
 		$this->data['is_filter'] 	= $is_filter;
 		$this->data['sql'] 			= sprintf( $format, $compare, $value );
-		$this->data['holdings'] 	= $holdings->orderby('f852h_e', 'ASC')->paginate(50);
+		$this->data['holdings'] 	= $holdings->orderby( DB::raw( $first_word.','.$number ))->paginate(50);
 		// $queries = DB::getQueryLog();
 		// $this->data['last_query'] = $queries;			
 		$this->data['queries'] = DB::getQueryLog();			
