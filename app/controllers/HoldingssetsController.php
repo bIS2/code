@@ -626,7 +626,9 @@ class HoldingssetsController extends BaseController {
 	function similarity_search($sys2) {
 		$db_config = Config::get('database');
 		$database = $db_config['connections']['pgsql']['database'];
-		$conn_string = "host=localhost port=5432 dbname=".$database." user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+		$username = $db_config['connections']['pgsql']['username'];
+		$password = $db_config['connections']['pgsql']['password'];
+		$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
 		$con = pg_connect($conn_string);
 
 		date_default_timezone_set('America/New_York');
@@ -944,7 +946,9 @@ class HoldingssetsController extends BaseController {
 function holdingsset_recall($id) {
 	$db_config = Config::get('database');
 	$database = $db_config['connections']['pgsql']['database'];
-	$conn_string = "host=localhost port=5432 dbname=".$database." user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+	$username = $db_config['connections']['pgsql']['username'];
+	$password = $db_config['connections']['pgsql']['password'];
+	$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string);
 
 	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 100";
@@ -1578,7 +1582,9 @@ function cmp_flag_score($a, $b) {
 function create_table($tab_name) {
 	$db_config = Config::get('database');
 	$database = $db_config['connections']['pgsql']['database'];
-	$conn_string = "host=localhost port=5432 dbname=".$database." user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
+	$username = $db_config['connections']['pgsql']['username'];
+	$password = $db_config['connections']['pgsql']['password'];
+	$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string);
 
 	$query  = "DROP TABLE IF EXISTS $tab_name; ";
@@ -1676,9 +1682,11 @@ $starttime        = sprintf("%s", date("Y-m-d H:i:s"));
 $stat             = array();   // statistical info
 
 $db_config = Config::get('database');
-$database = $db_config['connections']['pgsql']['database'];
-$conn_string = "host=localhost port=5432 dbname=".$database." user=bispgadmin password=%^$-*/-bIS-2014*-% options='--client_encoding=UTF8'";
-$con = pg_connect($conn_string) or die('ERROR!!!');
+	$database = $db_config['connections']['pgsql']['database'];
+	$username = $db_config['connections']['pgsql']['username'];
+	$password = $db_config['connections']['pgsql']['password'];
+	$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
+	$con = pg_connect($conn_string);
 
 // collect knowledge
 $know['hG'] = acquire_knowledge('h', 'G', '');  // clearly recognizable strings at HOL level
@@ -1732,6 +1740,8 @@ if (preg_match("/ *; */", $hol_str, $elem)) {  // check if we have something to 
 	$hop_no = 0; // init parts counter
 } else $ho_part[0] = $hol_str;
 
+var_dump($ho_part);
+die();
 /* ---------------------------------------------
 * Loop through every HOP
 * --------------------------------------------- */
