@@ -2190,7 +2190,7 @@ function normalize_result($hop_info) {
 			substr('    '.(isset($hop_info[$i]['voB2'])?$hop_info[$i]['voB2']:'    '),-4,4),
 			substr('    '.(isset($hop_info[$i]['yeB1'])?$hop_info[$i]['yeB1']:'    '),-4,4),
 			substr('    '.(isset($hop_info[$i]['yeB2'])?$hop_info[$i]['yeB2']:'    '),-4,4),
-			substr(   ' '.(isset($hop_info[$i]['hy']  )?$hop_info[$i]['hy']  :' '   ),-1,1),
+			substr(   ' '.(isset($hop_info[$i]['HY']  )?$hop_info[$i]['HY']  :' '   ),-1,1),
 			substr('    '.(isset($hop_info[$i]['voE1'])?$hop_info[$i]['voE1']:'    '),-4,4),
 			substr('    '.(isset($hop_info[$i]['voE2'])?$hop_info[$i]['voE2']:'    '),-4,4),
 			substr('    '.(isset($hop_info[$i]['yeE1'])?$hop_info[$i]['yeE1']:'    '),-4,4),
