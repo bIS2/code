@@ -38,6 +38,9 @@
 									<p class="">
 										<span class="text-muted">
 											{{ $holding->f852b }} 
+											@if ($holding->f866c)
+												- {{ $holding->f866c }}
+											@endif
 											@if ($holding->f852h)
 												- {{ $holding->f852h }}
 											@endif
@@ -46,39 +49,39 @@
 											-
 											<strong>
 												{{ $holding->f245a }}
-												{{ $holding->f866aupdated }}
-												{{ $holding->f245b }}
-												{{ $holding->f245c }}
-												{{ $holding->f245d }}
-											</strong>
-										</span>
-										<span>
-											<em>
-												{{ $holding->f866a }}
-												@if ($holding->f866c || $holding->f866z)
-													( {{ implode('-',[$holding->f866c, $holding->f866z]) }} )
+												@if ($holding->f245b)
+													: {{ $holding->f245b }}
 												@endif
-											</em>
+											</strong>
+												-
+												{{ $holding->f245c }}
+												{{ $holding->f245n }}
+												{{ $holding->f245p }}
 										</span>
-											<ul class="list-inline">
+										<br>
+										<span>
+												{{ $holding->f866aupdated }}
+												{{ $holding->f866z }}
+										</span>
+										<ul class="list-inline">
+											<li>
+												<h5>
+													<span class="fa fa-square-o"></span> {{trans('general.ok')}}
+												</h5>
+											</li>
+											@foreach ( $tags = Tag::all() as $tag)
+												<?php $note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note ?>
 												<li>
-													<h5>
-														<span class="fa fa-square-o"></span> {{trans('general.ok')}}
-													</h5>
+													<?= ($note->tag_id) ? '<span class="fa fa-check-square-o"></span>' : '<span class="fa fa-square-o"></span>' ?> {{ trans('tags.'.$tag->name) }}
 												</li>
-												@foreach ( $tags = Tag::all() as $tag)
-													<?php $note = ( $note=Note::whereHoldingId($holding->id)->whereTagId($tag->id)->first() ) ? $note : new Note ?>
-													<li>
-														<?= ($note->tag_id) ? '<span class="fa fa-check-square-o"></span>' : '<span class="fa fa-square-o"></span>' ?> {{ trans('tags.'.$tag->name) }}
-													</li>
-												@endforeach
-												<li> 
-													{{ trans('fields.size')}}: ____________
-												</li>
-											</ul>
-											@if ($holding->notes()->exists())
-												{{ trans('holdings.notes').': '.implode( ',', $holding->notes->lists('content')) }}
-											@endif
+											@endforeach
+											<li> 
+												{{ trans('fields.size')}}: ____________
+											</li>
+										</ul>
+										@if ($holding->notes()->exists())
+											{{ trans('holdings.notes').': '.implode( ',', $holding->notes->lists('content')) }}
+										@endif
 									</p>
 									<div style="border-bottom: 1px dotted;margin-bottom: 30px;margin-top: 20px;"></div>
 									<div style="border-bottom: 1px dotted;margin-bottom: 30px;margin-top: 20px;"></div>

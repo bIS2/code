@@ -17,7 +17,7 @@
 		  <table id="new-table" class="table table-bordered table-condensed flexme">
 		  </table>
 			<table id="holdings-items" class="table table-bordered table-condensed flexme datatable">
-			<thead>
+			<thead >
 				<tr>
 					<th></th>
 					<th>

@@ -217,7 +217,7 @@ $(function(){
   doEditable();
 	
   $('.datatable').dataTable({
-    columnDefs: [ { targets: 0, orderable: false },{ targets: 1, orderable: false } ],
+    columnDefs: [ { targets: 0, orderable: false },{ targets: 1, orderable: false },{ targets: 2, orderable: false } ],
     order:[],
     bFilter: false,
     bPaginate: false , 
