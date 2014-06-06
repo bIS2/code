@@ -13,10 +13,41 @@
 				<div class="col-xs-12 h" >
 					<div id="slider" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
 						<?php $i=0  ?>
+							<div class="row" style="margin-top:20px">
+								<div class="col-xs-12 text-center">
+								  <a class="btn btn-default " href="#slider" data-slide="prev">
+								    <span class="fa fa-chevron-left"></span>
+								  </a>
+								  <span id="num" class="btn btn-default"></span>
+								  <a class="btn btn-default " href="#slider" data-slide="next">
+								    <span class="fa fa-chevron-right"></span>
+								  </a>					
+								</div>
+							</div>
+				  <!-- Controls -->						
 						<div class="carousel-inner">
 							@foreach ($holdings as $holding)
+
 							<div class="row item <?= ($i==0) ? 'active' : '' ?>">
-											<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note-{{$holding->id}}' class="create-note">
+								<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note-{{$holding->id}}' class="create-note">
+
+								<div class="row">
+
+									<?php $disabled = (Authority::can('touch', $holding)) ? '' : 'disabled'  ?>
+
+									<div class="col-xs-5 col-md-offset-1">
+									  <a href="{{ route('states.store') }}" action="click-and-slide" class="btn btn-success btn-ok col-sm-12" data-method="post" data-remote="true" data-params="state=ok&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
+									  	<span class="fa fa-thumbs-up"></span> {{trans('general.confirm')}}
+									  </a>
+									</div>
+
+									<div class="col-xs-5">
+									  <button id="submit-create-notes" href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" type="submit" class="btn btn-danger btn-tag col-sm-12" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
+									  	<span class="fa fa-tags"></span> {{trans('holdings.annotate')}}
+									  </button>
+									</div>
+								</div>
+
 								<div class="row ">
 
 									<?php $i=1 ?>
@@ -79,22 +110,7 @@
 									</div> <!-- /.col-xs-4 -->
 								</div> <!-- /.row -->
 
-								<div class="row">
 
-									<?php $disabled = (Authority::can('touch', $holding)) ? '' : 'disabled'  ?>
-
-									<div class="col-xs-5 col-md-offset-1">
-									  <a href="{{ route('states.store') }}" action="click-and-slide" class="btn btn-success btn-ok col-sm-12" data-method="post" data-remote="true" data-params="state=ok&holding_id={{$holding->id}}&user_id={{Auth::user()->id}}" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
-									  	<span class="fa fa-thumbs-up"></span> {{trans('general.confirm')}}
-									  </a>
-									</div>
-
-									<div class="col-xs-5">
-									  <button id="submit-create-notes" href="{{ route('notes.create',['holding_id'=>$holding->id]) }}" type="submit" class="btn btn-danger btn-tag col-sm-12" data-disable-with="{{trans('general.sending')}}" {{ $disabled }}>
-									  	<span class="fa fa-tags"></span> {{trans('holdings.annotate')}}
-									  </button>
-									</div>
-								</div>
 								
 							</div> <!-- /.row.item -->
 
@@ -102,18 +118,9 @@
 
 						@endforeach
 					</div> <!-- /.carousel-inner -->
-							<div class="row" style="margin-top:20px">
-								<div class="col-xs-12 text-center">
-								  <a class="btn btn-default " href="#slider" data-slide="prev">
-								    <span class="fa fa-chevron-left"></span>
-								  </a>
-								  <span id="num" class="btn btn-default"></span>
-								  <a class="btn btn-default " href="#slider" data-slide="next">
-								    <span class="fa fa-chevron-right"></span>
-								  </a>					
-								</div>
-							</div>
-				  <!-- Controls -->
+
+
+
 				</div>
 
 			</div>
