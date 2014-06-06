@@ -13,7 +13,7 @@
 				<div class="col-xs-12 h" >
 					<div id="slider" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
 						<?php $i=0  ?>
-							<div class="row" style="margin-top:20px">
+							<div class="row" style="margin-bottom:20px">
 								<div class="col-xs-12 text-center">
 								  <a class="btn btn-default " href="#slider" data-slide="prev">
 								    <span class="fa fa-chevron-left"></span>
@@ -31,7 +31,7 @@
 							<div class="row item <?= ($i==0) ? 'active' : '' ?>">
 								<form action="{{ route('notes.store') }}" method="post" data-remote="true" id='create-note-{{$holding->id}}' class="create-note">
 
-								<div class="row">
+								<div class="row" style="margin-bottom:20px">
 
 									<?php $disabled = (Authority::can('touch', $holding)) ? '' : 'disabled'  ?>
 
