@@ -106,10 +106,10 @@ class HoldingsController extends BaseController {
 
 		$this->data['is_filter'] 	= $is_filter;
 		$this->data['sql'] 			= sprintf( $format, $compare, $value );
-		$this->data['holdings'] 	= $holdings->orderby( DB::raw( $first_word.','.$number ))->paginate(50);
+		$this->data['holdings'] 	= $holdings->orderby( DB::raw('f852h_e COLLATE "POSIX"') )->paginate(50);
 		// $queries = DB::getQueryLog();
 		// $this->data['last_query'] = $queries;			
-		$this->data['queries'] = DB::getQueryLog();			
+		//$this->data['queries'] = DB::getQueryLog();			
 
 		// CONDITIONS
 		// filter by holdingsset ok
