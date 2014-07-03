@@ -21,7 +21,7 @@
 
 									<?php $i=1 ?>
 									<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1 {{ $holding->css }} {{ ($holding->is_correct) ? 'success' : 'not_ok' }} {{ ($holding->is_annotated) ? 'danger' : '' }}" >
-										<div class="well" id="holding-slide">
+										<div class="well" id="holding-slide" style="height: 400px; overflow-y: auto;">
 											<dl class="dl-horizontal ">
 												<dt >{{ trans('general.state') }}</dt>
 												<dd class="state">

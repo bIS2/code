@@ -49,7 +49,6 @@ Log::useDailyFiles(storage_path().'/logs/'.$logFile);
 | shown, which includes a detailed stack trace during debug.
 |
 */
-
 App::error(function(Exception $exception, $code)
 {
     $pathInfo = Request::getPathInfo();
@@ -57,8 +56,11 @@ App::error(function(Exception $exception, $code)
     Log::error("$code - $message @ $pathInfo\r\n$exception");
     
     if (Config::get('app.debug')) {
-    	return;
+    	// return;
     }
+    $mails = array();
+    $mails[] = 'asleyarbolaez@gmail.com';
+    $mails[] = 'piguet@trialog.ch';
 
     switch ($code)
     {
@@ -66,10 +68,32 @@ App::error(function(Exception $exception, $code)
             return Response::view('error/403', array(), 403);
 
         case 500:
+            foreach ($mails as $mail) {
+                Session::flash('mailto', $mail);
+                $data = array('exception' => $exception);
+                Session::flash('exception', $exception);
+                Session::flash('url', Request::url());
+                Mail::send('emails/error500', $data, function($message)
+                {
+                    $message->to(Session::get('mailto'), Session::get('mailto'))->subject('An error has ocurred in bIS Project');
+                });
+            }
             return Response::view('error/500', array(), 500);
 
+            break;
         default:
+            foreach ($mails as $mail) {
+                Session::flash('mailto', $mail);
+                $data = array('exception' => $exception);
+                Session::flash('exception', $exception);
+                Session::flash('url', Request::url());
+                Mail::send('emails/error404', $data, function($message)
+                {
+                    $message->to(Session::get('mailto'), Session::get('mailto'))->subject('Error 404 has ocurred in bIS Project');
+                });
+            }
             return Response::view('error/404', array(), $code);
+            break;
     }
 });
 

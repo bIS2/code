@@ -53,11 +53,24 @@ class FeedbacksController extends BaseController {
 		$input = Input::all();
 		$validation = Validator::make($input, Feedback::$rules);
 
-
-
 		if ($validation->passes())
 		{
+			$mails = array();
+			$mails[] = 'asleyarbolaez@gmail.com';
+			$mails[] = 'piguet@trialog.ch';
+
 			$this->feedback->create($input);
+
+			foreach ($mails as $mail) {
+				Session::flash('mailto', $mail);
+				$data = array('input' => $input);
+				Session::flash('input', $input);
+				Session::flash('url', Request::url());
+				Mail::send('emails/feedback', $data, function($message)
+				{
+					$message->to(Session::get('mailto'), Session::get('mailto'))->subject('An error has ocurred in bIS Project');
+				});
+			}
 
 			return Response::json([ 'hide_feedback' => true ]);
 		}
