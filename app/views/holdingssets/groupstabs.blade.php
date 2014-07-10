@@ -1,18 +1,18 @@
 <?php
 	$total = $holdingssets -> getTotal();
 	$init = $holdingssets -> getTo();
-	$groupsids = '';
+	$groupsids = ';';
 	$g = 0;
-	foreach ($groups as $group) {
-		$g++;
-		$groupsids .= $groups[count($groups)-$g] -> id;
-		if ($g == 5) {
-			break;
-		}
-		else {
-			$groupsids .= ';';
-		}
-	}
+	// foreach ($groups as $group) {
+	// 	$g++;
+	// 	$groupsids .= $groups[count($groups)-$g] -> id;
+	// 	if ($g == 5) {
+	// 		break;
+	// 	}
+	// 	else {
+	// 		$groupsids .= ';';
+	// 	}
+	// }
 	define('DEFAULTS_GROUPS', $groupsids);
 
 	$restarcookie = true;
