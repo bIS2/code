@@ -3,79 +3,79 @@
 
 		<div id="main-filters" class="row">
 			<div class="col-xs-12">
-						<div class="btn-group">
-							<a href="#" class="btn btn-sm dropdown-toggle btn-default {{ (Auth::user()->groups()->count() > 0) ? '' : ' disabled '}}" data-toggle="dropdown">
-								<i class="fa fa-list-ul"> </i>					 
-								{{{ trans('holdingssets.groups') }}}					  	
-								<span class="caret"></span>
-							</a>
-							<!-- Show list if exists -->
-							@if (Auth::user()->has('groups')) 
-							<?php $groups = Auth::user()->groups()->count(); $i = 0; ?>
+				<div class="btn-group">
+					<a href="#" class="btn btn-sm dropdown-toggle btn-default {{ (Auth::user()->groups()->count() > 0) ? '' : ' disabled '}}" data-toggle="dropdown">
+						<i class="fa fa-list-ul"> </i>					 
+						{{{ trans('holdingssets.groups') }}}					  	
+						<span class="caret"></span>
+					</a>
+					<!-- Show list if exists -->
+					@if (Auth::user()->has('groups')) 
+					<?php $groups = Auth::user()->groups()->count(); $i = 0; ?>
+					@foreach (Auth::user()->groups as $group) 
+					<?php $i++; ?>
+					@endforeach 
+					<?php if ($i > 0) : ?>
+						<ul class="dropdown-menu" role="menu">
 							@foreach (Auth::user()->groups as $group) 
-							<?php $i++; ?>
-							@endforeach 
-							<?php if ($i > 0) : ?>
-								<ul class="dropdown-menu" role="menu">
-									@foreach (Auth::user()->groups as $group) 
-									<li <?= ($group->id == Input::get('group_id')) ? 'class="active"' : '' ; ?>>
-										<a href="{{ route('sets.index',Input::except(['group_id']) + ['group_id' => $group->id ]) }}"> {{ $group->name }} <span class="badge"><span class="fa fa-file-text"></span> {{ $group->holdingssets -> count() }} </span></a>
-									</li>
-									@endforeach
-								</ul>
-							<?php endif; ?>
-							@endif
-						</div>
-						<div class="btn-group">
-							<a href="{{ route('sets.index', Input::except(['owner','aux'])) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') != true)) ? 'btn-primary' : 'btn-default' ?> btn-sm" title="{{ trans('holdingssets.clear_owner_filter') }}">	
-								<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}			  		
-							</a>
-							<a href="{{ route('sets.index', Input::except(['owner','aux']) + ['owner' => true]) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') != true)) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
-								<i class="fa fa-stop text-danger"></i> {{{ trans('holdingssets.just_owner') }}}
-							</a>
-							<a id="filter_owner" href="{{ route('sets.index', Input::except(['owner','aux']) + ['aux' => true]) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default' ?> btn-sm">
-								<i class="fa fa-stop text-warning"></i> {{{ trans('holdingssets.just_aux') }}}
-							</a>
-							<a id="filter_aux" href="{{ route('sets.index', Input::except(['owner','aux']) + ['owner' => true, 'aux' => true]) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default'; ?> btn-sm">
-								<i class="fa fa-stop text-danger"></i> <i class="fa fa-stop text-warning"></i> {{{ trans('holdingssets.only_owner_and_aux') }}}
-							</a>
-						</div>
-						<div class="btn-group">
-							<a id="filter_all" href="{{ route('sets.index', Input::except('state')) }}" class="btn  <?= (Input::has('state')) ? 'btn-default' : 'btn-primary active'; ?> btn-sm" >
-								<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}
-							</a>
-							<a id="filter_pending" href="{{ route('sets.index', Input::except('state') + ['state'=>'pending']) }}" class="btn btn-default <?= (Input::get('state') == 'pending') ? 'active' : '' ?> btn-sm">
-								<span class="fa fa-thumbs-up"></span> {{{ trans('holdingssets.pending') }}}
-							</a>
-							<a id="filter_confirmed" href="{{ route('sets.index', Input::except('state') + ['state'=>'ok']) }}" class="btn btn-success <?= (Input::get('state')=='ok') ? 'active' : '' ?> btn-sm" >
-								<span class="fa fa-thumbs-up"></span> {{{ trans('holdingssets.oked') }}}
-							</a>
-							<a id="filter_annotated" href="{{ route('sets.index', Input::except('state') + ['state'=>'annotated']) }}" class="btn btn-default <?= (Input::get('state') == 'annotated') ? 'active' : '' ?> btn-sm">
-								<span class="fa fa-thumbs-up text-warning"></span> <span class="text-warning">{{{ trans('general.annotated') }}}</span>
-							</a>
-							<a id="filter_incorrect" href="{{ route('sets.index', Input::except('state') + ['state'=>'reserveds']) }}" class="btn btn-info  <?= (Input::get('state') == 'reserveds') ? 'active' : '' ?> btn-sm">
-								<span class="fa fa-lock"></span> <span class="">{{{ trans('general.reserveds') }}}</span>
-							</a>
-							<a id="filter_incorrect" href="{{ route('sets.index', Input::except('state') + ['state'=>'noreserveds']) }}" class="btn btn-default  <?= (Input::get('state') == 'noreserveds') ? 'active' : '' ?> btn-sm">
-								<span class="fa fa-unlock"></span> <span class="">{{{ trans('general.noreserveds') }}}</span>
-							</a>
-							<a id="filter_incorrect" href="{{ route('sets.index', Input::except('state') + ['state'=>'incorrects']) }}" class="btn btn-danger <?= (Input::get('state') == 'incorrects') ? 'active' : '' ?> btn-sm">
-								<span class="fa fa-thumbs-down"></span> {{{ trans('general.incorrects') }}}
-							</a>
-							@if (count(Holdingsset::receiveds()->lists('id')) > 0 )
-							<a href="/sets?state=receiveds" class="btn btn-default <?= (Input::get('state') == 'receiveds') ? 'active' : '' ?> btn-sm">
-								<span class="fa fa-download"></span> {{ trans('holdingssets.receiveds') }}
-							</a>
-							@endif
-						</div>
-						<div class="btn-group">
-							<a id="filter_all" href="{{ route('sets.index', Input::only(['state', 'owner', 'aux', 'group_id'])) }}" class="btn <?= (Input::get('filtered') == '1') ? 'btn-default' : 'btn-primary'; ?> btn-sm" >
-								<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}
-							</a>
-							<a href="#collapseOne" id="filter-btn" class="accordion-toggle <?= ($is_filter) ? 'btn-primary' : 'btn-default' ?> btn btn-sm dropdown-toggle" data-toggle="collapse" data-parent="#accordion2">
-								<span class="fa fa fa-filter"></span> {{{ trans('holdingssets.advanced_filter') }}} <span class="caret"></span>
-							</a>
-						</div>
+							<li <?= ($group->id == Input::get('group_id')) ? 'class="active"' : '' ; ?>>
+								<a href="{{ route('sets.index',Input::except(['group_id']) + ['group_id' => $group->id ]) }}"> {{ $group->name }} <span class="badge"><span class="fa fa-file-text"></span> {{ $group->holdingssets -> count() }} </span></a>
+							</li>
+							@endforeach
+						</ul>
+					<?php endif; ?>
+					@endif
+				</div>
+				<div class="btn-group">
+					<a href="{{ route('sets.index', Input::except(['owner','aux'])) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') != true)) ? 'btn-primary' : 'btn-default' ?> btn-sm" title="{{ trans('holdingssets.clear_owner_filter') }}">	
+						<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}			  		
+					</a>
+					<a href="{{ route('sets.index', Input::except(['owner','aux']) + ['owner' => true]) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') != true)) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+						<i class="fa fa-stop text-danger"></i> {{{ trans('holdingssets.just_owner') }}}
+					</a>
+					<a id="filter_owner" href="{{ route('sets.index', Input::except(['owner','aux']) + ['aux' => true]) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+						<i class="fa fa-stop text-warning"></i> {{{ trans('holdingssets.just_aux') }}}
+					</a>
+					<a id="filter_aux" href="{{ route('sets.index', Input::except(['owner','aux']) + ['owner' => true, 'aux' => true]) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default'; ?> btn-sm">
+						<i class="fa fa-stop text-danger"></i> <i class="fa fa-stop text-warning"></i> {{{ trans('holdingssets.only_owner_and_aux') }}}
+					</a>
+				</div>
+				<div class="btn-group">
+					<a id="filter_all" href="{{ route('sets.index', Input::except('state')) }}" class="btn  <?= (Input::has('state')) ? 'btn-default' : 'btn-primary active'; ?> btn-sm" >
+						<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}
+					</a>
+					<a id="filter_pending" href="{{ route('sets.index', Input::except('state') + ['state'=>'pending']) }}" class="btn btn-default <?= (Input::get('state') == 'pending') ? 'active' : '' ?> btn-sm">
+						<span class="fa fa-thumbs-up"></span> {{{ trans('holdingssets.pending') }}}
+					</a>
+					<a id="filter_confirmed" href="{{ route('sets.index', Input::except('state') + ['state'=>'ok']) }}" class="btn btn-success <?= (Input::get('state')=='ok') ? 'active' : '' ?> btn-sm" >
+						<span class="fa fa-thumbs-up"></span> {{{ trans('holdingssets.oked') }}}
+					</a>
+					<a id="filter_annotated" href="{{ route('sets.index', Input::except('state') + ['state'=>'annotated']) }}" class="btn btn-default <?= (Input::get('state') == 'annotated') ? 'active' : '' ?> btn-sm">
+						<span class="fa fa-thumbs-up text-warning"></span> <span class="text-warning">{{{ trans('general.annotated') }}}</span>
+					</a>
+					<a id="filter_incorrect" href="{{ route('sets.index', Input::except('state') + ['state'=>'reserveds']) }}" class="btn btn-info  <?= (Input::get('state') == 'reserveds') ? 'active' : '' ?> btn-sm">
+						<span class="fa fa-lock"></span> <span class="">{{{ trans('general.reserveds') }}}</span>
+					</a>
+					<a id="filter_incorrect" href="{{ route('sets.index', Input::except('state') + ['state'=>'noreserveds']) }}" class="btn btn-default  <?= (Input::get('state') == 'noreserveds') ? 'active' : '' ?> btn-sm">
+						<span class="fa fa-unlock"></span> <span class="">{{{ trans('general.noreserveds') }}}</span>
+					</a>
+					<a id="filter_incorrect" href="{{ route('sets.index', Input::except('state') + ['state'=>'incorrects']) }}" class="btn btn-danger <?= (Input::get('state') == 'incorrects') ? 'active' : '' ?> btn-sm">
+						<span class="fa fa-thumbs-down"></span> {{{ trans('general.incorrects') }}}
+					</a>
+					@if (count(Holdingsset::receiveds()->lists('id')) > 0 )
+					<a href="/sets?state=receiveds" class="btn btn-default <?= (Input::get('state') == 'receiveds') ? 'active' : '' ?> btn-sm">
+						<span class="fa fa-download"></span> {{ trans('holdingssets.receiveds') }}
+					</a>
+					@endif
+				</div>
+				<div class="btn-group">
+					<a id="filter_all" href="{{ route('sets.index', Input::only(['state', 'owner', 'aux', 'group_id'])) }}" class="btn <?= (Input::get('filtered') == '1') ? 'btn-default' : 'btn-primary'; ?> btn-sm" >
+						<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}
+					</a>
+					<a href="#collapseOne" id="filter-btn" class="accordion-toggle <?= ($is_filter) ? 'btn-primary' : 'btn-default' ?> btn btn-sm dropdown-toggle" data-toggle="collapse" data-parent="#accordion2">
+						<span class="fa fa fa-filter"></span> {{{ trans('holdingssets.advanced_filter') }}} <span class="caret"></span>
+					</a>
+				</div>
 			</div>
 		</div> <!-- /.row -->
 		<div class="row">
