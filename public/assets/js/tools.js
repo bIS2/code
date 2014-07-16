@@ -312,6 +312,9 @@ $(function(){
   handleAjaxSucces('body');
   countThs();
 	getAsuccess()
+  $('.modal').on('shown.bs.modal', function() {
+    $(this).removeAttr('ajaxsuccess');
+  })
 })
 
 function handleAjaxSucces(parent) {
@@ -484,7 +487,8 @@ function getAsuccess() {
             accordion = $('#hosg .hol-sets li#'+set).find('a.accordion-toggle');
             open = ($(accordion).hasClass('collapsed') == true) ? 0 : 1
             // // console.log(open);
-            reload_set(set, result, open);          
+            reload_set(set, result, open);  
+            bootbox.alert('866a Merken OK')        
           }
           if ( result.remove )
             $('#'+result.remove).hide('fast', function(){ $(this).remove() }); 
