@@ -52,7 +52,7 @@
 	$hlistsids = Session::get(Auth::user()->username.'_hlists_to_show');
 	// var_dump($hlistsids);
 
- 	if (isset(Input::get('hlist_id'))  {
+ 	if (isset(Input::get('hlist_id')))  {
  		$tempids = [];
  		$tempids = explode(';', $hlistsids);
  		if (!in_array(Input::get('hlist_id'), $tempids)) {
