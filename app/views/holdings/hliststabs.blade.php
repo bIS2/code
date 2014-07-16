@@ -52,11 +52,11 @@
 	$hlistsids = Session::get(Auth::user()->username.'_hlists_to_show');
 	// var_dump($hlistsids);
 
- 	if (isset($hlist_id))  {
+ 	if (isset(Input::get('hlist_id'))  {
  		$tempids = [];
  		$tempids = explode(';', $hlistsids);
- 		if (!in_array($hlist_id, $tempids)) {
- 			$hlistsids = $hlist_id.';'.$hlistsids;
+ 		if (!in_array(Input::get('hlist_id'), $tempids)) {
+ 			$hlistsids = Input::get('hlist_id').';'.$hlistsids;
 	 		setcookie(Auth::user()->username.'_hlists_to_show', $hlistsids, time() + (86400 * 30));
 	 		Session::put(Auth::user()->username.'_hlists_to_show', $hlistsids);
 	 	}
