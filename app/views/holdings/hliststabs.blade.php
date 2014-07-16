@@ -62,7 +62,7 @@
 	 	}
  	}
 	$hlistsids = explode(';', $hlistsids);
- 	var_dump($hlistsids);
+ 	// var_dump($hlistsids);
 ?>
 
 <div class="row">
