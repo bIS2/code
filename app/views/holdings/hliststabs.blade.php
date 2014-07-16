@@ -3,49 +3,49 @@
 
 	// $total = $holdingssets -> getTotal();
 	// $init = $holdingssets -> getTo();
-	$hlistsids = '';
-	$g = 0;
-	foreach ($hlists as $hlist) {
-		$g++;
-		$hlistsids .= $hlists[count($hlists)-$g] -> id;
-		if ($g == 5) {
-			break;
-		}
-		else {
-			$hlistsids .= ';';
-		}
-	}
-	define('DEFAULTS_HLISTS', $hlistsids);
-	// var_dump(DEFAULTS_HLISTS);
-	if (Input::has('hlist_id')) $hlist_id = Input::get('hlist_id');
+	// $hlistsids = '';
+	// $g = 0;
+	// foreach ($hlists as $hlist) {
+	// 	$g++;
+	// 	$hlistsids .= $hlists[count($hlists)-$g] -> id;
+	// 	if ($g == 5) {
+	// 		break;
+	// 	}
+	// 	else {
+	// 		$hlistsids .= ';';
+	// 	}
+	// }
+	// define('DEFAULTS_HLISTS', $hlistsids);
+	// // var_dump(DEFAULTS_HLISTS);
+	// if (Input::has('hlist_id')) $hlist_id = Input::get('hlist_id');
 
-	$restarcookie = true;
+	// $restarcookie = true;
 
-	$cookiesids = explode(';', $_COOKIE[Auth::user()->username.'_hlists_to_show']);
+	// $cookiesids = explode(';', $_COOKIE[Auth::user()->username.'_hlists_to_show']);
 
-	foreach ($hlists as $hlist) {
-		if (in_array($hlist -> id, $cookiesids)) {
-			$restarcookie = false;
-			break;
-		}
-	}
+	// foreach ($hlists as $hlist) {
+	// 	if (in_array($hlist -> id, $cookiesids)) {
+	// 		$restarcookie = false;
+	// 		break;
+	// 	}
+	// }
 
 	// var_dump($restarcookie);
 
 	//if ($restarcookie) 
-		Session::put(Auth::user()->username.'_hlists_to_show', ';');
-		setcookie(Auth::user()->username.'_hlists_to_show', ';', time() + (86400 * 30));
+	// 	Session::put(Auth::user()->username.'_hlists_to_show', ';');
+	// 	setcookie(Auth::user()->username.'_hlists_to_show', ';', time() + (86400 * 30));
 
-	if (!isset($_COOKIE[Auth::user()->username.'_hlists_to_show']) || (Session::get(Auth::user()->username.'_hlists_to_show') == ';')) {
-	  setcookie(Auth::user()->username.'_hlists_to_show', DEFAULTS_HLISTS, time() + (86400 * 30));
-	  Session::put(Auth::user()->username.'_hlists_to_show', DEFAULTS_HLISTS);
-	}
+	// if (!isset($_COOKIE[Auth::user()->username.'_hlists_to_show']) || (Session::get(Auth::user()->username.'_hlists_to_show') == ';')) {
+	//   setcookie(Auth::user()->username.'_hlists_to_show', DEFAULTS_HLISTS, time() + (86400 * 30));
+	//   Session::put(Auth::user()->username.'_hlists_to_show', DEFAULTS_HLISTS);
+	// }
 
-	if (Session::get(Auth::user()->username.'_hlists_to_show') == null)
-	  Session::put(Auth::user()->username.'_hlists_to_show', $_COOKIE[Auth::user()->username.'_hlists_to_show']);
+	// if (Session::get(Auth::user()->username.'_hlists_to_show') == null)
+	//   Session::put(Auth::user()->username.'_hlists_to_show', $_COOKIE[Auth::user()->username.'_hlists_to_show']);
 
-	if (Session::get(Auth::user()->username.'_hlists_to_show') != '') 
- 		setcookie(Auth::user()->username.'_hlists_to_show', Session::get(Auth::user()->username.'_hlists_to_show'), time() + (86400 * 30));
+	// if (Session::get(Auth::user()->username.'_hlists_to_show') != '') 
+ // 		setcookie(Auth::user()->username.'_hlists_to_show', Session::get(Auth::user()->username.'_hlists_to_show'), time() + (86400 * 30));
 
 
 	$hlistsids = '';
