@@ -15,7 +15,7 @@ return array(
 	|
 	*/
 
-	'driver' => 'smtp',
+	'driver' => 'sendmail',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'support@trialog.ch', 'name' => 'Bis Admin'),
+	'from' => array('address' => 'zheroc@gmail.com', 'name' => 'Bis Admin'),
 
 	/*
 	|--------------------------------------------------------------------------
