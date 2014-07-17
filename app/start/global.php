@@ -58,9 +58,9 @@ App::error(function(Exception $exception, $code)
     if (Config::get('app.debug')) {
     	return;
     }
-    $mails = array();
-    $mails[] = 'asleyarbolaez@gmail.com';
-    $mails[] = 'piguet@trialog.ch';
+    $mails = [ 'asleyarbolaez@gmail.com', 'piguet@trialog.ch', 'soto.platero@gmail.com' ];
+    // $mails[] = 'asleyarbolaez@gmail.com';
+    // $mails[] = 'piguet@trialog.ch';
 
     switch ($code)
     {
