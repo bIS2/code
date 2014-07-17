@@ -4,10 +4,8 @@
 		<meta charset="utf-8">
 	</head>
 	<body>
-		<h2>bIS Error 500 Ocurred in: <a href="<?php echo Session::get('url'); ?>"><?php echo Session::get('url'); ?></a></h2>
+		<h2>bIS Error 500 Ocurred in: <a href="{{ $url }}">{{ $url }}</a></h2>
 
-		<div>
-			<?php var_dump(Session::get('exception')); ?>
-		</div>
+		<div>{{ $exception }}</div>
 	</body>
 </html>

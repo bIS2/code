@@ -58,9 +58,10 @@ App::error(function(Exception $exception, $code)
     if (Config::get('app.debug')) {
     	return;
     }
-    $mails = array();
-    $mails[] = 'asleyarbolaez@gmail.com';
-    $mails[] = 'piguet@trialog.ch';
+    
+    $mails = [ 'asleyarbolaez@gmail.com', 'piguet@trialog.ch', 'soto.platero@gmail.com' ];
+
+    $data = [ 'exception' => $exception, 'url'=> Request::url() ];
 
     switch ($code)
     {
@@ -68,14 +69,10 @@ App::error(function(Exception $exception, $code)
             return Response::view('error/403', array(), 403);
 
         case 500:
+
             foreach ($mails as $mail) {
-                Session::flash('mailto', $mail);
-                $data = array('exception' => $exception);
-                Session::flash('exception', $exception);
-                Session::flash('url', Request::url());
-                Mail::send('emails/error500', $data, function($message)
-                {
-                    $message->to(Session::get('mailto'), Session::get('mailto'))->subject('An error has ocurred in bIS Project');
+                Mail::send('emails/error500', $data, function($message) use ($mail) {
+                    $message->to($mail)->subject('An error has ocurred in bIS Project');
                 });
             }
             return Response::view('error/500', array(), 500);
@@ -83,13 +80,8 @@ App::error(function(Exception $exception, $code)
             break;
         default:
             foreach ($mails as $mail) {
-                Session::flash('mailto', $mail);
-                $data = array('exception' => $exception);
-                Session::flash('exception', $exception);
-                Session::flash('url', Request::url());
-                Mail::send('emails/error404', $data, function($message)
-                {
-                    $message->to(Session::get('mailto'), Session::get('mailto'))->subject('Error 404 has ocurred in bIS Project');
+                Mail::send('emails/error404', $data, function($message) use ($mail) {
+                    $message->to($mail)->subject('Error 404 has ocurred in bIS Project');
                 });
             }
             return Response::view('error/404', array(), $code);
