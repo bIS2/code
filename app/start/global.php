@@ -71,14 +71,9 @@ App::error(function(Exception $exception, $code)
             return Response::view('error/403', array(), 403);
 
         case 500:
-            
+
             foreach ($mails as $mail) {
-                Session::flash('mailto', $mail);
-                // $data = array('exception' => $exception,);
-                // Session::flash('exception', $exception);
-                // Session::flash('url', Request::url());
-                Mail::send('emails/error500', $data, function($message) use ($mail)
-                {
+                Mail::queue('emails/error500', $data, function($message) use ($mail) {
                     $message->to($mail)->subject('An error has ocurred in bIS Project');
                 });
             }
@@ -87,12 +82,7 @@ App::error(function(Exception $exception, $code)
             break;
         default:
             foreach ($mails as $mail) {
-                Session::flash('mailto', $mail);
-                // $data = array('exception' => $exception);
-                // Session::flash('exception', $exception);
-                // Session::flash('url', Request::url());
-                Mail::send('emails/error404', $data, function($message) use ($mail)
-                {
+                Mail::queue('emails/error404', $data, function($message) use ($mail) {
                     $message->to($mail)->subject('Error 404 has ocurred in bIS Project');
                 });
             }
