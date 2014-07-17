@@ -75,7 +75,7 @@ App::error(function(Exception $exception, $code)
                 Session::flash('url', Request::url());
                 Mail::send('emails/error500', $data, function($message)
                 {
-                    $message->to(Session::get('mailto'), Session::get('mailto'))->subject('An error has ocurred in bIS Project');
+                    $message->to($mail)->subject('An error has ocurred in bIS Project');
                 });
             }
             return Response::view('error/500', array(), 500);
