@@ -63,14 +63,15 @@ App::error(function(Exception $exception, $code)
     // $mails[] = 'piguet@trialog.ch';
 
     $data = [ 'exception' => $exception, 'url'=> Request::url() ];
-    Mail::pretend(TRUE);
-    
+    // Mail::pretend(TRUE);
+
     switch ($code)
     {
         case 403:
             return Response::view('error/403', array(), 403);
 
         case 500:
+            
             foreach ($mails as $mail) {
                 Session::flash('mailto', $mail);
                 // $data = array('exception' => $exception,);
