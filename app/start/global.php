@@ -58,12 +58,10 @@ App::error(function(Exception $exception, $code)
     if (Config::get('app.debug')) {
     	return;
     }
+    
     $mails = [ 'asleyarbolaez@gmail.com', 'piguet@trialog.ch', 'soto.platero@gmail.com' ];
-    // $mails[] = 'asleyarbolaez@gmail.com';
-    // $mails[] = 'piguet@trialog.ch';
 
     $data = [ 'exception' => $exception, 'url'=> Request::url() ];
-    // Mail::pretend(TRUE);
 
     switch ($code)
     {
@@ -74,7 +72,7 @@ App::error(function(Exception $exception, $code)
 
             return Response::view('error/500', array(), 500);
             foreach ($mails as $mail) {
-                Mail::queue('emails/error500', $data, function($message) use ($mail) {
+                Mail::queueOn('emails/error500', $data, function($message) use ($mail) {
                     $message->to($mail)->subject('An error has ocurred in bIS Project');
                 });
             }
@@ -83,7 +81,7 @@ App::error(function(Exception $exception, $code)
         default:
             return Response::view('error/404', array(), $code);
             foreach ($mails as $mail) {
-                Mail::queue('emails/error404', $data, function($message) use ($mail) {
+                Mail::queueOn('emails/error404', $data, function($message) use ($mail) {
                     $message->to($mail)->subject('Error 404 has ocurred in bIS Project');
                 });
             }
