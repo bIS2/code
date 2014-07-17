@@ -61,9 +61,10 @@ App::error(function(Exception $exception, $code)
     $mails = [ 'asleyarbolaez@gmail.com', 'piguet@trialog.ch', 'soto.platero@gmail.com' ];
     // $mails[] = 'asleyarbolaez@gmail.com';
     // $mails[] = 'piguet@trialog.ch';
-    
-    $data = [ 'exception' => $exception, 'url'=> Request::url() ];
 
+    $data = [ 'exception' => $exception, 'url'=> Request::url() ];
+    Mail::pretend(TRUE);
+    
     switch ($code)
     {
         case 403:
