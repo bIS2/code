@@ -89,7 +89,7 @@ App::error(function(Exception $exception, $code)
                 Session::flash('url', Request::url());
                 Mail::send('emails/error404', $data, function($message)
                 {
-                    $message->to(Session::get('mailto'), Session::get('mailto'))->subject('Error 404 has ocurred in bIS Project');
+                    $message->to($mail)->subject('Error 404 has ocurred in bIS Project');
                 });
             }
             return Response::view('error/404', array(), $code);
