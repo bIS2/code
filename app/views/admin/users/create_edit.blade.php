@@ -128,12 +128,22 @@
             <label class="col-md-2 control-label" for="roles">{{ trans('general.role') }}</label>
             <div class="col-md-6 ">
             	<fieldset id="roles_user">
+            	<?php $combined = ''; $hascombine = 0; ?>
 	              @foreach ($roles as $role)
+	              	<?php if (($role->name == 'bibuser') || ($role->name == 'resuser')) {
+	              		$combined = $combined.$role->id.':'; 
+	              		if ($user->hasRole($role->name)) $hascombine++;
+	              	}
+	              		?>
 		              <label>
-			              <input type="checkbox" name="roles[]" value="{{$role->id}}" {{ ($user->hasRole($role->name) || Input::old('roles')) ? 'checked="checked"' : ($first) ? 'checked="checked"' : '' }}>
+			              <input type="radio" name="roles[]" value="{{$role->id}}" {{ ($user->hasRole($role->name) || Input::old('roles')) ? 'checked="checked"' : ($first) ? 'checked="checked"' : '' }}>
 			              {{ $role->name }}
 		              </label>
 		            @endforeach
+		            	<label>
+			              <input type="radio" name="roles[]" value="{{ $combined }}" {{ ($hascombine == 2) ? 'checked="checked"' : '' }}>
+			              {{ 'bibuser - resuser' }}
+		              </label>
 							</select>
 							</fieldset>
 							<label for="roles[]" class="error"></label>

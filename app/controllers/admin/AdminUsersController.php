@@ -191,11 +191,10 @@ class AdminUsersController extends AdminController {
     public function postEdit($user)
     {
         // Validate the inputs
-        $validator = Validator::make(Input::all(), $user->getUpdateRules());
-
-
-        if ($validator->passes())
-        {
+        // $validator = Validator::make(Input::all(), $user->getUpdateRules());
+            
+        // if ($validator->passes())
+        // {
             $oldUser = clone $user;
             $user->username = Input::get( 'username' );
             $user->email = Input::get( 'email' );
@@ -233,18 +232,26 @@ class AdminUsersController extends AdminController {
             $user->amend();
 
             // Save roles. Handles updating.
-            $user->saveRoles(Input::get( 'roles' ));
-        }
+            $roles = Input::get( 'roles' );
+            $temp = explode(':', $roles[0]);
+            if (count($temp) > 1) {
+                unset($temp[2]);
+                $user->saveRoles($temp);
+            }
+            else {
+                $user->saveRoles(Input::get( 'roles' ));
+            }
+        // }
 
         // Get validation errors (see Ardent package)
-        $error = $user->errors()->all();
+        // $error = $user->errors()->all();
 
-        if(empty($error)) {
+        // if(empty($error)) {
             // Redirect to the new user page
             return Redirect::to('admin/users/edit/'.$user->id)->with('success', Lang::get('admin/users/messages.edit.success'));
-        } else {
-            return Redirect::to('admin/users/' . $user->id . '/edit')->with('error', Lang::get('admin/users/messages.edit.failure'));
-        }
+        // } else {
+        //     return Redirect::to('admin/users/' . $user->id . '/edit')->with('error', Lang::get('admin/users/messages.edit.failure'));
+        // }
     }
 
     /**
