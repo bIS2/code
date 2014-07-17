@@ -487,8 +487,8 @@ function getAsuccess() {
             accordion = $('#hosg .hol-sets li#'+set).find('a.accordion-toggle');
             open = ($(accordion).hasClass('collapsed') == true) ? 0 : 1
             // // console.log(open);
-            reload_set(set, result, open);  
-            bootbox.alert('866a Merken OK')        
+            reload_set(set, result, open);            
+            if ($(this).hasClass('modal')) bootbox.alert('866a Merken OK')    
           }
           if ( result.remove )
             $('#'+result.remove).hide('fast', function(){ $(this).remove() }); 

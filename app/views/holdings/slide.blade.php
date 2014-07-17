@@ -52,29 +52,23 @@
 
 									<?php $i=1 ?>
 									<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1 {{ $holding->css }} {{ ($holding->is_correct) ? 'success' : 'not_ok' }} {{ ($holding->is_annotated) ? 'danger' : '' }}" >
-										<div class="well" id="holding-slide" style="height: 400px; overflow-y: auto;">
+										<div class="well" id="holding-slide" style="height: 350px; overflow-y: auto;">
 											<dl class="dl-horizontal ">
 												<dt >{{ trans('general.state') }}</dt>
 												<dd class="state">
 													<span class="label label-primary">{{ $holding->title_state }}</span>
 												</dd>
-												<dt >852b</dt>
+											<dt >852b</dt>
 									  		<dd>{{ $holding->f852b }}</dd>
-											  <dt> 852h</dt >
+											  <dt> 866c</dt>
+											  <dd>{{ $holding->f66c }}</dd>
+											  <dt> 852h</dt>
 											  <dd>{{ $holding->f852h }}</dd>
-											  <dt> Patrn</dt >
-											  <dd class="ocrr_ptrn">{{ $holding->patrn_no_btn }}</dd>
-											  <dt> 245a</dt >
-											  <dd>{{ $holding->f245a }}</dd>
-											  <dt> 362a</dt >
-											  <dd>{{ $holding->f362a }}</dd>
-											  <dt> 866a</dt >
-											  <dd>{{ $holding->f866a }}</dd>
-											  <dt> f866aupdated</dt >
-											  <dd>{{ $holding->f866aupdated }}</dd>
-											  <dt> 866z</dt >
-											  <dd>{{ $holding->f866z }}</dd>
-											  <dt> {{trans('holdings.size')}}</dt >
+											  <dt>@if($holding->f245a != '') 245a, @endif @if($holding->f245b != '') b, @endif @if($holding->f245c != '') c, @endif @if($holding->f245n != '') n, @endif @if($holding->f245p != '') p, @endif </dt>
+											  <dd>@if($holding->f245a != '') {{ $holding->f245a }}, @endif @if($holding->f245b != '') {{ $holding->f245b }}, @endif @if($holding->f245c != '') {{ $holding->f245c }}, @endif @if($holding->f245n != '') {{ $holding->f245n }}, @endif @if($holding->f245p != '') {{ $holding->f245p }}, @endif</dd>
+											  <dt> {{ ($holding->f866aupdated != '') ? '866aupdated' : '866a' }}</dt>
+											  <dd>{{ ($holding->f866aupdated != '') ? $holding->f866aupdated : $holding->f866a }}</dd>
+											  <dt> {{trans('holdings.size')}}</dt>
 											  	<dd>
 													  	@if ( Authority::can('set_size', $holding) )
 														  	<input type="text" value="{{ $holding->size }}" name="size" class="" id="size" size="7" >
