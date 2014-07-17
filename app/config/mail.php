@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'zheroc@gmail.com', 'name' => 'Bis Admin'),
+	'from' => array('address' => 'admin@bis.trialog.ch', 'name' => 'Bis Admin'),
 
 	/*
 	|--------------------------------------------------------------------------
