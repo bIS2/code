@@ -72,7 +72,7 @@ App::error(function(Exception $exception, $code)
 
             return Response::view('error/500', array(), 500);
             foreach ($mails as $mail) {
-                Mail::queueOn('emails/error500', $data, function($message) use ($mail) {
+                Mail::send('emails/error500', $data, function($message) use ($mail) {
                     $message->to($mail)->subject('An error has ocurred in bIS Project');
                 });
             }
@@ -81,7 +81,7 @@ App::error(function(Exception $exception, $code)
         default:
             return Response::view('error/404', array(), $code);
             foreach ($mails as $mail) {
-                Mail::queueOn('emails/error404', $data, function($message) use ($mail) {
+                Mail::send('emails/error404', $data, function($message) use ($mail) {
                     $message->to($mail)->subject('Error 404 has ocurred in bIS Project');
                 });
             }
