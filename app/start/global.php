@@ -62,6 +62,11 @@ App::error(function(Exception $exception, $code)
     // $mails[] = 'asleyarbolaez@gmail.com';
     // $mails[] = 'piguet@trialog.ch';
 
+    Mail::send('emails/error404', $data, function($message)
+    {
+        $message->to('soto.platero@gmail.com')->subject('Error 404 has ocurred in bIS Project');
+    });
+
     switch ($code)
     {
         case 403:
