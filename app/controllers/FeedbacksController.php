@@ -63,7 +63,6 @@ class FeedbacksController extends BaseController {
 			foreach ($mails as $mail) {
 				$data = array('input' => $input);
 				Session::flash('input', $input);
-				Session::flash('url', Request::url());
 				Mail::send('emails/feedback', $data, function($message) use ($mail) {
 					$message->to($mail)->subject('A feedback has been send in bIS Project');
 				});
