@@ -55,20 +55,17 @@ class FeedbacksController extends BaseController {
 
 		if ($validation->passes())
 		{
-			$mails = array();
-			$mails[] = 'asleyarbolaez@gmail.com';
-			$mails[] = 'piguet@trialog.ch';
 
 			$this->feedback->create($input);
 
+    		$mails = [ 'asleyarbolaez@gmail.com', 'piguet@trialog.ch', 'soto.platero@gmail.com' ];
+
 			foreach ($mails as $mail) {
-				Session::flash('mailto', $mail);
 				$data = array('input' => $input);
 				Session::flash('input', $input);
 				Session::flash('url', Request::url());
-				Mail::send('emails/feedback', $data, function($message)
-				{
-					$message->to(Session::get('mailto'), Session::get('mailto'))->subject('An error has ocurred in bIS Project');
+				Mail::send('emails/feedback', $data, function($message) use ($mail) {
+					$message->to($mail)->subject('A feedback has been send in bIS Project');
 				});
 			}
 
