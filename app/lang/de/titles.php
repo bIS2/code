@@ -15,6 +15,6 @@ return array(
 	'help'      => 'Hilfe',
 	'edit_libraries'	=> 'Editing Library',
 	'stats'						=> 'Stats',
-	'wellcome'		=> 'Wellcome, :name. Select your option in top bar.',
+	'wellcome'		=> 'Guten Tag, :name. Bitte wählen Sie das gewünsche Menu aus.',
 	'updated'		=> 'Code Updated at:',
 );

@@ -14,11 +14,11 @@ return array(
 	*/
 
 	'annotated' 					=> 'Von MAGUSER annotiert',
-	'blank' 						 => 'HOL nicht bestätigt (weiss)',
+	'blank' 						=> 'HOS ungeprüft (Hand weiss)',
 	'blank_reserved' 				=> 'Reserviert',
-	'burn' 							=> 'HOL eliminiert physically',
+	'burn' 							=> 'HOL physisch eliminiert',
 	'commented'						=> 'Versandproblem',
-	'confirmed' 					=> 'HOS ok',
+	'confirmed' 					=> 'HOS ok (Hand grün)',
 	'confirmed_reserved' 			=> 'Reserviert',
 	'delivery' 						=> 'Zur SPB gesandt',
 	'integrated'					=> 'Komplett integriert',

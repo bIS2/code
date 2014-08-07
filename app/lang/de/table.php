@@ -31,10 +31,10 @@ return array(
 
 	//titles
 	'externalurl'	=> 'Externe URL',
-	'no-users'		=> 'Anz of users',
-	'state'			=> 'Status der Liste',
+	'no-users'		=> '# Benutzer',
+	'state'			=> 'Status',
 	'sublibraries'	=> 'Sub-Bibliotheken',
-	'title_edit_user'=> 'Edit User',
+	'title_edit_user'=> 'Editiere Benutzer',
 
 	// here??
 	'pending'		=> 'In Arbeit',
