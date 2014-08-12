@@ -15,7 +15,7 @@ class StateObserver {
   		$holdingsset_id = Holding::find($model->holding_id)->holdingsset_id;
   		Confirm::whereHoldingssetId( Holding::find($holdingsset_id) )->delete();	
   		Holdingsset::find($holdingsset_id)->update(['state' => 'blank']);
-  		DB::table('hlist_holding')->whereHoldingId($model->holding_id)->delete();	
+  		#DB::table('hlist_holding')->whereHoldingId($model->holding_id)->delete();	
   	}
 
 		if  ( $model->state=='ok' ){
