@@ -353,10 +353,9 @@ function handleAjaxSucces(parent) {
     } 
 
     if ( result.list_revised ){
-      $('#'+result.list_revised)
-        .addClass('revised').hide('slow')
-        .find('.state-list').text( result.state ).removeClass('hide').end()
-        .find('.btn-revise').hide();
+      $('#'+result.list_revised).addClass('revised').hide('slow');
+      $('#hos_actions_and_filters .state-list').text( result.state ).removeClass('hide');
+      $('#hos_actions_and_filters .btn-revise').hide();
     } 
 
     if ( result.blank ){
