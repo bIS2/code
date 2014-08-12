@@ -119,6 +119,7 @@
 
 
 <?php if (count($holdings) > 0) { ?>
+	<form method="post" action="{{ route('holdings.index', Input::except(['noexists'])) }}">
 <div id="hos_actions_and_filters" class="row">
 
 	<!-- Information about pagination-->
@@ -147,7 +148,6 @@
 			@endif
 		</div>
 		<div class="col-xs-5">
-			<form method="post" action="{{ route('holdings.index', Input::except(['noexists'])) }}">
 			<a href="#table_fields" id="filter-btn" class="accordion-toggle btn btn-sm btn-default dropdown-toggle collapsed text-warning pull-right" data-toggle="collapse">
 				<span class="fa fa-check"></span> {{{ trans('general.show_hide_fields') }}}
 			</a>
