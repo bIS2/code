@@ -61,7 +61,7 @@
 											<dt >852b</dt>
 									  		<dd>{{ $holding->f852b }}</dd>
 											  <dt> 866c</dt>
-											  <dd>{{ $holding->f66c }}</dd>
+											  <dd>{{ $holding->f866c }}</dd>
 											  <dt> 852h</dt>
 											  <dd>{{ $holding->f852h }}</dd>
 											  <dt>@if($holding->f245a != '') 245a, @endif @if($holding->f245b != '') b, @endif @if($holding->f245c != '') c, @endif @if($holding->f245n != '') n, @endif @if($holding->f245p != '') p, @endif </dt>
