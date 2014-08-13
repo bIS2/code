@@ -15,7 +15,8 @@ class ConfirmObserver {
        'object_type' => 'holdingsset',
        'object_id' => $holdingsset_id,
       ]);
-
+      $stat = Stat::firstOrCreate();
+      
       Holdingsset::find($holdingsset_id)->update([ 'state' => 'ok' ]);
       $ids = $model->holdingsset->holdings()->lists('id');
       foreach ($ids as $id) {
@@ -23,13 +24,13 @@ class ConfirmObserver {
       }
 
       //Increment stat total confirmed Holdings Set
-      Stat::first()->increment('sets_confirmed');
+      $stat->increment('sets_confirmed');
 
       if ($model->holdingsset->holdings()->whereIsOwner('t')->exists())
-	      Stat::first()->increment('sets_confirmed_owner');
+	      $stat->increment('sets_confirmed_owner');
 
       if ($model->holdingsset->holdings()->whereIsAux('t')->exists())
-	      Stat::first()->increment('sets_confirmed_auxiliar');
+	      $stat->increment('sets_confirmed_auxiliar');
 
     }
 
