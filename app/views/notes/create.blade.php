@@ -11,7 +11,7 @@
 						{{ Form::hidden('hlist_id',$hlist_id) }}
 						{{ Form::hidden('holding_id',$holding->id) }}
 
-		        <div class="modal-body">
+		        <div class="modal-body {{$holding->css}}">
 		        	<div  class="alert alert-danger alert-error hide"></div>
 
         				<div class="row">
@@ -25,7 +25,7 @@
 										  <dd>{{htmlspecialchars($holding->f852h,ENT_QUOTES)}}</dd>
 										  <dt>Patr</dt>
 										  <?php $ownertrclass 	= ($holding->is_owner == 't') ? ' is_owner' : '';  ?>
-										  <dd class="ocrr_ptrn{{$ownertrclass}}">{{$holding->patrn}}</dd>
+										  <dd class="ocrr_ptrn">{{$holding->patrn}}</dd>
 										  <dt>245a</dt>
 										  <dd>{{htmlspecialchars($holding->f245,ENT_QUOTES)}}</dd>
 										  <dt>Size</dt>
