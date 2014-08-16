@@ -54,7 +54,7 @@
 					  	</a>
 
 					  	<div class="btn-group">
-						  	<a href="?tagged=true" class="btn btn-default <?= ( Input::has('tagged' ) ||  Input::get('state')=='annotated' ) ? 'active' : '' ?> btn-sm" data-toggle="dropdown">
+						  	<a href="" class="btn btn-default <?= ( Input::has('tagged' ) ||  Input::get('state')=='annotated' ) ? 'active' : '' ?> btn-sm" data-toggle="dropdown">
 						  		<div class="text-danger"><span class="fa fa-tags"></span>
 						  		<?= (!Input::has('tagged') || Input::get('tagged')=='%' ) ? trans('holdings.annotated') : Tag::find( Input::get('tagged') )->name ?>  
 						  		<span class="caret"></span></div>
