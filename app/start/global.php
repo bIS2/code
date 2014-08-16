@@ -49,50 +49,50 @@ Log::useDailyFiles(storage_path().'/logs/'.$logFile);
 | shown, which includes a detailed stack trace during debug.
 |
 */
-App::error(function(Exception $exception, $code)
-{
-    Log::error($exception);
-});
-
 // App::error(function(Exception $exception, $code)
 // {
-//     $pathInfo = Request::getPathInfo();
-//     $message = $exception->getMessage() ?: 'Exception';
-//     Log::error("$code - $message @ $pathInfo\r\n$exception");
-    
-//     if (Config::get('app.debug')) {
-//     	return;
-//     }
-    
-//     $mails = [ 'asleyarbolaez@gmail.com', 'piguet@trialog.ch', 'soto.platero@gmail.com' ];
-
-//     $data = [ 'exception' => $exception, 'url'=> Request::url() ];
-
-//     switch ($code)
-//     {
-//         case 403:
-//             return Response::view('error/403', array(), 403);
-
-//         case 500:
-
-//             foreach ($mails as $mail) {
-//                 Mail::send('emails/error500', $data, function($message) use ($mail) {
-//                     $message->to($mail)->subject('An error has ocurred in bIS Project');
-//                 });
-//             }
-//             return Response::view('error/500', array(), 500);
-
-//             break;
-//         default:
-//             foreach ($mails as $mail) {
-//                 Mail::send('emails/error404', $data, function($message) use ($mail) {
-//                     $message->to($mail)->subject('Error 404 has ocurred in bIS Project');
-//                 });
-//             }
-//             return Response::view('error/404', array(), $code);
-//             break;
-//     }
+//     Log::error($exception);
 // });
+
+App::error(function(Exception $exception, $code)
+{
+    $pathInfo = Request::getPathInfo();
+    $message = $exception->getMessage() ?: 'Exception';
+    Log::error("$code - $message @ $pathInfo\r\n$exception");
+    
+    if (Config::get('app.debug')) {
+    	return;
+    }
+    
+    $mails = [ 'asleyarbolaez@gmail.com', 'piguet@trialog.ch', 'soto.platero@gmail.com' ];
+
+    $data = [ 'exception' => $exception, 'url'=> Request::url() ];
+
+    switch ($code)
+    {
+        case 403:
+            return Response::view('error/403', array(), 403);
+
+        case 500:
+
+            foreach ($mails as $mail) {
+                Mail::send('emails/error500', $data, function($message) use ($mail) {
+                    $message->to($mail)->subject('An error has ocurred in bIS Project');
+                });
+            }
+            return Response::view('error/500', array(), 500);
+
+            break;
+        default:
+            foreach ($mails as $mail) {
+                Mail::send('emails/error404', $data, function($message) use ($mail) {
+                    $message->to($mail)->subject('Error 404 has ocurred in bIS Project');
+                });
+            }
+            return Response::view('error/404', array(), $code);
+            break;
+    }
+});
 
 /*
 |--------------------------------------------------------------------------
