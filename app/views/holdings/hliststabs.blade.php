@@ -144,7 +144,7 @@
 			@endif
 
 			@if (Input::has('hlist_id'))
-			<span class="label label-primary state-list"> {{ $list->state }}</span>
+			<span class="label label-primary state-list"> {{ trans('states.'.$list->state) }}</span>
 			@endif
 		</div>
 		<div class="col-xs-5">
