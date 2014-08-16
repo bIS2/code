@@ -1,5 +1,5 @@
 <!-- the footer includes credits and something else... -->
-<footer id="footer" class="affix-bottom" data-spy="affix" data-offset-bottom="0">
+<footer id="footer" class="affix-bottom" data-spy="affix" data-offset-bottom="0" style="background: transparent">
 	<div class="container">
 
 
