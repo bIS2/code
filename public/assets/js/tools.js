@@ -354,8 +354,8 @@ function handleAjaxSucces(parent) {
 
     if ( result.list_revised ){
       $('#'+result.list_revised).addClass('revised').hide('slow');
-      $('.state-list').text( result.state ).removeClass('hide');
-      $('.btn-revise').hide();
+      $('#hos_actions_and_filters .state-list').text( result.state ).removeClass('hide');
+      $('#hos_actions_and_filters .btn-revise').hide();
     } 
 
     if ( result.blank ){
