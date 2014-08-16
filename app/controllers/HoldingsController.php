@@ -75,7 +75,7 @@ class HoldingsController extends BaseController {
 
 		if ( Input::has('tagged') )	{
 			if (Input::get('tagged') == 'true') {
-				return Redirect::to('HoldingsController@Index');
+				return Redirect::to('/holdings');
 			}
 			else {
 				$holdings = $holdings->annotated(Input::get('tagged'));	
