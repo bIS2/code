@@ -15,7 +15,12 @@ class ConfirmObserver {
        'object_type' => 'holdingsset',
        'object_id' => $holdingsset_id,
       ]);
-      $stat = Stat::firstOrCreate();
+      $data = array(
+        'hodings_count' => '0',
+        'sets_count' => '0',
+        'sets_grouped' => '0'
+        );
+      $stat = Stat::firstOrCreate($data);
       
       Holdingsset::find($holdingsset_id)->update([ 'state' => 'ok' ]);
       $ids = $model->holdingsset->holdings()->lists('id');
