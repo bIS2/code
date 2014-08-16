@@ -16,9 +16,9 @@ class ConfirmObserver {
        'object_id' => $holdingsset_id,
       ]);
       $data = array(
-        'hodings_count' => '0',
-        'sets_count' => '0',
-        'sets_grouped' => '0'
+        'hodings_count' => 0,
+        'sets_count' => 0,
+        'sets_grouped' => 0
         );
       $stat = Stat::firstOrCreate($data);
       
