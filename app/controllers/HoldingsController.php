@@ -73,7 +73,7 @@ class HoldingsController extends BaseController {
 		if ( Input::has('aux') )			$holdings = $holdings->aux();
 
 
-		if ( Input::has('tagged') )			$holdings = $holdings->annotated(Input::get('tagged'));	
+		if (( Input::has('tagged') ) && (Input::get('tagged') > 0))			$holdings = $holdings->annotated(Input::get('tagged'));	
 		if ( Input::has('commenteds') )	$holdings = $holdings->defaults()->commenteds();
 		if ( Input::has('state') )			$holdings = $holdings->withState( Input::get('state') );//Holding::inLibrary()->withState( Input::get('state') );
 
