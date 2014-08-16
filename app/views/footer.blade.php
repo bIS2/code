@@ -10,7 +10,6 @@
 			  </button>
 			</div>
 		<div class="credit text-center row stats">
-			@include('stats.index')
   	</div>
 	</div>
 </footer>
