@@ -1,5 +1,5 @@
 <!-- the footer includes credits and something else... -->
-<footer id="footer" class="affix-bottom" data-spy="affix" data-offset-bottom="0">
+<footer id="footer" class="affix-bottom" data-spy="affix" data-offset-bottom="0" style="background: transparent !important">
 	<div class="container">
 
 
@@ -10,7 +10,6 @@
 			  </button>
 			</div>
 		<div class="credit text-center row stats">
-			@include('stats.index')
   	</div>
 	</div>
 </footer>
