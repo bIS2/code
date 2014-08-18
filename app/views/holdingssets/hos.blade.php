@@ -10,9 +10,11 @@ $HOSincorrect = $holdingsset->is_incorrect;
 if (($holdingsset->holdings_number == 1) && (!$HOSconfirm) && (!$HOSincorrect) && (!$HOSannotated) && ($no_force_lock != 1) && ($holdingsset->autoconfirm != 1)) {
 	Confirm::create([ 'holdingsset_id' => $holdingsset -> id, 'user_id' => Auth::user()->id ]);
 	Holdingsset::find($holdingsset -> id)->update(['state' => 'ok', 'autoconfirm' => 1]);
-	holdingsset_recall($holdingsset -> id);
+	Holding::whereIn('id', Holdingsset::find($holdingsset -> id)->holdings()->select('id')->lists('id'))->update(['is_owner'=>'t', 'is_aux'=>'f']);
+	// holdingsset_recall($holdingsset -> id);
 	$HOSconfirm = true;
 	$need_refresh = 1;
+	// die();
 }
 
 $btn 	= 'btn-default';

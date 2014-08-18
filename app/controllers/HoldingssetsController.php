@@ -164,8 +164,18 @@ class HoldingssetsController extends BaseController {
 								// var_dump(sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ));die();
 								$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) ) :  
 								$holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) );  
-								$openfilter++;						
-						}
+								$openfilter++;		
+								if ($field == 'f866a') {
+									$format1 = str_replace('f866a', 'f866aupdated', $format);
+									$compare1 = str_replace('f866a', 'f866aupdated', $compare);
+									// var_dump($format);
+									// var_dump($format1);
+									// var_dump($compare);
+									// var_dump($compare1);
+									$holdings = $holdings->OrWhereRaw( sprintf( $format1, $compare1, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) );
+									// die(); 
+								}				
+							}
 					}
 				}
 				if ($openfilter == 0)  $this->data['is_filter'] = false;
