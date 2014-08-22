@@ -141,7 +141,8 @@ class Holding extends Eloquent {
     })
     ->where('state', '<>', 'blank')
     ->where('state', '<>', 'revised_annotated')
-    ->where('state', '<>', 'incorrected');
+    ->where('state', '<>', 'incorrected')
+    ->where('state', '<>','reserved');;
   }
 
   public function scopeRevisedsAnnotated($query){
