@@ -347,12 +347,36 @@ class Holding extends Eloquent {
 
     $ptrn = explode('|', $this->holdingsset->ptrn);
     $ocrr_ptrn = str_split($this->ocrr_ptrn);
+    // var_dump($ocrr_ptrn);
     $j_ptrn = str_split($this->j_ptrn);
     $aux_ptrn = str_split($this->aux_ptrn);
     $i = 0;
     $ret = '<div style="display: inline-block;" data-toggle="buttons" class="'.$this->class_owner.'">';
-
+    $counter = -1;
+    $pinters = explode('|', $this->c_arr);
+    $icon = '';
     foreach ($ocrr_ptrn as $ocrr) { 
+      $counter++;
+      switch ($pinters[$counter]) {
+        case '-':
+          $icon = '<i class="fa fa-minus"></i>';
+        break;
+        case '*':
+          $icon = '<i class="fa fa-bullseye"></i>';
+        break;
+        case '[':
+          $icon = '<i class="fa fa-long-arrow-right"></i>';
+        break;
+        case ']':
+          $icon = '<i class="fa fa-long-arrow-left"></i>';
+        break;
+        case '>':
+          $icon = '<i class="fa-chevron-circle-right"></i>';
+        break;
+        default:
+          $icon = '';
+        break;
+      }
       switch ($ocrr) {
         case '0':
         $ret .= '<i class="fa fa-square-o btn btn-xs btn-default "></i>';
@@ -367,7 +391,7 @@ class Holding extends Eloquent {
         $pptrn = explode('    ',$pptrn1);
         $ppptrn = $pptrn[0];
         if (count($pptrn) > 1) $ppptrn .= ' ('.$pptrn[1].')';
-        $ret .= '<i class="fa fa-square pop-over btn btn-xs btn-default '.$classj.$classaux.'" data-content="<strong>'.$this->f852b.' | '.$this->f852h.' | '.$ptrn[$i].'</strong>" data-html="true" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title=""></i>';
+        $ret .= '<i class="fa fa-square pop-over btn btn-xs btn-default '.$classj.$classaux.'" data-content="<strong>'.$this->f852b.' | '.$this->f852h.' | '.$ptrn[$i].'</strong>" data-html="true" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title="">'.$icon.'</i>';
         break;
       }
       $i++; 

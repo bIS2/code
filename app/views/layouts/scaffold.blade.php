@@ -27,6 +27,14 @@
 			#hosg ul.hol-sets tr.locked td .fa-times:before {
 				content: "\f00d" !important;
 			}
+			.ocrr_ptrn .fa .fa {
+				color: #FFFFFF;
+				font-size: 10px;
+				margin-left: -14px;
+				margin-top: 2px;
+				position: absolute;
+				z-index: 9;
+			}
 		</style>
 		<style>
 		@section('styles')

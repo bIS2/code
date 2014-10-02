@@ -122,6 +122,7 @@ class HoldingssetsController extends BaseController {
 			}
 
 			if ($this->data['is_filter']) {
+
 				// Take all holdings
 				$holdings = -1;
 				// If filter by owner or aux
@@ -143,46 +144,50 @@ class HoldingssetsController extends BaseController {
 				if ($holdings == -1) $holdings = DB::table('holdings');//->orderBy('is_owner', 'DESC');
 
 				foreach ($allsearchablefields as $field) {
+					// die('aaa');
+					if (Input::has($field)) {
+						$value = Input::get($field);
+						// var_dump($value);
+						if ($value != '') {
+							$orand 		= $OrAndFilter[$openfilter-1];
+							$compare 	= Input::get($field.'compare');
+							$format 	= Input::get($field.'format');
 
-					$value = Input::get($field);
-					
-					if ($value != '') {
-						$orand 		= $OrAndFilter[$openfilter-1];
-						$compare 	= Input::get($field.'compare');
-						$format 	= Input::get($field.'format');
+							if ($field == 'sys1') {
+								$hos = Holdingsset::WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) )->select('id')->lists('id');
+								$hos[] = -1;
+								$newholdings = Holding::whereIn('holdingsset_id', $hos)->select('id')->lists('id');
+								$newholdings[] = -1;
 
-						if ($field == 'sys1') {
-							$hos = Holdingsset::WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) )->select('id')->lists('id');
-							$hos[] = -1;
-							$newholdings = Holding::whereIn('holdingsset_id', $hos)->select('id')->lists('id');
-							$newholdings[] = -1;
-
-							$holdings = ($orand == 'OR') ? $holdings->orWhereIn('id', $newholdings) : $holdings->whereIn('id', $newholdings);
-							$openfilter++; 
-						}
-						else {	
-								// var_dump(sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ));die();
-								$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) ) :  
-								$holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) );  
-								$openfilter++;		
-								if ($field == 'f866a') {
-									$format1 = str_replace('f866a', 'f866aupdated', $format);
-									$compare1 = str_replace('f866a', 'f866aupdated', $compare);
-									// var_dump($format);
-									// var_dump($format1);
-									// var_dump($compare);
-									// var_dump($compare1);
-									$holdings = $holdings->OrWhereRaw( sprintf( $format1, $compare1, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) );
-									// die(); 
-								}				
+								$holdings = ($orand == 'OR') ? $holdings->orWhereIn('id', $newholdings) : $holdings->whereIn('id', $newholdings);
+								$openfilter++; 
 							}
+							else {	
+									// var_dump(sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ));die();
+									$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) ) :  
+									$holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) );  
+									$openfilter++;		
+									if ($field == 'f866a') {
+										$format1 = str_replace('f866a', 'f866aupdated', $format);
+										$compare1 = str_replace('f866a', 'f866aupdated', $compare);
+										// var_dump($format);
+										// var_dump($format1);
+										// var_dump($compare);
+										// var_dump($compare1);
+										$holdings = $holdings->OrWhereRaw( sprintf( $format1, $compare1, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) );
+										// die(); 
+									}				
+								}
+						}
 					}
 				}
+				// die();
 				if ($openfilter == 0)  $this->data['is_filter'] = false;
 				$holList = $holdings->select('holdings.holdingsset_id')->lists('holdings.holdingsset_id');
 				$ids = (count($holList) > 0) ? $holList : [-1];
 				$holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
 				unset($holdings);
+
 			}
 
 			define(HOS_PAGINATE, 50);
@@ -962,147 +967,89 @@ function holdingsset_recall($id) {
 	$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
 	$con = pg_connect($conn_string);
 
-	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." ORDER BY sys2, score DESC LIMIT 100";
+	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." AND state NOT LIKE '%reserve%' ORDER BY sys2, score DESC LIMIT 100";
 	$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
 
 	$ta_arr = pg_fetch_all($result);
 
+	/*******************************************************************/
+
+	$hos = array();
+	$hos['ptrn'] = array();
+	$hos['hol'] = array();
+
+	$hos['year_ptrn'] = array(); // ***** NEW! *****
+	$hos['timeline'] = array();  // ***** NEW! *****
+
+	/*******************************************************************/
+
 	$ta_amnt = sizeOf($ta_arr);
 
-	/***********************************************************************
-	 * Se forman los grupos y se calculan los valores
-	 ***********************************************************************/
-
-	$index				= -1;
-	$forceowner_index	= -1;
-	$blockeds_hols		= array();
-	$curr_ta			= '';
-	$ta_hol_arr		= array();
-
 	for ($i=0; $i<$ta_amnt; $i++) {
-		$ta_res_arr   = array(); //<------------------------------------------ Collects res
-		
-		$ta = $ta_arr[$i]['sys1'];
-		$hol = $ta_arr[$i]['sys2'];
-		$g = $ta_arr[$i]['g'];
+		$hol = $ta_arr[$i];
+		$sys1  = $hol['sys1'];
+		$sys2 = $hol['sys2'];
+		$g   = $hol['g'];
 
-		if ($ta !== $curr_ta) {
-			$index++;
-			$curr_ta = $ta;
-			$ta_hol_arr[$index]['hol']= array();
-			$ta_hol_arr[$index]['ptrn']= array();
-		}
+		$hol_ptrn = $hol['hol_nrm'];
 		
-		/******************************************************************
-		 * Aqui se genera el patron y se le pega a cada < ta >  OK
-		 * hay que generar un patron de incompletos (pa pintar después)
-		 ******************************************************************/
-		
-		$hol_ptrn = $ta_arr[$i]['hol_nrm'];
-		//si tiene algo se parte por el ;
-		$ta_arr[$i]['ptrn_arr'] = (preg_match('/\w/',$hol_ptrn))?explode(';',$hol_ptrn):array();
+		$hol['ptrn_arr'] = (preg_match('/\w/',$hol_ptrn))?explode(';',$hol_ptrn):array(); // split on ";"
+			
+		if ($hol['ptrn_arr']){
+			$hol_ptrn_amnt	= sizeOf($hol['ptrn_arr']);
+			for ($l=0; $l<$hol_ptrn_amnt; $l++){
+				$ptrn_piece = $hol['ptrn_arr'][$l]; // preservar el valor original
+				$ptrn_chunks[0] = substr($ptrn_piece, 0, 16); //los primeros 16 carateres 0-15
+				$ptrn_chunks[1] = substr($ptrn_piece, 17, 16); // los carateres del 16-32
+				$chunks_amnt = sizeOf($ptrn_chunks);
+				for ($p=0; $p<$chunks_amnt; $p++){
+					if (preg_match('/                n?/',$ptrn_chunks[$p])){ // eliminate the empty chunks
+						unset($ptrn_chunks[$p]);
+					}
+					else {
+						$curr_year = substr($ptrn_chunks[$p], 8, 4);
+						array_push($hos['ptrn'],$ptrn_chunks[$p]); // and store it in ptrn
+						array_push($hos['year_ptrn'], $curr_year); // ***** NEW! *****
 
-		if ($ta_arr[$i]['ptrn_arr']){
-			$ptrn_amnt	= sizeOf($ta_arr[$i]['ptrn_arr']);
-			for ($l=0; $l<$ptrn_amnt; $l++){
-				$ptrn_piece = $ta_arr[$i]['ptrn_arr'][$l]; //preservar el valor original
-				//aqui se quita la j que no sirve pa comparar
-				$ptrn_piece = preg_replace('/[j]/', ' ', $ptrn_piece);
-				$ptrn_piece = preg_replace('/\s$/', '',$ptrn_piece);
-				
-				$ptrn_piece = preg_replace('/[n]/', '',$ptrn_piece); //<---------- parche!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				
-				// 2014-04-08 18:40 pgt -- commented out
-				// $ptrn_piece[16] = '-'; //esto es un parche pa poner el - que faltaba en el hol_nrm
-				
-				if (!preg_match('/\w/',$ptrn_piece)){
-					//si el pedacito viene en blanco se borra
-					unset($ta_arr[$i]['ptrn_arr'][$l]);
-				}
-				//si tiene sustancia...
-				else {
-					//se parte en pedacitos
-					$ptrn_chunks = explode ('-',$ptrn_piece);
-					$chunks_amnt	= sizeOf($ptrn_chunks);
-					for ($p=0; $p<$chunks_amnt; $p++){
-						if (!preg_match('/\w/',$ptrn_chunks[$p])){
-							//se quitan los que quedan en blanco
-							unset($ptrn_chunks[$p]);
-						}
-						//y se echan pal ptrn
-						else array_push($ta_hol_arr[$index]['ptrn'],$ptrn_chunks[$p]);
-					}				
-				}
+						//if (!isset($hos['year_ptrn'][$curr_year])) $hos['year_ptrn'][$curr_year] = array();
+						//array_push($hos['year_ptrn'][$curr_year], substr($ptrn_chunks[$p], 0, 4));
+
+					} 
+				}				
 			}
 		}
-		
-		//aqui se escribe el ptrn	
-		$ta_hol_arr[$index]['ptrn']=array_unique($ta_hol_arr[$index]['ptrn']);
-		//aqui se ordenan los pedacitos del patron----------------------------
-		$tmparr = $ta_hol_arr[$index]['ptrn'];
-		
-		$tmparr = array_map(
-			function($n){
-				return explode('|',substr(chunk_split($n,4,'|'),0,-1));
-			}, 
-			$tmparr); 
-		
-		$volume = array();
-		$year = array();
-		foreach($tmparr as $key => $row){
-			$volume[$key] = $row[0];
-			$year[$key] = $row[2];
-		}
-		array_multisort($year,SORT_ASC, $volume,SORT_ASC, $tmparr);
-		//$tmparr = array_map('make_onepiece',$tmparr);
-		$tmparr = array_map(
-			function($n){
-				return implode('',$n); 
-			}, 
-			$tmparr); 
-		
-		$tmparr = array_values($tmparr);
-		
-		$ta_hol_arr[$index]['ptrn']  = $tmparr;
-		//aqui se van juntando los hol del TA
-		array_push($ta_hol_arr[$index]['hol'],$ta_arr[$i]);
-
-		// if ((Holding::find($ta_arr[$i]['id'])->locked) || (Holding::find($ta_arr[$i]['id'])->force_blue == 't') || (Holding::find($ta_arr[$i]['id'])->force_blue == '1')) {
-		// 	$blockeds_hols[]['index'] = $i;
-		// 	$blockeds_hols[]['id'] = $ta_arr[$i]['id'];
-		// }
-
-		unset($ta_arr[$i]);
-		unset($tmparr);
-		// echo '.';
+		$hos['hol'][$i] = $hol;
 	}
 
-	foreach ($blockeds_hols as $hol) {
-		unset($ta_hol_arr[0]['hol'][$hol['index']]);
+	$hos['ptrn'] = array_unique($hos['ptrn']);
+
+	$hos['year_ptrn'] = array_unique($hos['year_ptrn']); // ***** NEW! *****
+	asort($hos['year_ptrn']);
+	$hos['year_ptrn'] = array_values($hos['year_ptrn']);
+	// ksort() - sort associative arrays in ascending order, according to the key
+
+	// order parts of pattern ----------------------------
+	$tmparr = $hos['ptrn'];
+	$tmparr = array_map(
+		function($n){
+			return explode('|',substr(chunk_split($n,4,'|'),0,-1));
+		}, 
+	$tmparr); 
+		
+	$volume = array();
+	$year = array();
+
+	foreach($tmparr as $key => $row){
+		$volume[$key] = $row[0];
+		$year[$key] = $row[2];
 	}
+	array_multisort($year,SORT_ASC, $volume,SORT_ASC, $tmparr);
 
-	$ta_hol_arr[0]['hol'] = array_values($ta_hol_arr[0]['hol']);
-
-	$hol_amnt = sizeOf($ta_hol_arr[0]['hol']);
-	$mishols = $ta_hol_arr[0]['hol'];
-
-	for ($k=0; $k<$hol_amnt; $k++){ //por cada hol
-		if ($mishols[$k]['force_owner'] == 't') $forceowner_index = $k;
-	}
-
-
-	//echo EOL.EOL;
-	$ta_hol_amnt = sizeOf($ta_hol_arr); //la cantidad de grupos TA
+	$tmparr = array_map(function($n){ return implode('',$n); },$tmparr); 
+	$hos['ptrn'] = array_values($tmparr);
 
 	/***********************************************************************
-	 * Function/s :)
-	 ***********************************************************************/
-
-	/***********************************************************************
-	 * For each group of holdings (TA)...
-	 * 	weight pattern
 	 * For each holding (hol)...
-	 * 	fixes the 16th char (patch)...
 	 * 	occurrences pattern
 	 * 	completeness pattern
 	 * 	weight
@@ -1110,367 +1057,209 @@ function holdingsset_recall($id) {
 	 * 	potential owners by weight
 	 * 	potential owners by occurrences
 	 ***********************************************************************/
-	// var_dump($blockeds_hols);
-	for ($i=0; $i<$ta_hol_amnt; $i++){ //<---------------------------------- for each group of holdings (TA)...
-		
-		//Patron del HOS - como arreglo
-		$ptrn = $ta_hol_arr[$i]['ptrn'];
 
-		// Tamaño del arreglo del patrón
-		$ptrn_amnt = sizeOf($ptrn);
-		
-		// Hols del HOS
-		$hol_arr = $ta_hol_arr[$i]['hol'];
+	$hol_amnt = sizeOf($hos['hol']); // number of HOL in HOS
+	$ptrn = $hos['ptrn'];
+	$ptrn_amnt = sizeOf($ptrn);
+	$j_factor = .49;
+	$mx_weight = 0;
+	$mx_ocrr_nr = 0;
+	$owner_index = '';
+	$force_owner = '';
+	$pot_owners = array();;
+	$posowners = array();	
+	$posowners_oc = array();
 
-		// Cantidad de hols
-		$hol_amnt = sizeOf($hol_arr);
 
-		$weight_ptrn = array_map(
-			function ($n){
-				$chunks = explode('|',substr(chunk_split($n,4,'|'),0,-1));
-				$d_vol = intval($chunks[1])-intval($chunks[0]);
-				$d_year = intval($chunks[3])-intval($chunks[2]);
-				return (($d_vol>0)?$d_vol:(($d_year>0)?$d_year:0))+1;
-			},
-			$ptrn);
-		
-		$ta_hol_arr[$i]['weight_ptrn'] = $weight_ptrn; //<-------------------- weight pattern
-
-		$mx_ocrr_nr = 0;
-		$mx_weight = 0;
-		$posowners = array();	
-		$posowners_oc = array();
-		$owner_index = ''; 
-		$ta_hol_arr[$i]['owner'] = '';
-		
-		for ($k=0; $k<$hol_amnt; $k++){ //<----------------------------------- for each holding (hol)...
-			
-			$ta = $hol_arr[$k]['sys1'];
-			$hol = $hol_arr[$k]['sys2'];
-			$g = $hol_arr[$k]['g'];
-			
-			$weight = 0;
-			$ocrr_nr = 0;
-			
-			$j_factor = .5;
-
-			$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'] = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,0):array();
-			$ta_hol_arr[$i]['hol'][$k]['j_arr'] = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,0):array();
-			
-			$ocrr = $ta_hol_arr[$i]['hol'][$k]['ptrn_arr'];
-			
-			if ($ocrr) {
-				$ocrr_amnt = sizeOf($ocrr);
-				
-				for ($l=0; $l<$ocrr_amnt; $l++){ //por cada pedacito
-					if (isset($ocrr[$l])){
-						//hay pedacito y se puede partir
-						$ocrr_piece = $ocrr[$l];
-						
-						$is_j = preg_match('/[j]/',$ocrr_piece);
-						// 2014-04-08 18:40 pgt -- commented out
-						//$ocrr_piece[16] = '-'; //<------------------------------------ fixes the 16th char (patch)...			
-						$ocrr_piece = preg_replace('/[j]/', ' ', $ocrr_piece);
-						$ocrr_piece = preg_replace('/\s$/', '',$ocrr_piece);
-						
-						$ocrr_piece = preg_replace('/[n]/', '',$ocrr_piece); //<------ parche
-						
-						$ocrr_xtr = explode('-',$ocrr_piece);
-						
-						$ocrr_bgn = get_ptrn_position($ocrr_xtr[0],$ptrn);
-						$val_bgn = $ocrr_xtr[0];
-
-						if (array_key_exists(1,$ocrr_xtr)){ //<----------------------- vvvvVVVVyyyyYYYY-vvvvVVVVyyyyYYYY
-							if (preg_match('/\w/',$ocrr_xtr[1])){
-								$ocrr_end = get_ptrn_position($ocrr_xtr[1],$ptrn);
-								$val_end = $ocrr_xtr[1];
-							}
-								else { //<------------------------------------------------ vvvvVVVVyyyyYYYY-
-									$ocrr_end = $ptrn_amnt-1;
-									$val_end = (isset($ptrn[$ptrn_amnt-1]))?$ptrn[$ptrn_amnt-1]:'';
-								}
-							}
-						else { //<---------------------------------------------------- vvvvVVVVyyyyYYYY
-							
-							//si el valor solo es un agno buscar hasta donde llega ????
-							$tiny_chunks = explode('|',substr(chunk_split($ocrr_bgn,4,'|'),0,-1));
-							if (preg_match('/\w/',$tiny_chunks[2])) echo $tiny_chunks[2].EOL;
-							$ocrr_end = $ocrr_bgn;
-							$val_end = $val_bgn;
+	for ($i=0; $i<$hol_amnt; $i++) { // <------------------------------------------------- HOS
+		$hol = $hos['hol'][$i];
+		$ocrr_arr = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,0):array(); // patrón de ocurrencias
+		$j_arr = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,0):array(); // patrón de incompletos
+		$res_arr = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,0):array(); // patrón de reservados NUEVO
+		$c_arr = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,"."):array(); // patron de continuidad NUEVO
+		$weight = 0;
+		if ($hol['ptrn_arr']){
+			$hol_ptrn_amnt	= sizeOf($hol['ptrn_arr']);
+			for ($l=0; $l<$hol_ptrn_amnt; $l++){ // <------------------------------------- HOL
+				$ptrn_piece = $hol['ptrn_arr'][$l]; // preservar el valor original
+				$ocrr_bgn = substr($ptrn_piece, 0, 16); //los primeros 16 carateres 0-15
+				$ocrr_end = substr($ptrn_piece, 17, 16); // los carateres del 17-32
+				$is_j = ($ptrn_piece[33] === 'j')?1:0;
+				$is_connected = ($ptrn_piece[16] === '-')?true:false;
+				$bgn = get_ptrn_position($ocrr_bgn,$ptrn);
+				if ($bgn>=0){ // aquí!!!!!!!!!!!!!!!!
+					if ($is_connected) {
+						$end = get_ptrn_position($ocrr_end,$ptrn);
+						$frst_pos = $bgn;
+						$last_pos = ($end > 0)?$end:$ptrn_amnt-1; // aquí!!!!!!!!!!!!!!!!
+						for ($pos=$frst_pos; $pos<$last_pos; $pos++){
+							$ocrr_arr[$pos] = 1;
+							$j_arr [$pos] = $is_j;
+							$c_arr [$pos] = '-';
 						}
-						$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'][$ocrr_end] = 1;
-						if ($is_j) $ta_hol_arr[$i]['hol'][$ocrr_end]['j_arr'][$h] = 1;
-						$ocrr_bgn = ($ocrr_bgn == '?') ? 0 : $ocrr_bgn;
-						$ocrr_end = ($ocrr_end == '?') ? 0 : $ocrr_end;
-						for ($h=$ocrr_bgn; $h<$ocrr_end; $h++){
-							$ta_hol_arr[$i]['hol'][$k]['ocrr_arr'][$h] = 1;
-							if ($is_j) $ta_hol_arr[$i]['hol'][$k]['j_arr'][$h] = 1;
-						}
+						$c_arr [$frst_pos] = '[';
+						$ocrr_arr[$last_pos] = 1;
+						$j_arr [$last_pos] = $is_j;
+						$c_arr [$last_pos] = ($end > 0)?']':'>';
+						// calculando el weight
+						$d_year = substr($ptrn[$last_pos], 8, 4)-substr($ptrn[$frst_pos], 8, 4);
+						$d_vol = substr($ptrn[$last_pos], 0, 4)-substr($ptrn[$frst_pos], 0, 4);
+						$weight = $weight+(($d_year>0)?$d_year:(($d_vol>0)?$d_vol:0))*pow($j_factor,$is_j)+1;
 					}
 					else {
-						//no se pudo determinar
+						//aquí se marca la primera y única ocurrencia
+						$ocrr_arr[$bgn] = 1;
+						$j_arr [$bgn] = $is_j;
+						$c_arr [$bgn] = '*';
+						$weight = $weight + pow($j_factor,$is_j);
 					}
 				}
-			}
-			
-			$ocrr_ptrn = $ta_hol_arr[$i]['hol'][$k]['ocrr_arr']; //<------------ occurrences pattern
-			$j_ptrn = $ta_hol_arr[$i]['hol'][$k]['j_arr']; //<------------------ completeness pattern
-
-			$hol_weight_ptrn = array_map( 
-				function($w, $o, $j){
-					$j_factor = .5;
-					return $w*$o*(($j>0)?$j_factor:1); 
-				}, 
-				$weight_ptrn, $ocrr_ptrn, $j_ptrn); 
-			
-			$weight = array_sum($hol_weight_ptrn);  //<------------------------- weight
-			$ocrr_nr  = array_sum($ocrr_ptrn);  //<----------------------------- number of occurrences
-			
-		/******************************************************************
-		 * Finding potential owners
-		 ******************************************************************/
-
-		if ($weight !== 0 ) {
-			if ($weight > $mx_weight ) {
-				$mx_weight = $weight;
-				$posowners = array();	
-				$posowners[0] = $k;
-			}
-			else if ($weight === $mx_weight ) {
-					array_push($posowners,$k); //<---------------------------------- potential owners by weight
-				}
-			}
-			
-			if ($ocrr_nr !== 0 ) {
-				if ($ocrr_nr > $mx_ocrr_nr ) {
-					$mx_ocrr_nr = $ocrr_nr;
-					$posowners_oc = array();	
-					$posowners_oc[0] = $k;
-				}
-				else if ($ocrr_nr === $mx_ocrr_nr ) {
-					array_push($posowners_oc,$k); //<------------------------------- potential owners by occurrences
-				}
-			}
-			
-			$ta_hol_arr[$i]['hol'][$k]['ocrr_nr'] = $ocrr_nr;
-			$ta_hol_arr[$i]['hol'][$k]['weight'] = $weight;
-
-		/******************************************************************
-		 * UPDATE hol_out
-		 * 	ptrn
-		 * 	ocrr_nr
-		 * 	weight
-		 * 	ocrr_ptrn
-		 * 	j_ptrn
-		 ******************************************************************/
-
-		$ta_res_arr[$ta.$hol.$g]['sys1'] 	  = $ta;
-		$ta_res_arr[$ta.$hol.$g]['sys2']      = $hol;
-		$ta_res_arr[$ta.$hol.$g]['g']         = $g;
-		$ta_res_arr[$ta.$hol.$g]['ptrn']      = implode('|',$ptrn);
-		$ta_res_arr[$ta.$hol.$g]['ocrr_nr']   = $ocrr_nr;
-		$ta_res_arr[$ta.$hol.$g]['ocrr_ptrn'] = implode('',$ocrr_ptrn);
-		$ta_res_arr[$ta.$hol.$g]['weight']    = $weight;
-		$ta_res_arr[$ta.$hol.$g]['j_ptrn']    = implode('',$j_ptrn);
-
-		$ta_res_arr[$ta.$hol.$g]['is_owner']  = 'f';
-		$ta_res_arr[$ta.$hol.$g]['aux_ptrn']  = '';
-		$ta_res_arr[$ta.$hol.$g]['is_aux']    = 'f';
-
-			/*
-			$query = "UPDATE hol_out 
-								SET ptrn='".implode('|',$ptrn) ."' , ocrr_nr='". $ocrr_nr ."' , ocrr_ptrn='". implode('',$ocrr_ptrn) ."' , weight='". $weight ."' , j_ptrn='". implode('',$j_ptrn) ."'
-								WHERE sys1 = '".$ta."' AND sys2 = '".$hol."' AND g = '".$g."'";
-			$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
-			*/
-			
+			}				
 		}
 
-		/******************************************************************
-		 * Finding "the owner" according to the following criteria:
-		 * 	preferred
-		 * 	heaviest
-		 * 	highest occurrences number
-		 ******************************************************************/
+		if ($hol['force_owner'] === 't') $force_owner = $i;
+		if ($hol['pot_owner'] === 't') array_push($pot_owners,$i);
 		
-		if ($posowners) {
-			$owners_amnt = sizeOf ($posowners);
-			if ($owners_amnt>1){
-				for ($o_index=0; $o_index<$owners_amnt; $o_index++){
-					$is_pref = $ta_hol_arr[$i]['hol'][$o_index]['is_pref'];
-					$owner_index = $posowners[$o_index];
-					if ($is_pref=='t')break;
-					else if (in_array($posowners[$o_index],$posowners_oc))break;
-				}
-			}
-			else $owner_index =  $posowners[0];
+		$ocrr_nr  = array_sum($ocrr_arr);
+		if ($ocrr_nr > $mx_ocrr_nr ) { 
+			$mx_ocrr_nr = $ocrr_nr;
+			$posowners_oc = array();	
+			$posowners_oc[0] = $i;
 		}
-
-		$owner_index = ($forceowner_index != -1)  ? $forceowner_index : $owner_index;
-		$ta_hol_arr[$i]['owner'] = ($forceowner_index != -1)  ? $forceowner_index : $owner_index;
-		$mishols[$i]['owner'] = ($forceowner_index != -1)  ? $forceowner_index : $owner_index;
-
+		else if ($ocrr_nr === $mx_ocrr_nr ) {
+			array_push($posowners_oc,$i); //<----------------------------- posible owners by occurrences
+		}
 		
-		/******************************************************************
-		 * UPDATE hol_out
-		 * 	is_owner
-		 ******************************************************************/
-
-		if ($owner_index !== '') {
-			
-			$ta = $mishols[$owner_index]['sys1'];
-			$hol = $mishols[$owner_index]['sys2'];
-			$g = $mishols[$owner_index]['g'];
-			
-			$ta_res_arr[$ta.$hol.$g]['is_owner'] = 't';
-			/*
-			$query = "UPDATE hol_out SET is_owner='". 1 ."' 
-								WHERE sys1 = '".$ta."' AND sys2 = '".$hol."' AND g = '".$g."'";
-			$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
-			*/
+		if ($weight > $mx_weight ) { 
+			$mx_weight = $weight;
+			$posowners = array();	
+			$posowners[0] = $i;
 		}
-	}
-	// die('toy aqui ahora');
-	/***********************************************************************
-	 * Aqui se encuentra la biblioteca de apoyo a partir del owner
-	 * la aux se calcula completando con la que tiene mayor peso/ocurrencia
-	 ***********************************************************************/
-
-	for ($i=0; $i<$ta_hol_amnt; $i++){ //por cada grupo...
-		$hol_arr = $ta_hol_arr[$i]['hol'];
-		$hol_amnt = sizeOf($hol_arr); //la cantidad de hol
-		$mx_weight = 0;
-		$weight = 0;
-		$ocrr_nr  = 0;
-		
-		if($mishols[$i]['owner']) {
-
-			$owner_ocrr_arr = $hol_arr[$ta_hol_arr[$i]['owner']]['ocrr_arr'];
-			$owner_ocrr_amnt = sizeOf($owner_ocrr_arr);
-			$weight_ptrn = $ta_hol_arr[$i]['weight_ptrn'];
-			$ptrn = $ta_hol_arr[$i]['ptrn'];
-			$ptrn_amnt = sizeOf($ptrn);
-			$potaux_array = array();
-			$potaux_array = array_fill(0,$hol_amnt,0);
-			
-			$denied_owner = array_map(
-				function ($n){
-					return intval(!$n);
-				},
-				$owner_ocrr_arr);
-
-			for ($k=0; $k<$hol_amnt; $k++){ //por cada hol
-				
-				if (isset($hol_arr[$k]['ocrr_arr'])){ //esto e un parche porque falta una fila
-
-					$ocrr_ptrn = $hol_arr[$k]['ocrr_arr'];
-					$j_ptrn = $hol_arr[$k]['j_arr'];
-
-					$aux_ptrn = array_map(
-						function ($n, $m){
-							return $n*$m;
-						},
-						$denied_owner, $ocrr_ptrn);
-
-					$aux_weight_ptrn = array_map( 
-						function($w, $a, $j){
-							$j_factor = .5;
-							return $w*$a*(($j>0)?$j_factor:1); 
-						}, 
-						$weight_ptrn, $aux_ptrn, $j_ptrn); 
-
-					$aux_weight = array_sum($aux_weight_ptrn);
-					$ocrr_nr  = array_sum($aux_ptrn);
-
-			//se juntan los aul de mayor peso
-					if ($aux_weight !== 0 ) {
-						if ($aux_weight > $mx_weight ) {
-							$mx_weight = $aux_weight;
-							$potaux_array = array_fill(0,$hol_amnt,0);
-							$potaux_array[$k] = 1;
-						}
-						else if ($aux_weight === $mx_weight ) {
-							$potaux_array[$k] = 1;
-						}
-					}
-
-					$ta = $hol_arr[$k]['sys1'];
-					$hol = $hol_arr[$k]['sys2'];
-					$g = $hol_arr[$k]['g'];
-
-					$ta_res_arr[$ta.$hol.$g]['aux_ptrn'] = implode($aux_ptrn);
-
-
-			/*
-			$query = "UPDATE hol_out 
-								SET aux_ptrn='". implode($aux_ptrn) ."'
-								WHERE sys1 = '".$ta."' AND sys2 = '".$hol."' AND g = '".$g."'";
-			$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");	
-			*/		
-
-			}//fin del parche porque falta una fila
-			
+		else if ($weight === $mx_weight ) {
+			array_push($posowners,$i); //<------------------------------- posible owners by weight
 		}
-		$ta_hol_arr[$i]['potaux_array'] = $potaux_array;
+
+		$hos['hol'][$i]['ocrr_arr'] = $ocrr_arr;
+		$hos['hol'][$i]['j_arr'] = $j_arr;
+		$hos['hol'][$i]['c_arr'] = $c_arr;
+		$hos['hol'][$i]['res_arr'] = $res_arr;
+		$hos['hol'][$i]['weight'] = $weight;
+		$hos['hol'][$i]['ocrr_nr'] = $ocrr_nr;
+		$hos['hol'][$i]['is_owner'] = 'f';
+		$hos['hol'][$i]['is_aux'] = 'f';
+
 	}
 
+	$hos['pot_owners'] = $pot_owners; // index del que está marcao como pot_owner
+	$hos['force_owner'] = $force_owner; // index del que está forzao como owner
 
-}
+	/********************************************************************************
+	 *
+	 * Aquí se calcula el "O W N E R"
+	 *
+	 ********************************************************************************/
 
-		/******************************************************************
-		* Aqui se escribe aux_ptrn en la tabla y si is_aux
-		******************************************************************/
+	if ($force_owner) { // si hay un OWNER forzado es ese
+		$owner_index = $force_owner;
+	}
 
-	for ($i=0; $i<$ta_hol_amnt; $i++){ //por cada grupo...
-		
-		$hol_arr = $ta_hol_arr[$i]['hol'];
-		
-		$hol_amnt = sizeOf($hol_arr); //la cantidad de hol
-		
-		if($ta_hol_arr[$i]['owner']) {
-			
-			$potaux_array = $ta_hol_arr[$i]['potaux_array'];
-
-			for ($k=0; $k<$hol_amnt; $k++){ //por cada hol
-				
-				if (isset($hol_arr[$k]['ocrr_arr'])){ //esto e un parche porque falta una fila
-					
-					$ta = $hol_arr[$k]['sys1'];
-					$hol = $hol_arr[$k]['sys2'];
-					$g = $hol_arr[$k]['g'];
-
-					$ta_res_arr[$ta.$hol.$g]['is_aux'] = $potaux_array[$k];
-
-				/*
-				$query = "UPDATE hol_out 
-									SET is_aux='". $potaux_array[$k] ."'
-									WHERE sys1 = '".$ta."' AND sys2 = '".$hol."' AND g = '".$g."'";
-				$result = pg_query($conn, $query) or die("Cannot execute \"$query\"\n");
-				*/
-
-				}//fin del parche porque falta una fila
+	else if ($pot_owners) { // si hay mas de un OWNER potencial se queda con el de mayor peso
+		$owners_amnt = sizeOf ($pot_owners);
+		if ($owners_amnt>1){
+			for ($i=0; $owner_index<$owners_amnt; $i++){
+				$owner_index = $pot_owners[$i];
+				if (in_array($pot_owners[$i],$posowners))break;
 			}
 		}
+		else $owner_index =  $pot_owners[0];
 	}
 
-	//printf("<br>Updating table hol_out: <br> ");
-
-	// print_r($ta_res_arr);
-
-	$ta_res_amnt = sizeof($ta_res_arr);
-	$ta_nr = 0;
-	foreach ($ta_res_arr as $key => $value){ // foreach sys1,sys2,g  write result in table hol_out_ptrn
-		$value['is_owner'] = (($value['is_owner'] == '0') || ($value['is_owner'] == 'f')) ? 'f' : 't';
-		$value['is_aux'] = (($value['is_aux'] == '0') || ($value['is_aux'] == 'f')) ? 'f' : 't';
-	  // var_dump($value);
-		Holding::find($mishols[$ta_nr]['id'])->update(['ocrr_nr' => $value['ocrr_nr'], 'ocrr_ptrn' => $value['ocrr_ptrn'], 'weight' => $value['weight'], 'j_ptrn' => $value['j_ptrn'], 'is_owner' => $value['is_owner'], 'aux_ptrn' => $value['aux_ptrn'], 'is_aux' => $value['is_aux']]);
-		$finalptrn = $value['ptrn'];
-
-		$ta_nr++;
-		//if (($ta_nr % $trigger) == 0) echo $ta_nr.'|';
+	else if ($posowners) { // si hay un OWNER calculado
+		$owners_amnt = sizeOf ($posowners);
+		if ($owners_amnt>1){
+			for ($i=0; $owner_index<$owners_amnt; $i++){
+				$owner_index = $posowners[$i];
+				if (in_array($posowners[$i],$posowners_oc))break;
+			}
+		}
+		else $owner_index =  $posowners[0];
 	}
+
+	$hos['hol'][$owner_index]['is_owner'] = 't';
+	$hos['owner_index'] = $owner_index; //solo pa tenerlo a mano en próximos cálculos
+
+	/********************************************************************************
+	 *
+	 * Aquí se calculan los "A U X"
+	 *
+	 ********************************************************************************/
+
+	$hol_amnt = sizeOf($hos['hol']); // number of HOL in HOS
+	$owner_ocrr_arr = $hos['hol'][$owner_index]['ocrr_arr'];
+
+	$denied_owner = array_map(
+		function ($n){
+			return intval(!$n);
+		},
+		$owner_ocrr_arr);
+
+	for ($i=0; $i<$hol_amnt; $i++){ // <------------------------------------------------- HOS
+		$ocrr_ptrn = $hos['hol'][$i]['ocrr_arr'];
+		$aux_ptrn = array_map(
+			function ($n, $m){
+				return $n*$m;
+			},
+			$denied_owner, $ocrr_ptrn);
+		$hos['hol'][$i]['aux_ptrn'] = $aux_ptrn;
+		$is_aux  = (array_sum($aux_ptrn)>0)?'t':'f';
+		$hos['hol'][$i]['is_aux'] = $is_aux;
+	}
+
+	/********************************************************************************
+	 *
+	 * comprobación, donde se imprimen los resultados pa ver cómo está la cosa
+	 *
+	 ********************************************************************************/
+
+	// $sp = ' | ';
+	// echo '<pre>'.implode($sp,$hos['ptrn']).$sp.'</pre>';
+	// echo '<pre>year_ptrn:'.$sp.implode($sp,$hos['year_ptrn']).$sp.'</pre>'.EOL;
+	// var_dump($hos);
+	for ($i=0; $i<$hol_amnt; $i++){
+		$hol = $hos['hol'][$i];
+		$sys1  = $hol['sys1'];
+		$sys2 = $hol['sys2'];
+		$g = $hol['g'];
+		$hol_ptrn = implode(' ; ',$hol['ptrn_arr']);
+		$o = implode($hol['ocrr_arr']);
+		$j = implode($hol['j_arr']);
+		$a = implode($hol['aux_ptrn']);
+		$c = implode($hol['c_arr']);
+		$weight = $hol['weight'];
+		$is_owner = ($hol['is_owner'] === 't')?'o':' ';
+		$pot_owner = ($hol['pot_owner'] === 't')?'p':' ';
+		$is_aux = ($hol['is_aux'] === 't')?'a':' ';
+
+		// echo '<pre>'.$i.$sp
+		// 	.$hol['id'].$sp
+		// 	.$sys1.$sp
+		// 	.$sys2.$sp
+		// 	.$g.$sp
+		// 	.$o.$sp
+		// 	.$a.$sp
+		// 	.$is_owner.$sp
+		// 	.$pot_owner.$sp
+		// 	.$is_aux.$sp
+		// 	.$c.'-->>aaaa'.$sp
+		// 	.$weight.$sp
+		// 	.$hol['is_aux'].$sp
+		// 	.$j.$sp
+		// 	.$hol_ptrn
+		// 	.$sp.'</pre>';
+		Holding::find($hol['id'])->update(['ocrr_nr' => $hol['ocrr_nr'], 'ocrr_ptrn' => $o, 'weight' => $weight, 'j_ptrn' => $j, 'is_owner' => $hol['is_owner'],  'pot_owner' => $hol['pot_owner'], 'aux_ptrn' => $a, 'is_aux' => $hol['is_aux'], 'c_arr' => implode('|', $hol['c_arr'])]);
+	}
+	Holdingsset::find($hol['holdingsset_id'])->update(['ptrn' => implode('|', $hos['ptrn'])]);
 	// die("\nThat's a better end of the story");
-	Holdingsset::find($id)->update(['ptrn' => $finalptrn]);
 }
 
 
@@ -1603,18 +1392,17 @@ function create_table($tab_name) {
 	$result = pg_query($con, $query); if (!$result) { echo pg_last_error(); exit; }
 }
 
-
-
-function get_ptrn_position ($ocrr,$ptrn){
-	$ptrn_size = sizeOf($ptrn);
-	for ($i=0; $i<$ptrn_size; $i++){
-		if ($ocrr===$ptrn[$i]) {
-			return $i;
+function get_ptrn_position ($ocrr, $ptrn){
+	if (in_array($ocrr, $ptrn)){
+		$ptrn_size = sizeOf($ptrn);
+		for ($i=0; $i<$ptrn_size; $i++){
+			if ($ocrr===$ptrn[$i]){
+				return $i; 
+			}
 		}
 	}
-	return '?';
+	else return -1;
 }
-
 
 $hop_no           	= 0;         // number of parts
 $hol_nrm          	= '';        // saved hol f866a result normalized
@@ -2220,4 +2008,160 @@ function dt_diff($date1, $date2) {
   // show time elapsed
 	return $diff = abs(strtotime($date2) - strtotime($date1));
 	return sprintf("%d years, %d months, %d days\n", $years, $months, $days, $hours, $mins, $secs);
+}
+
+
+
+
+/* NUEVO P3H */
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+function backgroundPost($url) {
+    $parts = parse_url ( $url );
+    
+    $fp = fsockopen ( $parts ['host'], isset ( $parts ['port'] ) ? $parts ['port'] : 80, $errno, $errstr, 30 );
+    
+    if (! $fp) {
+        return false;
+    } else {
+        $out = "POST " . $parts ['path'] . " HTTP/1.1\r\n";
+        $out .= "Host: " . $parts ['host'] . "\r\n";
+        $out .= "Content-Type: application/x-www-form-urlencoded\r\n";
+        $out .= "Content-Length: " . strlen ( $parts ['query'] ) . "\r\n";
+        $out .= "Connection: Close\r\n\r\n";
+        if (isset ( $parts ['query'] ))
+            $out .= $parts ['query'];
+        
+        fwrite ( $fp, $out );
+        fclose ( $fp );
+        
+        return true;
+    }
+}
+
+//$r = new HTTPRequest('http://www.example.com'); 
+//echo $r->DownloadToString(); 
+
+class HTTPRequest 
+{ 
+    var $_fp;        // HTTP socket 
+    var $_url;        // full URL 
+    var $_host;        // HTTP host 
+    var $_protocol;    // protocol (HTTP/HTTPS) 
+    var $_uri;        // request URI 
+    var $_port;        // port 
+    
+    // scan url 
+    function _scan_url() 
+    { 
+        $req = $this->_url; 
+        
+        $pos = strpos($req, '://'); 
+        $this->_protocol = strtolower(substr($req, 0, $pos)); 
+        
+        $req = substr($req, $pos+3); 
+        $pos = strpos($req, '/'); 
+        if($pos === false) 
+            $pos = strlen($req); 
+        $host = substr($req, 0, $pos); 
+        
+        if(strpos($host, ':') !== false) 
+        { 
+            list($this->_host, $this->_port) = explode(':', $host); 
+        } 
+        else 
+        { 
+            $this->_host = $host; 
+            $this->_port = ($this->_protocol == 'https') ? 443 : 80; 
+        } 
+        
+        $this->_uri = substr($req, $pos); 
+        if($this->_uri == '') 
+            $this->_uri = '/'; 
+    } 
+    
+    // constructor 
+    function HTTPRequest($url) 
+    { 
+        $this->_url = $url; 
+        $this->_scan_url(); 
+    } 
+    
+    // download URL to string 
+    function DownloadToString() 
+    { 
+        $crlf = "\r\n";
+        $response =""; //added by PB
+        
+        // generate request 
+        $req = 'GET ' . $this->_uri . ' HTTP/1.0' . $crlf 
+            .    'Host: ' . $this->_host . $crlf 
+            .    $crlf; 
+        
+        // fetch 
+        $this->_fp = fsockopen(($this->_protocol == 'https' ? 'ssl://' : '') . $this->_host, $this->_port); 
+        fwrite($this->_fp, $req); 
+        while(is_resource($this->_fp) && $this->_fp && !feof($this->_fp)) 
+            $response .= fread($this->_fp, 1024); 
+        fclose($this->_fp); 
+        
+        // split header and body 
+        $pos = strpos($response, $crlf . $crlf); 
+        if($pos === false) 
+            return($response); 
+        $header = substr($response, 0, $pos); 
+        $body = substr($response, $pos + 2 * strlen($crlf)); 
+        
+        // parse headers 
+        $headers = array(); 
+        $lines = explode($crlf, $header); 
+        foreach($lines as $line) 
+            if(($pos = strpos($line, ':')) !== false) 
+                $headers[strtolower(trim(substr($line, 0, $pos)))] = trim(substr($line, $pos+1)); 
+        
+        // redirection? 
+        if(isset($headers['location'])) 
+        { 
+            $http = new HTTPRequest($headers['location']); 
+            return($http->DownloadToString($http)); 
+        } 
+        else 
+        { 
+            return($body); 
+        } 
+    } 
+} 
+/*
+if(json_decode($xnpl) == NULL) {
+	echo $xnpl." not valid json!";
+}
+else {
+	$exemplars = json_decode($xnpl, true);
+}
+*/
+
+function perfTree ($branch,$class='',$tpeof=''){
+	$lang = isset($_SESSION['lang'])?$_SESSION['lang']:'en';
+	$key = array_keys($branch);
+	$size = sizeOf($key);
+	for ($i=0; $i<$size; $i++){
+		$child = (isset($branch[$key[$i]]['children']))?$branch[$key[$i]]['children']:array();
+		$title = (isset($branch[$key[$i]]['title_'.$lang]))?$branch[$key[$i]]['title_'.$lang]:$branch[$key[$i]]['title_en'];
+		echo '<li id="'.$key[$i].'" typeof="'.$tpeof.'">'.$title;
+		if ($child) {
+			echo '<ul class="'.$class.'">';
+			perfTree($child,'categories toggle',$tpeof);
+			echo '</ul>';
+		}
+		echo '</li>';
+	}	
+	return null;
 }

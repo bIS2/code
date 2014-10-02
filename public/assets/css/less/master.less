@@ -66,9 +66,9 @@
 @import "../../../../vendor/twbs/bootstrap/less/responsive-utilities.less";
 
 // Font-awesome-4.0.3
-// @import "font-awesome/font-awesome.less";
+@import "font-awesome/font-awesome.less";
 
-
+    
 // Components w/ JavaScript
 
 // -------------------------------------------------------------
@@ -426,6 +426,14 @@ footer {
             &.j {
                 color: lighten(@color, 10%);
             }
+        }
+        .fa {
+            color: #FFFFFF;
+            font-size: 10px;
+            margin-left: -14px;
+            margin-top: 2px;
+            position: absolute;
+            z-index: 9;
         }
     }
 }
