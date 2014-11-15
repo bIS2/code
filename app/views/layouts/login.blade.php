@@ -1,8 +1,8 @@
 @extends('layouts.scaffold')
 {{-- main --}}
 @section('main')
-		
-	<div class="jumbotron {{ Request::url() }}" <?php if (strpos(Request::url(),'bistest.trialog.ch') !== false) { echo ' style="background-color: blue; border-color:blue;"'; } ?><?php if (strpos(Request::url(),'bisdev.trialog.ch') !== false) { echo ' style="background-color: blue; border-color:green;"'; } ?>>
+		<?php var_dump(Request::url()) ?>
+	<div class="jumbotron {{ Request::url() }}" <?php if (strpos(Request::url(),'bistest.trialog.ch') !== false) { echo ' style="background-color: blue; border-color:blue;"'; } ?><?php if (strpos(Request::url(),'bisdev.trialog.ch') !== false) { echo ' style="background-color: green; border-color:green;"'; } ?>>
 		<div class="container">
 			<div class="lang">
 				<?php if (Session::get('locale') == 'de') { ?>
