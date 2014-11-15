@@ -99,6 +99,12 @@ function setDatatable() {
 						        // "aoColumns": aoColumns,
 						        "columnDefs": [ { targets: 0, orderable: false },{ targets: 1, orderable: false },{ targets: 2, orderable: false },{ targets: Orderptrn, orderable: false }],
 							  });
+							
+							// $($(This).attr('href') + ' .flexme').flexigrid();
+							// $($(This).attr('href') + ' .flexme').resizableColumns({
+							// 	store: window.store
+							// });
+
 							// console.log(Orderptrn);
 								// $($(This).attr('href') + ' .panel-body .dataTables_wrapper').niceScroll();
 								$($(This).attr('href') + ' .panel-body table.flexme .ocrr_ptrn > div:first-child').niceScroll({

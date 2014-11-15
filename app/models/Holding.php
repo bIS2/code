@@ -372,7 +372,7 @@ class Holding extends Eloquent {
           $icon = '<i class="fa fa-long-arrow-left"></i>';
         break;
         case '>':
-          $icon = '<i class="fa-chevron-circle-right"></i>';
+          $icon = '<i class="fa fa-chevron-circle-right"></i>';
         break;
         default:
           $icon = '';
@@ -409,8 +409,31 @@ class Holding extends Eloquent {
     $aux_ptrn = str_split($this->aux_ptrn);
     $i = 0;
     $ret = '<div style="display: inline-block;" class="'.$this->class_owner.'">';
-
+    $counter = -1;
+    $pinters = explode('|', $this->c_arr);
     foreach ($ocrr_ptrn as $ocrr) { 
+      $counter++;
+
+      switch ($pinters[$counter]) {
+        case '-':
+          $icon = '<i class="fa fa-minus"></i>';
+        break;
+        case '*':
+          $icon = '<i class="fa fa-bullseye"></i>';
+        break;
+        case '[':
+          $icon = '<i class="fa fa-long-arrow-right"></i>';
+        break;
+        case ']':
+          $icon = '<i class="fa fa-long-arrow-left"></i>';
+        break;
+        case '>':
+          $icon = '<i class="fa fa-chevron-circle-right"></i>';
+        break;
+        default:
+          $icon = '';
+        break;
+      }
       switch ($ocrr) {
         case '0':
         $ret .= '<i class="fa fa-square-o btn"></i>';
@@ -420,7 +443,7 @@ class Holding extends Eloquent {
         $classaux = '';
         if (isset($j_ptrn[$i]))     $classj   = ($j_ptrn[$i] == '1') ? ' j' : ''; 
         if (isset($aux_ptrn[$i]))   $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
-        $ret .= '<i class="fa fa-square pop-over btn'.$classj.$classaux.'" data-content="<strong>'.$this->f852b.' | '.$this->f852h.' | '.$ptrn[$i].'</strong>" data-html="true" data-placement="top" data-toggle="popover" type="button" data-trigger="hover" data-original-title="" title=""></i>';
+        $ret .= '<i class="fa fa-square pop-over btn'.$classj.$classaux.'" data-content="<strong>'.$this->f852b.' | '.$this->f852h.' | '.$ptrn[$i].'</strong>" data-html="true" data-placement="top" data-toggle="popover" type="button" data-trigger="hover" data-original-title="" title="">'.$icon.'</i>';
         break;
       }
       $i++; 
@@ -454,6 +477,7 @@ class Holding extends Eloquent {
     } else {
     	$str = $this->clean($this->$field);
       $ret = (strlen($str) > $len) ? '<span class="pop-over" data-content="<strong>'.$str.'</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover">'.truncate($str, 30).'</span>' : $str;
+      $ret = $str;
     }
     if ($field == 'state') { $ret = '<span class="label label-primary">'.trans('states.'.$ret).'</label>'; }
     return $ret;

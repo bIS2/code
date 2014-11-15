@@ -533,6 +533,11 @@ section.container {
        }
     }
 }
+.flexigrid {    
+    td,th {
+        padding: 2px 5px !important; 
+    }
+}
 .hol-sets {
     input#holdingsset_id {
         margin-top: 3px;
@@ -652,7 +657,7 @@ table.table thead th:first-child {
         > thead > tr > th.hocrr_ptrn,
         > tbody > tr > td.actions {
             //position: absolute;
-            min-width: 260px; 
+            // min-width: 260px; 
             //height: 22px;  
             // z-index: 9;
             //left: 5px;
@@ -673,7 +678,7 @@ table.table thead th:first-child {
         > thead > tr > th.actions,
         > tbody > tr > td.actions {
             //position: absolute;
-            min-width: 70px; 
+            // min-width: 70px; 
             //height: 22px;  
             // z-index: 9;
             //left: 5px;
@@ -1158,4 +1163,34 @@ fa.fa-careft-left.dropdown-menu:hover {
     footer {
         background-color: #B0E0E6 !important; 
     }
+}
+
+.dev {
+    .navbar-default .navbar-nav > .active > a, 
+    .navbar-default .navbar-nav > .active > a:hover, 
+    .navbar-default .navbar-nav > .active > a:focus {
+        background-color: #00B300 !important;
+    }
+    > div.navbar {
+        background-color: green !important;
+        border-color: green !important;
+        .text-warning {
+            color: white !important;
+        }
+    }
+
+    footer {
+        background-color: #B0E0E6 !important; 
+    }
+}
+
+.rc-handle {
+    position: absolute;
+    width: 7px;
+    cursor: ew-resize;
+    z-index: 999;
+}
+
+.dataTables_wrapper {
+    position: relative;
 }

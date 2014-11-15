@@ -54,7 +54,7 @@
 		<link rel="apple-touch-icon-precomposed" href="{{{ asset('assets/ico/apple-touch-icon-57-precomposed.png') }}}"> -->
 		<link rel="shortcut icon" href="{{{ asset('assets/ico/favicon.ico') }}}">
 	</head>
-	<body<?php if (strpos(Request::url(),'bistest.trialog.ch') !== false) { echo ' class="test"'; }?>>
+	<body<?php if (strpos(Request::url(),'bistest.trialog.ch') !== false) { echo ' class="test"'; }?><?php if (strpos(Request::url(),'bisdev.trialog.ch') !== false) { echo ' class="dev"'; }?>>
 		<!-- Main -->
 			@yield('main')
 		<!-- ./ Main -->
