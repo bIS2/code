@@ -2,7 +2,7 @@
 {{-- main --}}
 @section('main')
 		
-	<div class="jumbotron" <?php if (strpos(Request::url(),'bistest.trialog.ch') !== false) { echo ' style="background-color: blue; border-color:blue;"'; } ?><?php if (strpos(Request::url(),'bisdev.trialog.ch') !== false) { echo ' style="background-color: blue; border-color:green;"'; } ?>>
+	<div class="jumbotron {{ Request::url() }}" <?php if (strpos(Request::url(),'bistest.trialog.ch') !== false) { echo ' style="background-color: blue; border-color:blue;"'; } ?><?php if (strpos(Request::url(),'bisdev.trialog.ch') !== false) { echo ' style="background-color: blue; border-color:green;"'; } ?>>
 		<div class="container">
 			<div class="lang">
 				<?php if (Session::get('locale') == 'de') { ?>
