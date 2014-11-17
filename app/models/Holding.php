@@ -479,7 +479,7 @@ class Holding extends Eloquent {
       $ret = (strlen($str) > $len) ? '<span class="pop-over" data-content="<strong>'.$str.'</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover">'.truncate($str, 30).'</span>' : $str;
       $ret = $str;
     }
-    if ($field == 'state') { $ret = '<span class="label label-primary">'.trans('states.'.$ret).'</label>'; }
+    if ($field == 'state') { $ret = '<span class="label label-primary">'.trans('states.'.$ret).'</span>'; }
     return $ret;
   }
 

@@ -39,11 +39,11 @@
 			<th></th>
 			<th class="table_order">No.</th>
 			<th class="actions">Actions</th>
-			<th>{{ trans('holdingssets.state') }}</th>
+			<th>.<div<?php if ($_COOKIE[$profile.'_state'] != '') { echo $_COOKIE[$profile.'_state']; }?>>{{ trans('holdingssets.state') }}</div></th>
 			<?php	$k = 0; ?>
 			@foreach ($fieldstoshow as $field) 
 				@if ($field != 'ocrr_ptrn') <?php $k++; ?>										
-					<th>{{ trans('fields.'.str_replace('f', '', $field)); }} <span class="fa fa-info-circle"></span></th> 
+					<th><div class="field_<?php echo $field; ?>" <?php if ($_COOKIE[$profile.'_state'] != '') { echo ' style="width:'.$_COOKIE[$profile.'_state'].'"'; }?>>{{ trans('fields.'.str_replace('f', '', $field)); }} <span class="fa fa-info-circle"></span></th> 
 						@if ($k == 1)
 						<th class="hocrr_ptrn">{{ trans('holdingssets.ocurrence_patron') }}
 							<a href="{{ route('sets.show', $holdingsset->id) }}" data-target="#set-show" data-toggle="modal"><span class="glyphicon glyphicon-question-sign" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
@@ -84,9 +84,27 @@
 
 				<td class="table_order">{{ $hol_order }}</td>
 				<td class="actions" holding="{{ $holding -> id }}">
+					@if($hol_order == 1) 
+					<div class="change-size-box">					
+						<i class="fa fa-exchange"></i>
+						<div class="change-size-controls">							
+							<i class="fa expand change-size fa-arrow-circle-o-right"></i><i class="fa compress change-size fa-arrow-circle-o-left"></i>  
+						</div>  
+					</div>
+					@endif
 					{{ $holding -> bibuser_actions($holdingsset, $hol_order) }}
 				</td>
-				<td>{{ $holding->show( 'state' ) }}</td>
+				<td>
+					@if($hol_order == 1) 
+					<div class="change-size-box">					
+						<i class="fa fa-exchange"></i>
+						<div class="change-size-controls">							
+							<i class="fa expand change-size fa-arrow-circle-o-right"></i><i class="fa compress change-size fa-arrow-circle-o-left"></i>  
+						</div>  
+					</div>
+					@endif
+					{{ $holding->show( 'state' ) }}
+				</td>
 				<?php $k = 0; ?>
 
 					@foreach ($fieldstoshow as $field)
@@ -94,7 +112,15 @@
 						@if ($field != 'ocrr_ptrn')  
 
 						<?php $k++; ?>					
-							<td>
+						<td>
+							@if($hol_order == 1) 
+							<div class="change-size-box">					
+								<i class="fa fa-exchange"></i>
+								<div class="change-size-controls" target="field_<?php echo $field; ?>">							
+									<i class="fa expand change-size fa-arrow-circle-o-right"></i><i class="fa compress change-size fa-arrow-circle-o-left"></i>  
+								</div>  
+							</div>
+							@endif
 								{{ $holding->show( $field ) }}
 							</td>
 							@if ($k == 1)
@@ -122,6 +148,10 @@
 @endforeach
 
 <script type="text/javascript">
+
+	var Changing = null;
+	var This = null;
+
 	$(function() {
 		if ($('li#' + <?php echo $holdingsset-> id ?> + ' table.full-hos tbody tr').length > 10) {
 		ths = $('li#' + <?php echo $holdingsset-> id ?> + ' table.full-hos th');
@@ -175,5 +205,49 @@
 		else {
 			$('li#' + <?php echo $holdingsset-> id ?> + ' table.header-only').remove();
 		}
+
+		$('.expand').on('mousedown', function() {
+
+			This = $('th > div.' + $(this).parents('.change-size-controls').attr('target'));
+			if (($(This).attr('touched') == undefined) || ($(This).attr('touched') == '')) {	
+				$(This).attr('touched', 0); 
+				console.log('antes');
+				Changing = window.setInterval(function() {
+					console.log('dentro');
+					console.log($(This).attr('touched') === undefined);
+					// if (($(This).width() > 1000) || ($(This).attr('touched') > 335)) {
+					if (($(This).width() > 1000)) {
+						window.clearInterval(Changing);
+						$(This).removeAttr('touched'); 
+						return false
+					}
+					else {
+						$(This).width($(This).width() + 3);
+						var temp = $(This).attr('touched');
+						temp++;
+						$(This).attr('touched', temp); 
+					}
+				}, 10);
+			}
+
+		})
+
+		$('.expand').on('mouseup', function() {
+			window.clearInterval(Changing);
+			$(This).removeAttr('touched'); 
+		})
+
+		$('.compress').on('mousedown', function() {
+			This = $('th > div.' + $(this).parents('.change-size-controls').attr('target'));
+			Changing = window.setInterval(function() {
+				$(This).width($(This).width() - 3);
+			}, 10);
+		})
+
+		$('.compress').on('mouseup', function() {
+			window.clearInterval(Changing);
+		})
+
+
 	})
 </script>

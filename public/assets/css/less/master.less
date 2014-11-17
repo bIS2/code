@@ -110,6 +110,7 @@ section.container {
     border-collapse: collapse;
     th {
         white-space: nowrap;
+        position: relative;   
     }
 }
 
@@ -512,7 +513,7 @@ section.container {
 .flexme,
 .header-only {
     font-size: 11px;
-
+    z-index: 9;
     thead th {
         white-space: nowrap;
         + th {           
@@ -1191,6 +1192,51 @@ fa.fa-careft-left.dropdown-menu:hover {
     z-index: 999;
 }
 
-.dataTables_wrapper {
-    position: relative;
+table.flexme  {
+    tbody {
+        tr:first-child {
+            td {
+                // padding-right: 0;
+            }
+        }
+    }
+    td {
+        .change-size-box {
+            position: relative;
+            display: inline-block;
+            margin-left: -5px;
+            .fa-exchange {
+                font-size: 10px;
+            }
+            .change-size-controls {
+                display: none;
+                background: white;
+                border-radius: 5px;
+                height: 46px;
+                left: -5px;
+                padding: 3px;
+                position: absolute;
+                top: -20px;
+                width: 26px;
+                .fa.change-size {
+                    cursor: pointer !important;
+                    color: blue !important;
+                    position: absolute;
+                    font-size: 20px;
+                    &.compress {
+                        left: 3px;
+                        bottom: 0;
+                    }
+                    &.expand {
+                        left: 3px;
+                    }
+                } 
+            }
+            &:hover {
+                .change-size-controls {
+                    display: block;
+                }
+            }
+        }
+    }
 }
