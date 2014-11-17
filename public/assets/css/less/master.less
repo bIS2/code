@@ -1201,42 +1201,42 @@ table.flexme  {
         }
     }
     td {
-    }
-}
-.change-size-box {
-    position: relative;
-    display: inline-block;
-    margin-left: -5px;
-    .fa-exchange {
-        font-size: 10px;
-    }
-    .change-size-controls {
-        display: none;
-        background: white;
-        border-radius: 5px;
-        height: 46px;
-        left: -5px;
-        padding: 3px;
-        position: absolute;
-        top: -20px;
-        width: 26px;
-        .fa.change-size {
-            cursor: pointer !important;
-            color: blue !important;
-            position: absolute;
-            font-size: 20px;
-            &.compress {
-                left: 3px;
-                bottom: 0;
+        .change-size-box {
+            position: relative;
+            display: inline-block;
+            margin-left: -5px;
+            .fa-exchange {
+                font-size: 10px;
             }
-            &.expand {
-                left: 3px;
+            .change-size-controls {
+                display: none;
+                background: white;
+                border-radius: 5px;
+                height: 46px;
+                left: -5px;
+                padding: 3px;
+                position: absolute;
+                top: -20px;
+                width: 26px;
+                .fa.change-size {
+                    cursor: pointer !important;
+                    color: blue !important;
+                    position: absolute;
+                    font-size: 20px;
+                    &.compress {
+                        left: 3px;
+                        bottom: 0;
+                    }
+                    &.expand {
+                        left: 3px;
+                    }
+                } 
             }
-        } 
-    }
-    &:hover {
-        .change-size-controls {
-            display: block;
+            &:hover {
+                .change-size-controls {
+                    display: block;
+                }
+            }
         }
     }
 }

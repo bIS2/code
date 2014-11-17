@@ -251,3 +251,40 @@
 
 	})
 </script>
+<style type="text/css">
+	table.flexme td .change-size-box {
+		position: relative;
+		display: inline-block;
+		margin-left: -5px;
+	}
+	table.flexme td .change-size-box .fa-exchange {
+		font-size: 10px;
+	}
+	table.flexme td .change-size-box .change-size-controls {
+		display: none;
+		background: white;
+		border-radius: 5px;
+		height: 46px;
+		left: -5px;
+		padding: 3px;
+		position: absolute;
+		top: -20px;
+		width: 26px;
+	}
+	table.flexme td .change-size-box .change-size-controls .fa.change-size {
+		cursor: pointer !important;
+		color: blue !important;
+		position: absolute;
+		font-size: 20px;
+	}
+	table.flexme td .change-size-box .change-size-controls .fa.change-size.compress {
+		left: 3px;
+		bottom: 0;
+	}
+	table.flexme td .change-size-box .change-size-controls .fa.change-size.expand {
+		left: 3px;
+	}
+	table.flexme td .change-size-box:hover .change-size-controls {
+		display: block;
+	}
+</style>
