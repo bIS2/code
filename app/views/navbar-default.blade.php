@@ -1,5 +1,5 @@
 <!-- navbar by default: includes the brand and commun functions -->
-<div class="navbar navbar-default navbar-fixed-top" role="navigation"<?php if (strpos(Request::url(),'bistest.trialog.ch') !== false) { echo ' style="background-color: blue; border-color:blue;"'; } ?><?php if (strpos(Request::url(),'bisdev.trialog.ch') !== false) { echo ' style="background-color: blue; border-color:green;"'; } ?>>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation"<?php if (strpos(Request::url(),'bistest.trialog.ch') !== false) { echo ' style="background-color: blue; border-color:blue;"'; } ?><?php if (strpos(Request::url(),'bisdev.trialog.ch') !== false) { echo ' style="background-color: green; border-color:green;"'; } ?>>
 	<div class="container">
 		<a class="navbar-brand" href="/" title="Begleitendes Informationssystem" data-toogle="tooltip"><?php if (strpos(Request::url(),'bistest.trialog.ch') !== false) { echo 'bIStest'; } elseif(strpos(Request::url(),'bisdev.trialog.ch') !== false) { echo 'bISdev'; } else { echo 'bIS'; } ?></a>
 		<ul class="nav navbar-nav">
