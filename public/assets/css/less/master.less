@@ -491,7 +491,7 @@ tr.success, tr.danger{ .btn-send{ display:inline !important; } }
         background: none !important;
     }
     td.actions {
-        background-color: #ffffff !important;
+        // background-color: #ffffff !important;
     }
 }
 
@@ -652,7 +652,7 @@ table.table thead th:first-child {
     position: relative;
     table {
         > thead > tr > th.actions {
-            background-color: #ffffff;
+            // background-color: #ffffff;
         }
         > thead > tr > th.actions,
         > thead > tr > th.hocrr_ptrn,
@@ -701,8 +701,8 @@ table.header-only {
     table.flexme > thead > tr > th.actions + th,
     table.header-only > thead > tr > th.actions + th,
     table.flexme > tbody > tr > td.actions + td {
-        padding-left: 115px;
-        border-left: none;
+        // padding-left: 115px;
+        // border-left: none;
     }
     > li {
         position: relative;
@@ -1201,10 +1201,17 @@ table.flexme  {
         }
     }
     td {
+        .dinamic {
+            overflow: hidden;
+            min-width: 40px;
+            display: inline-block;
+            vertical-align: middle;
+        }
         .change-size-box {
             position: relative;
             display: inline-block;
-            margin-left: -5px;
+            vertical-align: middle;
+            margin-left: -10px;
             .fa-exchange {
                 font-size: 10px;
             }
@@ -1236,6 +1243,9 @@ table.flexme  {
                 .change-size-controls {
                     display: block;
                 }
+            }
+            + dinamic {
+                margin-left: -5px;
             }
         }
     }

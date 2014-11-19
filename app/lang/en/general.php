@@ -108,4 +108,20 @@ return array(
 	'new_list'=>'New List',
 	'move_to_list'=>'Add to List',
 	'clear'=>'Clear',
+
+	// Profile
+	'profiles' => 'Profiles',
+	'Default fields + Balance between text and column size + Fields order and visibles + Fields sort' => 'Default fields + Balance between text and column size + Fields order and visibles + Fields sort',
+	'Default' => 'Default',
+	'Default fields + Smaller size for all columns + Fields order and visibles + Fields sort' => 'Default fields + Smaller size for all columns + Fields order and visibles + Fields sort',
+	'Tight' => 'Tight',
+	'Default fields + Full Open text for all columns + Fields order and visibles + Fields sort' => 'Default fields + Full Open text for all columns + Fields order and visibles + Fields sort',
+	'Full Open' => 'Full Open',
+	'See Custom Profiles' => 'See Custom Profiles',
+	'Delete profile' => 'Delete profile',
+	'Save new profile' => 'Save new profile',
+	'Select this profile' => 'Select this profile',
+	'' => '',
+	'' => '',
+
 );
