@@ -52,12 +52,12 @@
 							<td class="ocrr_ptrn {{$ownertrclass}}"><?= $holding->patrn_no_btn; ?></td>
 						</tr>
 						<tr>
-						  <td>866a</td>
+						  <td>{{ trans('fields.866a') }}</td>
 							<td><?= $holding->f866a; ?></td>
 						</tr>		
 						<?php if (Auth::user()->hasRole('bibuser')) { ?>					
 						<tr>
-						  <td class="text-danger">{{ trans('general.edit') }} 866a</td>
+						  <td class="text-danger">{{ trans('fields.e866a') }}</td>
 							<td>						
 							<div id="f866aeditablecontainer" class="input-group">
 								<?php $editable866a = ($holding->f866aupdated == '') ?  $holding->f866a : $holding->f866aupdated ?>
@@ -70,10 +70,10 @@
 						//else { 
 							//if ($holding->f866aupdated != $holding->f866a)  {
 							?>
-							<tr>
+						<!-- 	<tr>
 							  <td class="text-danger">{{ trans('general.edited') }} 866a</td>
 								<td><?= $holding->f866aupdated; ?></td>
-							</tr>	
+							</tr>	 -->
 							<?php //}  ?>
 						<?php //}  ?>
 						@if ($holding -> notes()-> exists())

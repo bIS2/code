@@ -66,28 +66,55 @@ class HoldingssetsController extends BaseController {
 
 			/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
-			define('DEFAULTS_FIELDS', 'sys2;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
-			define('ALL_FIELDS', 'sys2;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
+			define('DEFAULTS_FIELDS', 'actions;state;sys2;ocrr_ptrn;holtype;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;fx866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
+
+			define('ALL_FIELDS', 'actions;state;sys2;ocrr_ptrn;holtype;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;fx866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
+
+			define('GENERAL', 'actions;state;sys2;ocrr_ptrn;holtype;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;fx866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
+
+			define('TITLE', 'actions;f008x;f008y;f022a;f245a;f245b;f245n;f245p;f710a;f710b;f780t;785t');
+
+			define('COMPARE', 'actions;sys2;Holtype;f866a;f866aupdated;fx866a');
+
+
 
 			/* User vars */
 			$uUserName = Auth::user()->username;
 			$uUserLibrary = Auth::user()->library;
 			$uUserLibraryId = Auth::user()->library->id;
+
+			// General View
+
+			$cprofile = $_COOKIE[$uUserName.'_current_profile'];
+
+			if ((!$cprofile) || ($cprofile == '')) {
+				$cprofile = 'general';
+				setcookie($uUserName.'_current_profile', 'general', time()+60*60*24*3650);
+			}
+
+			// if (!$_COOKIE[$uUserName.'_general_fields'])
+			setcookie($uUserName.'_general_fields', GENERAL, time()+60*60*24*3650);
+			// if (!$_COOKIE[$uUserName.'_title_fields'])
+			setcookie($uUserName.'_title_fields', TITLE, time()+60*60*24*3650);		
+			// if (!$_COOKIE[$uUserName.'_compare_fields'])
+			setcookie($uUserName.'_compare_fields', COMPARE, time()+60*60*24*3650);
+
 			// $uGroupname
 			if (!isset($_COOKIE[$uUserName.'_fields_to_show_ok_hos'])) {
 				if (Session::get($uUserName.'_fields_to_show_ok_hos') == 'ocrr_ptrn') {
-					setcookie($uUserName.'_fields_to_show_ok_hos', DEFAULTS_FIELDS, time() + (86400 * 30));
+					setcookie($uUserName.'_fields_to_show_ok_hos', DEFAULTS_FIELDS, time()+60*60*24*3650);
 					Session::put($uUserName.'_fields_to_show_ok_hos', DEFAULTS_FIELDS);
 				}
 				else {
-					setcookie($uUserName.'_fields_to_show_ok_hos', Session::get($uUserName.'_fields_to_show_ok_hos'), time() + (86400 * 30));
+					setcookie($uUserName.'_fields_to_show_ok_hos', Session::get($uUserName.'_fields_to_show_ok_hos'), time()+60*60*24*3650);
 				}
 			}
 
 			if ((Session::get($uUserName.'_fields_to_show_ok_hos') == 'ocrr_ptrn') || (Session::get($uUserName.'_fields_to_show_ok_hos') == '')) {
-				setcookie($uUserName.'_fields_to_show_ok_hos', DEFAULTS_FIELDS, time() + (86400 * 30));
+				setcookie($uUserName.'_fields_to_show_ok_hos', DEFAULTS_FIELDS, time()+60*60*24*3650);
 				Session::put($uUserName.'_fields_to_show_ok_hos', DEFAULTS_FIELDS);
 			}
+
 			if (Input::get('clearorderfilter') == 1) {
 				Session::put($uUserName.'_sortinghos_by', null);
 				Session::put($uUserName.'_sortinghos', null);
@@ -97,7 +124,8 @@ class HoldingssetsController extends BaseController {
 			$order 	= (Session::get($uUserName.'_sortinghos') != null) ? Session::get($uUserName.'_sortinghos') : 'ASC';
 
 			// Groups
-			$this->data['groups'] = Auth::user()->groups;
+			// $this->data['groups'] = Auth::user()->groups;
+			$this->data['groups'] = Group::orderby('name', 'ASC')->get();
 
 			$this->data['group_id'] = (in_array(Input::get('group_id'), $this->data['groups']->lists('id'))) ? Input::get('group_id') : '';
 			$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets() : Holdingsset::where('holdings_number','<',101);
@@ -164,20 +192,20 @@ class HoldingssetsController extends BaseController {
 							}
 							else {	
 									// var_dump(sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ));die();
-									$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) ) :  
-									$holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) );  
-									$openfilter++;		
-									if ($field == 'f866a') {
-										$format1 = str_replace('f866a', 'f866aupdated', $format);
-										$compare1 = str_replace('f866a', 'f866aupdated', $compare);
+								$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) ) :  
+								$holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) );  
+								$openfilter++;		
+								if ($field == 'f866a') {
+									$format1 = str_replace('f866a', 'f866aupdated', $format);
+									$compare1 = str_replace('f866a', 'f866aupdated', $compare);
 										// var_dump($format);
 										// var_dump($format1);
 										// var_dump($compare);
 										// var_dump($compare1);
-										$holdings = $holdings->OrWhereRaw( sprintf( $format1, $compare1, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) );
+									$holdings = $holdings->OrWhereRaw( sprintf( $format1, $compare1, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) );
 										// die(); 
-									}				
-								}
+								}				
+							}
 						}
 					}
 				}
@@ -222,6 +250,7 @@ class HoldingssetsController extends BaseController {
 	 * @return Response
 	 */
 	public function store()	{
+		$uUserName = Auth::user()->username;
 
 		if (Input::has('urltoredirect'))	{
 			$newfields	= Input::get('fieldstoshow');
@@ -234,13 +263,14 @@ class HoldingssetsController extends BaseController {
 					if (count($newfields) > $i) $fieldlist .= ';';
 				}
 			}
-			// var_dump(Input::get('sortinghos_by'));
+			$cprofile = Input::get('profile');
+			// var_dump($cprofile);die();
+			$cprofile = $_COOKIE[$uUserName.'_current_profile'];
+			// var_dump(Input::all()); die();
 			// var_dump(Input::get('sortinghos'));die();
-			$uUserName = Auth::user()->username;
-			setcookie($uUserName.'_fields_to_show_ok_hos', $fieldlist, time() + (86400 * 30));
-			Session::put($uUserName.'_fields_to_show_ok_hos', $fieldlist);
-			Session::put($uUserName.'_sortinghos_by', Input::get('sortinghos_by'));
-			Session::put($uUserName.'_sortinghos', Input::get('sortinghos'));
+
+			setcookie($uUserName.'_'.$cprofile.'_fields_showed', $fieldlist, time()+60*60*24*3650);
+
 			return Redirect::to(Input::get('urltoredirect'));
 		}
 	}
@@ -500,9 +530,9 @@ class HoldingssetsController extends BaseController {
 			$holding = Holding::find($id);
 			$auxptrnOriginal = $holding->aux_ptrn;
 			$aux = str_replace('1', '0', $auxptrnOriginal);
-		    $was_oner = (($holding->is_owner == '1') || ($holding->is_owner == 't')) ? true : false;
+			$was_oner = (($holding->is_owner == '1') || ($holding->is_owner == 't')) ? true : false;
 			$holding->update(['is_aux'=>'f', 'is_owner'=>'f', 'force_blue'=>'t', 'aux_ptrn' => $aux]);
-		    if ($was_oner) holdingsset_recall($holdingsset_id);
+			if ($was_oner) holdingsset_recall($holdingsset_id);
 			$holdingssets[] = Holdingsset::find($holdingsset_id);
 			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
 			return $newset;
@@ -639,17 +669,17 @@ class HoldingssetsController extends BaseController {
 		$str: sys2 of the holdings
 		-----------------------------------------------------------------------------------*/
 
-	function similarity_search($sys2) {
-		$db_config = Config::get('database');
-		$database = $db_config['connections']['pgsql']['database'];
-		$username = $db_config['connections']['pgsql']['username'];
-		$password = $db_config['connections']['pgsql']['password'];
-		$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
-		$con = pg_connect($conn_string);
+		function similarity_search($sys2) {
+			$db_config = Config::get('database');
+			$database = $db_config['connections']['pgsql']['database'];
+			$username = $db_config['connections']['pgsql']['username'];
+			$password = $db_config['connections']['pgsql']['password'];
+			$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
+			$con = pg_connect($conn_string);
 
-		date_default_timezone_set('America/New_York');
-		define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
-		$date_start = $date = new DateTime('now', new DateTimeZone('America/New_York'));
+			date_default_timezone_set('America/New_York');
+			define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
+			$date_start = $date = new DateTime('now', new DateTimeZone('America/New_York'));
 
 		$ta_sim_name      = 'ta_sim';    // result table
 		$select_fld       = 'id,sys2,f022a,f245a,f245a_e,f245b_e,f245c_e,f_tit_e,f260a_e,f260b_e,f310a_e,f362a_e,f710a_e,f780t_e,f785t_e,f008x,f008y';  // fields 
@@ -724,52 +754,52 @@ class HoldingssetsController extends BaseController {
 			'f852a' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
 			);
 			// weights institution (7xx) even more
-		$fld_weight_model[1] = array (
-			'f008x' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
-			'f008y' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
-			'f022a' => array('equ' => 10, 'sim' =>  0, 'dif' => -6),
-			'f245a' => array('equ' => 10, 'sim' =>  1, 'dif' => -3),
-			'f245b' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-			'f245c' => array('equ' => 10, 'sim' =>  0, 'dif' =>  0),
-			'f_tit' => array('equ' =>  3, 'sim' =>  1, 'dif' =>  0),
-			'f260a' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
-			'f260b' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
-			'f260c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-			'f300c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-			'f310a' => array('equ' =>  5, 'sim' =>  1, 'dif' => -3),
-			'f362a' => array('equ' =>  7, 'sim' =>  2, 'dif' => -7),
-			'f710a' => array('equ' => 20, 'sim' =>  3, 'dif' => -5),
-			'f780t' => array('equ' => 20, 'sim' =>  3, 'dif' =>  0),
-			'f785t' => array('equ' => 20, 'sim' =>  3, 'dif' =>  0),
-			'f852a' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-		);  
+$fld_weight_model[1] = array (
+	'f008x' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
+	'f008y' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
+	'f022a' => array('equ' => 10, 'sim' =>  0, 'dif' => -6),
+	'f245a' => array('equ' => 10, 'sim' =>  1, 'dif' => -3),
+	'f245b' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+	'f245c' => array('equ' => 10, 'sim' =>  0, 'dif' =>  0),
+	'f_tit' => array('equ' =>  3, 'sim' =>  1, 'dif' =>  0),
+	'f260a' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
+	'f260b' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
+	'f260c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+	'f300c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+	'f310a' => array('equ' =>  5, 'sim' =>  1, 'dif' => -3),
+	'f362a' => array('equ' =>  7, 'sim' =>  2, 'dif' => -7),
+	'f710a' => array('equ' => 20, 'sim' =>  3, 'dif' => -5),
+	'f780t' => array('equ' => 20, 'sim' =>  3, 'dif' =>  0),
+	'f785t' => array('equ' => 20, 'sim' =>  3, 'dif' =>  0),
+	'f852a' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+	);  
 
 					// weighting issn (022) more
-		$fld_weight_model[2] = array (
-			'f008x' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
-			'f008y' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
-			'f022a' => array('equ' => 20, 'sim' =>  0, 'dif' => -6),
-			'f245a' => array('equ' => 10, 'sim' =>  1, 'dif' => -3),
-			'f245b' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-			'f245c' => array('equ' => 10, 'sim' =>  0, 'dif' =>  0),
-			'f_tit' => array('equ' =>  3, 'sim' =>  1, 'dif' =>  0),
-			'f260a' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
-			'f260b' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
-			'f260c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-			'f300c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
-			'f310a' => array('equ' =>  5, 'sim' =>  1, 'dif' => -3),
-			'f362a' => array('equ' =>  7, 'sim' =>  2, 'dif' => -7),
-			'f710a' => array('equ' => 10, 'sim' =>  3, 'dif' => -5),
-			'f780t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
-			'f785t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
-			'f852a' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+$fld_weight_model[2] = array (
+	'f008x' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
+	'f008y' => array('equ' =>  3, 'sim' =>  0, 'dif' => -3),
+	'f022a' => array('equ' => 20, 'sim' =>  0, 'dif' => -6),
+	'f245a' => array('equ' => 10, 'sim' =>  1, 'dif' => -3),
+	'f245b' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+	'f245c' => array('equ' => 10, 'sim' =>  0, 'dif' =>  0),
+	'f_tit' => array('equ' =>  3, 'sim' =>  1, 'dif' =>  0),
+	'f260a' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
+	'f260b' => array('equ' =>  5, 'sim' =>  3, 'dif' => -2),
+	'f260c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+	'f300c' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
+	'f310a' => array('equ' =>  5, 'sim' =>  1, 'dif' => -3),
+	'f362a' => array('equ' =>  7, 'sim' =>  2, 'dif' => -7),
+	'f710a' => array('equ' => 10, 'sim' =>  3, 'dif' => -5),
+	'f780t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
+	'f785t' => array('equ' => 10, 'sim' =>  3, 'dif' =>  0),
+	'f852a' => array('equ' =>  1, 'sim' =>  1, 'dif' =>  0),
 		);                    // create $fld_ta
 
-		create_table($ta_sim_name);
-		$sys = $sys2;
+create_table($ta_sim_name);
+$sys = $sys2;
 
 		// get reference record
-		$query = "SELECT ".$select_fld." FROM holdings WHERE sys2 = '$sys'";
+$query = "SELECT ".$select_fld." FROM holdings WHERE sys2 = '$sys'";
 		$result = pg_query($con, $query) or die(pg_last_error()); //; if (!$result) { echo "Error executing".$query."\n"; exit; }
 		$tas = pg_fetch_all($result);
 		// echo $query."<br>";
@@ -816,27 +846,27 @@ class HoldingssetsController extends BaseController {
 		$query .= "\n f362a, f362a_e, similarity(
 			array_to_string(regexp_split_to_array(f362a_e, E'[^0-9]+'),';','*'),
 			array_to_string(regexp_split_to_array('".pg_escape_string($ta['f362a_e'])."', E'[^0-9]+'),';','*')) s_f362a,";
-		$query .= "\n f710a, f710a_e,"; ($ta['f710a_e'] > '') ? $query .= " similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') s_f710a," : $query .= " 0::integer s_f710a,";
-		$query .= "\n f780t, f780t_e,"; ($ta['f780t_e'] > '') ? $query .= " similarity(f780t_e,'".pg_escape_string($ta['f780t_e'])."') s_f780t," : $query .= " 0::integer s_f780t,";
-		$query .= "\n f785t, f785t_e,"; ($ta['f785t_e'] > '') ? $query .= " similarity(f785t_e,'".pg_escape_string($ta['f785t_e'])."') s_f785t," : $query .= " 0::integer s_f785t,";
-		$query .= "\n f008x,         "; ($ta['f008x']   > '') ? $query .= " similarity(f008x  ,'".pg_escape_string($ta['f008x'])  ."') s_f008x," : $query .= " 0::integer s_f008x,";
-		$query .= "\n f008y,         "; ($ta['f008y']   > '') ? $query .= " similarity(f008y  ,'".pg_escape_string($ta['f008y'])  ."') s_f008y"  : $query .= " 0::integer s_f008y";
-		$query .= "\n FROM holdings";
+$query .= "\n f710a, f710a_e,"; ($ta['f710a_e'] > '') ? $query .= " similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') s_f710a," : $query .= " 0::integer s_f710a,";
+$query .= "\n f780t, f780t_e,"; ($ta['f780t_e'] > '') ? $query .= " similarity(f780t_e,'".pg_escape_string($ta['f780t_e'])."') s_f780t," : $query .= " 0::integer s_f780t,";
+$query .= "\n f785t, f785t_e,"; ($ta['f785t_e'] > '') ? $query .= " similarity(f785t_e,'".pg_escape_string($ta['f785t_e'])."') s_f785t," : $query .= " 0::integer s_f785t,";
+$query .= "\n f008x,         "; ($ta['f008x']   > '') ? $query .= " similarity(f008x  ,'".pg_escape_string($ta['f008x'])  ."') s_f008x," : $query .= " 0::integer s_f008x,";
+$query .= "\n f008y,         "; ($ta['f008y']   > '') ? $query .= " similarity(f008y  ,'".pg_escape_string($ta['f008y'])  ."') s_f008y"  : $query .= " 0::integer s_f008y";
+$query .= "\n FROM holdings";
 		if ($is_freq_tit) { // for frequent titles include filters
 			$query .= "\n  WHERE similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') = 1";  // same title
 			if (($ta['f710a_e'] > '') and ($ta['f245c_e'] > '')) {
 		 			$query .= " AND (similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') > 0.9";  // similiar organisation
-					$query .= "\n OR similarity(f245c_e,'".pg_escape_string($ta['f245c_e'])."') > 0.8)";
-			} else {
-				if (($ta['f710a_e'] >  '') AND ($ta['f245c_e'] == ''))
+		 				$query .= "\n OR similarity(f245c_e,'".pg_escape_string($ta['f245c_e'])."') > 0.8)";
+} else {
+	if (($ta['f710a_e'] >  '') AND ($ta['f245c_e'] == ''))
 					$query .= " AND similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') > 0.9";  // similiar organisation (710a)
 				if (($ta['f710a_e'] == '') AND ($ta['f245c_e'] >  ''))
 						$query .= " AND similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') > 0.8";  // similar organisation (245c)
 				}
-		} else {
+			} else {
 				$query .= "\n  WHERE similarity(f245a_e,'".pg_escape_string($ta['f245a_e'])."') > 0.6";
 				$query .= "\n     OR similarity(f710a_e,'".pg_escape_string($ta['f710a_e'])."') > 0.8";
-		}
+			}
 			$query .= "\n  ORDER BY s_f245a DESC, f245a_e";
 		//printf("%s\n", $query);
 			$result = pg_query($con, $query) or die(pg_last_error());// if (!$result) { echo "Error executing".$query."\n"; exit; }
@@ -923,7 +953,7 @@ class HoldingssetsController extends BaseController {
 		$last_ta_in_set =  $ta_sim_last_good;
 		var_dump($last_ta_in_set);
 		usort($ta_res_sim, 'cmp_flag_score'); // *** sort result by flag, score for output
-		 
+
 		return $ta_res_sim;
 	}
 
@@ -959,24 +989,24 @@ class HoldingssetsController extends BaseController {
 						- lockeds holdings can't be used to the algoritm
 
 						-----------------------------------------------------------------------------------*/
-function holdingsset_recall($id) {
-	$db_config = Config::get('database');
-	$database = $db_config['connections']['pgsql']['database'];
-	$username = $db_config['connections']['pgsql']['username'];
-	$password = $db_config['connections']['pgsql']['password'];
-	$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
-	$con = pg_connect($conn_string);
+						function holdingsset_recall($id) {
+							$db_config = Config::get('database');
+							$database = $db_config['connections']['pgsql']['database'];
+							$username = $db_config['connections']['pgsql']['username'];
+							$password = $db_config['connections']['pgsql']['password'];
+							$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
+							$con = pg_connect($conn_string);
 
-	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." AND state NOT LIKE '%reserve%' ORDER BY sys2, score DESC LIMIT 100";
-	$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
+							$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." AND state NOT LIKE '%reserve%' ORDER BY sys2, score DESC LIMIT 100";
+							$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
 
-	$ta_arr = pg_fetch_all($result);
+							$ta_arr = pg_fetch_all($result);
 
-	/*******************************************************************/
+							/*******************************************************************/
 
-	$hos = array();
-	$hos['ptrn'] = array();
-	$hos['hol'] = array();
+							$hos = array();
+							$hos['ptrn'] = array();
+							$hos['hol'] = array();
 
 	$hos['year_ptrn'] = array(); // ***** NEW! *****
 	$hos['timeline'] = array();  // ***** NEW! *****
@@ -994,7 +1024,7 @@ function holdingsset_recall($id) {
 		$hol_ptrn = $hol['hol_nrm'];
 		
 		$hol['ptrn_arr'] = (preg_match('/\w/',$hol_ptrn))?explode(';',$hol_ptrn):array(); // split on ";"
-			
+
 		if ($hol['ptrn_arr']){
 			$hol_ptrn_amnt	= sizeOf($hol['ptrn_arr']);
 			for ($l=0; $l<$hol_ptrn_amnt; $l++){
@@ -1034,8 +1064,8 @@ function holdingsset_recall($id) {
 		function($n){
 			return explode('|',substr(chunk_split($n,4,'|'),0,-1));
 		}, 
-	$tmparr); 
-		
+		$tmparr); 
+
 	$volume = array();
 	$year = array();
 
@@ -1221,11 +1251,11 @@ function holdingsset_recall($id) {
 	 *
 	 ********************************************************************************/
 
-	// $sp = ' | ';
-	// echo '<pre>'.implode($sp,$hos['ptrn']).$sp.'</pre>';
-	// echo '<pre>year_ptrn:'.$sp.implode($sp,$hos['year_ptrn']).$sp.'</pre>'.EOL;
+	$prtnall = $hos['ptrn'];
 	// var_dump($hos);
-	for ($i=0; $i<$hol_amnt; $i++){
+	$f88a_total = '';
+	// var_dump($hos['hol'][0]);
+	for ($i=0; $i<count($hos['hol']); $i++){
 		$hol = $hos['hol'][$i];
 		$sys1  = $hol['sys1'];
 		$sys2 = $hol['sys2'];
@@ -1239,6 +1269,26 @@ function holdingsset_recall($id) {
 		$is_owner = ($hol['is_owner'] === 't')?'o':' ';
 		$pot_owner = ($hol['pot_owner'] === 't')?'p':' ';
 		$is_aux = ($hol['is_aux'] === 't')?'a':' ';
+
+		$f866a = explode('|', $hol['f866a']);
+
+		if ($hol['is_aux'] == 't') {
+			$fx866a = '';
+			$auxs = $hol['aux_ptrn'];
+			$k = 0;
+			foreach ($auxs as $aux) {
+				if ($aux == 1) {
+					$f88a_total .= ($fx866a == '') ? ' '.$f866a[$k] : '-'.$f866a[$k];
+					$fx866a .= ($fx866a == '') ? $f866a[$k] : '-'.$f866a[$k];
+				}
+				$k++;
+			}
+		}
+		if ($hol['is_owner'] == 't') {
+			$fx866a = $hol['f866a'];
+			$f88a_total .= ' '.$fx866a;
+
+		}
 
 		// echo '<pre>'.$i.$sp
 		// 	.$hol['id'].$sp
@@ -1256,9 +1306,9 @@ function holdingsset_recall($id) {
 		// 	.$j.$sp
 		// 	.$hol_ptrn
 		// 	.$sp.'</pre>';
-		Holding::find($hol['id'])->update(['ocrr_nr' => $hol['ocrr_nr'], 'ocrr_ptrn' => $o, 'weight' => $weight, 'j_ptrn' => $j, 'is_owner' => $hol['is_owner'],  'pot_owner' => $hol['pot_owner'], 'aux_ptrn' => $a, 'is_aux' => $hol['is_aux'], 'c_arr' => implode('|', $hol['c_arr'])]);
+		Holding::find($hol['id'])->update(['ocrr_nr' => $hol['ocrr_nr'], 'ocrr_ptrn' => $o, 'weight' => $weight, 'j_ptrn' => $j, 'is_owner' => $hol['is_owner'],  'pot_owner' => $hol['pot_owner'], 'aux_ptrn' => $a, 'is_aux' => $hol['is_aux'], 'fx866a' => $fx866a, 'c_arr' => implode('|', $hol['c_arr'])]);
 	}
-	Holdingsset::find($hol['holdingsset_id'])->update(['ptrn' => implode('|', $hos['ptrn'])]);
+	Holdingsset::find($hol['holdingsset_id'])->update(['ptrn' => implode('|', $hos['ptrn']), 'f88a_total' => $f88a_total]);
 	// die("\nThat's a better end of the story");
 }
 
@@ -1481,11 +1531,11 @@ $starttime        = sprintf("%s", date("Y-m-d H:i:s"));
 $stat             = array();   // statistical info
 
 $db_config = Config::get('database');
-	$database = $db_config['connections']['pgsql']['database'];
-	$username = $db_config['connections']['pgsql']['username'];
-	$password = $db_config['connections']['pgsql']['password'];
-	$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
-	$con = pg_connect($conn_string);
+$database = $db_config['connections']['pgsql']['database'];
+$username = $db_config['connections']['pgsql']['username'];
+$password = $db_config['connections']['pgsql']['password'];
+$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
+$con = pg_connect($conn_string);
 
 // collect knowledge
 $know['hG'] = acquire_knowledge('h', 'G', '');  // clearly recognizable strings at HOL level
@@ -1496,7 +1546,7 @@ $know['pL'] = acquire_knowledge('p', 'L', '');  // // strings at HOP level to el
 $know['pN'] = acquire_knowledge('p', 'N', '');// strings at HOP level to eliminate at last
 
 // if ($proc_flag['debug']) show_process_info($res_list);   // show information about current process
-	
+
 /* ================================================================== *
  * HOL 
  * ================================================================== */
@@ -1552,7 +1602,7 @@ for ($hop_no = 0; $hop_no < count($ho_part); $hop_no++) {
 	$hop = trim($hop);                  // trim hop
 	$stat['A_Parts of holdings']++;
 
-		
+
 	/* ***********************************************
 	 * extract information elements
 	 *********************************************** */
@@ -1568,16 +1618,16 @@ for ($hop_no = 0; $hop_no < count($ho_part); $hop_no++) {
 	}
 
 	// Recognize and delete well recognizable but disturbing information  (F)
-		$know_gr = "pF"; for ($c=0; $c < sizeof($know[$know_gr]['uses']); $c++) $hop = val_replace($hop);
-			
+	$know_gr = "pF"; for ($c=0; $c < sizeof($know[$know_gr]['uses']); $c++) $hop = val_replace($hop);
+
 	// put = ... in a separate variable
 		 // but: What to do with : 42=1(1975)-45=4(1978)
 		if ($hop == '==RECOGNIZED==' or $hop == '_VOID_' ) goto SKIP_TO_LAST_THINGS;  // shorten recognition path
 		if (stripos($hop, '=') !== false) $hop = cut_holding_equivalent($hop);
 
 	// Recognize and delete well recognizable information  (G)
-	$know_gr = "pG"; $uses = sizeof($know[$know_gr]['uses']); for ($c=0; $c < $uses; $c++) $hop = val_replace($hop);
-	if ($hop == '==RECOGNIZED==' or $hop == '_VOID_' ) goto SKIP_TO_LAST_THINGS;
+		$know_gr = "pG"; $uses = sizeof($know[$know_gr]['uses']); for ($c=0; $c < $uses; $c++) $hop = val_replace($hop);
+		if ($hop == '==RECOGNIZED==' or $hop == '_VOID_' ) goto SKIP_TO_LAST_THINGS;
 		
 	//$know_gr = "pH"; $uses = sizeof($know[$know_gr]['uses']); for ($c=0; $c < $uses; $c++) $hop = val_replace($hop);
 	//$know_gr = "pI"; $uses = sizeof($know[$know_gr]['uses']); for ($c=0; $c < $uses; $c++) $hop = val_replace($hop);
@@ -1585,20 +1635,20 @@ for ($hop_no = 0; $hop_no < count($ho_part); $hop_no++) {
 	//if ($hop == '==RECOGNIZED==' or $hop == '_VOID_' ) goto SKIP_TO_LAST_THINGS;
 		
 	// Recognize well recognized element at BOL or EOL
-	$know_gr = "pK"; $uses = sizeof($know[$know_gr]['uses']); for ($c=0; $c < $uses; $c++) $hop = val_replace($hop);
-	if ($hop == '==RECOGNIZED==' or $hop == '_VOID_' ) goto SKIP_TO_LAST_THINGS;
+		$know_gr = "pK"; $uses = sizeof($know[$know_gr]['uses']); for ($c=0; $c < $uses; $c++) $hop = val_replace($hop);
+		if ($hop == '==RECOGNIZED==' or $hop == '_VOID_' ) goto SKIP_TO_LAST_THINGS;
 
 	// Recognize and delete less recognizable information 
-	$know_gr = "pL"; $uses = sizeof($know[$know_gr]['uses']); for ($c=0; $c < $uses; $c++) $hop = val_replace($hop);
-	$know_gr = "pN"; $uses = sizeof($know[$know_gr]['uses']); for ($c=0; $c < $uses; $c++) $hop = val_replace($hop);
-	if ($hop == '==RECOGNIZED==' or $hop == '_VOID_' ) goto SKIP_TO_LAST_THINGS;
+		$know_gr = "pL"; $uses = sizeof($know[$know_gr]['uses']); for ($c=0; $c < $uses; $c++) $hop = val_replace($hop);
+		$know_gr = "pN"; $uses = sizeof($know[$know_gr]['uses']); for ($c=0; $c < $uses; $c++) $hop = val_replace($hop);
+		if ($hop == '==RECOGNIZED==' or $hop == '_VOID_' ) goto SKIP_TO_LAST_THINGS;
 		
 	// Clean string once more
-	$know_gr = "pG"; $uses = sizeof($know[$know_gr]['uses']); for ($c=0; $c < $uses; $c++) $hop = val_replace($hop);
+		$know_gr = "pG"; $uses = sizeof($know[$know_gr]['uses']); for ($c=0; $c < $uses; $c++) $hop = val_replace($hop);
 
 	// Third cleaning
-	$know_gr = "pG"; $uses = sizeof($know[$know_gr]['uses']); for ($c=0; $c < $uses; $c++) $hop = val_replace($hop);
-	
+		$know_gr = "pG"; $uses = sizeof($know[$know_gr]['uses']); for ($c=0; $c < $uses; $c++) $hop = val_replace($hop);
+
 	// JUMP HERE <------------
 	SKIP_TO_LAST_THINGS:   // jump here if work is already done
 	
@@ -1615,7 +1665,7 @@ for ($hop_no = 0; $hop_no < count($ho_part); $hop_no++) {
 	// reformat year if shorter than 4 digits
 	if (isset($hop_info[$hop_no]['yeB2']) && (strlen($hop_info[$hop_no]['yeB2']) < 4)) $hop_info[$hop_no]['yeB2'] = reformat_val2($hop_info[$hop_no]['yeB1'], $hop_info[$hop_no]['yeB2']); 
 	if (isset($hop_info[$hop_no]['yeE2']) && (strlen($hop_info[$hop_no]['yeE2']) < 4)) $hop_info[$hop_no]['yeE2'] = reformat_val2($hop_info[$hop_no]['yeE1'], $hop_info[$hop_no]['yeE2']); 
-		
+
 	// put number of month instead of the name
 	if (isset($hop_info[$hop_no]['moB1'])) $hop_info[$hop_no]['moB1'] = &convert_month($hop_info[$hop_no]['moB1']);
 	if (isset($hop_info[$hop_no]['moB2'])) $hop_info[$hop_no]['moB2'] = &convert_month($hop_info[$hop_no]['moB2']);
@@ -1641,20 +1691,20 @@ for ($hop_no = 0; $hop_no < count($ho_part); $hop_no++) {
 		isset($stat['Z_UNKNOWN']) ? $stat['Z_UNKNOWN']++ : $stat['Z_UNKNOWN']=1;
 		//do_control('vR!', '', $hop, '', '>> '.$hop_info[$hop_no]['type']);
 	} else {
-			if (!substr($hop_info[$hop_no]['type'],0,4) == 'MDL ')	$hop_info[$hop_no]['type'] = '==RECOGNIZED=+';
+		if (!substr($hop_info[$hop_no]['type'],0,4) == 'MDL ')	$hop_info[$hop_no]['type'] = '==RECOGNIZED=+';
 	}
 	if ((strcmp($hop,'==RECOGNIZED==') == 0) and (!strcmp(substr($hop_info[$hop_no]['type'],0,4),'MDL ') == 0)) // if $hop has not been recognized ...
-		$hop_info[$hop_no]['type'] = '==RECOGNIZED=+';
+	$hop_info[$hop_no]['type'] = '==RECOGNIZED=+';
 
 		// add "2014" into yeE1 when ta is ongoing
-		if ($hop_no == count($ho_part) -1) {
-			if (   isset($hop_info[$hop_no]['HY']) 
+	if ($hop_no == count($ho_part) -1) {
+		if (   isset($hop_info[$hop_no]['HY']) 
 	    		&& isset($hop_info[$hop_no]['yeB1'])  // not only volumes, but also a year
 	    		&& ! isset($hop_info[$hop_no]['yeE1'])
-				)
-				$hop_info[$hop_no]['yeE1'] = $current_year;
+	    		)
+			$hop_info[$hop_no]['yeE1'] = $current_year;
 		        //do_control('vCY', '', $hop, '=>', $hop_info[$hop_no]['type']);
-		}
+	}
 
 } // <- end of hop loop
 
@@ -1698,43 +1748,43 @@ function val_replace($ho_val) {
 				// do_control('vRv', '', $know[$know_gr]['writ'][$c], '', '****');
 			}
 			if ($know[$know_gr]['writ'][$c] > '') {  // use the variables given with the regex string
-			  $vars = explode(';', $know[$know_gr]['writ'][$c]);
-			  for ($c1=0; $c1<count($vars); $c1++) {
-			    list($var, $val) = explode("=", $vars[$c1]);
+				$vars = explode(';', $know[$know_gr]['writ'][$c]);
+				for ($c1=0; $c1<count($vars); $c1++) {
+					list($var, $val) = explode("=", $vars[$c1]);
 					switch($var) { // store the information recognized
 						case 'AUFBEWAHRUNG':
-							switch ($val) {
+						switch ($val) {
 							case '$1': // increment by 1
-								$hop_info[$hop_no][$var]=$elem[1];
+							$hop_info[$hop_no][$var]=$elem[1];
 								// do_control('vRn', $var, $hop_info[$hop_no][$var], '', '$1');
-								break;
+							break;
 							default:
-								$hop_info[$hop_no][$var]=$val;
-							}	  
-						  break;
+							$hop_info[$hop_no][$var]=$val;
+						}	  
+						break;
 						case 'NSER':  // NF = nSer
-							switch ($val) {
+						switch ($val) {
 							case 'NF++': // increment by 1
-								$hop_info[$hop_no][$var]++;
+							$hop_info[$hop_no][$var]++;
 								// do_control('vRn', $var, $hop_info[$hop_no][$var], '', '++');
-								break;
+							break;
 							case '$1': // increment by 1
-								$hop_info[$hop_no][$var]=$elem[1];
+							$hop_info[$hop_no][$var]=$elem[1];
 								// do_control('vRn', $var, $hop_info[$hop_no][$var], '', '$1');
-								break;
+							break;
 							default:
-								$hop_info[$hop_no][$var]=1;
+							$hop_info[$hop_no][$var]=1;
 						}
 						// do_control('vRn', $var, $hop_info[$hop_no][$var], '', '??');
 						break; // end NF++
 						case 'UNIT':
-							if (isset($hop_info[$hop_no][$var])) $hop_info[$hop_no][$var].= '; '.$val; else $hop_info[$hop_no][$var] = $val;
-							break;
+						if (isset($hop_info[$hop_no][$var])) $hop_info[$hop_no][$var].= '; '.$val; else $hop_info[$hop_no][$var] = $val;
+						break;
 						default: $hop_info[$hop_no][$var] = $val;
-							break;
+						break;
 					}
 					// do_control('vRV', $var, $hop_info[$hop_no][$var], '', '**');
-			  }
+				}
 			}
 			if (substr($know[$know_gr]['mode'][$c],0,3) == 'MDL') {  // We have an MDL (= model)
 			  $mdl = substr($know[$know_gr]['mode'][$c],4);          // cut pattern. Ex: MDL V(JJJJ)
@@ -1749,121 +1799,121 @@ function val_replace($ho_val) {
 				$count['E'] = array ('vo' => 1, 'ye' => 1, 'he' => 1, 'mo' => 1, 'xx' => 1 );  // init E counter for every element
 			  $phase = 'B'; // Format receiving field variables. Set B for begin
 			  for($c2=0; $c2<count($pom); $c2++) {
-			    switch ($pom[$c2]) {
-			      case 'MM'  : $pom[$c2] = sprintf("%s%s%d", 'mo', $phase, $count[$phase]['mo']++);	break;
-			      case 'M'   : $pom[$c2] = sprintf("%s%s%d", 'mo', $phase, $count[$phase]['mo']++);	break;
-			      case 'V'   : $pom[$c2] = sprintf("%s%s%d", 'vo', $phase, $count[$phase]['vo']++); break;
-			      case 'VE1' : $pom[$c2] = sprintf("%s%s%d", 'vo', 'E',    '1'                   ); break;
-			      case 'N'   : $pom[$c2] = sprintf("%s%s%d", 'he', $phase, $count[$phase]['he']++); break;
-			      case 'JJJJ': $pom[$c2] = sprintf("%s%s%d", 'ye', $phase, $count[$phase]['ye']++);	break;
-			      case 'JJ'  : $pom[$c2] = sprintf("%s%s%d", 'ye', $phase, $count[$phase]['ye']++);	break;
+			  	switch ($pom[$c2]) {
+			  		case 'MM'  : $pom[$c2] = sprintf("%s%s%d", 'mo', $phase, $count[$phase]['mo']++);	break;
+			  		case 'M'   : $pom[$c2] = sprintf("%s%s%d", 'mo', $phase, $count[$phase]['mo']++);	break;
+			  		case 'V'   : $pom[$c2] = sprintf("%s%s%d", 'vo', $phase, $count[$phase]['vo']++); break;
+			  		case 'VE1' : $pom[$c2] = sprintf("%s%s%d", 'vo', 'E',    '1'                   ); break;
+			  		case 'N'   : $pom[$c2] = sprintf("%s%s%d", 'he', $phase, $count[$phase]['he']++); break;
+			  		case 'JJJJ': $pom[$c2] = sprintf("%s%s%d", 'ye', $phase, $count[$phase]['ye']++);	break;
+			  		case 'JJ'  : $pom[$c2] = sprintf("%s%s%d", 'ye', $phase, $count[$phase]['ye']++);	break;
 			      case 'TT'  : $pom[$c2] = sprintf("%s%s%d", 'da', $phase, $count[$phase]['ta']++);	break; // ### Field not exists. Ok?
 			      case 'HY'  : 
 						  $elem_hy = array('-'); array_splice($elem, $c2, 0, $elem_hy); // insert - at HY position
 							$phase = 'E';  // Set E for End after reaching HY
 							break;
-						default    : $pom[$c2] = sprintf("%s%s%d", $pom[$c2], '_', '0'); break;
+							default    : $pom[$c2] = sprintf("%s%s%d", $pom[$c2], '_', '0'); break;
+						}
+						if ($proc_flag['debug']) printf("(%d)   =: %-6s = %-20s\n", $hop_no, $pom[$c2], $elem[$c2]);
+						if ($pom[$c2] > '') $hop_info[$hop_no][$pom[$c2]] =	$elem[$c2];
 					}
-					if ($proc_flag['debug']) printf("(%d)   =: %-6s = %-20s\n", $hop_no, $pom[$c2], $elem[$c2]);
-					if ($pom[$c2] > '') $hop_info[$hop_no][$pom[$c2]] =	$elem[$c2];
-			  }
 				// do_control('MDL', $mdl, implode('|', $pom), '', implode('|', $elem));
-			}
-			if ($ho_val == '') {
-			  $ho_val = '==RECOGNIZED==';
-				isset($stat['Z_RECOGNIZED']) ? $stat['Z_RECOGNIZED']++ : $stat['Z_RECOGNIZED']=1;
-			}
-			collect_proc_info($hop_info, $know[$know_gr]['mode'][$c], $hop_no, $ho_val, $elem[0]);
+				}
+				if ($ho_val == '') {
+					$ho_val = '==RECOGNIZED==';
+					isset($stat['Z_RECOGNIZED']) ? $stat['Z_RECOGNIZED']++ : $stat['Z_RECOGNIZED']=1;
+				}
+				collect_proc_info($hop_info, $know[$know_gr]['mode'][$c], $hop_no, $ho_val, $elem[0]);
 			// do_control('vR+', $know[$know_gr]['mode'][$c], $ho_val_prev, '', '|'.$ho_val.'|   {'.$know[$know_gr]['writ'][$c].')');
-		} else {
+			} else {
 			// do_control('vR-', $know[$know_gr]['mode'][$c], $ho_val_prev, '', $ho_val);
-    }
-	}
+			}
+		}
 	//echo "@:"; print_r($hop_info[$hop_no]); echo ":@"; 
-  return $ho_val;
-}
-
-// ------------------------------------------------------------------------
-function cut_holding_equivalent($hop) {
-// ------------------------------------------------------------------------
-	global $hop_info;
-	if ($equ_list = preg_split("/ *= */", $hop)) {
-		$hop_prev = $hop;
-		$hop = array_shift($equ_list);
-		// do_control('EQU', '', $hop_prev, '', $hop.'  {'.implode('|', $equ_list).'}');
+		return $ho_val;
 	}
-	return $hop;
-}
 
 // ------------------------------------------------------------------------
-function collect_proc_info($hop_info, $model, $hop_no, $hop, $trigger) {
+	function cut_holding_equivalent($hop) {
 // ------------------------------------------------------------------------
-  global $stat, $hop_info;
+		global $hop_info;
+		if ($equ_list = preg_split("/ *= */", $hop)) {
+			$hop_prev = $hop;
+			$hop = array_shift($equ_list);
+		// do_control('EQU', '', $hop_prev, '', $hop.'  {'.implode('|', $equ_list).'}');
+		}
+		return $hop;
+	}
+
+// ------------------------------------------------------------------------
+	function collect_proc_info($hop_info, $model, $hop_no, $hop, $trigger) {
+// ------------------------------------------------------------------------
+		global $stat, $hop_info;
   // $trigger: what remains for recognition ????
-  $hop_info[$hop_no]['type'] = $model;
-	if (substr($model,0,3) == 'MDL') $model_s = 'T_'.$model; else $model_s = 'S_'.$model;
-  isset($stat[$model_s]) ? $stat[$model_s]++ : $stat[$model_s] = 1;
+		$hop_info[$hop_no]['type'] = $model;
+		if (substr($model,0,3) == 'MDL') $model_s = 'T_'.$model; else $model_s = 'S_'.$model;
+		isset($stat[$model_s]) ? $stat[$model_s]++ : $stat[$model_s] = 1;
   if (strcmp($hop,'_VOID_') == 0) // if $hop has been recognized as _VOID_
 		isset($stat['Z_RECOGNIZED']) ? $stat['Z_RECOGNIZED']++ : $stat['Z_RECOGNIZED'] = 1;  // _VOID_ is ==RECOGNIZED==
-  isset($hop_info[$hop_no]['proc']) ? $hop_info[$hop_no]['proc'] .= $model.": '".$trigger."' {".$hop."}| " : $hop_info[$hop_no]['proc'] = $model.": '".$trigger."' {".$hop."}| ";
+		isset($hop_info[$hop_no]['proc']) ? $hop_info[$hop_no]['proc'] .= $model.": '".$trigger."' {".$hop."}| " : $hop_info[$hop_no]['proc'] = $model.": '".$trigger."' {".$hop."}| ";
   // do_control('STA', $model, $stat[$model_s], '', '');
-}
+	}
 
 // ------------------------------------------------------------------------
-function reformat_val2($val1, $val2) {
+	function reformat_val2($val1, $val2) {
 // ------------------------------------------------------------------------
-  if (strlen($val2) > 0) {
-    $lng = strlen($val1) - strlen($val2);
-    $valPrefix = substr($val1,0,$lng);
-    if (substr($val1,$lng,strlen($val2)) > $val2) {
-      $valPrefix++;
-    }      
-    if ($lng > 0) $val2 = substr($valPrefix,0,$lng).$val2;
-  }
+		if (strlen($val2) > 0) {
+			$lng = strlen($val1) - strlen($val2);
+			$valPrefix = substr($val1,0,$lng);
+			if (substr($val1,$lng,strlen($val2)) > $val2) {
+				$valPrefix++;
+			}      
+			if ($lng > 0) $val2 = substr($valPrefix,0,$lng).$val2;
+		}
 	// 1899-00
-  return $val2;
-}
+		return $val2;
+	}
 
 // ------------------------------------------------------------------------
-function convert_month($month) {
+	function convert_month($month) {
 // ------------------------------------------------------------------------
 // convert month string to something useful
-  if (isset($month)) {
-  switch ($month) {
+		if (isset($month)) {
+			switch ($month) {
     // season
-    case (preg_match("/^(Frühling)$/", $month, $elem) ? true : false) :                     $month = 'fr';      break;
-    case (preg_match("/^(Sommer)$/", $month, $elem) ? true : false) :                                 $month = 'so';      break;
-    case (preg_match("/^(Herbst)$/", $month, $elem) ? true : false) :                                 $month = 'he';      break;
-    case (preg_match("/^(Winter)$/", $month, $elem) ? true : false) :                                 $month = 'wi';      break;
+				case (preg_match("/^(Frühling)$/", $month, $elem) ? true : false) :                     $month = 'fr';      break;
+				case (preg_match("/^(Sommer)$/", $month, $elem) ? true : false) :                                 $month = 'so';      break;
+				case (preg_match("/^(Herbst)$/", $month, $elem) ? true : false) :                                 $month = 'he';      break;
+				case (preg_match("/^(Winter)$/", $month, $elem) ? true : false) :                                 $month = 'wi';      break;
     // semester
-    case (preg_match("/^(Sommersemester|Sommerhalbjahr|S\.-S\.|S\.S\.|SS|SH)$/", $month, $elem) ? true : false) : $month = 'SS';  break;  
-    case (preg_match("/^(Wintersemester|Winterhalbjahr|W\.-S\.|W\.-S\.|WS|WH)$/", $month, $elem) ? true : false): $month = 'WS';  break;
+				case (preg_match("/^(Sommersemester|Sommerhalbjahr|S\.-S\.|S\.S\.|SS|SH)$/", $month, $elem) ? true : false) : $month = 'SS';  break;  
+				case (preg_match("/^(Wintersemester|Winterhalbjahr|W\.-S\.|W\.-S\.|WS|WH)$/", $month, $elem) ? true : false): $month = 'WS';  break;
     // month
-    case (preg_match("/^(January|Januar|gennaio|Jan\.?)$/", $month, $elem) ? true : false):                   $month = '01';      break;
-    case (preg_match("/^(February|Februar|février|Feb\.?)$/", $month, $elem) ? true : false):                 $month = '02';      break;
-    case (preg_match("/^(March|März|Mrz\.?)$/", $month, $elem) ? true : false):  $month = '03';      break;
-    case (preg_match("/^(April|Apr\.?)$/", $month, $elem) ? true : false) :                           $month = '04';      break;
-    case (preg_match("/^(May|Mai)$/", $month, $elem) ? true : false) :                                $month = '05';      break;
-    case (preg_match("/^(June|Juni|Jun\.?)$/", $month, $elem) ? true : false) :                       $month = '06';      break;
-    case (preg_match("/^(July|Juli|juillet|Jul\.?)$/", $month, $elem) ? true : false) :               $month = '07';      break;
-    case (preg_match("/^(August|Aug\.?)$/", $month, $elem) ? true : false) :            $month = '08';      break;
-    case (preg_match("/^(September|Sept\.?|Sep\.?)$/", $month, $elem) ? true : false):  $month = '09';      break;
-    case (preg_match("/^(October|Oktober|Okt\.?|Oct\.?)$/", $month, $elem) ? true : false): $month = '10';  break;
-    case (preg_match("/^(November|Nov\.?)$/", $month, $elem) ? true : false) :          $month = '11';      break;
-    case (preg_match("/^(Dezember|December|Dec\.?|Dez\.?)$/", $month, $elem) ? true : false) :  $month = '12'; break;
-    default:	                                                                          $month = "??";      break;
-    }
-    return $month;
-  }
-}
+				case (preg_match("/^(January|Januar|gennaio|Jan\.?)$/", $month, $elem) ? true : false):                   $month = '01';      break;
+				case (preg_match("/^(February|Februar|février|Feb\.?)$/", $month, $elem) ? true : false):                 $month = '02';      break;
+				case (preg_match("/^(March|März|Mrz\.?)$/", $month, $elem) ? true : false):  $month = '03';      break;
+				case (preg_match("/^(April|Apr\.?)$/", $month, $elem) ? true : false) :                           $month = '04';      break;
+				case (preg_match("/^(May|Mai)$/", $month, $elem) ? true : false) :                                $month = '05';      break;
+				case (preg_match("/^(June|Juni|Jun\.?)$/", $month, $elem) ? true : false) :                       $month = '06';      break;
+				case (preg_match("/^(July|Juli|juillet|Jul\.?)$/", $month, $elem) ? true : false) :               $month = '07';      break;
+				case (preg_match("/^(August|Aug\.?)$/", $month, $elem) ? true : false) :            $month = '08';      break;
+				case (preg_match("/^(September|Sept\.?|Sep\.?)$/", $month, $elem) ? true : false):  $month = '09';      break;
+				case (preg_match("/^(October|Oktober|Okt\.?|Oct\.?)$/", $month, $elem) ? true : false): $month = '10';  break;
+				case (preg_match("/^(November|Nov\.?)$/", $month, $elem) ? true : false) :          $month = '11';      break;
+				case (preg_match("/^(Dezember|December|Dec\.?|Dez\.?)$/", $month, $elem) ? true : false) :  $month = '12'; break;
+				default:	                                                                          $month = "??";      break;
+			}
+			return $month;
+		}
+	}
 
 // ------------------------------------------------------------------------
-function save_LN($fld, $ho_val) {
+	function save_LN($fld, $ho_val) {
 // ------------------------------------------------------------------------
   // change ; to , within [L=...] or [N=...]
-  global $hol_info, $hop_info, $hop_no, $ho_val_prev;
-  $know['L=N='] = "/^(.*) *(\[[NL]=[^\]]+\]) *(.*)$/";
-  if (preg_match($know['L=N='], $ho_val, $elem)) {
+		global $hol_info, $hop_info, $hop_no, $ho_val_prev;
+		$know['L=N='] = "/^(.*) *(\[[NL]=[^\]]+\]) *(.*)$/";
+		if (preg_match($know['L=N='], $ho_val, $elem)) {
     $elem[2] = preg_replace("/=/", '~', $elem[2]);  // replace 
     $elem[2] = preg_replace("/;/", '|', $elem[2]);  // replace
     $elem[2] = preg_replace("/\[/", '{', $elem[2]); // replace [] by {}
@@ -1872,7 +1922,7 @@ function save_LN($fld, $ho_val) {
     $hol_info['L=N='] = $elem[2];   // collect info about holdings
     collect_proc_info($hop_info, $fld, $hop_no, $ho_val, $elem[1]);
     // do_control('LN1', $fld, $ho_val_prev, '',$ho_val);
-  }
+}
   if (preg_match($know['L=N='], $ho_val, $elem)) {   // do it twice for second [.=...]
     $elem[2] = preg_replace("/=/", '~', $elem[2]);  // replace ; by ,
     $elem[2] = preg_replace("/;/", '|', $elem[2]);  // replace ; by ,
@@ -1882,9 +1932,9 @@ function save_LN($fld, $ho_val) {
     $hol_info['L=N='] = $elem[2];   // collect info about holdings
     collect_proc_info($hop_info, $fld, $hop_no, $ho_val, $elem[1]);
     // do_control('LN2', $fld, $ho_val_prev, '',$ho_val);
-  }
+}
   // correct missing ]   14 rows
-  if (preg_match("/\[[LN]=/", $ho_val, $elem)) $ho_val .= ']';
+if (preg_match("/\[[LN]=/", $ho_val, $elem)) $ho_val .= ']';
   if (preg_match($know['L=N='], $ho_val, $elem)) {   // do it twice for second [.=...]
     $elem[2] = preg_replace("/=/", '~', $elem[2]);  // replace ; by ,
     $elem[2] = preg_replace("/;/", '|', $elem[2]);  // replace ; by ,
@@ -1894,126 +1944,126 @@ function save_LN($fld, $ho_val) {
     $hol_info['L=N='] = $elem[2];   // collect info about holdings
     collect_proc_info($hop_info, $fld, $hop_no, $ho_val, $elem[1]);
     // do_control('LN3', $fld, $ho_val_prev, '',$ho_val);
-  }
-  return $ho_val;
+}
+return $ho_val;
 }
 
 // ------------------------------------------------------------------------
 function show_statistics() {
 // ------------------------------------------------------------------------
-  global $stat;
-  printf("\n\n************ %s: *********************\n", "Statistics");
-  $group_prev = '';
-  ksort($stat);
-  foreach ($stat as $key => $val) {
-    $group = substr($key,0,1);
-    if ($group <> $group_prev)
-      switch ($group) {
-        case 'A' : printf("General Information:\n"); break;
-        case 'S' : printf("Executed recognition steps:\n"); break;
-        case 'T' : printf("Recognized Patterns:\n"); break;
-        case 'Z' : printf("Recognition state:\n"); break;
-      }
-	$percentage = 100/$stat['A_Parts of holdings'] * $val;
-    printf("  %-35s : %6d  %3d%%\n", substr($key,2), $val, $percentage);
-    $group_prev = $group;
-  }
-}
+	global $stat;
+	printf("\n\n************ %s: *********************\n", "Statistics");
+	$group_prev = '';
+	ksort($stat);
+	foreach ($stat as $key => $val) {
+		$group = substr($key,0,1);
+		if ($group <> $group_prev)
+			switch ($group) {
+				case 'A' : printf("General Information:\n"); break;
+				case 'S' : printf("Executed recognition steps:\n"); break;
+				case 'T' : printf("Recognized Patterns:\n"); break;
+				case 'Z' : printf("Recognition state:\n"); break;
+			}
+			$percentage = 100/$stat['A_Parts of holdings'] * $val;
+			printf("  %-35s : %6d  %3d%%\n", substr($key,2), $val, $percentage);
+			$group_prev = $group;
+		}
+	}
 
 // ------------------------------------------------------------------------
-function write_to_screen() {
+	function write_to_screen() {
 // ------------------------------------------------------------------------
   // show normalized string on screen
-  global $hol_nrm;
-	printf("NRM: %s\n", $hol_nrm);
-}	
+		global $hol_nrm;
+		printf("NRM: %s\n", $hol_nrm);
+	}	
 
 // ------------------------------------------------------------------------
-function acquire_knowledge($use, $priority, $model) {
+	function acquire_knowledge($use, $priority, $model) {
 // ------------------------------------------------------------------------
   //acquire knowledge from database
-  global $con, $do_show_know;
-  $know = array();
-	if ($use == '')
-    $query = "SELECT use, prio, model, srch_a, srch, repl, upper, write_val FROM hol_values WHERE model ~* '$model' ORDER BY prio, model";
-	else
-    $query = "SELECT use, prio, model, srch_a, srch, repl, upper, write_val FROM hol_values WHERE model ~* '$model' AND use='$use' AND prio = '$priority' ORDER BY prio, model";
-  pg_query($con, $query) or die("Cannot execute \"$query\"\n");
-  $result = pg_query($con, $query); if (!$result) { echo 'Error executing '.$query."\n"; exit; }
-  $know['uses'] = pg_fetch_all_columns($result, 0);
-  $know['prio'] = pg_fetch_all_columns($result, 1);
-  $know['mode'] = pg_fetch_all_columns($result, 2);
-  $know['srca'] = pg_fetch_all_columns($result, 3);
-  $know['srch'] = pg_fetch_all_columns($result, 4);
-  $know['repl'] = pg_fetch_all_columns($result, 5);
-  $know['uppe'] = pg_fetch_all_columns($result, 6);
-  $know['writ'] = pg_fetch_all_columns($result, 7);
-  if ($do_show_know) {
-    printf("\n*** %s - Criteria: %s|%s|%s|\n", 'Show Knowledge', $use, $priority, $model);
-    for ($c=0; $c < sizeof($know['uses']); $c++) {
-      printf("%1s %1s %1s %-30s : %-80s %30s   (%s)\n", $know['uses'][$c], $know['prio'][$c], $know['uppe'][$c], $know['mode'][$c], $know['srch'][$c], $know['repl'][$c], $know['writ'][$c]);
+		global $con, $do_show_know;
+		$know = array();
+		if ($use == '')
+			$query = "SELECT use, prio, model, srch_a, srch, repl, upper, write_val FROM hol_values WHERE model ~* '$model' ORDER BY prio, model";
+		else
+			$query = "SELECT use, prio, model, srch_a, srch, repl, upper, write_val FROM hol_values WHERE model ~* '$model' AND use='$use' AND prio = '$priority' ORDER BY prio, model";
+		pg_query($con, $query) or die("Cannot execute \"$query\"\n");
+		$result = pg_query($con, $query); if (!$result) { echo 'Error executing '.$query."\n"; exit; }
+		$know['uses'] = pg_fetch_all_columns($result, 0);
+		$know['prio'] = pg_fetch_all_columns($result, 1);
+		$know['mode'] = pg_fetch_all_columns($result, 2);
+		$know['srca'] = pg_fetch_all_columns($result, 3);
+		$know['srch'] = pg_fetch_all_columns($result, 4);
+		$know['repl'] = pg_fetch_all_columns($result, 5);
+		$know['uppe'] = pg_fetch_all_columns($result, 6);
+		$know['writ'] = pg_fetch_all_columns($result, 7);
+		if ($do_show_know) {
+			printf("\n*** %s - Criteria: %s|%s|%s|\n", 'Show Knowledge', $use, $priority, $model);
+			for ($c=0; $c < sizeof($know['uses']); $c++) {
+				printf("%1s %1s %1s %-30s : %-80s %30s   (%s)\n", $know['uses'][$c], $know['prio'][$c], $know['uppe'][$c], $know['mode'][$c], $know['srch'][$c], $know['repl'][$c], $know['writ'][$c]);
+			}
 		}
-  }
-  return $know;
-}
+		return $know;
+	}
 
 // ------------------------------------------------------------------------
-function do_know_control($marker) {
+	function do_know_control($marker) {
 // ------------------------------------------------------------------------
-  global $do_control, $do_show_know, $fld, $know, $repl, $upper, $write_val;
-  if ($do_show_know) {
-    printf("%-3s %-25s\n", $marker, $fld);
-    for ($c=0; $c < sizeof($know[$fld]); $c++) {
+		global $do_control, $do_show_know, $fld, $know, $repl, $upper, $write_val;
+		if ($do_show_know) {
+			printf("%-3s %-25s\n", $marker, $fld);
+			for ($c=0; $c < sizeof($know[$fld]); $c++) {
       // printf("    %02d %s\n", $c, $know[$fld][$c]);
-      printf("    %02d P:%-30s R:%-30s U:%1s W:%s\n", $c, 
-	  $know[$fld][$c], 
-	  $repl[$fld][$c], 
-	  $upper[$fld][$c], 
-	  $write_val[$fld][$c]);
-    }
-  }
-}
+				printf("    %02d P:%-30s R:%-30s U:%1s W:%s\n", $c, 
+					$know[$fld][$c], 
+					$repl[$fld][$c], 
+					$upper[$fld][$c], 
+					$write_val[$fld][$c]);
+			}
+		}
+	}
 
 
 // ------------------------------------------------------------------------
-function normalize_result($hop_info) {
+	function normalize_result($hop_info) {
 // ------------------------------------------------------------------------
   // normalize every hop. Pattern: VVVVvvvvYYYYyyyyVVVVvvvvYYYYyyyyIO
-  $hol_nrm = array();
-  $size = sizeof($hop_info);
+		$hol_nrm = array();
+		$size = sizeof($hop_info);
 
-  for ($i=0; $i < $size; $i++) {
+		for ($i=0; $i < $size; $i++) {
 		// write normalized string
-		$hol_nrm[$i] = sprintf("%4s%4s%4s%4s%1s%4s%4s%4s%4s%1s",
-			substr('    '.(isset($hop_info[$i]['voB1'])?$hop_info[$i]['voB1']:'    '),-4,4),
-			substr('    '.(isset($hop_info[$i]['voB2'])?$hop_info[$i]['voB2']:'    '),-4,4),
-			substr('    '.(isset($hop_info[$i]['yeB1'])?$hop_info[$i]['yeB1']:'    '),-4,4),
-			substr('    '.(isset($hop_info[$i]['yeB2'])?$hop_info[$i]['yeB2']:'    '),-4,4),
-			substr(   ' '.(isset($hop_info[$i]['HY']  )?$hop_info[$i]['HY']  :' '   ),-1,1),
-			substr('    '.(isset($hop_info[$i]['voE1'])?$hop_info[$i]['voE1']:'    '),-4,4),
-			substr('    '.(isset($hop_info[$i]['voE2'])?$hop_info[$i]['voE2']:'    '),-4,4),
-			substr('    '.(isset($hop_info[$i]['yeE1'])?$hop_info[$i]['yeE1']:'    '),-4,4),
-			substr('    '.(isset($hop_info[$i]['yeE2'])?$hop_info[$i]['yeE2']:'    '),-4,4),
-			substr(   ' '.(isset($hop_info[$i]['ICPL'])?$hop_info[$i]['ICPL']:'    '),-1,1));
-	}
+			$hol_nrm[$i] = sprintf("%4s%4s%4s%4s%1s%4s%4s%4s%4s%1s",
+				substr('    '.(isset($hop_info[$i]['voB1'])?$hop_info[$i]['voB1']:'    '),-4,4),
+				substr('    '.(isset($hop_info[$i]['voB2'])?$hop_info[$i]['voB2']:'    '),-4,4),
+				substr('    '.(isset($hop_info[$i]['yeB1'])?$hop_info[$i]['yeB1']:'    '),-4,4),
+				substr('    '.(isset($hop_info[$i]['yeB2'])?$hop_info[$i]['yeB2']:'    '),-4,4),
+				substr(   ' '.(isset($hop_info[$i]['HY']  )?$hop_info[$i]['HY']  :' '   ),-1,1),
+				substr('    '.(isset($hop_info[$i]['voE1'])?$hop_info[$i]['voE1']:'    '),-4,4),
+				substr('    '.(isset($hop_info[$i]['voE2'])?$hop_info[$i]['voE2']:'    '),-4,4),
+				substr('    '.(isset($hop_info[$i]['yeE1'])?$hop_info[$i]['yeE1']:'    '),-4,4),
+				substr('    '.(isset($hop_info[$i]['yeE2'])?$hop_info[$i]['yeE2']:'    '),-4,4),
+				substr(   ' '.(isset($hop_info[$i]['ICPL'])?$hop_info[$i]['ICPL']:'    '),-1,1));
+		}
 	// var_dump(substr('    '.(isset($hop_info[0]['voB1'])?$hop_info[0]['voB1']:'    '),-4,4));
 	// var_dump($hop_info);
 	// var_dump($hol_nrm);
-	return implode(';',$hol_nrm);
-}
+		return implode(';',$hol_nrm);
+	}
 
 // ------------------------------------------------------------------------
-function dt_diff($date1, $date2) {
+	function dt_diff($date1, $date2) {
 // ------------------------------------------------------------------------
   // show time elapsed
-	return $diff = abs(strtotime($date2) - strtotime($date1));
-	return sprintf("%d years, %d months, %d days\n", $years, $months, $days, $hours, $mins, $secs);
-}
+		return $diff = abs(strtotime($date2) - strtotime($date1));
+		return sprintf("%d years, %d months, %d days\n", $years, $months, $days, $hours, $mins, $secs);
+	}
 
 
 
 
-/* NUEVO P3H */
+	/* NUEVO P3H */
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -2024,34 +2074,34 @@ function dt_diff($date1, $date2) {
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
-function backgroundPost($url) {
-    $parts = parse_url ( $url );
-    
-    $fp = fsockopen ( $parts ['host'], isset ( $parts ['port'] ) ? $parts ['port'] : 80, $errno, $errstr, 30 );
-    
-    if (! $fp) {
-        return false;
-    } else {
-        $out = "POST " . $parts ['path'] . " HTTP/1.1\r\n";
-        $out .= "Host: " . $parts ['host'] . "\r\n";
-        $out .= "Content-Type: application/x-www-form-urlencoded\r\n";
-        $out .= "Content-Length: " . strlen ( $parts ['query'] ) . "\r\n";
-        $out .= "Connection: Close\r\n\r\n";
-        if (isset ( $parts ['query'] ))
-            $out .= $parts ['query'];
-        
-        fwrite ( $fp, $out );
-        fclose ( $fp );
-        
-        return true;
-    }
-}
+	function backgroundPost($url) {
+		$parts = parse_url ( $url );
+
+		$fp = fsockopen ( $parts ['host'], isset ( $parts ['port'] ) ? $parts ['port'] : 80, $errno, $errstr, 30 );
+
+		if (! $fp) {
+			return false;
+		} else {
+			$out = "POST " . $parts ['path'] . " HTTP/1.1\r\n";
+			$out .= "Host: " . $parts ['host'] . "\r\n";
+			$out .= "Content-Type: application/x-www-form-urlencoded\r\n";
+			$out .= "Content-Length: " . strlen ( $parts ['query'] ) . "\r\n";
+			$out .= "Connection: Close\r\n\r\n";
+			if (isset ( $parts ['query'] ))
+				$out .= $parts ['query'];
+
+			fwrite ( $fp, $out );
+			fclose ( $fp );
+
+			return true;
+		}
+	}
 
 //$r = new HTTPRequest('http://www.example.com'); 
 //echo $r->DownloadToString(); 
 
-class HTTPRequest 
-{ 
+	class HTTPRequest 
+	{ 
     var $_fp;        // HTTP socket 
     var $_url;        // full URL 
     var $_host;        // HTTP host 
@@ -2062,61 +2112,61 @@ class HTTPRequest
     // scan url 
     function _scan_url() 
     { 
-        $req = $this->_url; 
-        
-        $pos = strpos($req, '://'); 
-        $this->_protocol = strtolower(substr($req, 0, $pos)); 
-        
-        $req = substr($req, $pos+3); 
-        $pos = strpos($req, '/'); 
-        if($pos === false) 
-            $pos = strlen($req); 
-        $host = substr($req, 0, $pos); 
-        
-        if(strpos($host, ':') !== false) 
-        { 
-            list($this->_host, $this->_port) = explode(':', $host); 
-        } 
-        else 
-        { 
-            $this->_host = $host; 
-            $this->_port = ($this->_protocol == 'https') ? 443 : 80; 
-        } 
-        
-        $this->_uri = substr($req, $pos); 
-        if($this->_uri == '') 
-            $this->_uri = '/'; 
+    	$req = $this->_url; 
+
+    	$pos = strpos($req, '://'); 
+    	$this->_protocol = strtolower(substr($req, 0, $pos)); 
+
+    	$req = substr($req, $pos+3); 
+    	$pos = strpos($req, '/'); 
+    	if($pos === false) 
+    		$pos = strlen($req); 
+    	$host = substr($req, 0, $pos); 
+
+    	if(strpos($host, ':') !== false) 
+    	{ 
+    		list($this->_host, $this->_port) = explode(':', $host); 
+    	} 
+    	else 
+    	{ 
+    		$this->_host = $host; 
+    		$this->_port = ($this->_protocol == 'https') ? 443 : 80; 
+    	} 
+
+    	$this->_uri = substr($req, $pos); 
+    	if($this->_uri == '') 
+    		$this->_uri = '/'; 
     } 
     
     // constructor 
     function HTTPRequest($url) 
     { 
-        $this->_url = $url; 
-        $this->_scan_url(); 
+    	$this->_url = $url; 
+    	$this->_scan_url(); 
     } 
     
     // download URL to string 
     function DownloadToString() 
     { 
-        $crlf = "\r\n";
+    	$crlf = "\r\n";
         $response =""; //added by PB
         
         // generate request 
         $req = 'GET ' . $this->_uri . ' HTTP/1.0' . $crlf 
-            .    'Host: ' . $this->_host . $crlf 
-            .    $crlf; 
+        .    'Host: ' . $this->_host . $crlf 
+        .    $crlf; 
         
         // fetch 
         $this->_fp = fsockopen(($this->_protocol == 'https' ? 'ssl://' : '') . $this->_host, $this->_port); 
         fwrite($this->_fp, $req); 
         while(is_resource($this->_fp) && $this->_fp && !feof($this->_fp)) 
-            $response .= fread($this->_fp, 1024); 
+        	$response .= fread($this->_fp, 1024); 
         fclose($this->_fp); 
         
         // split header and body 
         $pos = strpos($response, $crlf . $crlf); 
         if($pos === false) 
-            return($response); 
+        	return($response); 
         $header = substr($response, 0, $pos); 
         $body = substr($response, $pos + 2 * strlen($crlf)); 
         
@@ -2124,21 +2174,21 @@ class HTTPRequest
         $headers = array(); 
         $lines = explode($crlf, $header); 
         foreach($lines as $line) 
-            if(($pos = strpos($line, ':')) !== false) 
-                $headers[strtolower(trim(substr($line, 0, $pos)))] = trim(substr($line, $pos+1)); 
-        
+        	if(($pos = strpos($line, ':')) !== false) 
+        		$headers[strtolower(trim(substr($line, 0, $pos)))] = trim(substr($line, $pos+1)); 
+
         // redirection? 
-        if(isset($headers['location'])) 
-        { 
-            $http = new HTTPRequest($headers['location']); 
-            return($http->DownloadToString($http)); 
-        } 
-        else 
-        { 
-            return($body); 
+        	if(isset($headers['location'])) 
+        	{ 
+        		$http = new HTTPRequest($headers['location']); 
+        		return($http->DownloadToString($http)); 
+        	} 
+        	else 
+        	{ 
+        		return($body); 
+        	} 
         } 
     } 
-} 
 /*
 if(json_decode($xnpl) == NULL) {
 	echo $xnpl." not valid json!";

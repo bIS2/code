@@ -10,21 +10,36 @@
 						<span class="caret"></span>
 					</a>
 					<!-- Show list if exists -->
-					@if (Auth::user()->has('groups')) 
-					<?php $groups = Auth::user()->groups()->count(); $i = 0; ?>
-					@foreach (Auth::user()->groups as $group) 
-					<?php $i++; ?>
-					@endforeach 
-					<?php if ($i > 0) : ?>
+					<?php $groups = Group::orderby('name', 'ASC')->get(); ?>
+
+
+ 					@if ($groups->count() > 0) 
 						<ul class="dropdown-menu" role="menu">
-							@foreach (Auth::user()->groups as $group) 
+							@foreach ($groups as $group) 
 							<li <?= ($group->id == Input::get('group_id')) ? 'class="active"' : '' ; ?>>
 								<a href="{{ route('sets.index',Input::except(['group_id']) + ['group_id' => $group->id ]) }}"> {{ $group->name }} <span class="badge"><span class="fa fa-file-text"></span> {{ $group->holdingssets -> count() }} </span></a>
 							</li>
 							@endforeach
 						</ul>
-					<?php endif; ?>
 					@endif
+
+<!-- 					@if (Auth::user()->has('groups')) 
+						<?php $groups = Auth::user()->groups()->count(); $i = 0; ?>
+						@foreach (Auth::user()->groups as $group) 
+						<?php $i++; ?>
+						@endforeach 
+						<?php if ($i > 0) : ?>
+							<ul class="dropdown-menu" role="menu">
+								@foreach (Auth::user()->groups as $group) 
+								<li <?= ($group->id == Input::get('group_id')) ? 'class="active"' : '' ; ?>>
+									<a href="{{ route('sets.index',Input::except(['group_id']) + ['group_id' => $group->id ]) }}"> {{ $group->name }} <span class="badge"><span class="fa fa-file-text"></span> {{ $group->holdingssets -> count() }} </span></a>
+								</li>
+								@endforeach
+							</ul>
+						<?php endif; ?>
+					@endif
+ -->
+
 				</div>
 				<div class="btn-group">
 					<a href="{{ route('sets.index', Input::except(['owner','aux', 'white'])) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') != true) && (Input::get('white') != true)) ? 'btn-primary' : 'btn-default' ?> btn-sm" title="{{ trans('holdingssets.clear_owner_filter') }}">	

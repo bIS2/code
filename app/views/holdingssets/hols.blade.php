@@ -1,36 +1,40 @@
 @foreach ($holdingssets as $holdingsset)
 <?php 
-	$HOSconfirm   = $holdingsset->confirm()->exists();
-	$HOSannotated = $holdingsset->is_annotated;
-	$fieldstoshow = Session::get(Auth::user()->username.'_fields_to_show_ok_hos');
-	$fieldstoshow = explode(';',$fieldstoshow);
-	$profile = $_COOKIE[Auth::user()->username.'_active_profile'];
+$HOSconfirm   = $holdingsset->confirm()->exists();
+$HOSannotated = $holdingsset->is_annotated;
+
+// $fieldstoshow = Session::get(Auth::user()->username.'_fields_to_show_ok_hos');
+// $fieldstoshow = explode(';',$fieldstoshow);
+
+$cprofile = $_COOKIE[Auth::user()->username.'_current_profile'];
+
+$fieldstoshow = $_COOKIE[Auth::user()->username.'_'.$cprofile.'_fields_showed'];
+$fieldstoshow = explode(';',$fieldstoshow);
+
+$profile = $_COOKIE[Auth::user()->username.'_active_profile'];
+
 ?>
 <table class="table table-hover header-only table-bordered" style="position:fixed">
 	<thead>
 		<tr>
 			<th></th>
 			<th class="table_order" style="border-left:4px solid #ffffff">No.</th>
-			<th class="actions">Actions</th>
-			<th class="state">{{ trans('holdingssets.state') }}</th>	
-			<?php $k = 0; ?>
 			@foreach ($fieldstoshow as $field) 
-				@if ($field != 'ocrr_ptrn') <?php $k++; ?>										
-					<th>
-						<div class="field_<?php echo $field; ?> dinamic" <?php if ($_COOKIE[$profile.'_'.$field] != '') { echo ' style="width:'.$_COOKIE[$profile.'_'.$field].'"'; }?>>
-							{{ trans('fields.'.str_replace('f', '', $field)); }} <span class="fa fa-info-circle"></span>
-						</div>
-					</th> 
-					@if ($k == 1)
-					<th class="hocrr_ptrn">{{ trans('holdingssets.ocurrence_patron') }}
-						<a href="{{ route('sets.show', $holdingsset->id) }}" data-target="#set-show" data-toggle="modal"><span class="glyphicon glyphicon-question-sign" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
-						@if (!$HOSconfirm)
-							<a set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putRecallHoldingsset',[$holdingsset->id]); ?>" data-remote="true" data-method="put" data-disable-with="..." data-disable-with="..." class="forceblue pop-over" data-content="<?= trans('holdingssets.recall_HOS'); ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-refresh text-danger"></i></a>
-						@endif
-					</th>
-						<!-- <th>hbib <span class="fa fa-info-circle"></span></th> -->
-					@endif
+			@if ($field != 'ocrr_ptrn')									
+			<th>
+				<div class="field_<?php echo $field; ?> dinamic" <?php if ($_COOKIE[$profile.'_'.$field] != '') { echo ' style="width:'.$_COOKIE[$profile.'_'.$field].'"'; }?>>
+					{{ trans('fields.'.str_replace('f', '', $field)); }} <span class="fa fa-info-circle"></span>
+				</div>
+			</th> 
+			@else
+			<th class="hocrr_ptrn">{{ trans('holdingssets.ocurrence_patron') }}
+				<a href="{{ route('sets.show', $holdingsset->id) }}" data-target="#set-show" data-toggle="modal"><span class="glyphicon glyphicon-question-sign" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
+				@if (!$HOSconfirm)
+				<a set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putRecallHoldingsset',[$holdingsset->id]); ?>" data-remote="true" data-method="put" data-disable-with="..." data-disable-with="..." class="forceblue pop-over" data-content="<?= trans('holdingssets.recall_HOS'); ?>" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-refresh text-danger"></i></a>
 				@endif
+			</th>
+			<!-- <th>hbib <span class="fa fa-info-circle"></span></th> -->
+			@endif
 			@endforeach						
 		</tr>
 	</thead>
@@ -42,26 +46,23 @@
 		<tr>
 			<th></th>
 			<th class="table_order">No.</th>
-			<th class="actions">Actions</th>
-			<th class="state">{{ trans('holdingssets.state') }}</th>
 			<?php $k = 0; ?>
 			@foreach ($fieldstoshow as $field) 
-				@if ($field != 'ocrr_ptrn') <?php $k++; ?>										
-					<th>
-						<div class="field_<?php echo $field; ?> dinamic" <?php if ($_COOKIE[$profile.'_'.$field] != '') { echo ' style="width:'.$_COOKIE[$profile.'_'.$field].'"'; }?>>
-							{{ trans('fields.'.str_replace('f', '', $field)); }} <span class="fa fa-info-circle"></span>
-						</div>
-					</th> 
-					@if ($k == 1)
-					<th class="hocrr_ptrn">{{ trans('holdingssets.ocurrence_patron') }}
-						<a href="{{ route('sets.show', $holdingsset->id) }}" data-target="#set-show" data-toggle="modal"><span class="glyphicon glyphicon-question-sign" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
-						@if (!$HOSconfirm)
-							<a set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putRecallHoldingsset',[$holdingsset->id]); ?>" data-remote="true" data-method="put" data-disable-with="..." data-disable-with="..." class="forceblue pop-over" data-content="<?= trans('holdingssets.recall_HOS'); ?>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-refresh text-danger"></i></a>
-						@endif
-					</th>
-					<!-- <th>hbib <span class="fa fa-info-circle"></span></th> -->
-					@endif
+			@if ($field != 'ocrr_ptrn') <?php $k++; ?>										
+			<th>
+				<div class="field_<?php echo $field; ?> dinamic" <?php if ($_COOKIE[$profile.'_'.$field] != '') { echo ' style="width:'.$_COOKIE[$profile.'_'.$field].'"'; }?>>
+					{{ trans('fields.'.str_replace('f', '', $field)); }} <span class="fa fa-info-circle"></span>
+				</div>
+			</th> 
+			@else
+			<th class="hocrr_ptrn">{{ trans('holdingssets.ocurrence_patron') }}
+				<a href="{{ route('sets.show', $holdingsset->id) }}" data-target="#set-show" data-toggle="modal"><span class="glyphicon glyphicon-question-sign" title="{{ trans('holdingssets.see_more_information') }}"></span></a>
+				@if (!$HOSconfirm)
+				<a set="<?=$holdingsset->id; ?>" href="<?= action('HoldingssetsController@putRecallHoldingsset',[$holdingsset->id]); ?>" data-remote="true" data-method="put" data-disable-with="..." data-disable-with="..." class="forceblue pop-over" data-content="<?= trans('holdingssets.recall_HOS'); ?>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-refresh text-danger"></i></a>
 				@endif
+			</th>
+			<!-- <th>hbib <span class="fa fa-info-circle"></span></th> -->
+			@endif
 			@endforeach						
 		</tr>
 	</thead>
@@ -70,61 +71,59 @@
 		<?php $holdings = Holding::whereHoldingssetId($holdingsset->id)->orderBy('is_owner', 'DESC')->orderBy('is_aux', 'DESC')->orderBy('weight', 'DESC')->get();
 		// $queries = DB::getQueryLog();
 		// var_dump(end($queries));
-		 ?>
+		?>
 		@foreach ($holdings as $holding)
-			<?php
-				$hol_order++;
-				$btnlock 	= ($holding->locked()->exists()) ? 'btn-warning ' : '';	
-				$trclass 	= ($holding->locked()->exists()) ? 'locked' : '';
-				$ownertrclass = (($holding->is_owner == 't') || ($holding->is_owner == '1')) ? ' is_owner' : '';
-				$auxtrclass   = (($holding->is_aux == 't') || ($holding->is_aux == '1')) ? ' is_aux' : ''; 
+		<?php
+		$hol_order++;
+		$btnlock 	= ($holding->locked()->exists()) ? 'btn-warning ' : '';	
+		$trclass 	= ($holding->locked()->exists()) ? 'locked' : '';
+		$ownertrclass = (($holding->is_owner == 't') || ($holding->is_owner == '1')) ? ' is_owner' : '';
+		$auxtrclass   = (($holding->is_aux == 't') || ($holding->is_aux == '1')) ? ' is_aux' : ''; 
 				// var_dump($holding->is_aux);
-				if (isset($aux_ptrn[$i]))  $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
-				$preftrclass 	= ($holding->is_pref == 't') ? ' is_pref' : '';
-				$librarianclass = ' '.substr($holding->sys2, 0, 4); 
-			?>	
-			<tr id="holding{{ $holding -> id; }}" holding="{{ $holding -> id; }}" class="{{ $trclass }} {{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}{{ $librarianclass }}{{ ($holding->is_annotated) ? ' text-warning' : '' }}">
-				<td>@if (!($holding->locked)) <input id="holding_id" name="holding_id[]" type="checkbox" value="<?= $holding->id; ?>" class="pull-left hld selhld"> @endif
-				</td>
-				<td class="table_order">{{ $hol_order }}</td>
-				<td class="actions" holding="{{ $holding -> id }}">{{ $holding -> bibuser_actions($holdingsset, $hol_order) }}</td>
-				<td class="state">{{ $holding->show( 'state' ) }}</td>
-				<?php $k = 0; ?>
-				@foreach ($fieldstoshow as $field)
-					@if ($field != 'ocrr_ptrn')  
-						<?php $k++; ?>					
-						<td>
-							@if($hol_order == 1) 
-							<div class="change-size-box">					
-								<i class="fa fa-exchange"></i>
-								<div class="change-size-controls" target="field_<?php echo $field; ?>">							
-									<i class="fa expand change-size fa-arrow-circle-o-right"></i><i class="fa compress change-size fa-arrow-circle-o-left"></i>  
-								</div>  
-							</div>
-							@endif
-							<div class="field_<?php echo $field; ?> dinamic" <?php if ($_COOKIE[$profile.'_'.$field] != '') { echo ' style="width:'.$_COOKIE[$profile.'_'.$field].'"'; }?>>
-							{{ $holding->show( $field ) }}
-							</div>
-						</td>
-						@if ($k == 1)
-							<td class="ocrr_ptrn">
-									{{ $holding -> patrn }}
-									<i class="fa fa-question-circle pop-over" data-content="<strong>
-									<?php 
-									if ($holding->f866aupdated == '') { 
-										echo $holding->clean($holding->f866a);
-									}
-									else {
-										echo $holding->clean($holding->f866aupdated);
-										}
-									?>
-									</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
-							</td>
-						<!-- <td>{{ $holding->library->code }}</td> -->
-						@endif
-					@endif
-				@endforeach
-			</tr>
+		if (isset($aux_ptrn[$i]))  $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
+		$preftrclass 	= ($holding->is_pref == 't') ? ' is_pref' : '';
+		$librarianclass = ' '.substr($holding->sys2, 0, 4); 
+		?>	
+		<tr id="holding{{ $holding -> id; }}" holding="{{ $holding -> id; }}" class="{{ $trclass }} {{ $ownertrclass }}{{ $auxtrclass }}{{ $preftrclass }}{{ $librarianclass }}{{ ($holding->is_annotated) ? ' text-warning' : '' }}">
+			<td>@if (!($holding->locked)) <input id="holding_id" name="holding_id[]" type="checkbox" value="<?= $holding->id; ?>" class="pull-left hld selhld"> @endif
+			</td>
+			<td class="table_order">{{ $hol_order }}</td>
+			@foreach ($fieldstoshow as $field)
+			@if (($field != 'ocrr_ptrn') && ($field != 'actions')) 
+			<?php $k++; ?>					
+			<td>
+				@if($hol_order == 1) 
+				<div class="change-size-box">					
+					<i class="fa fa-exchange"></i>
+					<div class="change-size-controls" target="field_<?php echo $field; ?>">							
+						<i class="fa expand change-size fa-arrow-circle-o-right"></i><i class="fa compress change-size fa-arrow-circle-o-left"></i>  
+					</div>  
+				</div>
+				@endif
+				<div class="field_<?php echo $field; ?> dinamic" <?php if ($_COOKIE[$profile.'_'.$field] != '') { echo ' style="width:'.$_COOKIE[$profile.'_'.$field].'"'; }?>>
+					{{ $holding->show( $field ) }}
+				</div>
+			</td>
+			@elseif($field == 'ocrr_ptrn')
+			<td class="ocrr_ptrn">
+				{{ $holding -> patrn }}
+				<i class="fa fa-question-circle pop-over" data-content="<strong>
+					<?php 
+					if ($holding->f866aupdated == '') { 
+						echo $holding->clean($holding->f866a);
+					}
+					else {
+						echo $holding->clean($holding->f866aupdated);
+					}
+					?>
+				</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
+			</td>
+			<!-- <td>{{ $holding->library->code }}</td> -->
+			@elseif($field == 'actions')
+			<td class="actions" holding="{{ $holding -> id }}">{{ $holding -> bibuser_actions($holdingsset, $hol_order) }}</td>
+			@endif
+			@endforeach
+		</tr>
 		@endforeach
 	</tbody>
 </table>
@@ -137,18 +136,18 @@
 
 	$(function() {
 		if ($('li#' + <?php echo $holdingsset-> id ?> + ' table.full-hos tbody tr').length > 10) {
-		ths = $('li#' + <?php echo $holdingsset-> id ?> + ' table.full-hos th');
-		ths1 = $('li#' + <?php echo $holdingsset-> id ?> + ' table.header-only th');
-		    for (var i = 0; i < $(ths).length; i++) {
-		    	$(ths1[i]).css('min-width', $(ths[i]).css('width'))
-		    	$(ths1[i]).css('width', $(ths[i]).css('width'))
-		    }
-		    onlyheader<?php echo $holdingsset-> id ?> = $('li#' + <?php echo $holdingsset-> id ?> + ' table.header-only');
-		    header<?php echo $holdingsset-> id ?> = $('li#' + <?php echo $holdingsset-> id ?> + ' table.flexme thead tr');
-		    var a;
+			ths = $('li#' + <?php echo $holdingsset-> id ?> + ' table.full-hos th');
+			ths1 = $('li#' + <?php echo $holdingsset-> id ?> + ' table.header-only th');
+			for (var i = 0; i < $(ths).length; i++) {
+				$(ths1[i]).css('min-width', $(ths[i]).css('width'))
+				$(ths1[i]).css('width', $(ths[i]).css('width'))
+			}
+			onlyheader<?php echo $holdingsset-> id ?> = $('li#' + <?php echo $holdingsset-> id ?> + ' table.header-only');
+			header<?php echo $holdingsset-> id ?> = $('li#' + <?php echo $holdingsset-> id ?> + ' table.flexme thead tr');
+			var a;
 			var b;
-		    a = onlyheader<?php echo $holdingsset-> id ?>;
-		    b = header<?php echo $holdingsset-> id ?>;
+			a = onlyheader<?php echo $holdingsset-> id ?>;
+			b = header<?php echo $holdingsset-> id ?>;
 		    // console.log(a)
 		    // console.log(b)
 		    // var timer<?php echo $holdingsset-> id ?> = setInterval(gettogether(a, b), 100);
@@ -181,8 +180,8 @@
 		    })
 
 		    function gettogether(x, y) {
-			   	Offset = jQuery(b).offset().left;
-			   	jQuery(x).offset({ left: Offset });
+		    	Offset = jQuery(b).offset().left;
+		    	jQuery(x).offset({ left: Offset });
 		    }
 		}
 		else {
@@ -190,7 +189,7 @@
 		}
 
 
-/* Profile Code */
+		/* Profile Code */
 
 
 		$('.expand').on('mousedown', function() {
@@ -227,34 +226,34 @@
 		// 	$(ColumnEdited).removeAttr('touched'); 
 		// })
 
-		$('.compress').on('mousedown', function() {
-			window.clearInterval(Changing);
-			$(ColumnEdited).removeAttr('touched'); 
-			ColumnEdited = $('div.' + $(this).parents('.change-size-controls').attr('target'));
-			if (($(ColumnEdited).attr('touched') == undefined) || ($(ColumnEdited).attr('touched') == '')) {	
-				$(ColumnEdited).attr('touched', 0); 
-				Changing = window.setInterval(function() {
-					if (($(ColumnEdited).width() <= 40) || ($(ColumnEdited).attr('touched') > 65)) {
-						window.clearInterval(Changing);
-						$(ColumnEdited).removeAttr('touched'); 
-						return false
-					}
-					else {
-						$(ColumnEdited).css('width', $(ColumnEdited).width() - 15);
-						var temp = $(ColumnEdited).attr('touched');
-						temp++;
-						$(ColumnEdited).attr('touched', temp);
-					}
-				}, 50);
+$('.compress').on('mousedown', function() {
+	window.clearInterval(Changing);
+	$(ColumnEdited).removeAttr('touched'); 
+	ColumnEdited = $('div.' + $(this).parents('.change-size-controls').attr('target'));
+	if (($(ColumnEdited).attr('touched') == undefined) || ($(ColumnEdited).attr('touched') == '')) {	
+		$(ColumnEdited).attr('touched', 0); 
+		Changing = window.setInterval(function() {
+			if (($(ColumnEdited).width() <= 40) || ($(ColumnEdited).attr('touched') > 65)) {
+				window.clearInterval(Changing);
+				$(ColumnEdited).removeAttr('touched'); 
+				return false
 			}
+			else {
+				$(ColumnEdited).css('width', $(ColumnEdited).width() - 15);
+				var temp = $(ColumnEdited).attr('touched');
+				temp++;
+				$(ColumnEdited).attr('touched', temp);
+			}
+		}, 50);
+	}
 
-		})
+})
 
-		$('.compress').on('mouseup', function() {
-			window.clearInterval(Changing);
-			ColumnEdited = $('div.' + $(this).parents('.change-size-controls').attr('target'));
-			$(ColumnEdited).removeAttr('touched'); 
-		})
+$('.compress').on('mouseup', function() {
+	window.clearInterval(Changing);
+	ColumnEdited = $('div.' + $(this).parents('.change-size-controls').attr('target'));
+	$(ColumnEdited).removeAttr('touched'); 
+})
 		// $('.compress').on('mouseout', function() {
 		// 	window.clearInterval(Changing);
 		// 	ColumnEdited = $('div.' + $(this).parents('.change-size-controls').attr('target'));
@@ -262,7 +261,7 @@
 		// })
 
 
-	})
+})
 </script>
 <style type="text/css">
 	table.flexme td .dinamic {
