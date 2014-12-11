@@ -62,6 +62,7 @@ function setDatatable() {
 			$(this).attr('anchored', 1)
 			$(this).on('click', function() {
 				if ($(this).attr('opened') == 0) {
+					$(this).addClass('anchored');
 					This = $(this);
 					url = "/sets?holcontent=1&holdingsset_id="+ $(This).attr('id')
 					$($(This).attr('href') + ' .panel-body').html('<div class="fa fa-cog fa-spin"></div>');
@@ -107,11 +108,11 @@ function setDatatable() {
 
 							// console.log(Orderptrn);
 								// $($(This).attr('href') + ' .panel-body .dataTables_wrapper').niceScroll();
-								$($(This).attr('href') + ' .panel-body table.flexme .ocrr_ptrn > div:first-child').niceScroll({
-									cursorwidth: "10px",
-									cursorcolor: "#FFF",
-									cursoropacitymax: '0.5',
-								});
+								// $($(This).attr('href') + ' .panel-body table.flexme .ocrr_ptrn > div:first-child').niceScroll({
+								// 	cursorwidth: "10px",
+								// 	cursorcolor: "#FFF",
+								// 	cursoropacitymax: '0.5',
+								// });
 
 								$($(This).attr('href') + ' i.fa').each(function() {
 									$(this).on('mouseout', function() {

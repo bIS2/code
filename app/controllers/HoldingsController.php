@@ -27,8 +27,8 @@ class HoldingsController extends BaseController {
 
 		/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
-			define('DEFAULTS_FIELDS', 'sys2;008x;size;022a;072a;245a;245b;245n;245p;362a;852b;852h;866a;866c;866z;years;exists_online;is_current;has_incomplete_vols');
-			define('ALL_FIELDS',      'sys2;008x;size;022a;072a;245a;245b;245n;245p;246a;260a;260b;310a;362a;505a;710a;770t;772t;780t;785t;852b;852c;852h;852j;866a;866c;866z;years;exists_online;is_current;has_incomplete_vols');
+			define('DEFAULTS_FIELDS', 'sys2;008x;size;size_dispatchable;022a;072a;245a;245b;245n;245p;362a;852b;852h;866a;x866a;866aupdated;866c;866z;years;exists_online;is_current;has_incomplete_vols');
+			define('ALL_FIELDS','sys2;008x;size;size_dispatchable;022a;072a;245a;245b;245n;245p;246a;260a;260b;310a;362a;505a;710a;770t;772t;780t;785t;852b;852c;852h;852j;866a;x866a;866aupdated;866c;866z;years;exists_online;is_current;has_incomplete_vols');
 
 			/* User vars */
 			$uUserName = Auth::user()->username;
@@ -210,8 +210,9 @@ class HoldingsController extends BaseController {
 	 */
 	public function update($id)
 	{
+		$field = Input::get('field');
 		$holding = Holding::find($id);
-		$holding->size=Input::get('value');
+		$holding->$field = Input::get('value');
 		$holding->save();
 	}
 

@@ -97,6 +97,7 @@ return array(
 	'years_large' 			=> 'Size in years or volumes' ,
 	'years_short'			=> 'Log Size',
 	'years'					=> 'Log Size',
-	'ocrr_ptrn'				=> 'Occurrence patron'
+	'ocrr_ptrn'				=> 'Occurrence patron',
+	'size_dispatchable'		=> 'Dispatchable size',
 
 	);

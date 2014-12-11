@@ -41,7 +41,44 @@ class HoldingssetsController extends BaseController {
 	 */
 	public function Index()
 	{
+
+		/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
+		-----------------------------------------------------------*/
+
+		define('ALL_FIELDS', 'actions;state;sys2;ocrr_ptrn;holtype;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;fx866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
+		define('GENERAL', 'actions;state;sys2;ocrr_ptrn;holtype;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;fx866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
+		define('TITLE', 'actions;f008x;f008y;f022a;f245a;f245b;f245n;f245p;f710a;f710b;f780t;785t');
+		define('COMPARE', 'actions;sys2;ocrr_ptrn;f866a;f866aupdated;fx866a');
+
+		/* User vars */
+		$uUserName = Auth::user()->username;
+		$uUserLibrary = Auth::user()->library;
+		$uUserLibraryId = Auth::user()->library->id;
+
+		// General View
+		$cprofile = $_COOKIE[$uUserName.'_current_profile'];
+		if ((!$cprofile) || ($cprofile == '')) {
+			$cprofile = 'general';
+		}
+		setcookie($uUserName.'_current_profile', $cprofile, time()+60*60*24*3650);
+		Session::put($uUserName.'_current_profile', $cprofile);
+
+		// if (!$_COOKIE[$uUserName.'_general_fields'])
+		setcookie($uUserName.'_general_fields', GENERAL, time()+60*60*24*3650);
+		Session::put($uUserName.'_general_fields', GENERAL);
+
+		// if (!$_COOKIE[$uUserName.'_title_fields'])
+		setcookie($uUserName.'_title_fields', TITLE, time()+60*60*24*3650);
+		Session::put($uUserName.'_title_fields', TITLE);
+
+		// if (!$_COOKIE[$uUserName.'_compare_fields'])
+		setcookie($uUserName.'_compare_fields', COMPARE, time()+60*60*24*3650);
+		Session::put($uUserName.'_compare_fields', COMPARE);			
 		
+		if (Input::has('onlyprofiles')) {
+			return View::make('holdingssets/profiles');
+			die();
+		}
 		if (Input::has('holcontent')) {
 			$holdingsset = Holdingsset::find(Input::get('holdingsset_id'));
 			if ($holdingsset->recalled == 0)  {
@@ -63,57 +100,6 @@ class HoldingssetsController extends BaseController {
 			$is_filter = (Input::get('is_filter') == '1');
 			if ((Input::get('owner') == 1) || (Input::get('aux') == 1) || (Input::get('white') == 1)) $is_filter = true;
 			$this->data['is_filter'] = $is_filter;
-
-			/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
-			-----------------------------------------------------------*/
-			define('DEFAULTS_FIELDS', 'actions;state;sys2;ocrr_ptrn;holtype;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;fx866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
-
-			define('ALL_FIELDS', 'actions;state;sys2;ocrr_ptrn;holtype;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;fx866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
-
-			define('GENERAL', 'actions;state;sys2;ocrr_ptrn;holtype;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;fx866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
-
-			define('TITLE', 'actions;f008x;f008y;f022a;f245a;f245b;f245n;f245p;f710a;f710b;f780t;785t');
-
-			define('COMPARE', 'actions;sys2;Holtype;f866a;f866aupdated;fx866a');
-
-
-
-			/* User vars */
-			$uUserName = Auth::user()->username;
-			$uUserLibrary = Auth::user()->library;
-			$uUserLibraryId = Auth::user()->library->id;
-
-			// General View
-
-			$cprofile = $_COOKIE[$uUserName.'_current_profile'];
-
-			if ((!$cprofile) || ($cprofile == '')) {
-				$cprofile = 'general';
-				setcookie($uUserName.'_current_profile', 'general', time()+60*60*24*3650);
-			}
-
-			// if (!$_COOKIE[$uUserName.'_general_fields'])
-			setcookie($uUserName.'_general_fields', GENERAL, time()+60*60*24*3650);
-			// if (!$_COOKIE[$uUserName.'_title_fields'])
-			setcookie($uUserName.'_title_fields', TITLE, time()+60*60*24*3650);		
-			// if (!$_COOKIE[$uUserName.'_compare_fields'])
-			setcookie($uUserName.'_compare_fields', COMPARE, time()+60*60*24*3650);
-
-			// $uGroupname
-			if (!isset($_COOKIE[$uUserName.'_fields_to_show_ok_hos'])) {
-				if (Session::get($uUserName.'_fields_to_show_ok_hos') == 'ocrr_ptrn') {
-					setcookie($uUserName.'_fields_to_show_ok_hos', DEFAULTS_FIELDS, time()+60*60*24*3650);
-					Session::put($uUserName.'_fields_to_show_ok_hos', DEFAULTS_FIELDS);
-				}
-				else {
-					setcookie($uUserName.'_fields_to_show_ok_hos', Session::get($uUserName.'_fields_to_show_ok_hos'), time()+60*60*24*3650);
-				}
-			}
-
-			if ((Session::get($uUserName.'_fields_to_show_ok_hos') == 'ocrr_ptrn') || (Session::get($uUserName.'_fields_to_show_ok_hos') == '')) {
-				setcookie($uUserName.'_fields_to_show_ok_hos', DEFAULTS_FIELDS, time()+60*60*24*3650);
-				Session::put($uUserName.'_fields_to_show_ok_hos', DEFAULTS_FIELDS);
-			}
 
 			if (Input::get('clearorderfilter') == 1) {
 				Session::put($uUserName.'_sortinghos_by', null);
@@ -252,26 +238,101 @@ class HoldingssetsController extends BaseController {
 	public function store()	{
 		$uUserName = Auth::user()->username;
 
-		if (Input::has('urltoredirect'))	{
-			$newfields	= Input::get('fieldstoshow');
-			$fieldlist 	= '';
-			$i 					= 0;
-			if ($newfields != '') {
-				foreach ($newfields as $field) {
-					$fieldlist .= $field;
-					$i++;
-					if (count($newfields) > $i) $fieldlist .= ';';
-				}
+		if (Input::has('urltoredirect')) {
+
+			if (Input::has('restarprofile')) {
+				$nprofile = Input::get('profile');
+				setcookie($uUserName.'_'.$nprofile.'_fields', $fieldlist, time()-1600);	
+				setcookie($uUserName.'_'.$nprofile.'_fields_showed', $fieldlist, time()-1600);	
+				setcookie($uUserName.'_'.$nprofile.'_size_of_fields', $fieldlist, time()-1600);	
+				setcookie($uUserName.'_current_profile', 'general', time()-1600);
+				
+				Session::forget($uUserName.'_'.$nprofile.'_fields');
+				Session::forget($uUserName.'_'.$nprofile.'_fields_showed');
+				Session::forget($uUserName.'_'.$nprofile.'_size_of_fields');
+				Session::forget($uUserName.'_current_profile');
+
+				$noDefprofiles = $_COOKIE[$uUserName.'_noDefprofiles'];
+				$noDefprofiles = str_replace($nprofile.';', '', $noDefprofiles);
+				$noDefprofiles = str_replace($nprofile, '', $noDefprofiles);
+				setcookie($uUserName.'_noDefprofiles', $noDefprofiles, time()+60*60*24*3650);
 			}
-			$cprofile = Input::get('profile');
+			else {
+
+			// Files to show
+				$newfields	= Input::get('fieldstoshow');
+				$fieldlist 	= '';
+				if ($newfields != '') {
+					$fieldlist = implode(';', $newfields);
+				}
+
+			// All fields sizes
+				$fieldsizes	= Input::get('sizes');
+				$fieldlistsize 	= '';
+				if ($fieldsizes != '') {
+					$fieldlistsize = implode(';', $fieldsizes);
+				}
+
+			// Current Profile
+				$cprofile = $_COOKIE[Auth::user()->username.'_current_profile'];
+				$cprofile = (($cprofile == '') || ($cprofile == null) || ($cprofile)) ? Session::get(Auth::user()->username.'_current_profile') : $cprofile ;
+
+			// Change to profile
+				$nprofile = Input::get('profile');
+
+				if ($cprofile == $nprofile) {
+					setcookie($uUserName.'_'.$cprofile.'_fields_showed', $fieldlist, time()+60*60*24*3650);				
+					setcookie($uUserName.'_'.$cprofile.'_size_of_fields', $fieldlistsize, time()+60*60*24*3650);
+				}
+
+			// If New Profile
+				if (Input::get('new_profile')) {	
+				// If the name is not the same to the current one			
+					if (strtolower(Input::get('new_profile')) != $cprofile) {
+
+						$allfields = $_COOKIE[$uUserName.'_'.$cprofile.'_fields'];
+
+						$nprofile = strtolower(Input::get('new_profile'));
+
+						setcookie($uUserName.'_'.$nprofile.'_fields', $allfields, time()+60*60*24*3650);
+						Session::put($uUserName.'_'.$nprofile.'_fields', $allfields);				
+						setcookie($uUserName.'_'.$nprofile.'_fields_showed', $fieldlist, time()+60*60*24*3650);				
+						Session::put($uUserName.'_'.$nprofile.'_fields_showed', $fieldlist);				
+						setcookie($uUserName.'_'.$nprofile.'_size_of_fields', $fieldlistsize, time()+60*60*24*3650);
+						Session::put($uUserName.'_'.$nprofile.'_size_of_fields', $fieldlistsize);				
+
+					// Custom profiles.
+						$noDefprofiles = $_COOKIE[$uUserName.'_noDefprofiles'];
+
+					// Fix to avoid repeated names form Custom profiles. 
+						$noDefprofiles = str_replace($nprofile.';', '', $noDefprofiles);
+						$noDefprofiles = str_replace($nprofile, '', $noDefprofiles);
+						$noDefprofiles .= ($noDefprofiles == '') ? $nprofile : ';'.$nprofile;
+
+						setcookie($uUserName.'_noDefprofiles', $noDefprofiles, time()+60*60*24*3650);
+					}
+				}
+
+				setcookie($uUserName.'_current_profile', $nprofile, time()+60*60*24*3650);
+				Session::put($uUserName.'_current_profile', $nprofile);
+
+			}
+
 			// var_dump($cprofile);die();
-			$cprofile = $_COOKIE[$uUserName.'_current_profile'];
-			// var_dump(Input::all()); die();
+			// $cprofile = $_COOKIE[$uUserName.'_current_profile'];
 			// var_dump(Input::get('sortinghos'));die();
 
-			setcookie($uUserName.'_'.$cprofile.'_fields_showed', $fieldlist, time()+60*60*24*3650);
-
-			return Redirect::to(Input::get('urltoredirect'));
+			setcookie($uUserName.'_sortinghos_by', Input::get('sortinghos_by'), time()+60*60*24*3650);
+			setcookie($uUserName.'_sortinghos', Input::get('sortinghos'), time()+60*60*24*3650);
+			Session::put($uUserName.'_sortinghos_by', Input::get('sortinghos_by'));
+			Session::put($uUserName.'_sortinghos', Input::get('sortinghos'));
+			if (Input::get('reload') == 1) {				
+				return Redirect::to(Input::get('urltoredirect'));
+			}
+			else {
+				echo 'ok';
+				die();
+			}
 		}
 	}
 

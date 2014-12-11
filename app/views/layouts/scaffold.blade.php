@@ -32,7 +32,7 @@
 				font-size: 10px;
 				margin-left: -14px;
 				margin-top: 2px;
-				position: absolute;
+				position: relative;
 				z-index: 9;
 			}
 		</style>

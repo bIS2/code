@@ -96,5 +96,7 @@ return array(
 	'years_large' 	=> 'Umfang in Jahren (ca)',
 	'years_short'	=> 'Log Umfang',
 	'years'			=> 'Log Umfang',
+	'ocrr_ptrn'				=> 'Vorkommen',
+	'size_dispatchable'	=> 'Abzugebender Bestand',
 
 	);

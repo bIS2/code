@@ -407,8 +407,6 @@ footer {
 .ocrr_ptrn {
     max-width: 600px !important;
     > div:first-child {
-        max-width: 575px;
-        overflow-x: auto;
         vertical-align: middle;
     }
     white-space: nowrap;
@@ -546,7 +544,12 @@ section.container {
         margin-right: 5px;
     }  
 }
-
+#hos-targets .table {
+    width: auto !important;
+    td {
+        width: auto;
+    }
+}
 table.table thead th:first-child {
     background-image: none; 
     background-color: #FFFFFF;
@@ -986,11 +989,13 @@ a.btn-danger {
     }
 }
 .dl-horizontal > dt {
-    width: 110px;
+    width: 125px;
+    margin-right: 5px;
 }
 .dl-horizontal > dd {
     margin-right: 40px;
     margin-left: 120px;
+    margin-bottom: 10px;
 }
 #f866aeditablecontainer {
     max-width: 600px !important;

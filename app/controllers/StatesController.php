@@ -81,10 +81,12 @@ class StatesController extends BaseController {
 					'state'			=> $input['state'], 
 					'user_id'		=> $input['user_id'] 
 				]);
-
 				// Save holding size if exist 
 				if ( ($input['state']=='ok') && Input::has('size') )
 					Holding::find( $input['holding_id'])->update(['size'=>$input['size']] );
+				// Save holding size if exist 
+				if ( ($input['state']=='ok') && Input::has('size_dispatchable') )
+					Holding::find( $input['holding_id'])->update(['size_dispatchable'=>$input['size_dispatchable']] );
 
 			}
 

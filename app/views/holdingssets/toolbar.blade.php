@@ -17,7 +17,7 @@
 						<ul class="dropdown-menu" role="menu">
 							@foreach ($groups as $group) 
 							<li <?= ($group->id == Input::get('group_id')) ? 'class="active"' : '' ; ?>>
-								<a href="{{ route('sets.index',Input::except(['group_id']) + ['group_id' => $group->id ]) }}"> {{ $group->name }} <span class="badge"><span class="fa fa-file-text"></span> {{ $group->holdingssets -> count() }} </span></a>
+								<a href="{{ route('sets.index',Input::except(['group_id']) + ['group_id' => $group->id ]) }}"> {{ $group->name }}/{{ $group->user->username }}/<?php $date = explode(' ', $group->created_at); echo $date[0]; ?> <span class="badge"><span class="fa fa-file-text"></span> {{ $group->holdingssets -> count() }} </span></a>
 							</li>
 							@endforeach
 						</ul>

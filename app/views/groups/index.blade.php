@@ -16,13 +16,13 @@
 <!-- <p>{{ link_to_route('groups.create', 'Add new group') }}</p> -->
 	<div class="panel-body">
 		@if ($groups->count())
-			<table id="groups-list" class="table table-striped table-bordered">
+			<table id="groups-list" class="table table-striped table-bordered datatablegroups">
 				<thead>
 					<tr>
 						<th>
 							<label>
 								<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#groups-targets">
-								<p class="btn btn-xs btn-primary pop-over"data-content="{{ trans('groups.select_all_groups') }}" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-check"></i></p>
+								<p class="btn btn-xs btn-primary pop-over"data-content="{{ trans('groups.select_all_groups') }}" data-placement="right" data-toggle="popover" data-html="true" data-trigger="hover"><i class="fa fa-check"></i></p>
 							</label>
 							
 						</th>

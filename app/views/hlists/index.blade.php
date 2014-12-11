@@ -36,7 +36,7 @@
 			
 
 			@if ($hlists->count())
-				<table class="table table-bordered table-condensed datatable">
+				<table class="table table-bordered table-condensed datatablelists">
 					<thead>
 						<tr>
 							<th>No.</th>

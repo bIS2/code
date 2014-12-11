@@ -138,7 +138,7 @@ class Hlist extends Eloquent {
 
     $query1=$query2=$query3=$query4=[];
 
-  	$query = $query->with('user','holdings')->orderBy('created_at', 'desc');
+  	$query = $query->with('user','holdings')->orderBy('name', 'asc');
 
     if ( Auth::user()->hasRole('maguser') || Auth::user()->hasRole('postuser') ) 
       $query = $query->whereIn('revised',[false,0,'f'])->whereWorkerId(Auth::user()->id);

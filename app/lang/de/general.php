@@ -108,4 +108,17 @@ return array (
 	'new_list'=>'New List',
 	'move_to_list'=>'Add to List',
 	'clear'=>'Clear',
+
+	// Profiles
+	'profiles' => 'Profiles',
+	'My profile' => 'Mein Profil',
+
+	'General view' => 'allgemeine Ansicht',
+	'Title control' => 'Titelkontrolle',
+	'Compare HOL' => 'Bestandsabgleich',
+	'Reset profile' => 'Reset profile',
+	'Delete custom profile' => 'Delete custom profile',
+	'' => '',
+	'' => '',
+	'' => '',
 );

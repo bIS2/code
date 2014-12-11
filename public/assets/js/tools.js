@@ -1,7 +1,8 @@
 // Contains all the logic on the client
 
 $(function(){
-
+  bIS.init();
+  bIS.updateProfile();
   $('#per-page').on('change',function(){
     $(this).parents('form').submit()
   })
@@ -37,7 +38,7 @@ $(function(){
  		}
 
 
- })*/
+   })*/
 
 /*	$('input[name="roles[]"]').on('click', function(){
 
@@ -79,8 +80,8 @@ $(function(){
         var content = $(this).parents('.input-group').find('input.content').val();
         if ( (content.length==0) ){
           $(this).parents('.form-group')
-            .addClass('has-error')
-            .find('.error').text( $('#field_note_in_blank').text() )
+          .addClass('has-error')
+          .find('.error').text( $('#field_note_in_blank').text() )
           e.preventDefault()
         }
 
@@ -92,23 +93,23 @@ $(function(){
 
   $('body').on('keyup','form.create-note .content', function(e){
   	var $this = $(this)
-  		
+
     if ( $this.val() ){
       $this.parents('.form-group').removeClass('has-error').find('.error').text('')
       $('.alert-error').addClass('hide')
       if ( $this.parents('.input-group').find(':checkbox:checked').size()==0 )
-	    	$this.parents('.input-group').find('label').trigger('click')
+        $this.parents('.input-group').find('label').trigger('click')
     }
     else {
     	console.log( $this.parents('.input-group').find(':checkbox:checked').size() )
-	  	if ( $this.parents('.input-group').find(':checkbox:checked').size()>0 ){
-	      $this.parents('.form-group')
-	        .addClass('has-error')
-	        .find('.error').text( $('#field_note_in_blank').text() )
-	    }
-  	}	
+      if ( $this.parents('.input-group').find(':checkbox:checked').size()>0 ){
+       $this.parents('.form-group')
+       .addClass('has-error')
+       .find('.error').text( $('#field_note_in_blank').text() )
+     }
+   }	
 
-  })
+ })
 
   $('.form-group .input-group-addon.btn.btn-primary.btn-sm' ).each(function() {
     $(this).on('mousedown', function() {
@@ -135,10 +136,15 @@ $(function(){
    })
   })
   var originhref = $('a.btn-ok').attr('href');
-	$('input#size').on('keyup',function(){
+  $('input#size').on('keyup',function(){
+    // console.log($(this).serialize())
+    data = $('a.btn-ok').data('params')
+    $('a.btn-ok').attr('href', originhref  + '?' + $(this).serialize() )
+  })
+  $('input#size_dispatchable').on('keyup',function(){
 		// console.log($(this).serialize())
 		data = $('a.btn-ok').data('params')
-		$('a.btn-ok').attr('href', originhref  + '?' + $(this).serialize() )
+		$('a.btn-ok').attr('href', originhref  + '?' + $(this).parents('form').serialize() )
 	})
 
   //manipulates the elements marked with the css class .draggable
@@ -163,9 +169,9 @@ $(function(){
       call.done(function(result) { 
       	if ( result.error ) {
           bootbox.alert( result.error )
-      	} else{
-      		$to.find('.counter').text( result.counter )
-      	}
+        } else{
+          $to.find('.counter').text( result.counter )
+        }
       })
 
     }
@@ -184,7 +190,7 @@ $(function(){
       $(this).removeClass('label-primary')
       $(this).addClass('label-default')
     }
-  )
+    )
 
 
   $(document).on('keypress', function(event) {
@@ -203,9 +209,9 @@ $(function(){
   $('[data-toggle=popover]').popover()
 
   //Click in button with class .close-popover close de form to create feedback
-	$('body').on( 'click', '.close-popover', function(e){
-		e.preventDefault()
-  	$('#btn_create_feedback').popover('hide')
+  $('body').on( 'click', '.close-popover', function(e){
+    e.preventDefault()
+    $('#btn_create_feedback').popover('hide')
   })
 
   // $.fn.editable.defaults.inputclass = 'input-';
@@ -215,9 +221,17 @@ $(function(){
   });
 
   doEditable();
-	
+
   $('.datatable').dataTable({
     columnDefs: [ { targets: 0, orderable: false },{ targets: 1, orderable: false },{ targets: 2, orderable: false } ],
+    order:[],
+    bFilter: false,
+    bPaginate: false , 
+    bStateSave: true
+  });
+
+  $('.datatablelists').dataTable({
+    columnDefs: [ { targets: 0, orderable: false },{ targets: 1, orderable: false }],
     order:[],
     bFilter: false,
     bPaginate: false , 
@@ -262,9 +276,9 @@ $(function(){
     console.log($(this).attr('data-check'))
 
     $('#holdings-targets :checkbox.sel')
-      .prop('checked',false)
-      .parents('tr')
-      .removeClass("warning")  
+    .prop('checked',false)
+    .parents('tr')
+    .removeClass("warning")  
 
     $('a.link_bulk_action').addClass('disabled')
 
@@ -277,7 +291,7 @@ $(function(){
       $('a.link_bulk_action').removeClass('disabled')
     }
 
-	})
+  })
   
 
   $('a.link_bulk_action[data-remote]').on('click',function(){
@@ -290,19 +304,18 @@ $(function(){
   })
 
 
-
-	$('#filter-btn').click(function(){
-		$('#filter-well').toggle('fast')
-		$(this).toggleClass('active btn-primary','') 	
-	})
+  $('#filter-btn').click(function(){
+    $('#filter-well').toggle('fast')
+    $(this).toggleClass('active btn-primary','') 	
+  })
 
 
   $('.remote').on('hidden.bs.modal', '.modal', function() {
-      $(this).removeData('bs.modal').empty();
+    $(this).removeData('bs.modal').empty();
   }); 
 
   $('.remote').on('click', '#submit_create_list', function() {
-	 
+
     $('form#form_list').append( $('<div>').addClass('hide').append( $('#holdings-items :checkbox:checked').clone(true) ) )
 
   }); 
@@ -311,7 +324,7 @@ $(function(){
   
   handleAjaxSucces('body');
   countThs();
-	getAsuccess()
+  getAsuccess()
   $('.modal').on('shown.bs.modal', function() {
     $(this).removeAttr('ajaxsuccess');
   })
@@ -319,20 +332,20 @@ $(function(){
 
 function handleAjaxSucces(parent) {
     // Manipula all reponse ajax json
-  $(parent).on( 'ajax:success', 'form,a', function(data, result, status){
+    $(parent).on( 'ajax:success', 'form,a', function(data, result, status){
 
-    if (result.location) {
+      if (result.location) {
         window.location.href = result.location;
         return false;
-    }      
+      }      
 
-    if($(this).attr('id') == 'recalled') window.location.reload()
+      if($(this).attr('id') == 'recalled') window.location.reload()
 
     // Response for annotate action over holding
-    if ( result.tag ){
-      $('tr#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger');
-      $('#form-create-tags').modal('hide')
-    }
+  if ( result.tag ){
+    $('tr#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger');
+    $('#form-create-tags').modal('hide')
+  }
 
     // Response for delete annotate action over holding
     if ( result.untag ){
@@ -365,7 +378,7 @@ function handleAjaxSucces(parent) {
     // show btn to revise list if completed
     if ( result.list_completed ) {
       $('.btn-revise').removeClass('hide') 
-    	$('.label.label-primary.state-list').addClass('hide') 
+      $('.label.label-primary.state-list').addClass('hide') 
 
     }
     // show btn to revise list if completed
@@ -375,22 +388,22 @@ function handleAjaxSucces(parent) {
       	.find('.state-list').text(result.state)
       	.end()
       	.find('.btn-receive').hide()
-    }
-
-    if ( result.list_completed == false) {
-      $('.btn-revise').addClass('hide')
-      $('.label.label-primary.state-list').removeClass('hide') 
-    }
-
-    if ( result.state ){
-
-      obj = $('#'+result.id)
-
-      if ( result.state=='trash' || result.state=='received' || result.state=='commented' || result.state=='deleted' ) {
-      	obj.hide('slow')
       }
 
-      if (result.state=='not_ok' )
+      if ( result.list_completed == false) {
+        $('.btn-revise').addClass('hide')
+        $('.label.label-primary.state-list').removeClass('hide') 
+      }
+
+      if ( result.state ){
+
+        obj = $('#'+result.id)
+
+        if ( result.state=='trash' || result.state=='received' || result.state=='commented' || result.state=='deleted' ) {
+         obj.hide('slow')
+       }
+
+       if (result.state=='not_ok' )
         obj.removeClass('success')
 
       if (result.state=='ok' ) {
@@ -398,8 +411,8 @@ function handleAjaxSucces(parent) {
 
         $('form#create-note-'+result.id+' input[name^="notes"]').val("")
         $('form#create-note-'+result.id)
-          .find(':checkbox:checked').prop('checked',false).end()
-          .find('label.active').removeClass('active')
+        .find(':checkbox:checked').prop('checked',false).end()
+        .find('label.active').removeClass('active')
 
         $('a[data-slide="next"]').click();
       }
@@ -413,9 +426,9 @@ function handleAjaxSucces(parent) {
 
 
       $('#'+result.id)
-        .addClass(result.state)
-        .find('.state span.label')
-        .text(result.state_title ); 
+      .addClass(result.state)
+      .find('.state span.label')
+      .text(result.state_title ); 
     }
 
     if (result.created_list ){
@@ -452,9 +465,9 @@ function handleAjaxSucces(parent) {
     if ( result.delivered ){
     	$this = 
       $('#'+result.delivered)
-	      	.addClass('delivered')
-	      	.find('.state-list')
-	      	.text( result.state );
+      .addClass('delivered')
+      .find('.state-list')
+      .text( result.state );
     }
 
     if ( result.commented ){
@@ -476,9 +489,9 @@ function handleAjaxSucces(parent) {
 }
 
 function getAsuccess() {
-    $('a, #modal-show').on({
+  $('a, #modal-show').on({
     'ajax:success': function(data, result, status) {      
-        set = ($(this).hasClass('modal')) ? $('#f866aeditablesave').attr('set') : $(this).attr('set')
+      set = ($(this).hasClass('modal')) ? $('#f866aeditablesave').attr('set') : $(this).attr('set')
         // // console.log($(this));        
         // // console.log(set);        
         if ($(this).attr('ajaxsuccess') != 1) {
@@ -490,8 +503,8 @@ function getAsuccess() {
             reload_set(set, result, open);            
             if ($(this).hasClass('modal')) bootbox.alert('866a Merken OK')    
           }
-          if ( result.remove )
-            $('#'+result.remove).hide('fast', function(){ $(this).remove() }); 
+        if ( result.remove )
+          $('#'+result.remove).hide('fast', function(){ $(this).remove() }); 
 
           // Set HOS to CONFIRM
           if ( result.ok ){
@@ -515,8 +528,8 @@ function getAsuccess() {
             }
             else {
              $('#'+value).find('#holdingsset'+value+'incorrect').fadeIn();
-            }
-          }
+           }
+         }
           // Set HOS to CONFIRM
           if ( result.correct ){
             value = result.correct;
@@ -527,8 +540,8 @@ function getAsuccess() {
             else {
              $('#'+value).find('#holdingsset'+value+'confirm').removeClass('btn-danger').addClass('btn-default');
              $('#'+value).find('#holdingsset'+value+'confirm').fadeIn();
-            }
-          }
+           }
+         }
           // Set HOS to UNCONFIRM
           if ( result.incorrect ){
             value = result.incorrect;
@@ -553,37 +566,37 @@ function getAsuccess() {
 
           //
           if ( result.newhosok ){
-              $('tr#holding' + result.newhosok).remove(); 
+            $('tr#holding' + result.newhosok).remove(); 
           }
 
           /* Holdings locks */
           if ( result.lock ){
-              $('#holding'+result.lock+'').addClass('locked').find('a#holding' + result.lock + 'lock').addClass('btn-warning')
+            $('#holding'+result.lock+'').addClass('locked').find('a#holding' + result.lock + 'lock').addClass('btn-warning')
           }
           if ( result.unlock ){
-              $('#holding'+result.unlock).removeClass('locked').find('a#holding' + result.unlock + 'lock').removeClass('btn-warning')    
+            $('#holding'+result.unlock).removeClass('locked').find('a#holding' + result.unlock + 'lock').removeClass('btn-warning')    
           }
 
           /* Holdings Tags */
           if ( result.tag ){
-              $('tr#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger')
-              $('#form-create-tags').modal('hide')
+            $('tr#'+result.tag).find('.btn-tag').removeClass('btn-default').addClass('btn-danger')
+            $('#form-create-tags').modal('hide')
           }
           if ( result.untag ){
-              $('#'+result.untag).find('.btn-tag').removeClass('btn-danger').addClass('btn-default')
+            $('#'+result.untag).find('.btn-tag').removeClass('btn-danger').addClass('btn-default')
           }
           /* Deleted Group */
           if ( result.groupDelete ){
-              $('li#group'+result.groupDelete).remove()
+            $('li#group'+result.groupDelete).remove()
           }   
           /* Deleted Hlist */
           if ( result.hlistDelete ){
-              $('li#hlist'+result.hlistDelete).remove()
+            $('li#hlist'+result.hlistDelete).remove()
           } 
         }
       }
     })
-	 $('[data-toggle=tooltip]').tooltip()
+$('[data-toggle=tooltip]').tooltip()
 }
 
 function countThs() {
@@ -596,7 +609,7 @@ function countThs() {
 
      (!a[$(this).text()]) ? a[$(this).text()] = 1 : a[$(this).text()]++;
 
-    })
+   })
 
     content = ''
     $.each(a,function(key, value){
@@ -604,12 +617,12 @@ function countThs() {
     })
     // alert(a.length)
     //if (a.length>0){
-        $(this).find("span.fa").popover({
-          trigger:    'hover',
-          placement:  'bottom',
-          html:       true,
-          content:    content
-        })
+      $(this).find("span.fa").popover({
+        trigger:    'hover',
+        placement:  'bottom',
+        html:       true,
+        content:    content
+      })
     //}
   })
 }
@@ -641,12 +654,12 @@ function doEditable() {
   // $.fn.editable.defaults.inputclass = 'input-';
   $.fn.editable.defaults.ajaxOptions = {type: "PUT"};
   $('.editable').editable({
-  success: function(data, result, status){ 
-    if ($(this).attr('set') > 0) {
-      reload_set($(this).attr('set'), data, 1);      
+    success: function(data, result, status){ 
+      if ($(this).attr('set') > 0) {
+        reload_set($(this).attr('set'), data, 1);      
+      }
     }
-  }
-});
+  });
 }
 
 function removedangerclass(value) {
@@ -655,7 +668,7 @@ function removedangerclass(value) {
 
 function makehosdivisibles(table) {
   // console.log(table);
-    $(table + ' :checkbox.selhld').click( function(){
+  $(table + ' :checkbox.selhld').click( function(){
     // // console.log('click');
     if (this.checked) {
       // // console.log('CHECKED');
@@ -664,7 +677,7 @@ function makehosdivisibles(table) {
     } else {
       // // console.log('NO-CHECKED');
       if ( $(this).parents('li').find(':checkbox:checked.selhld').length<2)
-      $(this).parents('li').find('.newhos').css('display','none')
+        $(this).parents('li').find('.newhos').css('display','none')
     }
   })
 
@@ -699,8 +712,152 @@ function bulkActions() {
 
 }
 
-
 function moveTogether() {
   $('#new-table').offset({ left: $('#holdings-items').offset().left});
   if ($('#holdings-items').offset().top < $('#toolbar > .container').offset().top + parseInt($('#toolbar > .container').height()) + 30) { $('#new-table').css('display', 'block') } else { $('#new-table').css('display', 'none') }
+}
+
+var Changing = null;
+var ColumnEdited = null;
+var CurrentField = null;
+
+var bIS = {
+  init: function() {
+    bIS.changeFieldSize();
+    bIS.changeOfProfile();
+    bIS.makeOderableGroups();
+  },
+  changeFieldSize: function() {
+
+    /* Profile Code */
+
+    $('.expand').on('mouseover', function() {
+      CurrentField = $(this).parents('.change-size-controls').attr('target');
+      ColumnEdited = $('div.' + $(this).parents('.change-size-controls').attr('target'));
+      window.clearInterval(Changing);
+      $(ColumnEdited).removeAttr('touched');
+      if (($(ColumnEdited).attr('touched') == undefined) || ($(ColumnEdited).attr('touched') == '')) {  
+        $(ColumnEdited).attr('touched', 0); 
+        Changing = window.setInterval(function() {
+          if (($(ColumnEdited).width() > 1000) || ($(ColumnEdited).attr('touched') > 67)) {
+            window.clearInterval(Changing);
+            $(ColumnEdited).removeAttr('touched'); 
+            return false
+          }
+          else {
+            $(ColumnEdited).css('width', $(ColumnEdited).width() + 15);
+            $('#'+ CurrentField + '_size').val($(ColumnEdited).width() + 15);
+            var temp = $(ColumnEdited).attr('touched');
+            temp++;
+            $(ColumnEdited).attr('touched', temp);
+          }
+        }, 100);
+      }
+
+    })
+
+    $('.expand').on('mouseout', function() {
+      window.clearInterval(Changing);
+      ColumnEdited = $('div.' + $(this).parents('.change-size-controls').attr('target'));
+      $(ColumnEdited).removeAttr('touched'); 
+    })
+
+    $('.compress').on('mouseover', function() {
+      window.clearInterval(Changing);
+      $(ColumnEdited).removeAttr('touched'); 
+      CurrentField = $(this).parents('.change-size-controls').attr('target');
+      ColumnEdited = $('div.' + $(this).parents('.change-size-controls').attr('target'));
+      if (($(ColumnEdited).attr('touched') == undefined) || ($(ColumnEdited).attr('touched') == '')) {  
+        $(ColumnEdited).attr('touched', 0); 
+        Changing = window.setInterval(function() {
+          if (($(ColumnEdited).width() <= 40) || ($(ColumnEdited).attr('touched') > 65)) {
+            window.clearInterval(Changing);
+            $(ColumnEdited).removeAttr('touched'); 
+            return false
+          }
+          else {
+            $(ColumnEdited).css('width', $(ColumnEdited).width() - 15);
+            $('#'+ CurrentField + '_size').val($(ColumnEdited).width() - 15);
+            var temp = $(ColumnEdited).attr('touched');
+            temp++;
+            $(ColumnEdited).attr('touched', temp);
+          }
+        }, 100);
+      }
+    })
+
+    $('.compress').on('mouseout', function() {
+      window.clearInterval(Changing);
+      ColumnEdited = $('div.' + $(this).parents('.change-size-controls').attr('target'));
+      $(ColumnEdited).removeAttr('touched'); 
+    })
+  },
+  changeOfProfile: function() {
+    $profiles =  $('#btn-profiles > label');
+
+    $profiles.each(function() {
+      $(this).on('click', function() {
+        var clicked = $(this);
+        Changing = window.setInterval(function() {
+          $(clicked).parents('form').find('input[name="new_profile"]').val('');
+          $(clicked).parents('form').submit();
+          window.clearInterval(Changing); 
+        }, 100);
+        return true;
+      })
+    }) 
+  },
+  updateProfile: function() {
+    $('.btn.btn-xs.btn-primary').on('click', function(e) {
+      // e.preventDefault();
+      reload = ($(this).attr('reload') != undefined) ? 1 : 0;
+      $('#reload').val(reload);
+    })
+
+    $('#profiles-form').on('submit', function() {
+      if ($('#profiles-form #reload').val() != 1) {
+        // alert($('#profiles-form #reload').val());
+        var profiling = $.post( $(this).attr('action'), $(this).serialize() );
+        $('.tooltip.fade.in').remove();
+        profiling.done(function( data ) { 
+          var updating = $.get( $('#profiles-form').attr('ajax-post'));
+          updating.done(function( info ) {
+            $('#profiles-container').html(info);
+            bIS.init();
+            var $opened = $('#hos-targets li a.anchored');
+            $opened.each(function() {
+              $(this).removeAttr('opened');
+              $(this).attr('opened', 0);
+              $(this).click();           
+            })
+
+            var current = -1;
+            var end = $opened.length;
+
+            var timer = setInterval(function() {
+              current += 1;
+              if (current == end) {
+                clearInterval(timer);
+              }
+              else {
+                $($opened[current]).click(); 
+                console.log($($opened[current]));
+              }
+            }, 500);
+
+          })
+        })
+        return false;
+      }
+    })
+  },
+  makeOderableGroups: function() {
+    $('.datatablegroups').dataTable({
+      columnDefs: [ { targets: 0, orderable: false }],
+      order:[],
+      bFilter: false,
+      bPaginate: false, 
+      bStateSave: true
+    });
+  },
 }

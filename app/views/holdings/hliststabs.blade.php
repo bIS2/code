@@ -1,53 +1,5 @@
 <?php
 
-
-	// $total = $holdingssets -> getTotal();
-	// $init = $holdingssets -> getTo();
-	// $hlistsids = '';
-	// $g = 0;
-	// foreach ($hlists as $hlist) {
-	// 	$g++;
-	// 	$hlistsids .= $hlists[count($hlists)-$g] -> id;
-	// 	if ($g == 5) {
-	// 		break;
-	// 	}
-	// 	else {
-	// 		$hlistsids .= ';';
-	// 	}
-	// }
-	// define('DEFAULTS_HLISTS', $hlistsids);
-	// // var_dump(DEFAULTS_HLISTS);
-	// if (Input::has('hlist_id')) $hlist_id = Input::get('hlist_id');
-
-	// $restarcookie = true;
-
-	// $cookiesids = explode(';', $_COOKIE[Auth::user()->username.'_hlists_to_show']);
-
-	// foreach ($hlists as $hlist) {
-	// 	if (in_array($hlist -> id, $cookiesids)) {
-	// 		$restarcookie = false;
-	// 		break;
-	// 	}
-	// }
-
-	// var_dump($restarcookie);
-
-	//if ($restarcookie) 
-	// 	Session::put(Auth::user()->username.'_hlists_to_show', ';');
-	// 	setcookie(Auth::user()->username.'_hlists_to_show', ';', time() + (86400 * 30));
-
-	// if (!isset($_COOKIE[Auth::user()->username.'_hlists_to_show']) || (Session::get(Auth::user()->username.'_hlists_to_show') == ';')) {
-	//   setcookie(Auth::user()->username.'_hlists_to_show', DEFAULTS_HLISTS, time() + (86400 * 30));
-	//   Session::put(Auth::user()->username.'_hlists_to_show', DEFAULTS_HLISTS);
-	// }
-
-	// if (Session::get(Auth::user()->username.'_hlists_to_show') == null)
-	//   Session::put(Auth::user()->username.'_hlists_to_show', $_COOKIE[Auth::user()->username.'_hlists_to_show']);
-
-	// if (Session::get(Auth::user()->username.'_hlists_to_show') != '') 
- // 		setcookie(Auth::user()->username.'_hlists_to_show', Session::get(Auth::user()->username.'_hlists_to_show'), time() + (86400 * 30));
-
-
 	$hlistsids = '';
 	$hlistsids = Session::get(Auth::user()->username.'_hlists_to_show');
 	// var_dump($hlistsids);
@@ -62,7 +14,7 @@
 	 	}
  	}
 	$hlistsids = explode(';', $hlistsids);
- 	// var_dump($hlistsids);
+
 ?>
 
 <div class="row">
@@ -129,35 +81,7 @@
 			{{ trans('general.pagination_information',['from'=>$holdings->getFrom(), 'to'=>$holdings->getTo(), 'total'=>$holdings->getTotal()])}} 
 		</span>
 		{{ $holdings->appends(Input::except('page'))->links()  }}
-	<div id="profiles" class="pull-right" style="position: relative">
-		<label class="btn btn-xs pull-left">
-			<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ trans('general.profiles') }}</strong>
-		</label>
-		<div data-toggle="buttons" class="btn-group">
-		  <label class="btn btn-info btn-xs active" data-container="body" data-toggle="tooltip" data-original-title=" {{ trans('general.Default') }}: {{ trans('general.Default fields + Balance between text and column size + Fields order and visibles + Fields sort') }}">
-		    <input type="radio" id="default" value="default" name="profile" checked="checked"><i class="fa fa-list"></i>
-		  </label>
-		  <label name="profile" class="btn btn-info btn-xs" data-container="body" data-toggle="tooltip" data-original-title=" {{ trans('general.Tight') }}: {{ trans('general.Default fields + Smaller size for all columns + Fields order and visibles + Fields sort') }}">
-		    <input type="radio" id="tight" value="tight" name="profile"><i class="fa fa-th"></i>
-		  </label>
-		  <label name="profile" class="btn btn-info btn-xs" data-container="body" data-toggle="tooltip" data-original-title=" {{ trans('general.Full Open') }}: {{ trans('general.Default fields + Full Open text for all columns + Fields order and visibles + Fields sort') }}">
-		    <input type="radio" id="full_open" value="full_open" name="profile"><i class="fa fa-bars"></i>
-		  </label>
 
-		</div>
-		<span class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" data-container="body"><div data-container="body" data-toggle="tooltip" data-original-title=" {{ trans('general.See Custom Profiles') }}"><i class="fa fa-pencil" ></i> <span class="caret"></span></div></span>
-        <ul class="dropdown-menu pull-right" style="margin-right: 37px;">
-          <li style="position: relative;"><a href="#" data-container="body" data-toggle="tooltip" data-original-title=" {{ trans('general.Select this profile') }}">Profile - 1</a><span class="btn btn-danger btn-xs" data-container="body" data-toggle="tooltip" data-original-title=" {{ trans('general.Delete profile') }}" style="position: absolute;right: 10px;top: 2px;"><i class="fa fa-times"></i></span></li>
-          <li style="position: relative;"><a href="#" data-container="body" data-toggle="tooltip" data-original-title=" {{ trans('general.Select this profile') }}">Profile - 2</a><span class="btn btn-danger btn-xs" data-container="body" data-toggle="tooltip" data-original-title=" {{ trans('general.Delete profile') }}" style="position: absolute;right: 10px;top: 2px;"><i class="fa fa-times"></i></span></li>
-          <li style="position: relative;"><a href="#" data-container="body" data-toggle="tooltip" data-original-title=" {{ trans('general.Select this profile') }}">Profile - 3</a><span class="btn btn-danger btn-xs" data-container="body" data-toggle="tooltip" data-original-title=" {{ trans('general.Delete profile') }}" style="position: absolute;right: 10px;top: 2px;"><i class="fa fa-times"></i></span></li>
-        </ul>
-		<div class="input-group input-group-sm pull-right" style="width: 150px;margin-left: 10px;">
-			<input type="text" name="new_profile" class="form-control" style="height: 24px;">
-			<span class="input-group-btn">
-				<div class="btn btn-primary btn-xs" style="height: 24px;padding: 3px 7px" data-container="body" data-toggle="tooltip" data-original-title="{{ trans('general.Save new profile') }}"> <i class="fa fa-plus"></i> </div>
-			</span>
-		</div>
-	</div>
 	</div>
 
 	<!-- Actions -->
