@@ -11,6 +11,7 @@ $defaultsize = 100;
 
 $sizeofields = $_COOKIE[Auth::user()->username.'_'.$cprofile.'_size_of_fields'];
 $sizeofields = explode(';',$sizeofields);
+// var_dump($sizeofields[0]);
 ?>
 
 <div id="profiles" class="pull-left" style="position: relative">
@@ -69,7 +70,6 @@ $sizeofields = explode(';',$sizeofields);
 		<div class="col-xs-12" style="clear:both">
 			<div class="accordion" id="FieldsShow">
 				<div id="table_fields" class="accordion-body text-right collapse text-center">
-					<input type="hidden" name="urltoredirect" value="<?= route('sets.index', Input::except(['noexists'])); ?>">
 					<?php	
 
 // ACTIVE FIELDS
@@ -87,7 +87,6 @@ $sizeofields = explode(';',$sizeofields);
 // var_dump($allfields);
 // var_dump($activefields);
 // die();
-
 					?>
 					<ul class="btn-group" data-toggle="buttons">
 						<?php
@@ -135,7 +134,7 @@ $sizeofields = explode(';',$sizeofields);
 							}
 							$checked 		= "checked = checked";
 							$checkactive 	= " active"; 
-							$k++; 
+							$k++;
 							$sizeofield = ($sizeofields[$k] > 0) ? $sizeofields[$k] : $defaultsize ; 
 							?>
 							<li class="btn btn-xs btn-default{{ $checkactive }} {{ $popover }}" {{ $field_large }}>
@@ -143,7 +142,7 @@ $sizeofields = explode(';',$sizeofields);
 								<div class="change-size-box">					
 									<i class="fa fa-exchange"></i>
 									<div class="change-size-controls" target="field_<?php echo $field; ?>">							
-										<input type="hidden" id="field_<?php echo $field; ?>_size" name="sizes[]" value="<?php echo $defaultsize; ?>">
+										<input type="hidden" id="field_<?php echo $field; ?>_size" name="sizes[]" value="<?php echo $sizeofield; ?>">
 										<i class="fa expand change-size fa-arrow-circle-o-right"></i><i class="fa compress change-size fa-arrow-circle-o-left"></i>  
 									</div>  
 								</div>
@@ -249,7 +248,7 @@ $sizeofields = explode(';',$sizeofields);
 								$checked 			= '';
 								$checkactive 		= ''; ?>
 								<li class="btn btn-xs btn-default{{ $checkactive }} {{ $popover }}" {{ $field_large }}>
-									<input type="hidden" id="field_<?php echo $field; ?>_size" name="sizes[]" value="<?php echo $defaultsize; ?>">
+									<input type="hidden" id="field_<?php echo $field; ?>_size" name="sizes[]" value="<?php echo $sizeofield; ?>">
 									<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field_short; ?>
 								</li>
 								<?php }

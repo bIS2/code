@@ -27,32 +27,33 @@
 	Route::model('post', 'Post');
 	Route::model('role', 'Role');
 
-	Route::group(array( 'before' => ['auth']), function(){
+
+    Route::group(array( 'before' => ['auth']), function(){
 
 
-		# Index Page - Last route, no matches
-		Route::get('/', ['uses' => 'Pages@getIndex']);
-		Route::get('statistics', ['uses' => 'Pages@getStatistics']);
-    Route::get('help', ['uses' => 'Pages@getHelp']);
+        # Index Page - Last route, no matches
+        Route::get('/', ['uses' => 'Pages@getIndex']);
+        Route::get('statistics', ['uses' => 'Pages@getStatistics']);
+        Route::get('help', ['uses' => 'Pages@getHelp']);
 
-		Route::get('clearcookies', ['uses' => 'Pages@getClearCookies']);
-		
-		Route::controller('pages','Pages');
+        Route::get('clearcookies', ['uses' => 'Pages@getClearCookies']);
+        
+        Route::controller('pages','Pages');
 
-		Route::resource('admin/libraries', 'LibrariesController' );
-		Route::resource('admin/tags', 'TagsController');
-		Route::resource('admin/traces', 'TracesController');
-    Route::resource('admin/feedbacks', 'FeedbacksController');
+        Route::resource('admin/libraries', 'LibrariesController' );
+        Route::resource('admin/tags', 'TagsController');
+        Route::resource('admin/traces', 'TracesController');
+        Route::resource('admin/feedbacks', 'FeedbacksController');
 
-		Route::resource('groups', 'GroupsController');
-		Route::controller('groups', 'GroupsController');
+        Route::resource('groups', 'GroupsController');
+        Route::controller('groups', 'GroupsController');
 
+        Route::resource('holdings', 'HoldingsController');
+        Route::controller('holdings', 'HoldingsController');
 
-    Route::resource('holdings', 'HoldingsController');
-		Route::controller('holdings', 'HoldingsController');
-
-		Route::resource('sets', 'HoldingssetsController');
-		Route::controller('sets', 'HoldingssetsController');
+        Route::put('sets/updatecustom', 'HoldingssetsController@updatecustom');
+        Route::resource('sets', 'HoldingssetsController');
+        Route::controller('sets', 'HoldingssetsController');
 
         Route::get('lists/attach','HlistsController@getAttach');
         Route::resource('lists', 'HlistsController');

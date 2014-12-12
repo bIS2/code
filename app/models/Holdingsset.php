@@ -150,7 +150,12 @@ class Holdingsset extends Eloquent {
 
   public function show($field, $len = 30) {
     $str = $this->clean($this->$field);
-    return (strlen($str) > $len) ? '<span class="pop-over" data-content="<strong>'.$str.'</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover">'.truncate($str, $len).'</span>' : $str;
+    if ($field=='f88a_total'){
+        $html = '<a href="#" class="editable" data-type="text" data-pk="'.$this->id.'" data-url="/sets/updatecustom?holdingsset='.$this->id.'&field=f88a_total" >'.$this->f88a_total.'</a>';
+        return $html;
+    } else {
+      return (strlen($str) > $len) ? '<span class="pop-over" data-content="<strong>'.$str.'</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover">'.truncate($str, $len).'</span>' : $str;
+    }
   }
 
   public function clean($value){

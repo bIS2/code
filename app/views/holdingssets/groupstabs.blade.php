@@ -33,6 +33,9 @@ $allfields = (($allfields == '') || ($allfields == null) || ($allfields)) ? expl
 $defaultsize = 100;
 
 $sizeofields = $_COOKIE[Auth::user()->username.'_'.$cprofile.'_size_of_fields'];
+
+$sizeofields = explode($cprofile);
+
 $sizeofields = explode(';',$sizeofields);
 
 
@@ -65,7 +68,8 @@ $sizeofields = explode(';',$sizeofields);
 
 	<?php if (count($holdingssets) > 0) { ?>
 	<form method="post" action="{{ route('sets.index', Input::except(['noexists'])) }}" id="profiles-form" ajax-post="{{ route('sets.index') }}?onlyprofiles=1">
-	<input type="hidden" value="0" name="reload" id="reload">
+		<input type="hidden" value="0" name="reload" id="reload">
+		<input type="hidden" id="urltoredirect" name="urltoredirect" value="<?= route('sets.index', Input::except(['noexists'])); ?>">
 		<div id="hos_actions_and_filters" class="clearfix">
 			<a id="open-all-hos" class="btn btn-md btn-danger pull-left" data-toggle="tooltip" title="<?= trans('holdingssets.open_all_hos'); ?>" data-container="body" ><i class="fa fa-folder-open-o"></i></a>
 
@@ -172,7 +176,6 @@ $sizeofields = explode(';',$sizeofields);
 					<div class="col-xs-12" style="clear:both">
 						<div class="accordion" id="FieldsShow">
 							<div id="table_fields" class="accordion-body text-right collapse text-center">
-								<input type="hidden" name="urltoredirect" value="<?= route('sets.index', Input::except(['noexists'])); ?>">
 								<?php	
 
 						// ACTIVE FIELDS
@@ -246,7 +249,7 @@ $sizeofields = explode(';',$sizeofields);
 											<div class="change-size-box">					
 												<i class="fa fa-exchange"></i>
 												<div class="change-size-controls" target="field_<?php echo $field; ?>">							
-													<input type="hidden" id="field_<?php echo $field; ?>_size" name="sizes[]" value="<?php echo $defaultsize; ?>">
+													<input type="hidden" id="field_<?php echo $field; ?>_size" name="sizes[]" value="<?php echo $sizeofield; ?>">
 													<i class="fa expand change-size fa-arrow-circle-o-right"></i><i class="fa compress change-size fa-arrow-circle-o-left"></i>  
 												</div>  
 											</div>
@@ -352,7 +355,7 @@ $sizeofields = explode(';',$sizeofields);
 											$checked 			= '';
 											$checkactive 		= ''; ?>
 											<li class="btn btn-xs btn-default{{ $checkactive }} {{ $popover }}" {{ $field_large }}>
-												<input type="hidden" id="field_<?php echo $field; ?>_size" name="sizes[]" value="<?php echo $defaultsize; ?>">
+												<input type="hidden" id="field_<?php echo $field; ?>_size" name="sizes[]" value="<?php echo $sizeofield; ?>">
 												<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field_short; ?>
 											</li>
 											<?php }

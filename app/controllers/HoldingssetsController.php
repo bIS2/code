@@ -237,7 +237,6 @@ class HoldingssetsController extends BaseController {
 	 */
 	public function store()	{
 		$uUserName = Auth::user()->username;
-
 		if (Input::has('urltoredirect')) {
 
 			if (Input::has('restarprofile')) {
@@ -326,8 +325,11 @@ class HoldingssetsController extends BaseController {
 			setcookie($uUserName.'_sortinghos', Input::get('sortinghos'), time()+60*60*24*3650);
 			Session::put($uUserName.'_sortinghos_by', Input::get('sortinghos_by'));
 			Session::put($uUserName.'_sortinghos', Input::get('sortinghos'));
-			if (Input::get('reload') == 1) {				
-				return Redirect::to(Input::get('urltoredirect'));
+			if (Input::get('reload') == 1) {	
+				// var_dump(Input::all());
+				$urltoredirect = str_replace('?onlyprofiles=1', Input::get('urltoredirect'));	
+				// die($urltoredirect);	
+				return Redirect::to($urltoredirect);
 			}
 			else {
 				echo 'ok';
@@ -372,6 +374,21 @@ class HoldingssetsController extends BaseController {
 		if (Input::has('ok') )
 			return Response::json([ 'ok'=>$id ]);
 		//
+	}
+
+	/**
+	 * Update the specified Holdings Set (HOS) in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function updatecustom()
+	{
+		// die(var_dump(Input::all()));
+		$field = Input::get('field');
+		$holdingsset = Holdingsset::find(Input::get('holdingsset'));
+		$holdingsset->$field = Input::get('value');
+		$holdingsset->save();
 	}
 
 	/**

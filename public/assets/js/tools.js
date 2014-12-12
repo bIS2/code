@@ -739,14 +739,14 @@ var bIS = {
       if (($(ColumnEdited).attr('touched') == undefined) || ($(ColumnEdited).attr('touched') == '')) {  
         $(ColumnEdited).attr('touched', 0); 
         Changing = window.setInterval(function() {
-          if (($(ColumnEdited).width() > 1000) || ($(ColumnEdited).attr('touched') > 67)) {
+          if (($(ColumnEdited).width() > 2000) || ($(ColumnEdited).attr('touched') > 67)) {
             window.clearInterval(Changing);
             $(ColumnEdited).removeAttr('touched'); 
             return false
           }
           else {
-            $(ColumnEdited).css('width', $(ColumnEdited).width() + 15);
-            $('#'+ CurrentField + '_size').val($(ColumnEdited).width() + 15);
+            $(ColumnEdited).css('width', $(ColumnEdited).width() + 6);
+            $('#'+ CurrentField + '_size').val($(ColumnEdited).width() + 6);
             var temp = $(ColumnEdited).attr('touched');
             temp++;
             $(ColumnEdited).attr('touched', temp);
@@ -756,71 +756,78 @@ var bIS = {
 
     })
 
-    $('.expand').on('mouseout', function() {
-      window.clearInterval(Changing);
-      ColumnEdited = $('div.' + $(this).parents('.change-size-controls').attr('target'));
-      $(ColumnEdited).removeAttr('touched'); 
-    })
+$('.expand').on('mouseout', function() {
+  window.clearInterval(Changing);
+  ColumnEdited = $('div.' + $(this).parents('.change-size-controls').attr('target'));
+  $(ColumnEdited).removeAttr('touched'); 
+})
 
-    $('.compress').on('mouseover', function() {
-      window.clearInterval(Changing);
-      $(ColumnEdited).removeAttr('touched'); 
-      CurrentField = $(this).parents('.change-size-controls').attr('target');
-      ColumnEdited = $('div.' + $(this).parents('.change-size-controls').attr('target'));
-      if (($(ColumnEdited).attr('touched') == undefined) || ($(ColumnEdited).attr('touched') == '')) {  
-        $(ColumnEdited).attr('touched', 0); 
-        Changing = window.setInterval(function() {
-          if (($(ColumnEdited).width() <= 40) || ($(ColumnEdited).attr('touched') > 65)) {
-            window.clearInterval(Changing);
-            $(ColumnEdited).removeAttr('touched'); 
-            return false
-          }
-          else {
-            $(ColumnEdited).css('width', $(ColumnEdited).width() - 15);
-            $('#'+ CurrentField + '_size').val($(ColumnEdited).width() - 15);
-            var temp = $(ColumnEdited).attr('touched');
-            temp++;
-            $(ColumnEdited).attr('touched', temp);
-          }
-        }, 100);
+$('.compress').on('mouseover', function() {
+  window.clearInterval(Changing);
+  $(ColumnEdited).removeAttr('touched'); 
+  CurrentField = $(this).parents('.change-size-controls').attr('target');
+  ColumnEdited = $('div.' + $(this).parents('.change-size-controls').attr('target'));
+  if (($(ColumnEdited).attr('touched') == undefined) || ($(ColumnEdited).attr('touched') == '')) {  
+    $(ColumnEdited).attr('touched', 0); 
+    Changing = window.setInterval(function() {
+      if (($(ColumnEdited).width() <= 40) || ($(ColumnEdited).attr('touched') > 65)) {
+        window.clearInterval(Changing);
+        $(ColumnEdited).removeAttr('touched'); 
+        return false
       }
-    })
+      else {
+        $(ColumnEdited).css('width', $(ColumnEdited).width() - 6);
+        $('#'+ CurrentField + '_size').val($(ColumnEdited).width() - 6);
+        var temp = $(ColumnEdited).attr('touched');
+        temp++;
+        $(ColumnEdited).attr('touched', temp);
+      }
+    }, 100);
+  }
+})
 
-    $('.compress').on('mouseout', function() {
-      window.clearInterval(Changing);
-      ColumnEdited = $('div.' + $(this).parents('.change-size-controls').attr('target'));
-      $(ColumnEdited).removeAttr('touched'); 
-    })
-  },
-  changeOfProfile: function() {
-    $profiles =  $('#btn-profiles > label');
+$('.compress').on('mouseout', function() {
+  window.clearInterval(Changing);
+  ColumnEdited = $('div.' + $(this).parents('.change-size-controls').attr('target'));
+  $(ColumnEdited).removeAttr('touched'); 
+})
+},
+changeOfProfile: function() {
+  $profiles =  $('#btn-profiles > label');
 
-    $profiles.each(function() {
-      $(this).on('click', function() {
-        var clicked = $(this);
-        Changing = window.setInterval(function() {
-          $(clicked).parents('form').find('input[name="new_profile"]').val('');
-          $(clicked).parents('form').submit();
-          window.clearInterval(Changing); 
-        }, 100);
-        return true;
-      })
-    }) 
-  },
-  updateProfile: function() {
-    $('.btn.btn-xs.btn-primary').on('click', function(e) {
-      // e.preventDefault();
-      reload = ($(this).attr('reload') != undefined) ? 1 : 0;
+  $profiles.each(function() {
+    $(this).on('click', function() {
+      var clicked = $(this);
+      Changing = window.setInterval(function() {
+        $(clicked).parents('form').find('input[name="new_profile"]').val('');
+        $(clicked).parents('form').submit();
+        window.clearInterval(Changing); 
+      }, 100);
+      return true;
+    })
+  }) 
+},
+updateProfile: function() {
+  $('.btn.btn-xs.btn-primary').on('click', function(e) {
+      console.log($(this).attr('reload'));
+
+      reload = ($(this).attr('reload') == 1) ? 1 : 0;
       $('#reload').val(reload);
+      if (reload == 1) {
+        $('#urltoredirect').val($('#profiles-form').attr('action'));
+      }
     })
 
-    $('#profiles-form').on('submit', function() {
-      if ($('#profiles-form #reload').val() != 1) {
-        // alert($('#profiles-form #reload').val());
+  $('#profiles-form').on('submit', function() {
+
+    if ($('#profiles-form #reload').val() == 0) {
+
         var profiling = $.post( $(this).attr('action'), $(this).serialize() );
         $('.tooltip.fade.in').remove();
         profiling.done(function( data ) { 
+
           var updating = $.get( $('#profiles-form').attr('ajax-post'));
+
           updating.done(function( info ) {
             $('#profiles-container').html(info);
             bIS.init();
@@ -830,7 +837,6 @@ var bIS = {
               $(this).attr('opened', 0);
               $(this).click();           
             })
-
             var current = -1;
             var end = $opened.length;
 
@@ -840,8 +846,7 @@ var bIS = {
                 clearInterval(timer);
               }
               else {
-                $($opened[current]).click(); 
-                console.log($($opened[current]));
+                $($opened[current]).click();
               }
             }, 500);
 
@@ -849,15 +854,18 @@ var bIS = {
         })
         return false;
       }
+      else {
+        
+      }
     })
-  },
-  makeOderableGroups: function() {
-    $('.datatablegroups').dataTable({
-      columnDefs: [ { targets: 0, orderable: false }],
-      order:[],
-      bFilter: false,
-      bPaginate: false, 
-      bStateSave: true
-    });
-  },
+},
+makeOderableGroups: function() {
+  $('.datatablegroups').dataTable({
+    columnDefs: [ { targets: 0, orderable: false }],
+    order:[],
+    bFilter: false,
+    bPaginate: false, 
+    bStateSave: true
+  });
+},
 }
