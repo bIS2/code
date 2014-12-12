@@ -726,6 +726,7 @@ var bIS = {
     bIS.changeFieldSize();
     bIS.changeOfProfile();
     bIS.makeOderableGroups();
+    bIS.makeSortableGroups();
   },
   changeFieldSize: function() {
 
@@ -854,9 +855,6 @@ updateProfile: function() {
         })
         return false;
       }
-      else {
-        
-      }
     })
 },
 makeOderableGroups: function() {
@@ -867,5 +865,8 @@ makeOderableGroups: function() {
     bPaginate: false, 
     bStateSave: true
   });
+},
+makeSortableGroups: function() {
+  $( "#FieldsShow .btn-group" ).sortable()
 },
 }
