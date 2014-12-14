@@ -18,4 +18,5 @@ return array(
 	'users'				=> 'Benutzer',
 	'wellcome'			=> 'Guten Tag, :name. Bitte wählen Sie das gewünsche Menu aus.',
 	'extract_data'		=> 'Extract Data',
+	'wellcome'			=> 'Guten Tag, :name. Bitte wählen Sie das gewünschte Menu aus.',
 );
