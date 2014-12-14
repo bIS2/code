@@ -45,7 +45,12 @@
 
 	</li>
 @endif
+@if (Auth::user()->hasRole('superuser') )
+	<li {{ (Request::is('admin/extract-data*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/extract-data') }}}">
+		<span class="fa fa-users"></span> {{{ trans('titles.extract_data') }}}</a>
+	</li>
 
+@endif
 @if (((Session::get(Auth::user()->username.'_last_route') == '') && ($_COOKIE[Auth::user()->username.'_last_route'] != '')) && ((Auth::user()->hasRole('bibuser')) || (Auth::user()->hasRole('resuser'))))  
 	<li class="btn btn-xs btn-warning">
 		<a href="{{ $_COOKIE[Auth::user()->username.'_last_route'] }}" ><strong><i class="fa fa-repeat"></i></strong></a>

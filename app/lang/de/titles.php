@@ -17,4 +17,5 @@ return array(
 	'updated'			=> 'Code updated am:',
 	'users'				=> 'Benutzer',
 	'wellcome'			=> 'Guten Tag, :name. Bitte wählen Sie das gewünsche Menu aus.',
+	'extract_data'		=> 'Extract Data',
 );

@@ -512,6 +512,17 @@ class Holding extends Eloquent {
     if ($field=='fx866a'){
         $html = '<a href="#" class="editable" data-type="text" data-pk="'.$this->id.'" data-url="'.route('holdings.update',[$this->id]).'?field=fx866a" >'.$this->fx866a.'</a>';
     } 
+    if ($field=='holtype') {
+      // is_owner: AB // Ist Archivbestand 
+      // is_aux: EB // Ergänzungsbestand
+      // !is_aux && !is_owner: KB // Disposable
+      // reserved: GB // Reserved
+      $html =  '';
+      if ($this->is_owner == 't') $html = 'AB';
+      if ($this->is_aux == 't') $html = 'EB';
+      if (($this->is_aux == 't') && ($this->ocrr_ptrn != $this->aux_ptrn)) $html = 'EB/KB';
+      if ($html == '') $html = 'KB';
+    } 
 
     if ($html){
       $ret = $html;

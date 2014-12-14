@@ -327,7 +327,7 @@ class HoldingssetsController extends BaseController {
 			Session::put($uUserName.'_sortinghos', Input::get('sortinghos'));
 			if (Input::get('reload') == 1) {	
 				// var_dump(Input::all());
-				$urltoredirect = str_replace('?onlyprofiles=1', Input::get('urltoredirect'));	
+				$urltoredirect = str_replace('?onlyprofiles=1', '', Input::get('urltoredirect'));	
 				// die($urltoredirect);	
 				return Redirect::to($urltoredirect);
 			}
@@ -578,17 +578,44 @@ class HoldingssetsController extends BaseController {
 
 			$holdingsset_id = Input::get('holdingsset_id');
 			$holding = Holding::find($id);
+
 			$was_oner = (($holding->is_owner == '1') || ($holding->is_owner == 't')) ? true : false;
+
 			if (Input::get('unique_aux') == 1) {
 				$holdingsset = Holdingsset::find($holdingsset_id);
 				$ptrn = Input::get('ptrn');
 				$empty_ptrn = str_replace('1', '0', $ptrn);
-				$holdingsset->holdings()->where('id', '!=', $id)->update(['is_aux' => 'f', 'aux_ptrn' => $empty_ptrn ]);
-				$holdingsset->holdings()->where('id', '=', $id)->update(['is_aux' => 't', 'is_owner' => 'f', 'aux_ptrn' => $ptrn]);
+				$holdingsset->holdings()->where('id', '!=', $id)->update(['is_aux' => 'f', 'aux_ptrn' => $empty_ptrn]);
+				$holdingsset->holdings()->where('id', '!=', $id)->where('is_owner', 'f')->update(['fx866a' => '']);
+				
+				$fx866a = '';
+				$f866a = explode(';', $holding->f866a);
+				$i = -1;
+				for ($k=0; $k < strlen($ptrn); $k++) { 
+					if ($ptrn[$k] == 1) {
+						$i++;
+						$fx866a .= ($fx866a == '') ? $f866a[$i] : '-'.$f866a[$i];
+					}
+				}
+
+				// var_dump($auxs);
+				// var_dump($f866a);
+				// var_dump($fx866a);
+				$holdingsset->holdings()->where('id', '=', $id)->update(['is_aux' => 't', 'is_owner' => 'f', 'aux_ptrn' => $ptrn, 'fx866a' => $fx866a]);				
 			}
 			else {
 
-				Holding::find($id)->update(['is_aux'=>'t', 'is_owner'=>'f', 'ocrr_ptrn'=> Input::get('newptrn'), 'aux_ptrn'=> Input::get('newauxptrn'), 'ocrr_nr' => Input::get('count'), 'force_aux' => 't', 'force_owner' => 'f']);
+				$fx866a = '';
+				$f866a = explode(';', $holding->f866a);
+				$ptrn = Input::get('newauxptrn');
+				$i = -1;
+				for ($k=0; $k < strlen($ptrn); $k++) { 
+					if ($ptrn[$k] == 1) {
+						$i++;
+						$fx866a .= ($fx866a == '') ? $f866a[$i] : '-'.$f866a[$i];
+					}
+				}
+				$holding->update(['is_aux'=>'t', 'is_owner'=>'f', 'ocrr_ptrn'=> Input::get('newptrn'), 'aux_ptrn'=> Input::get('newauxptrn'), 'ocrr_nr' => Input::get('count'), 'force_aux' => 't', 'force_owner' => 'f', 'fx866a' => $fx866a]);
 			}
 			if ($was_oner) holdingsset_recall($holdingsset_id);
 			$holdingssets[] = Holdingsset::find($holdingsset_id);
@@ -1347,19 +1374,18 @@ $query .= "\n FROM holdings";
 		$is_owner = ($hol['is_owner'] === 't')?'o':' ';
 		$pot_owner = ($hol['pot_owner'] === 't')?'p':' ';
 		$is_aux = ($hol['is_aux'] === 't')?'a':' ';
-
-		$f866a = explode('|', $hol['f866a']);
+		$f866a = explode(';', $hol['f866a']);
 
 		if ($hol['is_aux'] == 't') {
 			$fx866a = '';
 			$auxs = $hol['aux_ptrn'];
-			$k = 0;
+			$k = -1;
 			foreach ($auxs as $aux) {
 				if ($aux == 1) {
+					$k++;
 					$f88a_total .= ($fx866a == '') ? ' '.$f866a[$k] : '-'.$f866a[$k];
 					$fx866a .= ($fx866a == '') ? $f866a[$k] : '-'.$f866a[$k];
 				}
-				$k++;
 			}
 		}
 		if ($hol['is_owner'] == 't') {

@@ -54,23 +54,36 @@
 							<div id="<?= $holding->id ?>" class="col-xs-5 col-md-offset-1 {{ $holding->css }} {{ ($holding->is_correct) ? 'success' : 'not_ok' }} {{ ($holding->is_annotated) ? 'danger' : '' }}" >
 								<div class="well" id="holding-slide" style="height: 350px; overflow-y: auto;">
 									<dl class="dl-horizontal ">
-										<dt >{{ trans('general.state') }}</dt>
+	<!-- 									<dt >{{ trans('general.state') }}</dt>
 										<dd class="state">
 											<span class="label label-primary">{{ $holding->title_state }}</span>
-										</dd>
-										<dt >852b</dt>
+										</dd> -->
+										<dt >{{ trans('general.library') }}: </dt>
 										<dd>{{ $holding->f852b }}</dd>
-										<dt> 866c</dt>
+
+										<dt>{{ trans('holdings.Standort') }}: </dt>
 										<dd>{{ $holding->f866c }}</dd>
-										<dt> 852h</dt>
+
+										<dt>{{ trans('holdings.signature') }}: </dt>
 										<dd>{{ $holding->f852h }}</dd>
 
-										<dt>{{ trans('general.title') }}</dt>								
+										<dt>{{ trans('holdings.Titel') }}: </dt>								
+										<?php
+										$title = '';
+										if($holding->f245a != '') $title .= $holding->f245a.' ';
+										if($holding->f245b != '') $title .= ': '.$holding->f245b.'. ';
+										if($holding->f245p != '') $title .= $holding->f245p.'. ';
+										if($holding->f245n != '') $title .= $holding->f245n.'. ';
+										if($holding->f245c != '') $title .= '/ '.$holding->f245c;
+										$title = str_replace('<', '', $title);
+										$title = str_replace('>', '', $title);
+										 ?>
+										<dd>{{ $title }}</dd>
 
-										<dd>@if($holding->f245a != '') {{ $holding->f245a }} @endif @if($holding->f245b != '') : {{ $holding->f245b }}. @endif @if($holding->f245p != '') {{ $holding->f245p }}. @endif @if($holding->f245n != '') {{ $holding->f245n }}. @endif @if($holding->f245c != '') / {{ $holding->f245c }}. @endif </dd>
-										<dt> {{ ($holding->f866aupdated != '') ? trans('fields.866aupdated') : trans('fields.866a') }}</dt>
+										<dt>{{ trans('fields.f866a') }}: </dt>
 										<dd>{{ ($holding->f866aupdated != '') ? $holding->f866aupdated : $holding->f866a }}</dd>
-										<dt> {{trans('holdings.size')}}</dt>
+
+										<dt>{{ trans('holdings.sizeslide') }}: </dt>
 										<dd>
 											@if ( Authority::can('set_size', $holding) )
 											<input type="text" value="{{ $holding->size }}" name="size" class="" id="size" size="7" >
@@ -78,7 +91,11 @@
 											{{ $holding->size }}
 											@endif
 										</dd>
-										<dt> {{ trans('fields.size_dispatchable') }}</dt>
+
+										<dt>{{ trans('Holdings.Abgabe') }}: </dt>
+										<dd>{{ $holding->fx866a }}</dd>
+
+										<dt>{{ trans('holdings.size_dispatchableslide') }}: </dt>
 										<dd>
 											@if ( Authority::can('set_size', $holding) )
 											<input type="text" value="{{ $holding->size_dispatchable }}" name="size_dispatchable" class="" id="size_dispatchable" size="7" >

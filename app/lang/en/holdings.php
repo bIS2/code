@@ -60,5 +60,13 @@ return array(
 	'ungroup'				=> 'Unlisted',
 	'value'					=> 'Value',
 	'years_large'			=> 'Number of years (aprox.)',
+	'Standort'				=> 'Location',
+	'signature'				=> 'Signature',
+	'Titel'					=> 'Title',
+	'sizeslide'				=> 'Size',
+	'size_dispatchableslide'		=> 'Size Delivery',
+	'Abgabe'				=> 'Delivery',	
+	'Run'					=> 'Run',
+
 
 );

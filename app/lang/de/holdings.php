@@ -58,5 +58,12 @@ return array(
 	'ungroup'				=> 'N gruppierte',
 	'value'			  		=> 'Wert',
 	'years_large'			=> 'Umfang in Jahren (ca.)',
+	'Standort'				=> 'Standort',
+	'signature'				=> 'Signatur',
+	'Titel'					=> 'Titel',
+	'sizeslide'				=> 'Lfm Bestand',
+	'size_dispatchableslide'		=> 'Lfm Abgabe',
+	'Abgabe'				=> 'Abgabe',	
+	'Run'					=> 'Ausführen',
 
 );
