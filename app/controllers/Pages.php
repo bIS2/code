@@ -166,10 +166,84 @@ class Pages extends BaseController {
 			$data = array();
 			$data['allselectablefields'] = ['sys2','g','sys1','852b','866c','852h','245a','245b','245n','245p','260a','260b', '866a','866aupdated','x866a','state' , 'size', 'size_dispatchable'];
 
-			$data['allsearchablefields'] = ['852b','866c','852h','Holtype','state'];
-			if (Input::get('filtered') == 1) {
+			$data['allsearchablefields'] = ['852b','866c','852h','holtype','state'];
+			extract(Input::all());
+			if ($filtered == 1) {
+
+				$query = 'SELECT '.implode(',', $fieldstoshow).' FROM holdings';
+				$i = -1;
+				$where = ' WHERE ';
+				foreach ($data['allsearchablefields'] as $field) {
+					switch ($field) {
+						case '852b':
+						$i++;
+							$part = '';
+							$t = 0;
+
+							foreach ($f852b as $lib) {
+								if ($t == 0)
+									$part .= '(';
+
+								$part .= "f852b =  '".$lib."'";
+
+								if ($t < count($f852b) - 1)
+									$part .= ' OR ';
+
+								if ($t == count($f852b) - 1)
+									$part .= ')';
+
+									$t++;
+							}
+							if ($part != '') {
+								$query .= $where.$OrAndFilter[$i-1].' '.$part;
+								$where = ' ';
+							}
+
+							break;
+
+						case 'holtype':
+							$i++;
+							# code...
+							break;
+							
+						case 'state':
+							$i++;
+							$part = '';
+							$t = 0;
+							foreach ($state as $st) {
+								if ($t == 0)
+									$part .= '(';
+
+								$part .= "state = '".$st."'";
+
+								if ($t < count($status) - 1)
+									$part .= ' OR ';
+
+								if ($t == count($status) - 1)
+									$part .= ')';
+
+									$t++;
+							}
+							if ($part != '') {
+								$query .= $where.$OrAndFilter[$i-1].' '.$part;
+								$where = ' ';
+							}
+
+							break;
+
+						
+						default:
+							# code...
+							break;
+					}
+				}
+
+				var_dump($query);
 				var_dump(Input::all(0));
 				die();
+
+
+
 			}
 			else {				
 				return View::make('pages/extractdata', $data);

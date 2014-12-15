@@ -47,7 +47,7 @@
 @endif
 @if (Auth::user()->hasRole('superuser') )
 	<li {{ (Request::is('admin/extract-data*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/extract-data') }}}">
-		<span class="fa fa-users"></span> {{{ trans('titles.extract_data') }}}</a>
+		<span class="fa fa-share-square"></span> {{{ trans('titles.extract_data') }}}</a>
 	</li>
 
 @endif

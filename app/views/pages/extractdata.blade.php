@@ -5,4 +5,8 @@
 
 @include('pages.dataextracttoolbar')	
 
+<div id="data">
+	
+</div>
+
 @stop

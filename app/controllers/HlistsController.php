@@ -291,21 +291,24 @@ class HlistsController extends BaseController {
 	 */
 	public function postAttach(){
 		$id = Input::get('hlist_id');
+
 		$list = $this->hlist->find($id);
+
 		$holdings_in_list = $list->holdings()->select('holdings.id')->lists('holdings.id');
+		// var_dump($holdings_in_list);
 		$holdings = Holding::whereIn('id',Input::get('holding_id'))->whereNotIn('id',$holdings_in_list);
 
 		$error = '';
 		$inserted = 0;
 
-		if ($holdings->exists()){
-
+		if ($holdings->exists()) {
 			if ( $list->type=='control' ) {
-				$controls = $holdings->whereState('confirmed')->orwhere('state','ok')->orWhere('state','annotated')->lists('id');
+				$controls = $holdings->whereState('confirmed')->orWhere('state','ok')->orWhere('state','annotated')->lists('id');
+				
 				if ( count($controls)==0) {
 					$error = 'attach_list_control';
 				} else{
-					$list->holdings()->sync( $controls );	
+					$list->holdings()->sync( array_merge($controls,$holdings_in_list) );	
 					$inserted = count($controls);
 				}
 			}

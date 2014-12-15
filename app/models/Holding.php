@@ -507,10 +507,20 @@ class Holding extends Eloquent {
       }
     } 
     if ($field=='f866aupdated'){
-        $html = '<a href="#" class="editable" data-type="text" data-pk="'.$this->id.'" data-url="'.route('holdings.update',[$this->id]).'?field=f866aupdated" >'.$this->f866aupdated.'</a>';
+      if ($this->holdingsset->state == 'blank') {
+      $html = '<a href="#" class="editable" data-type="text" data-pk="'.$this->id.'" data-url="'.route('holdings.update',[$this->id]).'?field=f866aupdated" >'.$this->f866aupdated.'</a>';
+      }
+      else {
+        $field = 'f866aupdated';
+      }
     } 
     if ($field=='fx866a'){
+      if ($this->holdingsset->state == 'blank') {
         $html = '<a href="#" class="editable" data-type="text" data-pk="'.$this->id.'" data-url="'.route('holdings.update',[$this->id]).'?field=fx866a" >'.$this->fx866a.'</a>';
+      }
+      else {
+        $field = 'fx866a';
+      }
     } 
     if ($field=='holtype') {
       // is_owner: AB // Ist Archivbestand 
@@ -584,7 +594,7 @@ class Holding extends Eloquent {
   |
 <?php endif ?>
 <?php if (!($HOSconfirm) && !($HOSincorrect)) : ?>
-<?php if ($cprofile != 'compare') { ?>
+  <?php if ($cprofile != 'compare') { ?>
   <a id="holding<?=$holding -> id;; ?>delete" set="<?=$holdingsset->id; ?>"  href="<?= action('HoldingssetsController@putNewHOS',[$holding->id]); ?>" data-remote="true" data-method="put" data-params="holdingsset_id=<?=$holdingsset->id; ?>" data-disable-with="..." class="pop-over" data-content="<strong><?= trans('holdingssets.remove_from_HOS'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"><span class="fa fa-times"></span></a>
   <?php } ?>
   <?php if (!($holding->locked)) : ?>

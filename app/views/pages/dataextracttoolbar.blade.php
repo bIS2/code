@@ -15,7 +15,7 @@
 											foreach ($allsearchablefields as $field) {
 												$checked 				= '';
 												$checkactive 		= '';
-												$value = (($field != 'Holtype') && ($field != 'status')) ? Input::get('f'.$field) : Input::get($field);
+												$value = (($field != 'holtype') && ($field != 'status')) ? Input::get('f'.$field) : Input::get($field);
 												if ($value != '') {
 													$checked 			= "checked = checked";
 													$checkactive 	= " active";
@@ -30,7 +30,7 @@
 												<input type="hidden" name="filtered" value="1">
 												<div id="currentfilters" class="row clearfix text-center">
 													<?php foreach ($allsearchablefields as $field) {
-														$value = (($field != 'Holtype') && ($field != 'status')) ? Input::get('f'.$field) : Input::get($field);
+														$value = (($field != 'holtype') && ($field != 'status')) ? Input::get('f'.$field) : Input::get($field);
 														if ($value != '') {
 															if ($field == '852b')  {
 																$sublibraries = explode(';', Auth::user()->library->sublibraries);
@@ -42,7 +42,7 @@
 																			<?php 
 																			foreach ($sublibraries as $library) { ?>
 																			<li class="btn btn-xs btn-primary">
-																				<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $library; ?>">
+																				<input type="checkbox" id="f<?= $field; ?>" name="f<?= $field; ?>" <?= $checked; ?> value="<?= $library; ?>">
 																			</li>				
 																			<?php } ?>
 																		</ul>
@@ -53,7 +53,7 @@
 																	</div>
 																</div>
 																<?php }
-																elseif ($field == 'Holtype')  { ?>
+																elseif ($field == 'holtype')  { ?>
 																<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 																	<div class="input-group inline input-group-sm">
 																		<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
@@ -182,7 +182,7 @@
 																			<?php 
 																			foreach ($sublibraries as $library) { ?>
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="f852h[]" value="<?= $library; ?>"><?= $library; ?>
+																				<input type="checkbox" id="<?= $field; ?>" name="f852b[]" value="<?= $library; ?>"><?= $library; ?>
 																			</li>				
 																			<?php } ?>
 																		</ul>
@@ -193,7 +193,7 @@
 																	</div>
 																</div>
 																<?php }
-															elseif ($field == 'Holtype')  { ?>
+															elseif ($field == 'holtype')  { ?>
 															<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 																<div class="input-group inline input-group-sm">
 																	<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
@@ -224,70 +224,70 @@
 																	<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
 																		<ul class="btn-group pull-left" data-toggle="buttons" style="padding: 0;margin: 0; height: 56px;">
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="HOS-OK">HOS ok
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="HOS-OK">HOS ok
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.annotated') }}">{{ trans('states.annotated') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="annotated"> {{ trans('states.annotated') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.blank') }}">{{ trans('states.blank') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="blank"> {{ trans('states.blank') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.blank_reserved') }}">{{ trans('states.blank_reserved') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="blank_reserved"> {{ trans('states.blank_reserved') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.burn') }}">{{ trans('states.burn') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="burn"> {{ trans('states.burn') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.commented') }}">{{ trans('states.commented') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="commented"> {{ trans('states.commented') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.confirmed') }}">{{ trans('states.confirmed') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="confirmed"> {{ trans('states.confirmed') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.confirmed_reserved') }}">{{ trans('states.confirmed_reserved') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="confirmed_reserved"> {{ trans('states.confirmed_reserved') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.delivery') }}">{{ trans('states.delivery') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="delivery"> {{ trans('states.delivery') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.integrated') }}">{{ trans('states.integrated') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="integrated"> {{ trans('states.integrated') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.ok') }}">{{ trans('states.ok') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="ok"> {{ trans('states.ok') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.received') }}">{{ trans('states.received') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="received"> {{ trans('states.received') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.revised') }}">{{ trans('states.revised') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="revised"> {{ trans('states.revised') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.revised_reserved') }}">{{ trans('states.revised_reserved') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="revised_reserved"> {{ trans('states.revised_reserved') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.revised_annotated') }}">{{ trans('states.revised_annotated') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="revised_annotated"> {{ trans('states.revised_annotated') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.revised_ok') }}">{{ trans('states.revised_ok') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="revised_ok"> {{ trans('states.revised_ok') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.spare') }}">{{ trans('states.spare') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="spare"> {{ trans('states.spare') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.title') }}">{{ trans('states.title') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="title"> {{ trans('states.title') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.trash') }}">{{ trans('states.trash') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="trash"> {{ trans('states.trash') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.pending') }}">{{ trans('states.pending') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="pending"> {{ trans('states.pending') }}
 																			</li>				
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.deleted') }}">{{ trans('states.deleted') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="deleted"> {{ trans('states.deleted') }}
 																			</li>			
 																			<li class="btn btn-primary" style="height: 28px;">
-																				<input type="checkbox" id="<?= $field; ?>" name="status[]" value="{{ trans('states.reserved') }}">{{ trans('states.reserved') }}
+																				<input type="checkbox" id="<?= $field; ?>" name="state[]" value="reserved"> {{ trans('states.reserved') }}
 																			</li>				
 																		</ul>
 																	<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">	
