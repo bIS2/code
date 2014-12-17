@@ -506,9 +506,12 @@ class Holding extends Eloquent {
         $field = 'size_dispatchable';
       }
     } 
-    if ($field=='f866aupdated'){
+    if ($field=='fe866a') {
+      if (($this->f866aupdated) == '') {
+        $this->update(['f866aupdated'=> $this->f866a]);
+      }
       if ($this->holdingsset->state == 'blank') {
-      $html = '<a href="#" class="editable" data-type="text" data-pk="'.$this->id.'" data-url="'.route('holdings.update',[$this->id]).'?field=f866aupdated" >'.$this->f866aupdated.'</a>';
+      $html = '<a href="#" class="editable" data-type="text" data-pk="'.$this->holdingsset->id.'" data-url="'.action('HoldingssetsController@putUpdateField866aHolding',[$this->id]).'" >'.$this->f866aupdated.'</a>';
       }
       else {
         $field = 'f866aupdated';

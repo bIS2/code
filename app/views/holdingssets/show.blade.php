@@ -6,10 +6,6 @@
   		</div>
   		<div class="modal-body">
   			<table class="table table-bordered">
-  				<tr><td style="width: 80px"><strong>866a_total: </strong></td><td>{{ $holdingsset->show(f88a_total); }}</td></tr>
-  			</table>
-  			<br/>
-  			<table class="table table-bordered">
   				<thead>
   					<tr>		
   						<th>sys</th>				

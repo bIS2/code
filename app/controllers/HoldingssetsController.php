@@ -45,8 +45,8 @@ class HoldingssetsController extends BaseController {
 		/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 		-----------------------------------------------------------*/
 
-		define('ALL_FIELDS', 'actions;state;sys2;ocrr_ptrn;holtype;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;fx866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
-		define('GENERAL', 'actions;state;sys2;ocrr_ptrn;holtype;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;fx866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
+		define('ALL_FIELDS', 'actions;state;sys2;ocrr_ptrn;holtype;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;fe866a;fx866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
+		define('GENERAL', 'actions;state;sys2;ocrr_ptrn;holtype;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;fe866a;fx866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
 		define('TITLE', 'actions;f008x;f008y;f022a;f245a;f245b;f245n;f245p;f710a;f710b;f780t;785t');
 		define('COMPARE', 'actions;sys2;ocrr_ptrn;f866a;f866aupdated;fx866a');
 
@@ -375,12 +375,14 @@ class HoldingssetsController extends BaseController {
 	 */
 	public function update($id)
 	{
+
 		$inputs = Input::all();
 		Holdingsset::find($id)->update($inputs);
 		if (Input::has('ok') )
 			return Response::json([ 'ok'=>$id ]);
 		//
 	}
+
 
 	/**
 	 * Update the specified Holdings Set (HOS) in storage.
@@ -723,8 +725,8 @@ class HoldingssetsController extends BaseController {
 		-----------------------------------------------------------------------------------*/
 		public function putUpdateField866aHolding($id) {
 
-
 			$new866a = Input::get('new866a');
+			$new866a = ($new866a == '') ?  Input::get('value') : $new866a;
 			$holdingsset_id = Holding::find($id)->holdingsset_id;
 
 			$newhol_nrm = normalize866a($new866a, Holding::find($id)->sys2);
@@ -738,6 +740,9 @@ class HoldingssetsController extends BaseController {
 			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
 			return $newset;
 		}	
+
+
+		
 	}
 
 	function createNewHos($id) {
@@ -1099,25 +1104,25 @@ $query .= "\n FROM holdings";
 						- 866aupdated if 866aupdated != '';
 						- lockeds holdings can't be used to the algoritm
 
-						-----------------------------------------------------------------------------------*/
-						function holdingsset_recall($id) {
-							$db_config = Config::get('database');
-							$database = $db_config['connections']['pgsql']['database'];
-							$username = $db_config['connections']['pgsql']['username'];
-							$password = $db_config['connections']['pgsql']['password'];
-							$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
-							$con = pg_connect($conn_string);
+-----------------------------------------------------------------------------------*/
+function holdingsset_recall($id) {
+	$db_config = Config::get('database');
+	$database = $db_config['connections']['pgsql']['database'];
+	$username = $db_config['connections']['pgsql']['username'];
+	$password = $db_config['connections']['pgsql']['password'];
+	$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
+	$con = pg_connect($conn_string);
 
-							$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." AND state NOT LIKE '%reserve%' ORDER BY sys2, score DESC LIMIT 100";
-							$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
+	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." AND state NOT LIKE '%reserve%' ORDER BY sys2, score DESC LIMIT 100";
+	$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
 
-							$ta_arr = pg_fetch_all($result);
+	$ta_arr = pg_fetch_all($result);
 
-							/*******************************************************************/
+	/*******************************************************************/
 
-							$hos = array();
-							$hos['ptrn'] = array();
-							$hos['hol'] = array();
+	$hos = array();
+	$hos['ptrn'] = array();
+	$hos['hol'] = array();
 
 	$hos['year_ptrn'] = array(); // ***** NEW! *****
 	$hos['timeline'] = array();  // ***** NEW! *****

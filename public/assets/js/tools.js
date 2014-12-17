@@ -654,9 +654,11 @@ function doEditable() {
   // $.fn.editable.defaults.inputclass = 'input-';
   $.fn.editable.defaults.ajaxOptions = {type: "PUT"};
   $('.editable').editable({
-    success: function(data, result, status){ 
-      if ($(this).attr('set') > 0) {
-        reload_set($(this).attr('set'), data, 1);      
+    success: function(data, result, status) { 
+      var set = $(this).attr('set')
+      set = ((set > 0) == false) ? $(this).parents('li').attr('id') : set ;
+      if (set > 0) {
+        reload_set(set, data, 1);      
       }
     }
   });
