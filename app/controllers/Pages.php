@@ -168,7 +168,9 @@ class Pages extends BaseController {
 
 			$data['allsearchablefields'] = ['852b','866c','852h','holtype','state'];
 			extract(Input::all());
+
 			if ($filtered == 1) {
+				
 				$query = 'SELECT '.implode(',', $fieldstoshow).' FROM holdings';
 				$i = -1;
 				$where = ' WHERE ';
@@ -215,10 +217,10 @@ class Pages extends BaseController {
 
 								$part .= "state = '".$st."'";
 
-								if ($t < count($status) - 1)
+								if ($t < count($state) - 1)
 									$part .= ' OR ';
 
-								if ($t == count($status) - 1)
+								if ($t == count($state) - 1)
 									$part .= ')';
 
 									$t++;

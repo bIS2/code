@@ -6,7 +6,7 @@ $(function(){
 
 var pages = {
 	init: function() {
-		$('#filterContainer.extract .btn.btn-xs').on('mouseup', function() {
+		$('#filterContainer.extract .btn').on('mouseup', function() {
 			var timer = setInterval(function() {
 				$.ajax({  type: "GET",  url: '/admin/extract-data?fromajax=1&' + $('#advanced-search-form').serialize(),  success: pages.updateQuery,  dataType: 'HTML'});
 				window.clearInterval(timer);
