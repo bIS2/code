@@ -3,7 +3,7 @@
 	<div class="page-header clearfix">
 		<div id="main-filters" class="row">
 			<div class="col-xs-12">
-				<div id="filterContainer">
+				<div id="filterContainer" class="extract">
 					<div class="text-right accordion-group">
 						<div class="accordion-body text-left">
 							<div class="row">
@@ -164,9 +164,9 @@
 														</div>
 													</div>
 													<div id="searchsubmit" class="col-xs-12 text-center clearfix">
-														<button style="margin: 20px 0;" type="submit" class="btn btn-default btn-sm btn-success"><span class="glyphicon glyphicon-search"></span> {{ trans('general.search') }}</button>
+														<button style="margin: 20px 0;" type="submit" class="btn btn-default btn-sm btn-success"><span class="fa fa-search"></span> {{ trans('general.search') }}</button>
 													</div>
-
+													<textarea id="query" name="query" class="form-control col-xs-12"></textarea>
 												</form>
 												<div id="fieldstosearchhidden" style="display: none;">
 													<?php foreach ($allsearchablefields as $field) { 

@@ -110,8 +110,14 @@ class HoldingssetsController extends BaseController {
 			$order 	= (Session::get($uUserName.'_sortinghos') != null) ? Session::get($uUserName.'_sortinghos') : 'ASC';
 
 			// Groups
-			// $this->data['groups'] = Auth::user()->groups;
-			$this->data['groups'] = Group::orderby('name', 'ASC')->get();
+
+			$libraryusers = Library::find($uUserLibraryId)->users->lists('id');
+			$libraryusers[] = -1;
+
+			// var_dump($libraryusers);
+			$this->data['groups'] = Group::orderby('name', 'ASC')->whereIn('user_id', $libraryusers)->get();
+			// var_dump($this->data['groups']->lists('id'));die();
+			// $this->data['groups'] = Group::orderby('name', 'ASC')->get();
 
 			$this->data['group_id'] = (in_array(Input::get('group_id'), $this->data['groups']->lists('id'))) ? Input::get('group_id') : '';
 			$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets() : Holdingsset::where('holdings_number','<',101);

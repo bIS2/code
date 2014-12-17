@@ -1,7 +1,7 @@
-@extends('layouts.default')
+@extends('layouts.pages')
 
 {{-- Content --}}
-@section('content')
+@section('main')
 
 @include('pages.dataextracttoolbar')	
 

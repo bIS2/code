@@ -63,6 +63,7 @@ return array(
                 $collection->add('bootstrap/bootstrap.js');
                 $collection->add('flotr2.min.js');
                 $collection->add('stats.js');
+                $collection->add('pages.js');
 
             })->apply('JsMin');;
     	},

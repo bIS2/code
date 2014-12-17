@@ -169,7 +169,6 @@ class Pages extends BaseController {
 			$data['allsearchablefields'] = ['852b','866c','852h','holtype','state'];
 			extract(Input::all());
 			if ($filtered == 1) {
-
 				$query = 'SELECT '.implode(',', $fieldstoshow).' FROM holdings';
 				$i = -1;
 				$where = ' WHERE ';
@@ -238,12 +237,10 @@ class Pages extends BaseController {
 					}
 				}
 
-				var_dump($query);
-				var_dump(Input::all(0));
-				die();
-
-
-
+				if ($fromajax = 1) {
+					echo $query;
+					die();
+				}
 			}
 			else {				
 				return View::make('pages/extractdata', $data);
