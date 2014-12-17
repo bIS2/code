@@ -915,7 +915,7 @@ create_table($ta_sim_name);
 $sys = $sys2;
 
 		// get reference record
-$query = "SELECT ".$select_fld." FROM holdings WHERE sys2 = '$sys'";
+$query = "SELECT ".$select_fld." FROM holdings WHERE sys2 = '$sys' AND state NOT LIKE '%reserved%'";
 		$result = pg_query($con, $query) or die(pg_last_error()); //; if (!$result) { echo "Error executing".$query."\n"; exit; }
 		$tas = pg_fetch_all($result);
 		// echo $query."<br>";
@@ -1369,7 +1369,6 @@ function holdingsset_recall($id) {
 
 	$prtnall = $hos['ptrn'];
 	// var_dump($hos);
-	$f88a_total = '';
 	// var_dump($hos['hol'][0]);
 	for ($i=0; $i<count($hos['hol']); $i++){
 		$hol = $hos['hol'][$i];
@@ -1385,24 +1384,23 @@ function holdingsset_recall($id) {
 		$is_owner = ($hol['is_owner'] === 't')?'o':' ';
 		$pot_owner = ($hol['pot_owner'] === 't')?'p':' ';
 		$is_aux = ($hol['is_aux'] === 't')?'a':' ';
-		$f866a = explode(';', $hol['f866a']);
 
+		$f866a = ($hol['f866aupdated'] == '') ? explode(';', $hol['f866a']) : explode(';', $hol['f866aupdated']);
+
+		$fx866a = '';
 		if ($hol['is_aux'] == 't') {
-			$fx866a = '';
 			$auxs = $hol['aux_ptrn'];
 			$k = -1;
 			foreach ($auxs as $aux) {
 				if ($aux == 1) {
 					$k++;
-					$f88a_total .= ($fx866a == '') ? ' '.$f866a[$k] : '-'.$f866a[$k];
 					$fx866a .= ($fx866a == '') ? $f866a[$k] : '-'.$f866a[$k];
 				}
 			}
 		}
 		if ($hol['is_owner'] == 't') {
-			$fx866a = $hol['f866a'];
-			$f88a_total .= ' '.$fx866a;
 
+			$fx866a = ($hol['f866aupdated'] == '') ? $hol['f866a'] : $hol['f866aupdated'];
 		}
 
 		// echo '<pre>'.$i.$sp
@@ -1423,7 +1421,7 @@ function holdingsset_recall($id) {
 		// 	.$sp.'</pre>';
 		Holding::find($hol['id'])->update(['ocrr_nr' => $hol['ocrr_nr'], 'ocrr_ptrn' => $o, 'weight' => $weight, 'j_ptrn' => $j, 'is_owner' => $hol['is_owner'],  'pot_owner' => $hol['pot_owner'], 'aux_ptrn' => $a, 'is_aux' => $hol['is_aux'], 'fx866a' => $fx866a, 'c_arr' => implode('|', $hol['c_arr'])]);
 	}
-	Holdingsset::find($hol['holdingsset_id'])->update(['ptrn' => implode('|', $hos['ptrn']), 'f88a_total' => $f88a_total]);
+	Holdingsset::find($hol['holdingsset_id'])->update(['ptrn' => implode('|', $hos['ptrn'])]);
 	// die("\nThat's a better end of the story");
 }
 

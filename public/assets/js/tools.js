@@ -123,18 +123,25 @@ $(function(){
 
   $('.btn-ok, .btn-tag').each(function() {
     $(this).on('click',function(e){
+
       size_in_form = $(this).parents('form').find('input#size').val()
-
-      size_in_a = parseFloat($(this).parents('tr').find('.editable').text() )
-
+      size_in_a = parseFloat($(this).parents('tr').find('.editable.size').text() )
       size = (size_in_form) ? size_in_form : size_in_a
-
       if (!( size > 0 )) {
        bootbox.alert( $('#field_size_in_blank').text() )
        return false
      } 
+
+      size_dispatchable_in_form = $(this).parents('form').find('input#size_dispatchable').val()
+      size_dispatchable_in_a = parseFloat($(this).parents('tr').find('.editable.size_dispatchable').text() )
+      size_dispatchable = (size_dispatchable_in_form) ? size_dispatchable_in_form : size_dispatchable_in_a
+      if (!( size_dispatchable > 0 )) {
+       bootbox.alert( $('#field_size_dispatchable_in_blank').text() )
+       return false
+     } 
    })
   })
+  
   var originhref = $('a.btn-ok').attr('href');
   $('input#size').on('keyup',function(){
     // console.log($(this).serialize())

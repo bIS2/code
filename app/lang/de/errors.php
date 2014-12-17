@@ -13,4 +13,5 @@ return array(
 	'field_note_in_blank'		=> 'Ein Feld muss etwas enthalten',
 	'notes_in_blank'			=> "Notes can't not blank",
 	'select_notes_is_0'			=> 'Leeres Bemerkungsfeld',
+	'field_size_dispatchable_in_blank'	=> 'Bitte Abzugebender Bestand angeben',
 );
