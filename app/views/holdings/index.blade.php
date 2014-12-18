@@ -2,6 +2,12 @@
 <?php 
 $fieldstoshow = Session::get(Auth::user()->username.'_fields_to_show_ok_hols');
 $fieldstoshow = explode(';',$fieldstoshow);
+
+$sizeofields = $_COOKIE[Auth::user()->username.'_'.$cprofile.'_size_of_fields'];
+$sizeofields = explode(';',$sizeofields);
+
+$defaultsize = 100;
+
 ?>
 {{-- Content --}}
 @section('content')
@@ -36,19 +42,35 @@ $fieldstoshow = explode(';',$fieldstoshow);
 </ul>
 </div>
 </th>
-
+<?php $k = -1; ?>
 @foreach ($fieldstoshow as $field) 
-
+<?php $k++; $sizeofield = ($sizeofields[$k] > 0) ? $sizeofields[$k] : $defaultsize ; ?>
 @if ($field == 'actions')
-<th>{{ trans('fields.'.$field) }}</th>		
+<th>
+	<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+		{{ trans('fields.'.$field) }}
+	</div>
+</th>		
 @endif
 @if ($field == 'state')
-<th>{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span></th>		
+<th>
+	<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+		{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span>
+	</div>
+</th>		
 @endif
 @if ($field == '866a')
-<th>{{ trans('holdings.f866atitle') }} <span class="fa fa-info-circle"></span></th> 
+<th>
+	<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+		{{ trans('holdings.f866atitle') }} <span class="fa fa-info-circle"></span>
+	</div>
+</th> 
 @else
-<th>{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span></th> 
+<th>
+	<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+		{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span>
+	</div>
+</th> 
 @endif
 
 @endforeach	
@@ -71,45 +93,52 @@ $fieldstoshow = explode(';',$fieldstoshow);
 			<input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl" {{ ( Authority::can('create','Hlist') ) ? '' : 'disabled' }} />
 		</td>
 
-
+		<?php $k = -1; ?>
 		@foreach ($fieldstoshow as $field)
+		<?php $k++; $sizeofield = ($sizeofields[$k] > 0) ? $sizeofields[$k] : $defaultsize ; ?>
+		@if ($field == 'actions')
+		<td id="{{ $holding->id }}" class="actions" >
+			<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+				@include('holdings.actions')
+			</div>
+		</td>	
+		@elseif ($field == 'state')
+		<td class="state">
+			<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+				<span class="label label-primary">
+					{{ trans('states.'.$holding->state) }}
+				</span>	
+			</div>
+		</td>	
+		@elseif ($field == 'ocrr_ptrn')
+		<td class="ocrr_ptrn">
+			<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+				{{ $holding->patrn_no_btn }}
 
-			@if ($field == 'actions')
-				<td id="{{ $holding->id }}" class="actions" >
-					@include('holdings.actions')
-				</td>	
-			@elseif ($field == 'state')
-				<td class="state">
-					<span class="label label-primary">
-						{{ trans('states.'.$holding->state) }}
-					</span>	
-				</td>	
-			@elseif ($field == 'ocrr_ptrn')
-				<td class="ocrr_ptrn">
+				<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>
+					<?php 
+					if ($holding->f866aupdated == '') { 
+						echo $holding->clean($holding->f866a);
+					}
+					else {
+						echo $holding->clean($holding->f866aupdated);
+					}
+					?>
+				</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
+			</div>
+		</td>
+		@else
 
-					{{ $holding->patrn_no_btn }}
+		<?php 
+		$field = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size')  && ($field != 'size_dispatchable') && ($field != 'sys2')) ? $field = 'f'.$field : $field; 
+		?>						
+		<td>
+			<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+				{{ $holding->show( $field ) }}
+			</div>
+		</td>
+		@endif
 
-					<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>
-						<?php 
-						if ($holding->f866aupdated == '') { 
-							echo $holding->clean($holding->f866a);
-						}
-						else {
-							echo $holding->clean($holding->f866aupdated);
-						}
-						?>
-					</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
-				</td>
-			@else
-
-				<?php 
-				$field = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size')  && ($field != 'size_dispatchable') && ($field != 'sys2')) ? $field = 'f'.$field : $field; 
-				?>						
-				<td>
-					{{ $holding->show( $field ) }}
-				</td>
-			@endif
-			
 		@endforeach
 	</tr>
 	@endforeach
