@@ -495,7 +495,7 @@ class Holding extends Eloquent {
     $j_ptrn = str_split($this->j_ptrn);
     $aux_ptrn = str_split($this->aux_ptrn);
     $i = 0;
-    $ret = '<div class="nicescrolltome" style="display: inline-block;width:100%;overflow:hidden;" class="'.$this->class_owner.'">';
+    $ret = '<div class="nicescrolltome" style="display: inline-block;" class="'.$this->class_owner.'">';
     $counter = -1;
     $kk = -1;
     $pinters = explode('|', $this->c_arr);
