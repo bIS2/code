@@ -44,6 +44,7 @@ return array(
 	'tagged'			 	=> 'Markierte',
 	'title'					=> 'Holdings',
 	'title_create_group' 	=> 'Gruppe erstellen',
+	'title_move_to_list' 	=> 'Titel zur Liste zufügen',
 	'tooltip_comment'		=> 'Kommentar',
 	'tooltip_list_history'	=> 'History zeigen',
 	'tooltip_notes'			=> 'Annotatieren',
