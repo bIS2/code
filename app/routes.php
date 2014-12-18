@@ -34,6 +34,8 @@
         # Index Page - Last route, no matches
         Route::get('/', ['uses' => 'Pages@getIndex']);
         Route::get('statistics', ['uses' => 'Pages@getStatistics']);
+        Route::get('admin/extract-data', 'Pages@getExtractData');
+        Route::post('admin/extract-data', 'Pages@postExtractData');
         Route::get('help', ['uses' => 'Pages@getHelp']);
 
         Route::get('clearcookies', ['uses' => 'Pages@getClearCookies']);

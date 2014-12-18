@@ -123,18 +123,25 @@ $(function(){
 
   $('.btn-ok, .btn-tag').each(function() {
     $(this).on('click',function(e){
+
       size_in_form = $(this).parents('form').find('input#size').val()
-
-      size_in_a = parseFloat($(this).parents('tr').find('.editable').text() )
-
+      size_in_a = parseFloat($(this).parents('tr').find('.editable.size').text() )
       size = (size_in_form) ? size_in_form : size_in_a
-
       if (!( size > 0 )) {
        bootbox.alert( $('#field_size_in_blank').text() )
        return false
      } 
+
+      size_dispatchable_in_form = $(this).parents('form').find('input#size_dispatchable').val()
+      size_dispatchable_in_a = parseFloat($(this).parents('tr').find('.editable.size_dispatchable').text() )
+      size_dispatchable = (size_dispatchable_in_form) ? size_dispatchable_in_form : size_dispatchable_in_a
+      if (!( size_dispatchable > 0 )) {
+       bootbox.alert( $('#field_size_dispatchable_in_blank').text() )
+       return false
+     } 
    })
   })
+  
   var originhref = $('a.btn-ok').attr('href');
   $('input#size').on('keyup',function(){
     // console.log($(this).serialize())
@@ -654,9 +661,11 @@ function doEditable() {
   // $.fn.editable.defaults.inputclass = 'input-';
   $.fn.editable.defaults.ajaxOptions = {type: "PUT"};
   $('.editable').editable({
-    success: function(data, result, status){ 
-      if ($(this).attr('set') > 0) {
-        reload_set($(this).attr('set'), data, 1);      
+    success: function(data, result, status) { 
+      var set = $(this).attr('set')
+      set = ((set > 0) == false) ? $(this).parents('li').attr('id') : set ;
+      if (set > 0) {
+        reload_set(set, data, 1);      
       }
     }
   });
@@ -869,4 +878,34 @@ makeOderableGroups: function() {
 makeSortableGroups: function() {
   $( "#FieldsShow .btn-group" ).sortable()
 },
+}
+
+var pages = {
+  init: function() {
+    $('#filterContainer.extract .btn.btn-xs').on('mouseup', function() {
+      var timer = setInterval(function() {
+        $.ajax({  type: "GET",  url: '/admin/extract-data?fromajax=1&' + $('#advanced-search-form').serialize(),  success: pages.updateQuery,  dataType: 'HTML'});
+        window.clearInterval(timer);
+      }, 100)     
+    })
+  },
+  updateQuery: function(data) {
+    $('#query').val(data)
+  },
+  setFilterActions: function() {    
+    $('#currentfiltersoption label').on('click', function() {
+      filter = $(this).attr('href')
+      if ($(this).hasClass('active')) {
+        $(filter).appendTo('#fieldstosearchhidden')
+      }
+      else  {
+        if ($(filter).attr('id') == 'ffsys1') { 
+          $(filter).prependTo('#currentfilters')
+        }
+        else { 
+          $(filter).appendTo('#currentfilters')
+        }
+      }
+    })
+  }
 }

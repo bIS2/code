@@ -81,49 +81,49 @@ class Pages extends BaseController {
 
 		$stats_size = [
 
-			$this->find_stat( 'ok', 'size'),
-			$this->find_stat( 'revised', 'size'),
-			$this->find_stat( 'delivery', 'size'),
-			$this->find_stat( 'integrated', 'size'),
-			$this->find_stat( 'trash', 'size'),
-			$this->find_stat( 'burn', 'size'),
+		$this->find_stat( 'ok', 'size'),
+		$this->find_stat( 'revised', 'size'),
+		$this->find_stat( 'delivery', 'size'),
+		$this->find_stat( 'integrated', 'size'),
+		$this->find_stat( 'trash', 'size'),
+		$this->find_stat( 'burn', 'size'),
 
 		];
 		$stats_count = [
 
-			$this->find_stat( 'confirmed', 'count'),
-			$this->find_stat( 'ok', 'count'),
-			$this->find_stat( 'revised', 'count'),
-			$this->find_stat( 'integrated', 'count'),
-			$this->find_stat( 'trash', 'count'),
-			$this->find_stat( 'burn', 'count'),
+		$this->find_stat( 'confirmed', 'count'),
+		$this->find_stat( 'ok', 'count'),
+		$this->find_stat( 'revised', 'count'),
+		$this->find_stat( 'integrated', 'count'),
+		$this->find_stat( 'trash', 'count'),
+		$this->find_stat( 'burn', 'count'),
 
 		];
 
 		return Response::json([
-				'titles'	=> [ 
-					'size' =>[
-						trans('states.ok'),
-						trans('states.revised'),
-						trans('states.delivery'), 
-						trans('states.integrated'),
-						trans('states.trash'),
-						trans('states.burn') 
-					],
-					'count' =>[
-						trans('states.confirmed'), 
-						trans('states.ok'),
-						trans('states.revised'),
-						trans('states.integrated'),
-						trans('states.trash'),
-						trans('states.burn') 
-					]
-				],
-				'count' 	=> $stats_count,
-				'size'		=> $stats_size	
+			'titles'	=> [ 
+			'size' =>[
+			trans('states.ok'),
+			trans('states.revised'),
+			trans('states.delivery'), 
+			trans('states.integrated'),
+			trans('states.trash'),
+			trans('states.burn') 
+			],
+			'count' =>[
+			trans('states.confirmed'), 
+			trans('states.ok'),
+			trans('states.revised'),
+			trans('states.integrated'),
+			trans('states.trash'),
+			trans('states.burn') 
+			]
+			],
+			'count' 	=> $stats_count,
+			'size'		=> $stats_size	
 				// 'query'		=> Holding::stats($month, $year)->get()->toArray()
 			]
-		);
+			);
 
 	}
 
@@ -154,6 +154,116 @@ class Pages extends BaseController {
 
 
 	/**
+	 * Extract data to a csv file
+	 *
+	 * @return Response
+	 */
+	public function getExtractData()
+	{
+		$user = Auth::user();
+		if (!$user->hasRole('superuser')) {return Redirect::to('/'); }
+		else {
+			$data = array();
+			$data['allselectablefields'] = ['sys2','g','sys1','852b','866c','852h','245a','245b','245n','245p','260a','260b', '866a','866aupdated','x866a','state' , 'size', 'size_dispatchable'];
+
+			$data['allsearchablefields'] = ['852b','866c','852h','holtype','state'];
+			extract(Input::all());
+
+			if ($filtered == 1) {
+				
+				$query = 'SELECT '.implode(',', $fieldstoshow).' FROM holdings';
+				$i = -1;
+				$where = ' WHERE ';
+				foreach ($data['allsearchablefields'] as $field) {
+					switch ($field) {
+						case '852b':
+						$i++;
+							$part = '';
+							$t = 0;
+
+							foreach ($f852b as $lib) {
+								if ($t == 0)
+									$part .= '(';
+
+								$part .= "f852b =  '".$lib."'";
+
+								if ($t < count($f852b) - 1)
+									$part .= ' OR ';
+
+								if ($t == count($f852b) - 1)
+									$part .= ')';
+
+									$t++;
+							}
+							if ($part != '') {
+								$query .= $where.$OrAndFilter[$i-1].' '.$part;
+								$where = ' ';
+							}
+
+							break;
+
+						case 'holtype':
+							$i++;
+							# code...
+							break;
+							
+						case 'state':
+							$i++;
+							$part = '';
+							$t = 0;
+							foreach ($state as $st) {
+								if ($t == 0)
+									$part .= '(';
+
+								$part .= "state = '".$st."'";
+
+								if ($t < count($state) - 1)
+									$part .= ' OR ';
+
+								if ($t == count($state) - 1)
+									$part .= ')';
+
+									$t++;
+							}
+							if ($part != '') {
+								$query .= $where.$OrAndFilter[$i-1].' '.$part;
+								$where = ' ';
+							}
+
+							break;
+
+						
+						default:
+							# code...
+							break;
+					}
+				}
+
+				if ($fromajax = 1) {
+					echo $query;
+					die();
+				}
+			}
+			else {				
+				return View::make('pages/extractdata', $data);
+			}
+		}
+	}	
+
+	/**
+	 * Extract data to a csv file
+	 *
+	 * @return Response
+	 */
+	public function postExtractData()
+	{
+		var_dump(Input::all());
+		die();
+	}	
+
+
+
+	/**
 	 * Clear all cookies
 	 *
 	 * @param  int  $id
@@ -163,13 +273,13 @@ class Pages extends BaseController {
 	{
 		// unset cookies
 		if (isset($_SERVER['HTTP_COOKIE'])) {
-		    $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
-		    foreach($cookies as $cookie) {
-		        $parts = explode('=', $cookie);
-		        $name = trim($parts[0]);
-		        setcookie($name, '', time()-1000);
-		        setcookie($name, '', time()-1000, '/');
-		    }
+			$cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+			foreach($cookies as $cookie) {
+				$parts = explode('=', $cookie);
+				$name = trim($parts[0]);
+				setcookie($name, '', time()-1000);
+				setcookie($name, '', time()-1000, '/');
+			}
 		}
 		return Redirect::to('/');
 	}

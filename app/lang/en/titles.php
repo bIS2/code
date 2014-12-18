@@ -17,4 +17,6 @@ return array(
 	'updated'			=> 'Code Updated at:',
 	'users'     		=> 'Users',
 	'wellcome'			=> 'Wellcome, :name. Select your option in top bar.',
+
+	'extract_data'		=> 'Extract Data',
 );

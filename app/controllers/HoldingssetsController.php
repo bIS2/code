@@ -45,8 +45,8 @@ class HoldingssetsController extends BaseController {
 		/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 		-----------------------------------------------------------*/
 
-		define('ALL_FIELDS', 'actions;state;sys2;ocrr_ptrn;holtype;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;fx866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
-		define('GENERAL', 'actions;state;sys2;ocrr_ptrn;holtype;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;fx866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
+		define('ALL_FIELDS', 'actions;state;sys2;ocrr_ptrn;holtype;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;fe866a;fx866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
+		define('GENERAL', 'actions;state;sys2;ocrr_ptrn;holtype;f008x;f008y;f022a;f072a;f245a;f245b;f245c;f245n;f245p;f246a;f260a;f260b;f260c;f300a;f300b;f300c;f310a;f362a;f500a;f505a;f710a;f710b;f770t;f772t;f780t;f785t;f852b;f852h;f852j;f866a;fe866a;fx866a;f866c;f866z;years;size;exists_online;is_current;has_incomplete_vols');
 		define('TITLE', 'actions;f008x;f008y;f022a;f245a;f245b;f245n;f245p;f710a;f710b;f780t;785t');
 		define('COMPARE', 'actions;sys2;ocrr_ptrn;f866a;f866aupdated;fx866a');
 
@@ -110,8 +110,14 @@ class HoldingssetsController extends BaseController {
 			$order 	= (Session::get($uUserName.'_sortinghos') != null) ? Session::get($uUserName.'_sortinghos') : 'ASC';
 
 			// Groups
-			// $this->data['groups'] = Auth::user()->groups;
-			$this->data['groups'] = Group::orderby('name', 'ASC')->get();
+
+			$libraryusers = Library::find($uUserLibraryId)->users->lists('id');
+			$libraryusers[] = -1;
+
+			// var_dump($libraryusers);
+			$this->data['groups'] = Group::orderby('name', 'ASC')->whereIn('user_id', $libraryusers)->get();
+			// var_dump($this->data['groups']->lists('id'));die();
+			// $this->data['groups'] = Group::orderby('name', 'ASC')->get();
 
 			$this->data['group_id'] = (in_array(Input::get('group_id'), $this->data['groups']->lists('id'))) ? Input::get('group_id') : '';
 			$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets() : Holdingsset::where('holdings_number','<',101);
@@ -327,7 +333,7 @@ class HoldingssetsController extends BaseController {
 			Session::put($uUserName.'_sortinghos', Input::get('sortinghos'));
 			if (Input::get('reload') == 1) {	
 				// var_dump(Input::all());
-				$urltoredirect = str_replace('?onlyprofiles=1', Input::get('urltoredirect'));	
+				$urltoredirect = str_replace('?onlyprofiles=1', '', Input::get('urltoredirect'));	
 				// die($urltoredirect);	
 				return Redirect::to($urltoredirect);
 			}
@@ -369,12 +375,14 @@ class HoldingssetsController extends BaseController {
 	 */
 	public function update($id)
 	{
+
 		$inputs = Input::all();
 		Holdingsset::find($id)->update($inputs);
 		if (Input::has('ok') )
 			return Response::json([ 'ok'=>$id ]);
 		//
 	}
+
 
 	/**
 	 * Update the specified Holdings Set (HOS) in storage.
@@ -578,17 +586,44 @@ class HoldingssetsController extends BaseController {
 
 			$holdingsset_id = Input::get('holdingsset_id');
 			$holding = Holding::find($id);
+
 			$was_oner = (($holding->is_owner == '1') || ($holding->is_owner == 't')) ? true : false;
+
 			if (Input::get('unique_aux') == 1) {
 				$holdingsset = Holdingsset::find($holdingsset_id);
 				$ptrn = Input::get('ptrn');
 				$empty_ptrn = str_replace('1', '0', $ptrn);
-				$holdingsset->holdings()->where('id', '!=', $id)->update(['is_aux' => 'f', 'aux_ptrn' => $empty_ptrn ]);
-				$holdingsset->holdings()->where('id', '=', $id)->update(['is_aux' => 't', 'is_owner' => 'f', 'aux_ptrn' => $ptrn]);
+				$holdingsset->holdings()->where('id', '!=', $id)->update(['is_aux' => 'f', 'aux_ptrn' => $empty_ptrn]);
+				$holdingsset->holdings()->where('id', '!=', $id)->where('is_owner', 'f')->update(['fx866a' => '']);
+				
+				$fx866a = '';
+				$f866a = explode(';', $holding->f866a);
+				$i = -1;
+				for ($k=0; $k < strlen($ptrn); $k++) { 
+					if ($ptrn[$k] == 1) {
+						$i++;
+						$fx866a .= ($fx866a == '') ? $f866a[$i] : '-'.$f866a[$i];
+					}
+				}
+
+				// var_dump($auxs);
+				// var_dump($f866a);
+				// var_dump($fx866a);
+				$holdingsset->holdings()->where('id', '=', $id)->update(['is_aux' => 't', 'is_owner' => 'f', 'aux_ptrn' => $ptrn, 'fx866a' => $fx866a]);				
 			}
 			else {
 
-				Holding::find($id)->update(['is_aux'=>'t', 'is_owner'=>'f', 'ocrr_ptrn'=> Input::get('newptrn'), 'aux_ptrn'=> Input::get('newauxptrn'), 'ocrr_nr' => Input::get('count'), 'force_aux' => 't', 'force_owner' => 'f']);
+				$fx866a = '';
+				$f866a = explode(';', $holding->f866a);
+				$ptrn = Input::get('newauxptrn');
+				$i = -1;
+				for ($k=0; $k < strlen($ptrn); $k++) { 
+					if ($ptrn[$k] == 1) {
+						$i++;
+						$fx866a .= ($fx866a == '') ? $f866a[$i] : '-'.$f866a[$i];
+					}
+				}
+				$holding->update(['is_aux'=>'t', 'is_owner'=>'f', 'ocrr_ptrn'=> Input::get('newptrn'), 'aux_ptrn'=> Input::get('newauxptrn'), 'ocrr_nr' => Input::get('count'), 'force_aux' => 't', 'force_owner' => 'f', 'fx866a' => $fx866a]);
 			}
 			if ($was_oner) holdingsset_recall($holdingsset_id);
 			$holdingssets[] = Holdingsset::find($holdingsset_id);
@@ -690,8 +725,8 @@ class HoldingssetsController extends BaseController {
 		-----------------------------------------------------------------------------------*/
 		public function putUpdateField866aHolding($id) {
 
-
 			$new866a = Input::get('new866a');
+			$new866a = ($new866a == '') ?  Input::get('value') : $new866a;
 			$holdingsset_id = Holding::find($id)->holdingsset_id;
 
 			$newhol_nrm = normalize866a($new866a, Holding::find($id)->sys2);
@@ -705,6 +740,9 @@ class HoldingssetsController extends BaseController {
 			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
 			return $newset;
 		}	
+
+
+		
 	}
 
 	function createNewHos($id) {
@@ -877,7 +915,7 @@ create_table($ta_sim_name);
 $sys = $sys2;
 
 		// get reference record
-$query = "SELECT ".$select_fld." FROM holdings WHERE sys2 = '$sys'";
+$query = "SELECT ".$select_fld." FROM holdings WHERE sys2 = '$sys' AND state NOT LIKE '%reserved%'";
 		$result = pg_query($con, $query) or die(pg_last_error()); //; if (!$result) { echo "Error executing".$query."\n"; exit; }
 		$tas = pg_fetch_all($result);
 		// echo $query."<br>";
@@ -1066,25 +1104,25 @@ $query .= "\n FROM holdings";
 						- 866aupdated if 866aupdated != '';
 						- lockeds holdings can't be used to the algoritm
 
-						-----------------------------------------------------------------------------------*/
-						function holdingsset_recall($id) {
-							$db_config = Config::get('database');
-							$database = $db_config['connections']['pgsql']['database'];
-							$username = $db_config['connections']['pgsql']['username'];
-							$password = $db_config['connections']['pgsql']['password'];
-							$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
-							$con = pg_connect($conn_string);
+-----------------------------------------------------------------------------------*/
+function holdingsset_recall($id) {
+	$db_config = Config::get('database');
+	$database = $db_config['connections']['pgsql']['database'];
+	$username = $db_config['connections']['pgsql']['username'];
+	$password = $db_config['connections']['pgsql']['password'];
+	$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
+	$con = pg_connect($conn_string);
 
-							$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." AND state NOT LIKE '%reserve%' ORDER BY sys2, score DESC LIMIT 100";
-							$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
+	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." AND state NOT LIKE '%reserve%' ORDER BY sys2, score DESC LIMIT 100";
+	$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
 
-							$ta_arr = pg_fetch_all($result);
+	$ta_arr = pg_fetch_all($result);
 
-							/*******************************************************************/
+	/*******************************************************************/
 
-							$hos = array();
-							$hos['ptrn'] = array();
-							$hos['hol'] = array();
+	$hos = array();
+	$hos['ptrn'] = array();
+	$hos['hol'] = array();
 
 	$hos['year_ptrn'] = array(); // ***** NEW! *****
 	$hos['timeline'] = array();  // ***** NEW! *****
@@ -1331,7 +1369,6 @@ $query .= "\n FROM holdings";
 
 	$prtnall = $hos['ptrn'];
 	// var_dump($hos);
-	$f88a_total = '';
 	// var_dump($hos['hol'][0]);
 	for ($i=0; $i<count($hos['hol']); $i++){
 		$hol = $hos['hol'][$i];
@@ -1348,24 +1385,22 @@ $query .= "\n FROM holdings";
 		$pot_owner = ($hol['pot_owner'] === 't')?'p':' ';
 		$is_aux = ($hol['is_aux'] === 't')?'a':' ';
 
-		$f866a = explode('|', $hol['f866a']);
+		$f866a = ($hol['f866aupdated'] == '') ? explode(';', $hol['f866a']) : explode(';', $hol['f866aupdated']);
 
+		$fx866a = '';
 		if ($hol['is_aux'] == 't') {
-			$fx866a = '';
 			$auxs = $hol['aux_ptrn'];
-			$k = 0;
+			$k = -1;
 			foreach ($auxs as $aux) {
 				if ($aux == 1) {
-					$f88a_total .= ($fx866a == '') ? ' '.$f866a[$k] : '-'.$f866a[$k];
+					$k++;
 					$fx866a .= ($fx866a == '') ? $f866a[$k] : '-'.$f866a[$k];
 				}
-				$k++;
 			}
 		}
 		if ($hol['is_owner'] == 't') {
-			$fx866a = $hol['f866a'];
-			$f88a_total .= ' '.$fx866a;
 
+			$fx866a = ($hol['f866aupdated'] == '') ? $hol['f866a'] : $hol['f866aupdated'];
 		}
 
 		// echo '<pre>'.$i.$sp
@@ -1386,7 +1421,7 @@ $query .= "\n FROM holdings";
 		// 	.$sp.'</pre>';
 		Holding::find($hol['id'])->update(['ocrr_nr' => $hol['ocrr_nr'], 'ocrr_ptrn' => $o, 'weight' => $weight, 'j_ptrn' => $j, 'is_owner' => $hol['is_owner'],  'pot_owner' => $hol['pot_owner'], 'aux_ptrn' => $a, 'is_aux' => $hol['is_aux'], 'fx866a' => $fx866a, 'c_arr' => implode('|', $hol['c_arr'])]);
 	}
-	Holdingsset::find($hol['holdingsset_id'])->update(['ptrn' => implode('|', $hos['ptrn']), 'f88a_total' => $f88a_total]);
+	Holdingsset::find($hol['holdingsset_id'])->update(['ptrn' => implode('|', $hos['ptrn'])]);
 	// die("\nThat's a better end of the story");
 }
 

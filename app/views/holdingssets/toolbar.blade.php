@@ -4,16 +4,15 @@
 		<div id="main-filters" class="row">
 			<div class="col-xs-12">
 				<div class="btn-group">
-					<a href="#" class="btn btn-sm dropdown-toggle btn-default {{ (Auth::user()->groups()->count() > 0) ? '' : ' disabled '}}" data-toggle="dropdown">
+					<a href="#" class="btn btn-sm dropdown-toggle btn-default {{ ($groups->count() > 0) ? '' : ' disabled '}}" data-toggle="dropdown">
 						<i class="fa fa-list-ul"> </i>					 
 						{{{ trans('holdingssets.groups') }}}					  	
 						<span class="caret"></span>
 					</a>
+
 					<!-- Show list if exists -->
-					<?php $groups = Group::orderby('name', 'ASC')->get(); ?>
 
-
- 					@if ($groups->count() > 0) 
+					@if ($groups->count() > 0) 
 						<ul class="dropdown-menu" role="menu">
 							@foreach ($groups as $group) 
 							<li <?= ($group->id == Input::get('group_id')) ? 'class="active"' : '' ; ?>>

@@ -365,24 +365,33 @@ class Holding extends Eloquent {
     }
     foreach ($ocrr_ptrn as $ocrr) { 
       $counter++;
+      $datacontent = '';
       switch ($pinters[$counter]) {
         case '-':
         $icon = '<i class="fa fa-minus"></i>';
+        // $datacontent = $this->getSquareValue($ptrn[$counter]);
+        $datacontent .= '...';
         break;
         case '*':
         $icon = '<i class="fa fa-bullseye"></i>';
+        $datacontent = $this->getSquareValue($ptrn[$counter]);
         break;
         case '[':
         $icon = '<i class="fa fa-long-arrow-right"></i>';
+        $datacontent = $this->getSquareValue($ptrn[$counter]).'-...';
+
         break;
         case ']':
         $icon = '<i class="fa fa-long-arrow-left"></i>';
+        $datacontent = '...-'.$this->getSquareValue($ptrn[$counter]);
         break;
         case '>':
         $icon = '<i class="fa fa-chevron-circle-right"></i>';
+        $datacontent = $this->getSquareValue($ptrn[$counter]);
         break;
         default:
         $icon = '';
+        $datacontent = 'x';
         break;
       }
       switch ($ocrr) {
@@ -409,7 +418,7 @@ class Holding extends Eloquent {
         $ppptrn = $pptrn[0];
         if (count($pptrn) > 1) $ppptrn .= ' ('.$pptrn[1].')';
 // $ret .= '<i class="fa fa-square pop-over btn btn-xs btn-default '.$classj.$classaux.'" data-content="<strong>'.$this->f852b.' | '.$this->f852h.' | '.$ptrn[$i].'</strong>" data-html="true" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title="">'.$icon.'</i>';
-        $ret .= '<i class="fa fa-square pop-over btn btn-xs btn-default '.$classj.$classaux.'" data-content="<strong>'.$f866a[$kk].'</strong>" data-html="true" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title="">'.$icon.'</i>';
+        $ret .= '<i class="fa fa-square pop-over btn btn-xs btn-default '.$classj.$classaux.'" data-content="<strong>'.$datacontent.'</strong>" data-html="true" data-placement="top" data-toggle="popover" class="btn btn-default" type="button" data-trigger="hover" data-original-title="" title="">'.$icon.'</i>';
         break;
       }
       $i++; 
@@ -418,6 +427,67 @@ class Holding extends Eloquent {
     return $ret;
 
   }
+
+  public function getSquareValue($value) {
+    $v1 = intval(substr($value, 0, 4));
+    $v2 = intval(substr($value, 4, 4));
+    $v3 = intval(substr($value, 8, 4));
+    $v4 = intval(substr($value, 12, 4));
+    $string == '';    
+    if ($v1 > 0) $string .= 'v1';
+    if ($v2 > 0) $string .= 'v2';
+    if ($v3 > 0) $string .= 'v3';
+    if ($v4 > 0) $string .= 'v4';
+    // var_dump($string);
+    switch ($string) {
+      case 'v1':
+        return $v1;
+        break;
+      
+      case 'v2':
+        return $v2;
+        break;
+      
+      case 'v3':
+        return $v3;
+        break;
+      
+      case 'v4':
+      return $v4;
+        break;
+      
+      case 'v1v3':
+        return $v1.'('.$v3.')';
+        break;
+            
+      case 'v2v4':
+        return $v2.'('.$v4.')';
+        break;
+      
+      case 'v1v3v4':
+        return $v1.'('.$v3.'/'.$v4.')';
+        break;   
+
+      case 'v2v3v4':
+        return $v2.'('.$v3.'/'.$v4.')';
+        break;
+
+      case 'v3v4':
+        return $v3.' - '.$v4;
+        break;
+      
+      case 'v1v2v3v4':
+        return $v1.'('.$v3.') - '.$v2.'('.$v4.')';
+        break; 
+
+      default:
+        return '';
+        break;
+    }
+    
+  }
+
+
   public function getPatrnNoBtnAttribute($buttons){
 
     $ptrn = explode('|', $this->holdingsset->ptrn);
@@ -439,24 +509,31 @@ class Holding extends Eloquent {
 
     foreach ($ocrr_ptrn as $ocrr) { 
       $counter++;
+      $datacontent = '';
       switch ($pinters[$counter]) {
         case '-':
         $icon = '<i class="fa fa-minus"></i>';
+        $datacontent .= '...';
         break;
         case '*':
         $icon = '<i class="fa fa-bullseye"></i>';
+        $datacontent = $this->getSquareValue($ptrn[$counter]);
         break;
         case '[':
         $icon = '<i class="fa fa-long-arrow-right"></i>';
+        $datacontent = $this->getSquareValue($ptrn[$counter]).'-...';
         break;
         case ']':
         $icon = '<i class="fa fa-long-arrow-left"></i>';
+        $datacontent = '...-'.$this->getSquareValue($ptrn[$counter]);
         break;
         case '>':
         $icon = '<i class="fa fa-chevron-circle-right"></i>';
+        $datacontent = $this->getSquareValue($ptrn[$counter]);
         break;
         default:
         $icon = '';
+        $datacontent = 'x';
         break;
       }
       switch ($ocrr) {
@@ -469,7 +546,7 @@ class Holding extends Eloquent {
         $classaux = '';
         if (isset($j_ptrn[$i]))     $classj   = ($j_ptrn[$i] == '1') ? ' j' : ''; 
         if (isset($aux_ptrn[$i]))   $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
-        $ret .= '<i class="fa fa-square pop-over btn'.$classj.$classaux.'" data-content="<strong>'.$f866a[$kk].'</strong>" data-html="true" data-placement="top" data-toggle="popover" type="button" data-trigger="hover" data-original-title="" title="">'.$icon.'</i>';
+        $ret .= '<i class="fa fa-square pop-over btn'.$classj.$classaux.'" data-content="<strong>'.$datacontent.'</strong>" data-html="true" data-placement="top" data-toggle="popover" type="button" data-trigger="hover" data-original-title="" title="">'.$icon.'</i>';
 
         break;
       }
@@ -493,7 +570,7 @@ class Holding extends Eloquent {
 
     if ($field=='size'){
       if ( Authority::can('set_size', $this) ){
-        $html = '<a href="#" class="editable" data-type="text" data-pk="'.$this->id.'" data-url="'.route('holdings.update',[$this->id]).'?field=size" >'.$this->size.'</a>';
+        $html = '<a href="#" class="editable size" data-type="text" data-pk="'.$this->id.'" data-url="'.route('holdings.update',[$this->id]).'?field=size" >'.$this->size.'</a>';
       } else {
         $field = 'size';
       }
@@ -501,16 +578,41 @@ class Holding extends Eloquent {
 
     if ($field=='size_dispatchable'){
       if ( Authority::can('set_size', $this) ){
-        $html = '<a href="#" class="editable" data-type="text" data-pk="'.$this->id.'" data-url="'.route('holdings.update',[$this->id]).'?field=size_dispatchable" >'.$this->size_dispatchable.'</a>';
+        $size_dispatchable = ($this->size_dispatchable != '') ? $this->size_dispatchable : 0;
+        $html = '<a href="#" class="editable size_dispatchable" data-type="text" data-pk="'.$this->id.'" data-url="'.route('holdings.update',[$this->id]).'?field=size_dispatchable" >'.$size_dispatchable.'</a>';
       } else {
         $field = 'size_dispatchable';
       }
     } 
-    if ($field=='f866aupdated'){
-        $html = '<a href="#" class="editable" data-type="text" data-pk="'.$this->id.'" data-url="'.route('holdings.update',[$this->id]).'?field=f866aupdated" >'.$this->f866aupdated.'</a>';
+    if ($field=='fe866a') {
+      if (($this->f866aupdated) == '') {
+        $this->update(['f866aupdated'=> $this->f866a]);
+      }
+      if (($this->holdingsset->state == 'blank') && (strpos($this->state, 'reserved') === false)) {
+      $html = '<a href="#" class="editable" data-type="text" data-pk="'.$this->holdingsset->id.'" data-url="'.action('HoldingssetsController@putUpdateField866aHolding',[$this->id]).'" >'.$this->f866aupdated.'</a>';
+      }
+      else {
+        $field = 'f866aupdated';
+      }
     } 
     if ($field=='fx866a'){
+      if (($this->holdingsset->state == 'blank') && (strpos($this->state, 'reserved') === false)) {
         $html = '<a href="#" class="editable" data-type="text" data-pk="'.$this->id.'" data-url="'.route('holdings.update',[$this->id]).'?field=fx866a" >'.$this->fx866a.'</a>';
+      }
+      else {
+        $field = 'fx866a';
+      }
+    } 
+    if ($field=='holtype') {
+      // is_owner: AB // Ist Archivbestand 
+      // is_aux: EB // Ergänzungsbestand
+      // !is_aux && !is_owner: KB // Disposable
+      // reserved: GB // Reserved
+      $html =  '';
+      if ($this->is_owner == 't') $html = 'AB';
+      if ($this->is_aux == 't') $html = 'EB';
+      if (($this->is_aux == 't') && ($this->ocrr_ptrn != $this->aux_ptrn)) $html = 'EB/KB';
+      if ($html == '') $html = 'KB';
     } 
 
     if ($html){
@@ -573,7 +675,7 @@ class Holding extends Eloquent {
   |
 <?php endif ?>
 <?php if (!($HOSconfirm) && !($HOSincorrect)) : ?>
-<?php if ($cprofile != 'compare') { ?>
+  <?php if ($cprofile != 'compare') { ?>
   <a id="holding<?=$holding -> id;; ?>delete" set="<?=$holdingsset->id; ?>"  href="<?= action('HoldingssetsController@putNewHOS',[$holding->id]); ?>" data-remote="true" data-method="put" data-params="holdingsset_id=<?=$holdingsset->id; ?>" data-disable-with="..." class="pop-over" data-content="<strong><?= trans('holdingssets.remove_from_HOS'); ?></strong>" data-placement="<?= $top ?>" data-toggle="popover" data-html="true" data-trigger="hover"><span class="fa fa-times"></span></a>
   <?php } ?>
   <?php if (!($holding->locked)) : ?>

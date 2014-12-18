@@ -122,7 +122,7 @@ function setDatatable() {
 										count = 0;
 										actives = 0;
 										hol = $(this).parents('tr').attr('holding');
-										$('tr#holding'+hol + ' td.ocrr_ptrn > div i.fa').each(function() {
+										$('tr#holding'+hol + ' td.ocrr_ptrn > div i.fa.btn').each(function() {
 											if ($(this).hasClass('active') || $(this).hasClass('fa-square')) {												
 												newauxptrn = ($(this).hasClass('aux') || $(this).hasClass('active')) ? newauxptrn + '1' : newauxptrn + '0'
 												newptrn = newptrn + '1'
@@ -139,7 +139,8 @@ function setDatatable() {
 										dataparam = dataparam + "&newptrn=" + newptrn
 										dataparam = dataparam + "&newauxptrn=" + newauxptrn
 										dataparam = dataparam + "&count=" + count
-										if (actives > 0 )	$(this).parents('tr').find(' a.forceaux').attr('href', dataparam);
+										console.log(actives);
+										if (actives > 0 )	$(this).parents('tr').find('a.forceaux').attr('href', dataparam);
 									});
 								})
 
@@ -188,20 +189,26 @@ function setDraggoption() {
 		drop: function( event, ui ) {
 			recipient = $(this)
 			Url = "/sets/move-hos-to-othergroup/" + $(ui.draggable).attr('id')
+			var NewGroup = $(recipient).attr('id')
 			var changegroup = $.ajax({
 			  url 	: Url,
 			  type 	: "PUT",
 			  data 	: {
 			  	origingroup : $('#groups-tabs li.active').attr('id'),
-			  	newgroup : $(recipient).attr('id'),
+			  	newgroup : NewGroup,
 				  dataType		: "json",
 				  cache			: false
 				}
 			});
 			changegroup.done(function(result) {
-				if (!($('#groups-tabs > li:first-child').hasClass('active'))) { 
+				if (!($('#groups-tabs > li:first-child').hasClass('active'))) {
+					$('#' + NewGroup + ' .badge').html(parseInt($('#' + NewGroup + ' .badge').html()) + 1);
+					OldGroup = 'group' + $('#' + $(ui.draggable).attr('id')).parents('#hosg').attr('group_id');
+					// console.log($(ui.draggable).attr('id'));
+					$('#' + OldGroup + ' .badge').html(parseInt($('#' + OldGroup + ' .badge').html()) - 1);
+
 					$(ui.draggable).fadeOut('slow', function() {
-						$(ui.draggable).remove();	
+						$(ui.draggable).remove();
 					});
 				}
 				else {
@@ -216,6 +223,7 @@ function setDraggoption() {
 						}
 						else {
 							otherbadge = $(ui.draggable).find('div.col-sm-12');
+							$('#' + NewGroup + ' .badge').html(parseInt($('#' + NewGroup + ' .badge').html()) + 1);
 							$('<span style="display: none;" class="badge ingroups" title="Reload to update" ><i class="fa fa-folder-o"></i> ' + result.ingroups + '</span>').appendTo(otherbadge);
 							newbadge = $(ui.draggable).find('span.badge.ingroups');
 							$(newbadge).fadeOut('slow', function() {

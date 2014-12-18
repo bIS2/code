@@ -70,5 +70,6 @@ return array(
 	'unlock_hol'				=> 'Reverse Reservation of HOL',
 	'state'						=> 'State',
 	'white'						=> 'White',
+
 	
 );
