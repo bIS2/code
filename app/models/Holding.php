@@ -584,7 +584,7 @@ class Holding extends Eloquent {
         $field = 'size_dispatchable';
       }
     } 
-    echo $field;
+
     if (($field=='fe866a') || ($field == 'f866aupdated')) {
       if (($this->f866aupdated) == '') {
         $this->update(['f866aupdated'=> $this->f866a]);
