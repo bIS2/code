@@ -855,15 +855,18 @@ updateProfile: function() {
           var current = -1;
           var end = $opened.length;
 
-          var timer = setInterval(function() {
-            current += 1;
-            if (current == end) {
-              clearInterval(timer);
-            }
-            else {
-              $($opened[current]).click();
-            }
-          }, 500);
+          // lis = $('#hosg ul.hol-sets li .accordion-toggle');
+          openAll($opened, 0);
+
+          // var timer = setInterval(function() {
+          //   current += 1;
+          //   if (current == end) {
+          //     clearInterval(timer);
+          //   }
+          //   else {
+          //     $($opened[current]).click();
+          //   }
+          // }, 500);
 
         })
       })
