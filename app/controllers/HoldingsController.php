@@ -29,7 +29,7 @@ class HoldingsController extends BaseController {
 			-----------------------------------------------------------*/
 			define('DEFAULTS_FIELDS', 'actions;state;ocrr_ptrn;sys2;008x;size;size_dispatchable;022a;072a;245a;245b;245n;245p;362a;852b;852h;866a;x866a;866aupdated;866c;866z;years;exists_online;is_current;has_incomplete_vols');
 
-			define('ALL_FIELDS','actions;state;ocrr_ptrn;sys2; 008x;size;size_dispatchable;022a;072a;245a;245b;245n;245p;246a;260a;260b;310a;362a;505a;710a;770t;772t;780t;785t;852b;852c;852h;852j;866a;x866a;866aupdated;866c;866z;years;exists_online;is_current;has_incomplete_vols');
+			define('ALL_FIELDS','actions;state;ocrr_ptrn;sys2;008x;size;size_dispatchable;022a;072a;245a;245b;245n;245p;246a;260a;260b;310a;362a;505a;710a;770t;772t;780t;785t;852b;852c;852h;852j;866a;x866a;866aupdated;866c;866z;years;exists_online;is_current;has_incomplete_vols');
 
 			/* User vars */
 			$uUserName = Auth::user()->username;
@@ -179,7 +179,7 @@ class HoldingsController extends BaseController {
 
 			setcookie($uUserName.'_fields_to_show_ok_hols', $fieldlist, time() + (86400 * 30));
 			Session::put($uUserName.'_fields_to_show_ok_hols', $fieldlist);
-			
+
 			setcookie($uUserName.'_size_of_fields', $fieldlistsize, time()+60*60*24*3650);
 			Session::put($uUserName.'_size_of_fields', $fieldlistsize);
 

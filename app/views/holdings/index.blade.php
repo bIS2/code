@@ -52,15 +52,13 @@ $defaultsize = 100;
 			{{ trans('fields.'.$field) }}
 		</div>
 	</th>		
-	@endif
-	@if ($field == 'state')
+	@elseif ($field == 'state')
 	<th>
 		<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
 			{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span>
 		</div>
-	</th>		
-	@endif
-	@if ($field == '866a')
+	</th>	
+	@elseif ($field == '866a')
 	<th>
 		<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
 			{{ trans('holdings.f866atitle') }} <span class="fa fa-info-circle"></span>
@@ -91,6 +89,7 @@ $defaultsize = 100;
 			</span>
 			@endif
 		</td>
+
 		<td style="width:5px !important">
 			<input type="checkbox" value="{{ $holding->id }}" name="holding_id[]" class="sel hl" {{ ( Authority::can('create','Hlist') ) ? '' : 'disabled' }} />
 		</td>
@@ -146,7 +145,7 @@ $defaultsize = 100;
 	</tr>
 	@endforeach
 
-	
+
 </tbody>
 </table>
 </div>
