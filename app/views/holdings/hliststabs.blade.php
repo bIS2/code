@@ -24,16 +24,16 @@ $sizeofields = explode(';',$sizeofields);
 
 <div class="row">
 	<div class="col-sm-1">
-	
+
 		@if ( Authority::can('create','Hlist') ) 
-			<div class="btn-group">
-				<a href="{{route('lists.create')}}" id="link_create_list" data-toggle="modal" class='btn btn-default link_bulk_action disabled' data-target="#form-create-list" >
-					<i class="fa fa-plus-circle" ></i>
-				</a>
-				<a href="{{action('HlistsController@getAttach')}}" id="link_to_list" data-toggle="modal" class='btn btn-default link_bulk_action disabled' data-target="#form-to-list" >
-					<i class="fa fa-indent" ></i>
-				</a>
-			</div>
+		<div class="btn-group">
+			<a href="{{route('lists.create')}}" id="link_create_list" data-toggle="modal" class='btn btn-default link_bulk_action disabled' data-target="#form-create-list" >
+				<i class="fa fa-plus-circle" ></i>
+			</a>
+			<a href="{{action('HlistsController@getAttach')}}" id="link_to_list" data-toggle="modal" class='btn btn-default link_bulk_action disabled' data-target="#form-to-list" >
+				<i class="fa fa-indent" ></i>
+			</a>
+		</div>
 		@endif
 
 	</div> <!-- /.col-sm-1 -->
@@ -55,22 +55,22 @@ $sizeofields = explode(';',$sizeofields);
 
 			@foreach ($hlists as $hlist) 
 
-				@if (in_array($hlist->id, $hlistsids)) 
-				<!-- Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ] -->
-				
-				<li id="hlist{{ $hlist->id }}" data-id="{{$hlist->id}}" class="<?php echo ($hlist_id == $hlist->id) ? 'active' : 'accepthos' ?> droppable" data-attach-url="{{ action('HlistsController@postAttach') }}">
-					<a <?php if ($hlist_id != $hlist->id) { echo 'href="'.route('holdings.index',Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]).'"'; } ?> class="">
-						{{ $hlist->type_icon }}
-						<?= $hlist->name  ?> 
-						<span class="badge counter">{{ $hlist->holdings->count() }} </span>
-					</a>
+			@if (in_array($hlist->id, $hlistsids)) 
+			<!-- Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ] -->
+			
+			<li id="hlist{{ $hlist->id }}" data-id="{{$hlist->id}}" class="<?php echo ($hlist_id == $hlist->id) ? 'active' : 'accepthos' ?> droppable" data-attach-url="{{ action('HlistsController@postAttach') }}">
+				<a <?php if ($hlist_id != $hlist->id) { echo 'href="'.route('holdings.index',Input::except(['hlist_id', 'page']) + ['hlist_id' => $hlist->id ]).'"'; } ?> class="">
+					{{ $hlist->type_icon }}
+					<?= $hlist->name  ?> 
+					<span class="badge counter">{{ $hlist->holdings->count() }} </span>
+				</a>
 
-					@if ($hlist_id != $hlist->id)
-					<a href="{{ action('HoldingsController@putDelTabhlist',[$hlist->id]) }}" class="close" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><i class="fa fa-eye-slash"></i></a>
-					@endif
-				</li>
-
+				@if ($hlist_id != $hlist->id)
+				<a href="{{ action('HoldingsController@putDelTabhlist',[$hlist->id]) }}" class="close" data-params="ok=true" data-remote="true" data-method="put" data-disable-with="..."><i class="fa fa-eye-slash"></i></a>
 				@endif
+			</li>
+
+			@endif
 
 			@endforeach
 		</ul>
@@ -141,7 +141,7 @@ $sizeofields = explode(';',$sizeofields);
 			<ul class="btn-group" data-toggle="buttons">
 				<?php
 				$k = -1;
-	foreach ($fields as $field) {
+				foreach ($fields as $field) {
 					$popover = '';
 					$field_large = '';
 					$field_short = trans('fields.'.$field);
@@ -192,16 +192,16 @@ $sizeofields = explode(';',$sizeofields);
 							</div>  
 						</div>
 					</li>
-	<?php }
+					<?php }
 
 
 
 
 					$k = -1;
-	foreach ($allfields as $field) {
+					foreach ($allfields as $field) {
 						$popover = '';
 						$field_short = trans('fields.'.$field);
-				switch ($field) {
+						switch ($field) {
 							case 'exists_online':
 							$field_short = trans('holdings.exists_online_short');
 							$field_large = ' data-content="<strong>'.trans('holdings.exists_online_large').'</strong>" data-placement="top" data-toggle="tooltip" data-html="true" data-trigger="hover" ';
@@ -223,7 +223,7 @@ $sizeofields = explode(';',$sizeofields);
 							$field_large = ' data-content="<strong>'.trans('holdings.has_incomplete_vols_large').'</strong>" data-placement="top" data-toggle="tooltip" data-html="true" data-trigger="hover" ';
 							$popover = " pop-over ";
 							break;										
-				}
+						}
 						$k++; 
 						$sizeofield = ($sizeofields[$k] > 0) ? $sizeofields[$k] : $defaultsize ; 
 						$checked 				= '';
@@ -233,64 +233,64 @@ $sizeofields = explode(';',$sizeofields);
 							<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field_short; ?>
 						</li>
 						<?php } ?>
-		}	?>
-				</ul>
-				<style type="text/css">
-					table .dinamic {
-						display: inline-block;
-						min-width: 40px;
-						overflow: hidden;
-						vertical-align: middle;
-					}
-					.change-size-box {
-						display: inline-block;
-						position: relative;
-						vertical-align: middle;
-						display: none;
-						margin-top: -25px;
-					}
-					.btn.btn-xs.btn-default.active .change-size-box {
-						display: inline-block;
-					}
-					.change-size-box .fa-exchange {
-						font-size: 10px;
-					}
-					.change-size-box .change-size-controls {
-						background: none repeat scroll 0 0 hsl(0, 0%, 100%);
-						border-radius: 5px;
-						display: none;
-						left: 0;
-						padding: 0;
-						position: absolute;
-						top: -13px;
-						width: 40px;
-						left: -14px;
-					}
-					.change-size-box .change-size-controls .fa.change-size {
-						color: hsl(240, 100%, 50%) !important;
-						cursor: pointer !important;
-						font-size: 20px;
-					}
-					.change-size-box .change-size-controls .fa.change-size.compress {
-						bottom: 0;
-						left: 3px;
-					}
-					.change-size-box .change-size-controls .fa.change-size.expand {
-						left: 3px;
-						margin-right: 5px;
-					}
-					.change-size-box:hover .change-size-controls {
-						display: block;
-					}
-					.change-size-box + .dinamic {
-						margin-left: -5px;
-					}
-				</style>
-				<input type="hidden" name="fieldstoshow[]" value="ocrr_ptrn">
-				<button type="submit" value="{{ trans('general.update') }}" class="btn btn-xs btn-primary"> {{ trans('general.update') }} </button>
+						<?php }	?>
+					</ul>
+					<style type="text/css">
+						table .dinamic {
+							display: inline-block;
+							min-width: 40px;
+							overflow: hidden;
+							vertical-align: middle;
+						}
+						.change-size-box {
+							display: inline-block;
+							position: relative;
+							vertical-align: middle;
+							display: none;
+							margin-top: -25px;
+						}
+						.btn.btn-xs.btn-default.active .change-size-box {
+							display: inline-block;
+						}
+						.change-size-box .fa-exchange {
+							font-size: 10px;
+						}
+						.change-size-box .change-size-controls {
+							background: none repeat scroll 0 0 hsl(0, 0%, 100%);
+							border-radius: 5px;
+							display: none;
+							left: 0;
+							padding: 0;
+							position: absolute;
+							top: -13px;
+							width: 40px;
+							left: -14px;
+						}
+						.change-size-box .change-size-controls .fa.change-size {
+							color: hsl(240, 100%, 50%) !important;
+							cursor: pointer !important;
+							font-size: 20px;
+						}
+						.change-size-box .change-size-controls .fa.change-size.compress {
+							bottom: 0;
+							left: 3px;
+						}
+						.change-size-box .change-size-controls .fa.change-size.expand {
+							left: 3px;
+							margin-right: 5px;
+						}
+						.change-size-box:hover .change-size-controls {
+							display: block;
+						}
+						.change-size-box + .dinamic {
+							margin-left: -5px;
+						}
+					</style>
+					<input type="hidden" name="fieldstoshow[]" value="ocrr_ptrn">
+					<button type="submit" value="{{ trans('general.update') }}" class="btn btn-xs btn-primary"> {{ trans('general.update') }} </button>
+				</div>
 			</div>
 		</div>
-	</div>
-</form>
-<?php } ?>
+	</form>
+	<?php } ?>
 </section>
