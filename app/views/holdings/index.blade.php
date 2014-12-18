@@ -3,7 +3,7 @@
 $fieldstoshow = Session::get(Auth::user()->username.'_fields_to_show_ok_hols');
 $fieldstoshow = explode(';',$fieldstoshow);
 
-$sizeofields = $_COOKIE[Auth::user()->username.'_'.$cprofile.'_size_of_fields'];
+$sizeofields = $_COOKIE[Auth::user()->username.'_size_of_fields'];
 $sizeofields = explode(';',$sizeofields);
 
 $defaultsize = 100;
