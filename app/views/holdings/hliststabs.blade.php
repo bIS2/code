@@ -15,11 +15,6 @@ if (isset($hlist_id))  {
 }
 $hlistsids = explode(';', $hlistsids);
 
-$defaultsize = 100;
-$sizeofields = $_COOKIE[Auth::user()->username.'_size_of_fields'];
-$sizeofields = explode($cprofile);
-$sizeofields = explode(';',$sizeofields);
-
 ?>
 
 <div class="row">
@@ -136,7 +131,6 @@ $sizeofields = explode(';',$sizeofields);
 			?>
 			<ul class="btn-group" data-toggle="buttons">
 				<?php
-				$k = -1;
 				foreach ($fields as $field) {
 					$popover = '';
 					$field_large = '';
@@ -176,20 +170,17 @@ $sizeofields = explode(';',$sizeofields);
 						$popover = " pop-over ";
 						break;											
 					}
-					$checked 		= "checked = checked";
-					$checkactive 	= " active"; ?>
-					<li class="btn btn-xs btn-default{{ $checkactive }} pop-over" {{ $field_large }}>
-						<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field_short; ?>
-						<div class="change-size-box">					
-							<i class="fa fa-exchange"></i>
-							<div class="change-size-controls" target="field_<?php echo $field; ?>">							
-								<input type="hidden" id="field_<?php echo $field; ?>_size" name="sizes[]" value="<?php echo $sizeofield; ?>">
-								<i class="fa expand change-size fa-arrow-circle-o-right"></i><i class="fa compress change-size fa-arrow-circle-o-left"></i>  
-							</div>  
-						</div>
-					</li>
-					<?php }
-					$k = -1;
+					$checked 				= '';
+					$checkactive 		= '';
+					if (($field != 'ocrr_ptrn')) {
+						$checked 			= "checked = checked";
+						$checkactive 	= " active"; ?>
+						<li class="btn btn-xs btn-default{{ $checkactive }} pop-over" {{ $field_large }}>
+							<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field_short; ?>
+						</li>
+						<?php }
+					}	?>
+					<?php
 					foreach ($allfields as $field) {
 						$popover = '';
 						$field_short = trans('fields.'.$field);
@@ -216,68 +207,19 @@ $sizeofields = explode(';',$sizeofields);
 							$popover = " pop-over ";
 							break;										
 						}
-						$k++; 
-						$sizeofield = ($sizeofields[$k] > 0) ? $sizeofields[$k] : $defaultsize ; 
 						$checked 				= '';
 						$checkactive 		= '';
-						if (!(in_array($field, $fields))) { ?>
-						<li class="btn btn-xs btn-default{{ $checkactive }}"{{ $field_large }}>
-							<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field_short; ?>
-						</li>
-						<?php } ?>
+						if (($field != 'ocrr_ptrn')) {
+							if (!(in_array($field, $fields))) { ?>
+							<li class="btn btn-xs btn-default{{ $checkactive }}"{{ $field_large }}>
+								<input type="checkbox" id="<?= $field; ?>" name="fieldstoshow[]" <?= $checked; ?> value="<?= $field; ?>"><?= $field_short; ?>
+							</li>
+							<?php
+						}
+						?>
+						<?php }
 					}	?>
 				</ul>
-				<style type="text/css">
-					table .dinamic {
-						display: inline-block;
-						min-width: 40px;
-						overflow: hidden;
-						vertical-align: middle;
-					}
-					.change-size-box {
-						display: inline-block;
-						position: relative;
-						vertical-align: middle;
-						display: none;
-						margin-top: -25px;
-					}
-					.btn.btn-xs.btn-default.active .change-size-box {
-						display: inline-block;
-					}
-					.change-size-box .fa-exchange {
-						font-size: 10px;
-					}
-					.change-size-box .change-size-controls {
-						background: none repeat scroll 0 0 hsl(0, 0%, 100%);
-						border-radius: 5px;
-						display: none;
-						left: 0;
-						padding: 0;
-						position: absolute;
-						top: -13px;
-						width: 40px;
-						left: -14px;
-					}
-					.change-size-box .change-size-controls .fa.change-size {
-						color: hsl(240, 100%, 50%) !important;
-						cursor: pointer !important;
-						font-size: 20px;
-					}
-					.change-size-box .change-size-controls .fa.change-size.compress {
-						bottom: 0;
-						left: 3px;
-					}
-					.change-size-box .change-size-controls .fa.change-size.expand {
-						left: 3px;
-						margin-right: 5px;
-					}
-					.change-size-box:hover .change-size-controls {
-						display: block;
-					}
-					.change-size-box + .dinamic {
-						margin-left: -5px;
-					}
-				</style>
 				<input type="hidden" name="fieldstoshow[]" value="ocrr_ptrn">
 				<button type="submit" value="{{ trans('general.update') }}" class="btn btn-xs btn-primary"> {{ trans('general.update') }} </button>
 			</div>

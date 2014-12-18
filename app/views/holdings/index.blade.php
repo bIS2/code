@@ -44,40 +44,42 @@ $defaultsize = 100;
 </th>
 <?php $k = -1; ?>
 @foreach ($fieldstoshow as $field) 
-<?php $k++; $sizeofield = ($sizeofields[$k] > 0) ? $sizeofields[$k] : $defaultsize ; ?>
-@if ($field == 'actions')
-<th>
-	<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
-		{{ trans('fields.'.$field) }}
-	</div>
-</th>		
-@endif
-@if ($field == 'state')
-<th>
-	<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
-		{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span>
-	</div>
-</th>		
-@endif
-@if ($field == '866a')
-<th>
-	<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
-		{{ trans('holdings.f866atitle') }} <span class="fa fa-info-circle"></span>
-	</div>
-</th> 
-@else
-<th>
-	<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
-		{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span>
-	</div>
-</th> 
-@endif
+
+	<?php $k++; $sizeofield = ($sizeofields[$k] > 0) ? $sizeofields[$k] : $defaultsize ; ?>
+	@if ($field == 'actions')
+	<th>
+		<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+			{{ trans('fields.'.$field) }}
+		</div>
+	</th>		
+	@endif
+	@if ($field == 'state')
+	<th>
+		<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+			{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span>
+		</div>
+	</th>		
+	@endif
+	@if ($field == '866a')
+	<th>
+		<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+			{{ trans('holdings.f866atitle') }} <span class="fa fa-info-circle"></span>
+		</div>
+	</th> 
+	@else
+	<th>
+		<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+			{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span>
+		</div>
+	</th> 
+	@endif
 
 @endforeach	
 
 </tr>
 </thead>
 <tbody id="holdings-targets" class="selectable">
+
 	@foreach ($holdings as $holding)
 
 	<tr id="<?= $holding->id ?>" class="{{ $holding->css }} draggable ui-selected {{ $holding->state}}" data-holdingsset="{{$holding->holdingsset_id}}" >
@@ -95,53 +97,56 @@ $defaultsize = 100;
 
 		<?php $k = -1; ?>
 		@foreach ($fieldstoshow as $field)
-		<?php $k++; $sizeofield = ($sizeofields[$k] > 0) ? $sizeofields[$k] : $defaultsize ; ?>
-		@if ($field == 'actions')
-		<td id="{{ $holding->id }}" class="actions" >
-			<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
-				@include('holdings.actions')
-			</div>
-		</td>	
-		@elseif ($field == 'state')
-		<td class="state">
-			<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
-				<span class="label label-primary">
-					{{ trans('states.'.$holding->state) }}
-				</span>	
-			</div>
-		</td>	
-		@elseif ($field == 'ocrr_ptrn')
-		<td class="ocrr_ptrn">
-			<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
-				{{ $holding->patrn_no_btn }}
 
-				<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>
-					<?php 
-					if ($holding->f866aupdated == '') { 
-						echo $holding->clean($holding->f866a);
-					}
-					else {
-						echo $holding->clean($holding->f866aupdated);
-					}
-					?>
-				</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
-			</div>
-		</td>
-		@else
+			<?php $k++; $sizeofield = ($sizeofields[$k] > 0) ? $sizeofields[$k] : $defaultsize ; ?>
+			@if ($field == 'actions')
+			<td id="{{ $holding->id }}" class="actions" >
+				<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+					@include('holdings.actions')
+				</div>
+			</td>	
+			@elseif ($field == 'state')
+			<td class="state">
+				<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+					<span class="label label-primary">
+						{{ trans('states.'.$holding->state) }}
+					</span>	
+				</div>
+			</td>	
+			@elseif ($field == 'ocrr_ptrn')
+			<td class="ocrr_ptrn">
+				<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+					{{ $holding->patrn_no_btn }}
 
-		<?php 
-		$field = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size')  && ($field != 'size_dispatchable') && ($field != 'sys2')) ? $field = 'f'.$field : $field; 
-		?>						
-		<td>
-			<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
-				{{ $holding->show( $field ) }}
-			</div>
-		</td>
-		@endif
+					<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>
+						<?php 
+						if ($holding->f866aupdated == '') { 
+							echo $holding->clean($holding->f866a);
+						}
+						else {
+							echo $holding->clean($holding->f866aupdated);
+						}
+						?>
+					</strong>" data-placement="top" data-toggle="popover" data-html="true" type="button" data-trigger="hover" data-original-title="" title=""></i>
+				</div>
+			</td>
+			@else
+
+			<?php 
+			$field = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size')  && ($field != 'size_dispatchable') && ($field != 'sys2')) ? $field = 'f'.$field : $field; 
+			?>						
+			<td>
+				<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+					{{ $holding->show( $field ) }}
+				</div>
+			</td>
+			@endif
 
 		@endforeach
 	</tr>
 	@endforeach
+
+	
 </tbody>
 </table>
 </div>
