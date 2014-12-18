@@ -444,9 +444,14 @@ if (result.created_list ){
 
 if ( result.remove ){
   $('#'+result.remove).hide('slow', function(){ $(this).remove() }); 
-  if (result.counter)
+  if (result.counter) {
+  if ($('li.active.droppable.ui-droppable') != undefined) {
+    $('li.active.droppable.ui-droppable .counter').text(result.counter)
+  }
+  else {
     $('.counter').text(result.counter)
-
+  }
+  }
 }
 
 if ( result.received )
