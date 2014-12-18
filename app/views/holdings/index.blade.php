@@ -48,7 +48,11 @@
 						@if ($k == 2) 
 						<th>{{ trans('fields.ocrr_ptrn') }} <span class="fa fa-info-circle"></span></th>		
 						@endif
+						@if ($field == '866a')
+						<th>{{ trans('holdings.f866atitle') }} <span class="fa fa-info-circle"></span></th> 
+						@else
 						<th>{{ trans('fields.'.$field) }} <span class="fa fa-info-circle"></span></th> 
+						@endif
 
 					@endforeach	
 
