@@ -1,4 +1,5 @@
 // Contains all the logic on the client
+var updatingProfile = 0;
 
 $(function(){
   bIS.init();
@@ -847,16 +848,17 @@ updateProfile: function() {
           $('#profiles-container').html(info);
           bIS.init();
           var $opened = $('#hos-targets li a.anchored');
+          lis = $('#hosg ul.hol-sets li a.anchored');
           $opened.each(function() {
             $(this).removeAttr('opened');
             $(this).attr('opened', 0);
-            $(this).click();           
+            // $(this).click();           
           })
           var current = -1;
           var end = $opened.length;
-
-          // lis = $('#hosg ul.hol-sets li .accordion-toggle');
-          openAll($opened, 0);
+          updatingProfile = 1;
+          openAll(lis, 0);
+  
 
           // var timer = setInterval(function() {
           //   current += 1;

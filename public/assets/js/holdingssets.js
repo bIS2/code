@@ -308,5 +308,11 @@ function openAll(lis, index) {
 	else {
 		$('#open-all-hos').removeClass('disabled');
 		openallindex = 0;
+		if (updatingProfile == 1) {
+			$(lis).each(function() {
+				$(this).click();
+			})
+			updatingProfile = 0;
+		}
 	}
 }
