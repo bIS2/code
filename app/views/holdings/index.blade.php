@@ -91,7 +91,7 @@
 							<td class="ocrr_ptrn">
 
 								{{ $holding->patrn_no_btn }}
-								{{ $this->ocrr_ptrn }}
+								
 								<i class="glyphicon glyphicon-question-sign pop-over" data-content="<strong>
 									<?php 
 									if ($holding->f866aupdated == '') { 
