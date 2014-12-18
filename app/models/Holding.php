@@ -585,7 +585,7 @@ class Holding extends Eloquent {
       }
     } 
     echo $field;
-    if ($field=='fe866a') {
+    if (($field=='fe866a') || ($field == 'f866aupdated')) {
       if (($this->f866aupdated) == '') {
         $this->update(['f866aupdated'=> $this->f866a]);
       }
