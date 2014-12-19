@@ -289,21 +289,31 @@ class HlistsController extends BaseController {
 	 * @param  int  $id
 	 * @return Response JSON
 	 */
-	public function postAttach(){
+	public function postAttach() {
+
 		$id = Input::get('hlist_id');
 
 		$list = $this->hlist->find($id);
 
 		$holdings_in_list = $list->holdings()->select('holdings.id')->lists('holdings.id');
+
 		// var_dump($holdings_in_list);
+
 		$holdings = Holding::whereIn('id',Input::get('holding_id'))->whereNotIn('id',$holdings_in_list);
+
+		// var_dump($holdings->exists());
 
 		$error = '';
 		$inserted = 0;
 
+		// die();
+
 		if ($holdings->exists()) {
 			if ( $list->type=='control' ) {
-				$controls = $holdings->whereState('confirmed')->orWhere('state','ok')->orWhere('state','annotated')->lists('id');
+				$controls = $holdings->where(function($query)
+				{
+					$query->whereState('confirmed')->orWhere('state','ok')->orWhere('state','annotated');
+				})->lists('id');
 				
 				if ( count($controls)==0) {
 					$error = 'attach_list_control';
@@ -324,7 +334,11 @@ class HlistsController extends BaseController {
 			}
 
 			if (  $list->type=='elimination' ){
-				$eliminations = $holdings->whereState('commented')->orwhere('state','trash')->lists('id');
+				$eliminations = $holdings->where(function($query)
+				{
+					$query->whereState('commented')->orwhere('state','trash');
+				})->lists('id');
+
 				if ( count($eliminations)==0 ){
 					$error = 'attach_list_elimination';
 				}	else {
@@ -334,7 +348,11 @@ class HlistsController extends BaseController {
 			}
 
 			if (  $list->type=='unsolve' ){
-				$unsolves = $holdings->whereState('incorrected')->orwhere('state','commented')->lists('id');
+				$unsolves = $holdings->where(function($query) 
+				{
+					$query->whereState('incorrected')->orwhere('state','commented');
+				})->lists('id');
+
 				if ( count($unsolves)==0 ){
 					$error = 'attach_list_elimination';
 				}	else {

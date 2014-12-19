@@ -80,7 +80,7 @@
 										 ?>
 										<dd>{{ $title }}</dd>
 
-										<dt>{{ trans('fields.f866a') }}: </dt>
+										<dt>{{ trans('holdings.f866atitle') }}: </dt>
 										<dd>{{ ($holding->f866aupdated != '') ? $holding->f866aupdated : $holding->f866a }}</dd>
 
 										<dt>{{ trans('holdings.sizeslide') }}: </dt>
@@ -92,7 +92,7 @@
 											@endif
 										</dd>
 
-										<dt>{{ trans('Holdings.Abgabe') }}: </dt>
+										<dt>{{ trans('holdings.Abgabe') }}: </dt>
 										<dd>{{ $holding->fx866a }}</dd>
 
 										<dt>{{ trans('holdings.size_dispatchableslide') }}: </dt>

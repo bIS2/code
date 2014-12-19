@@ -27,8 +27,9 @@ class HoldingsController extends BaseController {
 
 		/* SHOW/HIDE FIELDS IN HOLDINGS TABLES DECLARATION
 			-----------------------------------------------------------*/
-			define('DEFAULTS_FIELDS', 'sys2;008x;size;size_dispatchable;022a;072a;245a;245b;245n;245p;362a;852b;852h;866a;x866a;866aupdated;866c;866z;years;exists_online;is_current;has_incomplete_vols');
-			define('ALL_FIELDS','sys2;008x;size;size_dispatchable;022a;072a;245a;245b;245n;245p;246a;260a;260b;310a;362a;505a;710a;770t;772t;780t;785t;852b;852c;852h;852j;866a;x866a;866aupdated;866c;866z;years;exists_online;is_current;has_incomplete_vols');
+			define('DEFAULTS_FIELDS', 'actions;state;ocrr_ptrn;sys2;008x;size;size_dispatchable;022a;072a;245a;245b;245n;245p;362a;852b;852h;866a;x866a;866aupdated;866c;866z;years;exists_online;is_current;has_incomplete_vols');
+
+			define('ALL_FIELDS','actions;state;ocrr_ptrn;sys2;008x;size;size_dispatchable;022a;072a;245a;245b;245n;245p;246a;260a;260b;310a;362a;505a;710a;770t;772t;780t;785t;852b;852c;852h;852j;866a;x866a;866aupdated;866c;866z;years;exists_online;is_current;has_incomplete_vols');
 
 			/* User vars */
 			$uUserName = Auth::user()->username;
@@ -37,7 +38,7 @@ class HoldingsController extends BaseController {
 			// $uGroupname
 
 			if (!isset($_COOKIE[$uUserName.'_fields_to_show_ok_hols'])) {
-				if (Session::get($uUserName.'_fields_to_show_ok_hols') == 'ocrr_ptrn') {
+				if (Session::get($uUserName.'_fields_to_show_ok_hols') == '') {
 				  setcookie($uUserName.'_fields_to_show_ok_hols', DEFAULTS_FIELDS, time() + (86400 * 30));
 				  Session::put($uUserName.'_fields_to_show_ok_hols', DEFAULTS_FIELDS);
 				}
@@ -46,7 +47,7 @@ class HoldingsController extends BaseController {
 				}
 			}
 
-			if ((Session::get($uUserName.'_fields_to_show_ok_hols') == 'ocrr_ptrn') || (Session::get($uUserName.'_fields_to_show_ok_hols') == '')) {
+			if ((Session::get($uUserName.'_fields_to_show_ok_hols') == '') || (Session::get($uUserName.'_fields_to_show_ok_hols') == '')) {
 			  setcookie($uUserName.'_fields_to_show_ok_hols', DEFAULTS_FIELDS, time() + (86400 * 30));
 			  Session::put($uUserName.'_fields_to_show_ok_hols', DEFAULTS_FIELDS);
 			}
@@ -158,6 +159,7 @@ class HoldingsController extends BaseController {
 			$newfields	= Input::get('fieldstoshow');
 			$fieldlist 	= '';
 			$i 					= 0;
+
 			if ($newfields != '') {
 				foreach ($newfields as $field) {
 					$fieldlist .= $field;
@@ -165,13 +167,22 @@ class HoldingsController extends BaseController {
 					if (count($newfields) > $i) $fieldlist .= ';';
 				}
 			}
-			// var_dump(Input::get('sortinghos_by'));
-			// var_dump(Input::get('sortinghos'));die();
+
+			// All fields sizes
+			$fieldsizes	= Input::get('sizes');
+			$fieldlistsize 	= '';
+			if ($fieldsizes != '') {
+				$fieldlistsize = implode(';', $fieldsizes);
+			}
+
 			$uUserName = Auth::user()->username;
+
 			setcookie($uUserName.'_fields_to_show_ok_hols', $fieldlist, time() + (86400 * 30));
 			Session::put($uUserName.'_fields_to_show_ok_hols', $fieldlist);
-			// Session::put($uUserName.'_sortinghos_by', Input::get('sortinghos_by'));
-			// Session::put($uUserName.'_sortinghos', Input::get('sortinghos'));
+
+			setcookie($uUserName.'_size_of_fields', $fieldlistsize, time()+60*60*24*3650);
+			Session::put($uUserName.'_size_of_fields', $fieldlistsize);
+
 			return Redirect::to(Input::get('urltoredirect'));
 		}
 		else {	

@@ -66,5 +66,6 @@ return array(
 	'size_dispatchableslide'		=> 'Lfm Abgabe',
 	'Abgabe'				=> 'Abgabe',	
 	'Run'					=> 'Ausführen',
+	'f866atitle'			=> 'Abgabe',
 
 );
