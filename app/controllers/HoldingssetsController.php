@@ -729,7 +729,7 @@ class HoldingssetsController extends BaseController {
 			$new866a = ($new866a == '') ?  Input::get('value') : $new866a;
 			$holdingsset_id = Holding::find($id)->holdingsset_id;
 
-			$newhol_nrm = normalize866a($new866a, Holding::find($id)->sys2);
+			$newhol_nrm = normalize866a($new866a, Holding::find($id)->sys2, Holdingsset::find($holdingsset_id)->sys1);
 			// echo 'Y el resultado es: <br>';
 			// die(var_dump($new866a));
 			$holding = Holding::find($id)->update(['f866aupdated'=>$new866a, 'hol_nrm' => $newhol_nrm]);
@@ -1589,8 +1589,9 @@ $fld				= '';   // statistical info
 $repl				= '';   // statistical info
 $upper				= '';   // statistical info
 $write_val			= '';   // statistical info
+$filecontrol		= '';   // File control
 
-function normalize866a($new866a, $sys2) {
+function normalize866a($new866a, $sys2, $sys1) {
 /* 
 Project: SP2 - bIS
 Function:
@@ -1631,24 +1632,33 @@ global $fld;
 global $repl;
 global $upper;
 global $write_val;
+global $filecontrol;
 
-$hop_no           = 0;         // number of parts
-$hol_nrm          = '';        // saved hol f866a result normalized
-$fld_list         = array();   // All names of Knowledge Groups
-$know_gr          = '';        // knowledge group
-$know             = array();   // contains all knowledgeable elements for recognizing HOP
-$hol_info          = array();   // collect info about holding string
-$hop_info         = array();   // collect info about holding part
-$hol_info['proc']  = '';        // collects info about processing hol
-$starttime        = sprintf("%s", date("Y-m-d H:i:s"));
-$stat             = array();   // statistical info
+$filename = $sys1.'.txt';
 
-$db_config = Config::get('database');
-$database = $db_config['connections']['pgsql']['database'];
-$username = $db_config['connections']['pgsql']['username'];
-$password = $db_config['connections']['pgsql']['password'];
-$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
-$con = pg_connect($conn_string);
+if (file_exists($filename)) {
+    unlink($filename);
+}
+
+$filecontrol = fopen($filename, "w+");
+
+$hop_no           	= 0;         // number of parts
+$hol_nrm          	= '';        // saved hol f866a result normalized
+$fld_list         	= array();   // All names of Knowledge Groups
+$know_gr          	= '';        // knowledge group
+$know             	= array();   // contains all knowledgeable elements for recognizing HOP
+$hol_info          	= array();   // collect info about holding string
+$hop_info         	= array();   // collect info about holding part
+$hol_info['proc']  	= '';        // collects info about processing hol
+$starttime        	= sprintf("%s", date("Y-m-d H:i:s"));
+$stat             	= array();   // statistical info
+
+$db_config 		= Config::get('database');
+$database 		= $db_config['connections']['pgsql']['database'];
+$username 		= $db_config['connections']['pgsql']['username'];
+$password 		= $db_config['connections']['pgsql']['password'];
+$conn_string 	= "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
+$con 			= pg_connect($conn_string);
 
 // collect knowledge
 $know['hG'] = acquire_knowledge('h', 'G', '');  // clearly recognizable strings at HOL level
@@ -1690,7 +1700,7 @@ $know_gr = 'hG'; $uses = sizeof($know[$know_gr]['uses']); for ($c=0; $c < $uses;
 // modify [L= ...; ...] to {L~ ...} so it will be kept together and not be split by later regex operations
 $hol_str_prev = $hol_str;
 $fld = 'LN='; $hol_str = save_LN($fld, $hol_str);  // save [L=...; ...; N=...] so it will be not split
-// if ($hol_str_prev <> $hol_str) do_control('vLN', '', $hol_str_prev, '=>', $hol_str);
+if ($hol_str_prev <> $hol_str) do_control('vLN', '', $hol_str_prev, '=>', $hol_str);
 
 /* --------------------------------------------- *
  * Deal with the normal case                     *
@@ -1789,20 +1799,20 @@ for ($hop_no = 0; $hop_no < count($ho_part); $hop_no++) {
 	// if type is empty, we recognized nothing
 	if (!isset($hop_info[$hop_no]['type'])) {
 		$hop_info[$hop_no]['type'] = '==UNKNOWN==';
-		// do_control('vR!', '', $hop, '', '### '.$hop_info[$hop_no]['type']);
+		do_control('vR!', '', $hop, '', '### '.$hop_info[$hop_no]['type']);
 		// !!!! If "," in a too long hop encountered, assume ";" and RESTART
 		if (preg_match('/\(?[0-9 \(\)-]{4,14}\)? *, *\(?[0-9]{1,4}\)?/', $hop, $elem)) { // Special cases: check if we should replace "," by ";"
 			$hol_str = preg_replace('/ *, */', '; ', $hol_str);  // ### test this thoroughly. Until now it's a cheap patch!!!
-			// do_control('vR2', 'RESTART', $hop, '', '>>>'.$hop);
+			do_control('vR2', 'RESTART', $hop, '', '>>>'.$hop);
 			// unset ($hop_info[$hop_no]);
 			goto RESTART_WITH_COMMA_REPLACED;
 		}
 	}
 	// adapt recognition information
-	//do_control('vRu', '', $hop, '))', $hop_info[$hop_no]['type']);
+	do_control('vRu', '', $hop, '))', $hop_info[$hop_no]['type']);
 	if (!((strcmp($hop,'==RECOGNIZED==') == 0) or (strcmp($hop,'_VOID_') == 0))) {  // if $hop has not been recognized ...
 		isset($stat['Z_UNKNOWN']) ? $stat['Z_UNKNOWN']++ : $stat['Z_UNKNOWN']=1;
-		//do_control('vR!', '', $hop, '', '>> '.$hop_info[$hop_no]['type']);
+		do_control('vR!', '', $hop, '', '>> '.$hop_info[$hop_no]['type']);
 	} else {
 		if (!substr($hop_info[$hop_no]['type'],0,4) == 'MDL ')	$hop_info[$hop_no]['type'] = '==RECOGNIZED=+';
 	}
@@ -1816,7 +1826,7 @@ for ($hop_no = 0; $hop_no < count($ho_part); $hop_no++) {
 	    		&& ! isset($hop_info[$hop_no]['yeE1'])
 	    		)
 			$hop_info[$hop_no]['yeE1'] = $current_year;
-		        //do_control('vCY', '', $hop, '=>', $hop_info[$hop_no]['type']);
+		        do_control('vCY', '', $hop, '=>', $hop_info[$hop_no]['type']);
 	}
 
 } // <- end of hop loop
@@ -1827,6 +1837,8 @@ $hol_nrm = normalize_result($hop_info);
 
 // die();
 // The End
+fclose($filecontrol);
+rename($filename, "/public/".$filename);
 return $hol_nrm;
 }
 
@@ -1836,12 +1848,15 @@ return $hol_nrm;
  * ======================================================================== */
 
 // ------------------------------------------------------------------------
-// function do_control($marker1, $model, $str_before, $marker2, $str_after) {
-// // ------------------------------------------------------------------------
-// // Purpose: prints manipulation a a string to the screen
-//   global $do_control, $proc_flag;
-//   if ($proc_flag['control']) printf("\n%-3s %-25s : %-70s %2s %s", $marker1, $model, $str_before, $marker2, $str_after);
-// }
+function do_control($marker1, $model, $str_before, $marker2, $str_after) {
+// ------------------------------------------------------------------------
+// Purpose: prints manipulation a a string to the screen
+  global $do_control, $proc_flag;
+  global $filecontrol;
+  // if ($proc_flag['control']) 
+  	fprintf($filecontrol, "\n%-3s %-25s : %-70s %2s %s", $marker1, $model, $str_before, $marker2, $str_after);
+  	fprintf($filecontrol, "\r");
+}
 
 // ------------------------------------------------------------------------
 function val_replace($ho_val) {
@@ -1852,13 +1867,13 @@ function val_replace($ho_val) {
 	for ($c=0; $c < count($know[$know_gr]['srch']); $c++) {  // for each regular expression in the group ...
 		$regex = '/'.$know[$know_gr]['srch'][$c].'/'.$know[$know_gr]['uppe'][$c];  // build regex string. Add i for search case insensitive (uppe)
 		$ho_val_prev = $ho_val;
-    // do_control('vR~', '', $regex, '', '');
+    	do_control('vR~', '', $regex, '', '');
 		if (preg_match($regex, $ho_val, $elem)) {  // check if we have something to do
 			$ho_val = preg_replace($regex, $know[$know_gr]['repl'][$c], $ho_val);
 			if ($ho_val_prev <> $ho_val) {
-				// do_control('vR~', '', $regex, '', '');
-				// do_control('vR^', $know[$know_gr]['mode'][$c], $ho_val_prev, '', $ho_val);
-				// do_control('vRv', '', $know[$know_gr]['writ'][$c], '', '****');
+				do_control('vR~', '', $regex, '', '');
+				do_control('vR^', $know[$know_gr]['mode'][$c], $ho_val_prev, '', $ho_val);
+				do_control('vRv', '', $know[$know_gr]['writ'][$c], '', '****');
 			}
 			if ($know[$know_gr]['writ'][$c] > '') {  // use the variables given with the regex string
 				$vars = explode(';', $know[$know_gr]['writ'][$c]);
@@ -1869,7 +1884,7 @@ function val_replace($ho_val) {
 						switch ($val) {
 							case '$1': // increment by 1
 							$hop_info[$hop_no][$var]=$elem[1];
-								// do_control('vRn', $var, $hop_info[$hop_no][$var], '', '$1');
+								do_control('vRn', $var, $hop_info[$hop_no][$var], '', '$1');
 							break;
 							default:
 							$hop_info[$hop_no][$var]=$val;
@@ -1879,16 +1894,16 @@ function val_replace($ho_val) {
 						switch ($val) {
 							case 'NF++': // increment by 1
 							$hop_info[$hop_no][$var]++;
-								// do_control('vRn', $var, $hop_info[$hop_no][$var], '', '++');
+								do_control('vRn', $var, $hop_info[$hop_no][$var], '', '++');
 							break;
 							case '$1': // increment by 1
 							$hop_info[$hop_no][$var]=$elem[1];
-								// do_control('vRn', $var, $hop_info[$hop_no][$var], '', '$1');
+								do_control('vRn', $var, $hop_info[$hop_no][$var], '', '$1');
 							break;
 							default:
 							$hop_info[$hop_no][$var]=1;
 						}
-						// do_control('vRn', $var, $hop_info[$hop_no][$var], '', '??');
+						do_control('vRn', $var, $hop_info[$hop_no][$var], '', '??');
 						break; // end NF++
 						case 'UNIT':
 						if (isset($hop_info[$hop_no][$var])) $hop_info[$hop_no][$var].= '; '.$val; else $hop_info[$hop_no][$var] = $val;
@@ -1896,7 +1911,7 @@ function val_replace($ho_val) {
 						default: $hop_info[$hop_no][$var] = $val;
 						break;
 					}
-					// do_control('vRV', $var, $hop_info[$hop_no][$var], '', '**');
+					do_control('vRV', $var, $hop_info[$hop_no][$var], '', '**');
 				}
 			}
 			if (substr($know[$know_gr]['mode'][$c],0,3) == 'MDL') {  // We have an MDL (= model)
@@ -1930,16 +1945,16 @@ function val_replace($ho_val) {
 						if ($proc_flag['debug']) printf("(%d)   =: %-6s = %-20s\n", $hop_no, $pom[$c2], $elem[$c2]);
 						if ($pom[$c2] > '') $hop_info[$hop_no][$pom[$c2]] =	$elem[$c2];
 					}
-				// do_control('MDL', $mdl, implode('|', $pom), '', implode('|', $elem));
+				do_control('MDL', $mdl, implode('|', $pom), '', implode('|', $elem));
 				}
 				if ($ho_val == '') {
 					$ho_val = '==RECOGNIZED==';
 					isset($stat['Z_RECOGNIZED']) ? $stat['Z_RECOGNIZED']++ : $stat['Z_RECOGNIZED']=1;
 				}
 				collect_proc_info($hop_info, $know[$know_gr]['mode'][$c], $hop_no, $ho_val, $elem[0]);
-			// do_control('vR+', $know[$know_gr]['mode'][$c], $ho_val_prev, '', '|'.$ho_val.'|   {'.$know[$know_gr]['writ'][$c].')');
+			do_control('vR+', $know[$know_gr]['mode'][$c], $ho_val_prev, '', '|'.$ho_val.'|   {'.$know[$know_gr]['writ'][$c].')');
 			} else {
-			// do_control('vR-', $know[$know_gr]['mode'][$c], $ho_val_prev, '', $ho_val);
+			do_control('vR-', $know[$know_gr]['mode'][$c], $ho_val_prev, '', $ho_val);
 			}
 		}
 	//echo "@:"; print_r($hop_info[$hop_no]); echo ":@"; 
@@ -1953,7 +1968,7 @@ function val_replace($ho_val) {
 		if ($equ_list = preg_split("/ *= */", $hop)) {
 			$hop_prev = $hop;
 			$hop = array_shift($equ_list);
-		// do_control('EQU', '', $hop_prev, '', $hop.'  {'.implode('|', $equ_list).'}');
+		do_control('EQU', '', $hop_prev, '', $hop.'  {'.implode('|', $equ_list).'}');
 		}
 		return $hop;
 	}
@@ -1969,7 +1984,7 @@ function val_replace($ho_val) {
   if (strcmp($hop,'_VOID_') == 0) // if $hop has been recognized as _VOID_
 		isset($stat['Z_RECOGNIZED']) ? $stat['Z_RECOGNIZED']++ : $stat['Z_RECOGNIZED'] = 1;  // _VOID_ is ==RECOGNIZED==
 		isset($hop_info[$hop_no]['proc']) ? $hop_info[$hop_no]['proc'] .= $model.": '".$trigger."' {".$hop."}| " : $hop_info[$hop_no]['proc'] = $model.": '".$trigger."' {".$hop."}| ";
-  // do_control('STA', $model, $stat[$model_s], '', '');
+  do_control('STA', $model, $stat[$model_s], '', '');
 	}
 
 // ------------------------------------------------------------------------
@@ -2034,7 +2049,7 @@ function val_replace($ho_val) {
     $ho_val  = $elem[1].$elem[2].$elem[3];
     $hol_info['L=N='] = $elem[2];   // collect info about holdings
     collect_proc_info($hop_info, $fld, $hop_no, $ho_val, $elem[1]);
-    // do_control('LN1', $fld, $ho_val_prev, '',$ho_val);
+    do_control('LN1', $fld, $ho_val_prev, '',$ho_val);
 }
   if (preg_match($know['L=N='], $ho_val, $elem)) {   // do it twice for second [.=...]
     $elem[2] = preg_replace("/=/", '~', $elem[2]);  // replace ; by ,
@@ -2044,7 +2059,7 @@ function val_replace($ho_val) {
     $ho_val = $elem[1].$elem[2].$elem[3];
     $hol_info['L=N='] = $elem[2];   // collect info about holdings
     collect_proc_info($hop_info, $fld, $hop_no, $ho_val, $elem[1]);
-    // do_control('LN2', $fld, $ho_val_prev, '',$ho_val);
+    do_control('LN2', $fld, $ho_val_prev, '',$ho_val);
 }
   // correct missing ]   14 rows
 if (preg_match("/\[[LN]=/", $ho_val, $elem)) $ho_val .= ']';
@@ -2056,7 +2071,7 @@ if (preg_match("/\[[LN]=/", $ho_val, $elem)) $ho_val .= ']';
     $ho_val = $elem[1].$elem[2].$elem[3];
     $hol_info['L=N='] = $elem[2];   // collect info about holdings
     collect_proc_info($hop_info, $fld, $hop_no, $ho_val, $elem[1]);
-    // do_control('LN3', $fld, $ho_val_prev, '',$ho_val);
+    do_control('LN3', $fld, $ho_val_prev, '',$ho_val);
 }
 return $ho_val;
 }

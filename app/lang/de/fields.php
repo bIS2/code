@@ -97,5 +97,6 @@ return array(
 	'years'			=> 'Log Umfang',
 	'ocrr_ptrn'				=> 'Vorkommen',
 	'size_dispatchable'	=> 'Abzugebender Bestand',
-
+	'sizedistachable_large'	=> 'Lfm Abgabe',
+	
 	);

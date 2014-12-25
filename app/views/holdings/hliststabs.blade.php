@@ -168,8 +168,14 @@ $sizeofields = explode(';',$sizeofields);
 						$popover = " pop-over ";
 						break;
 
+						case 'size_dispatchable':
+						$field_short = trans('holdings.size_dispatchabletitle');
+						$field_large = ' data-content="<strong>'.trans('fields.sizedistachable_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+						$popover = " pop-over ";
+						break;	
+
 						case 'size':
-						$field_short = trans('fields.size');
+						$field_short = trans('holdings.sizetitle');
 						$field_large = ' data-content="<strong>'.trans('fields.size_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
 						$popover = " pop-over ";
 						break;	
@@ -201,6 +207,7 @@ $sizeofields = explode(';',$sizeofields);
 					foreach ($allfields as $field) {
 						$popover = '';
 						$field_short = trans('fields.'.$field);
+						$field_large = '';
 						switch ($field) {
 							case 'exists_online':
 							$field_short = trans('holdings.exists_online_short');
@@ -217,7 +224,19 @@ $sizeofields = explode(';',$sizeofields);
 							case '866a':
 							$field_short = trans('holdings.f866atitle');
 							break;
-							
+
+							case 'size_dispatchable':
+							$field_short = trans('holdings.size_dispatchabletitle');
+							$field_large = ' data-content="<strong>'.trans('fields.sizedistachable_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+							$popover = " pop-over ";
+							break;	
+
+							case 'size':
+							$field_short = trans('holdings.sizetitle');
+							$field_large = ' data-content="<strong>'.trans('fields.size_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';
+							$popover = " pop-over ";
+							break;	
+
 							case 'has_incomplete_vols':
 							$field_short = trans('holdings.has_incomplete_vols_short');
 							$field_large = ' data-content="<strong>'.trans('holdings.has_incomplete_vols_large').'</strong>" data-placement="top" data-toggle="tooltip" data-html="true" data-trigger="hover" ';

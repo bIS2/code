@@ -67,7 +67,12 @@ return array(
 	'size_dispatchableslide'		=> 'Size Delivery',
 	'Abgabe'				=> 'Delivery',	
 	'Run'					=> 'Run',
-	'f866atitle'			=> 'Holding',
+
+	'f866atitle'				=> 'Holding',
+	'fx866atitle'				=> 'Delivery',
+	'sizetitle'					=> 'Size',
+	'size_dispatchabletitle'	=> 'Size Delivery',
+
 
 
 );

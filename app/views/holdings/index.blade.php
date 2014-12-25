@@ -64,6 +64,24 @@ $defaultsize = 100;
 			{{ trans('holdings.f866atitle') }} <span class="fa fa-info-circle"></span>
 		</div>
 	</th> 
+	@elseif ($field == 'x866a')
+	<th>
+		<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+			{{ trans('holdings.fx866atitle') }} <span class="fa fa-info-circle"></span>
+		</div>
+	</th> 
+	@elseif ($field == 'size')
+	<th>
+		<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+			{{ trans('holdings.sizetitle') }} <span class="fa fa-info-circle"></span>
+		</div>
+	</th> 
+	@elseif ($field == 'size_dispatchable')
+	<th>
+		<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+			{{ trans('holdings.size_dispatchabletitle') }} <span class="fa fa-info-circle"></span>
+		</div>
+	</th> 
 	@else
 	<th>
 		<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>

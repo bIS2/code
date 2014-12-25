@@ -670,8 +670,10 @@ $('.editable').editable({
   success: function(data, result, status) { 
     var set = $(this).attr('set')
     set = ((set > 0) == false) ? $(this).parents('li').attr('id') : set ;
-    if (set > 0) {
-      reload_set(set, data, 1);      
+    if (!$(this).parent().hasClass('field_fx866a')) {      
+      if (set > 0) {
+        reload_set(set, data, 1);      
+      }
     }
   }
 });
