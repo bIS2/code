@@ -69,7 +69,7 @@ return array(
 	'title'   					=> 'Holding Sets',
 	'title_create_group' 		=> 'Gruppe von HOS erstellen',
 	'unlock_hol'				=> 'Reservierung aufheben',
-	'state'						=> 'Zustand',
+	'state'						=> 'Status',
 	'white'						=> 'Transparent',
 
 
