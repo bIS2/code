@@ -1639,8 +1639,10 @@ $filename = $sys1.'.txt';
 if (file_exists($filename)) {
     unlink($filename);
 }
+var_dump($filename);
 
 $filecontrol = fopen($filename, "w+");
+var_dump($filecontrol);
 
 $hop_no           	= 0;         // number of parts
 $hol_nrm          	= '';        // saved hol f866a result normalized
@@ -1858,6 +1860,7 @@ function do_control($marker1, $model, $str_before, $marker2, $str_after) {
   // if ($proc_flag['control']) 
   	fprintf($filecontrol, "\n%-3s %-25s : %-70s %2s %s", $marker1, $model, $str_before, $marker2, $str_after);
   	fprintf($filecontrol, "\r");
+  	var_dump($filecontrol);
 }
 
 // ------------------------------------------------------------------------
