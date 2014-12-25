@@ -1837,6 +1837,7 @@ $hol_nrm = normalize_result($hop_info);
 
 // die();
 // The End
+var_dump($filecontrol);
 fclose($filecontrol);
 // rename($filename, "/public/".$filename);
 return $hol_nrm;
