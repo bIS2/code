@@ -1590,6 +1590,7 @@ $repl				= '';   // statistical info
 $upper				= '';   // statistical info
 $write_val			= '';   // statistical info
 $filecontrol		= '';   // File control
+$filename			= '';   // File control
 $filedata			= '';   // File control
 
 function normalize866a($new866a, $sys2, $sys1) {
@@ -1634,6 +1635,7 @@ global $repl;
 global $upper;
 global $write_val;
 global $filecontrol;
+global $filename;
 
 $filename = $sys1.'.txt';
 
@@ -1845,8 +1847,9 @@ global $filedata;
 fclose($filecontrol);
 rename($filename, "/public/".$filename);
 if (Auth::user()->username == 'TRIALOG-BIB') {
-	var_dump($filedata);
+	echo $filedata;
 }
+
 return $hol_nrm;
 }
 
