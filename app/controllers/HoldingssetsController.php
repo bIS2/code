@@ -1840,6 +1840,7 @@ $hol_nrm = normalize_result($hop_info);
 // The End
 global $filecontrol;
 global $filename;
+global $filedata;
 
 fclose($filecontrol);
 rename($filename, "/public/".$filename);
