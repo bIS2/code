@@ -1574,7 +1574,7 @@ $know_gr          	= '';        // knowledge group
 $know             	= array();   // contains all knowledgeable elements for recognizing HOP
 $hol_info          	= array();   // collect info about holding string
 $hop_info         	= array();   // collect info about holding part
-$current_year     = '2014';
+$current_year     	= '2014';
 $hol_info['proc']  	= '';        // collects info about processing hol
 $starttime        	= sprintf("%s", date("Y-m-d H:i:s"));
 $stat             	= array();   // statistical info
@@ -1630,6 +1630,7 @@ global $do_show_pattern;
 global $do_give_info;
 global $ho_val_prev;
 global $con;
+global $current_year;
 global $do_control;
 global $do_show_know;
 global $fld;
