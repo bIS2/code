@@ -1865,6 +1865,7 @@ function do_control($marker1, $model, $str_before, $marker2, $str_after) {
 // Append a new person to the file
    $current .= $newstring."\r";
 // Write the contents back to the file
+   var_dump($current);
    file_put_contents($file, $current);
 }
 
