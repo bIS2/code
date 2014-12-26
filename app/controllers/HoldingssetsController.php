@@ -1594,6 +1594,8 @@ $filename			= '';   // File control
 $filedata			= '';   // File control
 
 function normalize866a($new866a, $sys2, $sys1) {
+
+	error_reporting(E_ALL);
 /* 
 Project: SP2 - bIS
 Function:
@@ -1637,7 +1639,7 @@ global $write_val;
 global $filecontrol;
 global $filename;
 
-$filename = $sys1.'.txt';
+$filename = '/'.$sys1.'.txt';
 
 if (file_exists($filename)) {
 	unlink($filename);
@@ -1845,7 +1847,7 @@ global $filename;
 global $filedata;
 
 fclose($filecontrol);
-rename($filename, "/public/".$filename);
+// rename($filename, "/public/".$filename);
 if (Auth::user()->username == 'TRIALOG-BIB') {
 	echo $filedata;
 }
