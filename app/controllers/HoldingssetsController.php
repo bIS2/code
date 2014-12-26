@@ -1857,7 +1857,7 @@ function do_control($marker1, $model, $str_before, $marker2, $str_after) {
   global $filecontrol;
   global $filename;
   // if ($proc_flag['control']) 
-   $newstring = fprintf("\n%-3s %-25s : %-70s %2s %s", $marker1, $model, $str_before, $marker2, $str_after);
+   $newstring = sprintf("\n%-3s %-25s : %-70s %2s %s", $marker1, $model, $str_before, $marker2, $str_after);
 
    $file = $filename;
 // Open the file to get existing content
