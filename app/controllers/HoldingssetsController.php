@@ -1104,25 +1104,25 @@ $query .= "\n FROM holdings";
 						- 866aupdated if 866aupdated != '';
 						- lockeds holdings can't be used to the algoritm
 
------------------------------------------------------------------------------------*/
-function holdingsset_recall($id) {
-	$db_config = Config::get('database');
-	$database = $db_config['connections']['pgsql']['database'];
-	$username = $db_config['connections']['pgsql']['username'];
-	$password = $db_config['connections']['pgsql']['password'];
-	$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
-	$con = pg_connect($conn_string);
+						-----------------------------------------------------------------------------------*/
+						function holdingsset_recall($id) {
+							$db_config = Config::get('database');
+							$database = $db_config['connections']['pgsql']['database'];
+							$username = $db_config['connections']['pgsql']['username'];
+							$password = $db_config['connections']['pgsql']['password'];
+							$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
+							$con = pg_connect($conn_string);
 
-	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." AND state NOT LIKE '%reserve%' ORDER BY sys2, score DESC LIMIT 100";
-	$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
+							$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." AND state NOT LIKE '%reserve%' ORDER BY sys2, score DESC LIMIT 100";
+							$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
 
-	$ta_arr = pg_fetch_all($result);
+							$ta_arr = pg_fetch_all($result);
 
-	/*******************************************************************/
+							/*******************************************************************/
 
-	$hos = array();
-	$hos['ptrn'] = array();
-	$hos['hol'] = array();
+							$hos = array();
+							$hos['ptrn'] = array();
+							$hos['hol'] = array();
 
 	$hos['year_ptrn'] = array(); // ***** NEW! *****
 	$hos['timeline'] = array();  // ***** NEW! *****
@@ -1590,7 +1590,7 @@ $repl				= '';   // statistical info
 $upper				= '';   // statistical info
 $write_val			= '';   // statistical info
 $filecontrol		= '';   // File control
-$filename			= '';   // File control
+$filedata			= '';   // File control
 
 function normalize866a($new866a, $sys2, $sys1) {
 /* 
@@ -1634,15 +1634,14 @@ global $repl;
 global $upper;
 global $write_val;
 global $filecontrol;
-global $filename;
 
 $filename = $sys1.'.txt';
 
-// if (file_exists($filename)) {
-//     unlink($filename);
-// }
+if (file_exists($filename)) {
+	unlink($filename);
+}
 
-// $filecontrol = fopen($filename, "w+");
+$filecontrol = fopen($filename, "w+");
 
 $hop_no           	= 0;         // number of parts
 $hol_nrm          	= '';        // saved hol f866a result normalized
@@ -1828,7 +1827,7 @@ for ($hop_no = 0; $hop_no < count($ho_part); $hop_no++) {
 	    		&& ! isset($hop_info[$hop_no]['yeE1'])
 	    		)
 			$hop_info[$hop_no]['yeE1'] = $current_year;
-		        do_control('vCY', '', $hop, '=>', $hop_info[$hop_no]['type']);
+		do_control('vCY', '', $hop, '=>', $hop_info[$hop_no]['type']);
 	}
 
 } // <- end of hop loop
@@ -1839,12 +1838,14 @@ $hol_nrm = normalize_result($hop_info);
 
 // die();
 // The End
-// fclose($filecontrol);
-// rename($filename, "/public/".$filename);
+global $filecontrol;
 global $filename;
-var_dump($filename);
-$current = file_get_contents($filename);
-var_dump($current);
+
+fclose($filecontrol);
+rename($filename, "/public/".$filename);
+if (Auth::user()->username == 'TRIALOG-BIB') {
+	var_dump($filedata);
+}
 return $hol_nrm;
 }
 
@@ -1857,19 +1858,15 @@ return $hol_nrm;
 function do_control($marker1, $model, $str_before, $marker2, $str_after) {
 // ------------------------------------------------------------------------
 // Purpose: prints manipulation a a string to the screen
-  global $do_control, $proc_flag;
-  global $filecontrol;
-  global $filename;
+	global $do_control, $proc_flag;
+	global $filecontrol;
+	global $filedata;
   // if ($proc_flag['control']) 
-   $newstring = sprintf("\n%-3s %-25s : %-70s %2s %s", $marker1, $model, $str_before, $marker2, $str_after);
+	fprintf($filecontrol, "\n%-3s %-25s : %-70s %2s %s", $marker1, $model, $str_before, $marker2, $str_after);
+	fprintf($filecontrol, "\r");
 
-   $file = $filename;
-// Open the file to get existing content
-   $current = file_get_contents($file);
-// Append a new person to the file
-   $current .= $newstring."\r";
-// Write the contents back to the file
-   file_put_contents($file, $current);
+	$filedata .= sprintf("\n%-3s %-25s : %-70s %2s %s", $marker1, $model, $str_before, $marker2, $str_after);
+	$filedata .= "\r <br>";
 }
 
 // ------------------------------------------------------------------------
@@ -1881,7 +1878,7 @@ function val_replace($ho_val) {
 	for ($c=0; $c < count($know[$know_gr]['srch']); $c++) {  // for each regular expression in the group ...
 		$regex = '/'.$know[$know_gr]['srch'][$c].'/'.$know[$know_gr]['uppe'][$c];  // build regex string. Add i for search case insensitive (uppe)
 		$ho_val_prev = $ho_val;
-    	do_control('vR~', '', $regex, '', '');
+		do_control('vR~', '', $regex, '', '');
 		if (preg_match($regex, $ho_val, $elem)) {  // check if we have something to do
 			$ho_val = preg_replace($regex, $know[$know_gr]['repl'][$c], $ho_val);
 			if ($ho_val_prev <> $ho_val) {
@@ -1898,7 +1895,7 @@ function val_replace($ho_val) {
 						switch ($val) {
 							case '$1': // increment by 1
 							$hop_info[$hop_no][$var]=$elem[1];
-								do_control('vRn', $var, $hop_info[$hop_no][$var], '', '$1');
+							do_control('vRn', $var, $hop_info[$hop_no][$var], '', '$1');
 							break;
 							default:
 							$hop_info[$hop_no][$var]=$val;
@@ -1908,11 +1905,11 @@ function val_replace($ho_val) {
 						switch ($val) {
 							case 'NF++': // increment by 1
 							$hop_info[$hop_no][$var]++;
-								do_control('vRn', $var, $hop_info[$hop_no][$var], '', '++');
+							do_control('vRn', $var, $hop_info[$hop_no][$var], '', '++');
 							break;
 							case '$1': // increment by 1
 							$hop_info[$hop_no][$var]=$elem[1];
-								do_control('vRn', $var, $hop_info[$hop_no][$var], '', '$1');
+							do_control('vRn', $var, $hop_info[$hop_no][$var], '', '$1');
 							break;
 							default:
 							$hop_info[$hop_no][$var]=1;
@@ -1959,16 +1956,16 @@ function val_replace($ho_val) {
 						if ($proc_flag['debug']) printf("(%d)   =: %-6s = %-20s\n", $hop_no, $pom[$c2], $elem[$c2]);
 						if ($pom[$c2] > '') $hop_info[$hop_no][$pom[$c2]] =	$elem[$c2];
 					}
-				do_control('MDL', $mdl, implode('|', $pom), '', implode('|', $elem));
+					do_control('MDL', $mdl, implode('|', $pom), '', implode('|', $elem));
 				}
 				if ($ho_val == '') {
 					$ho_val = '==RECOGNIZED==';
 					isset($stat['Z_RECOGNIZED']) ? $stat['Z_RECOGNIZED']++ : $stat['Z_RECOGNIZED']=1;
 				}
 				collect_proc_info($hop_info, $know[$know_gr]['mode'][$c], $hop_no, $ho_val, $elem[0]);
-			do_control('vR+', $know[$know_gr]['mode'][$c], $ho_val_prev, '', '|'.$ho_val.'|   {'.$know[$know_gr]['writ'][$c].')');
+				do_control('vR+', $know[$know_gr]['mode'][$c], $ho_val_prev, '', '|'.$ho_val.'|   {'.$know[$know_gr]['writ'][$c].')');
 			} else {
-			do_control('vR-', $know[$know_gr]['mode'][$c], $ho_val_prev, '', $ho_val);
+				do_control('vR-', $know[$know_gr]['mode'][$c], $ho_val_prev, '', $ho_val);
 			}
 		}
 	//echo "@:"; print_r($hop_info[$hop_no]); echo ":@"; 
@@ -1982,7 +1979,7 @@ function val_replace($ho_val) {
 		if ($equ_list = preg_split("/ *= */", $hop)) {
 			$hop_prev = $hop;
 			$hop = array_shift($equ_list);
-		do_control('EQU', '', $hop_prev, '', $hop.'  {'.implode('|', $equ_list).'}');
+			do_control('EQU', '', $hop_prev, '', $hop.'  {'.implode('|', $equ_list).'}');
 		}
 		return $hop;
 	}
@@ -1998,7 +1995,7 @@ function val_replace($ho_val) {
   if (strcmp($hop,'_VOID_') == 0) // if $hop has been recognized as _VOID_
 		isset($stat['Z_RECOGNIZED']) ? $stat['Z_RECOGNIZED']++ : $stat['Z_RECOGNIZED'] = 1;  // _VOID_ is ==RECOGNIZED==
 		isset($hop_info[$hop_no]['proc']) ? $hop_info[$hop_no]['proc'] .= $model.": '".$trigger."' {".$hop."}| " : $hop_info[$hop_no]['proc'] = $model.": '".$trigger."' {".$hop."}| ";
-  do_control('STA', $model, $stat[$model_s], '', '');
+		do_control('STA', $model, $stat[$model_s], '', '');
 	}
 
 // ------------------------------------------------------------------------
