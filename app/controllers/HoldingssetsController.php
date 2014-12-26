@@ -1591,7 +1591,6 @@ $upper				= '';   // statistical info
 $write_val			= '';   // statistical info
 $filecontrol		= '';   // File control
 $filename			= '';   // File control
-$filedata			= '';   // File control
 
 function normalize866a($new866a, $sys2, $sys1) {
 
@@ -1845,13 +1844,9 @@ $hol_nrm = normalize_result($hop_info);
 // The End
 global $filecontrol;
 global $filename;
-global $filedata;
 
 fclose($filecontrol);
-// rename($filename, "/public/".$filename);
-// if (Auth::user()->username == 'TRIALOG-BIB') {
-// 	echo $filedata;
-// }
+
 
 return $hol_nrm;
 }
@@ -1867,13 +1862,9 @@ function do_control($marker1, $model, $str_before, $marker2, $str_after) {
 // Purpose: prints manipulation a a string to the screen
 	global $do_control, $proc_flag;
 	global $filecontrol;
-	global $filedata;
   // if ($proc_flag['control']) 
 	fprintf($filecontrol, "\n%-3s %-25s : %-70s %2s %s", $marker1, $model, $str_before, $marker2, $str_after);
 	fprintf($filecontrol, "\r");
-
-	$filedata .= sprintf("\n%-3s %-25s : %-70s %2s %s", $marker1, $model, $str_before, $marker2, $str_after);
-	$filedata .= "\r <br>";
 }
 
 // ------------------------------------------------------------------------
