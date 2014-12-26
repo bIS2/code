@@ -1639,7 +1639,7 @@ global $write_val;
 global $filecontrol;
 global $filename;
 
-$filename = '/'.$sys1.'.txt';
+$filename = $sys1.'.txt';
 
 if (file_exists($filename)) {
 	unlink($filename);
