@@ -1863,7 +1863,7 @@ function do_control($marker1, $model, $str_before, $marker2, $str_after) {
 // Open the file to get existing content
    $current = file_get_contents($file);
 // Append a new person to the file
-   $current .= $newstring."r\n";
+   $current .= $newstring."\r";
 // Write the contents back to the file
    file_put_contents($file, $current);
 }
