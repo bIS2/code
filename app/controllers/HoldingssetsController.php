@@ -1841,7 +1841,9 @@ $hol_nrm = normalize_result($hop_info);
 // The End
 // fclose($filecontrol);
 // rename($filename, "/public/".$filename);
-$current = file_get_contents($file);
+global $filename;
+var_dump($filename);
+$current = file_get_contents($filename);
 var_dump($current);
 return $hol_nrm;
 }
