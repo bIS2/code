@@ -1841,6 +1841,8 @@ $hol_nrm = normalize_result($hop_info);
 // The End
 // fclose($filecontrol);
 // rename($filename, "/public/".$filename);
+$current = file_get_contents($file);
+var_dump($current);
 return $hol_nrm;
 }
 
@@ -1865,8 +1867,6 @@ function do_control($marker1, $model, $str_before, $marker2, $str_after) {
 // Append a new person to the file
    $current .= $newstring."\r";
 // Write the contents back to the file
-   var_dump($current);
-   var_dump($filename);
    file_put_contents($file, $current);
 }
 
