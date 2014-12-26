@@ -1590,6 +1590,7 @@ $repl				= '';   // statistical info
 $upper				= '';   // statistical info
 $write_val			= '';   // statistical info
 $filecontrol		= '';   // File control
+$filename			= '';   // File control
 
 function normalize866a($new866a, $sys2, $sys1) {
 /* 
@@ -1633,16 +1634,15 @@ global $repl;
 global $upper;
 global $write_val;
 global $filecontrol;
+global $filename;
 
 $filename = $sys1.'.txt';
 
-if (file_exists($filename)) {
-    unlink($filename);
-}
-var_dump($filename);
+// if (file_exists($filename)) {
+//     unlink($filename);
+// }
 
-$filecontrol = fopen($filename, "w+");
-var_dump($filecontrol);
+// $filecontrol = fopen($filename, "w+");
 
 $hop_no           	= 0;         // number of parts
 $hol_nrm          	= '';        // saved hol f866a result normalized
@@ -1839,10 +1839,8 @@ $hol_nrm = normalize_result($hop_info);
 
 // die();
 // The End
-var_dump($filecontrol);die();
-fclose($filecontrol);
+// fclose($filecontrol);
 // rename($filename, "/public/".$filename);
-
 return $hol_nrm;
 }
 
@@ -1857,10 +1855,17 @@ function do_control($marker1, $model, $str_before, $marker2, $str_after) {
 // Purpose: prints manipulation a a string to the screen
   global $do_control, $proc_flag;
   global $filecontrol;
+  global $filename;
   // if ($proc_flag['control']) 
-  	fprintf($filecontrol, "\n%-3s %-25s : %-70s %2s %s", $marker1, $model, $str_before, $marker2, $str_after);
-  	fprintf($filecontrol, "\r");
-  	var_dump($filecontrol);
+   $newstring = fprintf("\n%-3s %-25s : %-70s %2s %s", $marker1, $model, $str_before, $marker2, $str_after);
+
+   $file = $filename;
+// Open the file to get existing content
+   $current = file_get_contents($file);
+// Append a new person to the file
+   $current .= $newstring."r\n";
+// Write the contents back to the file
+   file_put_contents($file, $current);
 }
 
 // ------------------------------------------------------------------------
