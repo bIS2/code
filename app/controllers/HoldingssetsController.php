@@ -1595,7 +1595,7 @@ $filedata			= '';   // File control
 
 function normalize866a($new866a, $sys2, $sys1) {
 
-	error_reporting(E_ALL);
+	// error_reporting(E_ALL);
 /* 
 Project: SP2 - bIS
 Function:
@@ -1849,9 +1849,9 @@ global $filedata;
 
 fclose($filecontrol);
 // rename($filename, "/public/".$filename);
-if (Auth::user()->username == 'TRIALOG-BIB') {
-	echo $filedata;
-}
+// if (Auth::user()->username == 'TRIALOG-BIB') {
+// 	echo $filedata;
+// }
 
 return $hol_nrm;
 }
