@@ -387,7 +387,7 @@ class Holding extends Eloquent {
         break;
         case '>':
         $icon = '<i class="fa fa-chevron-circle-right"></i>';
-        $datacontent = $this->getSquareValue($ptrn[$counter]);
+        $datacontent = $this->getSquareValue($ptrn[$counter]).' - '.date('Y');
         break;
         default:
         $icon = '';
@@ -529,7 +529,7 @@ class Holding extends Eloquent {
         break;
         case '>':
         $icon = '<i class="fa fa-chevron-circle-right"></i>';
-        $datacontent = $this->getSquareValue($ptrn[$counter]);
+        $datacontent = $this->getSquareValue($ptrn[$counter]).' - '.date('Y');
         break;
         default:
         $icon = '';

@@ -1104,25 +1104,25 @@ $query .= "\n FROM holdings";
 						- 866aupdated if 866aupdated != '';
 						- lockeds holdings can't be used to the algoritm
 
-						-----------------------------------------------------------------------------------*/
-						function holdingsset_recall($id) {
-							$db_config = Config::get('database');
-							$database = $db_config['connections']['pgsql']['database'];
-							$username = $db_config['connections']['pgsql']['username'];
-							$password = $db_config['connections']['pgsql']['password'];
-							$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
-							$con = pg_connect($conn_string);
+-----------------------------------------------------------------------------------*/
+function holdingsset_recall($id) {
+	$db_config = Config::get('database');
+	$database = $db_config['connections']['pgsql']['database'];
+	$username = $db_config['connections']['pgsql']['username'];
+	$password = $db_config['connections']['pgsql']['password'];
+	$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
+	$con = pg_connect($conn_string);
 
-							$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." AND state NOT LIKE '%reserve%' ORDER BY sys2, score DESC LIMIT 100";
-							$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
+	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." AND state NOT LIKE '%reserve%' ORDER BY sys2, score DESC LIMIT 100";
+	$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
 
-							$ta_arr = pg_fetch_all($result);
+	$ta_arr = pg_fetch_all($result);
 
-							/*******************************************************************/
+	/*******************************************************************/
 
-							$hos = array();
-							$hos['ptrn'] = array();
-							$hos['hol'] = array();
+	$hos = array();
+	$hos['ptrn'] = array();
+	$hos['hol'] = array();
 
 	$hos['year_ptrn'] = array(); // ***** NEW! *****
 	$hos['timeline'] = array();  // ***** NEW! *****
@@ -1390,11 +1390,18 @@ $query .= "\n FROM holdings";
 		$fx866a = '';
 		if ($hol['is_aux'] == 't') {
 			$auxs = $hol['aux_ptrn'];
-			$k = -1;
+			$k  = -1;
+			$ff = -1;
 			foreach ($auxs as $aux) {
+				$ff++;
 				if ($aux == 1) {
 					$k++;
-					$fx866a .= ($fx866a == '') ? $f866a[$k] : '-'.$f866a[$k];
+					if ($hol['c_arr'][$ff] == '>') {
+						$fx866a .= $f866a[$k].' '.date('Y');
+					}
+					else {						
+						$fx866a .= ($fx866a == '') ? $f866a[$k] : '-'.$f866a[$k];
+					}
 				}
 			}
 		}
