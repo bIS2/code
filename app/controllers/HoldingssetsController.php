@@ -1388,25 +1388,48 @@ function holdingsset_recall($id) {
 		$f866a = ($hol['f866aupdated'] == '') ? explode(';', $hol['f866a']) : explode(';', $hol['f866aupdated']);
 
 		$fx866a = '';
+		$tmpfx866a = '';
 		if ($hol['is_aux'] == 't') {
 			$auxs = $hol['aux_ptrn'];
 			$k  = -1;
 			$ff = -1;
+			$fy = -1;
+			$ly = -1;
 			foreach ($auxs as $aux) {
 				$ff++;
 				if ($aux == 1) {
 					$k++;
 					if ($hol['c_arr'][$ff] == '>') {
-						$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$ff]).' '.date('Y') : ';'.getSquareValue($prtnall[$ff]).' '.date('Y');
+						$tmpfx866a .= ($tmpfx866a == '') ? getSquareValue($prtnall[$ff]).' '.date('Y') : ';'.getSquareValue($prtnall[$ff]).' '.date('Y');
 					}
 					if ($hol['c_arr'][$ff] == ']') {
-						$fx866a .= ($fx866a == '') ? (getSquareValue($prtnall[$ff-1]) + 1).'-' : ';'.(getSquareValue($prtnall[$ff-1]) + 1).'-';
+						$tmpfx866a .= ($tmpfx866a == '') ? (getSquareValue($prtnall[$ff-1]) + 1).'-' : ';'.(getSquareValue($prtnall[$ff-1]) + 1).'-';
 					}
 					else {						
-						$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$ff]) : ';'.getSquareValue($prtnall[$ff]);
+						$tmpfx866a .= ($tmpfx866a == '') ? getSquareValue($prtnall[$ff]) : ';'.getSquareValue($prtnall[$ff]);
 					}
+					$fy = ($fy == -1) ? $ff : $fy;
+					$ly = $ff;
 				}
+				else {
+					if (($fy != -1) && ($ly != -1) && ($fy != $ly)) {
+						$fy = -1;$ly = -1;
+						$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : ';'.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
+					}
+					else {
+						$fy = -1;$ly = -1;
+						$fx866a .= ($fx866a == '') ? $tmpfx866a : ';'.$tmpfx866a;
+					}
+				}				
 			}
+			if (($fy != -1) && ($ly != -1) && ($fy != $ly)) {
+				$fy = -1;$ly = -1;
+				$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : ';'.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
+			}
+			else {
+				$fy = -1;$ly = -1;
+				$fx866a .= ($fx866a == '') ? $tmpfx866a : ';'.$tmpfx866a;
+			}			
 		}
 		if ($hol['is_owner'] == 't') {
 
