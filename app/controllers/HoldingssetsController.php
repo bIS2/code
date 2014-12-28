@@ -1412,25 +1412,29 @@ function holdingsset_recall($id) {
 					$ly = $ff;
 				}
 				else {
-					if (($fy != -1) && ($ly != -1) && ($fy != $ly)) {
-						$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : ';'.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
-						$fy = -1;$ly = -1;
-						$tmpfx866a = '';
-					}
-					else {
-						$fx866a .= ($fx866a == '') ? $tmpfx866a : ';'.$tmpfx866a;
-						$fy = -1;$ly = -1;
-						$tmpfx866a = '';
+					if ($tmpfx866a != '') {
+						if (($fy != -1) && ($ly != -1) && ($fy != $ly)) {
+							$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : ';'.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
+							$fy = -1;$ly = -1;
+							$tmpfx866a = '';
+						}
+						else {
+							$fx866a .= ($fx866a == '') ? $tmpfx866a : ';'.$tmpfx866a;
+							$fy = -1;$ly = -1;
+							$tmpfx866a = '';
+						}
 					}
 				}				
 			}
-			if (($fy != -1) && ($ly != -1) && ($fy != $ly)) {
-				$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : ';'.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
-				$fy = -1;$ly = -1;
-			}
-			else {
-				$fx866a .= ($fx866a == '') ? $tmpfx866a : ';'.$tmpfx866a;
-				$fy = -1;$ly = -1;
+			if ($tmpfx866a != '') {
+				if (($fy != -1) && ($ly != -1) && ($fy != $ly)) {
+					$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : ';'.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
+					$fy = -1;$ly = -1;
+				}
+				else {
+					$fx866a .= ($fx866a == '') ? $tmpfx866a : ';'.$tmpfx866a;
+					$fy = -1;$ly = -1;
+				}			
 			}			
 		}
 		if ($hol['is_owner'] == 't') {
