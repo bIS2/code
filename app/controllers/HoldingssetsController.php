@@ -1397,12 +1397,10 @@ function holdingsset_recall($id) {
 				if ($aux == 1) {
 					$k++;
 					if ($hol['c_arr'][$ff] == '>') {
-						$fx866a .= getSquareValue($prtnall[$ff]).' '.date('Y');
+						$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$ff]).' '.date('Y') : ';'.getSquareValue($prtnall[$ff]).' '.date('Y');
 					}
 					if ($hol['c_arr'][$ff] == ']') {
-
-						$fx866a .= (getSquareValue($prtnall[$ff-1]) + 1).'-';
-
+						$fx866a .= ($fx866a == '') ? (getSquareValue($prtnall[$ff-1]) + 1).'-' : ';'.(getSquareValue($prtnall[$ff-1]) + 1).'-';
 					}
 					else {						
 						$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$ff]) : ';'.getSquareValue($prtnall[$ff]);
