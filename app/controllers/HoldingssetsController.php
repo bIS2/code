@@ -1395,15 +1395,18 @@ function holdingsset_recall($id) {
 			foreach ($auxs as $aux) {
 				$ff++;
 				if ($aux == 1) {
-
 					$k++;
 					if ($hol['c_arr'][$ff] == '>') {
 						$fx866a .= getSquareValue($prtnall[$ff]).' '.date('Y');
 					}
+					if ($hol['c_arr'][$ff] == ']') {
+
+						$fx866a .= (getSquareValue($prtnall[$ff-1]) + 1).'-';
+
+					}
 					else {						
 						$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$ff]) : ';'.getSquareValue($prtnall[$ff]);
 					}
-
 				}
 			}
 		}

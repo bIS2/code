@@ -404,7 +404,7 @@ class Holding extends Eloquent {
         $classaux = '';
         if (isset($j_ptrn[$i]))     $classj   = ($j_ptrn[$i] == '1') ? ' j' : ''; 
         if (isset($aux_ptrn[$i]))   $classaux = ($aux_ptrn[$i] == '1') ? ' aux' : ''; 
-        $pptrn1 = $ptrn[$i];   
+        $pptrn1 = $ptrn[$i];
         $parts = explode('       ', $pptrn1);
         $newptrn = '';
 
