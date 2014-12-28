@@ -433,7 +433,7 @@ class Holding extends Eloquent {
     $v2 = intval(substr($value, 4, 4));
     $v3 = intval(substr($value, 8, 4));
     $v4 = intval(substr($value, 12, 4));
-    $string == '';    
+    $string = '';    
     if ($v1 > 0) $string .= 'v1';
     if ($v2 > 0) $string .= 'v2';
     if ($v3 > 0) $string .= 'v3';

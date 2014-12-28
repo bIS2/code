@@ -1395,13 +1395,15 @@ function holdingsset_recall($id) {
 			foreach ($auxs as $aux) {
 				$ff++;
 				if ($aux == 1) {
+
 					$k++;
 					if ($hol['c_arr'][$ff] == '>') {
-						$fx866a .= $f866a[$k].' '.date('Y');
+						$fx866a .= getSquareValue($prtnall[$ff]).' '.date('Y');
 					}
 					else {						
-						$fx866a .= ($fx866a == '') ? $f866a[$k] : '-'.$f866a[$k];
+						$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$ff]) : '-'.getSquareValue($prtnall[$ff]);
 					}
+
 				}
 			}
 		}
@@ -1432,7 +1434,64 @@ function holdingsset_recall($id) {
 	// die("\nThat's a better end of the story");
 }
 
+function getSquareValue($value) {
+    $v1 = intval(substr($value, 0, 4));
+    $v2 = intval(substr($value, 4, 4));
+    $v3 = intval(substr($value, 8, 4));
+    $v4 = intval(substr($value, 12, 4));
+    $string = '';    
+    if ($v1 > 0) $string .= 'v1';
+    if ($v2 > 0) $string .= 'v2';
+    if ($v3 > 0) $string .= 'v3';
+    if ($v4 > 0) $string .= 'v4';
+    // var_dump($string);
+    switch ($string) {
+      case 'v1':
+        return $v1;
+        break;
+      
+      case 'v2':
+        return $v2;
+        break;
+      
+      case 'v3':
+        return $v3;
+        break;
+      
+      case 'v4':
+      return $v4;
+        break;
+      
+      case 'v1v3':
+        return $v1.'('.$v3.')';
+        break;
+            
+      case 'v2v4':
+        return $v2.'('.$v4.')';
+        break;
+      
+      case 'v1v3v4':
+        return $v1.'('.$v3.'/'.$v4.')';
+        break;   
 
+      case 'v2v3v4':
+        return $v2.'('.$v3.'/'.$v4.')';
+        break;
+
+      case 'v3v4':
+        return $v3.' - '.$v4;
+        break;
+      
+      case 'v1v2v3v4':
+        return $v1.'('.$v3.') - '.$v2.'('.$v4.')';
+        break; 
+
+      default:
+        return '';
+        break;
+    }
+    
+  }
 
 // ***********************************************
 function last_similar_ta_in_set( $ta_res_sim) {
