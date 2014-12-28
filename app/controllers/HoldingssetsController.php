@@ -1413,22 +1413,24 @@ function holdingsset_recall($id) {
 				}
 				else {
 					if (($fy != -1) && ($ly != -1) && ($fy != $ly)) {
-						$fy = -1;$ly = -1;
 						$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : ';'.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
+						$fy = -1;$ly = -1;
+						$tmpfx866a = '';
 					}
 					else {
-						$fy = -1;$ly = -1;
 						$fx866a .= ($fx866a == '') ? $tmpfx866a : ';'.$tmpfx866a;
+						$fy = -1;$ly = -1;
+						$tmpfx866a = '';
 					}
 				}				
 			}
 			if (($fy != -1) && ($ly != -1) && ($fy != $ly)) {
-				$fy = -1;$ly = -1;
 				$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : ';'.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
+				$fy = -1;$ly = -1;
 			}
 			else {
-				$fy = -1;$ly = -1;
 				$fx866a .= ($fx866a == '') ? $tmpfx866a : ';'.$tmpfx866a;
+				$fy = -1;$ly = -1;
 			}			
 		}
 		if ($hol['is_owner'] == 't') {
