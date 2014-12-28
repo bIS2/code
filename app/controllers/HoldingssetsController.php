@@ -1401,7 +1401,7 @@ function holdingsset_recall($id) {
 						$fx866a .= getSquareValue($prtnall[$ff]).' '.date('Y');
 					}
 					else {						
-						$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$ff]) : '-'.getSquareValue($prtnall[$ff]);
+						$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$ff]) : ';'.getSquareValue($prtnall[$ff]);
 					}
 
 				}
