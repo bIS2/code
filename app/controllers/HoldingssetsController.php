@@ -589,7 +589,7 @@ class HoldingssetsController extends BaseController {
 
 			$was_oner = (($holding->is_owner == '1') || ($holding->is_owner == 't')) ? true : false;
 
-			if (Input::get('unique_aux') == 1) {
+			if (Input::get('unique_aux') == '1') {
 				$holdingsset = Holdingsset::find($holdingsset_id);
 				$ptrn = Input::get('ptrn');
 				$empty_ptrn = str_replace('1', '0', $ptrn);
@@ -597,32 +597,115 @@ class HoldingssetsController extends BaseController {
 				$holdingsset->holdings()->where('id', '!=', $id)->where('is_owner', 'f')->update(['fx866a' => '']);
 				
 				$fx866a = '';
-				$f866a = explode(';', $holding->f866a);
-				$i = -1;
-				for ($k=0; $k < strlen($ptrn); $k++) { 
-					if ($ptrn[$k] == 1) {
-						$i++;
-						$fx866a .= ($fx866a == '') ? $f866a[$i] : '-'.$f866a[$i];
+				$tmpfx866a = '';
+				$painters = explode('|',$holding->c_arr);
+				$prtnall = explode('|', $holdingsset->ptrn);
+				$auxs = $ptrn;
+				$k  = -1;
+				$ff = -1;
+				$fy = -1;
+				$ly = -1;
+				for ($ff=0; $ff < strlen($auxs); $ff++) { 
+					$aux = $auxs[$ff];
+					if ($aux == 1) {
+						$k++;
+						if ($painters[$ff] == '>') {
+							$tmpfx866a .= ($tmpfx866a == '') ? getSquareValue($prtnall[$ff]).' '.date('Y') : ';'.getSquareValue($prtnall[$ff]).' '.date('Y');
+						}
+						if ($painters[$ff] == ']') {
+							$tmpfx866a .= ($tmpfx866a == '') ? (getSquareValue($prtnall[$ff-1]) + 1).'-' : ';'.(getSquareValue($prtnall[$ff-1]) + 1).'-';
+						}
+						else {						
+							$tmpfx866a .= ($tmpfx866a == '') ? getSquareValue($prtnall[$ff]) : ';'.getSquareValue($prtnall[$ff]);
+						}
+						$fy = ($fy == -1) ? $ff : $fy;
+						$ly = $ff;
 					}
+					else {
+						if ($tmpfx866a != '') {
+							if (($fy != -1) && ($ly != -1) && ($fy != $ly)) {
+								$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : ';'.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
+								$fy = -1;$ly = -1;
+								$tmpfx866a = '';
+							}
+							else {
+								$fx866a .= ($fx866a == '') ? $tmpfx866a : ';'.$tmpfx866a;
+								$fy = -1;$ly = -1;
+								$tmpfx866a = '';
+							}
+						}
+					}				
 				}
+				if ($tmpfx866a != '') {
+					if (($fy != -1) && ($ly != -1) && ($fy != $ly)) {
+						$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : ';'.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
+						$fy = -1;$ly = -1;
+					}
+					else {
+						$fx866a .= ($fx866a == '') ? $tmpfx866a : ';'.$tmpfx866a;
+						$fy = -1;$ly = -1;
+					}			
+				}			
 
-				// var_dump($auxs);
-				// var_dump($f866a);
-				// var_dump($fx866a);
 				$holdingsset->holdings()->where('id', '=', $id)->update(['is_aux' => 't', 'is_owner' => 'f', 'aux_ptrn' => $ptrn, 'fx866a' => $fx866a]);				
 			}
 			else {
-
+				$holdingsset = Holdingsset::find($holdingsset_id);
 				$fx866a = '';
 				$f866a = explode(';', $holding->f866a);
 				$ptrn = Input::get('newauxptrn');
-				$i = -1;
-				for ($k=0; $k < strlen($ptrn); $k++) { 
-					if ($ptrn[$k] == 1) {
-						$i++;
-						$fx866a .= ($fx866a == '') ? $f866a[$i] : '-'.$f866a[$i];
+
+				$fx866a = '';
+				$tmpfx866a = '';
+				$painters = explode('|',$holding->c_arr);
+				$prtnall = explode('|', $holdingsset->ptrn);
+				$auxs = $ptrn;
+				$k  = -1;
+				$ff = -1;
+				$fy = -1;
+				$ly = -1;
+				for ($ff=0; $ff < strlen($auxs); $ff++) { 
+					$aux = $auxs[$ff];
+					if ($aux == 1) {
+						$k++;
+						if ($painters[$ff] == '>') {
+							$tmpfx866a .= ($tmpfx866a == '') ? getSquareValue($prtnall[$ff]).' '.date('Y') : ';'.getSquareValue($prtnall[$ff]).' '.date('Y');
+						}
+						if ($painters[$ff] == ']') {
+							$tmpfx866a .= ($tmpfx866a == '') ? (getSquareValue($prtnall[$ff-1]) + 1).'-' : ';'.(getSquareValue($prtnall[$ff-1]) + 1).'-';
+						}
+						else {						
+							$tmpfx866a .= ($tmpfx866a == '') ? getSquareValue($prtnall[$ff]) : ';'.getSquareValue($prtnall[$ff]);
+						}
+						$fy = ($fy == -1) ? $ff : $fy;
+						$ly = $ff;
 					}
+					else {
+						if ($tmpfx866a != '') {
+							if (($fy != -1) && ($ly != -1) && ($fy != $ly)) {
+								$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : ';'.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
+								$fy = -1;$ly = -1;
+								$tmpfx866a = '';
+							}
+							else {
+								$fx866a .= ($fx866a == '') ? $tmpfx866a : ';'.$tmpfx866a;
+								$fy = -1;$ly = -1;
+								$tmpfx866a = '';
+							}
+						}
+					}				
 				}
+				if ($tmpfx866a != '') {
+					if (($fy != -1) && ($ly != -1) && ($fy != $ly)) {
+						$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : ';'.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
+						$fy = -1;$ly = -1;
+					}
+					else {
+						$fx866a .= ($fx866a == '') ? $tmpfx866a : ';'.$tmpfx866a;
+						$fy = -1;$ly = -1;
+					}			
+				}				
+
 				$holding->update(['is_aux'=>'t', 'is_owner'=>'f', 'ocrr_ptrn'=> Input::get('newptrn'), 'aux_ptrn'=> Input::get('newauxptrn'), 'ocrr_nr' => Input::get('count'), 'force_aux' => 't', 'force_owner' => 'f', 'fx866a' => $fx866a]);
 			}
 			if ($was_oner) holdingsset_recall($holdingsset_id);
@@ -1104,25 +1187,25 @@ $query .= "\n FROM holdings";
 						- 866aupdated if 866aupdated != '';
 						- lockeds holdings can't be used to the algoritm
 
------------------------------------------------------------------------------------*/
-function holdingsset_recall($id) {
-	$db_config = Config::get('database');
-	$database = $db_config['connections']['pgsql']['database'];
-	$username = $db_config['connections']['pgsql']['username'];
-	$password = $db_config['connections']['pgsql']['password'];
-	$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
-	$con = pg_connect($conn_string);
+						-----------------------------------------------------------------------------------*/
+						function holdingsset_recall($id) {
+							$db_config = Config::get('database');
+							$database = $db_config['connections']['pgsql']['database'];
+							$username = $db_config['connections']['pgsql']['username'];
+							$password = $db_config['connections']['pgsql']['password'];
+							$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
+							$con = pg_connect($conn_string);
 
-	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." AND state NOT LIKE '%reserve%' ORDER BY sys2, score DESC LIMIT 100";
-	$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
+							$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." AND state NOT LIKE '%reserve%' ORDER BY sys2, score DESC LIMIT 100";
+							$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
 
-	$ta_arr = pg_fetch_all($result);
+							$ta_arr = pg_fetch_all($result);
 
-	/*******************************************************************/
+							/*******************************************************************/
 
-	$hos = array();
-	$hos['ptrn'] = array();
-	$hos['hol'] = array();
+							$hos = array();
+							$hos['ptrn'] = array();
+							$hos['hol'] = array();
 
 	$hos['year_ptrn'] = array(); // ***** NEW! *****
 	$hos['timeline'] = array();  // ***** NEW! *****
@@ -1465,63 +1548,63 @@ function holdingsset_recall($id) {
 }
 
 function getSquareValue($value) {
-    $v1 = intval(substr($value, 0, 4));
-    $v2 = intval(substr($value, 4, 4));
-    $v3 = intval(substr($value, 8, 4));
-    $v4 = intval(substr($value, 12, 4));
-    $string = '';    
-    if ($v1 > 0) $string .= 'v1';
-    if ($v2 > 0) $string .= 'v2';
-    if ($v3 > 0) $string .= 'v3';
-    if ($v4 > 0) $string .= 'v4';
+	$v1 = intval(substr($value, 0, 4));
+	$v2 = intval(substr($value, 4, 4));
+	$v3 = intval(substr($value, 8, 4));
+	$v4 = intval(substr($value, 12, 4));
+	$string = '';    
+	if ($v1 > 0) $string .= 'v1';
+	if ($v2 > 0) $string .= 'v2';
+	if ($v3 > 0) $string .= 'v3';
+	if ($v4 > 0) $string .= 'v4';
     // var_dump($string);
-    switch ($string) {
-      case 'v1':
-        return $v1;
-        break;
-      
-      case 'v2':
-        return $v2;
-        break;
-      
-      case 'v3':
-        return $v3;
-        break;
-      
-      case 'v4':
-      return $v4;
-        break;
-      
-      case 'v1v3':
-        return $v1.'('.$v3.')';
-        break;
-            
-      case 'v2v4':
-        return $v2.'('.$v4.')';
-        break;
-      
-      case 'v1v3v4':
-        return $v1.'('.$v3.'/'.$v4.')';
-        break;   
+	switch ($string) {
+		case 'v1':
+		return $v1;
+		break;
+		
+		case 'v2':
+		return $v2;
+		break;
+		
+		case 'v3':
+		return $v3;
+		break;
+		
+		case 'v4':
+		return $v4;
+		break;
+		
+		case 'v1v3':
+		return $v1.'('.$v3.')';
+		break;
+		
+		case 'v2v4':
+		return $v2.'('.$v4.')';
+		break;
+		
+		case 'v1v3v4':
+		return $v1.'('.$v3.'/'.$v4.')';
+		break;   
 
-      case 'v2v3v4':
-        return $v2.'('.$v3.'/'.$v4.')';
-        break;
+		case 'v2v3v4':
+		return $v2.'('.$v3.'/'.$v4.')';
+		break;
 
-      case 'v3v4':
-        return $v3.' - '.$v4;
-        break;
-      
-      case 'v1v2v3v4':
-        return $v1.'('.$v3.') - '.$v2.'('.$v4.')';
-        break; 
+		case 'v3v4':
+		return $v3.' - '.$v4;
+		break;
+		
+		case 'v1v2v3v4':
+		return $v1.'('.$v3.') - '.$v2.'('.$v4.')';
+		break; 
 
-      default:
-        return '';
-        break;
-    }
-    
-  }
+		default:
+		return '';
+		break;
+	}
+	
+}
 
 // ***********************************************
 function last_similar_ta_in_set( $ta_res_sim) {
@@ -1948,7 +2031,7 @@ $zip = new ZipArchive();
 $filename1 = $_SERVER['DOCUMENT_ROOT'].'/'.$sys1.'.zip';
 
 if ($zip->open($filename1, ZipArchive::CREATE)!==TRUE) {
-    exit("cannot open <$filename1>\n");
+	exit("cannot open <$filename1>\n");
 }
 
 $zip->addFromString("testfilephp.txt" . time(), "#1 This is a test string added as testfilephp.txt.\n");
