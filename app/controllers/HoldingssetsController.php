@@ -610,13 +610,13 @@ class HoldingssetsController extends BaseController {
 					if ($aux == 1) {
 						$k++;
 						if ($painters[$ff] == '>') {
-							$tmpfx866a .= ($tmpfx866a == '') ? getSquareValue($prtnall[$ff]).' '.date('Y') : ';'.getSquareValue($prtnall[$ff]).' '.date('Y');
+							$tmpfx866a .= ($tmpfx866a == '') ? getSquareValue($prtnall[$ff]).' '.date('Y') : '; '.getSquareValue($prtnall[$ff]).' '.date('Y');
 						}
 						if ($painters[$ff] == ']') {
-							$tmpfx866a .= ($tmpfx866a == '') ? (getSquareValue($prtnall[$ff-1]) + 1).'-' : ';'.(getSquareValue($prtnall[$ff-1]) + 1).'-';
+							$tmpfx866a .= ($tmpfx866a == '') ? (getSquareValue($prtnall[$ff-1]) + 1).' - ' : '; '.(getSquareValue($prtnall[$ff-1]) + 1).' - ';
 						}
 						else {						
-							$tmpfx866a .= ($tmpfx866a == '') ? getSquareValue($prtnall[$ff]) : ';'.getSquareValue($prtnall[$ff]);
+							$tmpfx866a .= ($tmpfx866a == '') ? getSquareValue($prtnall[$ff]) : '; '.getSquareValue($prtnall[$ff]);
 						}
 						$fy = ($fy == -1) ? $ff : $fy;
 						$ly = $ff;
@@ -624,12 +624,12 @@ class HoldingssetsController extends BaseController {
 					else {
 						if ($tmpfx866a != '') {
 							if (($fy != -1) && ($ly != -1) && ($fy != $ly)) {
-								$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : ';'.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
+								$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : '; '.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
 								$fy = -1;$ly = -1;
 								$tmpfx866a = '';
 							}
 							else {
-								$fx866a .= ($fx866a == '') ? $tmpfx866a : ';'.$tmpfx866a;
+								$fx866a .= ($fx866a == '') ? $tmpfx866a : '; '.$tmpfx866a;
 								$fy = -1;$ly = -1;
 								$tmpfx866a = '';
 							}
@@ -638,11 +638,11 @@ class HoldingssetsController extends BaseController {
 				}
 				if ($tmpfx866a != '') {
 					if (($fy != -1) && ($ly != -1) && ($fy != $ly)) {
-						$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : ';'.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
+						$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : '; '.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
 						$fy = -1;$ly = -1;
 					}
 					else {
-						$fx866a .= ($fx866a == '') ? $tmpfx866a : ';'.$tmpfx866a;
+						$fx866a .= ($fx866a == '') ? $tmpfx866a : '; '.$tmpfx866a;
 						$fy = -1;$ly = -1;
 					}			
 				}			
@@ -672,7 +672,7 @@ class HoldingssetsController extends BaseController {
 							$tmpfx866a .= ($tmpfx866a == '') ? getSquareValue($prtnall[$ff]).' '.date('Y') : ';'.getSquareValue($prtnall[$ff]).' '.date('Y');
 						}
 						if ($painters[$ff] == ']') {
-							$tmpfx866a .= ($tmpfx866a == '') ? (getSquareValue($prtnall[$ff-1]) + 1).'-' : ';'.(getSquareValue($prtnall[$ff-1]) + 1).'-';
+							$tmpfx866a .= ($tmpfx866a == '') ? (getSquareValue($prtnall[$ff-1]) + 1).' - ' : ';'.(getSquareValue($prtnall[$ff-1]) + 1).' - ';
 						}
 						else {						
 							$tmpfx866a .= ($tmpfx866a == '') ? getSquareValue($prtnall[$ff]) : ';'.getSquareValue($prtnall[$ff]);
@@ -1486,10 +1486,10 @@ $query .= "\n FROM holdings";
 						$tmpfx866a .= ($tmpfx866a == '') ? getSquareValue($prtnall[$ff]).' '.date('Y') : ';'.getSquareValue($prtnall[$ff]).' '.date('Y');
 					}
 					if ($hol['c_arr'][$ff] == ']') {
-						$tmpfx866a .= ($tmpfx866a == '') ? (getSquareValue($prtnall[$ff-1]) + 1).'-' : ';'.(getSquareValue($prtnall[$ff-1]) + 1).'-';
+						$tmpfx866a .= ($tmpfx866a == '') ? (getSquareValue($prtnall[$ff-1]) + 1).' - ' : '; '.(getSquareValue($prtnall[$ff-1]) + 1).' - ';
 					}
 					else {						
-						$tmpfx866a .= ($tmpfx866a == '') ? getSquareValue($prtnall[$ff]) : ';'.getSquareValue($prtnall[$ff]);
+						$tmpfx866a .= ($tmpfx866a == '') ? getSquareValue($prtnall[$ff]) : '; '.getSquareValue($prtnall[$ff]);
 					}
 					$fy = ($fy == -1) ? $ff : $fy;
 					$ly = $ff;
@@ -1497,12 +1497,12 @@ $query .= "\n FROM holdings";
 				else {
 					if ($tmpfx866a != '') {
 						if (($fy != -1) && ($ly != -1) && ($fy != $ly)) {
-							$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : ';'.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
+							$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : '; '.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
 							$fy = -1;$ly = -1;
 							$tmpfx866a = '';
 						}
 						else {
-							$fx866a .= ($fx866a == '') ? $tmpfx866a : ';'.$tmpfx866a;
+							$fx866a .= ($fx866a == '') ? $tmpfx866a : '; '.$tmpfx866a;
 							$fy = -1;$ly = -1;
 							$tmpfx866a = '';
 						}
@@ -1511,11 +1511,11 @@ $query .= "\n FROM holdings";
 			}
 			if ($tmpfx866a != '') {
 				if (($fy != -1) && ($ly != -1) && ($fy != $ly)) {
-					$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : ';'.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
+					$fx866a .= ($fx866a == '') ? getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]) : '; '.getSquareValue($prtnall[$fy]).' - '.getSquareValue($prtnall[$ly]);
 					$fy = -1;$ly = -1;
 				}
 				else {
-					$fx866a .= ($fx866a == '') ? $tmpfx866a : ';'.$tmpfx866a;
+					$fx866a .= ($fx866a == '') ? $tmpfx866a : '; '.$tmpfx866a;
 					$fy = -1;$ly = -1;
 				}			
 			}			
