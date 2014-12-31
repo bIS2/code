@@ -21,7 +21,7 @@ $btn 	= 'btn-default';
 $route = ($HOSincorrect) ? 'incorrects' : 'confirms';
 $txt 	= ($HOSannotated) ? ' text-warning' : '';
 echo '<div style="display: none">';
-var_dump($HOSannotated)
+var_dump($HOSannotated);
 echo '</div>';
 $btn 	= ($HOSconfirm) ? 'btn-success' : $btn;
 $btn 	= ($HOSincorrect) ? 'btn-danger' : $btn;
