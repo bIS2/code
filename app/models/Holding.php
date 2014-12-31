@@ -179,7 +179,8 @@ class Holding extends Eloquent {
     $tag_ids = Note::whereTagId($tag_id)->lists('holding_id');
     $tag_ids = (count($tag_ids)>0) ? $tag_ids : [-1];
 
-    return $query->defaults()->where('state', 'LIKE', '%annotated%')->whereIn('holdings.id', $tag_ids);
+    // return $query->defaults()->where('state', 'LIKE', '%annotated%')->whereIn('holdings.id', $tag_ids);
+    return $query->where('state', 'LIKE', '%annotated%')->whereIn('holdings.id', $tag_ids);
   } 
 
   public function scopeOrphans($query){
