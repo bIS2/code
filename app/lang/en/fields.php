@@ -66,8 +66,8 @@ return array(
 	'852h' => '852h' ,
 	'852h_e' => '852h_e' ,
 	'852j' => '852j' ,
-	'866a' => '866a' ,
-	'f866a' => '866a' ,
+	'866a' => 'Holding' ,
+	'f866a' => 'Holding' ,
 	'f866aupdate' => 'e866a',
 	'f866aupdated' => 'e866a',
 	'866aupdated' => 'e866a',
@@ -99,5 +99,8 @@ return array(
 	'ocrr_ptrn'				=> 'Occurrence patron',
 	'size_dispatchable'		=> 'Dispatchable size',
 	'sizedistachable_large'	=> 'Dispatchable size',
-	
+	'g'						=> 'g',
+	'is_owner'				=> 'is_owner',
+	'is_aux'				=> 'is_aux',
+	'holdingsset_id'		=> 'holdingsset_id',
 	);

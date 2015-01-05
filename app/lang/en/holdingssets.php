@@ -71,5 +71,12 @@ return array(
 	'state'						=> 'State',
 	'white'						=> 'White',
 
+// Fields
+	'866a'						=> 'Holding',
+	'f866a'						=> 'Holding',
+	'e866a'						=> 'e866a',
+	'fe866a'					=> 'fe866a',
+	'x866a'						=> 'x866a',
+	'fx866a'					=> 'fx866a',
 	
 );

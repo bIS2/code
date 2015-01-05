@@ -6,16 +6,30 @@ $(function(){
 
 var pages = {
 	init: function() {
-		$('#filterContainer.extract .btn').on('mouseup', function() {
-			var timer = setInterval(function() {
-				$.ajax({  type: "GET",  url: '/admin/extract-data?fromajax=1&' + $('#advanced-search-form').serialize(),  success: pages.updateQuery,  dataType: 'HTML'});
-				window.clearInterval(timer);
-			}, 100)			
-		})
 		pages.setFilterActions();
+		// $('#filterContainer.extract .btn').on('mouseup', function() {
+		// 	pages.getNewQuery();	
+		// })
+		$('#filterContainer input').on('keyup', function() {
+			pages.getNewQuery();	
+		})
+		$('#filterContainer input').on('change', function() {
+			pages.getNewQuery();	
+		})
+		$('#filterContainer select').on('change', function() {
+			pages.getNewQuery();	
+		})
+	},
+	getNewQuery: function() {
+		var timer = setInterval(function() {
+			$.ajax({  type: "GET",  url: '/admin/extract-data?fromajax=1&' + $('#advanced-search-form').serialize(),  success: pages.updateQuery,  dataType: 'HTML'});
+			window.clearInterval(timer);
+		}, 100)
 	},
 	updateQuery: function(data) {
-		$('#query').val(data)
+		$('#querypainted').html(data)
+		// $('#query').val(data)
+
 	},
 	setFilterActions: function() {		
 		$('#currentfiltersoption label').on('click', function() {

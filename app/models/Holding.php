@@ -176,10 +176,17 @@ class Holding extends Eloquent {
 
   public function scopeAnnotated($query,$tag_id){
 
-    $tag_ids = Note::whereTagId($tag_id)->lists('holding_id');
-    $tag_ids = (count($tag_ids)>0) ? $tag_ids : [-1];
-
+    if ($tag_id == null) {
+      $tag_id = Tag::select('id')->lists('id');
+      $tag_id = (count($tag_id)>0) ? $tag_id : [-1];
+      $tag_ids = Note::whereIn('tag_id', $tag_id)->select('holding_id')->lists('holding_id');
+      $tag_ids = (count($tag_ids)>0) ? $tag_ids : [-1];
+    }
+    else {
+      $tag_ids = Note::whereTagId($tag_id)->lists('holding_id');
+      $tag_ids = (count($tag_ids)>0) ? $tag_ids : [-1];
     // return $query->defaults()->where('state', 'LIKE', '%annotated%')->whereIn('holdings.id', $tag_ids);
+    }
     return $query->where('state', 'LIKE', '%annotated%')->whereIn('holdings.id', $tag_ids);
   } 
 
@@ -611,9 +618,10 @@ class Holding extends Eloquent {
       // !is_aux && !is_owner: KB // Disposable
       // reserved: GB // Reserved
       $html =  '';
-      if ($this->is_owner == 't') $html = 'AB';
-      if ($this->is_aux == 't') $html = 'EB';
-      if (($this->is_aux == 't') && ($this->ocrr_ptrn != $this->aux_ptrn)) $html = 'EB/KB';
+      if (strpos($this->state, 'reserv') !== false) $html = 'GB';
+      if (($this->is_owner == 't') && ($html != 'GB')) $html = 'AB';
+      if (($this->is_aux == 't') && ($html != 'GB')) $html = 'EB';
+      if (($this->is_aux == 't') && ($this->ocrr_ptrn != $this->aux_ptrn) && ($html != 'GB')) $html = 'EB/KB';
       if ($html == '') $html = 'KB';
     } 
 

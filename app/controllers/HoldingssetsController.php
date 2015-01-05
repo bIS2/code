@@ -849,13 +849,11 @@ class HoldingssetsController extends BaseController {
 
 	function recall_holdings($id) {
 		$holding  	= Holding::find($id);
-		// echo count($ids);
-	// die();
-		// return Holding::whereIn('holdingsset_id', $ids)->where(function($query) use ($holding) {	
-		// 	$query = ($holding->f245a != '') ? $query->where('f245a', 'like', '%'.$holding->f245a. '%') : $query;
-		// 	$query = ($holding->f245b != '') ? $query->orWhere('f245a', 'like', '%'.$holding->f245b. '%') : $query;
-		// })->take(100)->get();
-		return Holding::where('state','=','blank')->orWhere('state','=','revised_annotated')->where('f245a', 'like', '%'.$holding->f245a. '%')->take(100)->get();
+		return Holding::where(function($query) {
+			$query->where('state','=','blank')->orWhere('state','=','revised_annotated');
+			}) 
+			->where( function($query) use ($holding) { $query->where('f245a', 'like', '%'.$holding->f245a. '%'); })
+		    ->take(100)->get();
 	// $queries = DB::getQueryLog();
 	// die(var_dump(end($queries)));
 	}
@@ -1183,29 +1181,28 @@ $query .= "\n FROM holdings";
 	Params:
 		$id: HOS id
 		$Notice: Parameters to used in recall
-						- force_owner(int: Holding id): Fix a Holdings that has to be owner of the HOS
-						- 866aupdated if 866aupdated != '';
-						- lockeds holdings can't be used to the algoritm
+		- force_owner(int: Holding id): Fix a Holdings that has to be owner of the HOS
+		- 866aupdated if 866aupdated != '';
+		- lockeds holdings can't be used to the algoritm
+-----------------------------------------------------------------------------------*/
 
-						-----------------------------------------------------------------------------------*/
-						function holdingsset_recall($id) {
-							$db_config = Config::get('database');
-							$database = $db_config['connections']['pgsql']['database'];
-							$username = $db_config['connections']['pgsql']['username'];
-							$password = $db_config['connections']['pgsql']['password'];
-							$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
-							$con = pg_connect($conn_string);
+function holdingsset_recall($id) {
+	$db_config = Config::get('database');
+	$database = $db_config['connections']['pgsql']['database'];
+	$username = $db_config['connections']['pgsql']['username'];
+	$password = $db_config['connections']['pgsql']['password'];
+	$conn_string = "host=localhost port=5432 dbname=".$database." user=".$username." password=".$password." options='--client_encoding=UTF8'";
+	$con = pg_connect($conn_string);
 
-							$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." AND state NOT LIKE '%reserve%' ORDER BY sys2, score DESC LIMIT 100";
-							$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
+	$query = "SELECT * FROM holdings WHERE holdingsset_id = ".$id." AND state NOT LIKE '%reserve%' ORDER BY sys2, score DESC LIMIT 100";
+	$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
+	$ta_arr = pg_fetch_all($result);
 
-							$ta_arr = pg_fetch_all($result);
+	/*******************************************************************/
 
-							/*******************************************************************/
-
-							$hos = array();
-							$hos['ptrn'] = array();
-							$hos['hol'] = array();
+	$hos = array();
+	$hos['ptrn'] = array();
+	$hos['hol'] = array();
 
 	$hos['year_ptrn'] = array(); // ***** NEW! *****
 	$hos['timeline'] = array();  // ***** NEW! *****

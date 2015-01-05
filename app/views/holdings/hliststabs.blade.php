@@ -160,6 +160,10 @@ $sizeofields = explode(';',$sizeofields);
 
 						case '866a':
 						$field_short = trans('holdings.f866atitle');
+						break;	
+
+						case 'x866a':
+						$field_short = trans('holdings.fx866atitle');
 						break;										
 
 						case 'has_incomplete_vols':
@@ -225,6 +229,10 @@ $sizeofields = explode(';',$sizeofields);
 							$field_short = trans('holdings.f866atitle');
 							break;
 
+							case 'x866a':
+							$field_short = trans('holdings.fx866atitle');
+							break;		
+							
 							case 'size_dispatchable':
 							$field_short = trans('holdings.size_dispatchabletitle');
 							$field_large = ' data-content="<strong>'.trans('fields.sizedistachable_large').'</strong>" data-placement="top" data-toggle="popover" data-html="true" data-trigger="hover" ';

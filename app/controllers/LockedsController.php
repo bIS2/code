@@ -140,8 +140,8 @@ class LockedsController extends BaseController {
 		else {
 			$ret = ['denied' => $holding_id];
 		}
-
-		if (($ret['denied'] != $holding_id) && ((Holding::find($holding_id)->is_onwer == 1) || (Holding::find($holding_id)->is_onwer == 't') || (Holding::find($holding_id)->is_aux == 1) || (Holding::find($holding_id)->is_aux == 't'))) holdingsset_recall($holdingsset_id);
+		$holding = Holding::find($holding_id);
+		if (($ret['denied'] != $holding_id) && (($holding->is_owner == 1) || ($holding->is_owner == 't') || ($holding->is_aux == 1) || ($holding->is_aux == 't'))) holdingsset_recall($holdingsset_id);
 
 		$holdingssets[] = Holdingsset::find($holdingsset_id);
 		$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);

@@ -72,5 +72,12 @@ return array(
 	'state'						=> 'Status',
 	'white'						=> 'Transparent',
 
+// Fields
+	'866a'						=> 'Bestandsabgleich',
+	'f866a'						=> 'Bestandsabgleich',
+	'e866a'						=> 'Bestandsabgleich',
+	'fe866a'					=> 'Bestandsabgleich',
+	'x866a'						=> 'Abgabe (x866a)',
+	'fx866a'					=> 'Abgabe (x866a)',
 
 ); 	

@@ -20,9 +20,6 @@ if (($holdingsset->holdings_number == 1) && (!$HOSconfirm) && (!$HOSincorrect) &
 $btn 	= 'btn-default';
 $route = ($HOSincorrect) ? 'incorrects' : 'confirms';
 $txt 	= ($HOSannotated) ? ' text-warning' : '';
-echo '<div style="display: none">';
-	var_dump($HOSannotated);
-echo '</div>';
 $btn 	= ($HOSconfirm) ? 'btn-success' : $btn;
 $btn 	= ($HOSincorrect) ? 'btn-danger' : $btn;
 $btn 	.= ($holdingsset->is_unconfirmable) ? ' disabled' : '';
