@@ -14,4 +14,5 @@ return array(
 	'field_note_in_blank'		=> "Notes can't not blank",
 	'select_notes_is_0'			=> 'Empty remark field',
 	'field_size_dispatchable_in_blank'	=> 'Please type a Dispatchable size',
+	'ilegal_statement_in_query'	=> 'ILEGAL STATEMENT IN QUERY!!!!!',
 );

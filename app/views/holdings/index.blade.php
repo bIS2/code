@@ -95,8 +95,9 @@ $defaultsize = 100;
 </tr>
 </thead>
 <tbody id="holdings-targets" class="selectable">
-
+	<?php $holnumbers = 0; ?>
 	@foreach ($holdings as $holding)
+	<?php $holnumber++; ?>
 
 	<tr id="<?= $holding->id ?>" class="{{ $holding->css }} draggable ui-selected {{ $holding->state}}" data-holdingsset="{{$holding->holdingsset_id}}" >
 		<td>
@@ -151,9 +152,17 @@ $defaultsize = 100;
 
 			<?php 
 			$field = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size')  && ($field != 'size_dispatchable') && ($field != 'sys2')) ? $field = 'f'.$field : $field; 
-			?>						
+			?>	
+
 			<td>
 				<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+					<?php if (($holnumber < 10) && ($holnumber > 0)) $newholnumber = '000000'.$holnumber;  ?>
+					<?php if (($holnumber < 100) && ($holnumber > 9)) $newholnumber = '00000'.$holnumber;  ?>
+					<?php if (($holnumber < 1000) && ($holnumber > 99)) $newholnumber = '0000'.$holnumber;  ?>
+					<?php if (($holnumber < 10000) && ($holnumber > 999)) $newholnumber = '000'.$holnumber;  ?>
+					<?php if (($holnumber < 100000) && ($holnumber > 9999)) $newholnumber = '00'.$holnumber;  ?>
+					<?php if (($holnumber < 1000000) && ($holnumber > 99999)) $newholnumber = '0'.$holnumber;  ?>
+					<?php if ($field == 'f852h') echo '<div style="display:none;">'.$newholnumber.'</div>'; ?>
 					{{ $holding->show( $field ) }}
 				</div>
 			</td>
