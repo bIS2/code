@@ -32,7 +32,7 @@ return array(
 	'no_notes'					=> 'Keine Bemerkung zu dieser HOL',
 	'no_results_to_show'		=> 'Sorry, kein Ergebnis',
 	'notes_made_by'				=> 'Erstellt von',
-	'ocurrence_patron'			=> 'Erscheinungsmuster',
+	'ocurrence_patron'			=> 'Vorkommen',
 	'of'						=> 'von ',
 	'ok' 						=> 'Richtig',
 	'open_close_all_hos'		=> 'Alle HOS öffnen',
