@@ -19,6 +19,20 @@ var pages = {
 		$('#filterContainer select').on('change', function() {
 			pages.getNewQuery();	
 		})
+		$('#buttonsearch').on('click', function(event) {
+			event.preventDefault();
+			$('#queryerror').fadeOut(500);
+			$.ajax({  type: "GET",  url: '/admin/extract-data?checkforerror=1&' + $('#advanced-search-form').serialize(),  success: pages.checkforErrorQuery,  dataType: 'HTML'});
+			return false;	
+		})
+	},
+	checkforErrorQuery: function(data) {
+		if (data == 'OK') {
+			$('#advanced-search-form').submit();
+		}
+		else {
+			$('#queryerror').html(data).fadeIn(500);
+		}
 	},
 	getNewQuery: function() {
 		var timer = setInterval(function() {
@@ -27,8 +41,7 @@ var pages = {
 		}, 100)
 	},
 	updateQuery: function(data) {
-		$('#querypainted').html(data)
-		// $('#query').val(data)
+		$('#query').val(data)
 
 	},
 	setFilterActions: function() {		

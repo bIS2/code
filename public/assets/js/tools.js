@@ -417,7 +417,7 @@ if ( result.state ){
   if (result.state=='ok' ) {
     obj.addClass( 'success' ).removeClass('danger')
 
-    $('form#create-note-'+result.id+' input[name^="notes"]').val("")
+    // $('form#create-note-'+result.id+' input[name^="notes"]').val("")
     $('form#create-note-'+result.id)
     .find(':checkbox:checked').prop('checked',false).end()
     .find('label.active').removeClass('active')

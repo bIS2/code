@@ -143,10 +143,13 @@
 													</div>
 												</div>
 												<div id="searchsubmit" class="col-xs-12 text-center clearfix">
-													<button style="margin: 20px 0;" type="submit" class="btn btn-default btn-sm btn-success"><span class="fa fa-search"></span> {{ trans('general.search') }}</button>
+													<button style="margin: 20px 0;" type="submit" class="btn btn-default btn-sm btn-success" id="buttonsearch"><span class="fa fa-search"></span> {{ trans('general.search') }}</button>
 												</div>
-												<!-- <textarea id="query" name="query" class="form-control col-xs-12"></textarea> -->
-												<pre id="querypainted" class="form-control col-xs-12"></pre>
+												<div id="queryerror" class="text-danger" style="display:none;">
+													
+												</div>
+												<textarea id="query" name="query" class="form-control col-xs-12"></textarea>
+												<!-- <pre id="querypainted" class="form-control col-xs-12"></pre> -->
 											</form>
 											<div id="fieldstosearchhidden" style="display: none;">
 												<?php foreach ($allsearchablefields as $field) { 
@@ -158,6 +161,7 @@
 															<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 																<div class="input-group inline input-group-sm text-left">
 																	<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
+																	<input type="hidden" name="fieldstoquery[]" value="<?php echo $field; ?>">
 																	<select id="NotOperator" class="form-control" name="NotOperator[]">
 																		<option value="" selected>-</option>
 																		<option value="NOT ">NOT</option>
@@ -181,6 +185,7 @@
 															<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 																<div class="input-group inline input-group-sm text-left">
 																	<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
+																	<input type="hidden" name="fieldstoquery[]" value="<?php echo $field; ?>">
 																	<select id="NotOperator" class="form-control" name="NotOperator[]">
 																		<option value="" selected>-</option>
 																		<option value="NOT ">NOT</option>
@@ -213,6 +218,7 @@
 															<div id="ff<?= $field; ?>" class="form-group col-xs-2 col-xs-12" style="margin-bottom: 20px">
 																<div class="input-group inline input-group-sm text-left">
 																	<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
+																	<input type="hidden" name="fieldstoquery[]" value="<?php echo $field; ?>">
 																	<select id="NotOperator" class="form-control" name="NotOperator[]">
 																		<option value="" selected>-</option>
 																		<option value="NOT ">NOT</option>
@@ -226,19 +232,16 @@
 																		</li>				
 																		<li class="btn btn-primary" style="height: 28px;">
 																			<input type="checkbox" id="<?= $field; ?>" name="state[]" value="annotated"> {{ trans('states.annotated') }}
-																		</li>				
-																		<li class="btn btn-primary" style="height: 28px;">
-																			<input type="checkbox" id="<?= $field; ?>" name="state[]" value="blank_reserved"> {{ trans('states.blank_reserved') }}
-																		</li>				
+																		</li>						
 																		<li class="btn btn-primary" style="height: 28px;">
 																			<input type="checkbox" id="<?= $field; ?>" name="state[]" value="confirmed"> {{ trans('states.confirmed') }}
 																		</li>				
 																		<li class="btn btn-primary" style="height: 28px;">
 																			<input type="checkbox" id="<?= $field; ?>" name="state[]" value="commented"> {{ trans('states.commented') }}
-																		</li>				
+																		</li>			
 																		<li class="btn btn-primary" style="height: 28px;">
-																			<input type="checkbox" id="<?= $field; ?>" name="state[]" value="confirmed_reserved"> {{ trans('states.confirmed_reserved') }}
-																		</li>				
+																			<input type="checkbox" id="<?= $field; ?>" name="state[]" value="reserved"> {{ trans('states.reserved') }}
+																		</li>			
 																		<li class="btn btn-primary" style="height: 28px;">
 																			<input type="checkbox" id="<?= $field; ?>" name="state[]" value="delivery"> {{ trans('states.delivery') }}
 																		</li>				
@@ -250,10 +253,7 @@
 																		</li>				
 																		<li class="btn btn-primary" style="height: 28px;">
 																			<input type="checkbox" id="<?= $field; ?>" name="state[]" value="revised"> {{ trans('states.revised') }}
-																		</li>				
-																		<li class="btn btn-primary" style="height: 28px;">
-																			<input type="checkbox" id="<?= $field; ?>" name="state[]" value="revised_reserved"> {{ trans('states.revised_reserved') }}
-																		</li>				
+																		</li>		
 																		<li class="btn btn-primary" style="height: 28px;">
 																			<input type="checkbox" id="<?= $field; ?>" name="state[]" value="revised_annotated"> {{ trans('states.revised_annotated') }}
 																		</li>				
@@ -271,9 +271,6 @@
 																		</li>				
 																		<li class="btn btn-primary" style="height: 28px;">
 																			<input type="checkbox" id="<?= $field; ?>" name="state[]" value="deleted"> {{ trans('states.deleted') }}
-																		</li>			
-																		<li class="btn btn-primary" style="height: 28px;">
-																			<input type="checkbox" id="<?= $field; ?>" name="state[]" value="reserved"> {{ trans('states.reserved') }}
 																		</li>				
 																		<li class="btn btn-primary" style="height: 28px;">
 																			<input type="checkbox" id="<?= $field; ?>" name="state[]" value="burn"> {{ trans('states.burn') }}
@@ -291,6 +288,7 @@
 																<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 																	<div class="input-group inline input-group-sm text-left">
 																		<label class="input-group-addon"><?= trans('fields.'.$field) ?></label>
+																		<input type="hidden" name="fieldstoquery[]" value="<?php echo $field; ?>">
 																		<select id="NotOperator" class="form-control" name="NotOperator[]">
 																			<option value="" selected>-</option>
 																			<option value="NOT ">NOT</option>
@@ -338,6 +336,10 @@
 	}
 	#querypainted {
 		height: auto;
+	}
+	#queryerror {
+		margin-bottom: 30px;
+		font-style: italic;
 	}
 </style>
 

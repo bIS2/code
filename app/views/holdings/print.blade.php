@@ -38,10 +38,10 @@
 					<p class="">
 						<span>
 							@if ($holding->f852h)
-							<strong>{{ $holding->f852h }}</strong>							
+							<strong>{{ $holding->f852h }} @if (($holding->f866c) || ($holding->f852b)) - @endif  </strong>							
 							@endif
 							@if ($holding->f852b)
-							{{ $holding->f852b }} 
+							{{ $holding->f852b }} @if ($holding->f866c) - @endif
 							@endif
 							@if ($holding->f866c)
 							{{ $holding->f866c }}

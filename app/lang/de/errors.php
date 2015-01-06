@@ -14,4 +14,5 @@ return array(
 	'notes_in_blank'			=> "Notiz kann nicht leer bleiben.",
 	'select_notes_is_0'			=> 'Leeres Bemerkungsfeld',
 	'field_size_dispatchable_in_blank'	=> 'Bitte Abzugebender Abgabe angeben',
+	'ilegal_statement_in_query'	=> 'ILEGAL STATEMENT IN QUERY!!!!!',
 );
