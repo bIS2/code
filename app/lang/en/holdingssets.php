@@ -78,5 +78,6 @@ return array(
 	'fe866a'					=> 'fe866a',
 	'x866a'						=> 'x866a',
 	'fx866a'					=> 'fx866a',
+	'hos-1-hol'					=> 'hos-1-hol',
 	
 );

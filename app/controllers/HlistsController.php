@@ -296,7 +296,7 @@ class HlistsController extends BaseController {
 		$list = $this->hlist->find($id);
 
 		$holdings_in_list = $list->holdings()->select('holdings.id')->lists('holdings.id');
-
+		$holdings_in_list[] = -1; 
 		// var_dump($holdings_in_list);
 
 		$holdings = Holding::whereIn('id',Input::get('holding_id'))->whereNotIn('id',$holdings_in_list);

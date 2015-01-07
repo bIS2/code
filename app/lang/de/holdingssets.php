@@ -79,5 +79,6 @@ return array(
 	'fe866a'					=> 'Bestandsabgleich',
 	'x866a'						=> 'Abgabe (x866a)',
 	'fx866a'					=> 'Abgabe (x866a)',
+	'hos-1-hol'					=> 'hos-1-hol',
 
 ); 	

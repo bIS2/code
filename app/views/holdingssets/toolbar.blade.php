@@ -41,20 +41,23 @@
 
 				</div>
 				<div class="btn-group">
-					<a href="{{ route('sets.index', Input::except(['owner','aux', 'white'])) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') != true) && (Input::get('white') != true)) ? 'btn-primary' : 'btn-default' ?> btn-sm" title="{{ trans('holdingssets.clear_owner_filter') }}">	
+					<a href="{{ route('sets.index', Input::except(['owner','aux', 'white', 'hos-1-hol'])) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') != true) && (Input::get('white') != true) && (Input::get('hos-1-hol') != true)) ? 'btn-primary' : 'btn-default' ?> btn-sm" title="{{ trans('holdingssets.clear_owner_filter') }}">	
 						<span class="fa fa-list"></span> {{{ trans('holdingssets.all') }}}			  		
 					</a>
-					<a href="{{ route('sets.index', Input::except(['owner','aux', 'white']) + ['owner' => true]) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') != true)) ? 'btn-primary' : 'btn-default' ?> btn-sm" >
+					<a href="{{ route('sets.index', Input::except(['owner','aux', 'white']) + ['owner' => true]) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') != true)) ? 'btn-primary active' : 'btn-default' ?> btn-sm" >
 						<i class="fa fa-stop text-danger"></i> {{{ trans('holdingssets.just_owner') }}}
 					</a>
-					<a id="filter_owner" href="{{ route('sets.index', Input::except(['owner','aux', 'white']) + ['aux' => true]) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+					<a id="filter_owner" href="{{ route('sets.index', Input::except(['owner','aux', 'white']) + ['aux' => true]) }}" class="btn <?= ((Input::get('owner') != true) && (Input::get('aux') == true)) ? 'btn-primary active' : 'btn-default' ?> btn-sm">
 						<i class="fa fa-stop text-warning"></i> {{{ trans('holdingssets.just_aux') }}}
 					</a>
-					<a id="filter_aux" href="{{ route('sets.index', Input::except(['owner','aux', 'white']) + ['owner' => true, 'aux' => true]) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') == true)) ? 'btn-primary' : 'btn-default'; ?> btn-sm">
+					<a id="filter_aux" href="{{ route('sets.index', Input::except(['owner','aux', 'white']) + ['owner' => true, 'aux' => true]) }}" class="btn <?= ((Input::get('owner') == true) && (Input::get('aux') == true)) ? 'btn-primary active' : 'btn-default'; ?> btn-sm">
 						<i class="fa fa-stop text-danger"></i> <i class="fa fa-stop text-warning"></i> {{{ trans('holdingssets.only_owner_and_aux') }}}
 					</a>
 					<a id="filter_white" href="{{ route('sets.index', Input::except(['owner','aux', 'white']) + ['white' => true]) }}" class="btn <?= ((Input::get('white') == true)) ? 'btn-primary' : 'btn-default'; ?> btn-sm">
 						<i class="fa fa-stop" style="color:white;border:1px solid #cccccc;border-radius: 5px;"></i> {{{ trans('holdingssets.white') }}}
+					</a>
+					<a id="filter_white" href="{{ route('sets.index', Input::except(['hos-1-hol']) + ['hos-1-hol' => true]) }}" class="btn <?= ((Input::get('hos-1-hol') == true)) ? 'btn-info active' : 'btn-default'; ?> btn-sm">
+						<strong>1H-1H</strong> {{{ trans('holdingssets.hos-1-hol') }}}
 					</a>
 				</div>
 				<div class="btn-group">

@@ -211,6 +211,10 @@ class HoldingssetsController extends BaseController {
 			}
 
 			define(HOS_PAGINATE, 50);
+
+			if (Input::get('hos-1-hol') == 1) 
+				$holdingssets = $holdingssets->whereHoldingsNumber(1);
+
 			$this->data['holdingssets'] = $holdingssets->orderBy($orderby, $order)->orderBy('id', 'ASC')->with('holdings')->paginate(HOS_PAGINATE);
 			unset($holdingssets);
 			// die('before call the view');
@@ -1198,6 +1202,8 @@ function holdingsset_recall($id) {
 	$result = pg_query($con, $query) or die("Cannot execute \"$query\"\n".pg_last_error());
 	$ta_arr = pg_fetch_all($result);
 
+	$holdingsset_id = $id;
+
 	/*******************************************************************/
 
 	$hos = array();
@@ -1291,7 +1297,7 @@ function holdingsset_recall($id) {
 	$mx_weight = 0;
 	$mx_ocrr_nr = 0;
 	$owner_index = '';
-	$force_owner = '';
+	$force_owner = -1;
 	$pot_owners = array();;
 	$posowners = array();	
 	$posowners_oc = array();
@@ -1384,8 +1390,8 @@ function holdingsset_recall($id) {
 	 * Aquí se calcula el "O W N E R"
 	 *
 	 ********************************************************************************/
-
-	if ($force_owner) { // si hay un OWNER forzado es ese
+	
+	if ($force_owner != -1) { // si hay un OWNER forzado es ese
 		$owner_index = $force_owner;
 	}
 
@@ -1538,9 +1544,10 @@ function holdingsset_recall($id) {
 		// 	.$j.$sp
 		// 	.$hol_ptrn
 		// 	.$sp.'</pre>';
-		Holding::find($hol['id'])->update(['ocrr_nr' => $hol['ocrr_nr'], 'ocrr_ptrn' => $o, 'weight' => $weight, 'j_ptrn' => $j, 'is_owner' => $hol['is_owner'],  'pot_owner' => $hol['pot_owner'], 'aux_ptrn' => $a, 'is_aux' => $hol['is_aux'], 'fx866a' => $fx866a, 'c_arr' => implode('|', $hol['c_arr'])]);
+		if ($hol['id'] > 0)
+			Holding::find($hol['id'])->update(['ocrr_nr' => $hol['ocrr_nr'], 'ocrr_ptrn' => $o, 'weight' => $weight, 'j_ptrn' => $j, 'is_owner' => $hol['is_owner'],  'pot_owner' => $hol['pot_owner'], 'aux_ptrn' => $a, 'is_aux' => $hol['is_aux'], 'fx866a' => $fx866a, 'c_arr' => implode('|', $hol['c_arr'])]);
 	}
-	Holdingsset::find($hol['holdingsset_id'])->update(['ptrn' => implode('|', $hos['ptrn'])]);
+	Holdingsset::find($id)->update(['ptrn' => implode('|', $hos['ptrn'])]);
 	// die("\nThat's a better end of the story");
 }
 

@@ -64,7 +64,8 @@
 						<br>
 						<span>
 							{{ trans('holdings.f866atitle') }}: 
-							{{ ($holding->f866aupdated != '') ? $holding->f866aupdated : $holding->f866a }}
+							<!-- {{ ($holding->f866aupdated != '') ? $holding->f866aupdated : $holding->f866a }} -->
+							{{ $holding->f866a }}
 						</span>
 						<br>
 						<span>
