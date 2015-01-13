@@ -151,11 +151,12 @@ $defaultsize = 100;
 			@else
 
 			<?php 
+			$dinamicfield = $field;
 			$field = (($field != 'exists_online') && ($field != 'is_current') && ($field != 'has_incomplete_vols') && ($field != 'size')  && ($field != 'size_dispatchable') && ($field != 'sys2')) ? $field = 'f'.$field : $field; 
 			?>	
 
 			<td>
-				<div class="field_<?php echo $field; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
+				<div class="field_<?php echo $dinamicfield; ?> dinamic" <?php echo 'style="width:'.$sizeofield.'px"'; ?>>
 					<?php if (($holnumber < 10) && ($holnumber > 0)) $newholnumber = '000000'.$holnumber;  ?>
 					<?php if (($holnumber < 100) && ($holnumber > 9)) $newholnumber = '00000'.$holnumber;  ?>
 					<?php if (($holnumber < 1000) && ($holnumber > 99)) $newholnumber = '0000'.$holnumber;  ?>
