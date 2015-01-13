@@ -216,27 +216,32 @@ class Pages extends BaseController {
 					$subfields = substr($query, 7, $cutpos-8);
 					$temp = explode(',', $subfields);
 					$temp[] = 'Holtype';
+					unset($temp['ocrr_ptrn']);
+					unset($temp['aux_ptrn']);
 					fputcsv($fp, $temp);
 
 					$results = pg_fetch_all($result);
 					$currenthos = '';
-					$blanks = array();
-					foreach ($fields as $field) {
-						$blanks[] = ' ';
-					}
+					// $blanks = array();
+					// foreach ($fields as $field) {
+					// 	$blanks[] = ' ';
+					// }
 					foreach ($results as $hol) :
 						$temp = $hol;
 					if ($hol['holdingsset_id'] != $currenthos) {
 						if ($currenthos != '')
-							fputcsv($fp, $blanks); 
+							// fputcsv($fp, $blanks); 
 						$currenthos = $hol['holdingsset_id'];
 					}
 					$htype = '';
 					if (strpos($temp['state'], 'reserv') !== false) $htype = 'GB';
 					if (($temp['is_owner'] == 't') && ($html != 'GB')) $htype = 'AB';
 					if (($temp['is_aux'] == 't') && ($html != 'GB')) $htype = 'EB';
+					if (($temp['is_aux'] == 't') && ($temp['ocrr_ptrn'] != $temp['aux_ptrn']) && ($htype != 'GB')) $htype = 'EB/KB';
 					if ($htype == '') $htype = 'KB';
 					$temp[] = $htype;
+					unset($temp['ocrr_ptrn']);
+					unset($temp['aux_ptrn']);
 					fputcsv($fp, $temp);
 					endforeach;
 					fclose($fp);
@@ -267,7 +272,7 @@ class Pages extends BaseController {
 					foreach ($fieldstoshow as $field) {
 						$fields[] = (($field != 'sys2') && ($field != 'g') && ($field != 'state') && ($field != 'size') && ($field != 'size_dispatchable') && ($field != 'is_owner') && ($field != 'is_aux') && ($field != 'holdingsset_id')) ? 'f'.$field : $field ;
 					}
-					$query = 'SELECT '.implode(',', $fields).' FROM holdings';
+					$query = 'SELECT '.implode(',', $fields).',ocrr_ptrn,aux_ptrn FROM holdings';
 					$i = -1;
 					$where = ' WHERE ';
 					foreach ($fieldstoquery as $field) {
@@ -320,7 +325,7 @@ class Pages extends BaseController {
 												$part .= "(is_aux = 't' OR is_aux = '1')";
 												break;
 											case 'EB/KB':
-												$part .= "(is_aux = 't' OR is_aux = '1' AND ocrr_ptrn != aux_ptrn)";
+												$part .= "((is_aux = 't' OR is_aux = '1') AND ocrr_ptrn != aux_ptrn)";
 												break;
 											case 'KB':
 												$part .= "(is_aux != 't' AND is_aux != '1' AND is_owner != 't' AND is_owner != '1')";
