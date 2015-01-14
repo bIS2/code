@@ -404,6 +404,33 @@ class HoldingssetsController extends BaseController {
 	}
 
 	/**
+	 * Update the specified Holdings Set (HOS) in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function recallallhos($init)
+	{
+		var_dump($init);
+
+		// $HOSS = DB::select('select * from holdingssets ORDER BY id LIMIT '.$init.' OFFSET 1')->get();
+		// $HOSS = DB::table('users')->skip($init)->take(1)->get();
+
+		$HOSS = DB::table('holdingssets')->get();
+
+		foreach ($HOSS as $HOS) {
+			holdingsset_recall($HOS->id);
+		}
+		// $urltoredirect = '/sets/recallallhos/'.($init + 1);
+		// if ($HOSS) {
+		// 	return Redirect::to($urltoredirect);
+		// }
+		// else {
+			return 'OK';
+		// }
+	}
+
+	/**
 	 * Remove the specified Holdings Set (HOS) from storage.
 	 *
 	 * @param  int  $id

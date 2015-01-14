@@ -54,6 +54,7 @@
         Route::controller('holdings', 'HoldingsController');
 
         Route::put('sets/updatecustom', 'HoldingssetsController@updatecustom');
+        Route::get('sets/recallallhos/{init}', 'HoldingssetsController@recallallhos');
         Route::resource('sets', 'HoldingssetsController');
         Route::controller('sets', 'HoldingssetsController');
 
