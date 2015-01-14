@@ -23,7 +23,7 @@ class CleanStatesSeeder extends Seeder {
     	DB::table('states')->delete();
 
     	DB::table('holdings')->update(['state'=>'blank']);
-    	DB::table('holdingssets')->update(['state'=>'blank', 'groups_number' => 0]);
+    	DB::table('holdingssets')->update(['state'=>'blank', 'groups_number' => 0, 'recalled' => 0, 'autoconfirm' => 0]);
 
     }
 }
