@@ -6,17 +6,18 @@ $need_refresh = 0;
 $HOSconfirm = $holdingsset->confirm()->exists();
 $HOSannotated = $holdingsset->is_annotated;
 $HOSincorrect = $holdingsset->is_incorrect;
+$autoconfirm = $holdingsset->autoconfirm;
 // var_dump($no_force_lock);
-if (($holdingsset->holdings_number == 1) && (!$HOSconfirm) && (!$HOSincorrect) && (!$HOSannotated) && ($no_force_lock != 1) && ($holdingsset->autoconfirm != 1)) {
-	Confirm::create([ 'holdingsset_id' => $holdingsset -> id, 'user_id' => Auth::user()->id ]);
-	Holdingsset::find($holdingsset -> id)->update(['state' => 'ok', 'autoconfirm' => 1]);
+if (($holdingsset->holdings_number == 1) && (!$HOSconfirm) && (!$HOSincorrect) && (!$HOSannotated) && ($no_force_lock != 1) && ($holdingsset->autoconfirm == 0)) {
+	Confirm::create([ 'holdingsset_id' => $holdingsset -> id, 'user_id' => Auth::user()->id]);
 	Holding::whereIn('id', Holdingsset::find($holdingsset -> id)->holdings()->select('id')->lists('id'))->update(['is_owner'=>'t', 'is_aux'=>'f']);
+	Holdingsset::find($holdingsset -> id)->update(['state' => 'ok', 'autoconfirm' => 1]);
 	// holdingsset_recall($holdingsset -> id);
 	$HOSconfirm = true;
+	$autoconfirm = 1;
 	$need_refresh = 1;
 	// die();
 }
-
 $btn 	= 'btn-default';
 $route 	= ($HOSincorrect) ? 'incorrects' : 'confirms';
 $txt 	= ($HOSannotated) ? ' text-warning' : '';
@@ -24,7 +25,7 @@ $btn 	= ($HOSconfirm) ? 'btn-success' : $btn;
 $btn 	= ($HOSincorrect) ? 'btn-danger' : $btn;
 $btn   .= ($holdingsset->is_unconfirmable) ? ' disabled' : '';
 $btn   .= ($holdingsset->holdings_number == 1) ? ' hos-1-hol' : '';
-$btn   .= (($holdingsset->autoconfirm == 1) && ($HOSconfirm))  ? ' autoconfirm' : '';
+$btn   .= (($autoconfirm == 1) && ($HOSconfirm))  ? ' autoconfirm' : '';
 
 ?>
 <?php if ($holdingsset->holdings->count()==0) {
