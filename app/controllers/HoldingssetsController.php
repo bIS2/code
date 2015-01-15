@@ -31,7 +31,7 @@ class HoldingssetsController extends BaseController {
 
 
 	public function __construct() {
-		$this->beforeFilter( 'auth' );
+		// $this->beforeFilter( 'auth' );
 	}
 
 	/**
@@ -409,9 +409,9 @@ class HoldingssetsController extends BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function recallallhos($init)
+	public function recallallhos()
 	{
-		var_dump($init);
+		
 
 		// $HOSS = DB::select('select * from holdingssets ORDER BY id LIMIT '.$init.' OFFSET 1')->get();
 		// $HOSS = DB::table('users')->skip($init)->take(1)->get();

@@ -25,8 +25,9 @@
 	Route::model('user', 'User');
 	Route::model('comment', 'Comment');
 	Route::model('post', 'Post');
-	Route::model('role', 'Role');
+    Route::model('role', 'Role');
 
+    Route::get('/recallallhos', 'HoldingssetsController@recallallhos');
 
     Route::group(array( 'before' => ['auth']), function(){
 
@@ -54,7 +55,6 @@
         Route::controller('holdings', 'HoldingsController');
 
         Route::put('sets/updatecustom', 'HoldingssetsController@updatecustom');
-        Route::get('sets/recallallhos/{init}', 'HoldingssetsController@recallallhos');
         Route::resource('sets', 'HoldingssetsController');
         Route::controller('sets', 'HoldingssetsController');
 
