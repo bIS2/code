@@ -5,12 +5,12 @@ class TraceObserver {
     public function created($model) {
 
     	$klass=strtolower( get_class($model) );
-  		// Trace::create([ 
-  		// 	'user_id'	=> Auth::user()->id,
-    //         'action'    => trans("logs.create_$klass",['name'=>$model->name]) ,
-    //         'object_type'   => strtolower( get_class($model) ), 
-  		// 	'object_id'	=>  $model->id,
-  		// ]);
+  		Trace::create([ 
+  			'user_id'	=> Auth::user()->id,
+            'action'    => trans("logs.create_$klass",['name'=>$model->name]) ,
+            'object_type'   => strtolower( get_class($model) ), 
+  			'object_id'	=>  $model->id,
+  		]);
 	
     }
 
