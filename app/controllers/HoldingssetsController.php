@@ -435,6 +435,42 @@ class HoldingssetsController extends BaseController {
 	}
 
 	/**
+	 * Update the specified Holdings Set (HOS) in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function recallhoswidthlockeds()
+	{
+		
+
+		// $HOSS = DB::select('select * from holdingssets ORDER BY id LIMIT '.$init.' OFFSET 1')->get();
+		// $HOSS = DB::table('users')->skip($init)->take(1)->get();
+
+		$HOSS = DB::select('select holding_id from lockeds');//->get();
+		$holsid = array();
+		foreach ($HOSS as $HOS) {
+			$holding_id = $HOS -> holding_id;
+			$currentstatus = Holding::find($holding_id)->state;
+			$newstate = str_replace('_reserved', '', $currentstatus);
+			$newstate = $newstate."_reserved";
+			Holding::find($holding_id)->update(['state'=>$newstate]);
+			$holsid[] = $holding_id;
+		}
+
+		// Holding::whereIn('id', $holsid)->update(['state' => 'reserved']);
+
+		$HOSS = Holding::whereIn('id', $holsid)->select('holdingsset_id')->lists('holdingsset_id');
+
+		foreach ($HOSS as $HOS) {
+			var_dump($HOS);
+			holdingsset_recall($HOS->id);
+		}
+
+		return 'Update Locked Info';
+	}
+
+	/**
 	 * Remove the specified Holdings Set (HOS) from storage.
 	 *
 	 * @param  int  $id
