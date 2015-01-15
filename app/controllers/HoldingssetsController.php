@@ -152,7 +152,7 @@ class HoldingssetsController extends BaseController {
 					if ((Input::has('owner')) && (!(Input::has('aux')))) $holdings = $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsOwner('t') -> whereNotIn('id', $lockedsids);
 					if (!(Input::has('owner')) && ((Input::has('aux')))) $holdings = $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsAux('t') -> whereNotIn('id', $lockedsids);
 					if ((Input::has('owner')) && ((Input::has('aux'))))  {
-						$holdings = $uUserLibrary->holdings()->where('library_id','=',$uUserLibraryId)->where(function($query) {
+						$holdings = $uUserLibrary->holdings()->where('library_id','=',$uUserLibraryId)->where(function($query) use ($lockedsids) {
 							$query->where('is_owner', '=', 't') -> whereNotIn('id', $lockedsids)
 							->orWhere('is_aux', '=', 't');
 						});						
