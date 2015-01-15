@@ -459,12 +459,12 @@ class HoldingssetsController extends BaseController {
 		}
 
 		// Holding::whereIn('id', $holsid)->update(['state' => 'reserved']);
-		$holsid[] = -1;
+		// $holsid[] = -1;
 		$HOSS = Holding::whereIn('id', $holsid)->select('holdingsset_id')->lists('holdingsset_id');
 
 		foreach ($HOSS as $HOS) {
 			var_dump($HOS);
-			holdingsset_recall($HOS->id);
+			holdingsset_recall($HOS);
 		}
 
 		return 'Update Locked Info';
