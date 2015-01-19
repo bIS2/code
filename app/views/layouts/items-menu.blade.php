@@ -16,7 +16,7 @@
 @endif
 
 
-@if ( Authority::can('work','Holding') or (( Auth::user()->hasRole('bibuser') || Auth::user()->hasRole('resuser')) && (count(Holdingsset::receiveds()->lists('id')) > 0 )) )
+@if ( Authority::can('work','Holding') or (( Auth::user()->hasRole('bibuser') || Auth::user()->hasRole('resuser')) && ((count(Holdingsset::receiveds()->lists('id')) > 0 ) || (count(Holdingsset::annotated()->lists('id')) > 0 ))) ) 
 	<li class="{{ (!Request::is('holdings*')) ?: 'active'}}" > 
 		<a href="{{ route('holdings.index') }}" >
 			<strong><span class="fa fa-file-text"></span> {{ trans('holdings.title')}}</strong>
