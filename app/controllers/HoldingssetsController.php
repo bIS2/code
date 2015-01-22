@@ -1890,7 +1890,7 @@ global $write_val;
 global $filecontrol;
 global $filename;
 
-$filename = $_SERVER['DOCUMENT_ROOT'].'/'.$sys1.'.txt';
+$filename = $_SERVER['DOCUMENT_ROOT'].'/'.$sys2.'.txt';
 
 if (file_exists($filename)) {
 	unlink($filename);
