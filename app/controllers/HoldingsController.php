@@ -84,6 +84,7 @@ class HoldingsController extends BaseController {
 		}
 		if ( Input::has('commenteds') )	$holdings = $holdings->defaults()->commenteds();
 		$state = (Input::get('state') == 'integrated') ? 'received' : Input::get('state');
+		$state = (Input::get('state') == 'incorrects') ? 'incorrected' : $state;
 		if ( Input::has('state') )	$holdings = $holdings->withState( $state );//Holding::inLibrary()->withState( Input::get('state') );
 
 		// $holdings = ( Input::has('reviseds') || (Auth::user()->hasRole('postuser'))) ? $holdings->reviseds()->corrects() : $holdings->noreviseds();
