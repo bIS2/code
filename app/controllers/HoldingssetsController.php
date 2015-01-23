@@ -814,7 +814,24 @@ class HoldingssetsController extends BaseController {
 		$holdingsset_id: Holdingssset id 
 		-----------------------------------------------------------------------------------*/
 		public function putRecallHoldingsset($id) {
-			Holdingsset::find($id)->holdings()->update(['force_blue' => 'f', 'force_owner' => 'f', 'force_aux' => 'f']);
+			$HOS = Holdingsset::find($id);
+			$HOS->holdings()->update(['force_blue' => 'f', 'force_owner' => 'f', 'force_aux' => 'f']);
+			$sys1 = $HOS->sys1;
+
+			$holdings = $HOS->holdings()->get();
+
+			foreach ($holdings as $holding) {
+				$hnrm = str_replace(' ', '', $holding->hol_nrm);
+				if ($hnrm == '') {
+				$sys2 = $holding -> sys2;
+				$new866a = ($holding->f866aupdated == '') ? $holding->f866a : $holding->f866aupdated ;
+				$new866a .= ' ';
+				$newhol_nrm = normalize866a($new866a, $sys2, $sys1);
+				$holding->update(['f866aupdated'=>$new866a, 'hol_nrm' => $newhol_nrm]);
+				}
+			}
+
+
 			holdingsset_recall($id);
 			$holdingssets[] = Holdingsset::find($id);
 			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
