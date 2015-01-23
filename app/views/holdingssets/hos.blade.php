@@ -24,7 +24,7 @@ $txt 	= ($HOSannotated) ? ' text-warning' : '';
 $btn 	= ($HOSconfirm) ? 'btn-success' : $btn;
 $btn 	= ($HOSincorrect) ? 'btn-danger' : $btn;
 $btn   .= ($holdingsset->is_unconfirmable) ? ' disabled' : '';
-$btn   .= ($holdingsset->holdings_number == 1) ? ' hos-1-hol' : '';
+// $btn   .= ($holdingsset->holdings_number == 1) ? ' hos-1-hol' : '';
 $btn   .= (($autoconfirm == 1) && ($HOSconfirm))  ? ' autoconfirm' : '';
 
 ?>
