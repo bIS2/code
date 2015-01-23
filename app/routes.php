@@ -29,6 +29,7 @@
 
     Route::get('/recallallhos', 'HoldingssetsController@recallallhos');
     Route::get('/recallhoswidthlockeds', 'HoldingssetsController@recallhoswidthlockeds');
+    Route::get('/recallallholholnrm', 'HoldingssetsController@recallallholholnrm');
 
     Route::group(array( 'before' => ['auth']), function(){
 
