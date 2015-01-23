@@ -440,6 +440,29 @@ class HoldingssetsController extends BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
+	public function recallallholholnrm()
+	{
+		$counter = 1;
+		while ($counter > 0) {
+			$holdings = DB::select('select * from holdings where recallholnrm != 1 LIMIT 100');//->get();
+			$counter = count($holdings);
+			foreach ($holdings as $holding) { 
+				$sys2 = $holding -> sys2;
+				$new866a = ($holding->f866aupdated == '') ? $holding->f866a : $holding->f866aupdated ;
+				$new866a .= ' ';
+				$newhol_nrm = normalize866a($new866a, $sys2);
+				Holding::find($holding->id)->update(['f866aupdated'=>$new866a, 'hol_nrm' => $newhol_nrm, 'recallholnrm' => 1]);
+			}
+		}
+		return 'OK';
+	}
+
+	/**
+	 * Update the specified Holdings Set (HOS) in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
 	public function recallhoswidthlockeds()
 	{
 		
@@ -820,16 +843,16 @@ class HoldingssetsController extends BaseController {
 
 			$holdings = $HOS->holdings()->get();
 
-			foreach ($holdings as $holding) {
-				$hnrm = str_replace(' ', '', $holding->hol_nrm);
-				if ($hnrm == '') {
-				$sys2 = $holding -> sys2;
-				$new866a = ($holding->f866aupdated == '') ? $holding->f866a : $holding->f866aupdated ;
-				$new866a .= ' ';
-				$newhol_nrm = normalize866a($new866a, $sys2, $sys1);
-				$holding->update(['f866aupdated'=>$new866a, 'hol_nrm' => $newhol_nrm]);
-				}
-			}
+			// foreach ($holdings as $holding) {
+			// 	$hnrm = str_replace(' ', '', $holding->hol_nrm);
+			// 	if ($hnrm == '') {
+			// 	$sys2 = $holding -> sys2;
+			// 	$new866a = ($holding->f866aupdated == '') ? $holding->f866a : $holding->f866aupdated ;
+			// 	$new866a .= ' ';
+			// 	$newhol_nrm = normalize866a($new866a, $sys2);
+			// 	$holding->update(['f866aupdated'=>$new866a, 'hol_nrm' => $newhol_nrm]);
+			// 	}
+			// }
 
 
 			holdingsset_recall($id);
@@ -901,7 +924,7 @@ class HoldingssetsController extends BaseController {
 			$new866a = ($new866a == '') ?  Input::get('value') : $new866a;
 			$holdingsset_id = Holding::find($id)->holdingsset_id;
 
-			$newhol_nrm = normalize866a($new866a, Holding::find($id)->sys2, Holdingsset::find($holdingsset_id)->sys1);
+			$newhol_nrm = normalize866a($new866a, Holding::find($id)->sys2);
 			// echo 'Y el resultado es: <br>';
 			// die(var_dump($new866a));
 			$holding = Holding::find($id)->update(['f866aupdated'=>$new866a, 'hol_nrm' => $newhol_nrm]);
@@ -1860,7 +1883,7 @@ $write_val			= '';   // statistical info
 $filecontrol		= '';   // File control
 $filename			= '';   // File control
 
-function normalize866a($new866a, $sys2, $sys1) {
+function normalize866a($new866a, $sys2) {
 
 	// error_reporting(E_ALL);
 /* 
@@ -1913,7 +1936,7 @@ if (file_exists($filename)) {
 	unlink($filename);
 }
 
-$filecontrol = fopen($filename, "w+");
+// $filecontrol = fopen($filename, "w+");
 
 $hop_no           	= 0;         // number of parts
 $hol_nrm          	= '';        // saved hol f866a result normalized
@@ -2113,23 +2136,7 @@ $hol_nrm = normalize_result($hop_info);
 global $filecontrol;
 global $filename;
 
-fclose($filecontrol);
-
-
-$zip = new ZipArchive();
-$filename1 = $_SERVER['DOCUMENT_ROOT'].'/'.$sys1.'.zip';
-
-if ($zip->open($filename1, ZipArchive::CREATE)!==TRUE) {
-	exit("cannot open <$filename1>\n");
-}
-
-$zip->addFromString("testfilephp.txt" . time(), "#1 This is a test string added as testfilephp.txt.\n");
-$zip->addFromString("testfilephp2.txt" . time(), "#2 This is a test string added as testfilephp2.txt.\n");
-$zip->addFile($filename,$sys1);
-// echo "numfiles: " . $zip->numFiles . "\n";
-// echo "status:" . $zip->status . "\n";
-$zip->close();
-
+// fclose($filecontrol);
 
 return $hol_nrm;
 }
@@ -2146,8 +2153,8 @@ function do_control($marker1, $model, $str_before, $marker2, $str_after) {
 	global $do_control, $proc_flag;
 	global $filecontrol;
   // if ($proc_flag['control']) 
-	fprintf($filecontrol, "\n%-3s %-25s : %-70s %2s %s", $marker1, $model, $str_before, $marker2, $str_after);
-	fprintf($filecontrol, "\r");
+	// fprintf($filecontrol, "\n%-3s %-25s : %-70s %2s %s", $marker1, $model, $str_before, $marker2, $str_after);
+	// fprintf($filecontrol, "\r");
 }
 
 // ------------------------------------------------------------------------
