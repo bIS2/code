@@ -1936,7 +1936,7 @@ if (file_exists($filename)) {
 	unlink($filename);
 }
 
-// $filecontrol = fopen($filename, "w+");
+$filecontrol = fopen($filename, "w+");
 
 $hop_no           	= 0;         // number of parts
 $hol_nrm          	= '';        // saved hol f866a result normalized
@@ -2136,7 +2136,7 @@ $hol_nrm = normalize_result($hop_info);
 global $filecontrol;
 global $filename;
 
-// fclose($filecontrol);
+fclose($filecontrol);
 
 return $hol_nrm;
 }
@@ -2153,8 +2153,8 @@ function do_control($marker1, $model, $str_before, $marker2, $str_after) {
 	global $do_control, $proc_flag;
 	global $filecontrol;
   // if ($proc_flag['control']) 
-	// fprintf($filecontrol, "\n%-3s %-25s : %-70s %2s %s", $marker1, $model, $str_before, $marker2, $str_after);
-	// fprintf($filecontrol, "\r");
+	fprintf($filecontrol, "\n%-3s %-25s : %-70s %2s %s", $marker1, $model, $str_before, $marker2, $str_after);
+	fprintf($filecontrol, "\r");
 }
 
 // ------------------------------------------------------------------------
