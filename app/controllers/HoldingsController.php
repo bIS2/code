@@ -67,8 +67,7 @@ class HoldingsController extends BaseController {
 
     $this->data['is_all'] = !(Input::has('corrects') || Input::has('tagged') || Input::has('pendings') || Input::has('unlist') || Input::has('owner') || Input::has('aux') || Input::has('deliveries') || Input::has('state') );
 
-		if ( Input::has('pendings') )		$holdings = $holdings->pendings();
-		
+		if ( Input::has('pendings') )		$holdings = $holdings->pendings();		
 		if ( Input::has('unlist') )			$holdings = $holdings->orphans();
 		if ( Input::has('owner') )			$holdings = $holdings->owner();
 		if ( Input::has('aux') )			$holdings = $holdings->aux();
@@ -83,8 +82,9 @@ class HoldingsController extends BaseController {
 			}
 		}
 		if ( Input::has('commenteds') )	$holdings = $holdings->defaults()->commenteds();
-		$state = (Input::get('state') == 'integrated') ? 'received' : Input::get('state');
-		$state = (Input::get('state') == 'incorrects') ? 'incorrected' : $state;
+		// $state = (Input::get('state') == 'integrated') ? 'received' : Input::get('state');
+		$state = (Input::get('state') == 'incorrects') ? 'incorrected' : Input::get('state');
+
 		if ( Input::has('state') )	$holdings = $holdings->withState( $state );//Holding::inLibrary()->withState( Input::get('state') );
 
 		// $holdings = ( Input::has('reviseds') || (Auth::user()->hasRole('postuser'))) ? $holdings->reviseds()->corrects() : $holdings->noreviseds();

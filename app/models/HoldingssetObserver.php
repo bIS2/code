@@ -11,9 +11,10 @@ class HoldingssetObserver {
 
     public function updated($model, $query)
     {
+      // var_dump($model['attributes']);
   		Trace::create([ 
   			'user_id'	=> Auth::user()->id,
-  			'action'	=> trans("logs.algo",['name'=>$model->sys1]),
+  			'action'	=> trans("logs.updated",['name'=>$model->sys1]),
   			'object_type' => 'holdingsset',
   			'object_id' => $model->id,
   		]);

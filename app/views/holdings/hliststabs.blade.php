@@ -106,7 +106,7 @@ $sizeofields = explode(';',$sizeofields);
 				@endif
 
 				@if (Input::has('hlist_id'))
-				<span class="label label-primary state-list"> {{ trans('states.'.$list->state) }}</span>
+				<span class="label label-primary state-list"<?php if ((Auth::user()->hasRole('resuser')) || (Auth::user()->hasRole('bibuser')) || ($list->type=="elimination")) echo ' style="display: none;"'?>> {{ trans('states.'.$list->state) }}</span>
 				@endif
 			</div>
 			<div class="col-xs-5">

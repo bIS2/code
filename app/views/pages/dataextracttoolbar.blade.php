@@ -238,10 +238,7 @@
 																		</li>				
 																		<li class="btn btn-primary" style="height: 28px;">
 																			<input type="checkbox" id="<?= $field; ?>" name="state[]" value="commented"> {{ trans('states.commented') }}
-																		</li>			
-																		<li class="btn btn-primary" style="height: 28px;">
-																			<input type="checkbox" id="<?= $field; ?>" name="state[]" value="reserved"> {{ trans('states.reserved') }}
-																		</li>			
+																		</li>				
 																		<li class="btn btn-primary" style="height: 28px;">
 																			<input type="checkbox" id="<?= $field; ?>" name="state[]" value="delivery"> {{ trans('states.delivery') }}
 																		</li>				

@@ -62,7 +62,7 @@
 									<a href="{{ route('holdings.index', [ 'hlist_id' => $list->id ] ) }}" >{{ $list->name }} </a>
 								</td>
 								<td>
-									<span class="label label-primary state-list">
+									<span class="label label-primary state-list "<?php if ((Auth::user()->hasRole('resuser')) || (Auth::user()->hasRole('bibuser')) || ($list->type=="elimination")) echo ' style="display: none;"'?>>
 										{{ trans('states.'.$list->state) }}
 									</span>
 								</td>
@@ -84,46 +84,47 @@
 								</td>
  -->			       
  								<td>
+ 								<?php if ((Auth::user()->hasRole('resuser')) || (Auth::user()->hasRole('bibuser')) || ($list->type=="elimination")) echo '<div style="display: none;">'?>
 									@if (($list->type=='control') && ( !$list->revised ))
-										<span class="">
-											<span class="label label-default"><i class="fa fa-check"></i> {{ $list->holdings_reviseds }}</span>  
-										</span>
+									<span class="">
+										<span class="label label-default"><i class="fa fa-check"></i> {{ $list->holdings_reviseds }}</span>  
+									</span>
 									@endif
 
-			          	@if (Authority::can('delivery','Hlist'))
+									@if (Authority::can('delivery','Hlist'))
 
-				          	<a href="{{ route('deliveries.store') }}" class="btn btn-success btn-xs btn-delivery" data-remote="true" data-method="post" data-params="hlist_id={{$list->id}}&user_id={{Auth::user()->id}}" {{ $list->is_delivery ? 'disabled' : '' }}>
-				          		<span class="fa  fa-truck fa-flip-horizontal" ></span> {{trans('holdings.delivery')}}
-				          	</a>
+									<a href="{{ route('deliveries.store') }}" class="btn btn-success btn-xs btn-delivery" data-remote="true" data-method="post" data-params="hlist_id={{$list->id}}&user_id={{Auth::user()->id}}" {{ $list->is_delivery ? 'disabled' : '' }}>
+										<span class="fa  fa-truck fa-flip-horizontal" ></span> {{trans('holdings.delivery')}}
+									</a>
 
-			          	@endif
+									@endif
 
-								@if (Authority::can('receive_list',$list))
+									@if (Authority::can('receive_list',$list))
 
-								  <a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-receive btn-xs" data-params="state=received" data-method="put" data-remote="true">
-								  	<span class="fa fa-download"></span> {{trans('holdings.receive')}}
-								  </a>
+									<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-receive btn-xs" data-params="state=received" data-method="put" data-remote="true">
+										<span class="fa fa-download"></span> {{trans('holdings.receive')}}
+									</a>
 									
-							  @endif
+									@endif
 
-			          	@if (Authority::can('revise',$list))
+									@if (Authority::can('revise',$list))
 
-				          	<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs btn-revise" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
-				          		<span class="fa fa-check" ></span> {{trans('holdings.revised')}}
-				          	</a>
+									<a href="{{ route('lists.update',$list->id) }}" class="btn btn-success btn-xs btn-revise" data-remote="true" data-method="put" data-params="revised=1" data-disabled-with="...">
+										<span class="fa fa-check" ></span> {{trans('holdings.revised')}}
+									</a>
 
-			          	@endif
+									@endif
 
-			          	@if ( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('bibuser')  )
-				          	<a href="{{ route('lists.edit',$list->id) }}" data-toggle="modal" data-target="#form-edit-list" class="btn btn-default btn-xs">
-				          		<span class="fa fa-edit"></span> {{trans('general.edit')}}
-				          	</a>
-				          	<a href="{{ route('lists.destroy',$list->id) }}" data-remote="true" data-method="delete" class="btn btn-danger btn-xs" >
-				          		<span class="fa fa-times"></span> {{trans('general.delete')}}
-				          	</a>
-			          	@endif
-
-				        </td>
+									@if ( Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('bibuser')  )
+									<a href="{{ route('lists.edit',$list->id) }}" data-toggle="modal" data-target="#form-edit-list" class="btn btn-default btn-xs">
+										<span class="fa fa-edit"></span> {{trans('general.edit')}}
+									</a>
+									<a href="{{ route('lists.destroy',$list->id) }}" data-remote="true" data-method="delete" class="btn btn-danger btn-xs" >
+										<span class="fa fa-times"></span> {{trans('general.delete')}}
+									</a>
+									@endif
+ 								<?php if ((Auth::user()->hasRole('resuser')) || (Auth::user()->hasRole('bibuser')) || ($list->type=="elimination")) echo '</div>'?>
+								</td>
 							</tr>
 						@endforeach
 					</tbody>

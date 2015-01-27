@@ -61,9 +61,14 @@ class Holding extends Eloquent {
     if ( Auth::user()->hasRole('postuser') ) 
       $query->revisedsCorrects();
 
-    if ( Auth::user()->hasRole('magvuser') ) 
+    if (( Auth::user()->hasRole('magvuser') ) && (Input::get('state') != 'trash') && (Input::get('state') != 'burn')) {
 // $query->confirms()->noReviseds()->ownerOrAux();
       $query->confirms()->ownerOrAux()->nodeliveries();
+    }
+    else {
+// $query->confirms()->noReviseds()->ownerOrAux();
+      $query->confirms()->nodeliveries();
+    }
 
     if ( Auth::user()->hasRole('maguser') ) {
       $lists = Hlist::whereWorkerId(Auth::user()->id)->lists('id');
@@ -101,7 +106,7 @@ class Holding extends Eloquent {
   }
 
   public function scopeDeliveries($query) {
-    return $query->whereState('delivery');
+    return $query->whereState('delivery')->orWhere('state', 'received');
   }
 
   public function scopeNoDeliveries($query) {
