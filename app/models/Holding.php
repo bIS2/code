@@ -170,7 +170,7 @@ class Holding extends Eloquent {
     if ($state == 'burn') {
       return $query->defaults()->where('state','like',"burn%")->orWhere('state','like',"deleted%");
     } elseif ($state == 'integrated') {
-      return $query->defaults()->where('state','like',"%integrated%")->orWhere('state','like',"%received%");
+      return $query->defaults()->where(function($query){ $query->where('state','like',"%integrated%")->orWhere('state','like',"%received%");});
     } else {
       return $query->defaults()->where('state','like',$state."%");
     }
