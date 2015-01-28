@@ -216,9 +216,11 @@ class Pages extends BaseController {
 					$subfields = substr($query, 7, $cutpos-8);
 					$temp = explode(',', $subfields);
 					$temp[] = 'Holtype';
-					unset($temp['ocrr_ptrn']);
-					unset($temp['aux_ptrn']);
-					fputcsv($fp, $temp);
+					$tempOK = array();
+					foreach ($temp as $tempt) {
+						if (($tempt != 'ocrr_ptrn') && ($tempt != 'aux_ptrn')) $tempOK[] = $tempt;
+					}
+					fputcsv($fp, $tempOK);
 
 					$results = pg_fetch_all($result);
 					$currenthos = '';
