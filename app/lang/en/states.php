@@ -24,7 +24,7 @@ return array(
 	'integrated'					=> 'Completely integrated',
 	'no_result_states'				=> 'No actions until now',
 	'ok' 							=> 'HOL available',
-	'received'						=> 'Integrated in SPB',
+	'received'						=> 'Received in SPB',
 	'revised' 						=> 'Revised',
 	'revised_reserved' 				=> 'Reserved',
 	'revised_annotated' 			=> 'Annotated and back to BIBUSER',

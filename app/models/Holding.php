@@ -169,8 +169,6 @@ class Holding extends Eloquent {
   public function scopeWithState( $query, $state ) {
     if ($state == 'burn') {
       return $query->defaults()->where('state','like',"burn%")->orWhere('state','like',"deleted%");
-    } elseif ($state == 'integrated') {
-      return $query->defaults()->where(function($query){ $query->where('state','like',"%integrated%")->orWhere('state','like',"%received%");});
     } else {
       return $query->defaults()->where('state','like',$state."%");
     }

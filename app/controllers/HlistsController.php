@@ -273,7 +273,15 @@ class HlistsController extends BaseController {
 	 */
 	public function destroy($id)
 	{
+		if (Input::get('holstotrash') == 1) {
+			Hlist::find($id)->holdings()->whereState('integrated')->update(['state'=>'deleted']);
+			Hlist::find($id)->holdings()->whereState('spare')->update(['state'=>'trash']);
+		}
+		if (Input::get('holstoburn') == 1) {
+			Hlist::find($id)->holdings()->whereState('trash')->update(['state'=>'burn']);
+		}
 		$this->hlist->find($id)->delete();
+
 		return Response::json( ['remove' => [$id]] );
 	}
 

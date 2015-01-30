@@ -7,7 +7,7 @@ return [
         $user = Auth::guest() ? new User : Auth::user();
 
       	$authority->allow('create','Hlist', function($self,$user){
-      		return (Auth::user()->hasRole('magvuser') || Auth::user()->hasRole('bibuser') );
+      		return (Auth::user()->hasRole('magvuser') || ((Auth::user()->hasRole('bibuser')) && ((Input::get('state') == 'integrated') || (Input::get('state') == 'spare') || (!Input::has('state')))) );
       	});	
 
         $authority->allow('delivery', 'Hlist', function($self,$hlist) {

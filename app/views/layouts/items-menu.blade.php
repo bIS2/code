@@ -25,10 +25,10 @@
 @endif
 
 
-@if ( Authority::can('work','Holding') )
+@if (( Authority::can('work','Holding') )  or (( Auth::user()->hasRole('bibuser') || Auth::user()->hasRole('resuser')) && ((count(Holdingsset::receiveds()->lists('id')) > 0 ) || (count(Holdingsset::annotated()->lists('id')) > 0 ))))
 	<li class="{{ (Request::is('lists*')) ? 'active' : '' }}">
 		<a href="{{ route('lists.index') }}" ><strong><span class="fa fa-list"></span> {{ trans('titles.lists')}}</strong> </a>
-	</li>
+	</li>	
 @endif
 
 @if (Auth::user()->hasRole('sysadmin') || Auth::user()->hasRole('superuser') )

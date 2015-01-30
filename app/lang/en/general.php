@@ -118,6 +118,9 @@ return array(
 	'Compare HOL' => 'Compare HOL',
 	'Reset profile' => 'Reset profile',
 	'Delete custom profile' => 'Delete custom profile',
+	'Hols updated' => 'Hols updated',
+	'Hols burned' => 'Hols burned',
+	'' => '',
 	'' => '',
 
 );

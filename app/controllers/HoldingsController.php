@@ -59,14 +59,24 @@ class HoldingsController extends BaseController {
 
 
 		$this->data['allsearchablefields'] = ['sys2','008x','022a','245a','245b','245c','246a','245n','245p','260a','260b','300a','300b','300c','310a','362a','500a','505a','710a','770t','772t','780t','785t','852b','852c','852h','852j','866a','866c','866z','size' , 'years', 'exists_online', 'is_current', 'has_incomplete_vols'];
+		
+		$listok = false;
 
-		$holdings = ( Input::has('hlist_id') ) ? Hlist::find( Input::get('hlist_id') )->holdings() : Holding::init();
+		$listok = ( Input::has('hlist_id') ) ? Hlist::find( Input::get('hlist_id') ) : [];
 
-    $this->data['hlists'] = Hlist::my()->get();
-    $this->data['hlist'] = (Input::has('hlist_id')) ? Hlist::find(Input::get('hlist_id')) : false;
+		if (($listok == null) && (Input::has('hlist_id'))) {
+			return Redirect::to(route('holdings.index',Input::except(['hlist_id'])));
+		}
 
-    $this->data['is_all'] = !(Input::has('corrects') || Input::has('tagged') || Input::has('pendings') || Input::has('unlist') || Input::has('owner') || Input::has('aux') || Input::has('deliveries') || Input::has('state') );
+		$listok = ($listok == null) ? false : true ;
 
+		$holdings = ( $listok ) ? Hlist::find( Input::get('hlist_id') )->holdings() : Holding::init();
+
+    	$this->data['hlists'] = Hlist::my()->get();
+
+    	$this->data['hlist'] = ($listok) ? Hlist::find(Input::get('hlist_id')) : false;
+
+    	$this->data['is_all'] = !(Input::has('corrects') || Input::has('tagged') || Input::has('pendings') || Input::has('unlist') || Input::has('owner') || Input::has('aux') || Input::has('deliveries') || Input::has('state') );
 		if ( Input::has('pendings') )		$holdings = $holdings->pendings();		
 		if ( Input::has('unlist') )			$holdings = $holdings->orphans();
 		if ( Input::has('owner') )			$holdings = $holdings->owner();

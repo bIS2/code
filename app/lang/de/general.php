@@ -118,7 +118,8 @@ return array (
 	'Compare HOL' => 'Bestandsabgleich',
 	'Reset profile' => 'Profil zurücksetzen',
 	'Delete custom profile' => 'Benutzerdefiniertes Profil löschen',
-	'' => '',
+	'Hols updated' => 'Hols Merken',
+	'Hols burned' => 'Hols physisch eliminiert',
 	'' => '',
 	'' => '',
 );
