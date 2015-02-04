@@ -237,9 +237,9 @@ class Pages extends BaseController {
 					}
 					$htype = '';
 					if (strpos($temp['state'], 'reserv') !== false) $htype = 'GB';
-					if (($temp['is_owner'] == 't') && ($html != 'GB')) $htype = 'AB';
-					if (($temp['is_aux'] == 't') && ($html != 'GB')) $htype = 'EB';
-					if (($temp['is_aux'] == 't') && ($temp['ocrr_ptrn'] != $temp['aux_ptrn']) && ($htype != 'GB')) $htype = 'EB/KB';
+					if ((($temp['is_owner'] == 't') || ($temp['is_owner'] == '1')) && ($html != 'GB')) $htype = 'AB';
+					if ((($temp['is_aux'] == 't') || ($temp['is_aux'] == '1')) && ($html != 'GB')) $htype = 'EB';
+					if ((($temp['is_aux'] == 't') || ($temp['is_aux'] == '1')) && ($temp['ocrr_ptrn'] != $temp['aux_ptrn']) && ($htype != 'GB')) $htype = 'EB/KB';
 					if ($htype == '') $htype = 'KB';
 					$temp[] = $htype;
 					unset($temp['ocrr_ptrn']);
@@ -277,6 +277,8 @@ class Pages extends BaseController {
 					$query = 'SELECT '.implode(',', $fields).',ocrr_ptrn,aux_ptrn FROM holdings';
 					$i = -1;
 					$where = ' WHERE ';
+
+					$fieldstoquery = array_unique($fieldstoquery);
 					foreach ($fieldstoquery as $field) {
 						switch ($field) {
 							case '852b':
@@ -307,18 +309,16 @@ class Pages extends BaseController {
 							break;
 
 							case 'holtype':
-								if (isset($holtype)) {
-									$i++;
-									$part = '';
-									$t = 0;
-									foreach ($holtype as $lib) {
 
-										if (($t == 0)  && (count($holtype) > 1))
-											$part .= '(';
+								if (isset($holtype)) {
+									foreach ($holtype as $lib) {
+										$i++;
+										$part = '';
+										$t = 0;										
 
 										switch ($lib) {
 											case 'GB':
-												$part .= "(state LIKE '%reserve%')";
+												$part .= "state LIKE '%reserve%'";
 												break;
 											case 'AB':
 												$part .= "(is_owner = 't' OR is_owner = '1')";
@@ -334,19 +334,20 @@ class Pages extends BaseController {
 												break;
 										}
 										
-										if ($t < count($holtype) - 1)
-											$part .= ' OR ';
+										// if ($t < count($holtype) - 1)
+										// 	$part .= ' OR ';
 
-										if (($t == count($holtype) - 1) && (count($holtype) > 1))
-											$part .= ')';
+										// if (($t == count($holtype) - 1) && (count($holtype) > 1))
+										// 	$part .= ')';
 
-											$t++;
-									}
-									if ($part != '') {
-										$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
-										$where = ' ';
+										// 	$t++;
+										if ($part != '') {
+											$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
+											$where = ' ';
+										}
 									}
 								}
+
 								break;
 								
 							case 'state':
