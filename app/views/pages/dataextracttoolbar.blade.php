@@ -265,8 +265,8 @@
 																		<option value="NOT ">NOT</option>
 																	</select>
 																	<ul class="btn-group pull-left" data-toggle="buttons" style="padding: 0;margin: 0">
-																		<li class="btn btn-primary" style="height: 28px;">
-																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="AB">AB
+																		<li class="btn btn-primary active disabled" style="height: 28px;">
+																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="AB" checked="checked">AB
 																		</li>				
 																	</ul>
 																	<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">	
@@ -284,8 +284,8 @@
 																		<option value="NOT ">NOT</option>
 																	</select>
 																	<ul class="btn-group pull-left" data-toggle="buttons" style="padding: 0;margin: 0">			
-																		<li class="btn btn-primary" style="height: 28px;">
-																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="EB">EB
+																		<li class="btn btn-primary active disabled" style="height: 28px;">
+																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="EB" checked="checked">EB
 																		</li>							
 																	</ul>
 																	<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">	
@@ -303,8 +303,8 @@
 																		<option value="NOT ">NOT</option>
 																	</select>
 																	<ul class="btn-group pull-left" data-toggle="buttons" style="padding: 0;margin: 0">
-																		<li class="btn btn-primary" style="height: 28px;">
-																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="EB/KB">EB/KB
+																		<li class="btn btn-primary active disabled" style="height: 28px;">
+																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="EB/KB" checked="checked">EB/KB
 																		</li>						
 																	</ul>
 																	<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">	
@@ -322,8 +322,8 @@
 																		<option value="NOT ">NOT</option>
 																	</select>
 																	<ul class="btn-group pull-left" data-toggle="buttons" style="padding: 0;margin: 0">	
-																		<li class="btn btn-primary" style="height: 28px;">
-																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="KB">KB
+																		<li class="btn btn-primary active disabled" style="height: 28px;">
+																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="KB" checked="checked">KB
 																		</li>						
 																	</ul>
 																	<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">	
@@ -341,8 +341,8 @@
 																		<option value="NOT ">NOT</option>
 																	</select>
 																	<ul class="btn-group pull-left" data-toggle="buttons" style="padding: 0;margin: 0">
-																		<li class="btn btn-primary" style="height: 28px;">
-																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="GB">GB
+																		<li class="btn btn-primary active disabled" style="height: 28px;">
+																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="GB" checked="checked">GB
 																		</li>				
 																	</ul>
 																	<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">	

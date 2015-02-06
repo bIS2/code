@@ -56,6 +56,12 @@ class LockedsController extends BaseController {
 					$newstate = str_replace('_reserved', '', $currentstatus);
 					Holding::find($holding_id)->update(['state'=>$newstate]);	
 					Locked::whereHoldingId($holding_id)->delete();
+
+					$user_id          = Auth::user()->id;
+					$id               = $holding_id;
+					$current_state    = $newstate;
+					State::create( [ 'holding_id' => $id, 'user_id' => $user_id, 'state'=>$current_state ] );
+
 					$ret = ['unlock' => $holding_id];
 				}
 				else {

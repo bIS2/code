@@ -124,25 +124,7 @@ class HoldingssetsController extends BaseController {
 
 			$state = Input::get('state');
 
-			if (isset($state)) {
-				if ($state == 'ok') 
-					$holdingssets = $holdingssets->corrects();
-				if ($state == 'pending')
-					$holdingssets = $holdingssets->pendings();
-				if ($state == 'annotated') 
-					$holdingssets = $holdingssets->annotated();	
-				if ($state == 'incorrects') 
-					$holdingssets = $holdingssets->incorrects();					
-				if ($state == 'receiveds') 
-					$holdingssets = $holdingssets->receiveds();					
-				if ($state == 'reserveds') 
-					$holdingssets = $holdingssets->reserveds();				
-				if ($state == 'noreserveds') 
-					$holdingssets = $holdingssets->noreserveds();
-			}
-
 			if ($this->data['is_filter']) {
-
 				// Take all holdings
 				$holdings = -1;
 				// If filter by owner or aux
@@ -210,6 +192,23 @@ class HoldingssetsController extends BaseController {
 				$holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
 				unset($holdings);
 
+			}
+
+			if (isset($state)) {
+				if ($state == 'ok') 
+					$holdingssets = $holdingssets->corrects();
+				if ($state == 'pending')
+					$holdingssets = $holdingssets->pendings();
+				if ($state == 'annotated') 
+					$holdingssets = $holdingssets->annotated();	
+				if ($state == 'incorrects') 
+					$holdingssets = $holdingssets->incorrects();					
+				if ($state == 'receiveds') 
+					$holdingssets = $holdingssets->receiveds();					
+				if ($state == 'reserveds') 
+					$holdingssets = $holdingssets->reserveds();				
+				if ($state == 'noreserveds') 
+					$holdingssets = $holdingssets->noreserveds();
 			}
 
 			define(HOS_PAGINATE, 50);

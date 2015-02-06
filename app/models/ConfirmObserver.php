@@ -23,7 +23,7 @@ class ConfirmObserver {
       $stat = Stat::firstOrCreate($data);
       
       Holdingsset::find($holdingsset_id)->update([ 'state' => 'ok' ]);
-      $ids = $model->holdingsset->holdings()->lists('id');
+      $ids = $model->holdingsset->holdings()->where('state','NOT LIKE', '%reserved%')->lists('id');
       foreach ($ids as $id) {
 	      State::create( [ 'holding_id' => $id, 'user_id' => $user_id, 'state'=>'confirmed' ] );
       }
@@ -50,7 +50,7 @@ class ConfirmObserver {
        'object_type' => 'holdingsset',
        'object_id' => $holdingsset_id,
       ]);
-      $ids = $model->holdingsset->holdings()->lists('id');
+      $ids = $model->holdingsset->holdings()->where('state','NOT LIKE', '%reserved%')->lists('id');
       foreach ($ids as $id) {
         State::create( [ 'holding_id' => $id, 'user_id' => $user_id, 'state'=>'blank' ] );
       }
