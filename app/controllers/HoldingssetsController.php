@@ -109,20 +109,32 @@ class HoldingssetsController extends BaseController {
 			$orderby = (Session::get($uUserName.'_sortinghos_by') != null) ? Session::get($uUserName.'_sortinghos_by') : 'f245a';
 			$order 	= (Session::get($uUserName.'_sortinghos') != null) ? Session::get($uUserName.'_sortinghos') : 'ASC';
 
-			// Groups
-
 			$libraryusers = Library::find($uUserLibraryId)->users->lists('id');
 			$libraryusers[] = -1;
 
-			// var_dump($libraryusers);
+			// Groups
 			$this->data['groups'] = Group::orderby('name', 'ASC')->whereIn('user_id', $libraryusers)->get();
-			// var_dump($this->data['groups']->lists('id'));die();
-			// $this->data['groups'] = Group::orderby('name', 'ASC')->get();
 
 			$this->data['group_id'] = (in_array(Input::get('group_id'), $this->data['groups']->lists('id'))) ? Input::get('group_id') : '';
 			$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets() : Holdingsset::where('holdings_number','<',101);
 
 			$state = Input::get('state');
+			if (isset($state)) {
+				if ($state == 'ok') 
+					$holdingssets = $holdingssets->corrects();
+				if ($state == 'pending')
+					$holdingssets = $holdingssets->pendings();
+				if ($state == 'annotated') 
+					$holdingssets = $holdingssets->annotated();	
+				if ($state == 'incorrects') 
+					$holdingssets = $holdingssets->incorrects();					
+				if ($state == 'receiveds') 
+					$holdingssets = $holdingssets->receiveds();					
+				if ($state == 'reserveds') 
+					$holdingssets = $holdingssets->reserveds();				
+				if ($state == 'noreserveds') 
+					$holdingssets = $holdingssets->noreserveds();
+			}
 
 			if ($this->data['is_filter']) {
 				// Take all holdings
@@ -145,70 +157,51 @@ class HoldingssetsController extends BaseController {
 				$openfilter = 0;
 				$OrAndFilter = Input::get('OrAndFilter');
 				// Verify if some value for advanced search exists.
-				if ($holdings == -1) $holdings = DB::table('holdings');//->orderBy('is_owner', 'DESC');
+				if (Input::get('filtered') == 1) {
+					if ($holdings == -1) $holdings = DB::table('holdings');
+					foreach ($allsearchablefields as $field) {
+						if (Input::has($field)) {
+							$value = Input::get($field);
+							if ($value != '') {
+								$orand 		= $OrAndFilter[$openfilter-1];
+								$compare 	= Input::get($field.'compare');
+								$format 	= Input::get($field.'format');
 
-				foreach ($allsearchablefields as $field) {
-					// die('aaa');
-					if (Input::has($field)) {
-						$value = Input::get($field);
-						// var_dump($value);
-						if ($value != '') {
-							$orand 		= $OrAndFilter[$openfilter-1];
-							$compare 	= Input::get($field.'compare');
-							$format 	= Input::get($field.'format');
+								if ($field == 'sys1') {
+									$hos = Holdingsset::WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) )->select('id')->lists('id');
+									$hos[] = -1;
+									$newholdings = Holding::whereIn('holdingsset_id', $hos)->select('id')->lists('id');
+									$newholdings[] = -1;
 
-							if ($field == 'sys1') {
-								$hos = Holdingsset::WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) )->select('id')->lists('id');
-								$hos[] = -1;
-								$newholdings = Holding::whereIn('holdingsset_id', $hos)->select('id')->lists('id');
-								$newholdings[] = -1;
-
-								$holdings = ($orand == 'OR') ? $holdings->orWhereIn('id', $newholdings) : $holdings->whereIn('id', $newholdings);
-								$openfilter++; 
-							}
-							else {	
-									// var_dump(sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ));die();
-								$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) ) :  
-								$holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) );  
-								$openfilter++;		
-								if ($field == 'f866a') {
-									$format1 = str_replace('f866a', 'f866aupdated', $format);
-									$compare1 = str_replace('f866a', 'f866aupdated', $compare);
-										// var_dump($format);
-										// var_dump($format1);
-										// var_dump($compare);
-										// var_dump($compare1);
-									$holdings = $holdings->OrWhereRaw( sprintf( $format1, $compare1, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) );
-										// die(); 
-								}				
+									$holdings = ($orand == 'OR') ? $holdings->orWhereIn('id', $newholdings) : $holdings->whereIn('id', $newholdings);
+									$openfilter++; 
+								}
+								else {	
+										// var_dump(sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ));die();
+									$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) ) :  
+									$holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) );  
+									$openfilter++;		
+									if ($field == 'f866a') {
+										$format1 = str_replace('f866a', 'f866aupdated', $format);
+										$compare1 = str_replace('f866a', 'f866aupdated', $compare);
+											// var_dump($format);
+											// var_dump($format1);
+											// var_dump($compare);
+											// var_dump($compare1);
+										$holdings = $holdings->OrWhereRaw( sprintf( $format1, $compare1, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) );
+											// die(); 
+									}				
+								}
 							}
 						}
 					}
 				}
-				// die();
 				if ($openfilter == 0)  $this->data['is_filter'] = false;
 				$holList = $holdings->select('holdings.holdingsset_id')->lists('holdings.holdingsset_id');
 				$ids = (count($holList) > 0) ? $holList : [-1];
 				$holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
 				unset($holdings);
 
-			}
-
-			if (isset($state)) {
-				if ($state == 'ok') 
-					$holdingssets = $holdingssets->corrects();
-				if ($state == 'pending')
-					$holdingssets = $holdingssets->pendings();
-				if ($state == 'annotated') 
-					$holdingssets = $holdingssets->annotated();	
-				if ($state == 'incorrects') 
-					$holdingssets = $holdingssets->incorrects();					
-				if ($state == 'receiveds') 
-					$holdingssets = $holdingssets->receiveds();					
-				if ($state == 'reserveds') 
-					$holdingssets = $holdingssets->reserveds();				
-				if ($state == 'noreserveds') 
-					$holdingssets = $holdingssets->noreserveds();
 			}
 
 			define(HOS_PAGINATE, 50);
@@ -218,8 +211,6 @@ class HoldingssetsController extends BaseController {
 
 			$this->data['holdingssets'] = $holdingssets->orderBy($orderby, $order)->orderBy('id', 'ASC')->with('holdings')->paginate(HOS_PAGINATE);
 			unset($holdingssets);
-			// die('before call the view');
-			// $this->data['holdingssets'] = $holdingssets->paginate(20);
 			if (isset($_GET['page']))  {
 				$this->data['page'] = $_GET['page'];
 				return View::make('holdingssets/hos', $this->data);

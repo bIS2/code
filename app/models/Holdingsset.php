@@ -35,7 +35,7 @@ class Holdingsset extends Eloquent {
   // *********************************************************
   public function scopeOk($query){
     return $query
-    ->whereState('ok');
+    ->where('holdingssets.state','=','ok');
   }
 
   public function scopeConfirmed($query){   
@@ -43,8 +43,7 @@ class Holdingsset extends Eloquent {
   }
 
   public function scopePendings($query){
-    return $query
-    ->whereState('blank');
+    return $query->where('holdingssets.state','=','blank');
   }
 
   public function scopeReserveds($query) {     
