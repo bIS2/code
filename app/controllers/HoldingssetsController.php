@@ -151,56 +151,81 @@ class HoldingssetsController extends BaseController {
 							->orWhere('is_aux', '=', 't');
 						});						
 					}
-					if (Input::has('white')) { $holdings =  Holding::whereLibraryId($uUserLibraryId) -> where('is_aux', '!=', 't')->where('is_owner', '!=', 't') -> whereNotIn('id', $lockedsids); }
+					if (Input::has('white')) { 
+						$holdings =  Holding::whereLibraryId($uUserLibraryId) -> where('is_aux', '!=', 't')->where('is_owner', '!=', 't') -> whereNotIn('id', $lockedsids); 
+					}
+					$hlist = array();
+					$hlist = $holdings->select('holdings.holdingsset_id')->lists('holdings.holdingsset_id');
+					$ids = (count($hlist) > 0) ? $hlist : [-1];
+					$holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
+					unset($hlist);
 				}
 
 				$openfilter = 0;
+				$filtersys1 = false;
 				$OrAndFilter = Input::get('OrAndFilter');
 				// Verify if some value for advanced search exists.
+				$holdings = -1;
 				if (Input::get('filtered') == 1) {
 					if ($holdings == -1) $holdings = DB::table('holdings');
 					foreach ($allsearchablefields as $field) {
 						if (Input::has($field)) {
 							$value = Input::get($field);
 							if ($value != '') {
+								// var_dump($OrAndFilter);
+								// var_dump($field);
+								// var_dump($openfilter);
 								$orand 		= $OrAndFilter[$openfilter-1];
 								$compare 	= Input::get($field.'compare');
 								$format 	= Input::get($field.'format');
 
 								if ($field == 'sys1') {
-									$hos = Holdingsset::WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) )->select('id')->lists('id');
-									$hos[] = -1;
-									$newholdings = Holding::whereIn('holdingsset_id', $hos)->select('id')->lists('id');
-									$newholdings[] = -1;
-
-									$holdings = ($orand == 'OR') ? $holdings->orWhereIn('id', $newholdings) : $holdings->whereIn('id', $newholdings);
+									$filtersys1 = true;
+									$sys1format = $format;
+									$sys1compare = $compare;
+									$sys1field = Input::get($field);
+									$sys1orand = ($OrAndFilter[0] == 'OR') ? 'OR' : 'AND';
 									$openfilter++; 
 								}
 								else {	
-										// var_dump(sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ));die();
 									$holdings = ($orand == 'OR') ? 	$holdings->OrWhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) ) :  
 									$holdings->WhereRaw( sprintf( $format, $compare, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) ) ) );  
 									$openfilter++;		
 									if ($field == 'f866a') {
 										$format1 = str_replace('f866a', 'f866aupdated', $format);
 										$compare1 = str_replace('f866a', 'f866aupdated', $compare);
-											// var_dump($format);
-											// var_dump($format1);
-											// var_dump($compare);
-											// var_dump($compare1);
 										$holdings = $holdings->OrWhereRaw( sprintf( $format1, $compare1, pg_escape_string(addslashes(strtolower( Input::get($field) ) ) )) );
-											// die(); 
 									}				
 								}
 							}
 						}
 					}
+
+					if ($filtersys1 == true) {
+						if (($sys1orand == 'OR') || ($openfilter == 1)) {
+							if ($openfilter == 1) $ids = [-1];
+							$holdingssets = $holdingssets->where( function($query) use ($sys1format, $sys1compare, $sys1field, $ids) { 
+								$query->WhereRaw( sprintf( $sys1format, $sys1compare, pg_escape_string(addslashes(strtolower( $sys1field ) ) ) ) )->orWhereIn('holdingssets.id', $ids); 
+							});							
+						}
+						else {
+							$hlist = array();
+							$hlist = $holdings->select('holdings.holdingsset_id')->lists('holdings.holdingsset_id');
+							$ids = (count($hlist) > 0) ? $hlist : [-1];
+							$holdingssets = $holdingssets->where( function($query) use ($sys1format, $sys1compare, $sys1field, $ids) { 
+								$query->WhereRaw( sprintf( $sys1format, $sys1compare, pg_escape_string(addslashes(strtolower( $sys1field ) ) ) ) )->WhereIn('holdingssets.id', $ids); 
+							});		
+						}
+					}
+					else {
+						$hlist = array();
+						$hlist = $holdings->select('holdings.holdingsset_id')->lists('holdings.holdingsset_id');
+						$ids = (count($hlist) > 0) ? $hlist : [-1];
+						$holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
+					}
+					unset($holdings);
 				}
 				if ($openfilter == 0)  $this->data['is_filter'] = false;
-				$holList = $holdings->select('holdings.holdingsset_id')->lists('holdings.holdingsset_id');
-				$ids = (count($holList) > 0) ? $holList : [-1];
-				$holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
-				unset($holdings);
 			}
 
 			define(HOS_PAGINATE, 50);
