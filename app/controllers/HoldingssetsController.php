@@ -466,7 +466,7 @@ class HoldingssetsController extends BaseController {
 		$holsid[] = -1;
 		$HOSS = Holding::whereIn('id', $holsid)->select('holdingsset_id')->lists('holdingsset_id');
 		$HOSS = array_unique($HOSS);
-		var_dump(count($HOSS));die();
+		var_dump(count($HOSS));
 		foreach ($HOSS as $HOS) {
 			$holdingsset = Holdingsset::find($HOS);
 			if (($holdingsset->recalledbylocks != 1) && ($HOS != -1)) {
