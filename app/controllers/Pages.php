@@ -236,10 +236,10 @@ class Pages extends BaseController {
 						$currenthos = $hol['holdingsset_id'];
 					}
 					$htype = '';
+					if (($temp['is_owner'] == 't') || ($temp['is_owner'] == '1')) $htype = 'AB';
+					if ((($temp['is_aux'] == 't') || ($temp['is_aux'] == '1')) && ($temp['ocrr_ptrn'] == $temp['aux_ptrn'])) $htype = 'EB';
+					if ((($temp['is_aux'] == 't') || ($temp['is_aux'] == '1')) && ($temp['ocrr_ptrn'] != $temp['aux_ptrn'])) $htype = 'EB/KB';
 					if (strpos($temp['state'], 'reserv') !== false) $htype = 'GB';
-					if ((($temp['is_owner'] == 't') || ($temp['is_owner'] == '1')) && ($html != 'GB')) $htype = 'AB';
-					if ((($temp['is_aux'] == 't') || ($temp['is_aux'] == '1')) && ($html != 'GB')) $htype = 'EB';
-					if ((($temp['is_aux'] == 't') || ($temp['is_aux'] == '1')) && ($temp['ocrr_ptrn'] != $temp['aux_ptrn']) && ($htype != 'GB')) $htype = 'EB/KB';
 					if ($htype == '') $htype = 'KB';
 					$temp[] = $htype;
 					unset($temp['ocrr_ptrn']);
