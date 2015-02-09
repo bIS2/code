@@ -143,15 +143,15 @@ class HoldingssetsController extends BaseController {
 				if ((Input::get('owner') == 1) || (Input::get('aux') == 1)  || (Input::get('white') == 1) ) {
 					$lockedsids = Locked::orderBy('id')->lists('holding_id');
 					$lockedsids[] = -1;
-					if ((Input::has('owner')) && (!(Input::has('aux')))) $holdings = $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsOwner('t') -> whereNotIn('id', $lockedsids);
-					if (!(Input::has('owner')) && ((Input::has('aux')))) $holdings = $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> whereIsAux('t') -> whereNotIn('id', $lockedsids);
+					if ((Input::has('owner')) && (!(Input::has('aux')))) $holdings = Holding::whereLibraryId($uUserLibraryId) -> whereIsOwner('t') -> whereNotIn('id', $lockedsids);
+					if (!(Input::has('owner')) && ((Input::has('aux')))) $holdings = Holding::whereLibraryId($uUserLibraryId) -> whereIsAux('t') -> whereNotIn('id', $lockedsids);
 					if ((Input::has('owner')) && ((Input::has('aux'))))  {
-						$holdings = $uUserLibrary->holdings()->where('library_id','=',$uUserLibraryId)->where(function($query) use ($lockedsids) {
+						$holdings =  Holding::where('library_id','=',$uUserLibraryId)->where(function($query) use ($lockedsids) {
 							$query->where('is_owner', '=', 't') -> whereNotIn('id', $lockedsids)
 							->orWhere('is_aux', '=', 't');
 						});						
 					}
-					if (Input::has('white')) { $holdings = $uUserLibrary-> holdings() -> whereLibraryId($uUserLibraryId) -> where('is_aux', '!=', 't')->where('is_owner', '!=', 't') -> whereNotIn('id', $lockedsids); }
+					if (Input::has('white')) { $holdings =  Holding::whereLibraryId($uUserLibraryId) -> where('is_aux', '!=', 't')->where('is_owner', '!=', 't') -> whereNotIn('id', $lockedsids); }
 				}
 
 				$openfilter = 0;
@@ -201,7 +201,6 @@ class HoldingssetsController extends BaseController {
 				$ids = (count($holList) > 0) ? $holList : [-1];
 				$holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
 				unset($holdings);
-
 			}
 
 			define(HOS_PAGINATE, 50);
@@ -456,29 +455,22 @@ class HoldingssetsController extends BaseController {
 	public function recallhoswidthlockeds()
 	{
 		
-
-		// $HOSS = DB::select('select * from holdingssets ORDER BY id LIMIT '.$init.' OFFSET 1')->get();
-		// $HOSS = DB::table('users')->skip($init)->take(1)->get();
-
-		$HOSS = DB::select('select holding_id from lockeds');//->get();
-		$holsid = array();
-		foreach ($HOSS as $HOS) {
-			$holding_id = $HOS -> holding_id;
-			$currentstatus = Holding::find($holding_id)->state;
-			$newstate = str_replace('_reserved', '', $currentstatus);
-			$newstate = $newstate."_reserved";
-			Holding::find($holding_id)->update(['state'=>$newstate]);
-			$holsid[] = $holding_id;
-		}
-
+		// $HOSS = DB::select('select holding_id from lockeds');//->get();
+		// $holsid = array();
+		// foreach ($HOSS as $HOS) {
+		// 	$holding_id = $HOS -> holding_id;
+		// 	$holsid[] = $holding_id;
+		// }
+		$holsid = Locked::where('id', '>', '0')->select('holding_id')->lists('holding_id');
 		// Holding::whereIn('id', $holsid)->update(['state' => 'reserved']);
 		$holsid[] = -1;
-		var_dump($holsid);
 		$HOSS = Holding::whereIn('id', $holsid)->select('holdingsset_id')->lists('holdingsset_id');
-
+		$HOSS = array_unique($HOSS);
 		foreach ($HOSS as $HOS) {
-			var_dump($HOS);
-			holdingsset_recall($HOS);
+			if ((Holdingsset::find($HOS)->recalledbylocks != 1) && ($HOS != -1)) {
+					holdingsset_recall($HOS);
+					Holdingsset::find($HOS)->update(['recalledbylocks' => 1]);
+			}
 		}
 
 		return 'Update Locked Info';
