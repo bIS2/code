@@ -204,6 +204,7 @@ class HoldingssetsController extends BaseController {
 					if ($filtersys1 == true) {
 						if (($sys1orand == 'OR') || ($openfilter == 1)) {
 							if ($openfilter == 1) $ids = [-1];
+							$ids = (count($ids) > 65500) ? array_slice($ids, 65500) : $ids;
 							$holdingssets = $holdingssets->where( function($query) use ($sys1format, $sys1compare, $sys1field, $ids) { 
 								$query->WhereRaw( sprintf( $sys1format, $sys1compare, pg_escape_string(addslashes(strtolower( $sys1field ) ) ) ) )->orWhereIn('holdingssets.id', $ids); 
 							});							
@@ -212,6 +213,7 @@ class HoldingssetsController extends BaseController {
 							$hlist = array();
 							$hlist = $holdings->select('holdings.holdingsset_id')->lists('holdings.holdingsset_id');
 							$ids = (count($hlist) > 0) ? $hlist : [-1];
+							$ids = (count($ids) > 65500) ? array_slice($ids, 65500) : $ids;
 							$holdingssets = $holdingssets->where( function($query) use ($sys1format, $sys1compare, $sys1field, $ids) { 
 								$query->WhereRaw( sprintf( $sys1format, $sys1compare, pg_escape_string(addslashes(strtolower( $sys1field ) ) ) ) )->WhereIn('holdingssets.id', $ids); 
 							});		
@@ -221,6 +223,7 @@ class HoldingssetsController extends BaseController {
 						$hlist = array();
 						$hlist = $holdings->select('holdings.holdingsset_id')->lists('holdings.holdingsset_id');
 						$ids = (count($hlist) > 0) ? $hlist : [-1];
+						$ids = (count($ids) > 65500) ? array_slice($ids, 65500) : $ids;
 						$holdingssets = $holdingssets->whereIn('holdingssets.id', $ids);
 					}
 					unset($holdings);
