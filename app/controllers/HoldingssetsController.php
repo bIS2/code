@@ -466,17 +466,15 @@ class HoldingssetsController extends BaseController {
 		$holsid[] = -1;
 		$HOSS = Holding::whereIn('id', $holsid)->select('holdingsset_id')->lists('holdingsset_id');
 		$HOSS = array_unique($HOSS);
-		var_dump(count($HOSS));
 		foreach ($HOSS as $HOS) {
 			$holdingsset = Holdingsset::find($HOS);
-			if (($holdingsset->recalledbylocks != 1) && ($HOS != -1)) {
-				if ($holdingsset->holdings_number > 50) { var_dump($holdingsset->holdings_number);var_dump($holdingsset->id); }
-					// holdingsset_recall($HOS);
-					// Holdingsset::find($HOS)->update(['recalledbylocks' => 1]);
+			if (($holdingsset->recalledbylocks != 1) && ($HOS != -1) && ($holdingsset->holdings_number < 101)) {
+					holdingsset_recall($HOS);
+					Holdingsset::find($HOS)->update(['recalledbylocks' => 1]);
 			}
 		}
 
-		return 'Update Locked Info';
+		return 'Update Locked Info Successfully';
 	}
 
 	/**
