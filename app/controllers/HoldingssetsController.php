@@ -464,6 +464,23 @@ class HoldingssetsController extends BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
+	public function recallallhosnorecalled()
+	{
+		
+		$HOSS = Holdingsset::where('holdings_number', '<', '101')->where('recalled', '!=', '1')->where('recalledbylocks', '!=', '1')->orderby('id', 'ASC')->select('id')->lists('id');
+		foreach ($HOSS as $HOS) {
+			holdingsset_recall($HOS);
+			Holdingsset::find($HOS)->update(['recalled' => 1]);
+		}
+			return 'OK';
+	}
+
+	/**
+	 * Update the specified Holdings Set (HOS) in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
 	public function recallallholholnrm()
 	{
 		$counter = 1;
