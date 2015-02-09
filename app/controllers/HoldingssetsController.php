@@ -143,16 +143,16 @@ class HoldingssetsController extends BaseController {
 				if ((Input::get('owner') == 1) || (Input::get('aux') == 1)  || (Input::get('white') == 1) ) {
 					$lockedsids = Locked::orderBy('id')->lists('holding_id');
 					$lockedsids[] = -1;
-					if ((Input::has('owner')) && (!(Input::has('aux')))) $holdings = Holding::whereLibraryId($uUserLibraryId) -> whereIsOwner('t') -> whereNotIn('id', $lockedsids);
-					if (!(Input::has('owner')) && ((Input::has('aux')))) $holdings = Holding::whereLibraryId($uUserLibraryId) -> whereIsAux('t') -> whereNotIn('id', $lockedsids);
+					if ((Input::has('owner')) && (!(Input::has('aux')))) $holdings = Holding::whereLibraryId($uUserLibraryId) -> whereIsOwner('t') -> whereNotIn('id', $lockedsids)-> where('state', 'not like', '%reserved%');
+					if (!(Input::has('owner')) && ((Input::has('aux')))) $holdings = Holding::whereLibraryId($uUserLibraryId) -> whereIsAux('t') -> whereNotIn('id', $lockedsids)-> where('state', 'not like', '%reserved%');
 					if ((Input::has('owner')) && ((Input::has('aux'))))  {
 						$holdings =  Holding::where('library_id','=',$uUserLibraryId)->where(function($query) use ($lockedsids) {
-							$query->where('is_owner', '=', 't') -> whereNotIn('id', $lockedsids)
+							$query->where('is_owner', '=', 't') -> whereNotIn('id', $lockedsids) -> where('state', 'not like', '%reserved%')
 							->orWhere('is_aux', '=', 't');
 						});						
 					}
 					if (Input::has('white')) { 
-						$holdings =  Holding::whereLibraryId($uUserLibraryId) -> where('is_aux', '!=', 't')->where('is_owner', '!=', 't') -> whereNotIn('id', $lockedsids); 
+						$holdings =  Holding::whereLibraryId($uUserLibraryId) -> where('is_aux', '!=', 't')->where('is_owner', '!=', 't') -> whereNotIn('id', $lockedsids)-> where('state', 'not like', '%reserved%'); 
 					}
 					$hlist = array();
 					$hlist = $holdings->select('holdings.holdingsset_id')->lists('holdings.holdingsset_id');
