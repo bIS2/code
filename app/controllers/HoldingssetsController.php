@@ -468,7 +468,9 @@ class HoldingssetsController extends BaseController {
 		$HOSS = array_unique($HOSS);
 		var_dump(count($HOSS));die();
 		foreach ($HOSS as $HOS) {
-			if ((Holdingsset::find($HOS)->recalledbylocks != 1) && ($HOS != -1)) {
+			$holdingsset = Holdingsset::find($HOS);
+			if (($holdingsset->recalledbylocks != 1) && ($HOS != -1)) {
+				if ($holdingsset->holdings_number > 50) { var_dump($holdingsset->holdings_number);var_dump($holdingsset->id); }
 					// holdingsset_recall($HOS);
 					// Holdingsset::find($HOS)->update(['recalledbylocks' => 1]);
 			}
