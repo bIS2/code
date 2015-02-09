@@ -324,7 +324,7 @@ class Pages extends BaseController {
 												$part .= "(is_owner = 't' OR is_owner = '1')";
 												break;
 											case 'EB':
-												$part .= "(is_aux = 't' OR is_aux = '1')";
+												$part .= "((is_aux = 't' OR is_aux = '1') AND ocrr_ptrn = aux_ptrn)";
 												break;
 											case 'EB/KB':
 												$part .= "((is_aux = 't' OR is_aux = '1') AND ocrr_ptrn != aux_ptrn)";
