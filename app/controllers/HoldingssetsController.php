@@ -486,10 +486,8 @@ class HoldingssetsController extends BaseController {
 	public function recallallholholnrm()
 	{
 		$counter = 1;
-		$HOSS = Holdingsset::where('holdings_number', '>', '100')->select('id')->lists('id');
-		$excludeids = implode(',', $HOSS);
 		while ($counter > 0) {
-			$holdings = DB::select('select * from holdings where recallholnrm != 1 and holdingsset_id NOT IN ('.$excludeids.')LIMIT 100');//->get();
+			$holdings = DB::select('select * from holdings where recallholnrm != 1 LIMIT 100');//->get();
 			$counter = count($holdings);
 			foreach ($holdings as $holding) { 
 				$sys2 = $holding -> sys2;
