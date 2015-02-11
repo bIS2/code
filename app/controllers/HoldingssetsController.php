@@ -442,12 +442,13 @@ class HoldingssetsController extends BaseController {
 		// $HOSS = DB::select('select * from holdingssets ORDER BY id LIMIT '.$init.' OFFSET 1')->get();
 		// $HOSS = DB::table('users')->skip($init)->take(1)->get();
 
-		$HOSS = DB::select('select id,holdings_number from holdingssets WHERE holdings_number = 1 ORDER BY id ');//->get();
+		$HOSS = DB::select('select id from holdingssets ORDER BY id ');//->get();
 
 		foreach ($HOSS as $HOS) {
 			// var_dump($HOS->id);
 			// var_dump($HOS->holdings_number);
 			holdingsset_recall($HOS->id);
+			Holdingsset::find($HOS)->update(['recalled' => 1, 'recalledbylocks' => 1]);
 		}
 		// $urltoredirect = '/sets/recallallhos/'.($init + 1);
 		// if ($HOSS) {
