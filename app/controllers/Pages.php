@@ -173,10 +173,8 @@ class Pages extends BaseController {
 				if (($fromajax != 1) && ($query != '')) {
 
 					$file = $_SERVER['DOCUMENT_ROOT'].'/'.Auth::user()->username.'-extract-data.csv';
-					$filetab = $_SERVER['DOCUMENT_ROOT'].'/'.Auth::user()->username.'-extract-data.csv';
 					$filezip = $_SERVER['DOCUMENT_ROOT'].'/'.Auth::user()->username.'-extract-data.zip';
 					unlink($file);
-					unlink($filetab);
 					unlink($filezip);
 
 					$db_config = Config::get('database');
@@ -215,14 +213,7 @@ class Pages extends BaseController {
 					header( "Content-Disposition: attachment;filename=\"$file\"" );
 					header("Pragma: no-cache");
 					header("Expires: 0");
-					$filetab = Auth::user()->username.'-extract-data-tab.csv';
-					header( "Content-Type: text/csv;charset=utf-8" );
-					header( "Content-Disposition: attachment;filename=\"$filetab\"" );
-					header("Pragma: no-cache");
-					header("Expires: 0");
 					$fp = fopen($file, 'w');
-					$fptab = fopen($filetab, 'w');
-					// fputcsv($fp, $temp);
 					$temp = $fieldstoshow;
 					$cutpos = strpos($query, 'FROM') ;
 					$subfields = substr($query, 7, $cutpos-8);
@@ -232,15 +223,10 @@ class Pages extends BaseController {
 					foreach ($temp as $tempt) {
 						if (($tempt != 'ocrr_ptrn') && ($tempt != 'aux_ptrn')) $tempOK[] = $tempt;
 					}
-					fputcsv($fp, $tempOK);
-					fputcsv($fptab, $tempOK, "\t");
+					fputcsv($fp, $tempOK, "\t");
 
 					$results = pg_fetch_all($result);
 					$currenthos = '';
-					// $blanks = array();
-					// foreach ($fields as $field) {
-					// 	$blanks[] = ' ';
-					// }
 					foreach ($results as $hol) :
 						$temp = $hol;
 						if ($hol['holdingsset_id'] != $currenthos) {
@@ -257,12 +243,9 @@ class Pages extends BaseController {
 						$temp[] = $htype;
 						unset($temp['ocrr_ptrn']);
 						unset($temp['aux_ptrn']);
-						$tempSuperOK = explode('||', str_replace(',', ';', implode('||', $temp)));
-						fputcsv($fp, $tempSuperOK);
-						fputcsv($fptab, $tempSuperOK, "\t");
+						fputcsv($fp, $temp, "\t");
 					endforeach;
 					fclose($fp);
-					fclose($fptab);
 
 					$zip = new ZipArchive();
 
@@ -270,10 +253,8 @@ class Pages extends BaseController {
 						exit("cannot open <$filezip>\n");
 					}
 					$zip->addFile($file,'extract-data-'.date('Y-m-d').'.csv');
-					$zip->addFile($filetab,'extract-data-with-tabs-'.date('Y-m-d').'.csv');
 					$zip->close();
 					unlink($file);
-					unlink($filetab);
 					header('Content-Description: File Transfer');
 					header('Content-Type: application/octet-stream');
 					header('Content-Disposition: attachment; filename='.Auth::user()->username.'-extract-data.zip');
