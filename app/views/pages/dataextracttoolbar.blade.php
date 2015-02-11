@@ -22,17 +22,8 @@
 												}
 												?>
 												@if($field == 'holtype')
-												<label class="btn btn-primary btn-xs{{ $checkactive }}{{ $popover }}" href="#ff<?= $field; ?>ab" {{ $field_large }}>
-													<input type="checkbox" <?= $checked; ?> value="<?= $field; ?>">{{ trans('fields.'.$field) }}/AB
-												</label>
-												<label class="btn btn-primary btn-xs{{ $checkactive }}{{ $popover }}" href="#ff<?= $field; ?>eb" {{ $field_large }}>
-													<input type="checkbox" <?= $checked; ?> value="<?= $field; ?>">{{ trans('fields.'.$field) }}/EB
-												</label>
-												<label class="btn btn-primary btn-xs{{ $checkactive }}{{ $popover }}" href="#ff<?= $field; ?>ebkb" {{ $field_large }}>
-													<input type="checkbox" <?= $checked; ?> value="<?= $field; ?>">{{ trans('fields.'.$field) }}/EB/KB
-												</label>
-												<label class="btn btn-primary btn-xs{{ $checkactive }}{{ $popover }}" href="#ff<?= $field; ?>kb" {{ $field_large }}>
-													<input type="checkbox" <?= $checked; ?> value="<?= $field; ?>">{{ trans('fields.'.$field) }}/KB
+												<label class="btn btn-primary btn-xs{{ $checkactive }}{{ $popover }}" href="#ff<?= $field; ?>" {{ $field_large }}>
+													<input type="checkbox" <?= $checked; ?> value="<?= $field; ?>">{{ trans('fields.'.$field) }}
 												</label>
 												<label class="btn btn-primary btn-xs{{ $checkactive }}{{ $popover }}" href="#ff<?= $field; ?>gb" {{ $field_large }}>
 													<input type="checkbox" <?= $checked; ?> value="<?= $field; ?>">{{ trans('fields.'.$field) }}/GB
@@ -72,51 +63,9 @@
 																</div>
 																<?php }
 																elseif ($field == 'holtype')  { ?>
-																<div id="ff<?= $field; ?>ab" class="form-group col-xs-2">
+																<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 																	<div class="input-group inline input-group-sm text-left">
-																		<label class="input-group-addon">{{ trans('fields.'.$field) }}/AB</label>
-																		<span class="input-group-addon  search-check">
-																			<input type="hidden" name="<?= $field; ?>" value="0">
-																			<input type="hidden" name="<?= $field; ?>format" value="%s = '%s'">
-																			<input type="checkbox" class="form-control" name="<?= $field; ?>" value="1" checked="checked">
-																		</span>
-																		<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">
-																			<option value="AND" selected>{{ trans('general.AND') }}</option>
-																			<option value="OR">{{ trans('general.OR') }}</option>
-																		</select>
-																	</div>
-																</div>
-																<div id="ff<?= $field; ?>eb" class="form-group col-xs-2">
-																	<div class="input-group inline input-group-sm text-left">
-																		<label class="input-group-addon">{{ trans('fields.'.$field) }}/EB</label>
-																		<span class="input-group-addon  search-check">
-																			<input type="hidden" name="<?= $field; ?>" value="0">
-																			<input type="hidden" name="<?= $field; ?>format" value="%s = '%s'">
-																			<input type="checkbox" class="form-control" name="<?= $field; ?>" value="1" checked="checked">
-																		</span>
-																		<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">
-																			<option value="AND" selected>{{ trans('general.AND') }}</option>
-																			<option value="OR">{{ trans('general.OR') }}</option>
-																		</select>
-																	</div>
-																</div>
-																<div id="ff<?= $field; ?>ebkb" class="form-group col-xs-2">
-																	<div class="input-group inline input-group-sm text-left">
-																		<label class="input-group-addon">{{ trans('fields.'.$field) }}/EB/KB</label>
-																		<span class="input-group-addon  search-check">
-																			<input type="hidden" name="<?= $field; ?>" value="0">
-																			<input type="hidden" name="<?= $field; ?>format" value="%s = '%s'">
-																			<input type="checkbox" class="form-control" name="<?= $field; ?>" value="1" checked="checked">
-																		</span>
-																		<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">
-																			<option value="AND" selected>{{ trans('general.AND') }}</option>
-																			<option value="OR">{{ trans('general.OR') }}</option>
-																		</select>
-																	</div>
-																</div>
-																<div id="ff<?= $field; ?>kb" class="form-group col-xs-2">
-																	<div class="input-group inline input-group-sm text-left">
-																		<label class="input-group-addon">{{ trans('fields.'.$field) }}/KB</label>
+																		<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
 																		<span class="input-group-addon  search-check">
 																			<input type="hidden" name="<?= $field; ?>" value="0">
 																			<input type="hidden" name="<?= $field; ?>format" value="%s = '%s'">
@@ -132,9 +81,9 @@
 																	<div class="input-group inline input-group-sm text-left">
 																		<label class="input-group-addon">{{ trans('fields.'.$field) }}/GB</label>
 																		<span class="input-group-addon  search-check">
-																			<input type="hidden" name="<?= $field; ?>" value="0">
+																			<input type="hidden" name="<?= $field; ?>gb" value="0">
 																			<input type="hidden" name="<?= $field; ?>format" value="%s = '%s'">
-																			<input type="checkbox" class="form-control" name="<?= $field; ?>" value="1" checked="checked">
+																			<input type="checkbox" class="form-control" name="<?= $field; ?>gb" value="1" checked="checked">
 																		</span>
 																		<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">
 																			<option value="AND" selected>{{ trans('general.AND') }}</option>
@@ -256,7 +205,7 @@
 															</div>
 															<?php }
 															elseif ($field == 'holtype')  { ?>
-															<div id="ff<?= $field; ?>ab" class="form-group col-xs-2">
+															<div id="ff<?= $field; ?>" class="form-group col-xs-2">
 																<div class="input-group inline input-group-sm text-left">
 																	<label class="input-group-addon">{{ trans('fields.'.$field) }}/AB</label>
 																	<input type="hidden" name="fieldstoquery[]" value="<?php echo $field; ?>">
@@ -265,66 +214,18 @@
 																		<option value="NOT ">NOT</option>
 																	</select>
 																	<ul class="btn-group pull-left" data-toggle="buttons" style="padding: 0;margin: 0">
-																		<li class="btn btn-primary active disabled" style="height: 28px;">
+																		<li class="btn btn-primary active" style="height: 28px;">
 																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="AB" checked="checked">AB
+																		</li>			
+																		<li class="btn btn-primary" style="height: 28px;">
+																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="EB">EB
+																		</li>
+																		<li class="btn btn-primary" style="height: 28px;">
+																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="EB/KB">EB/KB
+																		</li>																				
+																		<li class="btn btn-primary" style="height: 28px;">
+																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="KB">KB
 																		</li>				
-																	</ul>
-																	<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">	
-																		<option value="AND" selected>{{ trans('general.AND') }}</option>
-																		<option value="OR">{{ trans('general.OR') }}</option>
-																	</select>
-																</div>
-															</div>
-															<div id="ff<?= $field; ?>eb" class="form-group col-xs-2">
-																<div class="input-group inline input-group-sm text-left">
-																	<label class="input-group-addon">{{ trans('fields.'.$field) }}/EB</label>
-																	<input type="hidden" name="fieldstoquery[]" value="<?php echo $field; ?>">
-																	<select id="NotOperator" class="form-control" name="NotOperator[]">
-																		<option value="" selected>-</option>
-																		<option value="NOT ">NOT</option>
-																	</select>
-																	<ul class="btn-group pull-left" data-toggle="buttons" style="padding: 0;margin: 0">			
-																		<li class="btn btn-primary active disabled" style="height: 28px;">
-																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="EB" checked="checked">EB
-																		</li>							
-																	</ul>
-																	<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">	
-																		<option value="AND" selected>{{ trans('general.AND') }}</option>
-																		<option value="OR">{{ trans('general.OR') }}</option>
-																	</select>
-																</div>
-															</div>
-															<div id="ff<?= $field; ?>ebkb" class="form-group col-xs-2">
-																<div class="input-group inline input-group-sm text-left">
-																	<label class="input-group-addon">{{ trans('fields.'.$field) }}EB/KB</label>
-																	<input type="hidden" name="fieldstoquery[]" value="<?php echo $field; ?>">
-																	<select id="NotOperator" class="form-control" name="NotOperator[]">
-																		<option value="" selected>-</option>
-																		<option value="NOT ">NOT</option>
-																	</select>
-																	<ul class="btn-group pull-left" data-toggle="buttons" style="padding: 0;margin: 0">
-																		<li class="btn btn-primary active disabled" style="height: 28px;">
-																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="EB/KB" checked="checked">EB/KB
-																		</li>						
-																	</ul>
-																	<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">	
-																		<option value="AND" selected>{{ trans('general.AND') }}</option>
-																		<option value="OR">{{ trans('general.OR') }}</option>
-																	</select>
-																</div>
-															</div>
-															<div id="ff<?= $field; ?>kb" class="form-group col-xs-2">
-																<div class="input-group inline input-group-sm text-left">
-																	<label class="input-group-addon">{{ trans('fields.'.$field) }}/KB</label>
-																	<input type="hidden" name="fieldstoquery[]" value="<?php echo $field; ?>">
-																	<select id="NotOperator" class="form-control" name="NotOperator[]">
-																		<option value="" selected>-</option>
-																		<option value="NOT ">NOT</option>
-																	</select>
-																	<ul class="btn-group pull-left" data-toggle="buttons" style="padding: 0;margin: 0">	
-																		<li class="btn btn-primary active disabled" style="height: 28px;">
-																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="KB" checked="checked">KB
-																		</li>						
 																	</ul>
 																	<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">	
 																		<option value="AND" selected>{{ trans('general.AND') }}</option>
@@ -335,14 +236,14 @@
 															<div id="ff<?= $field; ?>gb" class="form-group col-xs-2">
 																<div class="input-group inline input-group-sm text-left">
 																	<label class="input-group-addon">{{ trans('fields.'.$field) }}/GB</label>
-																	<input type="hidden" name="fieldstoquery[]" value="<?php echo $field; ?>">
+																	<input type="hidden" name="fieldstoquery[]" value="<?php echo $field; ?>gb">
 																	<select id="NotOperator" class="form-control" name="NotOperator[]">
 																		<option value="" selected>-</option>
 																		<option value="NOT ">NOT</option>
 																	</select>
 																	<ul class="btn-group pull-left" data-toggle="buttons" style="padding: 0;margin: 0">
 																		<li class="btn btn-primary active disabled" style="height: 28px;">
-																			<input type="checkbox" id="<?= $field; ?>" name="holtype[]" value="GB" checked="checked">GB
+																			<input type="checkbox" id="<?= $field; ?>gb" name="holtypegb" value="GB" checked="checked">GB
 																		</li>				
 																	</ul>
 																	<select id="OrAndFilter" class="form-control" name="OrAndFilter[]">	

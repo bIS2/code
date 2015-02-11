@@ -173,8 +173,10 @@ class Pages extends BaseController {
 				if (($fromajax != 1) && ($query != '')) {
 
 					$file = $_SERVER['DOCUMENT_ROOT'].'/'.Auth::user()->username.'-extract-data.csv';
+					$filetab = $_SERVER['DOCUMENT_ROOT'].'/'.Auth::user()->username.'-extract-data.csv';
 					$filezip = $_SERVER['DOCUMENT_ROOT'].'/'.Auth::user()->username.'-extract-data.zip';
 					unlink($file);
+					unlink($filetab);
 					unlink($filezip);
 
 					$db_config = Config::get('database');
@@ -208,9 +210,19 @@ class Pages extends BaseController {
 						}
 					}
 
-					$filename = Auth::user()->username.'-extract-data.csv';
+					$file = Auth::user()->username.'-extract-data.csv';
+					header( "Content-Type: text/csv;charset=utf-8" );
+					header( "Content-Disposition: attachment;filename=\"$file\"" );
+					header("Pragma: no-cache");
+					header("Expires: 0");
+					$filetab = Auth::user()->username.'-extract-data-tab.csv';
+					header( "Content-Type: text/csv;charset=utf-8" );
+					header( "Content-Disposition: attachment;filename=\"$filetab\"" );
+					header("Pragma: no-cache");
+					header("Expires: 0");
 					$fp = fopen($file, 'w');
-					fputcsv($fp, $temp);
+					$fptab = fopen($filetab, 'w');
+					// fputcsv($fp, $temp);
 					$temp = $fieldstoshow;
 					$cutpos = strpos($query, 'FROM') ;
 					$subfields = substr($query, 7, $cutpos-8);
@@ -221,6 +233,7 @@ class Pages extends BaseController {
 						if (($tempt != 'ocrr_ptrn') && ($tempt != 'aux_ptrn')) $tempOK[] = $tempt;
 					}
 					fputcsv($fp, $tempOK);
+					fputcsv($fptab, $tempOK, "\t");
 
 					$results = pg_fetch_all($result);
 					$currenthos = '';
@@ -230,32 +243,37 @@ class Pages extends BaseController {
 					// }
 					foreach ($results as $hol) :
 						$temp = $hol;
-					if ($hol['holdingsset_id'] != $currenthos) {
-						if ($currenthos != '')
-							// fputcsv($fp, $blanks); 
-						$currenthos = $hol['holdingsset_id'];
-					}
-					$htype = '';
-					if (($temp['is_owner'] == 't') || ($temp['is_owner'] == '1')) $htype = 'AB';
-					if ((($temp['is_aux'] == 't') || ($temp['is_aux'] == '1')) && ($temp['ocrr_ptrn'] == $temp['aux_ptrn'])) $htype = 'EB';
-					if ((($temp['is_aux'] == 't') || ($temp['is_aux'] == '1')) && ($temp['ocrr_ptrn'] != $temp['aux_ptrn'])) $htype = 'EB/KB';
-					if (strpos($temp['state'], 'reserv') !== false) $htype = 'GB';
-					if ($htype == '') $htype = 'KB';
-					$temp[] = $htype;
-					unset($temp['ocrr_ptrn']);
-					unset($temp['aux_ptrn']);
-					fputcsv($fp, $temp);
+						if ($hol['holdingsset_id'] != $currenthos) {
+							if ($currenthos != '')
+								// fputcsv($fp, $blanks); 
+							$currenthos = $hol['holdingsset_id'];
+						}
+						$htype = '';
+						if (($temp['is_owner'] == 't') || ($temp['is_owner'] == '1')) $htype = 'AB';
+						if ((($temp['is_aux'] == 't') || ($temp['is_aux'] == '1')) && ($temp['ocrr_ptrn'] == $temp['aux_ptrn'])) $htype = 'EB';
+						if ((($temp['is_aux'] == 't') || ($temp['is_aux'] == '1')) && ($temp['ocrr_ptrn'] != $temp['aux_ptrn'])) $htype = 'EB/KB';
+						if (strpos($temp['state'], 'reserv') !== false) $htype = 'GB';
+						if ($htype == '') $htype = 'KB';
+						$temp[] = $htype;
+						unset($temp['ocrr_ptrn']);
+						unset($temp['aux_ptrn']);
+						$tempSuperOK = explode('||', str_replace(',', ';', implode('||', $temp)));
+						fputcsv($fp, $tempSuperOK);
+						fputcsv($fptab, $tempSuperOK, "\t");
 					endforeach;
 					fclose($fp);
+					fclose($fptab);
 
 					$zip = new ZipArchive();
 
 					if ($zip->open($filezip, ZipArchive::CREATE)!==TRUE) {
 						exit("cannot open <$filezip>\n");
 					}
-					$zip->addFile($file,'extract-data'.date('Y-m-d').'.csv');
+					$zip->addFile($file,'extract-data-'.date('Y-m-d').'.csv');
+					$zip->addFile($filetab,'extract-data-with-tabs-'.date('Y-m-d').'.csv');
 					$zip->close();
 					unlink($file);
+					unlink($filetab);
 					header('Content-Description: File Transfer');
 					header('Content-Type: application/octet-stream');
 					header('Content-Disposition: attachment; filename='.Auth::user()->username.'-extract-data.zip');
@@ -281,70 +299,91 @@ class Pages extends BaseController {
 					$fieldstoquery = array_unique($fieldstoquery);
 					foreach ($fieldstoquery as $field) {
 						switch ($field) {
+
 							case '852b':
+							
+								if ($f852b) {
+									$i++;
+									$part = '';
+									$t = 0;
+									foreach ($f852b as $lib) {
+										if (($t == 0)  && (count($f852b) > 1))
+											$part .= '(';
 
-							if ($f852b) {
-								$i++;
-								$part = '';
-								$t = 0;
-								foreach ($f852b as $lib) {
-									if (($t == 0)  && (count($f852b) > 1))
-										$part .= '(';
+										$part .= "f852b = '".$lib."'";
 
-									$part .= "f852b = '".$lib."'";
+										if ($t < count($f852b) - 1)
+											$part .= ' OR ';
 
-									if ($t < count($f852b) - 1)
-										$part .= ' OR ';
+										if (($t == count($f852b) - 1) && (count($f852b) > 1))
+											$part .= ')';
 
-									if (($t == count($f852b) - 1) && (count($f852b) > 1))
-										$part .= ')';
-
-										$t++;
+											$t++;
+									}
+									if ($part != '') {
+										$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
+										$where = ' ';
+									}
 								}
-								if ($part != '') {
-									$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
-									$where = ' ';
+
+								break;
+
+							case 'holtypegb':
+
+								if (isset($holtypegb)) {
+									$i++;
+									$part = '';
+									$t = 0;
+									if ($holtypegb != '') {
+										$part .= "state LIKE '%reserve%'";
+									}
+
+									if ($part != '') {
+										$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
+										$where = ' ';
+									}
 								}
-							}
-							break;
+
+								break;
 
 							case 'holtype':
 
-								if (isset($holtype)) {
+								if (isset($holtype) && (count($holtype) != 4)) {
+									$i++;
+									$part = '';
+									$t = 0;										
 									foreach ($holtype as $lib) {
-										$i++;
-										$part = '';
-										$t = 0;										
-
+										if (($t == 0) && (count($holtype) > 1))
+											$part .= '(';
 										switch ($lib) {
-											case 'GB':
-												$part .= "state LIKE '%reserve%'";
-												break;
+											// case 'GB':
+											// 	$part .= "state LIKE '%reserve%'";
+											// 	break;
 											case 'AB':
-												$part .= "(is_owner = 't' OR is_owner = '1')";
+												$part .= "is_owner = 't'";
 												break;
 											case 'EB':
-												$part .= "((is_aux = 't' OR is_aux = '1') AND ocrr_ptrn = aux_ptrn)";
+												$part .= "(is_aux = 't' AND ocrr_ptrn = aux_ptrn)";
 												break;
 											case 'EB/KB':
-												$part .= "((is_aux = 't' OR is_aux = '1') AND ocrr_ptrn != aux_ptrn)";
+												$part .= "(is_aux = 't' AND ocrr_ptrn != aux_ptrn)";
 												break;
 											case 'KB':
-												$part .= "(is_aux != 't' AND is_aux != '1' AND is_owner != 't' AND is_owner != '1')";
+												$part .= "(is_aux != 't' AND is_owner != 't')";
 												break;
 										}
 										
-										// if ($t < count($holtype) - 1)
-										// 	$part .= ' OR ';
+										if ($t < count($holtype) - 1)
+											$part .= ' OR ';
 
-										// if (($t == count($holtype) - 1) && (count($holtype) > 1))
-										// 	$part .= ')';
+										if (($t == count($holtype) - 1) && (count($holtype) > 1))
+											$part .= ')';
 
-										// 	$t++;
-										if ($part != '') {
-											$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
-											$where = ' ';
-										}
+											$t++;
+									}
+									if ($part != '') {
+										$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
+										$where = ' ';
 									}
 								}
 

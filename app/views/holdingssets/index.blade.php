@@ -24,12 +24,6 @@
 			}
 		</style>
 <?php } ?>
-		<style type="text/css">
-			tr.is_aux td.ocrr_ptrn .fa.fa-square-o,
-			tr.is_aux td.ocrr_ptrn .fa.fa-square {
-				border: 1px solid #A98600 !important;
-			}
-		</style>
 <section id="hosg" infinitepagination="1" group_id = "<?php echo $group_id;  ?>" @if ($init == $total) {{ 'class="nopaginate"' }} @endif >
 	<ul id="hos-targets" class="hol-sets table list-group">
 		<?php if (count($holdingssets) > 0) { ?>
