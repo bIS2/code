@@ -444,7 +444,7 @@ class HoldingssetsController extends BaseController {
 
 		// $HOSS = DB::select('select id from holdingssets ORDER BY id where');//->get();
 		// $exclude = Holdingsset::where('holdings_number', '>', '101')->select('id')->lists('id');
-		$HOSS = Holdingsset::where('holdings_number', '<', '30')->whereRecalledbylocks(0)->orderby('id', 'ASC')->select('id')->lists('id');
+		$HOSS = Holdingsset::where('holdings_number', '<', '20')->whereRecalled(0)->orderby('id', 'ASC')->select('id')->lists('id');
 		foreach ($HOSS as $HOS) {
 			// var_dump($HOS->id);
 			// var_dump($HOS->holdings_number);
@@ -553,7 +553,7 @@ class HoldingssetsController extends BaseController {
 		$holsid = Locked::where('id', '>', '0')->select('holding_id')->lists('holding_id');
 		// Holding::whereIn('id', $holsid)->update(['state' => 'reserved']);
 		$holsid[] = -1;
-		$HOSS = Holding::whereIn('id', $holsid)->select('holdingsset_id')->lists('holdingsset_id');
+		$HOSS = Holding::whereIn('id', $holsid)->where()->select('holdingsset_id')->lists('holdingsset_id');
 		$HOSS = array_unique($HOSS);
 		foreach ($HOSS as $HOS) {
 			$holdingsset = Holdingsset::find($HOS);
