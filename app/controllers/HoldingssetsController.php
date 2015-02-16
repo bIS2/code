@@ -477,15 +477,17 @@ class HoldingssetsController extends BaseController {
 			$oldHOLs = DB::select('select sys2, g from holdings_err where id = '.$HOL->holding_id);
 			foreach ($oldHOLs as $oldHOL) {
 				// var_dump($oldHOL->sys2);
-				$holdings = Holding::whereSys2($oldHOL->sys2)->whereG($oldHOL->g);
-				$holdings->update(['state' => 'blank_reserved']);
-				$holdingsOK = $holdings -> paginate(100);
-				foreach ($holdingsOK as $holding) {
+				$holdings = Holding::whereSys2($oldHOL->sys2)->whereG($oldHOL->g)->where('state', 'not like', '%reserve%');
+				if($holdings->count() > 0) {
+					$holdings->update(['state' => 'blank_reserved']);
+					$holdingsOK = $holdings -> paginate(100);
+					foreach ($holdingsOK as $holding) {
 					// var_dump($holding->id);
-					$locked = new Locked;
-					$locked -> holding_id = $holding->id;
-					$locked -> user_id = $HOL->user_id;
-					$locked->save();
+						$locked = new Locked;
+						$locked -> holding_id = $holding->id;
+						$locked -> user_id = $HOL->user_id;
+						$locked->save();
+					}
 				}
 				// die('ya');
 			}
