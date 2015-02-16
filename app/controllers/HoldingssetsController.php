@@ -473,17 +473,15 @@ class HoldingssetsController extends BaseController {
 		// var_dump($db_config['connections']['pgsql']['database']);die();
 		$HOLS = DB::select('select holding_id, user_id from lockeds_err ORDER BY id');//->get();
 		foreach ($HOLS as $HOL) {
-			var_dump($HOL);
+			var_dump($HOL->holding_id);
 			$oldHOLs = DB::select('select sys2, g from holdings_err where id = '.$HOL->holding_id);
-			var_dump($oldHOL);
 			foreach ($oldHOLs as $oldHOL) {
-				var_dump($oldHOL);
+				var_dump($oldHOL->sys2);
 				$holdings = Holding::whereSys2($oldHOL->sys2)->whereG($oldHOL->g);
 				$holdings->update(['state' => 'blank_reserved']);
-				var_dump($holdings);
 				$holdingsOK = $holdings -> paginate(100);
 				foreach ($holdingsOK as $holding) {
-					var_dump($holding);
+					var_dump($holding->id);
 					$locked = new Locked;
 					$locked -> holding_id = $holding->id;
 					$locked -> user_id = $HOL->user_id;
