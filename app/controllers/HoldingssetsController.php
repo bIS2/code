@@ -460,6 +460,32 @@ class HoldingssetsController extends BaseController {
 		// }
 	}
 
+
+	/**
+	 * Update the specified Holdings Set (HOS) in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function addthelockeds()
+	{
+		$HOLS = DB::select('select holding_id, user_id from lockeds_err ORDER BY id');//->get();
+		foreach ($HOLS as $HOL) {
+			$oldHOLs = DB::select('select sys2, g from holdings_err where id = '.$HOL->id);
+			foreach ($oldHOLs as $oldHOL) {
+				$holdings = Holding::whereSys2($oldHOL->sys2)->whereG($oldHOL->g);
+				$holdings->update(['state' => 'blank_reserved']);
+				foreach ($holdings as $holding) {
+					$locked = new Locked;
+					$locked -> holding_id = $holding->id;
+					$locked -> user_id = $HOL->user_id;
+					$locked->save();
+				}
+			}
+		}
+		return 'OK';
+	}
+
 	/**
 	 * Update the specified Holdings Set (HOS) in storage.
 	 *

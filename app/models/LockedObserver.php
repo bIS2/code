@@ -5,15 +5,14 @@
 */
 class LockedObserver {
 
-    public function created($model) {
-     
-			$user_id          = Auth::user()->id;
-      $id               = $model->holding->id;
-      $current_state    = $model->holding->state;
-      State::create( [ 'holding_id' => $id, 'user_id' => $user_id, 'state'=>$current_state ] );
-    }
+	public function created($model) {     
+		$user_id          = Auth::user()->id;
+		$id               = $model->holding->id;
+		$current_state    = $model->holding->state;
+		State::create( [ 'holding_id' => $id, 'user_id' => $user_id, 'state'=>$current_state ] );
+	}
 
-    public function deleted($model) {
+	public function deleted($model) {
 
-    }
+	}
 }
