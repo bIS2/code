@@ -469,6 +469,7 @@ class HoldingssetsController extends BaseController {
 	 */
 	public function addthelockeds()
 	{
+		var_dump($db_config['connections']['pgsql']['database']);die();
 		$HOLS = DB::select('select holding_id, user_id from lockeds_err ORDER BY id');//->get();
 		foreach ($HOLS as $HOL) {
 			$oldHOLs = DB::select('select sys2, g from holdings_err where id = '.$HOL->id);
