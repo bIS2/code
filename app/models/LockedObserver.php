@@ -6,7 +6,8 @@
 class LockedObserver {
 
 	public function created($model) {     
-		$user_id          = Auth::user()->id;
+		// $user_id          = Auth::user()->id;
+		$user_id          = $model->user_id;
 		$id               = $model->holding->id;
 		$current_state    = $model->holding->state;
 		State::create( [ 'holding_id' => $id, 'user_id' => $user_id, 'state'=>$current_state ] );
