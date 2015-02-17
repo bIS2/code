@@ -543,10 +543,10 @@ class HoldingssetsController extends BaseController {
 	 */
 	public function recallallholnrm()
 	{
-		// $counter = 1;
+		$counter = 1;
 		$id = $_GET['idhol'];
-		while ($counter > 0) {
-			$holdings = DB::select('select * from holdings where id != '.$id);//->get();
+		// while ($counter > 0) {
+			$holdings = DB::select('select * from holdings where id = '.$id);//->get();
 			// $counter = count($holdings);
 			foreach ($holdings as $holding) { 
 				$sys2 = $holding -> sys2;
@@ -555,7 +555,7 @@ class HoldingssetsController extends BaseController {
 				$newhol_nrm = normalize866a($new866a, $sys2);
 				Holding::find($holding->id)->update(['f866aupdated'=>$new866a, 'hol_nrm' => $newhol_nrm, 'recallholnrm' => 1]);
 			}
-		}
+		// }
 		return 'OK';
 	}
 
