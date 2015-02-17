@@ -1660,7 +1660,7 @@ function holdingsset_recall($id) {
 	 * comprobación, donde se imprimen los resultados pa ver cómo está la cosa
 	 *
 	 ********************************************************************************/
-	die('there');
+	// die('there');
 	$prtnall = $hos['ptrn'];
 	// var_dump($hos);
 	// var_dump($hos['hol'][0]);
