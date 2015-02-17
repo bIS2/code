@@ -546,7 +546,7 @@ class HoldingssetsController extends BaseController {
 		$counter = 1;
 		$idhol = $_GET['idhol'];
 		// while ($counter > 0) {
-			$holdings = DB::select('select * from holdings where holdingsset_id = '.$idhol);//->get();
+			$holdings = Holding::whereHoldingssetId($idhol)->paginate(200);
 			// $counter = count($holdings);
 			foreach ($holdings as $holding) { 
 				$sys2 = $holding -> sys2;
