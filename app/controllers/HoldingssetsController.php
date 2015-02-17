@@ -1487,7 +1487,7 @@ function holdingsset_recall($id) {
 
 	$tmparr = array_map(function($n){ return implode('',$n); },$tmparr); 
 	$hos['ptrn'] = array_values($tmparr);
-	die('here');
+
 	/***********************************************************************
 	 * For each holding (hol)...
 	 * 	occurrences pattern
@@ -1660,7 +1660,7 @@ function holdingsset_recall($id) {
 	 * comprobación, donde se imprimen los resultados pa ver cómo está la cosa
 	 *
 	 ********************************************************************************/
-
+	die('there');
 	$prtnall = $hos['ptrn'];
 	// var_dump($hos);
 	// var_dump($hos['hol'][0]);
