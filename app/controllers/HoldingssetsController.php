@@ -553,8 +553,8 @@ class HoldingssetsController extends BaseController {
 				$new866a = ($holding->f866aupdated == '') ? $holding->f866a : $holding->f866aupdated ;
 				var_dump($holding -> sys2);
 				var_dump($new866a);
-				$new866a = '19 (1969)-';
-				// $new866a .= ' ';
+				// $new866a = '19 (1969)-';
+				// // $new866a .= ' ';
 				$newhol_nrm = normalize866a($new866a, $sys2);
 				Holding::find($holding->id)->update(['f866aupdated'=>$new866a, 'hol_nrm' => $newhol_nrm, 'recallholnrm' => 1]);
 			}
