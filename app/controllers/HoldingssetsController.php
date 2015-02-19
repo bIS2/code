@@ -1612,24 +1612,21 @@ function holdingsset_recall($id) {
 		$owners_amnt = sizeOf ($pot_owners);
 		if ($owners_amnt>1){
 			$owner_index =  $pot_owners[0];
-			// for ($i=0; $owner_index<$owners_amnt; $i++){
-			// 	$owner_index = $pot_owners[$i];
-			// 	if (in_array($pot_owners[$i],$posowners))break;
-			// }
-
+			for ($i=0; $i<$owners_amnt; $i++){
+				$owner_index = $pot_owners[$i];
+				if (in_array($pot_owners[$i],$posowners))break;
+			}
 		}
 		else $owner_index =  $pot_owners[0];
 	}
-
 	else if ($posowners) { // si hay un OWNER calculado
 		$owners_amnt = sizeOf ($posowners);
 		if ($owners_amnt>1){
 			$owner_index =  $posowners[0];
-			// for ($i=0; $owner_index<$owners_amnt; $i++){
-				// die('aqui');
-				//$owner_index = $posowners[$i];
-				// if (in_array($posowners[$i],$posowners_oc))break;
-			// }
+			for ($i=0; $i<$owners_amnt; $i++){
+				$owner_index = $posowners[$i];
+				if (in_array($posowners[$i],$posowners_oc))break;
+			}
 		}
 		else $owner_index =  $posowners[0];
 	}
