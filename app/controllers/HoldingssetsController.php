@@ -1510,7 +1510,6 @@ function holdingsset_recall($id) {
 	$posowners = array();	
 	$posowners_oc = array();
 
-
 	for ($i=0; $i<$hol_amnt; $i++) { // <------------------------------------------------- HOS
 		$hol = $hos['hol'][$i];
 		$ocrr_arr = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,0):array(); // patrón de ocurrencias
@@ -1518,9 +1517,12 @@ function holdingsset_recall($id) {
 		$res_arr = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,0):array(); // patrón de reservados NUEVO
 		$c_arr = ($ptrn_amnt>0)?array_fill(0,$ptrn_amnt,"."):array(); // patron de continuidad NUEVO
 		$weight = 0;
+
 		if ($hol['ptrn_arr']){
 			$hol_ptrn_amnt	= sizeOf($hol['ptrn_arr']);
+
 			for ($l=0; $l<$hol_ptrn_amnt; $l++){ // <------------------------------------- HOL
+
 				$ptrn_piece = $hol['ptrn_arr'][$l]; // preservar el valor original
 				$ocrr_bgn = substr($ptrn_piece, 0, 16); //los primeros 16 carateres 0-15
 				$ocrr_end = substr($ptrn_piece, 17, 16); // los carateres del 17-32
@@ -1554,8 +1556,10 @@ function holdingsset_recall($id) {
 						$weight = $weight + pow($j_factor,$is_j);
 					}
 				}
-			}				
+			}
 		}
+
+
 
 		if ($hol['force_owner'] === 't') $force_owner = $i;
 		if ($hol['pot_owner'] === 't') array_push($pot_owners,$i);
@@ -1588,7 +1592,7 @@ function holdingsset_recall($id) {
 		$hos['hol'][$i]['is_owner'] = 'f';
 		$hos['hol'][$i]['is_aux'] = 'f';
 
-	}
+	}	
 
 	$hos['pot_owners'] = $pot_owners; // index del que está marcao como pot_owner
 	$hos['force_owner'] = $force_owner; // index del que está forzao como owner
@@ -1598,7 +1602,8 @@ function holdingsset_recall($id) {
 	 * Aquí se calcula el "O W N E R"
 	 *
 	 ********************************************************************************/
-	
+
+
 	if ($force_owner != -1) { // si hay un OWNER forzado es ese
 		$owner_index = $force_owner;
 	}
@@ -1606,10 +1611,12 @@ function holdingsset_recall($id) {
 	else if ($pot_owners) { // si hay mas de un OWNER potencial se queda con el de mayor peso
 		$owners_amnt = sizeOf ($pot_owners);
 		if ($owners_amnt>1){
-			for ($i=0; $owner_index<$owners_amnt; $i++){
-				$owner_index = $pot_owners[$i];
-				if (in_array($pot_owners[$i],$posowners))break;
-			}
+			$owner_index =  $pot_owners[0];
+			// for ($i=0; $owner_index<$owners_amnt; $i++){
+			// 	$owner_index = $pot_owners[$i];
+			// 	if (in_array($pot_owners[$i],$posowners))break;
+			// }
+
 		}
 		else $owner_index =  $pot_owners[0];
 	}
@@ -1617,13 +1624,16 @@ function holdingsset_recall($id) {
 	else if ($posowners) { // si hay un OWNER calculado
 		$owners_amnt = sizeOf ($posowners);
 		if ($owners_amnt>1){
-			for ($i=0; $owner_index<$owners_amnt; $i++){
-				$owner_index = $posowners[$i];
-				if (in_array($posowners[$i],$posowners_oc))break;
-			}
+			$owner_index =  $posowners[0];
+			// for ($i=0; $owner_index<$owners_amnt; $i++){
+				// die('aqui');
+				//$owner_index = $posowners[$i];
+				// if (in_array($posowners[$i],$posowners_oc))break;
+			// }
 		}
 		else $owner_index =  $posowners[0];
 	}
+
 
 	$hos['hol'][$owner_index]['is_owner'] = 't';
 	$hos['owner_index'] = $owner_index; //solo pa tenerlo a mano en próximos cálculos
@@ -1660,7 +1670,7 @@ function holdingsset_recall($id) {
 	 * comprobación, donde se imprimen los resultados pa ver cómo está la cosa
 	 *
 	 ********************************************************************************/
-	// die('there');
+	
 	$prtnall = $hos['ptrn'];
 	// var_dump($hos);
 	// var_dump($hos['hol'][0]);
