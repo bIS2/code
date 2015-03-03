@@ -44,7 +44,7 @@
 															if ($field == '852b')  {
 																$sublibraries = explode(';', Auth::user()->library->sublibraries);
 																?>
-																<div id="ff<?= $field; ?>" class="form-group col-xs-2">
+																<div id="ff<?= $field; ?>" class="form-group col-xs-2 col-xs-12">
 																	<div class="input-group inline input-group-sm text-left">
 																		<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
 																		<ul class="btn-group" data-toggle="buttons">
@@ -63,7 +63,7 @@
 																</div>
 																<?php }
 																elseif ($field == 'holtype')  { ?>
-																<div id="ff<?= $field; ?>" class="form-group col-xs-2">
+																<div id="ff<?= $field; ?>" class="form-group col-xs-2 col-xs-3">
 																	<div class="input-group inline input-group-sm text-left">
 																		<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
 																		<span class="input-group-addon  search-check">
@@ -77,7 +77,7 @@
 																		</select>
 																	</div>
 																</div>
-																<div id="ff<?= $field; ?>gb" class="form-group col-xs-2">
+																<div id="ff<?= $field; ?>gb" class="form-group col-xs-2 col-xs-3">
 																	<div class="input-group inline input-group-sm text-left">
 																		<label class="input-group-addon">{{ trans('fields.'.$field) }}/GB</label>
 																		<span class="input-group-addon  search-check">
@@ -93,7 +93,7 @@
 																</div>
 																<?php }
 																elseif($field == 'status')  { ?>
-																<div id="ff<?= $field; ?>" class="form-group col-xs-2">
+																<div id="ff<?= $field; ?>" class="form-group col-xs-2 col-xs-3">
 																	<div class="input-group inline input-group-sm text-left">
 																		<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
 																		<span class="input-group-addon  search-check">
@@ -109,7 +109,7 @@
 																</div>
 																<?php }
 																else { ?>
-																<div id="ff<?= $field; ?>" class="form-group col-xs-2">
+																<div id="ff<?= $field; ?>" class="form-group col-xs-2 col-xs-3">
 																	<div class="input-group inline input-group-sm text-left">
 																		<label class="input-group-addon"><?= trans('fields.'.$field); ?></label>
 																		<select id="<?= $field; ?>Filter" name="<?= $field; ?>format" class="form-control">
@@ -181,7 +181,7 @@
 														if ($field == '852b')  {
 															$sublibraries = explode(',', Auth::user()->library->sublibraries);
 															?>
-															<div id="ff<?= $field; ?>" class="form-group col-xs-2">
+															<div id="ff<?= $field; ?>" class="form-group col-xs-2 col-xs-12">
 																<div class="input-group inline input-group-sm text-left">
 																	<label class="input-group-addon">{{ trans('fields.'.$field) }}</label>
 																	<input type="hidden" name="fieldstoquery[]" value="<?php echo $field; ?>">
@@ -205,7 +205,7 @@
 															</div>
 															<?php }
 															elseif ($field == 'holtype')  { ?>
-															<div id="ff<?= $field; ?>" class="form-group col-xs-2">
+															<div id="ff<?= $field; ?>" class="form-group col-xs-2 col-xs-3">
 																<div class="input-group inline input-group-sm text-left">
 																	<label class="input-group-addon">{{ trans('fields.'.$field) }}/AB</label>
 																	<input type="hidden" name="fieldstoquery[]" value="<?php echo $field; ?>">
@@ -233,7 +233,7 @@
 																	</select>
 																</div>
 															</div>
-															<div id="ff<?= $field; ?>gb" class="form-group col-xs-2">
+															<div id="ff<?= $field; ?>gb" class="form-group col-xs-2 col-xs-3">
 																<div class="input-group inline input-group-sm text-left">
 																	<label class="input-group-addon">{{ trans('fields.'.$field) }}/GB</label>
 																	<input type="hidden" name="fieldstoquery[]" value="<?php echo $field; ?>gb">
@@ -321,7 +321,7 @@
 															<?php } 
 															else {
 																?>
-																<div id="ff<?= $field; ?>" class="form-group col-xs-2">
+																<div id="ff<?= $field; ?>" class="form-group col-xs-2 col-xs-3">
 																	<div class="input-group inline input-group-sm text-left">
 																		<label class="input-group-addon"><?= trans('fields.'.$field) ?></label>
 																		<input type="hidden" name="fieldstoquery[]" value="<?php echo $field; ?>">
