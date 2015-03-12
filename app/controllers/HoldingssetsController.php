@@ -444,7 +444,7 @@ class HoldingssetsController extends BaseController {
 
 		// $HOSS = DB::select('select id from holdingssets ORDER BY id where');//->get();
 		// $exclude = Holdingsset::where('holdings_number', '>', '101')->select('id')->lists('id');
-		$HOSS = Holdingsset::where('holdings_number', '<', '20')->whereRecalled(0)->orderby('id', 'ASC')->select('id')->lists('id');
+		$HOSS = Holdingsset::where('holdings_number', '<', '300')->whereRecalled(0)->orderby('id', 'ASC')->select('id')->lists('id');
 		foreach ($HOSS as $HOS) {
 			// var_dump($HOS->id);
 			// var_dump($HOS->holdings_number);

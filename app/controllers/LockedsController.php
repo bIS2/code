@@ -51,7 +51,7 @@ class LockedsController extends BaseController {
 		$holding_id = Input::get('holding_id');
 		if (Auth::user()->hasRole('resuser')) {
 			if ( Locked::whereHoldingId($holding_id)->exists() ) {
-				if ( Locked::whereUserId(Auth::user()->id)->whereHoldingId($holding_id)->exists() ) {
+				// if ( Locked::whereUserId(Auth::user()->id)->whereHoldingId($holding_id)->exists() ) {
 					$currentstatus = Holding::find($holding_id)->state;
 					$newstate = str_replace('_reserved', '', $currentstatus);
 					Holding::find($holding_id)->update(['state'=>$newstate]);	
@@ -63,10 +63,10 @@ class LockedsController extends BaseController {
 					State::create( [ 'holding_id' => $id, 'user_id' => $user_id, 'state'=>$current_state ] );
 
 					$ret = ['unlock' => $holding_id];
-				}
-				else {
-					$ret = ['denied' => $holding_id];
-				}
+				// }
+				// else {
+				// 	$ret = ['denied' => $holding_id];
+				// }
 			}
 		}
 		else {
