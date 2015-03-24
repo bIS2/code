@@ -48,11 +48,11 @@
 				  	<!-- CORRECT AND ANNOTATED -->
 				  	@if ( $user->hasRole('magvuser') || $user->hasRole('maguser') || $user->hasRole('bibuser')  )
 
-					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'confirmed'] ) }}" class="btn btn-default <?= ( Input::get('state')=='confirmed' ) ? 'active' : '' ?> btn-sm btn-success" >
+					  	<a href="{{ route('holdings.index', Input::except(['state', 'tagged']) + ['state'=>'confirmed'] ) }}" class="btn btn-default <?= ( Input::get('state')=='confirmed' ) ? 'active' : '' ?> btn-sm btn-success" >
 					  		<div class=""><span class="fa fa-thumbs-up"></span> {{{ trans('holdings.confirmed') }}}</div>
 					  	</a>
 
-					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'ok'] ) }}" class="btn btn-default <?= ( Input::get('state')=='ok' ) ? 'active' : '' ?> btn-sm" >
+					  	<a href="{{ route('holdings.index', Input::except(['state', 'tagged']) + ['state'=>'ok'] ) }}" class="btn btn-default <?= ( Input::get('state')=='ok' ) ? 'active' : '' ?> btn-sm" >
 					  		<div class="text-success"><span class="fa fa-thumbs-up"></span> {{{ trans('holdings.ok2') }}}</div>
 					  	</a>
 
@@ -63,10 +63,10 @@
 						  		<span class="caret"></span></div>
 						  	</a>
 						  	<ul class="dropdown-menu" role="menu">
-						  		<li class="<?= ( Input::get('state')=='annotated' ) ? 'active' : '' ?>"><a href="{{ route('holdings.index', Input::only('view') + ['state'=>'annotated'] ) }}">{{ trans('general.all') }}</a></li>
+						  		<li class="<?= ( Input::get('state')=='annotated' ) ? 'active' : '' ?>"><a href="{{ route('holdings.index', Input::except(['state', 'tagged']) + ['state'=>'annotated'] ) }}">{{ trans('general.all') }}</a></li>
 						  		<li class="divider"></li>
 						  		@foreach (Tag::all() as $tag)
-						  			<li class="<?= ( Input::get('tagged')== $tag->id ) ? 'active' : '' ?>"> <a href="{{ route('holdings.index', Input::only('view') + ['tagged'=>$tag->id] ) }}">{{ $tag->name }}</a> </li>
+						  			<li class="<?= ( Input::get('tagged')== $tag->id ) ? 'active' : '' ?>"> <a href="{{ route('holdings.index', Input::except(['state', 'tagged']) + ['tagged'=>$tag->id] ) }}">{{ $tag->name }}</a> </li>
 						  		@endforeach
 						  	</ul>
 					  	</div>
@@ -76,7 +76,7 @@
 					  <!-- REVISED -->
 				  	@if ( $user->hasRole('magvuser') )
 
-					  	<a href="{{ route('holdings.index', Input::except('state') + ['state'=>'revised'] ) }}" class="btn btn-default text-primary <?= ( Input::get('state')=='revised' ) ? 'active' : '' ?> btn-sm" >
+					  	<a href="{{ route('holdings.index', Input::except(['state', 'tagged']) + ['state'=>'revised'] ) }}" class="btn btn-default text-primary <?= ( Input::get('state')=='revised' ) ? 'active' : '' ?> btn-sm" >
 					  		<div class="text-primary"><span class="fa fa-mail-forward"></span> {{{ trans('holdings.reviseds') }}}</div>
 					  	</a>
 
@@ -85,7 +85,7 @@
 				  	<!-- DELIVERIES -->
 				  	@if ( $user->hasRole('postuser') )
 
-					  	<a href="{{ route('holdings.index', Input::except('state') + ['state'=>'delivery'] ) }}" class="btn btn-default <?= ( Input::get('state')=='delivery' ) ? 'active' : '' ?> btn-sm" >
+					  	<a href="{{ route('holdings.index', Input::except(['state', 'tagged']) + ['state'=>'delivery'] ) }}" class="btn btn-default <?= ( Input::get('state')=='delivery' ) ? 'active' : '' ?> btn-sm" >
 					  		<span class="fa fa-truck fa-flip-horizontal"></span> {{{ trans('holdings.deliveries') }}}
 					  	</a>
 
@@ -94,7 +94,7 @@
 				  	<!-- RECEIVED -->
 				  	@if ( $user->hasRole('speichuser')  || $user->hasRole('bibuser'))
 
-					  	<a href="{{ route('holdings.index', Input::except('state') + ['state'=>'received'] ) }}" class="btn btn-default <?= ( Input::get('state')=='received' ) ? 'active' : '' ?> btn-sm" >
+					  	<a href="{{ route('holdings.index', Input::except(['state', 'tagged']) + ['state'=>'received'] ) }}" class="btn btn-default <?= ( Input::get('state')=='received' ) ? 'active' : '' ?> btn-sm" >
 					  		<span class="fa fa-download"></span> {{{ trans('holdings.receiveds') }}}
 					  	</a>
 
@@ -140,7 +140,7 @@
 					<!-- DELETE -->
 					@if ( $user->hasRole('magvuser')  || $user->hasRole('bibuser'))
 
-					<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'burn'] ) }}" class="btn btn-default <?= ( Input::get('state')=='burn' ) ? 'active' : '' ?> btn-sm" >
+					<a href="{{ route('holdings.index', Input::except(['state', 'tagged']) + ['state'=>'burn'] ) }}" class="btn btn-default <?= ( Input::get('state')=='burn' ) ? 'active' : '' ?> btn-sm" >
 						<span class="fa fa-strikethrough"></span><span class="fa fa-fire"></span> {{{ trans('holdings.burneds') }}}
 					</a>
 
@@ -164,11 +164,11 @@
 							<i class="fa fa-list"></i> {{{ trans('holdings.all') }}}
 						</a>
 
-						<a href="{{ route('holdings.index', Input::except('owner') +['owner'=>'true'] ) }}" class="btn <?= ( Input::has('owner')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+						<a href="{{ route('holdings.index', Input::except('owner') + ['owner'=>'true'] ) }}" class="btn <?= ( Input::has('owner')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 							<i class="fa fa-square text-danger"></i> {{{ trans('holdings.owner') }}}
 						</a>
 
-						<a href="{{ route('holdings.index', Input::except([	'aux'])+['aux'=>'true'] ) }}" class="btn <?= ( Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+						<a href="{{ route('holdings.index', Input::except(['aux']) + ['aux'=>'true'] ) }}" class="btn <?= ( Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 							<i class="fa fa-square text-warning"></i> {{{ trans('holdings.aux') }}}
 						</a>
 
@@ -184,11 +184,11 @@
 							<span class="fa fa-list"></span> {{{ trans('holdings.all') }}}
 						</a>				  	
 
-						<a href="?pendings=true" class="btn <?= ( Input::has('pendings')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+						<a href="{{ route('holdings.index', Input::except(['pendings', 'unlist']) + ['pendings'=>'true'] ) }}" class="btn <?= ( Input::has('pendings')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 							<span class="fa fa-warning"></span> {{{ trans('holdings.pending') }}}
 						</a>
 
-						<a href="?unlist=true" class="btn <?= ( Input::has('unlist')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+						<a href="{{ route('holdings.index', Input::except(['pendings', 'unlist']) + ['unlist'=>'true'] ) }}" class="btn <?= ( Input::has('unlist')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 							<span class="fa fa-chain-broken"></span> {{{ trans('holdings.ungroup') }}}
 						</a>
 						
