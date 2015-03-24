@@ -130,7 +130,7 @@
 				  	<!-- (TRASH) MARK IT TO ELIMINATE -->
 				  	@if ( $user->hasRole('bibuser') || $user->hasRole('magvuser')  )
 
-					  	<a href="{{ route('holdings.index', Input::only('view') + ['state'=>'trash'] ) }}" class="btn btn-default <?= ( Input::get('state')=='trash' ) ? 'active' : '' ?> btn-sm" >
+					  	<a href="{{ route('holdings.index', Input::except('state') + ['state'=>'trash'] ) }}" class="btn btn-default <?= ( Input::get('state')=='trash' ) ? 'active' : '' ?> btn-sm" >
 					  		<span class="fa fa-times"></span> {{{ trans('holdings.trasheds') }}}
 					  	</a>
 					  	
@@ -164,11 +164,11 @@
 							<i class="fa fa-list"></i> {{{ trans('holdings.all') }}}
 						</a>
 
-						<a href="{{ route('holdings.index', Input::except('owner') + ['owner'=>'true'] ) }}" class="btn <?= ( Input::has('owner')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+						<a href="{{ route('holdings.index', Input::except(['owner', 'aux']) + ['owner'=>'true'] ) }}" class="btn <?= ( Input::has('owner')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 							<i class="fa fa-square text-danger"></i> {{{ trans('holdings.owner') }}}
 						</a>
 
-						<a href="{{ route('holdings.index', Input::except(['aux']) + ['aux'=>'true'] ) }}" class="btn <?= ( Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
+						<a href="{{ route('holdings.index', Input::except(['owner', 'aux']) + ['aux'=>'true'] ) }}" class="btn <?= ( Input::has('aux')) ? 'btn-primary' : 'btn-default' ?> btn-sm">
 							<i class="fa fa-square text-warning"></i> {{{ trans('holdings.aux') }}}
 						</a>
 
