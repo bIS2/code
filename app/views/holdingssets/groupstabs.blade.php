@@ -72,7 +72,7 @@ $sizeofields = explode(';',$sizeofields);
 		<input type="hidden" id="urltoredirect" name="urltoredirect" value="<?= route('sets.index', Input::except(['noexists'])); ?>">
 		<div id="hos_actions_and_filters" class="clearfix">
 			<a id="open-all-hos" class="btn btn-md btn-danger pull-left" data-toggle="tooltip" title="<?= trans('holdingssets.open_all_hos'); ?>" data-container="body" ><i class="fa fa-folder-open-o"></i></a>
-		<!-- 	<a id="join-the-hos" class="btn btn-md btn-warning pull-left disabled" href="{{ action('HoldingssetsController@putJoinHOS') }}" data-remote="true" data-method="put" data-params="" data-disable-with="..." data-content="{{ trans('holdingssets.join_HOS'); }}"><i class="fa fa-magnet"></i></a> -->
+			<a id="join-the-hos" class="btn btn-md btn-warning pull-left disabled" href="{{ action('HoldingssetsController@putJoinHOS') }}" data-remote="true" data-method="put" data-params="" data-disable-with="..." data-content="{{ trans('holdingssets.join_HOS'); }}"><i class="fa fa-magnet"></i></a>
 			<div class="pull-left select-all">
 				<label>
 					<input id="select-all" class="select-all" name="select-all" type="checkbox" value="1" data-target="#hos-targets">
