@@ -742,6 +742,18 @@ class HoldingssetsController extends BaseController {
 		}	
 
 /* ---------------------------------------------------------------------------------
+	JOIN Several HOS
+	------------------------------------------
+	Params:
+		-----------------------------------------------------------------------------------*/
+		public function putJoinHOS() {
+
+			// $holdingssets_id = Input::get('holdingssets_id');
+			
+			return 'ok';
+		}	
+
+/* ---------------------------------------------------------------------------------
 	Force a Holdins to be HOs owner
 	--------------------------------------
 	Params:

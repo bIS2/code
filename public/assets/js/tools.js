@@ -306,6 +306,10 @@ $('a.link_bulk_action[data-remote]').on('click',function(){
   $(this).attr( 'data-params', $('.table input.hl:checkbox:checked').serialize() )
 })
 
+// $('a#join-the-hos[data-remote]').on('click',function(){
+//   $(this).attr( 'data-params', $('.table input.hl:checkbox:checked').serialize() )
+// })
+
 $('a.link_bulk_action').on('click', function(){
 // alert( $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden') )
 $('.table input.hl:checkbox:checked').clone(true).prop('type','hidden').appendTo('form.bulk_action')
@@ -709,22 +713,36 @@ function bulkActions() {
   $(':checkbox:checked.sel').parents('tr').addClass("warning")
   $(':checkbox:checked.sel').parents('li').addClass("warning")
 
-// if exists holdings selected then ative button to create list
-if ( $(':checkbox:checked.sel').size()>0 )
-  $('a.link_bulk_action').removeClass('disabled')
-
-$(':checkbox.sel').click( function(){
-  if (this.checked) {
+  // if exists holdings selected then ative button to create list
+  if ( $(':checkbox:checked.sel').size()>0 ) {
     $('a.link_bulk_action').removeClass('disabled')
-    $(this).parents('tr').addClass("warning")
-    $(this).parents('li').addClass("warning")
-  } else {
-    $(this).parents('li').removeClass("warning")
-    $(this).parents('tr').removeClass("warning")
-    if ( $(':checkbox:checked.sel').length==0)
-      $('a.link_bulk_action').addClass('disabled')
   }
-})
+  if ( $(':checkbox:checked.sel').size()>1 ) {
+    // $('a#join-the-hos').removeClass('disabled')
+  }
+  else {
+    // $('a#join-the-hos').addClass('disabled')
+  }
+
+  $(':checkbox.sel').click( function() {
+    if ( $(':checkbox:checked.sel').length>1) {
+      // $('a#join-the-hos').removeClass('disabled')
+    }
+    else {
+      // $('a#join-the-hos').addClass('disabled')
+    }
+    if (this.checked) {
+      $('a.link_bulk_action').removeClass('disabled')
+      $(this).parents('tr').addClass("warning")
+      $(this).parents('li').addClass("warning")
+    } else {
+      $(this).parents('li').removeClass("warning")
+      $(this).parents('tr').removeClass("warning")
+      if ( $(':checkbox:checked.sel').length==0) {
+        $('a.link_bulk_action').addClass('disabled')
+      }
+    }
+  })
 
 
 }

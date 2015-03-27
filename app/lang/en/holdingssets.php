@@ -70,6 +70,7 @@ return array(
 	'unlock_hol'				=> 'Reverse Reservation of HOL',
 	'state'						=> 'State',
 	'white'						=> 'White',
+	'join_HOS'					=> 'Join HOS',
 
 // Fields
 	'866a'						=> 'Holding',
