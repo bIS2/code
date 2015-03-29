@@ -746,11 +746,21 @@ class HoldingssetsController extends BaseController {
 	------------------------------------------
 	Params:
 		-----------------------------------------------------------------------------------*/
-		public function putJoinHOS() {
+		public function putJoinhos($id) {
 
-			// $holdingssets_id = Input::get('holdingssets_id');
-			
-			return 'ok';
+			$holdingssets_id = Input::get('holdingsset_id');
+			$unique = $holdingssets_id[0];
+			$oldhos = $holdingssets_id;
+			unset($oldhos[0]);
+
+			Holding::whereIn('holdingsset_id', $holdingssets_id)->update(['holdingsset_id' => $unique]);
+			$totalholdings = Holdingsset::whereIn('id', $holdingssets_id)->select('holdings_number')->sum('holdings_number');
+			Holdingsset::find($unique)->update(['holdings_number' => $totalholdings]);
+			Holdingsset::whereIn('id', $oldhos)->delete();
+			holdingsset_recall($unique);
+			$holdingssets = Holdingsset::where('id', $unique)->paginate(1);
+			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+			return $newset;
 		}	
 
 /* ---------------------------------------------------------------------------------
