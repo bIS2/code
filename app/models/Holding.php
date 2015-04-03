@@ -76,6 +76,7 @@ class Holding extends Eloquent {
       $ids = Hlist::join('hlist_holding', 'hlist_holding.hlist_id','=', 'hlists.id')
       ->whereIn('hlists.id',$lists)
       ->lists('hlist_holding.holding_id');
+      $ids[] = -1;
       $query->whereIn('id',$ids);
     }
 

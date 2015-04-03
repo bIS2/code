@@ -191,8 +191,23 @@ class Pages extends BaseController {
 					$ilegalstatement += (strpos($query, 'DROP') === false) ? 0 : 1;
 					$ilegalstatement += (strpos($query, 'SET') === false) ? 0 : 1;
 
+
 					if (($checkforerror == 1) && ($ilegalstatement > 0)) {
 						die(trans('errors.ilegal_statement_in_query'));
+					}
+					$hide_io = false;
+					if (strpos($query, ',is_owner') === false) {
+						$queryparts = explode('FROM', $query);
+						$qi = trim($queryparts[0]).',is_owner FROM';
+						$query = $qi.$queryparts[1];
+						$hide_io = true;
+					}
+					$hide_ia = false;
+					if (strpos($query, ',is_aux') === false) {
+						$queryparts = explode('FROM', $query);
+						$qi = trim($queryparts[0]).',is_aux FROM';
+						$query = $qi.$queryparts[1];
+						$hide_ia = true;
 					}
 					
 					$result = pg_query($con, $query) or ($queryerror = "Cannot execute \"$query\"\n".pg_last_error());
@@ -221,14 +236,14 @@ class Pages extends BaseController {
 					$temp[] = 'Holtype';
 					$tempOK = array();
 					foreach ($temp as $tempt) {
-						if (($tempt != 'ocrr_ptrn') && ($tempt != 'aux_ptrn')) $tempOK[] = $tempt;
+						if (($tempt != 'ocrr_ptrn') && ($tempt != 'aux_ptrn') && (($tempt == 'is_owner') && (!$hide_io)) && (($tempt == 'is_aux') && (!$hide_ia))) $tempOK[] = $tempt;
 					}
 					fputcsv($fp, $tempOK, "\t");
 
 					$results = pg_fetch_all($result);
 					$currenthos = '';
 					foreach ($results as $hol) :
-						$temp = $hol;
+						$temp = $hol;					
 						if ($hol['holdingsset_id'] != $currenthos) {
 							if ($currenthos != '')
 								// fputcsv($fp, $blanks); 
@@ -243,6 +258,8 @@ class Pages extends BaseController {
 						$temp[] = $htype;
 						unset($temp['ocrr_ptrn']);
 						unset($temp['aux_ptrn']);
+						if ($hide_io) unset($temp['is_owner']);
+						if ($hide_ia) unset($temp['is_aux']);
 						fputcsv($fp, $temp, "\t");
 					endforeach;
 					fclose($fp);

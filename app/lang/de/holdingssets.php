@@ -71,6 +71,7 @@ return array(
 	'unlock_hol'				=> 'Reservierung aufheben',
 	'state'						=> 'Status',
 	'white'						=> 'Transparent',
+	'join_HOS'					=> 'Join HOS',
 
 // Fields
 	'866a'						=> 'Bestandsabgleich',

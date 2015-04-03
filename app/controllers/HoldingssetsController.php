@@ -444,7 +444,7 @@ class HoldingssetsController extends BaseController {
 
 		// $HOSS = DB::select('select id from holdingssets ORDER BY id where');//->get();
 		// $exclude = Holdingsset::where('holdings_number', '>', '101')->select('id')->lists('id');
-		$HOSS = Holdingsset::where('holdings_number', '<', '20')->whereRecalled(0)->orderby('id', 'ASC')->select('id')->lists('id');
+		$HOSS = Holdingsset::where('holdings_number', '<', '300')->whereRecalled(0)->orderby('id', 'ASC')->select('id')->lists('id');
 		foreach ($HOSS as $HOS) {
 			// var_dump($HOS->id);
 			// var_dump($HOS->holdings_number);
@@ -739,6 +739,28 @@ class HoldingssetsController extends BaseController {
 			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
 			return $newset;
 		// return Response::json( ['newhosok' => [$id]] );
+		}	
+
+/* ---------------------------------------------------------------------------------
+	JOIN Several HOS
+	------------------------------------------
+	Params:
+		-----------------------------------------------------------------------------------*/
+		public function putJoinhos($id) {
+
+			$holdingssets_id = Input::get('holdingsset_id');
+			$unique = $holdingssets_id[0];
+			$oldhos = $holdingssets_id;
+			unset($oldhos[0]);
+
+			Holding::whereIn('holdingsset_id', $holdingssets_id)->update(['holdingsset_id' => $unique]);
+			$totalholdings = Holdingsset::whereIn('id', $holdingssets_id)->select('holdings_number')->sum('holdings_number');
+			Holdingsset::find($unique)->update(['holdings_number' => $totalholdings]);
+			Holdingsset::whereIn('id', $oldhos)->delete();
+			holdingsset_recall($unique);
+			$holdingssets = Holdingsset::where('id', $unique)->paginate(1);
+			$newset = View::make('holdingssets/hos', ['holdingssets' => $holdingssets]);
+			return $newset;
 		}	
 
 /* ---------------------------------------------------------------------------------
