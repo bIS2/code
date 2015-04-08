@@ -236,7 +236,14 @@ class Pages extends BaseController {
 					$temp[] = 'Holtype';
 					$tempOK = array();
 					foreach ($temp as $tempt) {
-						if (($tempt != 'ocrr_ptrn') && ($tempt != 'aux_ptrn') && (($tempt == 'is_owner') && (!$hide_io)) && (($tempt == 'is_aux') && (!$hide_ia))) $tempOK[] = $tempt;
+						if (($tempt != 'ocrr_ptrn') && ($tempt != 'aux_ptrn')) {							
+							if ((($tempt == 'is_owner') && ($hide_io)) || (($tempt == 'is_aux') && ($hide_ia))) {
+								// Silent is gold
+							} 
+							else {
+								$tempOK[] = $tempt;
+							}
+						}
 					}
 					fputcsv($fp, $tempOK, "\t");
 
@@ -244,23 +251,23 @@ class Pages extends BaseController {
 					$currenthos = '';
 					foreach ($results as $hol) :
 						$temp = $hol;					
-						if ($hol['holdingsset_id'] != $currenthos) {
-							if ($currenthos != '')
+					if ($hol['holdingsset_id'] != $currenthos) {
+						if ($currenthos != '')
 								// fputcsv($fp, $blanks); 
 							$currenthos = $hol['holdingsset_id'];
-						}
-						$htype = '';
-						if (($temp['is_owner'] == 't') || ($temp['is_owner'] == '1')) $htype = 'AB';
-						if ((($temp['is_aux'] == 't') || ($temp['is_aux'] == '1')) && ($temp['ocrr_ptrn'] == $temp['aux_ptrn'])) $htype = 'EB';
-						if ((($temp['is_aux'] == 't') || ($temp['is_aux'] == '1')) && ($temp['ocrr_ptrn'] != $temp['aux_ptrn'])) $htype = 'EB/KB';
-						if (strpos($temp['state'], 'reserv') !== false) $htype = 'GB';
-						if ($htype == '') $htype = 'KB';
-						$temp[] = $htype;
-						unset($temp['ocrr_ptrn']);
-						unset($temp['aux_ptrn']);
-						if ($hide_io) unset($temp['is_owner']);
-						if ($hide_ia) unset($temp['is_aux']);
-						fputcsv($fp, $temp, "\t");
+					}
+					$htype = '';
+					if (($temp['is_owner'] == 't') || ($temp['is_owner'] == '1')) $htype = 'AB';
+					if ((($temp['is_aux'] == 't') || ($temp['is_aux'] == '1')) && ($temp['ocrr_ptrn'] == $temp['aux_ptrn'])) $htype = 'EB';
+					if ((($temp['is_aux'] == 't') || ($temp['is_aux'] == '1')) && ($temp['ocrr_ptrn'] != $temp['aux_ptrn'])) $htype = 'EB/KB';
+					if (strpos($temp['state'], 'reserv') !== false) $htype = 'GB';
+					if ($htype == '') $htype = 'KB';
+					$temp[] = $htype;
+					unset($temp['ocrr_ptrn']);
+					unset($temp['aux_ptrn']);
+					if ($hide_io) unset($temp['is_owner']);
+					if ($hide_ia) unset($temp['is_aux']);
+					fputcsv($fp, $temp, "\t");
 					endforeach;
 					fclose($fp);
 
@@ -300,167 +307,167 @@ class Pages extends BaseController {
 
 							case '852b':
 							
-								if ($f852b) {
-									$i++;
-									$part = '';
-									$t = 0;
-									foreach ($f852b as $lib) {
-										if (($t == 0)  && (count($f852b) > 1))
-											$part .= '(';
+							if ($f852b) {
+								$i++;
+								$part = '';
+								$t = 0;
+								foreach ($f852b as $lib) {
+									if (($t == 0)  && (count($f852b) > 1))
+										$part .= '(';
 
-										$part .= "f852b = '".$lib."'";
+											$part .= "f852b = '".$lib."'";
 
-										if ($t < count($f852b) - 1)
-											$part .= ' OR ';
+											if ($t < count($f852b) - 1)
+												$part .= ' OR ';
 
-										if (($t == count($f852b) - 1) && (count($f852b) > 1))
-											$part .= ')';
+											if (($t == count($f852b) - 1) && (count($f852b) > 1))
+												$part .= ')';
 
-											$t++;
-									}
-									if ($part != '') {
-										$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
-										$where = ' ';
-									}
-								}
+$t++;
+}
+if ($part != '') {
+	$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
+	$where = ' ';
+}
+}
 
-								break;
+break;
 
-							case 'holtypegb':
+case 'holtypegb':
 
-								if (isset($holtypegb)) {
-									$i++;
-									$part = '';
-									$t = 0;
-									if ($holtypegb != '') {
-										$part .= "state LIKE '%reserve%'";
-									}
+if (isset($holtypegb)) {
+	$i++;
+	$part = '';
+	$t = 0;
+	if ($holtypegb != '') {
+		$part .= "state LIKE '%reserve%'";
+	}
 
-									if ($part != '') {
-										$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
-										$where = ' ';
-									}
-								}
+	if ($part != '') {
+		$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
+		$where = ' ';
+	}
+}
 
-								break;
+break;
 
-							case 'holtype':
+case 'holtype':
 
-								if (isset($holtype) && (count($holtype) != 4)) {
-									$i++;
-									$part = '';
-									$t = 0;										
-									foreach ($holtype as $lib) {
-										if (($t == 0) && (count($holtype) > 1))
-											$part .= '(';
-										switch ($lib) {
+if (isset($holtype) && (count($holtype) != 4)) {
+	$i++;
+	$part = '';
+	$t = 0;										
+	foreach ($holtype as $lib) {
+		if (($t == 0) && (count($holtype) > 1))
+			$part .= '(';
+				switch ($lib) {
 											// case 'GB':
 											// 	$part .= "state LIKE '%reserve%'";
 											// 	break;
-											case 'AB':
-												$part .= "is_owner = 't'";
-												break;
-											case 'EB':
-												$part .= "(is_aux = 't' AND ocrr_ptrn = aux_ptrn)";
-												break;
-											case 'EB/KB':
-												$part .= "(is_aux = 't' AND ocrr_ptrn != aux_ptrn)";
-												break;
-											case 'KB':
-												$part .= "(is_aux != 't' AND is_owner != 't')";
-												break;
-										}
-										
-										if ($t < count($holtype) - 1)
-											$part .= ' OR ';
-
-										if (($t == count($holtype) - 1) && (count($holtype) > 1))
-											$part .= ')';
-
-											$t++;
-									}
-									if ($part != '') {
-										$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
-										$where = ' ';
-									}
-								}
-
-								break;
-								
-							case 'state':
-								if (isset($state)) {
-									$i++;
-									$part = '';
-									$t = 0;
-									foreach ($state as $st) {
-										if (($t == 0)  && (count($state) > 1))
-											$part .= '(';
-
-										$part .= "state = '".$st."'";
-
-										if ($t < count($state) - 1)
-											$part .= ' OR ';
-
-										if (($t == count($state) - 1) && (count($state) > 1))
-											$part .= ')';
-
-											$t++;
-									}
-									if ($part != '') {
-										$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
-										$where = ' ';
-									}
-								}
-								break;
-
-							case '866c':
-								if (isset($f866c)) {
-									$i++;
-									$part = '';
-									$t = 0;
-									if ($f866c != '') {
-										$part = sprintf( $f866cformat, 'LOWER(f866c)', pg_escape_string(addslashes(strtolower( $f866c ) ) ) );
-									}
-
-									if ($part != '') {
-										$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
-										$where = ' ';
-									}
-								}
-								break;
-
-							case '852h':
-								if (isset($f852h)) {
-									$i++;
-									$part = '';
-									$t = 0;
-									if ($f852h != '') {
-										$part = sprintf( $f852hformat, 'LOWER(f852h)', pg_escape_string(addslashes(strtolower( $f852h ) ) ) );
-									}
-									if ($part != '') {
-										$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
-										$where = ' ';
-									}
-								}
-								break;
-						}
-					}
-					$query .= ' ORDER BY holdingsset_id DESC, is_owner DESC, is_aux DESC';
-
-					if ($fromajax == 1) {
-						echo $query;
-						die();
-					}
+					case 'AB':
+					$part .= "is_owner = 't'";
+					break;
+					case 'EB':
+					$part .= "(is_aux = 't' AND ocrr_ptrn = aux_ptrn)";
+					break;
+					case 'EB/KB':
+					$part .= "(is_aux = 't' AND ocrr_ptrn != aux_ptrn)";
+					break;
+					case 'KB':
+					$part .= "(is_aux != 't' AND is_owner != 't')";
+					break;
 				}
-			}
-			else {				
-				return View::make('pages/extractdata', $data);
-			}
+
+				if ($t < count($holtype) - 1)
+					$part .= ' OR ';
+
+				if (($t == count($holtype) - 1) && (count($holtype) > 1))
+					$part .= ')';
+
+$t++;
+}
+if ($part != '') {
+	$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
+	$where = ' ';
+}
+}
+
+break;
+
+case 'state':
+if (isset($state)) {
+	$i++;
+	$part = '';
+	$t = 0;
+	foreach ($state as $st) {
+		if (($t == 0)  && (count($state) > 1))
+			$part .= '(';
+
+				$part .= "state = '".$st."'";
+
+				if ($t < count($state) - 1)
+					$part .= ' OR ';
+
+				if (($t == count($state) - 1) && (count($state) > 1))
+					$part .= ')';
+
+$t++;
+}
+if ($part != '') {
+	$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
+	$where = ' ';
+}
+}
+break;
+
+case '866c':
+if (isset($f866c)) {
+	$i++;
+	$part = '';
+	$t = 0;
+	if ($f866c != '') {
+		$part = sprintf( $f866cformat, 'LOWER(f866c)', pg_escape_string(addslashes(strtolower( $f866c ) ) ) );
+	}
+
+	if ($part != '') {
+		$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
+		$where = ' ';
+	}
+}
+break;
+
+case '852h':
+if (isset($f852h)) {
+	$i++;
+	$part = '';
+	$t = 0;
+	if ($f852h != '') {
+		$part = sprintf( $f852hformat, 'LOWER(f852h)', pg_escape_string(addslashes(strtolower( $f852h ) ) ) );
+	}
+	if ($part != '') {
+		$query .= $where.$OrAndFilter[$i-1].' '.$NotOperator[$i].$part;
+		$where = ' ';
+	}
+}
+break;
+}
+}
+$query .= ' ORDER BY holdingsset_id DESC, is_owner DESC, is_aux DESC';
+
+if ($fromajax == 1) {
+	echo $query;
+	die();
+}
+}
+}
+else {				
+	return View::make('pages/extractdata', $data);
+}
 
 
 
-		}
-	}	
+}
+}	
 
 	/**
 	 * Extract data to a csv file
