@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>bis_tm_Calculation of Holding pattern</title>
+<link rel="stylesheet" href="base.css" />
+</head>
+<body><div class="container"><h3 id="calculation-of-holding-pattern-from-holnrm">Calculation of Holding pattern from hol_nrm</h3>
+
+<p>The hol_nrm consists of 1..n pattern representing the normalized form of a HOP:</p>
+
+<blockquote>
+  <p>HOP_start hyphen HOP_end <br>
+  VVVVvvvvYYYYyyyy-VVVVvvvvYYYYyyyy</p>
+</blockquote>
+
+<p>The completeness of data in the pattern depends on the HOP information in 866a.</p>
+
+<table>
+<thead>
+<tr>
+  <th>Pattern</th>
+  <th>Explanation</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>VVVV</td>
+  <td>Volume</td>
+</tr>
+<tr>
+  <td>vvvv</td>
+  <td>Volume extension</td>
+</tr>
+<tr>
+  <td>YYYY</td>
+  <td>Year</td>
+</tr>
+<tr>
+  <td>yyyy</td>
+  <td>Year extension</td>
+</tr>
+<tr>
+  <td>hyphen</td>
+  <td>if HOP_end is empty: a non terminated HOP</td>
+</tr>
+<tr>
+  <td>no hyphen</td>
+  <td>HOP is not extended (normally 1 year)</td>
+</tr>
+</tbody></table>
+
+
+<p>The holdings pattern is calculated from the hol_nrm of all included HOL. A list of HOX is created and sorted by YYYYyyyyVVVVvvvv.</p>
+
+<p><code></code></p><pre> <br>
+array (size=4) <br>
+  'ptrn' =&gt;  <br>
+    array (size=54) <br>
+      0 =&gt; string '   5    1950    ' (length=16) <br>
+      1 =&gt; string '   6   719511951' (length=16) <br>
+      2 =&gt; string '   6   719511952' (length=16) <br>
+      3 =&gt; string '   8    1953    ' (length=16) <br>
+      4 =&gt; string '   1    1954    ' (length=16) <br>
+      5 =&gt; string '   1  1919541964' (length=16) <br>
+      6 =&gt; string '   9    1954    ' (length=16) <br>
+      7 =&gt; string '   1    1955    ' (length=16) <br>
+      8 =&gt; string '   1   519551959' (length=16) <br>
+      9 =&gt; string '        1957    ' (length=16) <br>
+      10 =&gt; string '   1    1957    ' (length=16) <br>
+      11 =&gt; string '   1   419571960' (length=16) <br>
+      12 =&gt; string '   3    1957    ' (length=16) <br>
+      13 =&gt; string '   1    1959    ' (length=16) <br>
+      14 =&gt; string '   5    1959    ' (length=16) <br>
+      15 =&gt; string '   4    1960    ' (length=16) <br>
+      16 =&gt; string '   1    1962    ' (length=16) <br>
+      17 =&gt; string '   4    1962    ' (length=16) <br>
+      18 =&gt; string '   6    1962    ' (length=16) <br>
+      19 =&gt; string '   1    1963    ' (length=16) <br>
+      20 =&gt; string '  10    1964    ' (length=16) <br>
+      21 =&gt; string '  19    1964    ' (length=16) <br>
+      22 =&gt; string '  21    1964    ' (length=16) <br>
+      23 =&gt; string '        1965    ' (length=16) <br>
+      24 =&gt; string '   1    1965    ' (length=16) <br>
+      25 =&gt; string '   1    1966    ' (length=16) <br>
+      26 =&gt; string '   2    1966    ' (length=16) <br>
+      27 =&gt; string '   6    1969    ' (length=16) <br>
+      28 =&gt; string '   7    1969    ' (length=16) <br>
+      29 =&gt; string '  13    1971    ' (length=16) <br>
+      30 =&gt; string '  10    1973    ' (length=16) <br>
+      31 =&gt; string '  21    1973    ' (length=16) <br>
+      32 =&gt; string '  23    1975    ' (length=16) <br>
+      33 =&gt; string '  13    1976    ' (length=16) <br>
+      34 =&gt; string '  17    1976    ' (length=16) <br>
+      35 =&gt; string '  14    1977    ' (length=16) <br>
+      36 =&gt; string '  18    1977    ' (length=16) <br>
+      37 =&gt; string '  25    1977    ' (length=16) <br>
+      38 =&gt; string '  28    1977    ' (length=16) <br>
+      39 =&gt; string '  15  1619781979' (length=16) <br>
+      40 =&gt; string '  19  2019781979' (length=16) <br>
+      41 =&gt; string '  11    1979    ' (length=16) <br>
+      42 =&gt; string '  15    1979    ' (length=16) <br>
+      43 =&gt; string '  31    1979    ' (length=16) <br>
+      44 =&gt; string '        1980    ' (length=16) <br>
+      45 =&gt; string '   1    1980    ' (length=16) <br>
+      46 =&gt; string '   3    1984    ' (length=16) <br>
+      47 =&gt; string '   5    1986    ' (length=16) <br>
+      48 =&gt; string '   1    1987    ' (length=16) <br>
+      49 =&gt; string '   6    1987    ' (length=16) <br>
+      50 =&gt; string '   7    1987    ' (length=16) <br>
+      51 =&gt; string '   8    1987    ' (length=16) <br>
+      52 =&gt; string '   2    1990    ' (length=16) <br>
+      53 =&gt; string '   5    1990    ' (length=16) <br>
+</pre><p></p>
+
+<p><code></code></p><pre> <br>
+  ‘year_ptrn’ =&gt;  <br>
+    array (size=26) <br>
+      0 =&gt; string ‘1950’ (length=4) <br>
+      1 =&gt; string ‘1951’ (length=4) <br>
+      2 =&gt; string ‘1953’ (length=4) <br>
+      3 =&gt; string ‘1954’ (length=4) <br>
+      4 =&gt; string ‘1955’ (length=4) <br>
+      5 =&gt; string ‘1957’ (length=4) <br>
+      6 =&gt; string ‘1959’ (length=4) <br>
+      7 =&gt; string ‘1960’ (length=4) <br>
+      8 =&gt; string ‘1962’ (length=4) <br>
+      9 =&gt; string ‘1963’ (length=4) <br>
+      10 =&gt; string ‘1964’ (length=4) <br>
+      11 =&gt; string ‘1965’ (length=4) <br>
+      12 =&gt; string ‘1966’ (length=4) <br>
+      13 =&gt; string ‘1969’ (length=4) <br>
+      14 =&gt; string ‘1971’ (length=4) <br>
+      15 =&gt; string ‘1973’ (length=4) <br>
+      16 =&gt; string ‘1975’ (length=4) <br>
+      17 =&gt; string ‘1976’ (length=4) <br>
+      18 =&gt; string ‘1977’ (length=4) <br>
+      19 =&gt; string ‘1978’ (length=4) <br>
+      20 =&gt; string ‘1979’ (length=4) <br>
+      21 =&gt; string ‘1980’ (length=4) <br>
+      22 =&gt; string ‘1984’ (length=4) <br>
+      23 =&gt; string ‘1986’ (length=4) <br>
+      24 =&gt; string ‘1987’ (length=4) <br>
+      25 =&gt; string ‘1990’ (length=4)</pre><p></p>
+
+<p></p></div></body>
+</html>

@@ -1,0 +1,2561 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>bis_tm_statistics</title>
+<link rel="stylesheet" href="base.css" />
+</head>
+<body><div class="container"><h2 id="statistics">Statistics</h2>
+
+<blockquote>
+  <p>bis_tm_statistics.md</p>
+</blockquote>
+
+
+
+<h3 id="a-statistics-for-bis-users">A: Statistics for bIS users</h3>
+
+<p>The data is collected periodically in stats. This information is represented in the statistical page that every user can call.</p>
+
+
+
+<h3 id="b-internal-statistics">B: Internal statistics</h3>
+
+<table>
+<thead>
+<tr>
+  <th>Item</th>
+  <th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>File</td>
+  <td><code>Y02_make-stat-bis-NN.php</code></td>
+</tr>
+<tr>
+  <td>Parameters</td>
+  <td>&lt; table &gt; or ALL</td>
+</tr>
+<tr>
+  <td>Input database</td>
+  <td>server defined by <code>"db-connection-bis.php"</code></td>
+</tr>
+<tr>
+  <td>Output database</td>
+  <td>server defined by <code>"db-connection.php"</code></td>
+</tr>
+<tr>
+  <td>Output</td>
+  <td>entries in local TABLE <code>stat</code></td>
+</tr>
+</tbody></table>
+
+
+<p><em>Example: Analyse details of holdings:</em></p>
+
+<table>
+<thead>
+<tr>
+  <th>Sample</th>
+  <th>Specification</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>Date</td>
+  <td>2015-02-20</td>
+</tr>
+<tr>
+  <td>DB</td>
+  <td>bis</td>
+</tr>
+</tbody></table>
+
+
+
+
+<pre class="prettyprint"><code class=" hljs sql"><span class="hljs-operator"><span class="hljs-keyword">SELECT</span> tab, fld, question, result, crit1, <span class="hljs-keyword">replace</span>(crit2,<span class="hljs-string">'|'</span>,<span class="hljs-string">''</span>) val, comment <span class="hljs-keyword">FROM</span> stat <span class="hljs-keyword">WHERE</span> crit1 &lt;&gt; <span class="hljs-string">'empty'</span> <span class="hljs-keyword">AND</span> tab = <span class="hljs-string">'holdings'</span> <span class="hljs-keyword">AND</span> version = ( 
+  <span class="hljs-keyword">SELECT</span> <span class="hljs-aggregate">max</span>(version) <span class="hljs-keyword">FROM</span> stat
+) <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> id;</span>
+</code></pre>
+
+<table>
+<thead>
+<tr>
+  <th>table</th>
+  <th>field</th>
+  <th>Question</th>
+  <th>Result</th>
+  <th>Value</th>
+  <th>-</th>
+  <th>Values</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>tab</td>
+  <td>fld</td>
+  <td>question</td>
+  <td>result</td>
+  <td>crit1</td>
+  <td>val</td>
+  <td>comment</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>id</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>id</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139300</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>id</td>
+  <td>How many different elements?</td>
+  <td>139300</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 139300</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>holdingsset_id</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>holdingsset_id</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139300</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>holdingsset_id</td>
+  <td>How many different elements?</td>
+  <td>77868</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 77868</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>library_id</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>library_id</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139300</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>library_id</td>
+  <td>How many different elements?</td>
+  <td>5341</td>
+  <td>groups</td>
+  <td>5</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>library_id</td>
+  <td>How many different elements?</td>
+  <td>64846</td>
+  <td>groups</td>
+  <td>6</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>library_id</td>
+  <td>How many different elements?</td>
+  <td>13011</td>
+  <td>groups</td>
+  <td>7</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>library_id</td>
+  <td>How many different elements?</td>
+  <td>14454</td>
+  <td>groups</td>
+  <td>8</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>library_id</td>
+  <td>How many different elements?</td>
+  <td>41648</td>
+  <td>groups</td>
+  <td>9</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>sys2</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>sys2</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139300</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>sys2</td>
+  <td>How many different elements?</td>
+  <td>117472</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 117472</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>g</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>g</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139300</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>g</td>
+  <td>How many different elements?</td>
+  <td>53</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 53</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f022a</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f022a</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>56375</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f022a</td>
+  <td>How many different elements?</td>
+  <td>31348</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 31348</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245a</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245a</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139300</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245a</td>
+  <td>How many different elements?</td>
+  <td>74723</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 74723</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245b</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245b</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>53568</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245b</td>
+  <td>How many different elements?</td>
+  <td>34038</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 34038</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245c</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245c</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>60278</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245c</td>
+  <td>How many different elements?</td>
+  <td>38697</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 38697</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260a</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260a</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139007</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260a</td>
+  <td>How many different elements?</td>
+  <td>10034</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 10034</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>score</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>score</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139059</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>score</td>
+  <td>How many different elements?</td>
+  <td>104</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 104</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>flag</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>flag</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139300</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>flag</td>
+  <td>How many different elements?</td>
+  <td>89094</td>
+  <td>groups</td>
+  <td>=</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>flag</td>
+  <td>How many different elements?</td>
+  <td>50206</td>
+  <td>groups</td>
+  <td>*</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260b</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260b</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>121784</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260b</td>
+  <td>How many different elements?</td>
+  <td>45010</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 45010</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f310a</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f310a</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>54663</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f310a</td>
+  <td>How many different elements?</td>
+  <td>2952</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 2952</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f710a</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f710a</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>76952</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f710a</td>
+  <td>How many different elements?</td>
+  <td>33699</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 33699</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f780t</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f780t</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>41579</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f780t</td>
+  <td>How many different elements?</td>
+  <td>27395</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 27395</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f785t</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f785t</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>40029</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f785t</td>
+  <td>How many different elements?</td>
+  <td>26699</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 26699</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852b</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852b</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139300</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852b</td>
+  <td>How many different elements?</td>
+  <td>28</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 28</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>hol_nrm</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>hol_nrm</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139300</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>hol_nrm</td>
+  <td>How many different elements?</td>
+  <td>66701</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 66701</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>probability</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>probability</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>probability</td>
+  <td>How many different elements?</td>
+  <td>139300</td>
+  <td>groups</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f008x</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f008x</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>135121</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f008x</td>
+  <td>How many different elements?</td>
+  <td>400</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 400</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f008y</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f008y</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>136032</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f008y</td>
+  <td>How many different elements?</td>
+  <td>371</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 371</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f362a</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f362a</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>119829</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f362a</td>
+  <td>How many different elements?</td>
+  <td>76021</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 76021</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866a</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866a</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139100</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866a</td>
+  <td>How many different elements?</td>
+  <td>106052</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 106052</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866z</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866z</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>2586</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866z</td>
+  <td>How many different elements?</td>
+  <td>592</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 592</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852h</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852h</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>133247</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852h</td>
+  <td>How many different elements?</td>
+  <td>106749</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 106749</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>i</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>i</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>i</td>
+  <td>How many different elements?</td>
+  <td>139300</td>
+  <td>groups</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_owner</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_owner</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_owner</td>
+  <td>How many different elements?</td>
+  <td>76026</td>
+  <td>groups</td>
+  <td>f</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_owner</td>
+  <td>How many different elements?</td>
+  <td>63274</td>
+  <td>groups</td>
+  <td>t</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>ptrn</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>ptrn</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>121460</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>ptrn</td>
+  <td>How many different elements?</td>
+  <td>49011</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 49011</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>ocrr_ptrn</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>ocrr_ptrn</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>121572</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>ocrr_ptrn</td>
+  <td>How many different elements?</td>
+  <td>5780</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 5780</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>aux_ptrn</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>aux_ptrn</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>48055</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>aux_ptrn</td>
+  <td>How many different elements?</td>
+  <td>889</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 889</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>j_ptrn</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>j_ptrn</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>121572</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>j_ptrn</td>
+  <td>How many different elements?</td>
+  <td>1280</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 1280</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>weight</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>weight</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>2428</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>weight</td>
+  <td>How many different elements?</td>
+  <td>206</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 206</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>ocrr_nr</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>ocrr_nr</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>2428</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>ocrr_nr</td>
+  <td>How many different elements?</td>
+  <td>35</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 35</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_aux</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_aux</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_aux</td>
+  <td>How many different elements?</td>
+  <td>136141</td>
+  <td>groups</td>
+  <td>f</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_aux</td>
+  <td>How many different elements?</td>
+  <td>3159</td>
+  <td>groups</td>
+  <td>t</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>pot_owner</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>pot_owner</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>pot_owner</td>
+  <td>How many different elements?</td>
+  <td>108878</td>
+  <td>groups</td>
+  <td>f</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>pot_owner</td>
+  <td>How many different elements?</td>
+  <td>30422</td>
+  <td>groups</td>
+  <td>t</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>hbib</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>hbib</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139300</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>hbib</td>
+  <td>How many different elements?</td>
+  <td>5341</td>
+  <td>groups</td>
+  <td>AKB</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>hbib</td>
+  <td>How many different elements?</td>
+  <td>14454</td>
+  <td>groups</td>
+  <td>HBZ</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>hbib</td>
+  <td>How many different elements?</td>
+  <td>64846</td>
+  <td>groups</td>
+  <td>UBB</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>hbib</td>
+  <td>How many different elements?</td>
+  <td>41648</td>
+  <td>groups</td>
+  <td>ZBZ</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>hbib</td>
+  <td>How many different elements?</td>
+  <td>13011</td>
+  <td>groups</td>
+  <td>ZHB</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f246a</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f246a</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>43220</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f246a</td>
+  <td>How many different elements?</td>
+  <td>30326</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 30326</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f300a</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f300a</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>2260</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f300a</td>
+  <td>How many different elements?</td>
+  <td>449</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 449</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f300b</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f300b</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>3767</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f300b</td>
+  <td>How many different elements?</td>
+  <td>425</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 425</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f300c</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f300c</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>23060</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f300c</td>
+  <td>How many different elements?</td>
+  <td>471</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 471</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f500a</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f500a</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>60707</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f500a</td>
+  <td>How many different elements?</td>
+  <td>36952</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 36952</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f505a</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f505a</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>620</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f505a</td>
+  <td>How many different elements?</td>
+  <td>424</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 424</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f770t</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f770t</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>7104</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f770t</td>
+  <td>How many different elements?</td>
+  <td>4065</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 4065</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f772t</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f772t</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>4817</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f772t</td>
+  <td>How many different elements?</td>
+  <td>2566</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 2566</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852a</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852a</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>56092</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852a</td>
+  <td>How many different elements?</td>
+  <td>40397</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 40397</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852j</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852j</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>50245</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852j</td>
+  <td>How many different elements?</td>
+  <td>39867</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 39867</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866c</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866c</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866c</td>
+  <td>How many different elements?</td>
+  <td>139300</td>
+  <td>groups</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866h</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866h</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866h</td>
+  <td>How many different elements?</td>
+  <td>139300</td>
+  <td>groups</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>exists_online</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>exists_online</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>exists_online</td>
+  <td>How many different elements?</td>
+  <td>127414</td>
+  <td>groups</td>
+  <td>f</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>exists_online</td>
+  <td>How many different elements?</td>
+  <td>11886</td>
+  <td>groups</td>
+  <td>t</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_current</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_current</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_current</td>
+  <td>How many different elements?</td>
+  <td>84057</td>
+  <td>groups</td>
+  <td>f</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_current</td>
+  <td>How many different elements?</td>
+  <td>55243</td>
+  <td>groups</td>
+  <td>t</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>has_incomplete_vols</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>has_incomplete_vols</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>has_incomplete_vols</td>
+  <td>How many different elements?</td>
+  <td>129818</td>
+  <td>groups</td>
+  <td>f</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>has_incomplete_vols</td>
+  <td>How many different elements?</td>
+  <td>9482</td>
+  <td>groups</td>
+  <td>t</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>size</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>size</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>size</td>
+  <td>How many different elements?</td>
+  <td>139300</td>
+  <td>groups</td>
+  <td>0</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>force_owner</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>force_owner</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>force_owner</td>
+  <td>How many different elements?</td>
+  <td>139300</td>
+  <td>groups</td>
+  <td>f</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>force_aux</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>force_aux</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>force_aux</td>
+  <td>How many different elements?</td>
+  <td>139300</td>
+  <td>groups</td>
+  <td>f</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866aupdated</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866aupdated</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139245</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866aupdated</td>
+  <td>How many different elements?</td>
+  <td>109156</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 109156</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866aupdatedby</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866aupdatedby</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866aupdatedby</td>
+  <td>How many different elements?</td>
+  <td>139300</td>
+  <td>groups</td>
+  <td>0</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>delivered</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>delivered</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>delivered</td>
+  <td>How many different elements?</td>
+  <td>139300</td>
+  <td>groups</td>
+  <td>f</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>received</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>received</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>received</td>
+  <td>How many different elements?</td>
+  <td>139300</td>
+  <td>groups</td>
+  <td>f</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f_tit</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f_tit</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139294</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f_tit</td>
+  <td>How many different elements?</td>
+  <td>101327</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 101327</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260c</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260c</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>12106</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260c</td>
+  <td>How many different elements?</td>
+  <td>3590</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 3590</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f710b</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f710b</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>14388</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f710b</td>
+  <td>How many different elements?</td>
+  <td>4341</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 4341</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245a_e</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245a_e</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139300</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245a_e</td>
+  <td>How many different elements?</td>
+  <td>73278</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 73278</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245b_e</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245b_e</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>53568</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245b_e</td>
+  <td>How many different elements?</td>
+  <td>33639</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 33639</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245c_e</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245c_e</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>60278</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245c_e</td>
+  <td>How many different elements?</td>
+  <td>38006</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 38006</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f_tit_e</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f_tit_e</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139294</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f_tit_e</td>
+  <td>How many different elements?</td>
+  <td>100610</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 100610</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260a_e</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260a_e</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139007</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260a_e</td>
+  <td>How many different elements?</td>
+  <td>9912</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 9912</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260b_e</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260b_e</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>121784</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260b_e</td>
+  <td>How many different elements?</td>
+  <td>44080</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 44080</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f310a_e</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f310a_e</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>54465</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f310a_e</td>
+  <td>How many different elements?</td>
+  <td>1725</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 1725</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f362a_e</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f362a_e</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>119828</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f362a_e</td>
+  <td>How many different elements?</td>
+  <td>66774</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 66774</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f710a_e</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f710a_e</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>76952</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f710a_e</td>
+  <td>How many different elements?</td>
+  <td>33020</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 33020</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f780t_e</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f780t_e</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>41579</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f780t_e</td>
+  <td>How many different elements?</td>
+  <td>27010</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 27010</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f785t_e</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f785t_e</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>40029</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f785t_e</td>
+  <td>How many different elements?</td>
+  <td>26338</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 26338</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>state</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>state</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139300</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>state</td>
+  <td>How many different elements?</td>
+  <td>117840</td>
+  <td>groups</td>
+  <td>blank</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>state</td>
+  <td>How many different elements?</td>
+  <td>21055</td>
+  <td>groups</td>
+  <td>blank_reserved</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>state</td>
+  <td>How many different elements?</td>
+  <td>323</td>
+  <td>groups</td>
+  <td>confirmed</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>state</td>
+  <td>How many different elements?</td>
+  <td>82</td>
+  <td>groups</td>
+  <td>confirmed_reserved</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_pref</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_pref</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_pref</td>
+  <td>How many different elements?</td>
+  <td>139300</td>
+  <td>groups</td>
+  <td>f</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>force_blue</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>force_blue</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>force_blue</td>
+  <td>How many different elements?</td>
+  <td>139300</td>
+  <td>groups</td>
+  <td>f</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245p</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245p</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>6644</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245p</td>
+  <td>How many different elements?</td>
+  <td>3846</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 3846</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245n</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245n</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>2158</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245n</td>
+  <td>How many different elements?</td>
+  <td>1354</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 1354</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852h_e</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852h_e</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>131990</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852h_e</td>
+  <td>How many different elements?</td>
+  <td>106652</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 106652</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>years</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>years</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>years</td>
+  <td>How many different elements?</td>
+  <td>139300</td>
+  <td>groups</td>
+  <td>0</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f072a</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f072a</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>64639</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f072a</td>
+  <td>How many different elements?</td>
+  <td>4443</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 4443</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>c_arr</td>
+  <td>How many entries are in table?</td>
+  <td>3324</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>c_arr</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>3102</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>c_arr</td>
+  <td>How many different elements?</td>
+  <td>817</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 817</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>fx866a</td>
+  <td>How many entries are in table?</td>
+  <td>3324</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>fx866a</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>1985</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>fx866a</td>
+  <td>How many different elements?</td>
+  <td>1736</td>
+  <td>groups</td>
+  <td>Total Number</td>
+  <td>Elements: 1736</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>size_dispatchable</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>size_dispatchable</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>0</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>size_dispatchable</td>
+  <td>How many different elements?</td>
+  <td>139300</td>
+  <td>groups</td>
+  <td>0</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>recallholnrm</td>
+  <td>How many entries are in table?</td>
+  <td>139300</td>
+  <td>total</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>recallholnrm</td>
+  <td>How many non-empty entries are in table?</td>
+  <td>139300</td>
+  <td>non-empty</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>recallholnrm</td>
+  <td>How many different elements?</td>
+  <td>139300</td>
+  <td>groups</td>
+  <td>1</td>
+  <td></td>
+</tr>
+</tbody></table></div></body>
+</html>

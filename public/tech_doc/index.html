@@ -1,0 +1,2384 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>bIS Technical Documentation V221</title>
+<link rel="stylesheet" href="base.css" />
+</head>
+<body><div class="container"><hr>
+
+<p><strong>Projekt Speicherbibliothek</strong></p>
+
+<h1> bIS Technical Documentation</h1>
+
+<p><strong>Acompanying Information System (bIS)</strong> <br>
+Begleitendes Informationssystem</p>
+
+<p>Version 2.20 (2015-03-24) <br>
+Supervisor: piguet@trialog.ch</p>
+
+<hr>
+
+<p><strong>Content</strong></p>
+
+<p><div class="toc">
+<ul>
+<li><a href="#preface">Preface</a><ul>
+<li><a href="#knowledge-for-system-design-programming-maintenance-and-enhancement">Knowledge for system design, programming, maintenance and enhancement</a></li>
+<li><a href="#terminology">Terminology</a></li>
+</ul>
+</li>
+<li><a href="#basic-design-of-bis">Basic Design of bIS</a><ul>
+<li><a href="#roles">Roles</a></li>
+<li><a href="#user-interaction">User interaction</a></li>
+</ul>
+</li>
+<li><a href="#bis-functions-explained">bIS  Functions explained</a><ul>
+<li><a href="#pre-processing-of-marc-data">Pre-processing of MARC data</a></li>
+<li><a href="#workflow-manager">Workflow Manager</a></li>
+<li><a href="#filtering-hol-and-hos">Filtering HOL and HOS</a></li>
+<li><a href="#recognizing-content-of-field-866a">Recognizing content of field 866a</a></li>
+<li><a href="#calculation-of-holding-pattern-from-holnrm">Calculation of Holding pattern from hol_nrm</a></li>
+<li><a href="#calculation-of-hol-pattern">Calculation of HOL pattern</a></li>
+<li><a href="#similarity-search">Similarity Search</a></li>
+<li><a href="#hos-confirmation">HOS confirmation</a></li>
+<li><a href="#occurrence-pattern">Occurrence Pattern</a></li>
+</ul>
+</li>
+<li><a href="#how-to-install-and-maintain-the-bis">How to install and maintain the bIS</a><ul>
+<li><a href="#installation">Installation</a></li>
+</ul>
+</li>
+<li><a href="#administrator-tasks">Administrator Tasks</a><ul>
+<li><a href="#access-to-systems">Access to systems</a></li>
+<li><a href="#scripts-for-maintanance-and-initial-jobs-loading-database">Scripts for maintanance and initial jobs (loading database):</a></li>
+<li><a href="#backup">Backup</a></li>
+<li><a href="#system-update">System update</a></li>
+<li><a href="#system-restore">System restore</a></li>
+<li><a href="#system-monitoring">System Monitoring</a><ul>
+<li><a href="#monitoring-of-system-welldoing">Monitoring of system welldoing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#program-code">Program Code</a><ul>
+<li><a href="#third-party-software-used">Third Party Software used</a></li>
+<li><a href="#language-translation">Language translation</a><ul>
+<li><a href="#sample-for-translations">Sample for translations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</p>
+
+<hr>
+
+<p><strong>Annexes (External documents):</strong></p>
+
+<table>
+<thead>
+<tr>
+  <th>Link</th>
+  <th>Subject</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td><a href="bis_tm_tables.html">Tables</a></td>
+  <td>Table description</td>
+</tr>
+<tr>
+  <td><a href="bis_tm_fields.html">Fields</a></td>
+  <td>Table field description</td>
+</tr>
+<tr>
+  <td><a href="bis_tm_filelist.html">Dirctories and files</a></td>
+  <td>Directory an file description</td>
+</tr>
+<tr>
+  <td><a href="bis_tm_pattern_recognition_866a.html">Pattern Recognition</a></td>
+  <td>Sample of recognition process</td>
+</tr>
+<tr>
+  <td><a href="bis_tm_patches.html">Patches</a></td>
+  <td>Patches prepared for special tasks</td>
+</tr>
+<tr>
+  <td><a href="bis_tm_statistics.html">Statistics</a></td>
+  <td>Statistics about the system</td>
+</tr>
+</tbody></table>
+
+
+<hr size="5">
+
+<h1 id="preface">Preface</h1>
+
+<p>The technical manual gives the necessary information to maintain the system. It gives rapid orientation where to change something in case of a problem or a necessary enhancement. It gives <strong>no</strong> information about third party software used. This information is available on Web pages and in other publicly available documents. Brief orientation is about:</p>
+
+<blockquote>
+  <ul>
+  <li>technical basis for the bIS</li>
+  <li>system requirements</li>
+  <li>functional behavior</li>
+  <li>procedures for setting up the system and loading the data</li>
+  <li>data recovery</li>
+  </ul>
+</blockquote>
+
+<p>For details see the program files and for external programming elements the documentation available. Examples:</p>
+
+<table>
+<thead>
+<tr>
+  <th>System</th>
+  <th>Specific information source</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>PostgreSQL</td>
+  <td>www.postgresql.com</td>
+</tr>
+<tr>
+  <td>Laravel</td>
+  <td><a href="http://laravel.com/">http://laravel.com/</a></td>
+</tr>
+<tr>
+  <td>jQuery</td>
+  <td><a href="http://jquery.com/">http://jquery.com/</a></td>
+</tr>
+<tr>
+  <td>LESS</td>
+  <td><a href="http://www.lesscss.org/">http://www.lesscss.org/</a></td>
+</tr>
+<tr>
+  <td>GitHub</td>
+  <td><a href="https://github.com/">https://github.com/</a></td>
+</tr>
+</tbody></table>
+
+
+<p>Other documents are: </p>
+
+<table>
+<thead>
+<tr>
+  <th>Document</th>
+  <th>Content</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td><strong>User documentation</strong></td>
+  <td>As the system is designed only for trained users, the user documentation will be short. Where help is really needed, a online help will be offered (german) and a not public</td>
+</tr>
+<tr>
+  <td><strong>Cheat sheet</strong></td>
+  <td>List of passwords (only for assigned systems administrators)</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h2 id="knowledge-for-system-design-programming-maintenance-and-enhancement">Knowledge for system design, programming, maintenance and enhancement</h2>
+
+<p>General knowledge concerning informatics and user interfaces are omitted.</p>
+
+<table>
+<thead>
+<tr>
+  <th>Task</th>
+  <th>Knowledge</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>System design</td>
+  <td>Logistics: Library processes<br>Librery Management Systems<br>Library item descriptions: MARC data<br>Periodicals</td>
+</tr>
+<tr>
+  <td>Programming</td>
+  <td>php<br>laravel (and other php libraries)<br>jQuery (and a lot more of JavaScript libraries)<br>user interface design<br>PostgreSQL<br>gin<br>…</td>
+</tr>
+<tr>
+  <td>System installation</td>
+  <td>LAMP<br>PostgreSQL utilities</td>
+</tr>
+<tr>
+  <td>System monitoring</td>
+  <td>htop<br>phppgadmin<br>Specific Host Tools (hetzner)</td>
+</tr>
+<tr>
+  <td>System maintenance</td>
+  <td>LAMP<br>git</td>
+</tr>
+<tr>
+  <td>System restoring</td>
+  <td>git<br>LAMP<br>psql</td>
+</tr>
+<tr>
+  <td>System enhancement</td>
+  <td>all the above</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h2 id="terminology">Terminology</h2>
+
+<p>We use some specific terminology for the bIS. Most of the German abbreviations have been maintained.</p>
+
+<table>
+<thead>
+<tr>
+  <th>Term</th>
+  <th>Abbr.</th>
+  <th>Explanation</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>Title record<br>(= MARC record)</td>
+  <td>TA</td>
+  <td>A title records in a LMS in einem Katalog (the same einem MARC record)</td>
+</tr>
+<tr>
+  <td>holding-set</td>
+  <td>HOS</td>
+  <td>A set consists of the holdings of the title records (TA) from all LMS, that represent presumably the same journal.</td>
+</tr>
+<tr>
+  <td>Holding</td>
+  <td>HOL</td>
+  <td>The holding(s) from a sub-Library (SBIB).</td>
+</tr>
+<tr>
+  <td>xxx HOL</td>
+  <td>HOT</td>
+  <td>Part of a HOL. Can consist of 1..n HOP</td>
+</tr>
+<tr>
+  <td>HOL</td>
+  <td>HOP</td>
+  <td>Part of a HOL delimited by ;</td>
+</tr>
+<tr>
+  <td>(HOL extract)</td>
+  <td>HOX</td>
+  <td>Extract of a HOL that can be compared to other extracts of HOL</td>
+</tr>
+<tr>
+  <td>Holding (Information)</td>
+  <td>-</td>
+  <td>The string that contain the complete holding information.</td>
+</tr>
+<tr>
+  <td>Selection group of Holdings Sets (HOS)</td>
+  <td>HOSG</td>
+  <td>A collection of holding-sets (HOS).</td>
+</tr>
+<tr>
+  <td>Selection group of Holdings (HOL)</td>
+  <td>HOLG</td>
+  <td>A group a Holdings (HOL).</td>
+</tr>
+<tr>
+  <td>Library Management System</td>
+  <td>BVS / LMS</td>
+  <td>System for Managing Libraries and their holdings. Example: Aleph.</td>
+</tr>
+<tr>
+  <td>(Main) Library</td>
+  <td>HBIB</td>
+  <td>One of the main libraries. The records within the Aleph LMS are mostly organized within sub-libraries (SBIB).</td>
+</tr>
+<tr>
+  <td>Sub-Library</td>
+  <td>SBIB</td>
+  <td>Sub-Library as mentioned in field 852h</td>
+</tr>
+<tr>
+  <td>Main Holding</td>
+  <td>HHOL</td>
+  <td>Holding of a library that has been selected as the „archive holdings“.</td>
+</tr>
+<tr>
+  <td>Additional Holding („auxiliary“)</td>
+  <td>EHOL</td>
+  <td>Additional holdings of a journal that will complete the Main Holdings.</td>
+</tr>
+<tr>
+  <td>Field (MARC)</td>
+  <td>FELD</td>
+  <td>MARC field. Example: 245</td>
+</tr>
+<tr>
+  <td>sub-field (MARC)</td>
+  <td>SFLD</td>
+  <td>sub-field (Example: 245$a, mostly written as 245a).</td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>TPrB</td>
+  <td>Part project of the Project Speicherbibliothek responsible for the production phase</td>
+</tr>
+<tr>
+  <td><strong>Technical Terms</strong></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>Entity</td>
+  <td>-</td>
+  <td>Simply said, an object in the bIS: TA; HOL, HOS, HOSG und HOLG.</td>
+</tr>
+<tr>
+  <td>f…</td>
+  <td>f…</td>
+  <td>Name of a MARC sub-field within the bIS (Example: f245a).</td>
+</tr>
+<tr>
+  <td>f008x</td>
+  <td>-</td>
+  <td>First year of publication within the MARC field 008.</td>
+</tr>
+<tr>
+  <td>f008y</td>
+  <td>-</td>
+  <td>Last year of publication MARC field 008.</td>
+</tr>
+<tr>
+  <td>bib</td>
+  <td></td>
+  <td>Technical name of a LMS or the according main library (HBIB)</td>
+</tr>
+<tr>
+  <td>sys</td>
+  <td></td>
+  <td>System nummer of a MARC record</td>
+</tr>
+<tr>
+  <td>bib+sys</td>
+  <td></td>
+  <td>Identity of a MARC record within the bIS</td>
+</tr>
+<tr>
+  <td><strong>User Terms</strong></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>Archivbestand</td>
+  <td>AB</td>
+  <td>The “main” HOL. It should be the most complete holding (red).</td>
+</tr>
+<tr>
+  <td>Ergänzungsbestand</td>
+  <td>EB</td>
+  <td>The “auxiliary” HOL, that helps to complete the main HOL (yellow).</td>
+</tr>
+<tr>
+  <td>Kassationsbestand</td>
+  <td>KB</td>
+  <td>The “remaining” HOL (blue).</td>
+</tr>
+<tr>
+  <td>Reservierter Bestand</td>
+  <td>RB</td>
+  <td>HOL that a libraries wants to exclude from de deduplication process</td>
+</tr>
+<tr>
+  <td>-</td>
+  <td>-</td>
+  <td>not recognized HOL (white).</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h1 id="basic-design-of-bis">Basic Design of bIS</h1>
+
+<p>The Begleitendes Informationssystem (bIS) is a tailor-made system comissionend by Swiss libraries to better solve the deduplication of  library holdings (www.speicherbibliothek.ch). It serves specially to deduplicate periodicals in different libraries in Switzerland. <br>
+T <br>
+his is a description of how bIS work. It aids troubleshooting by providing the troubleshooter with a mental model of how the system is supposed to work. The troubleshooter can then more easily identify discrepancies, to aid diagnosis of problem.</p>
+
+<table>
+<thead>
+<tr>
+  <th>Object</th>
+  <th>id</th>
+  <th>Definition</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>TA</td>
+  <td>library system (bib) + system number (sys)</td>
+  <td>A title records defined by a MARC record</td>
+</tr>
+<tr>
+  <td>HOL</td>
+  <td>library system (bib) + system number (sys)</td>
+  <td>A holding from a MARC record</td>
+</tr>
+<tr>
+  <td>HOS</td>
+  <td>library system (bib) + system number (sys) + holding group number (g)</td>
+  <td>Holdings groups by similarity of its TA</td>
+</tr>
+</tbody></table>
+
+
+<p>The basic item in bIS is the HOL. Is alway contains (redunantly) data from TA, because TA is not represented in bIS.</p>
+
+<p>In an offline process these HOL have been compared by it’s title information (see programs) to build the Holdings Sets (HOS). They represent all holdings found of a unique title. This list of HOL (hol_out) is transferred to the bIS.</p>
+
+<p>As the comparation by similarity cannot be a perfect process, the HOS must be verified by librarian. They can add or remove HOL and evntually confirm the correctness of a HOS. Every HOS must contain a “owner” (AB)</p>
+
+<p>After this step only HOL are regarded until the final steps.</p>
+
+
+
+<h2 id="roles">Roles</h2>
+
+<p>Every User can have one role. Exception: A BIBUSER can have also a RESUSER role.</p>
+
+<table>
+<thead>
+<tr>
+  <th>Area</th>
+  <th>role</th>
+  <th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>system</td>
+  <td>SYSUSER</td>
+  <td>system administrator: manages superuser of libraries</td>
+</tr>
+<tr>
+  <td>library</td>
+  <td>SUPERUSER</td>
+  <td>super librarian: manages users on library</td>
+</tr>
+<tr>
+  <td>RESUSER</td>
+  <td>librarian. Decides over retention on HOL. Now combinded with BIBUSER</td>
+  <td></td>
+</tr>
+<tr>
+  <td>BIBUSER</td>
+  <td>librarian. Controls HOS</td>
+  <td></td>
+</tr>
+<tr>
+  <td>storage</td>
+  <td>MAGVUSER</td>
+  <td>storage manager</td>
+</tr>
+<tr>
+  <td>MAGUSER</td>
+  <td>storage worker</td>
+  <td></td>
+</tr>
+<tr>
+  <td>post office</td>
+  <td>POSTUSER</td>
+  <td>port office worker</td>
+</tr>
+<tr>
+  <td>storage library</td>
+  <td>SPEICHUSER</td>
+  <td>collaborator of the storage library</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h2 id="user-interaction">User interaction</h2>
+
+<p>Every menu item opens a HTML page where all inforamtional elements and all elements to interact with the system. </p>
+
+
+
+<h1 id="bis-functions-explained">bIS  Functions explained</h1>
+
+<p>In the following chapter are described solutions for some essential functions of the bIS. Further details can be found in the program files.</p>
+
+
+
+<h2 id="pre-processing-of-marc-data">Pre-processing of MARC data</h2>
+
+<p>The MARC data for the bIS has been prepared in an offline process. This is for historical reasons, as the comparation of titles has been requested first as a one-time work. This step contains:</p>
+
+<ul>
+<li>reading MARC data into a database on a subfield basis</li>
+<li>statistical analysis to learn about the heterogeneity of the data and to determine the best way to compare TA</li>
+<li>recognition of the content of field 866a</li>
+</ul>
+
+<p>Most pre-processes have later been integrated into bIS (editing of 866a, recalculation of HOS).</p>
+
+<p>The result has been tranferred to the bIS by these tables:</p>
+
+<table>
+<thead>
+<tr>
+  <th>Table</th>
+  <th>Content</th>
+  <th>Use</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>hol_out</td>
+  <td>all HOL (grouped to HOS by sys1)</td>
+  <td>Read into TABLE holdings and TABLE holdingssets</td>
+</tr>
+<tr>
+  <td>tit_freq</td>
+  <td>list of frequently appearing string in f245a</td>
+  <td>Copied to TABLE tit_frequ</td>
+</tr>
+<tr>
+  <td>hol_values</td>
+  <td>Knowledge base for f866a</td>
+  <td>Copied to TABLE hol_values</td>
+</tr>
+<tr>
+  <td>libraries</td>
+  <td>List of libraries</td>
+  <td>Read into TABLE libraries</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h2 id="workflow-manager">Workflow Manager</h2>
+
+<p>For a complete description and further details of the workflow consult the User Manual (german).</p>
+
+<p>The workflow of bIS are managed through the states of HOL and HOS. User action can change the state. According to the state the HOL and HOS are presented to other roles for further treatment defined in the workflow scheme.</p>
+
+<p><strong>State of HOL</strong> <br>
+Every HOL is presented to a role according to it’s state, it’s library attribute (users can only se the HOL of his library!).  The additional states “annotated” and “reserved” appear appended with a underline to the value in state as these two states can occur in parallel. <br>
+The following holdings.state are used until now (further enhancements are possible):</p>
+
+<table>
+<thead>
+<tr>
+  <th>state</th>
+  <th>Description</th>
+  <th>user</th>
+  <th>Status_en</th>
+  <th>Status_de</th>
+  <th>filter_prog</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>blank</td>
+  <td>HOL not touched by user</td>
+  <td>none</td>
+  <td>(still without status)</td>
+  <td>HOS ungeprüft (Hand weiss)</td>
+  <td>state=blank</td>
+</tr>
+<tr>
+  <td>confirmed</td>
+  <td>HOL of a confirmed</td>
+  <td>HOS (green hand).</td>
+  <td>BIBUSER</td>
+  <td>HOS ok</td>
+  <td>HOS ok (Hand grün)</td>
+</tr>
+<tr>
+  <td>incorrected</td>
+  <td>HOL of a unsolvable HOS</td>
+  <td>BIBUSER</td>
+  <td>(Unsolvable)</td>
+  <td>(Ungelöst)</td>
+  <td>state=incorrected</td>
+</tr>
+<tr>
+  <td>annotated</td>
+  <td>HOL has been annotated by MAGUSER</td>
+  <td>MAGUSER</td>
+  <td>Annotated by MAGUSER</td>
+  <td>Von MAGUSER annotiert</td>
+  <td>state=annotated</td>
+</tr>
+<tr>
+  <td>revised_annotated</td>
+  <td>HOL has been revised and annotated by MAGUSER</td>
+  <td>MAGUSER</td>
+  <td>Annotated and back to BIBUSER</td>
+  <td>Mit Annotation zurück an BIBUSER</td>
+  <td>state=revised_annotated</td>
+</tr>
+<tr>
+  <td>ok</td>
+  <td>HOL controlled by MAGUSER</td>
+  <td>MAGUSER</td>
+  <td>HOL available</td>
+  <td>HOL vorhanden</td>
+  <td>state=ok</td>
+</tr>
+<tr>
+  <td>revised_ok</td>
+  <td>HOL controlled by MAGUSER and list full revised</td>
+  <td>MAGUSER</td>
+  <td>HOL can be delivered to SPB</td>
+  <td>HOL kann an SPB abgegeben werden</td>
+  <td>state=revised_ok</td>
+</tr>
+<tr>
+  <td>commented</td>
+  <td>HOL has be commented by postuser</td>
+  <td>POSTUSER</td>
+  <td>Delivery problem</td>
+  <td>Versandproblem</td>
+  <td>state=commented</td>
+</tr>
+<tr>
+  <td>delivery</td>
+  <td>HOL delivered to SPB</td>
+  <td>POSTUSER</td>
+  <td>Sent to SPB</td>
+  <td>Zur SPB gesandt</td>
+  <td>state=delivered</td>
+</tr>
+<tr>
+  <td>received</td>
+  <td>HOL received by SPB</td>
+  <td>SPEIUSER</td>
+  <td>Integrated in SPB</td>
+  <td>In SPB integrierte</td>
+  <td>state=received</td>
+</tr>
+<tr>
+  <td>integrated</td>
+  <td>HOS integrated in SPB</td>
+  <td>auto</td>
+  <td>Completely integrated</td>
+  <td>Komplett integriert</td>
+  <td>state=integrated</td>
+</tr>
+<tr>
+  <td>spare</td>
+  <td>HOL is no more needed</td>
+  <td>auto</td>
+  <td>Spare HOL</td>
+  <td>Überschüssig</td>
+  <td>state=spare</td>
+</tr>
+<tr>
+  <td>trash</td>
+  <td>HOL location changed in original Catalogue</td>
+  <td>BIBUSER</td>
+  <td>To eliminate</td>
+  <td>-</td>
+  <td>state=trash</td>
+</tr>
+<tr>
+  <td>burn</td>
+  <td>HOL can be eliminated</td>
+  <td>BIBUSER</td>
+  <td>HOL eliminated physically</td>
+  <td>HOL physisch eliminiert</td>
+  <td>state=burn</td>
+</tr>
+<tr>
+  <td>deleted</td>
+  <td>HOL has been eliminated</td>
+  <td>MAGUSER</td>
+  <td>In SPB (end)</td>
+  <td>In SPB (Ende)</td>
+  <td>state=deleted</td>
+</tr>
+<tr>
+  <td><strong>Examples for _reserved</strong></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>blank_reserved</td>
+  <td></td>
+  <td>RESUSER</td>
+  <td>Reserved</td>
+  <td>Reserviert</td>
+  <td></td>
+</tr>
+<tr>
+  <td>confirmed_reserved</td>
+  <td></td>
+  <td>RESUSER</td>
+  <td>Reserved</td>
+  <td>Reserviert</td>
+  <td></td>
+</tr>
+</tbody></table>
+
+
+<p><strong>State of HOS</strong> <br>
+In TABLE <code>holdingssets</code> the field <code>state</code> reflects the state of the HOS that could be:</p>
+
+<table>
+<thead>
+<tr>
+  <th>HOS state</th>
+  <th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>blank</td>
+  <td>HOS not confirmed by BIBUSER (white hand)</td>
+</tr>
+<tr>
+  <td>ok</td>
+  <td>HOS confirmed (green hand)</td>
+</tr>
+</tbody></table>
+
+
+<p>The state is written into several tables. Other tables reflect the same state to accelerate visualization (remark: That was initially an issue).</p>
+
+<table>
+<thead>
+<tr>
+  <th>Table</th>
+  <th>Function</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>confirms</td>
+  <td>Entry marks a HOL for confirmation</td>
+</tr>
+<tr>
+  <td>deliveries</td>
+  <td>Entry marks a HOL for delivery</td>
+</tr>
+<tr>
+  <td>incorrects</td>
+  <td>Entry marks an incorrect HOS</td>
+</tr>
+<tr>
+  <td>lockeds</td>
+  <td>Entry marks a reserved HOL</td>
+</tr>
+<tr>
+  <td>receiveds</td>
+  <td>Entry marks a received HOL</td>
+</tr>
+<tr>
+  <td>reserves</td>
+  <td>Entry marks a HOL for reservation</td>
+</tr>
+<tr>
+  <td>reviseds</td>
+  <td>Entry marks a revised HOL</td>
+</tr>
+</tbody></table>
+
+
+<p><strong>History of HOS state and list generation</strong></p>
+
+<p>The history of the state of HOS is stored in TABLE <code>traces</code>. The history of lists and groups is stored in the sam table.</p>
+
+<table>
+<thead>
+<tr>
+  <th>object_type</th>
+  <th>Explanation</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>holdingsset</td>
+  <td>Confirmation of HOS</td>
+</tr>
+<tr>
+  <td>group</td>
+  <td>Building of groups</td>
+</tr>
+<tr>
+  <td>hlist</td>
+  <td>Building of HOL lists</td>
+</tr>
+</tbody></table>
+
+
+<p>Most changes of HOL states are stored for bIS efficiency reasons also in separate tables.</p>
+
+<p>table      : HOL state <br>
+———–:———– <br>
+confirmeds : confirmed <br>
+incorrects : incorrected <br>
+locked     : .*_reserved <br>
+receiveds  : received <br>
+reviseds   : revised</p>
+
+<p>The HOL state history is maintained in TABLE state:</p>
+
+<p>table      : HOL state <br>
+———–:———– <br>
+state      : (all states may occur.)</p>
+
+<p><strong>Historial of HOS state and list generation</strong></p>
+
+<p>The history of the state of HOS is stored in traces. The history of lists and groups is stored in the same table.</p>
+
+<p><strong>object_type</strong> <br>
+holdingsset <br>
+group <br>
+hlist</p>
+
+
+
+<h2 id="filtering-hol-and-hos">Filtering HOL and HOS</h2>
+
+<p>Different pages have three different filter groups to get the right HOL and HOS for every step in the workflow.</p>
+
+<table>
+<thead>
+<tr>
+  <th>Status_en</th>
+  <th>Status_de</th>
+  <th>filter_prog</th>
+  <th>Menu</th>
+  <th>Filter_en</th>
+  <th>Filter_de</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>(still without status)</td>
+  <td>HOS ungeprüft (Hand weiss)</td>
+  <td>state=blank</td>
+  <td>Holdingsset</td>
+  <td>All</td>
+  <td>Alle</td>
+</tr>
+<tr>
+  <td>HOS ok</td>
+  <td>HOS ok (Hand grün)</td>
+  <td>state=confirmed</td>
+  <td>Holdingsset</td>
+  <td>Confirmed</td>
+  <td>Bestätigt</td>
+</tr>
+<tr>
+  <td>(Unsolvable)</td>
+  <td>(Ungelöst)</td>
+  <td>state=incorrected</td>
+  <td>Holdings</td>
+  <td>(Unsolvable)</td>
+  <td>(Ungelöst)</td>
+</tr>
+<tr>
+  <td>Annotated by MAGUSER</td>
+  <td>Von MAGUSER annotiert</td>
+  <td>state=annotated</td>
+  <td>Holdings</td>
+  <td>Annotated</td>
+  <td>Annotierte</td>
+</tr>
+<tr>
+  <td>Annotated and back to BIBUSER</td>
+  <td>Mit Annotation zurück an BIBUSER</td>
+  <td>state=revised_annotated</td>
+  <td>Holdings</td>
+  <td>Annotated</td>
+  <td>Annotierte</td>
+</tr>
+<tr>
+  <td>HOL available</td>
+  <td>HOL vorhanden</td>
+  <td>state=ok</td>
+  <td>Holdings</td>
+  <td>HOL available</td>
+  <td>Kontrollierte</td>
+</tr>
+<tr>
+  <td>HOL can be delivered to SPB</td>
+  <td>HOL kann an SPB abgegeben werden</td>
+  <td>state=revised_ok</td>
+  <td>Holdings</td>
+  <td>Revised</td>
+  <td>Abgabebereite</td>
+</tr>
+<tr>
+  <td>Delivery problem</td>
+  <td>Versandproblem</td>
+  <td>state=commented</td>
+  <td>Holdings</td>
+  <td>Commented</td>
+  <td>Abgabeproblem</td>
+</tr>
+<tr>
+  <td>Sent to SPB</td>
+  <td>Zur SPB gesandt</td>
+  <td>state=delivered</td>
+  <td>Holdings</td>
+  <td>Delivered</td>
+  <td>Abgegeben</td>
+</tr>
+<tr>
+  <td>Integrated in SPB</td>
+  <td>In SPB integrierte</td>
+  <td>state=received</td>
+  <td>Holdings</td>
+  <td>Integrated</td>
+  <td>In SPB integrierte</td>
+</tr>
+<tr>
+  <td>Completely integrated</td>
+  <td>Komplett integriert</td>
+  <td>state=integrated</td>
+  <td>Holdings</td>
+  <td>Completely Integrated</td>
+  <td>Komplett integriert</td>
+</tr>
+<tr>
+  <td>Spare HOL</td>
+  <td>Überschüssig</td>
+  <td>state=spare</td>
+  <td>Holdings</td>
+  <td>Spare HOL</td>
+  <td>Überschüssige</td>
+</tr>
+<tr>
+  <td>To eliminate</td>
+  <td>-</td>
+  <td>state=trash</td>
+  <td>Holdings</td>
+  <td>To eliminate</td>
+  <td>Zu eliminieren</td>
+</tr>
+<tr>
+  <td>HOL eliminated physically</td>
+  <td>HOL physisch eliminiert</td>
+  <td>state=burn</td>
+  <td>Holdings</td>
+  <td>Eliminated</td>
+  <td>Eliminierte</td>
+</tr>
+<tr>
+  <td>In SPB (end)</td>
+  <td>In SPB (Ende)</td>
+  <td>state=deleted</td>
+  <td>Holdings</td>
+  <td>Eliminated</td>
+  <td>Eliminierte</td>
+</tr>
+</tbody></table>
+
+
+<p>Other group of filters contain:</p>
+
+<table>
+<thead>
+<tr>
+  <th>Menu</th>
+  <th>Filter_en</th>
+  <th>Filter_de</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>Holdings</td>
+  <td>Pending</td>
+  <td>Unkontrollierte</td>
+</tr>
+<tr>
+  <td>Holdings</td>
+  <td>Unlisted</td>
+  <td>N gruppierte</td>
+</tr>
+<tr>
+  <td>Holdings</td>
+  <td>Advanced Filters</td>
+  <td>Zus.Filter</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h2 id="recognizing-content-of-field-866a">Recognizing content of field 866a</h2>
+
+<p>The content of  <b class="icon-list">866a</b> is analyzed systematically.</p>
+
+<p>The knowoldge to do this is stored in TABLE hol_values. It consists of regular expressions to clean, tranform and recognize elements. It is organized as models: Some examples:</p>
+
+<table>
+<thead>
+<tr>
+  <th>Model</th>
+  <th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td><strong>From - To</strong></td>
+  <td></td>
+</tr>
+<tr>
+  <td>V,N/N(JJJJ)-V,N/N(JJJJ)</td>
+  <td>1, 1975/80(1983)-2, 1981/85(1986)</td>
+</tr>
+<tr>
+  <td>V,N(JJJJ)-V,N/N(JJJJ)</td>
+  <td>3,1967(1971)-5,1969/70(1977)</td>
+</tr>
+<tr>
+  <td>V,N(JJJJ)-V,N(JJJJ)</td>
+  <td>173,4(1925)-179,1(1931)</td>
+</tr>
+<tr>
+  <td>V(JJJJ)N-V(JJJJ)N/N</td>
+  <td>1(1961)1-32(1993)11/12</td>
+</tr>
+<tr>
+  <td>V(JJJJ)N-V(JJJJ)N</td>
+  <td>12(1991)7-24(2003)21</td>
+</tr>
+<tr>
+  <td>V:N(JJJJ)-V:N(JJJJ)</td>
+  <td>1:1(1837/40)-20:3(1910)</td>
+</tr>
+<tr>
+  <td>V:N(JJJJ)-V:N(JJJJ/JJ)</td>
+  <td>1:2(1904)-37:3(1943/44)</td>
+</tr>
+<tr>
+  <td>V:N(JJJJ)-V:N(JJJJ/JJ)</td>
+  <td>4(1905/06)-15:1-2(1921/22)</td>
+</tr>
+<tr>
+  <td>V(JJJJ/JJ)-V:N(JJJJ)</td>
+  <td>26(1894/95)-40:2(1944)</td>
+</tr>
+<tr>
+  <td>V/V(JJJJ/JJ)-V/V(JJJJ/JJ)</td>
+  <td>25/26(1891/1892) - 34/35(1901/1903)</td>
+</tr>
+<tr>
+  <td>V/V(JJJJ)-V/V(JJJJ)</td>
+  <td>1928/29(1929) - 1929/30(1930)</td>
+</tr>
+<tr>
+  <td>(JJJJ/JJ)-(JJJJ)</td>
+  <td>(1919/1920) - (1933)</td>
+</tr>
+<tr>
+  <td>V/V(JJJJ/JJ)-V(JJJJ)</td>
+  <td>25/26(1891/1892) - 34(1901)</td>
+</tr>
+<tr>
+  <td>V(JJJJ/JJ)-V/V(JJJJ/JJ)</td>
+  <td>33(1922/26) - 38/39(1931/32)</td>
+</tr>
+<tr>
+  <td>V(JJJJ/JJ)-V(JJJJ/JJ)</td>
+  <td>1(1945/46)-3(1948/49)</td>
+</tr>
+<tr>
+  <td>V(JJJJ)-V(JJJJ/JJ)</td>
+  <td>1 (1915)-3(1916/1917)</td>
+</tr>
+<tr>
+  <td>V,N-N(JJJJ)-V,N(JJJJ)</td>
+  <td>4,1-4 (1981)- 19,8 (1997)</td>
+</tr>
+<tr>
+  <td>V(JJJJ)-V,N-N(JJJJ)</td>
+  <td>1 (1953)- 70,1-2 (1987)</td>
+</tr>
+<tr>
+  <td>V(JJJJ)-V,N/N(JJJJ)</td>
+  <td>13(1975)-24,1/2(1990)</td>
+</tr>
+<tr>
+  <td>V,N(JJJJ/JJ)-V,N(JJJJ/JJ)</td>
+  <td>4(1892/96) - 8,1(1905/06)</td>
+</tr>
+<tr>
+  <td>V,N(JJJJ)-V(JJJJ)</td>
+  <td>24,7(1964)-26(1966)</td>
+</tr>
+<tr>
+  <td>V(JJJJ/JJ)-V,N(JJJJ)</td>
+  <td>1(1916/20)-10,1(1953)</td>
+</tr>
+<tr>
+  <td>V,N(JJJJ)-V(JJJJ)</td>
+  <td>2, 15(1938)-16(1940)</td>
+</tr>
+<tr>
+  <td>V(JJJJ/JJ)-V,N(JJJJ/JJ)</td>
+  <td>4(1892/96) - 8,1(1905/06)</td>
+</tr>
+<tr>
+  <td>V(JJJJ/JJJJ)-V(JJJJ/JJJJ)</td>
+  <td>1(1865/1866) - 5(1870/1871)</td>
+</tr>
+<tr>
+  <td>V(JJJJ/JJ)-V(JJJJ)</td>
+  <td>1 (1952/54)- 14 (1975)</td>
+</tr>
+<tr>
+  <td>V(JJJJ/JJ)-V(JJJJ/JJ)</td>
+  <td>4(1892/96) - 8(1905/06)</td>
+</tr>
+<tr>
+  <td>(JJJJ/JJ)-(JJJJ/JJ)</td>
+  <td>(1932/33)-(1943/44)</td>
+</tr>
+<tr>
+  <td>V(JJJJ)-V(JJJJ/JJ)</td>
+  <td>1 (1974)- 9 (1982/83)</td>
+</tr>
+<tr>
+  <td>V-V(JJJJ-JJJJ)</td>
+  <td>46-48(1942-1944)   !! non standard</td>
+</tr>
+<tr>
+  <td>V/V(JJJJ)-V(JJJJ)</td>
+  <td>66/67(1947) - 71(1951)</td>
+</tr>
+<tr>
+  <td>V(JJJJ)-V(JJJJ),N</td>
+  <td>15(1919)-18(1922), 5</td>
+</tr>
+<tr>
+  <td>V(JJJJ)-V/V(JJJJ/JJ)</td>
+  <td>8(1897) - 26/27(1915/16)</td>
+</tr>
+<tr>
+  <td>V(JJJJ)-V/V(JJJJ)</td>
+  <td>1(1977)-1981/83(1983)</td>
+</tr>
+<tr>
+  <td>(JJJJ)-(JJJJ)N(m)</td>
+  <td>(1974)-(1984)3(Sept.)</td>
+</tr>
+<tr>
+  <td>V(JJJJ)-V,N(JJJJ)</td>
+  <td>75(1949)-90,3(1964)   ;  1 (1777)-179, 1955 (1957)</td>
+</tr>
+<tr>
+  <td>JJJJ,V-JJJJ</td>
+  <td>1994,4-1998</td>
+</tr>
+<tr>
+  <td>V(JJJJ/JJ)-V(JJJJ)</td>
+  <td>1 (1863/1864)-74 (1969)</td>
+</tr>
+<tr>
+  <td>(JJJJ/JJ)-(JJJJ/JJ)</td>
+  <td>(1959/1960) - (1980/1981)</td>
+</tr>
+<tr>
+  <td>JJJJ/JJ-JJJJ/JJ</td>
+  <td>1980/81-1981/82</td>
+</tr>
+<tr>
+  <td>V(JJJJ)-V(JJJJ)</td>
+  <td>33 (1881)-42 (1890);    1970(1971)-1979(1980)</td>
+</tr>
+<tr>
+  <td>JJJJ:V-JJJJ:V</td>
+  <td>1992:2-2002:1</td>
+</tr>
+<tr>
+  <td>JJJJ:V-JJJJ:V</td>
+  <td>1933-1938:4</td>
+</tr>
+<tr>
+  <td>JJJJ:V-JJJJ:V</td>
+  <td>1933:1-1938</td>
+</tr>
+<tr>
+  <td>V,JJJJ/JJ-JJJJ/JJ</td>
+  <td>9,1986/87 - 1990/91</td>
+</tr>
+<tr>
+  <td>JJJJ,V-</td>
+  <td>1994,4-</td>
+</tr>
+<tr>
+  <td>V,JJJJ-V,JJJJ</td>
+  <td>18,1915 - 89,2003</td>
+</tr>
+<tr>
+  <td>V(JJJJ)-(JJJJ)</td>
+  <td>1 (1774) -(1988)</td>
+</tr>
+<tr>
+  <td><a href="JJJJ">V</a>-<a href="JJJJ">V</a></td>
+  <td><a href="2000">30.</a>-<a href="2002">32.</a>   ;  [2]1929-[3]1930</td>
+</tr>
+<tr>
+  <td>[V]JJJJ-[V]JJJJ</td>
+  <td>[2]1929-[3]1930</td>
+</tr>
+<tr>
+  <td>(JJJJ)N-(JJJJ)N</td>
+  <td>(1973)3-(1974)5</td>
+</tr>
+<tr>
+  <td>JJJJ-JJJJ(N+N)</td>
+  <td>1900 - 1920(1-2)</td>
+</tr>
+<tr>
+  <td>(JJJJ)-(JJJJ)N</td>
+  <td>(1962)-(1983)13</td>
+</tr>
+<tr>
+  <td>V-V(JJJJ)</td>
+  <td>1953-1959 (1962)</td>
+</tr>
+<tr>
+  <td>(JJJJ)-V(JJJJ)</td>
+  <td>(1881)-42 (1890)</td>
+</tr>
+<tr>
+  <td>V,N(m JJJJ)-V,N(m JJJJ)</td>
+  <td>1, 1 (Ende April 1947)-13, 12 (April 1960)</td>
+</tr>
+<tr>
+  <td>V(N[=JJJJ])-V(N[=JJJJ])</td>
+  <td>0(92[=1964])-8(97[=1969])</td>
+</tr>
+<tr>
+  <td>V(m JJJJ)-V(m JJJJ)</td>
+  <td>0 (June 1977)-30(Aug 2005)</td>
+</tr>
+<tr>
+  <td>m(JJJJ)-m(JJJJ)</td>
+  <td>Sept.2001-Sept.2003</td>
+</tr>
+<tr>
+  <td>V(m JJJJ)-V(m JJJJ)</td>
+  <td>1(Mai 1972)-78(Dezember 2003)</td>
+</tr>
+<tr>
+  <td>V(m JJJJ)-(m JJJJ)</td>
+  <td>0 (June 1977)-(Apr 2005)</td>
+</tr>
+<tr>
+  <td>JJJJ,m-JJJJ,m</td>
+  <td>1999,März - 2012,Mai</td>
+</tr>
+<tr>
+  <td>V(m JJJJ)-(JJJJ)</td>
+  <td>0 (June 1977)-(2005)</td>
+</tr>
+<tr>
+  <td>V(JJJJ)-JJJJ</td>
+  <td>1 (1904)-1913 !! syntax</td>
+</tr>
+<tr>
+  <td>V(m JJJJ)-JJJJ</td>
+  <td>0 (June 1977)-2005</td>
+</tr>
+<tr>
+  <td>(m-m JJJJ)-(m-m JJJJ)</td>
+  <td>(Jul.-Aug. 1994)-(Nov.-Dec. 2007)</td>
+</tr>
+<tr>
+  <td>(m-m JJJJ)-(m JJJJ)</td>
+  <td>(Jul.-Aug. 1994)-(Dec. 2007)</td>
+</tr>
+<tr>
+  <td>(m JJJJ)-(m-m JJJJ)</td>
+  <td>(Jul. 1994)-(Nov.-Dec. 2007)</td>
+</tr>
+<tr>
+  <td>(m JJJJ)-(m JJJJ)</td>
+  <td>(Sep 1999)-(Okt 2000)</td>
+</tr>
+<tr>
+  <td>JJJJJJJJ =&gt; JJJJ-JJJJ</td>
+  <td>UNKLAR=x</td>
+</tr>
+<tr>
+  <td>(JJJJ),N-(JJJJ),N</td>
+  <td>(1996), 25-(2003), 98</td>
+</tr>
+<tr>
+  <td>[JJJJ],N-[JJJJ],N</td>
+  <td>[1951],36 - [1954],67</td>
+</tr>
+<tr>
+  <td>(JJJJ),N-(JJJJ)</td>
+  <td>(1995),2 - (2005)</td>
+</tr>
+<tr>
+  <td>(JJJJ/JJ)N-(JJJJ/JJ)N</td>
+  <td>(1927/28)5-(1927/28)10</td>
+</tr>
+<tr>
+  <td>(JJJJ)-(JJJJ)N</td>
+  <td>(1962)-(1983)13</td>
+</tr>
+<tr>
+  <td>(JJJJ)-(JJJJ/JJ)</td>
+  <td>(1864)-(1865/1866)</td>
+</tr>
+<tr>
+  <td>JJJJ-JJJJ/JJ</td>
+  <td>1889 - 1920/28</td>
+</tr>
+<tr>
+  <td>(JJJJ)-(JJJJ)</td>
+  <td>(1965) - (1980)</td>
+</tr>
+<tr>
+  <td>[JJJJ]-[JJJJ]</td>
+  <td>[1949]-[1950]</td>
+</tr>
+<tr>
+  <td>JJJJ,N-JJJJ,N</td>
+  <td>1976, 1-1992, 5</td>
+</tr>
+<tr>
+  <td>JJJJ,N-JJJJ</td>
+  <td>1976, 1-1992</td>
+</tr>
+<tr>
+  <td>(JJJJ)m-m</td>
+  <td>(1997)April-Juni</td>
+</tr>
+<tr>
+  <td>m JJJJ/JJ-m JJJJ</td>
+  <td>WS 1911/12-SS 1922</td>
+</tr>
+<tr>
+  <td>m JJJJ/JJ-m JJJJ/JJ</td>
+  <td>WS 1833/34-WS 1872/73</td>
+</tr>
+<tr>
+  <td>m JJJJ-m JJJJ/JJ</td>
+  <td>WS 1833-WS 1872/73</td>
+</tr>
+<tr>
+  <td>m JJJJ-m JJJJ/JJ</td>
+  <td>WS 1833-WS 1882</td>
+</tr>
+<tr>
+  <td>JJJJ-m/m JJJJ</td>
+  <td>1959-Juli/Aug.1983</td>
+</tr>
+<tr>
+  <td>m-m JJJJ</td>
+  <td>April-Juni 1997</td>
+</tr>
+<tr>
+  <td>JJJJ-JJJJ,N</td>
+  <td>1996-2008,5</td>
+</tr>
+<tr>
+  <td>JJJJ/JJ-JJJJ</td>
+  <td>1984/85 - 1986</td>
+</tr>
+<tr>
+  <td>(JJJJ-JJJJ)</td>
+  <td>(1996-2008)</td>
+</tr>
+<tr>
+  <td>JJJJ-JJJJ</td>
+  <td>1996-2008</td>
+</tr>
+<tr>
+  <td>JJJJ-JJ</td>
+  <td>1996-98</td>
+</tr>
+<tr>
+  <td>V-V</td>
+  <td>1-8</td>
+</tr>
+<tr>
+  <td><strong>Open Periods</strong></td>
+  <td></td>
+</tr>
+<tr>
+  <td>(JJJJ),V,N(m)-</td>
+  <td>(2005),112,10 (December)-</td>
+</tr>
+<tr>
+  <td>V(JJJJ),N-</td>
+  <td>14(1990), 4-</td>
+</tr>
+<tr>
+  <td>V(JJJJ/JJ)-</td>
+  <td>1 (1973/74)-</td>
+</tr>
+<tr>
+  <td>V,N/N(JJJJ)-</td>
+  <td>80,1/2(2011) -</td>
+</tr>
+<tr>
+  <td>V,N(JJJJ)-</td>
+  <td>16 ,59(1989)-</td>
+</tr>
+<tr>
+  <td>V,N(m JJJJ)-</td>
+  <td>2,2(Jan. 1959)-</td>
+</tr>
+<tr>
+  <td>V/V(JJJJ/JJ)-</td>
+  <td>1961/62(1965/68)-</td>
+</tr>
+<tr>
+  <td>V/V(JJJJ)-</td>
+  <td>1988/89(1989)-</td>
+</tr>
+<tr>
+  <td>V(JJJJ/JJ)</td>
+  <td>1961(1965/68)-</td>
+</tr>
+<tr>
+  <td>V,(JJJJ)-</td>
+  <td>7, (1981)-</td>
+</tr>
+<tr>
+  <td>V(JJJJ)-</td>
+  <td>1 (1974)-</td>
+</tr>
+<tr>
+  <td>JJJJ:V-</td>
+  <td>1992:2-</td>
+</tr>
+<tr>
+  <td>V,m JJJJ-</td>
+  <td>No. 42, printems 2003-</td>
+</tr>
+<tr>
+  <td>(m JJJJ)-</td>
+  <td>(Spring 2004)-</td>
+</tr>
+<tr>
+  <td>m JJJJ-</td>
+  <td>Feb 2004</td>
+</tr>
+<tr>
+  <td>(JJJJ)N-</td>
+  <td>(1983)6-</td>
+</tr>
+<tr>
+  <td>(JJJJ)N-N</td>
+  <td>(1983)6-7</td>
+</tr>
+<tr>
+  <td>(JJJJ/JJ)-</td>
+  <td>(1981/1982)-</td>
+</tr>
+<tr>
+  <td>JJJJ/JJ-</td>
+  <td>1981/82-</td>
+</tr>
+<tr>
+  <td>(JJJJ)-</td>
+  <td>(1952)-</td>
+</tr>
+<tr>
+  <td>JJJJ-</td>
+  <td>1952-</td>
+</tr>
+<tr>
+  <td>V-</td>
+  <td>217-</td>
+</tr>
+<tr>
+  <td><em>* SINGLE YEARS *</em></td>
+  <td></td>
+</tr>
+<tr>
+  <td>V(JJJJ/JJ),N-N</td>
+  <td></td>
+</tr>
+<tr>
+  <td>V(JJJJ/JJ),N-N</td>
+  <td>1(1932/33), 1-3</td>
+</tr>
+<tr>
+  <td>V/V(JJJJ/JJ)</td>
+  <td>7/8(1982/83)</td>
+</tr>
+<tr>
+  <td>V(JJJJ),N</td>
+  <td>2 (1994),71</td>
+</tr>
+<tr>
+  <td>N(TT.MM.JJJJ)</td>
+  <td>7(22.7.1988)</td>
+</tr>
+<tr>
+  <td>V,N(JJJJ/JJ)</td>
+  <td>8,2(1906/08)</td>
+</tr>
+<tr>
+  <td>V,N/N(JJJJ)</td>
+  <td>43, 1/2 (1973)</td>
+</tr>
+<tr>
+  <td>V,N(m JJJJ)</td>
+  <td>7,4(Dec. 2001)</td>
+</tr>
+<tr>
+  <td>V JJJJ/JJ</td>
+  <td>1 1946/47</td>
+</tr>
+<tr>
+  <td>JJJJ,m</td>
+  <td>1959, Frühl</td>
+</tr>
+<tr>
+  <td>m(JJJJ)</td>
+  <td>Sept.(1993)</td>
+</tr>
+<tr>
+  <td>m JJJJ</td>
+  <td>Sept. 1993</td>
+</tr>
+<tr>
+  <td>(m JJJJ)N</td>
+  <td>(Nov 1997)10</td>
+</tr>
+<tr>
+  <td>(m JJJJ)</td>
+  <td>(Spring 2004)</td>
+</tr>
+<tr>
+  <td>V(JJJJ/JJJJ)</td>
+  <td>3 (1969/1971)</td>
+</tr>
+<tr>
+  <td>(JJJJ),N</td>
+  <td>(2003), 1</td>
+</tr>
+<tr>
+  <td>V(JJJJ/JJ)</td>
+  <td>3 (1969/70)</td>
+</tr>
+<tr>
+  <td>V/V(JJJJ)</td>
+  <td>4/5(1934); 189/194 (1997)</td>
+</tr>
+<tr>
+  <td>V/V (JJJJ/JJ)</td>
+  <td>49/50(1956/57)</td>
+</tr>
+<tr>
+  <td>V-V(JJJJ)</td>
+  <td>4-5(1934)</td>
+</tr>
+<tr>
+  <td>V,N(JJJJ)</td>
+  <td>17, 1(1935)</td>
+</tr>
+<tr>
+  <td>V,N-N(JJJJ)</td>
+  <td>11,31-32(1962)  5, 1896-1900 (1902)</td>
+</tr>
+<tr>
+  <td><a href="JJJJ">V</a></td>
+  <td><a href="1905">11</a></td>
+</tr>
+<tr>
+  <td>V(JJJJ/JJ)</td>
+  <td>1.(1983/84)</td>
+</tr>
+<tr>
+  <td>V(JJJJ)</td>
+  <td>4(1942)</td>
+</tr>
+<tr>
+  <td>V JJJJ/JJ</td>
+  <td>1 1946/47</td>
+</tr>
+<tr>
+  <td>V JJJJ</td>
+  <td>1 1932</td>
+</tr>
+<tr>
+  <td>V(JJJJ)N</td>
+  <td>20(1939)1</td>
+</tr>
+<tr>
+  <td>V(JJJJ)N-N</td>
+  <td>2(1972), 1-4</td>
+</tr>
+<tr>
+  <td>V(JJJJ)m</td>
+  <td>59(1952)Dez</td>
+</tr>
+<tr>
+  <td>(JJJJ)N</td>
+  <td>(1975)7</td>
+</tr>
+<tr>
+  <td>(JJJJ)m/m</td>
+  <td>(1973) Februar/März</td>
+</tr>
+<tr>
+  <td>(JJJJ/JJ)N</td>
+  <td>(1959/60)26</td>
+</tr>
+<tr>
+  <td>(JJJJ):N</td>
+  <td>(1982):3</td>
+</tr>
+<tr>
+  <td>JJJJ,N</td>
+  <td>1980,2</td>
+</tr>
+<tr>
+  <td>(JJJJ/JJ)</td>
+  <td>(1880/81) (1944/45); (1990-91)</td>
+</tr>
+<tr>
+  <td>JJJJ/JJ</td>
+  <td>1983/84</td>
+</tr>
+<tr>
+  <td>(JJJJ-JJ)</td>
+  <td>(1990-91)</td>
+</tr>
+<tr>
+  <td>(JJJJ)</td>
+  <td></td>
+</tr>
+<tr>
+  <td>[JJJJ]</td>
+  <td></td>
+</tr>
+<tr>
+  <td>[N]</td>
+  <td></td>
+</tr>
+<tr>
+  <td>JJJJ</td>
+  <td></td>
+</tr>
+<tr>
+  <td>V</td>
+  <td></td>
+</tr>
+</tbody></table>
+
+
+
+
+<h2 id="calculation-of-holding-pattern-from-holnrm">Calculation of Holding pattern from hol_nrm</h2>
+
+<p>The hol_nrm consists of 1..n pattern representing the normalized form of a HOP:</p>
+
+<blockquote>
+  <p>HOP_start hyphen HOP_end <br>
+  VVVVvvvvYYYYyyyy-VVVVvvvvYYYYyyyy</p>
+</blockquote>
+
+<p>The completeness of data in the pattern depends on the HOP information in 866a.</p>
+
+<table>
+<thead>
+<tr>
+  <th>Pattern</th>
+  <th>Explanation</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>VVVV</td>
+  <td>Volume</td>
+</tr>
+<tr>
+  <td>vvvv</td>
+  <td>Volume extension</td>
+</tr>
+<tr>
+  <td>YYYY</td>
+  <td>Year</td>
+</tr>
+<tr>
+  <td>yyyy</td>
+  <td>Year extension</td>
+</tr>
+<tr>
+  <td>hyphen</td>
+  <td>if HOP_end is empty: a non terminated HOP</td>
+</tr>
+<tr>
+  <td>no hyphen</td>
+  <td>HOP is not extended (normally 1 year)</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h2 id="calculation-of-hol-pattern">Calculation of HOL pattern</h2>
+
+<p>The holdings pattern is calculated from the hol_nrm of all included HOL. Of this results a list of HOX, which is sorted by YYYYyyyyVVVVvvvv.</p>
+
+<blockquote>
+  <p>“` <br>
+  array (size=4) <br>
+    ‘ptrn’ =&gt;  <br>
+      array (size=54) <br>
+        0 =&gt; string ’   5    1950    ’ (length=16) <br>
+        1 =&gt; string ’   6   719511951’ (length=16) <br>
+        2 =&gt; string ’   6   719511952’ (length=16) <br>
+        3 =&gt; string ’   8    1953    ’ (length=16) <br>
+        4 =&gt; string ’   1    1954    ’ (length=16) <br>
+        5 =&gt; string ’   1  1919541964’ (length=16) <br>
+        6 =&gt; string ’   9    1954    ’ (length=16) <br>
+        7 =&gt; string ’   1    1955    ’ (length=16) <br>
+        8 =&gt; string ’   1   519551959’ (length=16) <br>
+        9 =&gt; string ’        1957    ’ (length=16) <br>
+        10 =&gt; string ’   1    1957    ’ (length=16) <br>
+        11 =&gt; string ’   1   419571960’ (length=16) <br>
+        12 =&gt; string ’   3    1957    ’ (length=16) <br>
+        13 =&gt; string ’   1    1959    ’ (length=16) <br>
+        14 =&gt; string ’   5    1959    ’ (length=16) <br>
+        15 =&gt; string ’   4    1960    ’ (length=16) <br>
+        16 =&gt; string ’   1    1962    ’ (length=16) <br>
+        17 =&gt; string ’   4    1962    ’ (length=16) <br>
+        18 =&gt; string ’   6    1962    ’ (length=16) <br>
+        19 =&gt; string ’   1    1963    ’ (length=16) <br>
+        20 =&gt; string ’  10    1964    ’ (length=16) <br>
+        21 =&gt; string ’  19    1964    ’ (length=16) <br>
+        22 =&gt; string ’  21    1964    ’ (length=16) <br>
+        23 =&gt; string ’        1965    ’ (length=16) <br>
+        24 =&gt; string ’   1    1965    ’ (length=16) <br>
+        25 =&gt; string ’   1    1966    ’ (length=16) <br>
+        26 =&gt; string ’   2    1966    ’ (length=16) <br>
+        27 =&gt; string ’   6    1969    ’ (length=16) <br>
+        28 =&gt; string ’   7    1969    ’ (length=16) <br>
+        29 =&gt; string ’  13    1971    ’ (length=16) <br>
+        30 =&gt; string ’  10    1973    ’ (length=16) <br>
+        31 =&gt; string ’  21    1973    ’ (length=16) <br>
+        32 =&gt; string ’  23    1975    ’ (length=16) <br>
+        33 =&gt; string ’  13    1976    ’ (length=16) <br>
+        34 =&gt; string ’  17    1976    ’ (length=16) <br>
+        35 =&gt; string ’  14    1977    ’ (length=16) <br>
+        36 =&gt; string ’  18    1977    ’ (length=16) <br>
+        37 =&gt; string ’  25    1977    ’ (length=16) <br>
+        38 =&gt; string ’  28    1977    ’ (length=16) <br>
+        39 =&gt; string ’  15  1619781979’ (length=16) <br>
+        40 =&gt; string ’  19  2019781979’ (length=16) <br>
+        41 =&gt; string ’  11    1979    ’ (length=16) <br>
+        42 =&gt; string ’  15    1979    ’ (length=16) <br>
+        43 =&gt; string ’  31    1979    ’ (length=16) <br>
+        44 =&gt; string ’        1980    ’ (length=16) <br>
+        45 =&gt; string ’   1    1980    ’ (length=16) <br>
+        46 =&gt; string ’   3    1984    ’ (length=16) <br>
+        47 =&gt; string ’   5    1986    ’ (length=16) <br>
+        48 =&gt; string ’   1    1987    ’ (length=16) <br>
+        49 =&gt; string ’   6    1987    ’ (length=16) <br>
+        50 =&gt; string ’   7    1987    ’ (length=16) <br>
+        51 =&gt; string ’   8    1987    ’ (length=16) <br>
+        52 =&gt; string ’   2    1990    ’ (length=16) <br>
+        53 =&gt; string ’   5    1990    ’ (length=16)</p>
+</blockquote>
+
+<p>‘year_ptrn’ =&gt;  <br>
+    array (size=26) <br>
+      0 =&gt; string ‘1950’ (length=4) <br>
+      1 =&gt; string ‘1951’ (length=4) <br>
+      2 =&gt; string ‘1953’ (length=4) <br>
+      3 =&gt; string ‘1954’ (length=4) <br>
+      4 =&gt; string ‘1955’ (length=4) <br>
+      5 =&gt; string ‘1957’ (length=4) <br>
+      6 =&gt; string ‘1959’ (length=4) <br>
+      7 =&gt; string ‘1960’ (length=4) <br>
+      8 =&gt; string ‘1962’ (length=4) <br>
+      9 =&gt; string ‘1963’ (length=4) <br>
+      10 =&gt; string ‘1964’ (length=4) <br>
+      11 =&gt; string ‘1965’ (length=4) <br>
+      12 =&gt; string ‘1966’ (length=4) <br>
+      13 =&gt; string ‘1969’ (length=4) <br>
+      14 =&gt; string ‘1971’ (length=4) <br>
+      15 =&gt; string ‘1973’ (length=4) <br>
+      16 =&gt; string ‘1975’ (length=4) <br>
+      17 =&gt; string ‘1976’ (length=4) <br>
+      18 =&gt; string ‘1977’ (length=4) <br>
+      19 =&gt; string ‘1978’ (length=4) <br>
+      20 =&gt; string ‘1979’ (length=4) <br>
+      21 =&gt; string ‘1980’ (length=4) <br>
+      22 =&gt; string ‘1984’ (length=4) <br>
+      23 =&gt; string ‘1986’ (length=4) <br>
+      24 =&gt; string ‘1987’ (length=4) <br>
+      25 =&gt; string ‘1990’ (length=4) <br>
+…</p>
+
+
+
+<h2 id="similarity-search">Similarity Search</h2>
+
+<p>HOS are sets of HOL that represents the same periodical. As title information is not always written in the same way, the system has to find a way to recognize titles with similar content. This is archieved with different methods:</p>
+
+<table>
+<thead>
+<tr>
+  <th>Method</th>
+  <th>Explanation</th>
+  <th>Examples</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>“Normalize field content</td>
+  <td>Make similar content more equal (p.e. change all german umlaut to ae oe ue; put all text to lowercase; trim values)</td>
+  <td>Aerger/Ärger =&gt; aerger</td>
+</tr>
+<tr>
+  <td>Standardize values</td>
+  <td>Recognize values and replace it</td>
+  <td>2-wöchentlich/2-wtl./zweiwöchentlich/2wöchentl. =&gt; 2w</td>
+</tr>
+<tr>
+  <td>Compare HOL with unreliable data</td>
+  <td>Use a similarity (postresql) for weighted comparison</td>
+  <td>Proximity of HOL are defined by a score between 0 and 1</td>
+</tr>
+</tbody></table>
+
+
+<p>These steps have been done offline with standard tools. The latter tool has been implemented in the bIS als Option 1b.</p>
+
+
+
+<h2 id="hos-confirmation">HOS confirmation</h2>
+
+<p>All HOS that only contains 1 HOL, are confirmed at the beginning. But when changing the confirmation, this rule not applies any more. </p>
+
+<blockquote>
+  <p>holdingssets.autoconfirm = 1 </p>
+</blockquote>
+
+<p>HOS confirmation puts all containing HOL into the state “HOL correct”. </p>
+
+<blockquote>
+  <p>holdings.state = “correct” </p>
+</blockquote>
+
+
+
+<h2 id="occurrence-pattern">Occurrence Pattern</h2>
+
+<p><strong>Calculation</strong>: The occurrence pattern in always calculated for an entire HOS. If changes are made within a HOS, the pattern has to be recalculated. For this the normalized field f866a called hol_nrm is used. All segments (separated by ;) of all HOL are used to create a segment pattern. </p>
+
+<p>Every segment is represented by a block </p>
+
+<ul>
+<li>Cut all segments </li>
+<li>Exclude void </li>
+<li>Put in array ordered by starting “JJJJ” and starting “VVVV” </li>
+<li>Compare for every HOL the occurrence. Put 1 otherwise 0 </li>
+<li>Give a weight to every segment generated by number of years and volumes </li>
+<li>Check occurrence for every HOL </li>
+<li>Check for completeness “j” </li>
+<li>Changing the mechanism: holdings.reserved = 1 ; holdings.force_xxx = 1 ; holdings.is_pref = 1 </li>
+</ul>
+
+<table>
+<thead>
+<tr>
+  <th>Color</th>
+  <th>Explanation</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>Red</td>
+  <td>The HOL with a biggest weight or mayor number of occurrecnes or with the field holdings.force_owner = 1 will be owner = red.<br>In the case of ambiguity the HOL with the field holdings.is_pref = 1 will be choosed. (meaning, that the library ###)</td>
+</tr>
+<tr>
+  <td>Yellow</td>
+  <td>Create the complement of the pattern and the owner pattern. There is no selection of preference.</td>
+</tr>
+<tr>
+  <td>Blue</td>
+  <td>All others</td>
+</tr>
+<tr>
+  <td>White</td>
+  <td>HOL without normalized pattern in holdings.</td>
+</tr>
+</tbody></table>
+
+
+<p><strong>“Forcing”</strong>: Forcing is the action to change the automatically calculated HOS.</p>
+
+<table>
+<thead>
+<tr>
+  <th>Action</th>
+  <th>Explanation</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>force_owner</td>
+  <td>Recalculation of HOS</td>
+</tr>
+<tr>
+  <td>force_aux</td>
+  <td>The segments choosen by the user are put yellow.<br>holdings.aux_ptrn: Puts “1” to this segments.<br>holdings.is_aux = true</td>
+</tr>
+<tr>
+  <td>force_blue</td>
+  <td>All other yellow segments are put blue.<br>holdings.aux_ptrn and .owner_ptrn: Puts “0” to this segments.<br>holdings.is_aux = false.<br>holdings.is_owner = false</td>
+</tr>
+</tbody></table>
+
+
+<p><strong>Recalculation</strong>: The HOS is recalculated after following actions:</p>
+
+<blockquote>
+  <ul>
+  <li>Eliminating a HOL </li>
+  <li>After editing 866a</li>
+  <li>Adding a HOL </li>
+  <li>Divide a a HOL </li>
+  <li>Reserve a HOL </li>
+  <li>When the user forces recalculation </li>
+  </ul>
+</blockquote>
+
+
+
+<h1 id="how-to-install-and-maintain-the-bis">How to install and maintain the bIS</h1>
+
+<p>The entire application is store in gitHub as an open source project:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm"><span class="hljs-label">https:</span>//github<span class="hljs-preprocessor">.com</span>/bIS2</code></pre>
+
+
+
+<h2 id="installation">Installation</h2>
+
+<p>Copy backup folder to a determinate root, then point the Virtual host to public folder.  </p>
+
+<p>Installation from zero follow these guidelines. Details see documentation of every the software packages.</p>
+
+<blockquote>
+  <ol>
+  <li>Start with an empty system</li>
+  <li>Install OS (debían)  <br>
+  a.  Create users (bispgadmin)</li>
+  <li>Install packages  <br>
+  a. Apache  <br>
+  <ul><li>adapt configuration for bIS and bIStest  <br>
+  /etc/apache2/sites-available/bis  <br>
+  /etc/apache2/sites-available/bistest  <br>
+  /etc/apache2/sites-available/bisdev <br>
+  ServerAdmin webmaster@localhost  <br>
+  b. PostgreSQL  <br>
+  c. php  <br>
+  d. git  <br>
+  e. robot of hetzner.de  for system monitoring (see doc there)</li></ul></li>
+  <li>Pings every 5 min for server response </li>
+  <li>http-Request to site every 5 min  <br>
+  – En case of error sends email to administrator(s) <br>
+  In case of malfunctioning of bIS maintain a page for Error 500 </li>
+  <li>Prepare system: <br>
+  a. Install Apache  <br>
+  –  <code>/var/www/bis</code> <br>
+  –  <code>/var/www/bistest</code> <br>
+  –  <code>/var/www/bisdev</code> <br>
+  b. PostgreSQL  <br>
+  – DATABASES bis, bistest, bisdev <br>
+  – edit <code>/bisXXX/app/config/local/database.php</code> <br>
+  – create manually database bis with the appropriate user </li>
+  <li>Exec the following command in root project folder: <code>php artisan migrate</code></li>
+  <li>or import sql script (bis_original.sql) with database structure  <br>
+  This creates user bisadmin (PW: admin)  <br>
+  Same procedure with DATABASE bistest </li>
+  <li>Install bIS code :  <code>cd var/www/bis</code> <br>
+  – connect to git  and install code (see doc there) <br>
+  – Populate system with data (see various scripts) <br>
+  – Put TABLE data to /var/www  <br>
+  – Fill bistest  <br>
+  – <code>cd /var/www/bis</code> <br>
+  – Load in postgreSQL </li>
+  </ol>
+</blockquote>
+
+<p>REMARK: If there are some tables with the same name, you have to delete it before you begin.</p>
+
+<p>Run:</p>
+
+<blockquote>
+  <p>psql -d bis -f hol_out.dump.sql  <br>
+  psql -d bis -f hol_values.dump.sql  <br>
+  psql -d bis -f tit_freq.dump.sql </p>
+</blockquote>
+
+<p>Integrate HOL: Distribute hol_out into TABLE holdings and holdingssets </p>
+
+<blockquote>
+  <p><code>php fill-data.php</code></p>
+</blockquote>
+
+<p>Set ids as pointers to HOL:</p>
+
+<blockquote>
+  <p><code>php artisan db:seed --class=SetLibraryIdToHoldingsSeeder</code></p>
+</blockquote>
+
+<p>Restore initial status with followin steps:</p>
+
+<blockquote>
+  <p>Delete users (except sysadmin)  <br>
+  Exec ths following command in root project folder: <br>
+  – <code>php artisan db:seed --class="CleanStatesSeeder"</code> <br>
+  Fill bis  <br>
+  cd /var/www/bis </p>
+</blockquote>
+
+<p>Repeat same procedures for bistest and bisdev.</p>
+
+<p>REMARKS : The data can be re-loaded only before users start working. </p>
+
+<p><strong>Install diferent instances</strong> <br>
+To install different systems (bIS, bIStest and bISdev). Use colors:</p>
+
+<table>
+<thead>
+<tr>
+  <th>Instance</th>
+  <th>Base Color</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>bIS</td>
+  <td>Red</td>
+</tr>
+<tr>
+  <td>bISTest</td>
+  <td>Blue</td>
+</tr>
+<tr>
+  <td>bISDev</td>
+  <td>Green</td>
+</tr>
+</tbody></table>
+
+
+<p><strong>Resetting  inital state of bIS</strong></p>
+
+<blockquote>
+  <ul>
+  <li>Delete users, if ncessary.</li>
+  <li>Access to the site and check the site msg.</li>
+  <li>clean code an table that are obsolete</li>
+  <li>At the end perform a quality control: Do statistics of table field filling state and compare to initial data.</li>
+  </ul>
+</blockquote>
+
+
+
+<h1 id="administrator-tasks">Administrator Tasks</h1>
+
+
+
+<h2 id="access-to-systems">Access to systems</h2>
+
+<p>See separate and undisclosed cheetsheet.</p>
+
+<table>
+<thead>
+<tr>
+  <th>System</th>
+  <th>Access</th>
+  <th>Remark</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>git</td>
+  <td>SSH or HTTP: <a href="https://github.com/bIS2/code.git">https://github.com/bIS2/code.git</a>, Username: bIS2</td>
+  <td>Public</td>
+</tr>
+<tr>
+  <td>server</td>
+  <td>hetzner.de</td>
+  <td>Ownership: Trialog AG. Monthly payment must be assured for uninterrupted service.</td>
+</tr>
+<tr>
+  <td>postgresql</td>
+  <td>User PW</td>
+  <td></td>
+</tr>
+</tbody></table>
+
+
+
+
+<h2 id="scripts-for-maintanance-and-initial-jobs-loading-database">Scripts for maintanance and initial jobs (loading database):</h2>
+
+<table>
+<thead>
+<tr>
+  <th>Function</th>
+  <th>Call</th>
+  <th>Result</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>Recalculated all HOS (after import)</td>
+  <td>wget <a href="http://bis.trialog.ch/recallallholholnrm">http://bis.trialog.ch/recallallholholnrm</a></td>
+  <td>Test with: <code>select recallholnrm, count(*) from holdings GROUP By recallholnrm;</code> The batch has complete if recallholnrm = 0;</td>
+</tr>
+<tr>
+  <td>Restart Apache</td>
+  <td>service apache2 restart</td>
+  <td>Web server restarted</td>
+</tr>
+<tr>
+  <td>Restart database</td>
+  <td>service postgresql restart</td>
+  <td>database restarted</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h2 id="backup">Backup</h2>
+
+<p><em>Requirements:</em> <br>
+- Backup process is completely automated, but it can be executed manually in every moment. <br>
+- The active tables have to be saved live but also as a SQL dump <br>
+- Backup must be stored on an external server <br>
+- Frequency and generations: daily; Retention cycles: 7 days, 2 weeks, 1 month <br>
+- Storage follows FIFO <br>
+- The status be sent daily by mail. Special alerts are sent for malfunctioning <br>
+- Daily and weekly : 4 weeks and 7 days   <em>CHECK_Asley</em></p>
+
+<table>
+<thead>
+<tr>
+  <th>Elements</th>
+  <th>Commands</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>Scripts used:</td>
+  <td><code>pg_dump</code>, <code>gzip</code></td>
+</tr>
+<tr>
+  <td>*Executions of scripts:</td>
+  <td><code>pg_dump bis | gzip &gt; backup_file.gz</code></td>
+</tr>
+<tr>
+  <td>Automatisation (cron in server):</td>
+  <td><code>cron -e (get cron script from git)</code></td>
+</tr>
+<tr>
+  <td>Execution control:</td>
+  <td>System manager monitors the welldoing of the system by analysing the mail that is sent with a (un)successfull job information (more than one adress!)</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h2 id="system-update">System update</h2>
+
+<p><strong>State of system:</strong>  All users can verify the current state of the application in the bIS Help page.</p>
+
+<p><strong>General rule:</strong> System update is done by github synchornisation mechanism. See the git manual.</p>
+
+<p><strong>Specific rules:</strong> A change in the code is made normally on a local installation in a PC. This change will be integration in the git. These changes will be propagated to bisdev. After internal testing it will also be integrated into bistest. After user confirms the correctne of changes the code of the productive system bis is finally updated.</p>
+
+
+
+<h2 id="system-restore">System restore</h2>
+
+<p>Use the following procedure:</p>
+
+<ul>
+<li>Select the last good know backup and uncompress in bIS folder: /var/www/bis </li>
+</ul>
+
+<p><code>gunzip -c backup_file.gz | psql bis</code></p>
+
+
+
+<h2 id="system-monitoring">System Monitoring</h2>
+
+
+
+<h3 id="monitoring-of-system-welldoing">Monitoring of system welldoing</h3>
+
+<p>For system monitoring:</p>
+
+<blockquote>
+  <ul>
+  <li>robot of hetzner.de pings every 5 min for server response and submits http-Request to site every 5 min </li>
+  <li>En case of error sends email to <code>ROLE_serveradmin</code> and <code>ROLE_supervisor</code></li>
+  </ul>
+</blockquote>
+
+<ul>
+<li>Reboot if failure of System, Apache, PostgreSQL, php</li>
+<li>If a part won’t work, display a nice maintenance page : “Site is down for maintenance.”</li>
+</ul>
+
+<p>All data except:</p>
+
+<blockquote>
+  <ul>
+  <li>Laravel</li>
+  <li>/bootstrap/compiled.php</li>
+  <li>/vendor</li>
+  <li><em>/logs/</em></li>
+  </ul>
+</blockquote>
+
+
+
+<h1 id="program-code">Program Code</h1>
+
+
+
+<h2 id="third-party-software-used">Third Party Software used</h2>
+
+<table>
+<thead>
+<tr>
+  <th>Software</th>
+  <th>Version</th>
+  <th>Remarks</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>Laravel</td>
+  <td>4.0</td>
+  <td>basic framework</td>
+</tr>
+<tr>
+  <td>Bootstrap</td>
+  <td>3.0.0</td>
+  <td></td>
+</tr>
+<tr>
+  <td>jQuery</td>
+  <td>1.10.2</td>
+  <td></td>
+</tr>
+<tr>
+  <td>jQuery UI</td>
+  <td>1.10.3</td>
+  <td></td>
+</tr>
+<tr>
+  <td>jQuery UI Touch Punch</td>
+  <td>0.2.2</td>
+  <td></td>
+</tr>
+<tr>
+  <td>jQuery Colorbox</td>
+  <td>1.4.21</td>
+  <td></td>
+</tr>
+<tr>
+  <td>jQuery DataTables</td>
+  <td>1.9.4</td>
+  <td></td>
+</tr>
+<tr>
+  <td>Font Awesome</td>
+  <td>4.0.3</td>
+  <td>Icons</td>
+</tr>
+<tr>
+  <td>X-editable</td>
+  <td>1.5.1</td>
+  <td></td>
+</tr>
+<tr>
+  <td>dragtable</td>
+  <td>1.0</td>
+  <td></td>
+</tr>
+<tr>
+  <td>Flexigrid for jQuery</td>
+  <td>1.1</td>
+  <td></td>
+</tr>
+<tr>
+  <td>HTML5 Shiv</td>
+  <td>3.6.2pre</td>
+  <td></td>
+</tr>
+<tr>
+  <td>Respond.js</td>
+  <td>1.1.0</td>
+  <td></td>
+</tr>
+<tr>
+  <td>SortTable</td>
+  <td>2</td>
+  <td></td>
+</tr>
+<tr>
+  <td>plot R2</td>
+  <td>2012</td>
+  <td>to visualize statistics</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h2 id="language-translation">Language translation</h2>
+
+<p>Translation is obtained by the language files in <code>/code/blob/master/app/lang/XX</code>, where <code>XX</code> stands for a ISO 639 language code.</p>
+
+<p>Example for translation of items in the holdings page: <br>
+- <a href="https://github.com/bIS2/code/blob/master/app/lang/de/holdings.php">holdings.php - english</a> <br>
+- <a href="https://github.com/bIS2/code/blob/master/app/lang/en/holdings.php">holdings.php - german</a></p>
+
+
+
+<h3 id="sample-for-translations">Sample for translations</h3>
+
+<p>This are two sample files (de and en) to show the mecanism of translation:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs r">&lt; ?php
+<span class="hljs-keyword">return</span> array(
+
+  <span class="hljs-string">'advanced_filter'</span>   =&gt; <span class="hljs-string">'Zus. Filter'</span>,
+  <span class="hljs-string">'all'</span>         =&gt; <span class="hljs-string">'Alle'</span>,
+  <span class="hljs-string">'annotate'</span>        =&gt; <span class="hljs-string">'Annotieren'</span>,
+  <span class="hljs-string">'annotated'</span>       =&gt; <span class="hljs-string">'Annotierte'</span>,
+  <span class="hljs-string">'annotated_by'</span>      =&gt; <span class="hljs-string">'Annotiert von'</span>,
+  <span class="hljs-string">'aux'</span>         =&gt; <span class="hljs-string">'Erg.bestand'</span>,
+  <span class="hljs-string">'both'</span>          =&gt; <span class="hljs-string">'Beides'</span>,
+  <span class="hljs-keyword">...</span>
+);
+
+
+&lt; ?php
+
+<span class="hljs-keyword">return</span> array(
+
+  <span class="hljs-string">'advanced_filter'</span>   =&gt; <span class="hljs-string">'Advanced Filter'</span>,
+  <span class="hljs-string">'all'</span>           =&gt; <span class="hljs-string">'All'</span>,
+  <span class="hljs-string">'annotate'</span>        =&gt; <span class="hljs-string">'Annotate'</span>,
+  <span class="hljs-string">'annotated'</span>       =&gt; <span class="hljs-string">'Annotated'</span>,
+  <span class="hljs-string">'annotated_by'</span>      =&gt; <span class="hljs-string">'Annotated By'</span>,
+  <span class="hljs-string">'aux'</span>         =&gt; <span class="hljs-string">'Auxiliar'</span>,
+  <span class="hljs-string">'both'</span>          =&gt; <span class="hljs-string">'Both'</span>,
+  <span class="hljs-keyword">...</span>
+);
+</code></pre>
+
+<p><em>* Appendix see separate files*</em></p></div></body>
+</html>

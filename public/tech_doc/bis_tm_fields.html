@@ -1,0 +1,2261 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>bis_tm_fields_orig</title>
+<link rel="stylesheet" href="base.css" />
+</head>
+<body><div class="container"><h1 id="table-fields">Table fields</h1>
+
+<p>List of all table fields. Description is given where it is necessary to avoid misunderstandings.</p>
+
+<table>
+<thead>
+<tr>
+  <th>table_name</th>
+  <th>column_name</th>
+  <th>data_type</th>
+  <th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td><br><strong>assigned_roles</strong></td>
+  <td><br>Assignation of roles to users</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>assigned_roles</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>assigned_roles</td>
+  <td>user_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>assigned_roles</td>
+  <td>role_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>comments</strong></td>
+  <td><br>Comments given by the MAGUSER</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>comments</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>comments</td>
+  <td>user_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>comments</td>
+  <td>holding_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>comments</td>
+  <td>content</td>
+  <td>text</td>
+  <td></td>
+</tr>
+<tr>
+  <td>comments</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>comments</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>comments_categories</strong></td>
+  <td><br>Categories for annotations of MAGUSER</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>comments_categories</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>comments_categories</td>
+  <td>name</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>comments_categories</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>comments_categories</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>confirms</strong></td>
+  <td><br>Entry marks a HOL for confirmation</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>confirms</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>confirms</td>
+  <td>holdingsset_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>confirms</td>
+  <td>user_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>confirms</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>confirms</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>deliveries</strong></td>
+  <td><br>Entry marks a HOL for delivery</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>deliveries</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>deliveries</td>
+  <td>hlist_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>deliveries</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>deliveries</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>deliveries</td>
+  <td>user_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>deliveries</td>
+  <td>received</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>feedbacks</strong></td>
+  <td><br>Feedback to sysadmin given by users</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>feedbacks</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>feedbacks</td>
+  <td>user_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>feedbacks</td>
+  <td>client</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>feedbacks</td>
+  <td>content</td>
+  <td>text</td>
+  <td></td>
+</tr>
+<tr>
+  <td>feedbacks</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>feedbacks</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>feedbacks</td>
+  <td>url</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>group_holdingsset</strong></td>
+  <td><br>Groups of HOS</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>group_holdingsset</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>group_holdingsset</td>
+  <td>group_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>group_holdingsset</td>
+  <td>holdingsset_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>group_holdingsset</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>group_holdingsset</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>groups</strong></td>
+  <td><br>Group of HOL</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>groups</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>groups</td>
+  <td>name</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>groups</td>
+  <td>user_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>groups</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>groups</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>hlist_holding</strong></td>
+  <td><br>HOL for every hlist</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>hlist_holding</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hlist_holding</td>
+  <td>hlist_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hlist_holding</td>
+  <td>holding_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>hlists</strong></td>
+  <td><br>Lists of HOL</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>hlists</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hlists</td>
+  <td>name</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hlists</td>
+  <td>user_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hlists</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hlists</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hlists</td>
+  <td>worker_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hlists</td>
+  <td>revised</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hlists</td>
+  <td>type</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>holdings</strong></td>
+  <td><br>HOL information</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>holdingsset_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>library_id</td>
+  <td>integer</td>
+  <td>slib</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>sys2</td>
+  <td>text</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>g</td>
+  <td>integer</td>
+  <td>Running number of HOL in MARC records</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f022a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245b</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245c</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>score</td>
+  <td>real</td>
+  <td>result of comparation</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>flag</td>
+  <td>character</td>
+  <td>evaluation of comparation</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260b</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f310a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f710a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f780t</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f785t</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852b</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>hol_nrm</td>
+  <td>character varying</td>
+  <td>Normalisation of 866a</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>probability</td>
+  <td>character varying</td>
+  <td>Probability to give a valid comparison result</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f008x</td>
+  <td>character</td>
+  <td>fix field (year part start)</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f008y</td>
+  <td>character</td>
+  <td>fix field (year part end)</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f362a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866z</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852h</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>i</td>
+  <td>character</td>
+  <td>!!!</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_owner</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>ptrn</td>
+  <td>text</td>
+  <td>basic HOX pattern</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>ocrr_ptrn</td>
+  <td>character varying</td>
+  <td>occurring of HOX</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>aux_ptrn</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>j_ptrn</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>weight</td>
+  <td>real</td>
+  <td>weight of this HOL</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>ocrr_nr</td>
+  <td>integer</td>
+  <td>!!!</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_aux</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>pot_owner</td>
+  <td>boolean</td>
+  <td>Data to decide which should be owner if two HOL are equal</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>hbib</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f246a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f300a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f300b</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f300c</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f500a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f505a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f770t</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f772t</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852j</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866c</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866h</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>exists_online</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_current</td>
+  <td>boolean</td>
+  <td>periodical is current</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>has_incomplete_vols</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>size</td>
+  <td>real</td>
+  <td>size of HOL on shelf in meters</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>force_owner</td>
+  <td>boolean</td>
+  <td>remember owner given by user</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>force_aux</td>
+  <td>boolean</td>
+  <td>remember aux given by user</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866aupdated</td>
+  <td>character varying</td>
+  <td>edited f866a</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f866aupdatedby</td>
+  <td>integer</td>
+  <td>(historical) not used any more</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>delivered</td>
+  <td>boolean</td>
+  <td>state flag !!!</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>received</td>
+  <td>boolean</td>
+  <td>state flag !!!</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f_tit</td>
+  <td>character varying</td>
+  <td>all title elements</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260c</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f710b</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245a_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245b_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245c_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f_tit_e</td>
+  <td>character varying</td>
+  <td>all title elements (normalized)</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260a_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f260b_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f310a_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f362a_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f710a_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f780t_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f785t_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>state</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>is_pref</td>
+  <td>boolean</td>
+  <td>!!!</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>force_blue</td>
+  <td>boolean</td>
+  <td>HOL</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245p</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f245n</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f852h_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>years</td>
+  <td>integer</td>
+  <td>number of year running (approx.)</td>
+</tr>
+<tr>
+  <td>holdings</td>
+  <td>f072a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>holdingssets</strong></td>
+  <td><br>Data relating HOS. Will be used for all operations needing information about HOS.</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdingssets</td>
+  <td>id</td>
+  <td>Integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdingssets</td>
+  <td>sys1</td>
+  <td>character varying</td>
+  <td>system number</td>
+</tr>
+<tr>
+  <td>holdingssets</td>
+  <td>f245a</td>
+  <td>text</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdingssets</td>
+  <td>ptrn</td>
+  <td>text</td>
+  <td>!!!</td>
+</tr>
+<tr>
+  <td>holdingssets</td>
+  <td>f008x</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdingssets</td>
+  <td>holdings_number</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdingssets</td>
+  <td>groups_number</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdingssets</td>
+  <td>state</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdingssets</td>
+  <td>locked</td>
+  <td>integer</td>
+  <td>state flag !!!</td>
+</tr>
+<tr>
+  <td>holdingssets</td>
+  <td>f852h_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>holdingssets</td>
+  <td>recalled</td>
+  <td>integer</td>
+  <td>(internal) for recalculation</td>
+</tr>
+<tr>
+  <td><br><strong>hol_out</strong></td>
+  <td><br>Data imported from local data production. Will only be used for data integration. Can be deleted afterwards.</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>sys1</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>sys2</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>g</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f008x</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f008y</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f022a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f072a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f245a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f245b</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f245c</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f245n</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f245p</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f246a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f260a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f260b</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f300a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f300b</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f300c</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f310a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f362a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f500a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f505a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f710a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f770t</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f772t</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f780t</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f785t</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f852a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f852b</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f852h</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f852j</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f866a</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f866c</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f866h</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f866z</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>aux_ptrn</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>exists_online</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>years</td>
+  <td>integer</td>
+  <td>Years span calculated during offline procedure.</td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>flag</td>
+  <td>character</td>
+  <td>Records used for comparison are marked with =, all other with *. No further use im bIS.</td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>force_aux</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>force_owner</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>has_incomplete_vols</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>hbib</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>hol_nrm</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>i</td>
+  <td>character</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>is_aux</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>is_current</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>is_owner</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>is_pref</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>j_ptrn</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>library_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>locked</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>ocrr_nr</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>ocrr_ptrn</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>ok2</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>pot_owner</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>ptrn</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>score</td>
+  <td>real</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>size</td>
+  <td>real</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>tag_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>weight</td>
+  <td>real</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f_tit</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f260c</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f710b</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f245a_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f245b_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f245c_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f_tit_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f260a_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f260b_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f310a_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f362a_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f710a_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f780t_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f785t_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_out</td>
+  <td>f852h_e</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>hol_values</strong></td>
+  <td><br>Knowledge for 866a pattern recognition</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_values</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_values</td>
+  <td>use</td>
+  <td>character</td>
+  <td>type of use</td>
+</tr>
+<tr>
+  <td>hol_values</td>
+  <td>model</td>
+  <td>character varying</td>
+  <td>model name</td>
+</tr>
+<tr>
+  <td>hol_values</td>
+  <td>prio</td>
+  <td>character</td>
+  <td>priority flag</td>
+</tr>
+<tr>
+  <td>hol_values</td>
+  <td>upper</td>
+  <td>character</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_values</td>
+  <td>srch_a</td>
+  <td>character varying</td>
+  <td>search-around regex</td>
+</tr>
+<tr>
+  <td>hol_values</td>
+  <td>srch</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_values</td>
+  <td>repl</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_values</td>
+  <td>write_val</td>
+  <td>character varying</td>
+  <td>values created</td>
+</tr>
+<tr>
+  <td>hol_values</td>
+  <td>occ</td>
+  <td>integer</td>
+  <td>number of occurrences</td>
+</tr>
+<tr>
+  <td>hol_values</td>
+  <td>lng</td>
+  <td>character</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_values</td>
+  <td>comment</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>hol_values</td>
+  <td>modtime</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>incorrects</strong></td>
+  <td><br>Entry marks an incorrect HOS</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>incorrects</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>incorrects</td>
+  <td>holdingsset_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>incorrects</td>
+  <td>user_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>incorrects</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>incorrects</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>libraries</strong></td>
+  <td><br>list of hlib</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>libraries</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>libraries</td>
+  <td>name</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>libraries</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>libraries</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>libraries</td>
+  <td>code</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>libraries</td>
+  <td>externalurl</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>libraries</td>
+  <td>sublibraries</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>lockeds</strong></td>
+  <td><br>Entry marks a reserved HOL</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>lockeds</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>lockeds</td>
+  <td>holding_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>lockeds</td>
+  <td>user_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>lockeds</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>lockeds</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>lockeds</td>
+  <td>comments</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>migrations</strong></td>
+  <td><br>(internal) Table of the Framework. Contains the scripts to generate and create all DB structure.</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>migrations</td>
+  <td>migration</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>migrations</td>
+  <td>batch</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>notes</strong></td>
+  <td><br>notes to HOLS by MAGUSER. It cotains the comment of the MAGUSER to a HOL.</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>notes</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>notes</td>
+  <td>holding_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>notes</td>
+  <td>tag_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>notes</td>
+  <td>content</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>notes</td>
+  <td>user_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>notes</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>notes</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>oks</strong></td>
+  <td><br>HOS that are ok !!!</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>oks</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>oks</td>
+  <td>holding_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>oks</td>
+  <td>user_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>oks</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>oks</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>password_reminders</strong></td>
+  <td><br>Password reminder mechanism</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>password_reminders</td>
+  <td>email</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>password_reminders</td>
+  <td>token</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>password_reminders</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>permission_role</strong></td>
+  <td><br>relation permission &lt;-&gt; role</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>permission_role</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>permission_role</td>
+  <td>permission_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>permission_role</td>
+  <td>role_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>permissions</strong></td>
+  <td><br>permissions available</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>permissions</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>permissions</td>
+  <td>name</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>permissions</td>
+  <td>display_name</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>receiveds</strong></td>
+  <td><br>Entry marks a received HOL</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>receiveds</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>receiveds</td>
+  <td>holding_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>receiveds</td>
+  <td>user_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>receiveds</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>receiveds</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>reserves</strong></td>
+  <td><br>(not used anymore. Do not delete.)</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>reserves</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>reserves</td>
+  <td>holding_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>reserves</td>
+  <td>user_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>reserves</td>
+  <td>description</td>
+  <td>text</td>
+  <td></td>
+</tr>
+<tr>
+  <td>reserves</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>reserves</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>reviseds</strong></td>
+  <td><br>Entry marks a revised HOL</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>reviseds</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>reviseds</td>
+  <td>holding_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>reviseds</td>
+  <td>user_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>reviseds</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>reviseds</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>roles</strong></td>
+  <td><br>Roles valid in bis. Stores the roles used in bIS. Used for login.</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>roles</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>roles</td>
+  <td>name</td>
+  <td>character varying</td>
+  <td>Name of the role</td>
+</tr>
+<tr>
+  <td>roles</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>roles</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>roles</td>
+  <td>description</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>states</strong></td>
+  <td><br>Entry marks a user action on a HOL</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>states</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>states</td>
+  <td>holding_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>states</td>
+  <td>user_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>states</td>
+  <td>state</td>
+  <td>character varying</td>
+  <td>name of state</td>
+</tr>
+<tr>
+  <td>states</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>states</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>stats</strong></td>
+  <td><br>Stores statical data for statistics page</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>id</td>
+  <td>serial</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>hodings_count</td>
+  <td>integer</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>sets_count</td>
+  <td>integer</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>sets_grouped</td>
+  <td>integer</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>sets_confirmed</td>
+  <td>integer</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>sets_confirmed_owner</td>
+  <td>integer</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>sets_confirmed_auxiliar</td>
+  <td>integer</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>sets_annotated</td>
+  <td>integer</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>tags</strong></td>
+  <td><br>List of tags for annotatations</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>tags</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>tags</td>
+  <td>name</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>ta_sim</strong></td>
+  <td><br>Temporary table for similarity calculation</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>ta_sim</td>
+  <td>sys1</td>
+  <td>character</td>
+  <td></td>
+</tr>
+<tr>
+  <td>ta_sim</td>
+  <td>sys2</td>
+  <td>character</td>
+  <td></td>
+</tr>
+<tr>
+  <td>ta_sim</td>
+  <td>score</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>ta_sim</td>
+  <td>flag</td>
+  <td>character</td>
+  <td></td>
+</tr>
+<tr>
+  <td>ta_sim</td>
+  <td>upd</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>tit_freq</strong></td>
+  <td><br>List of frequently appearing titles (245a)</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>tit_freq</td>
+  <td>Contains the most frequent titles like „Jahresbericht“, „Geschäftsbericht“. When calcululating a HOS a title is check against this list to determine whether it needs a special comparison.</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>tit_freq</td>
+  <td>f245a</td>
+  <td>character varying</td>
+  <td>Title</td>
+</tr>
+<tr>
+  <td>tit_freq</td>
+  <td>occ</td>
+  <td>integer</td>
+  <td>Number of occurrence</td>
+</tr>
+<tr>
+  <td><br><strong>traces</strong></td>
+  <td><br> Contains all the traces of the actions made on the HOLS and HOS (holdingsset, hlist, group)</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>traces</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>traces</td>
+  <td>user_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>traces</td>
+  <td>action</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>traces</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>traces</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>traces</td>
+  <td>object_type</td>
+  <td>text</td>
+  <td>name of object</td>
+</tr>
+<tr>
+  <td>traces</td>
+  <td>object_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td><br><strong>users</strong></td>
+  <td><br>List of users. Stores user information for login</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>users</td>
+  <td>id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>users</td>
+  <td>username</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>users</td>
+  <td>email</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>users</td>
+  <td>password</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>users</td>
+  <td>confirmation_code</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>users</td>
+  <td>confirmed</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td>users</td>
+  <td>created_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>users</td>
+  <td>updated_at</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+<tr>
+  <td>users</td>
+  <td>name</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>users</td>
+  <td>lastname</td>
+  <td>character varying</td>
+  <td></td>
+</tr>
+<tr>
+  <td>users</td>
+  <td>library_id</td>
+  <td>integer</td>
+  <td></td>
+</tr>
+<tr>
+  <td>users</td>
+  <td>disable</td>
+  <td>boolean</td>
+  <td></td>
+</tr>
+<tr>
+  <td>users</td>
+  <td>last_login</td>
+  <td>timestamp</td>
+  <td></td>
+</tr>
+</tbody></table></div></body>
+</html>
