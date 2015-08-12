@@ -116,7 +116,7 @@ class HoldingssetsController extends BaseController {
 			$this->data['groups'] = Group::orderby('name', 'ASC')->whereIn('user_id', $libraryusers)->get();
 
 			$this->data['group_id'] = (in_array(Input::get('group_id'), $this->data['groups']->lists('id'))) ? Input::get('group_id') : '';
-			$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets() : Holdingsset::where('holdings_number','<',101);
+			$holdingssets = ($this->data['group_id'] != '') ? Group::find(Input::get('group_id'))->holdingssets() : Holdingsset::where('holdings_number','<',1200);
 
 			$state = Input::get('state');
 			if (isset($state)) {
@@ -444,7 +444,7 @@ class HoldingssetsController extends BaseController {
 
 		// $HOSS = DB::select('select id from holdingssets ORDER BY id where');//->get();
 		// $exclude = Holdingsset::where('holdings_number', '>', '101')->select('id')->lists('id');
-		$HOSS = Holdingsset::where('holdings_number', '<', '300')->whereRecalled(0)->orderby('id', 'ASC')->select('id')->lists('id');
+		$HOSS = Holdingsset::where('holdings_number', '<', '1200')->whereRecalled(0)->orderby('id', 'ASC')->select('id')->lists('id');
 		foreach ($HOSS as $HOS) {
 			// var_dump($HOS->id);
 			// var_dump($HOS->holdings_number);
@@ -504,7 +504,7 @@ class HoldingssetsController extends BaseController {
 	public function recallallhosnorecalled()
 	{
 		
-		$HOSS = Holdingsset::where('holdings_number', '<', '101')->where('recalled', '!=', '1')->where('recalledbylocks', '!=', '1')->orderby('id', 'ASC')->select('id')->lists('id');
+		$HOSS = Holdingsset::where('holdings_number', '<', '1200')->where('recalled', '!=', '1')->where('recalledbylocks', '!=', '1')->orderby('id', 'ASC')->select('id')->lists('id');
 		foreach ($HOSS as $HOS) {
 			holdingsset_recall($HOS);
 			Holdingsset::find($HOS)->update(['recalled' => 1]);
@@ -585,7 +585,7 @@ class HoldingssetsController extends BaseController {
 		$HOSS = array_unique($HOSS);
 		foreach ($HOSS as $HOS) {
 			$holdingsset = Holdingsset::find($HOS);
-			if (($holdingsset->recalledbylocks != 1) && ($HOS != -1) && ($holdingsset->holdings_number < 101)) {
+			if (($holdingsset->recalledbylocks != 1) && ($HOS != -1) && ($holdingsset->holdings_number < 1200)) {
 					holdingsset_recall($HOS);
 					Holdingsset::find($HOS)->update(['recalledbylocks' => 1]);
 			}
