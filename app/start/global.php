@@ -64,7 +64,7 @@ App::error(function(Exception $exception, $code)
     	return;
     }
     
-    $mails = [ 'asleyarbolaez@gmail.com', 'piguet@trialog.ch', 'soto.platero@gmail.com' ];
+    $mails = [ 'asleyarbolaez@gmail.com', 'bis1@trialog.ch', 'soto.platero@gmail.com' ];
 
     $data = [ 'exception' => $exception, 'url'=> Request::url() ];
 

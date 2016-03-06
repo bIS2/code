@@ -58,7 +58,7 @@ class FeedbacksController extends BaseController {
 
 			$this->feedback->create($input);
 
-    		$mails = [ 'asleyarbolaez@gmail.com', 'piguet@trialog.ch', 'soto.platero@gmail.com' ];
+    		$mails = [ 'asleyarbolaez@gmail.com', 'bis1@trialog.ch', 'soto.platero@gmail.com' ];
 
 			foreach ($mails as $mail) {
 				$data = array('input' => $input);
